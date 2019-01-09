@@ -1,0 +1,36 @@
+.ncs-progress {
+  position: relative;
+}
+
+.ncs-progress__bar {
+  width: 100%;
+  height: 22px;
+  border: 5px solid govuk-colour("green");
+  border-radius: 11px;
+}
+
+.ncs-progress__count {
+  width: 5px;
+  border: 5px solid govuk-colour("green");
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 10px;
+  text-align: center;
+  display: block;
+  font-family: sans-serif;
+  transform: translateY(-50%);
+  top: 50%;
+  position: absolute;
+  background: govuk-colour("white");
+}
+
+.ncs-progress__bar[value]::-webkit-progress-bar {
+  background-color: govuk-colour("white");
+  border-radius: 6px;
+}
+
+.ncs-progress__bar[value]::-webkit-progress-value {
+  background-color: govuk-colour("green");
+  border-radius: 0px; 
+}

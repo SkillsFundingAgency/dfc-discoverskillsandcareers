@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body class="govuk-template__body">
+
+    {% from "header/macro.njk" import govukHeader %}
+
+    {{ govukHeader({
+      homepageUrl: "#",
+      serviceName: "Understand Myself",
+      serviceUrl: "#"
+    }) }}
+
+    {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+    <div class="govuk-width-container">
+      <div class="ncs-progress">
+        <progress value="22" max="100" class="ncs-progress__bar"></progress>      
+        <span class="ncs-progress__count">0%</span>
+      </div>
+    </div>
+
+  </body>
+</html>

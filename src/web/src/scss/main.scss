@@ -1,0 +1,10 @@
+$govuk-global-styles: true;
+
+@import "node_modules/govuk-frontend/all";
+@import "progress";
+
+$ncs-purple: #8C0052;
+
+.govuk-header__container {
+  border-bottom-color: $ncs-purple;
+}
