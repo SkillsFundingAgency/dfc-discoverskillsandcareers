@@ -10,9 +10,9 @@ using Microsoft.Azure.WebJobs.Host;
 
 namespace Dfc.DiscoverSkillsAndCareers.QuestionRouter
 {
-    public static class Function1
+    public static class QuestionRouterFunction
     {
-        [FunctionName("Function1")]
+        [FunctionName("QuestionRouterFunction")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "q/{question?}")]HttpRequestMessage req, string question, TraceWriter log)
         {
             log.Info("C# HTTP trigger function processed a request.");

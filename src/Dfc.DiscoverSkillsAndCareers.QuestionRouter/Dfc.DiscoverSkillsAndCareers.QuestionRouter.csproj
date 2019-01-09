@@ -7,6 +7,10 @@
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
+      <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
+    </ItemGroup>
+    <ItemGroup>
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
