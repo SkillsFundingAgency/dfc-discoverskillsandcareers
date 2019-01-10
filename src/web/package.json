@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "chai": "^4.2.0",
     "eslint-config-defaults": "^9.0.0",
     "eslint-plugin-react": "^7.11.1",
     "gulp": "^4.0.0",
@@ -13,6 +14,8 @@
     "gulp-nunjucks-render": "^2.2.2",
     "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.1",
+    "moch": "0.0.1",
+    "pa11y": "^5.1.0",
     "rimraf": "^2.6.2"
   },
   "dependencies": {
