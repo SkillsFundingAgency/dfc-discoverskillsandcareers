@@ -31,13 +31,20 @@ paths.minJs = paths.src + "js/**/*.min.js";
 // paths - output
 
 paths.css = paths.temp + "css/**/*.css";
-paths.cssDest = paths.dist + "css/";
+
 paths.minCss = paths.temp + "css/**/*.min.css";
 paths.concatMinCssDest = paths.dist + "css/site.min.css";
 paths.concatJsDest = paths.temp + "js/site.js";
 paths.concatMinJsDest = paths.dist + "js/site.min.js";
+paths.assetsDest = paths.dist + "assets/";
+paths.cssDest = paths.assetsDest + "css/";
 
 // tasks
+
+gulp.task('assets', function () {
+    return gulp.src(['./node_modules/govuk-frontend/assets/**/*'])
+        .pipe(gulp.dest(paths.assetsDest));
+});
 
 gulp.task("clean:js", function (cb) {
     rimraf(paths.concatMinJsDest + "", cb);
@@ -48,9 +55,15 @@ gulp.task("clean:css", function (cb) {
     rimraf(paths.concatMinCssDest, cb);
 });
 
+gulp.task("clean:assets", function (cb) {
+    rimraf(paths.assetsDest, cb);
+});
+
 gulp.task("sass", function () {
     return gulp.src(paths.scss)
-        .pipe(sass({ outputStyle: "expanded" }))
+        .pipe(sass({
+            includePaths: 'node_modules'
+        }))
         .pipe(gulp.dest(paths.cssDest))
         .pipe(connect.reload());
 });
@@ -123,12 +136,13 @@ gulp.task("html:watch", function () {
 
 // commands
 
-gulp.task("clean", gulp.parallel("clean:js", "clean:css"));
+gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
 gulp.task("dev",
     gulp.series(
         "clean",
+        "assets",
         "sass",
         "js",
         "html",
@@ -145,6 +159,7 @@ gulp.task("dev",
 gulp.task("prod",
     gulp.series(
         "clean",
+        "assets",
         "sass",
         "html",
         "eslint",

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <head>
     <title></title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css">
   </head>
   <body class="govuk-template__body">
 
@@ -21,6 +21,10 @@
         <span class="ncs-progress__count">0%</span>
       </div>
     </div>
+
+    {% from "footer/macro.njk" import govukFooter %}
+
+    {{ govukFooter({}) }}
 
   </body>
 </html>
