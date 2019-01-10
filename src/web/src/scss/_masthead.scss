@@ -1,0 +1,16 @@
+.app-masthead {
+  background-color: $app-purple;
+  color: govuk-colour("white");
+  margin-top: -10px;
+  padding: 30px 0 20px 0;
+  @include govuk-media-query($from: desktop){
+    padding: 40px 0 30px 0;
+  }
+  .govuk-body-l {
+    color: govuk-colour("white");
+  }
+}
+
+.app-masthead__title {
+  color: govuk-colour("white");
+}
