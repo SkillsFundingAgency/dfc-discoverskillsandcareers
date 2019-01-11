@@ -15,8 +15,64 @@
 
     <div class="app-masthead">
       <div class="govuk-width-container app-site-width-container">
+
+          {% from "phase-banner/macro.njk" import govukPhaseBanner %}
+          {{ govukPhaseBanner({
+            tag: {
+              text: "alpha"
+            },
+            html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+          }) }}
+
+          {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+          {{ govukBreadcrumbs({
+            items: [
+              {
+                text: "Home",
+                href: "#"
+              },
+              {
+                text: "Passports, travel and living abroad",
+                href: "#"
+              },
+              {
+                text: "Travel abroad"
+              }
+            ]
+          }) }}
+
         <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
         <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
+      </div>
+    </div>
+
+    <div class="app-assessment-picker">
+      <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <div class="app-assessment-picker__title">
+              <h2 class="govuk-heading-l">See job categories</h2>
+            </div>
+            <div class="app-assessment-picker__body">
+              <div class="govuk-inset-text">
+                5 minutes
+              </div>
+              <a href="#" class="govuk-link">Start assessmemt</a>
+            </div>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <div class="app-assessment-picker__title">
+              <h2 class="govuk-heading-l">See specific job roles</h2>
+            </div>
+            <div class="app-assessment-picker__body">
+              <div class="govuk-inset-text">
+                10 to 15 minutes
+              </div>
+              <a href="#" class="govuk-link">Start assessmemt</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
