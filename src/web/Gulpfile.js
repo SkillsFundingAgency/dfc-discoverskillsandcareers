@@ -11,14 +11,16 @@ var gulp = require("gulp"),
     sass = require("gulp-sass"),
     eslint = require("gulp-eslint"),
     nunjucks = require('gulp-nunjucks-render'),
-    connect = require('gulp-connect');
+    connect = require('gulp-connect'),
+    mocha = require('gulp-mocha');
 
 // paths
 
 var paths = {
     src: "src/",
     dist: "dist/",
-    temp: ".temp/"
+    temp: ".temp/",
+    buildScript: "build-script/"
 };
 
 // paths – input
@@ -27,6 +29,7 @@ paths.html = paths.src + "templates/**/*.html";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.js = paths.src + "js/**/*.js";
 paths.minJs = paths.src + "js/**/*.min.js";
+paths.test = paths.buildScript + "test.js"
 
 // paths - output
 
@@ -111,6 +114,14 @@ gulp.task('connect', function() {
     livereload: true
   });
 });
+
+gulp.task('test', function() {
+    gulp.src(paths.test, {read: false})
+        .pipe(mocha())
+        .on('error', () => {
+            process.exit(1);
+        });
+});
  
 // watches
 
@@ -119,7 +130,7 @@ gulp.task("css:watch", function () {
 });
 
 gulp.task("sass:watch", function () {
-    gulp.watch(paths.scss, gulp.series("sass"));
+    gulp.watch(paths.scss, gulp.series("sass", "test"));
 });
 
 gulp.task("eslint:watch", function () {
@@ -131,7 +142,7 @@ gulp.task("js:watch", function () {
 });
 
 gulp.task("html:watch", function () {
-    gulp.watch([paths.html], gulp.series("html"));
+    gulp.watch([paths.html], gulp.series("html", "test"));
 });
 
 // commands
