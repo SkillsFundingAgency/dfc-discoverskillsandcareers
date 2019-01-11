@@ -16,6 +16,16 @@
   .govuk-breadcrumbs {
     color: govuk-colour("white");
   }
+  .govuk-body-l {
+    margin-bottom: 0;
+  }
+  .govuk-breadcrumbs {
+    margin-bottom: 20px;
+    @include govuk-media-query($from: desktop){
+      margin-bottom: 30px;
+    }
+  }
+  
 }
 
 .app-masthead__title {

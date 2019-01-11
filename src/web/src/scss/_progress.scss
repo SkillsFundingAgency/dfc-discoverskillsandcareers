@@ -1,5 +1,6 @@
 .ncs-progress {
   position: relative;
+  padding: govuk-spacing(6) 0;
 }
 
 .ncs-progress__bar {
@@ -7,6 +8,16 @@
   height: 22px;
   border: 5px solid govuk-colour("green");
   border-radius: 11px;
+}
+
+.ncs-progress__bar[value]::-webkit-progress-bar {
+  background-color: govuk-colour("white");
+  border-radius: 6px;
+}
+
+.ncs-progress__bar[value]::-webkit-progress-value {
+  background-color: govuk-colour("green");
+  border-radius: 0px; 
 }
 
 .ncs-progress__count {
@@ -19,18 +30,23 @@
   text-align: center;
   display: block;
   font-family: sans-serif;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   top: 50%;
   position: absolute;
   background: govuk-colour("white");
-}
-
-.ncs-progress__bar[value]::-webkit-progress-bar {
-  background-color: govuk-colour("white");
-  border-radius: 6px;
-}
-
-.ncs-progress__bar[value]::-webkit-progress-value {
-  background-color: govuk-colour("green");
-  border-radius: 0px; 
+  font-size: 18px;
+  line-height: 40px;
+  color: govuk-colour("green");
+  font-weight: bold;
+  left: 20%;
+  &::after {
+    display: block;
+    width: 10px;
+    height: 12px;
+    background: govuk-colour("white");
+    content: "";
+    top: 50%;
+    right: 0;
+    transform: translate(36px, -26px);
+  }
 }
