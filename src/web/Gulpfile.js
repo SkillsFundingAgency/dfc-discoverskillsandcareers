@@ -1,6 +1,13 @@
 /* eslint-disable no-console */
 "use strict";
 
+// helpers 
+
+function handlePa11yError (err) {
+    console.log(err.toString());
+    this.emit('end');
+} 
+
 // requires
 
 var gulp = require("gulp"),
@@ -117,14 +124,12 @@ gulp.task('connect', function() {
     port: 3000,
     livereload: true
   });
-});
+}); 
 
 gulp.task('test', function() {
     gulp.src(paths.test, {read: false})
         .pipe(mocha())
-        .on('error', () => {
-            process.exit(1);
-        });
+        .on("error", handlePa11yError);
 });
  
 // watches
