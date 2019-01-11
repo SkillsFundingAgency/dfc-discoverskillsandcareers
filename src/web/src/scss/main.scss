@@ -1,12 +1,12 @@
 $govuk-global-styles: true;
 
-@import "node_modules/govuk-frontend/all";
+@import 'node_modules/govuk-frontend/all';
 
-$app-purple: #8C0052;
+$app-purple: #8c0052;
 
-@import "progress";
-@import "masthead";
-@import "assessmentpicker";
+@import 'progress';
+@import 'masthead';
+@import 'assessmentpicker';
 
 .govuk-header__container {
   border-bottom-color: $app-purple;
@@ -14,6 +14,6 @@ $app-purple: #8C0052;
 
 .app-page--home {
   .govuk-header__container {
-    border-bottom-color: govuk-colour("white");
+    border-bottom-color: govuk-colour('white');
   }
 }

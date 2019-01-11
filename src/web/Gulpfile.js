@@ -12,7 +12,8 @@ var gulp = require("gulp"),
     eslint = require("gulp-eslint"),
     nunjucks = require('gulp-nunjucks-render'),
     connect = require('gulp-connect'),
-    mocha = require('gulp-mocha');
+    mocha = require('gulp-mocha'),
+    sassLint = require('gulp-sass-lint');
 
 // paths
 
@@ -64,6 +65,9 @@ gulp.task("clean:assets", function (cb) {
 
 gulp.task("sass", function () {
     return gulp.src(paths.scss)
+        .pipe(sassLint())
+        .pipe(sassLint.format())
+        .pipe(sassLint.failOnError())
         .pipe(sass({
             includePaths: 'node_modules'
         }))
