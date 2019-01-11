@@ -38,7 +38,6 @@
       }) }}      
       
     </div>
-    asds
 
     <div class="govuk-width-container">
       <div class="ncs-progress">
@@ -46,6 +45,48 @@
         <span class="ncs-progress__count">0%</span>
       </div>
     </div>
+
+    <div class="app-question">
+      <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+          
+          {% from "radios/macro.njk" import govukRadios %}
+
+          {{ govukRadios({
+            classes: "govuk-radios--inline",
+            idPrefix: "changed-name",
+            name: "changed-name",
+            fieldset: {
+              legend: {
+                text: "Have you changed your name?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+              }
+            },
+            items: [
+              {
+                value: "yes",
+                text: "Strongly agree"
+              },
+              {
+                value: "no",
+                text: "Agree"
+              },
+              {
+                value: "no",
+                text: "Disagree"
+              },
+              {
+                value: "no",
+                text: "Strongly disagree"
+              }
+            ]
+          }) }}
+
+        </div>
+      </div>
+     </div> 
+
 
     {% from "footer/macro.njk" import govukFooter %}
 
