@@ -10,7 +10,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 
         public BuildPageHtml(SessionHelper sessionHelper)
         {
-            var resultHtml = string.Join("<br />", sessionHelper.Session.ResultData.TraitCodes);
+            var resultHtml = "<ul>";
+            sessionHelper.Session.ResultData.Traits.ForEach(trait =>
+            {
+                resultHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
+            });
+            resultHtml += "</ul>";
             string answersHtml = string.Empty;
             sessionHelper.Session.RecordedAnswers.ForEach(answer =>
             {

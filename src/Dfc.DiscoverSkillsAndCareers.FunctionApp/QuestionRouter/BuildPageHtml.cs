@@ -18,6 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             html = html.Replace("[question_id]", question.QuestionId.ToString());
             html = html.Replace("[question_text]", question.Texts.Where(x => x.LanguageCode == sessionHelper.Session.LanguageCode).FirstOrDefault()?.Text);
             html = html.Replace("[question_number]", question.Order.ToString());
+            html = html.Replace("[trait_code]", question.TraitCode);
             html = html.Replace("[form_route]", nextRoute);
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[button_text]", buttonText);
