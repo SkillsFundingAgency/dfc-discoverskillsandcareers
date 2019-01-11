@@ -3,7 +3,7 @@
     <title></title>
     <link rel="stylesheet" href="assets/css/main.css">
   </head>
-  <body class="govuk-template__body">
+  <body class="govuk-template__body app-page--questionss">
 
     {% from "header/macro.njk" import govukHeader %}
 
@@ -13,7 +13,31 @@
       serviceUrl: "#"
     }) }}
 
-    {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+    <div class="govuk-width-container app-site-width-container">
+
+      {% from "phase-banner/macro.njk" import govukPhaseBanner %}
+      {{ govukPhaseBanner({
+        tag: {
+          text: "alpha"
+        },
+        html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+      }) }}
+
+      {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+      {{ govukBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "#"
+          },
+          {
+            text: "See job categories"
+          }
+        ]
+      }) }}      
+       
+    </div>
 
     <div class="govuk-width-container">
       <div class="ncs-progress">
