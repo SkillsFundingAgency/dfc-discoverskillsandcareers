@@ -8,6 +8,7 @@ $app-purple: #8c0052;
 @import 'masthead';
 @import 'assessmentpicker';
 @import 'question';
+@import 'controls';
 
 .govuk-header__container {
   border-bottom-color: $app-purple;
@@ -18,3 +19,22 @@ $app-purple: #8c0052;
     border-bottom-color: govuk-colour('white');
   }
 }
+
+.app-button {
+  background-color: $app-purple;
+  color: govuk-colour('white');
+}
+
+.app-button--outline {
+  border: 2px solid $app-purple;
+  color: govuk-colour('black');
+  background-color: govuk-colour('white');
+  box-shadow: none;
+  padding-bottom: 8px;
+  &:focus,
+  &:hover {
+    background-color: $app-purple;
+    color: govuk-colour('white')
+  }
+}
+

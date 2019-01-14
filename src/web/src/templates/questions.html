@@ -1,11 +1,17 @@
+
+{% from "header/macro.njk" import govukHeader %}
+{% from "footer/macro.njk" import govukFooter %}
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "radios/macro.njk" import govukRadios %}
+{% from "button/macro.njk" import govukButton %}
 <!DOCTYPE html>
+<html lang="en">
   <head>
-    <title></title>
+    <title>Understand Myself</title>
     <link rel="stylesheet" href="assets/css/main.css">
   </head>
   <body class="govuk-template__body app-page--questionss">
-
-    {% from "header/macro.njk" import govukHeader %}
 
     {{ govukHeader({
       homepageUrl: "#",
@@ -14,16 +20,13 @@
     }) }}
 
     <div class="govuk-width-container app-site-width-container">
-
-      {% from "phase-banner/macro.njk" import govukPhaseBanner %}
+      
       {{ govukPhaseBanner({
         tag: {
           text: "alpha"
         },
         html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
       }) }}
-
-      {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
       {{ govukBreadcrumbs({
         items: [
@@ -46,49 +49,61 @@
       </div>
     </div>
 
-    <div class="app-question">
-      <div class="govuk-width-container">
-        <div class="govuk-grid-row">
-          
-          {% from "radios/macro.njk" import govukRadios %}
+    <div class="govuk-width-container">
+      <div class="app-question">
 
-          {{ govukRadios({
-            classes: "govuk-radios--inline",
-            idPrefix: "changed-name",
-            name: "changed-name",
-            fieldset: {
-              legend: {
-                text: "Have you changed your name?",
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--xl"
-              }
+        {{ govukRadios({
+          classes: "govuk-radios--inline",
+          idPrefix: "changed-name",
+          name: "changed-name",
+          fieldset: {
+            legend: {
+              text: "Have you changed your name?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Strongly agree"
             },
-            items: [
-              {
-                value: "yes",
-                text: "Strongly agree"
-              },
-              {
-                value: "no",
-                text: "Agree"
-              },
-              {
-                value: "no",
-                text: "Disagree"
-              },
-              {
-                value: "no",
-                text: "Strongly disagree"
-              }
-            ]
-          }) }}
+            {
+              value: "no",
+              text: "Agree"
+            },
+            {
+              value: "no",
+              text: "Disagree"
+            },
+            {
+              value: "no",
+              text: "Strongly disagree"
+            }
+          ]
+        }) }}
 
+      </div>
+    </div> 
+    
+    <div class="app-controls govuk-width-container">
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          {{ govukButton({
+            text: "This doesn’t apply to me",
+            classes: "app-button--outline"
+          }) }}
+        </div>
+        <div class="govuk-grid-column-one-half app-controls__next">
+          {{ govukButton({
+            text: "Continue",
+            classes: "app-button"
+          }) }}
         </div>
       </div>
-     </div> 
-
-
-    {% from "footer/macro.njk" import govukFooter %}
+      
+    </div>
 
     {{ govukFooter({}) }}
 
