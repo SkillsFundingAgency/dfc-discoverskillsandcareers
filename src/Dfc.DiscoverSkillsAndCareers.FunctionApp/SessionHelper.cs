@@ -41,7 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
             if (HasSession && FormData != null)
             {
-                CheckForAnswer();
+                await CheckForAnswer();
             }
         }
 
@@ -68,13 +68,18 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
             await userSessionRepository.UpdateUserSession(Session);
         }
 
-        private void CheckForAnswer()
+        private async Task CheckForAnswer()
         {
-            // TODO: testable
-            string questionId = FormData.GetValues("questionId").FirstOrDefault();
             AnswerOption answer;
             if (Enum.TryParse(FormData.GetValues("selected_answer")?.FirstOrDefault(), out answer))
             {
+                string questionId = FormData.GetValues("questionId").FirstOrDefault();
+                var questionRepository = new QuestionRepository(this.appSettings.CosmosSettings);
+                var question = await questionRepository.GetQuestion(questionId);
+                if (question == null)
+                {
+                    throw new Exception($"QuestionId {questionId} could not be found on session {Session?.UserSessionId}");
+                }
                 Session.RecordedAnswers.Add(new Answer()
                 {
                     AnsweredDt = DateTime.Now,
@@ -82,7 +87,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
                     QuestionId = questionId,
                     QuestionNumber = FormData.GetValues("questionNumber")?.FirstOrDefault(),
                     QuestionText = FormData.GetValues("questionText")?.FirstOrDefault(),
-                    TraitCode = FormData.GetValues("traitCode")?.FirstOrDefault(),
+                    TraitCode = question.TraitCode,
+                    IsNegative = question.IsNegative,
                 });
             }
         }

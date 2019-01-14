@@ -10,7 +10,7 @@
 * .NET Core 2.1 or higher
 * [Azure Functions Tools](https://www.npmjs.com/package/azure-functions-core-tools)
 * [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator) - Note, this is included as part of the Azure SDK but a standalone installer is available for windows. Alternatively you could create a storage account on azure.
-* [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator) 
+* [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
 
 ## Solution Structure
 
@@ -19,10 +19,30 @@
 * **Dfc.DiscoverSkillsAndCareers.Repositories** - Any data access code that is required 
 * **web** - static assests to be deployed to blob service. 
 
+## Building Solution 
+
+### Building and Running Function App
+
+To build the function app navigate to `src/Dfc.DiscoverSkillsAndCareers.FunctionApp` and run 
+
+    dotnet build 
+
+to run the function app again 
+
+    func host start
+
+### Build web assets and templates 
+
+To build the web assets and templates navigate to `src/web` and run 
+
+    gulp
+
+this will build the assets to `src/web/dist`
+
 ## Deployment Structure 
 
 There are 3 deployment artifacts 
 
 1. Function App - To be deployed to the function environment.
-2. Page templates - To be deployed to blob container (/templates).
-3. Static Landing Pages - To be deployed to blob container (/$web). 
+2. Page templates - To be deployed to blob container.
+3. Static Landing Pages - To be deployed to blob container. 

@@ -1,0 +1,41 @@
+Statement,Trait,IsFlipped
+I like to give people instructions,Leader,0
+I make decisions quickly,Leader,0
+I like to take control of situations,Leader,0
+I like to follow other peoples lead,Leader,1
+I like having responsibility for other people,Leader,0
+I set myself targets when ive got a task to do,Driver,0
+I prefer a general understanding of a problem to knowing the detail,Driver,1
+I enjoy competing against other people,Driver,0
+Taking part in something is just as important as winning,Driver,1
+I set myself goals in life,Driver,0
+I like to persuade others,Influencer,0
+I like to keep to myself,Influencer,1
+I'm comfortable talking in front of a group of people,Influencer,0
+I like meeting new people,Influencer,0
+I find it hard to understand other people's point of view,Influencer,1
+I like to help other people,Helper,0
+I can still focus when i have other people around me,Helper,0
+I want to make things better for people,Helper,0
+I try to avoid hearing about things that might upset me,Helper,1
+I like hearing what other people have to say,Helper,0
+I like to work out complicated things,Analyst,0
+I like to have an overview of an issue rather than know the details,Analyst,0
+I like to work with numbers,Analyst,0
+I find diagrams confusing,Analyst,1
+I'm the kind of person who likes detail,Analyst,0
+I enjoy coming up with new ways of doing things,Creator,0
+I find it easier to follow instructions than to come up with my own way of doing things,Creator,0
+I like to use my imagination to create new things,Creator,0
+I like being part of the team,Creator,0
+"I like creative activities like writing, painting or doing crafts",Creator,0
+I plan my day so I can use my time best,Organiser,0
+I like having a clear plan when i'm organising something,Organiser,0
+I like doing things in a careful order,Organiser,0
+"I never make plans in advance, I just do things when I want to do them",Organiser,1
+I feel restricted when i have to follow a routine,Organiser,1
+I like having something physical to show for my work,Doer,0
+I like to get involved in making things,Doer,0
+I enjoy getting stuck into a practical task,Doer,0
+I like working with my hands or tools,Doer,0
+I enjoy planning a task more than actually doing it,Doer,1
