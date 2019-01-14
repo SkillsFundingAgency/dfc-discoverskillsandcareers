@@ -1,0 +1,8 @@
+.app-sidebar {
+  @include govuk-media-query($from: desktop){
+    .govuk-heading-m {
+      border-top: 8px solid govuk-colour("turquoise");
+      padding-top: 20px;
+    }
+  }
+}

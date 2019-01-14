@@ -1,0 +1,17 @@
+.app-results__col-header {
+  border-bottom: 1px solid $govuk-border-colour;
+  span {
+    @include govuk-media-query($from: desktop){
+      float: right;
+    }
+  }
+}
+
+.app-results__cta {
+  .govuk-button {
+    margin-bottom: govuk-spacing(3);
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

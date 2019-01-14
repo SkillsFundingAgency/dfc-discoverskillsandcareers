@@ -9,6 +9,17 @@ $app-purple: #8c0052;
 @import 'assessmentpicker';
 @import 'question';
 @import 'controls';
+@import 'sidebar';
+@import 'payscale';
+@import 'results';
+
+.visually-hidden { /* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
 
 .govuk-header__container {
   border-bottom-color: $app-purple;
@@ -25,6 +36,11 @@ $app-purple: #8c0052;
   color: govuk-colour('white');
 }
 
+.app-button--alt {
+  background-color: govuk-colour("turquoise");
+  color: govuk-colour('white');
+}
+
 .app-button--outline {
   border: 2px solid $app-purple;
   color: govuk-colour('black');
@@ -38,3 +54,11 @@ $app-purple: #8c0052;
   }
 }
 
+.app-button--block {
+  display: block;
+  text-align: left;
+}
+
+.app-text--light {
+  color: $govuk-secondary-text-colour;
+}

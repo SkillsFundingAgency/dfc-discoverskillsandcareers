@@ -8,12 +8,16 @@
     .govuk-radios {
       width: 50%;
       float: right;
+      text-align: center;
     }
     .govuk-radios__item {
       position: relative;
       padding-left: 0;
       width: 20%;
       text-align: center;
+      &:last-child {
+        margin-right: 0;
+      }
     }
     .govuk-radios__input + .govuk-radios__label::before,
     .govuk-radios__input + .govuk-radios__label::after {

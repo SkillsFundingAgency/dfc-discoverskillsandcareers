@@ -10,18 +10,26 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 
         public BuildPageHtml(SessionHelper sessionHelper)
         {
-            var resultHtml = "<ul>";
+            var jobFamilyHtml = "<ul>";
+            sessionHelper.Session.ResultData.JobFamilies.ForEach(jobFamily =>
+            {
+                jobFamilyHtml += $"<li>{jobFamily.JobFamilyName} {jobFamily.JobFamilyText}</li>";
+            });
+            jobFamilyHtml += "</ul>";
+
+            var traitHtml = "<ul>";
             sessionHelper.Session.ResultData.Traits.ForEach(trait =>
             {
-                resultHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
+                traitHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
             });
-            resultHtml += "</ul>";
+            traitHtml += "</ul>";
+
             string answersHtml = string.Empty;
             sessionHelper.Session.RecordedAnswers.ForEach(answer =>
             {
                 answersHtml += $"<p>{answer.QuestionId} {answer.SelectedOption}</p>";
             });
-            string html = $"<body><form><input type='hidden' name='sessionId' value='[session_id]'/></form>Results for {sessionHelper.Session.PrimaryKey} <br /> {resultHtml} <br /> {answersHtml}</body>";
+            string html = $"<body><form><input type='hidden' name='sessionId' value='[session_id]'/></form>Results for {sessionHelper.Session.PrimaryKey} <br /> {jobFamilyHtml} <br /> {traitHtml} <br /> {answersHtml}</body>";
 
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             Html = html;
