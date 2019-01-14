@@ -70,9 +70,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
         private void CheckForAnswer()
         {
+            // TODO: testable
             string questionId = FormData.GetValues("questionId").FirstOrDefault();
-            string answer = FormData.GetValues("selected_answer")?.FirstOrDefault();
-            if (string.IsNullOrEmpty(answer) == false)
+            AnswerOption answer;
+            if (Enum.TryParse(FormData.GetValues("selected_answer")?.FirstOrDefault(), out answer))
             {
                 Session.RecordedAnswers.Add(new Answer()
                 {
@@ -81,6 +82,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
                     QuestionId = questionId,
                     QuestionNumber = FormData.GetValues("questionNumber")?.FirstOrDefault(),
                     QuestionText = FormData.GetValues("questionText")?.FirstOrDefault(),
+                    TraitCode = FormData.GetValues("traitCode")?.FirstOrDefault(),
                 });
             }
         }

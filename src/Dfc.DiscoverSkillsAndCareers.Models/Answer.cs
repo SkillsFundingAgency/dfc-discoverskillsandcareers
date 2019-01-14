@@ -11,8 +11,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string QuestionNumber { get; set; }
         [JsonProperty("questionText")]
         public string QuestionText { get; set; }
+        [JsonProperty("traitCode")]
+        public string TraitCode { get; set; }
         [JsonProperty("selectedOption")]
-        public string SelectedOption { get; set; }
+        public AnswerOption SelectedOption { get; set; }
         [JsonProperty("answeredDt")]
         public DateTime AnsweredDt { get; set; }
     }

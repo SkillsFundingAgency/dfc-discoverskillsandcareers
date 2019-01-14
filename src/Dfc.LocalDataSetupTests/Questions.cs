@@ -11,11 +11,11 @@ namespace Dfc.LocalDataSetupTests
         public async void SetupQuestions()
         {
             string QuestionSetVersion = "201901";
-
+            List<string> traits = new List<string>() { "LEADER", "DOER", "DRIVER", "INFLUENCER", "HELPER", "ORGANISER", "ANALYST", "CREATOR" };
             var cosmosSettings = new CosmosSettings()
             {
                 Key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
-                DatabaseName = "TestsDatabase",
+                DatabaseName = "TestDatabase",
                 Endpoint = "https://localhost:8081"
             };
             var questionRepository = new QuestionRepository(cosmosSettings);
@@ -31,7 +31,8 @@ namespace Dfc.LocalDataSetupTests
                         new QuestionText() { LanguageCode = "cy", Text = $"Welsh question {questionNumber}"}
                     },
                     Order = questionNumber,
-                    PartitionKey = QuestionSetVersion
+                    PartitionKey = QuestionSetVersion,
+                    TraitCode = traits[new System.Random().Next(0, 7)]
                 };
 
                 await questionRepository.CreateQuestion(question);
