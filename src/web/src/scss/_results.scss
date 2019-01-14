@@ -1,7 +1,9 @@
 .app-results__col-header {
   border-bottom: 1px solid $govuk-border-colour;
   span {
-    float: right;
+    @include govuk-media-query($from: desktop){
+      float: right;
+    }
   }
 }
 
