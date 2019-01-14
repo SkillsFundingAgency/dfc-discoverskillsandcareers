@@ -5,9 +5,13 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.FunctionApp", "Dfc.DiscoverSkillsAndCareers.FunctionApp\Dfc.DiscoverSkillsAndCareers.FunctionApp.csproj", "{DB8AC337-D423-42E6-99E6-55C762E979A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.Models", "Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj", "{15432649-0325-4EB9-8603-79EBA6395A16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Models", "Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj", "{15432649-0325-4EB9-8603-79EBA6395A16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.Repositories", "Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj", "{C71327A1-CB21-4389-89D2-4B6A2E38FA97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Repositories", "Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj", "{C71327A1-CB21-4389-89D2-4B6A2E38FA97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.LocalDataSetupTests", "Dfc.LocalDataSetupTests\Dfc.LocalDataSetupTests.csproj", "{3188B55A-1EC7-4FC7-88FF-877A978A07E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.UnitTests", "Dfc.UnitTests\Dfc.UnitTests.csproj", "{6DA3D039-38F6-44E2-9C41-3072A00108D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{C71327A1-CB21-4389-89D2-4B6A2E38FA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71327A1-CB21-4389-89D2-4B6A2E38FA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71327A1-CB21-4389-89D2-4B6A2E38FA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

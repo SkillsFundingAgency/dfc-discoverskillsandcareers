@@ -5,6 +5,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
