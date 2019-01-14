@@ -310,7 +310,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             var resultData = new ResultData()
             {
                 Traits = userTraits,
-                JobFamilyCodes = CalculateJobFamilyRelevance(userTraits)
+                JobFamilies = CalculateJobFamilyRelevance(userTraits)
             };
             
             userSession.ResultData = resultData;

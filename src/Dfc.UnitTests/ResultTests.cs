@@ -101,7 +101,7 @@ namespace Dfc.UnitTests
             Assert.True(userSession.ResultData.Traits.Count == 1);
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 2);
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "ORGANISER");
-            var govServices = userSession.ResultData.JobFamilyCodes.Where(x => x.Total > 0).FirstOrDefault();
+            var govServices = userSession.ResultData.JobFamilies.Where(x => x.Total > 0).FirstOrDefault();
             Assert.NotNull(govServices);
             Assert.True(govServices.JobFamilyCode == "GOV");
             Assert.True(govServices.Total == 2m);
