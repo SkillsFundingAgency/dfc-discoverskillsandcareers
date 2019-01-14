@@ -42,14 +42,12 @@
       
     </div>
 
-    <div class="govuk-width-container">
+    <main class="govuk-width-container">
       <div class="ncs-progress">
         <progress value="22" max="100" class="ncs-progress__bar"></progress>      
         <span class="ncs-progress__count">0%</span>
       </div>
-    </div>
-
-    <div class="govuk-width-container">
+    
       <div class="app-question">
 
         {{ govukRadios({
@@ -84,25 +82,26 @@
         }) }}
 
       </div>
-    </div> 
-    
-    <div class="app-controls govuk-width-container">
+      
+      <div class="app-controls">
 
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-half">
-          {{ govukButton({
-            text: "This doesn’t apply to me",
-            classes: "app-button--outline"
-          }) }}
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            {{ govukButton({
+              text: "This doesn’t apply to me",
+              classes: "app-button--outline"
+            }) }}
+          </div>
+          <div class="govuk-grid-column-one-half app-controls__next">
+            {{ govukButton({
+              text: "Continue",
+              classes: "app-button",
+              href: "/results.html"
+            }) }}
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half app-controls__next">
-          {{ govukButton({
-            text: "Continue",
-            classes: "app-button",
-            href: "/results.html"
-          }) }}
-        </div>
-      </div>
+    
+      </main> 
       
     </div>
 
