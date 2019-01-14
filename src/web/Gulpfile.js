@@ -184,4 +184,4 @@ gulp.task("prod",
         "html",
         "eslint",
         "min")
-);
+);gulp.task("default", gulp.series("prod"));
