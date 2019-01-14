@@ -1,0 +1,5 @@
+.app-controls__next {
+  @include govuk-media-query($from: desktop){
+    text-align: right;
+  }
+}

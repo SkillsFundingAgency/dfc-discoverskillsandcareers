@@ -1,11 +1,14 @@
+{% from "header/macro.njk" import govukHeader %}
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "footer/macro.njk" import govukFooter %}  
 <!DOCTYPE html>
+<html lang="en">
   <head>
-    <title></title>
+    <title>Understand Myself</title>
     <link rel="stylesheet" href="assets/css/main.css">
   </head>
   <body class="govuk-template__body app-page--home">
-
-    {% from "header/macro.njk" import govukHeader %}
 
     {{ govukHeader({
       homepageUrl: "#",
@@ -15,8 +18,7 @@
 
     <div class="app-masthead">
       <div class="govuk-width-container app-site-width-container">
-
-          {% from "phase-banner/macro.njk" import govukPhaseBanner %}
+          
           {{ govukPhaseBanner({
             tag: {
               text: "alpha"
@@ -24,20 +26,10 @@
             html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
           }) }}
 
-          {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
-
           {{ govukBreadcrumbs({
             items: [
               {
-                text: "Home",
-                href: "#"
-              },
-              {
-                text: "Passports, travel and living abroad",
-                href: "#"
-              },
-              {
-                text: "Travel abroad"
+                text: "Home"
               }
             ]
           }) }}
@@ -58,7 +50,7 @@
               <div class="govuk-inset-text">
                 5 minutes
               </div>
-              <a href="#" class="govuk-link">Start assessmemt</a>
+              <a href="/start.html" class="govuk-link">Start assessmemt</a>
             </div>
           </div>
           <div class="govuk-grid-column-one-half">
@@ -69,14 +61,12 @@
               <div class="govuk-inset-text">
                 10 to 15 minutes
               </div>
-              <a href="#" class="govuk-link">Start assessmemt</a>
+              <a href="/start.html" class="govuk-link">Start assessmemt</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    {% from "footer/macro.njk" import govukFooter %}
 
     {{ govukFooter({}) }}
 
