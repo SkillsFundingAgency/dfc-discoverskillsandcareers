@@ -1,7 +1,7 @@
 {% from "header/macro.njk" import govukHeader %}
 {% from "phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "footer/macro.njk" import govukFooter %}
+{% from "footer/macro.njk" import govukFooter %}  
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,15 +29,7 @@
           {{ govukBreadcrumbs({
             items: [
               {
-                text: "Home",
-                href: "#"
-              },
-              {
-                text: "Passports, travel and living abroad",
-                href: "#"
-              },
-              {
-                text: "Travel abroad"
+                text: "Home"
               }
             ]
           }) }}
@@ -58,7 +50,7 @@
               <div class="govuk-inset-text">
                 5 minutes
               </div>
-              <a href="#" class="govuk-link">Start assessmemt</a>
+              <a href="/start.html" class="govuk-link">Start assessmemt</a>
             </div>
           </div>
           <div class="govuk-grid-column-one-half">
@@ -69,7 +61,7 @@
               <div class="govuk-inset-text">
                 10 to 15 minutes
               </div>
-              <a href="#" class="govuk-link">Start assessmemt</a>
+              <a href="/start.html" class="govuk-link">Start assessmemt</a>
             </div>
           </div>
         </div>
