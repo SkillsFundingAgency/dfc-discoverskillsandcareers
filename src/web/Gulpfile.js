@@ -50,6 +50,11 @@ paths.concatMinJsDest = paths.dist + "js/site.min.js";
 paths.assetsDest = paths.dist + "assets/";
 paths.cssDest = paths.assetsDest + "css/";
 
+const testServerOptions = {
+    port: 3000,
+    root: paths.dist,
+}
+
 // tasks
 
 gulp.task('assets', function () {
@@ -127,9 +132,11 @@ gulp.task('connect', function() {
 }); 
 
 gulp.task('pa11y', function() {
+    connect.server(testServerOptions);
     gulp.src(paths.test, {read: false})
         .pipe(mocha())
         .on("error", handlePa11yError);
+    connect.serverClose();
 });
  
 // watches
@@ -159,7 +166,8 @@ gulp.task("html:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.parallel("connect", gulp.series("pa11y")));
+gulp.task("test", gulp.series("pa11y"));
+
 gulp.task("dev",
     gulp.series(
         "clean",
@@ -185,4 +193,6 @@ gulp.task("prod",
         "html",
         "eslint",
         "min")
-);gulp.task("default", gulp.series("prod"));
+);
+
+gulp.task("default", gulp.series("prod"));
