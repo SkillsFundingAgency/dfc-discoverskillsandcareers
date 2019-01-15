@@ -26,7 +26,7 @@ namespace Dfc.LocalDataSetupTests
 
             name = "Results.html";
             blobHtml = await BlobStorageHelper.GetBlob(name);
-            localFileName = @".\pages\Results.html";
+            localFileName = @".\pages\ResultsStyled.html";
             await BlobStorageHelper.CreateBlob(localFileName, name);
             blobHtml = await BlobStorageHelper.GetBlob(name);
 

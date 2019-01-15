@@ -12,6 +12,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string JobFamilyName { get; set; }
         [JsonProperty("jobFamilyText")]
         public string JobFamilyText { get; set; }
+        [JsonProperty("jobFamilyUrl")]
+        public string JobFamilyUrl { get; set; }
         [JsonProperty("traitsTotal")]
         public int TraitsTotal { get; set; }
         [JsonProperty("total")]
