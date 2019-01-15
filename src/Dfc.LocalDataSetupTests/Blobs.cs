@@ -14,27 +14,21 @@ namespace Dfc.LocalDataSetupTests
         {
             string blobHtml;
             string name;
+            string localFileName;
 
             name = "Question.html";
+            localFileName = @".\pages\QuestionStyled.html";
+            await BlobStorageHelper.CreateBlob(localFileName, name);
             blobHtml = await BlobStorageHelper.GetBlob(name);
-            if (blobHtml == null)
-            {
-                string localFileName = @".\pages\Question.html";
-                await BlobStorageHelper.CreateBlob(localFileName, name);
-                blobHtml = await BlobStorageHelper.GetBlob(name);
-            }
 
             Assert.NotNull(blobHtml);
             Assert.Contains("<html", blobHtml);
 
             name = "Results.html";
             blobHtml = await BlobStorageHelper.GetBlob(name);
-            if (blobHtml == null)
-            {
-                string localFileName = @".\pages\Results.html";
-                await BlobStorageHelper.CreateBlob(localFileName, name);
-                blobHtml = await BlobStorageHelper.GetBlob(name);
-            }
+            localFileName = @".\pages\Results.html";
+            await BlobStorageHelper.CreateBlob(localFileName, name);
+            blobHtml = await BlobStorageHelper.GetBlob(name);
 
             Assert.NotNull(blobHtml);
             Assert.Contains("<html", blobHtml);

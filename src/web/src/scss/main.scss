@@ -59,6 +59,14 @@ $app-purple: #8c0052;
   text-align: left;
 }
 
+.app-button--fake-button {
+  display: inline-block;
+  padding: 9px 10px 6px 10px;
+  label {
+    padding: 0;
+  }
+}
+
 .app-text--light {
   color: $govuk-secondary-text-colour;
 }
