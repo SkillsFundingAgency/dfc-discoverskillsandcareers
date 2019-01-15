@@ -93,14 +93,10 @@
         <div class="app-controls">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-              {{ govukButton({
-                text: "This doesn’t apply to me",
-                classes: "app-button--outline"
-              }) }}
               
-              <div class="govuk-button app-button--outline">
-                  <input id="selected_answer-4" name="selected_answer" type="radio" value="Neutral">
-                  <label class="govuk-label govuk-radios__label" for="selected_answer-4">
+              <div class="app-button--outline app-button--fake-button">
+                  <input id="selected_answer-5" name="selected_answer" type="radio" value="Neutral" class="visually-hidden">
+                  <label class="govuk-label govuk-radios__label" for="selected_answer-5">
                       This doesn’t apply to me
                   </label>
               </div>
