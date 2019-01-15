@@ -88,37 +88,56 @@
 
         </div>
 
-        <div class="app-results">
+        <div class="govuk-grid-row govuk-body">
 
-          <h2 class="govuk-heading-l">Your results</h2>
+            <div class="govuk-grid-column-two-thirds">
+              
 
-          <ul class="govuk-list">
-            <li class="app-result">
-              <h3 class="govuk-heading-m app-result__header">Title</h3>
-              <div class="app-result__body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                {{ govukButton({
-                  text: "Start now",
-                  href: "#",
-                  classes: "govuk-button--start app-button--alt "
-                }) }}
+            <div class="app-results">
+
+              <h2 class="govuk-heading-l">Your results</h2>
+
+              <ul class="govuk-list govuk-!-margin-bottom-3">
+                <li class="app-result">
+                  <h3 class="govuk-heading-m app-result__header">Title</h3>
+                  <div class="app-result__body">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    {{ govukButton({
+                      text: "Start now",
+                      href: "#",
+                      classes: "govuk-button--start app-button--alt"
+                    }) }}
+                  </div>
+                </li>
+              </ul>
+
+              <div class="app-results-cta govuk-!-margin-bottom-3">
+                <div class="govuk-grid-row ">
+                  <div class="govuk-grid-column-two-thirds">
+                    <h3 class="govuk-heading-m">Want to see specific job roles?</h3>
+                    <p class="govuk-body">You can take a lomnger assessment of 10 to 15 minutes to find out about specific job eroles that might be suitable for you.</p>
+                  </div>
+                  <div class="govuk-grid-column-one-third">
+                    [button]
+                  </div>
+                </div>
               </div>
-            </li>
-          </ul>
 
-        </div>
+            </div>
 
-        <h2 class="govuk-heading-m">Want to see more job roles?</h2>
+            <h2 class="govuk-heading-m">Want to see more job roles?</h2>
 
-        <ul class="govuk-list">
-            <li>
-              <a class="govuk-link" href="#">View 7 more job matches</a>
-            </li>
-            <li>
-              <a class="govuk-link" href="#">&uarr; Back to top</a>
-            </li>
-          </ul>
+            <ul class="govuk-list">
+                <li>
+                  <a class="govuk-link" href="#">View 7 more job matches</a>
+                </li>
+                <li>
+                  <a class="govuk-link" href="#">&uarr; Back to top</a>
+                </li>
+              </ul>
 
+            </div>
+          </div>
       </main>
 
     </div>

@@ -29,3 +29,15 @@
   padding: govuk-spacing(4);
   margin: 0;
 }
+
+.app-results-cta {
+  background: govuk-colour("turquoise");
+  color: govuk-colour("white");
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+  .govuk-heading-m,
+  .govuk-body {
+    color: govuk-colour("white");
+  }
+
+}
