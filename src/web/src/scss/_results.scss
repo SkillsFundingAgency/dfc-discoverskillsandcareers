@@ -15,3 +15,29 @@
     }
   }
 }
+
+.app-result__body {
+  background: govuk-colour("grey-4");
+  padding: govuk-spacing(4);
+  .govuk-button {
+    margin-bottom: 0;
+  }
+}
+
+.app-result__header {
+  background: govuk-colour("grey-3");
+  padding: govuk-spacing(4);
+  margin: 0;
+}
+
+.app-results-cta {
+  background: govuk-colour("turquoise");
+  color: govuk-colour("white");
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+  .govuk-heading-m,
+  .govuk-body {
+    color: govuk-colour("white");
+  }
+
+}

@@ -60,8 +60,14 @@ $app-purple: #8c0052;
 }
 
 .app-button--fake-button {
-  display: inline-block;
   padding: 9px 10px 6px 10px;
+  margin-bottom: 22px;
+  display: block;
+  text-align: center;
+  @include govuk-media-query($from: desktop){
+    display: inline-block;
+    margin-bottom: 32px;
+  }
   label {
     padding: 0;
   }
