@@ -10,6 +10,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 
         public BuildPageHtml(SessionHelper sessionHelper)
         {
+            var html = BlobStorageHelper.GetBlob("Results.html").Result;
+
+            // Build any blocks
             var jobFamilyHtml = "<ul>";
             sessionHelper.Session.ResultData.JobFamilies.ForEach(jobFamily =>
             {
@@ -29,9 +32,11 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             {
                 answersHtml += $"<p>{answer.QuestionId} {answer.SelectedOption}</p>";
             });
-            string html = $"<body><form><input type='hidden' name='sessionId' value='[session_id]'/></form>Results for {sessionHelper.Session.PrimaryKey} <br /> {jobFamilyHtml} <br /> {traitHtml} <br /> {answersHtml}</body>";
 
+            // Replace placeholder text strings
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
+            html = html.Replace("[job_families]", jobFamilyHtml);
+            html = html.Replace("[traits]", traitHtml);
             Html = html;
         }
     }
