@@ -8,6 +8,10 @@ function handlePa11yError (err) {
     this.emit('end');
 } 
 
+function handlebrowserStackError (err) {
+    console.log(err.toString());
+    this.emit('end');
+}
 // requires
 
 var gulp = require("gulp"),
@@ -20,7 +24,8 @@ var gulp = require("gulp"),
     nunjucks = require('gulp-nunjucks-render'),
     connect = require('gulp-connect'),
     mocha = require('gulp-mocha'),
-    sassLint = require('gulp-sass-lint');
+    sassLint = require('gulp-sass-lint'),
+    {protractor} = require('gulp-protractor');
 
 // paths
 
@@ -37,7 +42,9 @@ paths.html = paths.src + "templates/**/*.html";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.js = paths.src + "js/**/*.js";
 paths.minJs = paths.src + "js/**/*.min.js";
-paths.test = paths.buildScript + "test.js"
+paths.accessibilty = paths.buildScript + "*.spec.js";
+paths.browserStackConf = paths.buildScript + "conf/conf.js";
+paths.browserStackSpec = paths.buildScript + "specs/*.spec.js";
 
 // paths - output
 
@@ -129,14 +136,32 @@ gulp.task('connect', function() {
     port: 3000,
     livereload: true
   });
-}); 
+});
 
-gulp.task('pa11y', function() {
+gulp.task('startTestServer', function(done) {
     connect.server(testServerOptions);
-    gulp.src(paths.test, {read: false})
+    done();
+});
+
+gulp.task('pa11y', function(done) {
+    gulp.src(paths.accessibilty, {read: false})
         .pipe(mocha())
-        .on("error", handlePa11yError);
+        .on("error", handlePa11yError)
+        .on("end", done);
+});
+
+gulp.task('browserStack', function(done) {
+    gulp.src([paths.browserStackSpec])
+        .pipe(protractor({
+            configFile: paths.browserStackConf
+        }))
+        .on("error", handlebrowserStackError)
+        .on("end", done);
+});
+
+gulp.task('stopTestServer', function(done) {
     connect.serverClose();
+    done();
 });
  
 // watches
@@ -166,7 +191,7 @@ gulp.task("html:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y"));
+gulp.task("test", gulp.series("startTestServer", "browserStack", "pa11y", "stopTestServer"));
 
 gulp.task("dev",
     gulp.series(
