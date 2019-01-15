@@ -61,7 +61,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                             IsNegative = question.IsFlipped == 1,  
                             Order = questionNumber,
                             QuestionId = questionPartitionKey + "-" + questionNumber,
-                            TraitCode = question.Trait,
+                            TraitCode = question.Trait.ToUpper(),
                             PartitionKey = questionPartitionKey,
                             Texts = new List<QuestionText> {  
                                 new QuestionText { LanguageCode = "EN", Text = question.Statement }
