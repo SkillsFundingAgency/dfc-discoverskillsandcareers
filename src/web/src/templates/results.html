@@ -88,25 +88,14 @@
 
         <div class="govuk-grid-row govuk-body">
 
-            <div class="govuk-grid-column-two-thirds">
-              
+          <div class="govuk-grid-column-two-thirds">
 
             <div class="app-results">
 
               <h2 class="govuk-heading-l">Your results</h2>
 
               <ul class="govuk-list govuk-!-margin-bottom-3">
-                <li class="app-result">
-                  <h3 class="govuk-heading-m app-result__header">Title</h3>
-                  <div class="app-result__body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    {{ govukButton({
-                      text: "Start now",
-                      href: "#",
-                      classes: "govuk-button--start app-button--alt"
-                    }) }}
-                  </div>
-                </li>
+                [job_families_li_html]
               </ul>
 
               <div class="app-results-cta govuk-!-margin-bottom-3">
