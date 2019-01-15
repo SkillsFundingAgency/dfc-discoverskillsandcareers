@@ -126,7 +126,7 @@ gulp.task('connect', function() {
   });
 }); 
 
-gulp.task('test', function() {
+gulp.task('pa11y', function() {
     gulp.src(paths.test, {read: false})
         .pipe(mocha())
         .on("error", handlePa11yError);
@@ -139,7 +139,7 @@ gulp.task("css:watch", function () {
 });
 
 gulp.task("sass:watch", function () {
-    gulp.watch(paths.scss, gulp.series("sass", "test"));
+    gulp.watch(paths.scss, gulp.series("sass"));
 });
 
 gulp.task("eslint:watch", function () {
@@ -151,7 +151,7 @@ gulp.task("js:watch", function () {
 });
 
 gulp.task("html:watch", function () {
-    gulp.watch([paths.html], gulp.series("html", "test"));
+    gulp.watch([paths.html], gulp.series("html"));
 });
 
 // commands
@@ -159,6 +159,7 @@ gulp.task("html:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
+gulp.task("test", gulp.parallel("connect", gulp.series("pa11y")));
 gulp.task("dev",
     gulp.series(
         "clean",
