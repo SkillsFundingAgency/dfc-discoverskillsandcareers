@@ -93,44 +93,16 @@
           <h2 class="govuk-heading-l">Your results</h2>
 
           <ul class="govuk-list">
-            <li>
-              <h3 class="govuk-heading-m">Call centre operator</h3>
-              <p class="govuk-body-l app-text--light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <div class="govuk-grid-row govuk-!-margin-bottom-3">
-                <div class="govuk-grid-column-one-third">
-                  <h5 class="govuk-body app-results__col-header">Average salary <span>(a year)</span></h5>
-                  <div class="app-payscale">
-                    <span class="app-payscale__from">£13,500 <i>Starter</i></span><span class="app-payscale__join">–</span><span class="app-payscale__to">£28,000 <i>Experienced</i></span>
-                  </div>
-                </div>
-                <div class="govuk-grid-column-one-third">
-                  <h5 class="govuk-body app-results__col-header">Typical hours <span>(a week)</span></h5>
-                  <p class="govuk-body-l">38 to 40 a week</p>
-                </div>
-                <div class="govuk-grid-column-one-third">
-                  <h5 class="govuk-body  app-results__col-header">You could work</h5>
-                  <p class="govuk-body-l">evenings / weekends / bank holidays on shifts</p>
-                </div>
+            <li class="app-result">
+              <h3 class="govuk-heading-m app-result__header">Title</h3>
+              <div class="app-result__body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                {{ govukButton({
+                  text: "Start now",
+                  href: "#",
+                  classes: "govuk-button--start"
+                }) }}
               </div>
-              <h4 class="govuk-heading-m">Start your journey</h4>
-              <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                  <p class="govuk-body app-text--light">Choose from one of the two options to find out more information about this role, or training opportunities</p>
-                </div>
-                <div class="govuk-grid-column-one-third app-results__cta">
-                  {{ govukButton({
-                    text: "View job information",
-                    classes: "govuk-button--start app-button--block app-button--alt",
-                    href: "#"
-                  }) }}
-                  {{ govukButton({
-                    text: "View training opportunities",
-                    classes: "govuk-button--start app-button--block app-button--alt",
-                    href: "#"
-                  }) }}
-                </div>
-              </div>
-              <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
             </li>
           </ul>
 
