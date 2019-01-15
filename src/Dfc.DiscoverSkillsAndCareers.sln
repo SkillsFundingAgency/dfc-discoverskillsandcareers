@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.LocalDataSetupTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.UnitTests", "Dfc.UnitTests\Dfc.UnitTests.csproj", "{6DA3D039-38F6-44E2-9C41-3072A00108D6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{704B84F5-E692-4D6A-8E3C-F766BDC00751}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.SupportApp", "support\Dfc.DiscoverSkillsAndCareers.SupportApp\Dfc.DiscoverSkillsAndCareers.SupportApp.csproj", "{37287922-EED7-4655-B204-4C0F3B834DB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,11 +43,18 @@ Global
 		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37287922-EED7-4655-B204-4C0F3B834DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37287922-EED7-4655-B204-4C0F3B834DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37287922-EED7-4655-B204-4C0F3B834DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37287922-EED7-4655-B204-4C0F3B834DB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64C2611B-18F9-427D-B8DA-A5B5FB995402}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37287922-EED7-4655-B204-4C0F3B834DB1} = {704B84F5-E692-4D6A-8E3C-F766BDC00751}
 	EndGlobalSection
 EndGlobal

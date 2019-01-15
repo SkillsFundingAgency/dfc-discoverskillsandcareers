@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeFrameworkIdentifier>win10-x86</RuntimeFrameworkIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="CommandLineParser" Version="2.4.3" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+      <PackageReference Include="Microsoft.Azure.DocumentDB" Version="2.2.1" />
+      <PackageReference Include="CsvHelper" Version="12.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="*.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
+    <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

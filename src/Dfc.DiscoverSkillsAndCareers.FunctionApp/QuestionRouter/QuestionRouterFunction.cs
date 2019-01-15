@@ -1,89 +1,80 @@
-using System;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
+using Microsoft.Azure.WebJobs.Host;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
+namespace Dfc.DiscoverSkillsAndCareers.QuestionRouter
 {
     public static class QuestionRouterFunction
     {
         [FunctionName("QuestionRouterFunction")]
-        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "q/{questionInput?}")]HttpRequestMessage req, string questionInput, ILogger log, ExecutionContext context)
+        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "q/{question?}")]HttpRequestMessage req, string question, TraceWriter log)
         {
-            var appSettings = ConfigurationHelper.ReadConfiguration(context);
-            log.LogDebug($"QuestionRouterFunction questionInput={questionInput} appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
+            log.Info("C# HTTP trigger function processed a request.");
 
-            var questionRepository = new QuestionRepository(appSettings.CosmosSettings);
 
-            var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
-            if (sessionHelper.HasSession)
+            string sessionId = null;
+            int questionNumber = 0;
+
+            if (req.Content.IsFormData())
             {
-                int questionNumber;
-                int.TryParse(questionInput, out questionNumber);
-                sessionHelper.Session.CurrentQuestion = questionNumber;
+                // Read the form data
+                NameValueCollection col = req.Content.ReadAsFormDataAsync().Result;
+                sessionId = col.GetValues("sessionId").FirstOrDefault();
+                // Question number from the route
+                int.TryParse(question, out questionNumber);
+
+                // Check if you have result selected and save that
             }
-            else if (questionInput == "1")
+            else
             {
-                // Setup a new session with the current question set version
-                var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
-                await SetupNewSession(sessionHelper, currentQuestionSetInfo);
+                if (question == "1")
+                {
+                    // Start again, no form content on question 1
+                    sessionId = System.Guid.NewGuid().ToString();
+                    questionNumber = 1;
+                }
+                else
+                {
+                    // No form content and not requesting question 1
+                    questionNumber = 1;
+                }
             }
 
-            if (!sessionHelper.HasSession)
+            if (string.IsNullOrEmpty(sessionId) == true)
             {
                 // Session id is missing, redirect to question 1
                 var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
                 var uri = req.RequestUri;
                 var host = uri.AbsoluteUri.Replace(uri.AbsolutePath, "");
-                redirectResponse.Headers.Location = new System.Uri($"{host}/q/1");
+                redirectResponse.Headers.Location = new System.Uri($"{host}/q/{questionNumber}");
                 return redirectResponse;
             }
 
-            // Determine if we are complete and update the session
-            ManageIfComplete(sessionHelper.Session);
-            await sessionHelper.UpdateSession();
-
-            // Load the question to display
-            string questionId = $"{sessionHelper.Session.QuestionSetVersion}-{sessionHelper.Session.CurrentQuestion}";
-            var question = await questionRepository.GetQuestion(questionId);
-            if (question == null)
+            // Read the question page html file and replace text strings
+            var nextRoute = $"/q/{questionNumber + 1}";
+            var buttonText = "Continue";
+            if (questionNumber >= 5)
             {
-                throw new Exception($"Question {questionId} could not be found");
+                nextRoute = "/results";
+                buttonText = "Finish";
             }
-
-            // Build page html
-            var html = new BuildPageHtml(sessionHelper, question).Html;
+            var html = System.IO.File.ReadAllText("pages/QuestionPage.html");
+            html = html.Replace("[question_number]", questionNumber.ToString());
+            html = html.Replace("[form_route]", nextRoute);
+            html = html.Replace("[session_id]", sessionId);
+            html = html.Replace("[button_text]", buttonText);
 
             // Ok html response
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(html);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
-        }
-
-        private static async Task SetupNewSession(SessionHelper sessionHelper, QuestionSetInfo questionSetInfo)
-        {
-            // Create a new session
-            await sessionHelper.CreateSession();
-            // Assign the question set details
-            sessionHelper.Session.QuestionSetVersion = questionSetInfo.QuestionSetVersion;
-            sessionHelper.Session.MaxQuestions = questionSetInfo.MaxQuestions;
-            sessionHelper.Session.CurrentQuestion = 1;
-        }
-
-        public static void ManageIfComplete(UserSession userSession)
-        {
-            if (userSession.CurrentQuestion >= userSession.MaxQuestions)
-            {
-                userSession.IsComplete = true;
-                userSession.CompleteDt = DateTime.Now;
-            }
         }
     }
 }
