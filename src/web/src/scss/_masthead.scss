@@ -6,6 +6,7 @@
   @include govuk-media-query($from: desktop){
     padding: 10px 0 30px 0;
   }
+
   a:link, 
   a:visited, 
   a:hover, 
@@ -16,13 +17,22 @@
   .govuk-breadcrumbs {
     color: govuk-colour("white");
   }
+  
   .govuk-body-l {
     margin-bottom: 0;
   }
+  
   .govuk-breadcrumbs {
     margin-bottom: 20px;
     @include govuk-media-query($from: desktop){
       margin-bottom: 30px;
+    }
+  }
+
+  .govuk-breadcrumbs__list-item {
+    &:before,
+    &:after {
+      border-color: govuk-colour("white")
     }
   }
   

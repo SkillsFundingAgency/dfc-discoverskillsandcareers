@@ -19,8 +19,17 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-        <None Update="pages\QuestionPage.html">
+        <None Update="pages\Question.html">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="pages\QuestionStyled.html">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="pages\Results.html">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Helpers\" />
     </ItemGroup>
 </Project>

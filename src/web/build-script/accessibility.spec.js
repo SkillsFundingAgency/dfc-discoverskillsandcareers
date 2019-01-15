@@ -12,8 +12,7 @@ describe('Accessibility testing for web pages', function () {
         it(page, () => {
             return pa11y(`http://localhost:3000/${page}`)
                 .then(({issues}) => {
-                    if (issues.length) console.log(issues);
-                    expect(issues.length).to.equal(0);
+                    expect(issues).to.eql([]);
                 });
         });
     })
