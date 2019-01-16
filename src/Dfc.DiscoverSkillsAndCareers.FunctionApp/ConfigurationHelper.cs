@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.WebJobs;
+﻿using System;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
@@ -19,6 +20,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
             var appSettings = new AppSettings();
             config.Bind(appSettings);
+            Environment.SetEnvironmentVariable("ContainerName", appSettings.BlobStorage.ContainerName);
+            Environment.SetEnvironmentVariable("BlobStorage:StorageConnectionString", appSettings.BlobStorage.StorageConnectionString);
             return appSettings;
         }
     }

@@ -48,6 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
         public NameValueCollection FormData { get; private set; }
         public UserSession Session { get; private set; }
         public bool HasSession => Session != null;
+        public AppSettings Config => appSettings;
 
         public async Task CreateSession(string languageCode = "en")
         {

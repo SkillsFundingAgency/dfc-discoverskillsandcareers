@@ -9,11 +9,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
     {
         public static async Task<CloudBlockBlob> GetCloudBlockBlob(string blobName)
         {
-            string containerReference = "mycontainer";
-            string storageConnectionString = Environment.GetEnvironmentVariable("storageconnectionstring");
-
-            // TODO: local - need to ensure config 
-            storageConnectionString = @"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;";
+            string containerReference = Environment.GetEnvironmentVariable("ContainerName");
+            string storageConnectionString = Environment.GetEnvironmentVariable("BlobStorage:StorageConnectionString");
 
             CloudStorageAccount cloudStorageAccount;
             if (CloudStorageAccount.TryParse(storageConnectionString, out cloudStorageAccount) == true)
@@ -21,21 +18,6 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
                 var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
                 var cloudBlobContainer = cloudBlobClient.GetContainerReference(containerReference);
                 await cloudBlobContainer.CreateIfNotExistsAsync();
-
-                // TODO: 
-                Console.WriteLine("List blobs in container.");
-                BlobContinuationToken blobContinuationToken = null;
-                do
-                {
-                    var results = await cloudBlobContainer.ListBlobsSegmentedAsync(null, blobContinuationToken);
-                    blobContinuationToken = results.ContinuationToken;
-                    foreach (IListBlobItem item in results.Results)
-                    {
-                        Console.WriteLine(item.Uri);
-                    }
-
-                } while (blobContinuationToken != null);
-
 
                 CloudBlockBlob blob = cloudBlobContainer.GetBlockBlobReference(blobName);
                 return blob;
@@ -52,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
                 string html = await cloudBlockBlob.DownloadTextAsync();
                 return html;
             }
-            catch (Microsoft.WindowsAzure.Storage.StorageException)
+            catch (StorageException)
             {
                 return null;
             }
