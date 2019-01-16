@@ -49,6 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
         public UserSession Session { get; private set; }
         public bool HasSession => Session != null;
         public AppSettings Config => appSettings;
+        public bool HasInputError { get; private set; }
 
         public async Task CreateSession(string languageCode = "en")
         {
@@ -72,6 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
         private async Task CheckForAnswer()
         {
             AnswerOption answer;
+            HasInputError = false;
             if (Enum.TryParse(FormData.GetValues("selected_answer")?.FirstOrDefault(), out answer))
             {
                 string questionId = FormData.GetValues("questionId").FirstOrDefault();
@@ -91,6 +93,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
                     TraitCode = question.TraitCode,
                     IsNegative = question.IsNegative,
                 });
+            }
+            else
+            {
+                HasInputError = true;
             }
         }
     }

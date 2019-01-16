@@ -9,7 +9,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
     {
         public string Html { get; private set; }
 
-        public BuildPageHtml(SessionHelper sessionHelper, Question question)
+        public BuildPageHtml(SessionHelper sessionHelper, Question question, string errorMessage)
         {
             var html = BlobStorageHelper.GetBlob("Question.html").Result;
 
@@ -24,6 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             html = html.Replace("[form_route]", nextRoute);
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[button_text]", buttonText);
+            html = html.Replace("[error_message]", errorMessage);
             Html = html;
         }
 

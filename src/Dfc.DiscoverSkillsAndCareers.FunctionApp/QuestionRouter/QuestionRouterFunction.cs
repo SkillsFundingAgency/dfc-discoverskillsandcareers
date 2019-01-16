@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,7 +27,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             {
                 int questionNumber;
                 int.TryParse(questionInput, out questionNumber);
-                sessionHelper.Session.CurrentQuestion = questionNumber;
+                if (sessionHelper.HasInputError == false)
+                {
+                    sessionHelper.Session.CurrentQuestion = questionNumber;
+                }
             }
             else if (questionInput == "1")
             {
@@ -57,8 +61,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                 throw new Exception($"Question {questionId} could not be found");
             }
 
+            string errorMessage = sessionHelper.HasInputError ? "You must select an answer" : string.Empty;
             // Build page html
-            var html = new BuildPageHtml(sessionHelper, question).Html;
+            var html = new BuildPageHtml(sessionHelper, question, errorMessage).Html;
 
             // Ok html response
             var response = req.CreateResponse(HttpStatusCode.OK);
