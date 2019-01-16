@@ -9,10 +9,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
     {
         public string Html { get; private set; }
 
-        public BuildPageHtml(SessionHelper sessionHelper, Question question, string errorMessage, string percentComplete)
+        public BuildPageHtml(SessionHelper sessionHelper, Question question)
         {
             var html = BlobStorageHelper.GetBlob("Question.html").Result;
 
+            string errorMessage = sessionHelper.HasInputError ? "You must select an answer" : string.Empty;
+            int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
             var nextRoute = GetNextRoute(sessionHelper.Session);
             var buttonText = sessionHelper.Session.IsComplete ? "Finish" : "Continue";
 
@@ -25,7 +27,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[button_text]", buttonText);
             html = html.Replace("[error_message]", errorMessage);
-            html = html.Replace("[percentage]", percentComplete);
+            html = html.Replace("[percentage]", percentComplete.ToString());
             Html = html;
         }
 
