@@ -23,6 +23,20 @@
 
 ### Building and Running Function App
 
+Create a local.settings.json file (change as requried but the following works with the Cosmos and Blob emulators)
+```
+{
+    "CosmosSettings": {
+        "Endpoint": "https://localhost:8081",
+        "Key": "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+        "DatabaseName": "TestDatabase"
+    },
+    "BlobStorage": {
+        "StorageConnectionString": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;",
+        "ContainerName": "mycontainer"
+    }
+}
+```
 To build the function app navigate to `src/Dfc.DiscoverSkillsAndCareers.FunctionApp` and run 
 
     dotnet build 
