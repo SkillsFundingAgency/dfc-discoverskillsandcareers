@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <title>Understand Myself</title>
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://dfcdevskillscareersstr.blob.core.windows.net/content/dist/assets/css/main.css">
 </head>
 <body class="govuk-template__body app-page--home">
 
@@ -141,7 +141,9 @@
                     <div class="app-results">
 
                         <h2 class="govuk-heading-l">Your results</h2>
-
+                        <form>
+                            <input type="hidden" name="sessionId" value="[session_id]" />
+                        </form>
                         <ul class="govuk-list govuk-!-margin-bottom-3">
                             [job_families_li_html]
                         </ul>

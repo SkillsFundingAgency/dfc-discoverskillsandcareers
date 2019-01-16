@@ -9,5 +9,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string LanguageCode { get; set; }
         [JsonProperty("text")]
         public string Text { get; set; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
     }
 }

@@ -38,7 +38,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "LEADER", "DRIVER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Managerial result text" }
+                        new JobFamilyText() 
+                        {
+                            LanguageCode = "en", 
+                            Text = "Managerial result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/managerial"
+                        }
                     }
                 },
                 new JobFamily()
@@ -48,7 +53,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DRIVER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Beauty and wellbeing result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Beauty and wellbeing result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/beauty-and-wellbeing" 
+                        }
                     }
                 },
                 new JobFamily()
@@ -58,7 +68,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DRIVER", "ANALYST", "ORGANISER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Science and research result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en", 
+                            Text = "Science and research result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/science-and-research"
+                        }
                     }
                 },
                 new JobFamily()
@@ -310,13 +325,13 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             var resultData = new ResultData()
             {
                 Traits = userTraits,
-                JobFamilies = CalculateJobFamilyRelevance(userTraits)
+                JobFamilies = CalculateJobFamilyRelevance(userTraits, userSession.LanguageCode)
             };
             
             userSession.ResultData = resultData;
         }
 
-        public static  List<JobFamilyResult> CalculateJobFamilyRelevance(List<TraitResult> userTraits)
+        public static  List<JobFamilyResult> CalculateJobFamilyRelevance(List<TraitResult> userTraits, string languageCode)
         {
             var jobFamilies = JobFamilies;
 
@@ -325,6 +340,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
               {
                   JobFamilyCode = x.JobFamilyCode,
                   JobFamilyName = x.JobFamilyName,
+                  JobFamilyText = x.Texts.Where(t => t.LanguageCode == languageCode).First().Text,
+                  Url = x.Texts.Where(t => t.LanguageCode == languageCode).First().Url,
                   TraitsTotal = userTraits.Where(t => x.TraitCodes.Contains(t.TraitCode)).Sum(t => t.TotalScore),
                   TraitValues = userTraits
                       .Where(t => x.TraitCodes.Contains(t.TraitCode))

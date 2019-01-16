@@ -122,7 +122,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 0 }
             };
 
-            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits);
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
             Assert.True(result.Count == 6);
             Assert.True(result[0].JobFamilyCode == "CTD");
@@ -148,7 +148,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 6 }
             };
 
-            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits);
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
             Assert.True(result.Count == 16);
             Assert.True(result[0].JobFamilyCode == "CTD");
@@ -184,7 +184,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -8 }
             };
 
-            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits);
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
             Assert.True(result.Count == 0);
         }
@@ -204,7 +204,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 0 }
             };
 
-            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits);
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
             Assert.True(result.Count == 0);
         }
