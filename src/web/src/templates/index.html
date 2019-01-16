@@ -1,74 +1,59 @@
-{% from "header/macro.njk" import govukHeader %}
-{% from "phase-banner/macro.njk" import govukPhaseBanner %}
-{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "footer/macro.njk" import govukFooter %}  
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Understand Myself</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-  </head>
-  <body class="govuk-template__body app-page--home">
+{% set pageName = 'home' %}
 
-    {{ govukHeader({
-      homepageUrl: "#",
-      serviceName: "Understand Myself",
-      serviceUrl: "#"
-    }) }}
+{% extends "base.html" %}
 
-    <div class="app-masthead">
-      <div class="govuk-width-container app-site-width-container">
-          
-          {{ govukPhaseBanner({
-            tag: {
-              text: "alpha"
-            },
-            html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-          }) }}
+{% block main %}
 
-          {{ govukBreadcrumbs({
-            items: [
-              {
-                text: "Home"
-              }
-            ]
-          }) }}
+  <div class="app-masthead">
+    <div class="govuk-width-container app-site-width-container">
+        
+        {{ govukPhaseBanner({
+          tag: {
+            text: "alpha"
+          },
+          html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+        }) }}
 
-        <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
-        <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
-      </div>
+        {{ govukBreadcrumbs({
+          items: [
+            {
+              text: "Home"
+            }
+          ]
+        }) }}
+
+      <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
+      <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
     </div>
+  </div>
 
-    <div class="app-assessment-picker">
-      <main class="govuk-width-container">
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-one-half">
-            <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">See job categories</h2>
-            </div>
-            <div class="app-assessment-picker__body">
-              <div class="govuk-inset-text">
-                5 minutes
-              </div>
-              <a href="/start.html" class="govuk-link">Start assessment</a>
-            </div>
+  <div class="app-assessment-picker">
+    <main class="govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          <div class="app-assessment-picker__title">
+            <h2 class="govuk-heading-l">See job categories</h2>
           </div>
-          <div class="govuk-grid-column-one-half">
-            <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">See specific job roles</h2>
+          <div class="app-assessment-picker__body">
+            <div class="govuk-inset-text">
+              5 minutes
             </div>
-            <div class="app-assessment-picker__body">
-              <div class="govuk-inset-text">
-                10 to 15 minutes
-              </div>
-              <a href="/start.html" class="govuk-link">Start assessment</a>
-            </div>
+            <a href="/start.html" class="govuk-link">Start assessment</a>
           </div>
         </div>
-      </main>
-    </div>
+        <div class="govuk-grid-column-one-half">
+          <div class="app-assessment-picker__title">
+            <h2 class="govuk-heading-l">See specific job roles</h2>
+          </div>
+          <div class="app-assessment-picker__body">
+            <div class="govuk-inset-text">
+              10 to 15 minutes
+            </div>
+            <a href="/start.html" class="govuk-link">Start assessment</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 
-    {{ govukFooter({}) }}
-
-  </body>
-</html>
+{% endblock %}

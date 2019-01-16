@@ -1,87 +1,68 @@
+{% set pageName = 'start' %}
+{% extends "base.html" %}
 
-{% from "header/macro.njk" import govukHeader %}
-{% from "footer/macro.njk" import govukFooter %}
-{% from "phase-banner/macro.njk" import govukPhaseBanner %}
-{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "radios/macro.njk" import govukRadios %}
-{% from "button/macro.njk" import govukButton %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Understand Myself</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-  </head>
-  <body class="govuk-template__body app-page--questionss">
+{% block main %}
 
-    {{ govukHeader({
-      homepageUrl: "#",
-      serviceName: "Understand Myself",
-      serviceUrl: "#"
+  <div class="govuk-width-container app-site-width-container">
+    
+    {{ govukPhaseBanner({
+      tag: {
+        text: "alpha"
+      },
+      html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
     }) }}
 
-    <div class="govuk-width-container app-site-width-container">
-      
-      {{ govukPhaseBanner({
-        tag: {
-          text: "alpha"
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "#"
         },
-        html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-      }) }}
-
-      {{ govukBreadcrumbs({
-        items: [
-          {
-            text: "Home",
-            href: "#"
-          },
-          {
-            text: "See job categories"
-          }
-        ]
-      }) }}      
-      
-    </div>
-
-    <div class="govuk-width-container">
+        {
+          text: "See job categories"
+        }
+      ]
+    }) }}      
     
-      <main class="govuk-main-wrapper">
-    
-        <div class="govuk-grid-row">
+  </div>
 
-          <div class="govuk-grid-column-two-thirds">
-              
-            <h1 class="govuk-heading-xl">Job categories</h1>
+  <div class="govuk-width-container">
+  
+    <main class="govuk-main-wrapper">
+  
+      <div class="govuk-grid-row">
 
-            <p class="govuk-body-l">Answer statements about what you enjoy, and siscover job categories tailored to you</p>
+        <div class="govuk-grid-column-two-thirds">
+            
+          <h1 class="govuk-heading-xl">Job categories</h1>
 
-            <p class="govuk-inset-text">
-              This assessment will take 5 minutes
-            </p>
+          <p class="govuk-body-l">Answer statements about what you enjoy, and siscover job categories tailored to you</p>
 
-            <ul class="govuk-list govuk-list--bullet">
-                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-            </ul>
+          <p class="govuk-inset-text">
+            This assessment will take 5 minutes
+          </p>
 
-            {{ govukButton({
-              text: "Start now",
-              href: "/questions.html",
-              classes: "govuk-button--start app-button"
-            }) }}
-            <br>
-            <a href="/" class="govuk-back-link">Back</a>
+          <ul class="govuk-list govuk-list--bullet">
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+          </ul>
 
-          </div>
+          {{ govukButton({
+            text: "Start now",
+            href: "/questions.html",
+            classes: "govuk-button--start app-button"
+          }) }}
+          <br>
+          <a href="/" class="govuk-back-link">Back</a>
 
         </div>
 
-      </main>
+      </div>
 
-    </div> 
-    
-    {{ govukFooter({}) }}
+    </main>
 
-  </body>
-</html>
+  </div> 
+  
+{% endblock %}

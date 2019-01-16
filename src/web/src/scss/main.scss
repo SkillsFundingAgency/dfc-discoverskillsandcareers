@@ -25,7 +25,8 @@ $app-purple: #8c0052;
   border-bottom-color: $app-purple;
 }
 
-.app-page--home {
+.app-page--home, 
+.app-page--results {
   .govuk-header__container {
     border-bottom-color: govuk-colour('white');
   }
@@ -39,6 +40,15 @@ $app-purple: #8c0052;
 .app-button--alt {
   background-color: govuk-colour("turquoise");
   color: govuk-colour('white');
+}
+
+.app-button--white {
+  background-color: govuk-colour("white");
+  color: govuk-colour('black') !important;
+}
+
+.app-button--small {
+  // @extend .govuk-!-font-size-14;
 }
 
 .app-button--outline {

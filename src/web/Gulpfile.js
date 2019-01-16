@@ -124,7 +124,10 @@ gulp.task("eslint", function () {
 gulp.task('html', function() {
     return gulp.src(paths.html)
         .pipe(nunjucks({
-          path: ["node_modules/govuk-frontend/", "node_modules/govuk-frontend/components/"]
+          path: [
+            "node_modules/govuk-frontend/", 
+            "node_modules/govuk-frontend/components/", 
+            "src/layouts/"]
         }))
         .pipe(gulp.dest(paths.dist))
         .pipe(connect.reload());

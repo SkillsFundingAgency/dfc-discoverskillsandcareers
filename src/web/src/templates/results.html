@@ -1,135 +1,122 @@
-{% from "header/macro.njk" import govukHeader %}
-{% from "phase-banner/macro.njk" import govukPhaseBanner %}
-{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "footer/macro.njk" import govukFooter %}  
-{% from "button/macro.njk" import govukButton %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Understand Myself</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-  </head>
-  <body class="govuk-template__body app-page--home">
+{% set pageName = 'results' %}
+{% extends "base.html" %}
 
-    {{ govukHeader({
-      homepageUrl: "#",
-      serviceName: "Understand Myself",
-      serviceUrl: "#"
-    }) }}
+{% block main %}
 
-    <div class="app-masthead">
-      <div class="govuk-width-container app-site-width-container">
-          
-          {{ govukPhaseBanner({
-            tag: {
-              text: "alpha"
+  <div class="app-masthead">
+    <div class="govuk-width-container app-site-width-container">
+        
+        {{ govukPhaseBanner({
+          tag: {
+            text: "alpha"
+          },
+          html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+        }) }}
+
+        {{ govukBreadcrumbs({
+          items: [
+            {
+              text: "Home",
+              href: "/"
             },
-            html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-          }) }}
+            {
+              text: "See job categories",
+              href: "/start.html"
+            },
+            {
+              text: "Results"
+            }
+          ]
+        }) }}
 
-          {{ govukBreadcrumbs({
-            items: [
-              {
-                text: "Home",
-                href: "/"
-              },
-              {
-                text: "See job categories",
-                href: "/start.html"
-              },
-              {
-                text: "Results"
-              }
-            ]
-          }) }}
-
-        <h1 class="govuk-heading-xl app-masthead__title">Job categories you might be suited to </h1>
-        <p class="govuk-body-l">10 results</p>
-      </div>
+      <h1 class="govuk-heading-xl app-masthead__title">Job categories you might be suited to </h1>
+      <p class="govuk-body-l">10 results</p>
     </div>
+  </div>
 
-    <div class="govuk-width-container">
-    
-      <main class="govuk-main-wrapper">
-    
-        <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-9">
+  <div class="govuk-width-container">
 
-          <div class="govuk-grid-column-two-thirds">
-              
-            <h2 class="govuk-heading-l">What you told us</h2>
+    <main class="govuk-main-wrapper">
 
-            <ul class="govuk-list govuk-list--bullet">
-              [traits_li_html]
-            </ul>
+      <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-9">
 
-            <p class="govuk-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div class="govuk-grid-column-two-thirds">
+            
+          <h2 class="govuk-heading-l">What you told us</h2>
 
-          </div>
+          <ul class="govuk-list govuk-list--bullet">
+            [traits_li_html]
+          </ul>
 
-          <div class="govuk-grid-column-one-third app-sidebar">
-            <h3 class="govuk-heading-m">Things to do with your results</h3>
-            <ul class="govuk-list">
-              <li>
-                <a class="govuk-link" href="#">Print</a>
-              </li>
-              <li>
-                <a class="govuk-link" href="#">Email</a>
-              </li>
-              <li>
-                <a class="govuk-link" href="#">Download</a>
-              </li>
-              <li>
-                <a class="govuk-link" href="#">Add to your CV</a>
-              </li>
-            </ul>
-          </div>
+          <p class="govuk-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
         </div>
 
-        <div class="govuk-grid-row govuk-body">
+        <div class="govuk-grid-column-one-third app-sidebar">
+          <h3 class="govuk-heading-m">Things to do with your results</h3>
+          <ul class="govuk-list">
+            <li>
+              <a class="govuk-link" href="#">Print</a>
+            </li>
+            <li>
+              <a class="govuk-link" href="#">Email</a>
+            </li>
+            <li>
+              <a class="govuk-link" href="#">Download</a>
+            </li>
+            <li>
+              <a class="govuk-link" href="#">Add to your CV</a>
+            </li>
+          </ul>
+        </div>
 
-          <div class="govuk-grid-column-two-thirds">
+      </div>
 
-            <div class="app-results">
+      <div class="govuk-grid-row govuk-body">
 
-              <h2 class="govuk-heading-l">Your results</h2>
+        <div class="govuk-grid-column-two-thirds">
 
-              <ul class="govuk-list govuk-!-margin-bottom-3">
-                [job_families_li_html]
-              </ul>
+          <div class="app-results">
 
-              <div class="app-results-cta govuk-!-margin-bottom-3">
-                <div class="govuk-grid-row ">
-                  <div class="govuk-grid-column-two-thirds">
-                    <h3 class="govuk-heading-m">Want to see specific job roles?</h3>
-                    <p class="govuk-body">You can take a lomnger assessment of 10 to 15 minutes to find out about specific job eroles that might be suitable for you.</p>
-                  </div>
-                  <div class="govuk-grid-column-one-third">
-                    [button]
-                  </div>
+            <h2 class="govuk-heading-l">Your results</h2>
+
+            <ul class="govuk-list govuk-!-margin-bottom-3">
+              [job_families_li_html]
+            </ul>
+
+            <div class="app-results-cta govuk-!-margin-bottom-3">
+              <div class="govuk-grid-row ">
+                <div class="govuk-grid-column-two-thirds">
+                  <h3 class="govuk-heading-m">Want to see specific job roles?</h3>
+                  <p class="govuk-body">You can take a lomnger assessment of 10 to 15 minutes to find out about specific job eroles that might be suitable for you.</p>
+                </div>
+                <div class="govuk-grid-column-one-third">
+                    {{ govukButton({
+                      text: "Start assessment",
+                      classes: "govuk-button--start app-button--block app-button--small app-button--white govuk-!-font-size-14",
+                      href: "/"
+                    }) }}
                 </div>
               </div>
-
             </div>
 
-            <h2 class="govuk-heading-m">Want to see more job roles?</h2>
-
-            <ul class="govuk-list">
-                <li>
-                  <a class="govuk-link" href="#">View 7 more job matches</a>
-                </li>
-                <li>
-                  <a class="govuk-link" href="#">&uarr; Back to top</a>
-                </li>
-              </ul>
-
-            </div>
           </div>
-      </main>
 
-    </div>
+          <h2 class="govuk-heading-m">Want to see more job roles?</h2>
 
-    {{ govukFooter({}) }}
+          <ul class="govuk-list">
+              <li>
+                <a class="govuk-link" href="#">View 7 more job matches</a>
+              </li>
+              <li>
+                <a class="govuk-link" href="#">&uarr; Back to top</a>
+              </li>
+            </ul>
 
-  </body>
-</html>
+          </div>
+        </div>
+    </main>
+
+  </div>
+
+{% endblock %}

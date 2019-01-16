@@ -1,0 +1,53 @@
+{% from "header/macro.njk" import govukHeader %}
+{% from "footer/macro.njk" import govukFooter %}  
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "radios/macro.njk" import govukRadios %}
+{% from "button/macro.njk" import govukButton %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Understand Myself</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+  </head>
+  <body class="govuk-template__body  app-page--{{ pageName }}">
+
+    {{ govukHeader({
+      homepageUrl: "#",
+      serviceName: "Understand Myself",
+      serviceUrl: "#"
+    }) }}
+
+    {% block main %}{% endblock %}
+
+    {{ govukFooter({
+      meta: {
+        items: [
+          {
+            href: "#",
+            text: "Help"
+          },
+          {
+            href: "#",
+            text: "Cookies"
+          },
+          {
+            href: "#",
+            text: "Contact"
+          },
+          {
+            href: "#",
+            text: "Terms and conditions"
+          },
+          {
+            href: "#",
+            text: "Rhestr o Wasanaethau Cymraeg"
+          }
+        ],
+        html: 'Built by the <a href="#" class="govuk-footer__link">Education, Skills and Funding Authority</a>'
+      } 
+    }) }}
+
+  </body>
+</html>
