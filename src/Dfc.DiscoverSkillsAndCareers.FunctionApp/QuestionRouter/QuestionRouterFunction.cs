@@ -62,8 +62,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             }
 
             string errorMessage = sessionHelper.HasInputError ? "You must select an answer" : string.Empty;
+            int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
             // Build page html
-            var html = new BuildPageHtml(sessionHelper, question, errorMessage).Html;
+            var html = new BuildPageHtml(sessionHelper, question, errorMessage, percentComplete.ToString()).Html;
 
             // Ok html response
             var response = req.CreateResponse(HttpStatusCode.OK);
