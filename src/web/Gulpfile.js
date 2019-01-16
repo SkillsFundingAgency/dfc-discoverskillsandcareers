@@ -127,7 +127,7 @@ gulp.task('html', function() {
           path: [
             "node_modules/govuk-frontend/", 
             "node_modules/govuk-frontend/components/", 
-            "src/layouts/"]
+            "src/templates/"]
         }))
         .pipe(gulp.dest(paths.dist))
         .pipe(connect.reload());
