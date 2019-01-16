@@ -12,6 +12,8 @@ $app-purple: #8c0052;
 @import 'sidebar';
 @import 'payscale';
 @import 'results';
+@import 'adviserbar';
+@import 'footer';
 
 .visually-hidden { /* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
   position: absolute !important;
@@ -70,7 +72,7 @@ $app-purple: #8c0052;
   &:focus,
   &:hover {
     background-color: $app-purple;
-    color: govuk-colour('white')
+    color: govuk-colour('white');
   }
 }
 
