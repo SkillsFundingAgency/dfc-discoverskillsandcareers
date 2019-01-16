@@ -29,3 +29,10 @@
     }
   }
 }
+.app-controls {
+  .govuk-error-message {
+    @include govuk-media-query($from: desktop){
+      text-align: right;
+    }
+  }
+}
