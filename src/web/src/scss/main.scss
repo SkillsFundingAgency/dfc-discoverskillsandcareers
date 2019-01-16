@@ -44,7 +44,17 @@ $app-purple: #8c0052;
 
 .app-button--white {
   background-color: govuk-colour("white");
-  color: govuk-colour('black') !important;
+  box-shadow: none;
+  color: govuk-colour('black');
+  &:link,
+  &:visited,
+  &:active {
+    color: govuk-colour('black');    
+  }
+  &:focus, 
+  &:hover {
+    color: govuk-colour('white');
+  }
 }
 
 .app-button--small {
