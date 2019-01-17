@@ -59,10 +59,6 @@ $app-purple: #8c0052;
   }
 }
 
-.app-button--small {
-  // @extend .govuk-!-font-size-14;
-}
-
 .app-button--outline {
   border: 2px solid $app-purple;
   color: govuk-colour('black');
@@ -74,25 +70,15 @@ $app-purple: #8c0052;
     background-color: $app-purple;
     color: govuk-colour('white');
   }
+  input[type=radio]:checked + &.govuk-radios__label {
+    outline: 3px solid  $govuk-focus-colour;  
+    outline-offset: 0;
+  }
 }
 
 .app-button--block {
   display: block;
   text-align: left;
-}
-
-.app-button--fake-button {
-  padding: 9px 10px 6px 10px;
-  margin-bottom: 22px;
-  display: block;
-  text-align: center;
-  @include govuk-media-query($from: desktop){
-    display: inline-block;
-    margin-bottom: 32px;
-  }
-  label {
-    padding: 0;
-  }
 }
 
 .app-text--light {
