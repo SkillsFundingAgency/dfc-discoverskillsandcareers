@@ -17,58 +17,67 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
         [FunctionName("QuestionRouterFunction")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "q/{questionInput?}")]HttpRequestMessage req, string questionInput, ILogger log, ExecutionContext context)
         {
-            var appSettings = ConfigurationHelper.ReadConfiguration(context);
-            log.LogDebug($"QuestionRouterFunction questionInput={questionInput} appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
-
-            var questionRepository = new QuestionRepository(appSettings.CosmosSettings);
-
-            var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
-            if (sessionHelper.HasSession)
+            try
             {
-                int questionNumber;
-                int.TryParse(questionInput, out questionNumber);
-                if (sessionHelper.HasInputError == false)
+                var appSettings = ConfigurationHelper.ReadConfiguration(context);
+                log.LogDebug($"QuestionRouterFunction questionInput={questionInput} appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
+
+                var questionRepository = new QuestionRepository(appSettings.CosmosSettings);
+
+                var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
+                if (sessionHelper.HasSession)
                 {
-                    sessionHelper.Session.CurrentQuestion = questionNumber;
+                    int questionNumber;
+                    int.TryParse(questionInput, out questionNumber);
+                    if (sessionHelper.HasInputError == false)
+                    {
+                        sessionHelper.Session.CurrentQuestion = questionNumber;
+                    }
                 }
-            }
-            else if (questionInput == "1")
-            {
-                // Setup a new session with the current question set version
-                var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
-                await SetupNewSession(sessionHelper, currentQuestionSetInfo);
-            }
+                else if (questionInput == "1")
+                {
+                    // Setup a new session with the current question set version
+                    var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
+                    await SetupNewSession(sessionHelper, currentQuestionSetInfo);
+                }
 
-            if (!sessionHelper.HasSession)
-            {
-                // Session id is missing, redirect to question 1
-                var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
-                var uri = req.RequestUri;
-                var host = uri.AbsoluteUri.Replace(uri.AbsolutePath, "");
-                redirectResponse.Headers.Location = new System.Uri($"{host}/q/1");
-                return redirectResponse;
-            }
+                if (!sessionHelper.HasSession)
+                {
+                    // Session id is missing, redirect to question 1
+                    var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
+                    var uri = req.RequestUri;
+                    var host = uri.AbsoluteUri.Replace(uri.AbsolutePath, "");
+                    redirectResponse.Headers.Location = new System.Uri($"{host}/q/1");
+                    return redirectResponse;
+                }
 
-            // Determine if we are complete and update the session
-            ManageIfComplete(sessionHelper.Session);
-            await sessionHelper.UpdateSession();
+                // Determine if we are complete and update the session
+                ManageIfComplete(sessionHelper.Session);
+                await sessionHelper.UpdateSession();
 
-            // Load the question to display
-            string questionId = $"{sessionHelper.Session.QuestionSetVersion}-{sessionHelper.Session.CurrentQuestion}";
-            var question = await questionRepository.GetQuestion(questionId);
-            if (question == null)
-            {
-                throw new Exception($"Question {questionId} could not be found");
-            }
+                // Load the question to display
+                string questionId = $"{sessionHelper.Session.QuestionSetVersion}-{sessionHelper.Session.CurrentQuestion}";
+                var question = await questionRepository.GetQuestion(questionId);
+                if (question == null)
+                {
+                    throw new Exception($"Question {questionId} could not be found");
+                }
 
-            // Build page html
-            var html = new BuildPageHtml(sessionHelper, question).Html;
+                // Build page html
+                var html = new BuildPageHtml(sessionHelper, question).Html;
 
             // Ok html response
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(html);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
+            }
+
+            catch (Exception ex)
+            {
+                log.LogError(ex, "QuestionRouterFunction run");
+                throw;
+            }
         }
 
         private static async Task SetupNewSession(SessionHelper sessionHelper, QuestionSetInfo questionSetInfo)
