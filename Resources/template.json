@@ -151,6 +151,10 @@
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference(variables('AppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
                             }
                         ]
                     }
