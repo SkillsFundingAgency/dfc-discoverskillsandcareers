@@ -4,6 +4,7 @@
 {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "radios/macro.njk" import govukRadios %}
 {% from "button/macro.njk" import govukButton %}
+{% from "skip-link/macro.njk" import govukSkipLink %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +13,11 @@
     <link rel="stylesheet" href="assets/css/main.css">
   </head>
   <body class="govuk-template__body  app-page--{{ pageName }}">
+
+    {{ govukSkipLink({
+      text: "Skip to main content",
+      href: "#content"
+    }) }}
 
     {{ govukHeader({
       homepageUrl: "#",
