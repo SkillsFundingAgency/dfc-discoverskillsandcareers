@@ -5,8 +5,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 {
     public class AppSettings
     {
-        public CosmosSettings CosmosSettings { get; set; }
-        public BlobStorageSettings BlobStorage { get; set; }
+        public CosmosSettings CosmosSettings { get; set; } = new CosmosSettings();
+        public BlobStorageSettings BlobStorage { get; set; } = new BlobStorageSettings();
     }
 
     public class BlobStorageSettings
