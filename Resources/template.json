@@ -154,7 +154,7 @@
                             },
                             {
                                 "name": "AzureWebJobsStorage",
-                                "value": "[reference(variables('StorageAccountName')).outputs.storageKey.value]"
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
                             }
                         ]
                     }
