@@ -32,7 +32,7 @@
     "variables": {},
     "resources": [
         {
-            "name": "[concat(parameters('storageAccountName'), '/', parameters('storageContainerName'))]",
+            "name": "[concat(parameters('storageAccountName'), '/blobServices/', parameters('storageContainerName'))]",
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2018-07-01",
             "properties": {
