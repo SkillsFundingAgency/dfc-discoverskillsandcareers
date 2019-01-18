@@ -29,10 +29,12 @@
             }
         }
     },
-    "variables": {},
+    "variables": {
+        "ContainerName": "[tolower(concat(parameters('storageAccountName'), '/default/', parameters('storageContainerName')))]"
+    },
     "resources": [
         {
-            "name": "[concat(parameters('storageAccountName'), '/containers/', parameters('storageContainerName'))]",
+            "name": "[variables('ContainerName')]",
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2018-07-01",
             "properties": {
