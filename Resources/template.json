@@ -217,7 +217,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat('https://raw.githubusercontent.com/SkillsFundingAgency/dfc-discoverskillsandcareers/master/Resources/', 'storage-account-arm-container.json ')]",
+                    "uri": "[concat('https://raw.githubusercontent.com/SkillsFundingAgency/dfc-discoverskillsandcareers/NCSD-60-AddAppSettings/Resources/', 'storage-account-arm-container.json ')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
