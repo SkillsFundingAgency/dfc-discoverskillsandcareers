@@ -13,7 +13,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
         {
             var html = BlobStorageHelper.GetBlob("Question.html").Result;
 
-            string errorMessage = sessionHelper.HasInputError ? "You must select an answer" : string.Empty;
+            string errorMessage = sessionHelper.HasInputError ? "Please select an option above to continue" : string.Empty;
             int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
             var nextRoute = GetNextRoute(sessionHelper.Session);
             var buttonText = sessionHelper.Session.IsComplete ? "Finish" : "Continue";
