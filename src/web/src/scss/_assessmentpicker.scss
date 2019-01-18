@@ -9,7 +9,7 @@
 }
 
 .app-assessment-picker__title {
-  background-color: govuk-colour("turquoise");
+  background-color: $app-turquoise;
   padding: govuk-spacing(3);
   .govuk-heading-l {
     color: govuk-colour("white");
@@ -22,6 +22,6 @@
   padding: govuk-spacing(3);
   .govuk-inset-text {
     margin-top: 0;
-    border-color: govuk-colour("turquoise");
+    border-color: $app-turquoise;
   }
 }

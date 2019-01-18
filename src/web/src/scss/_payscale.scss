@@ -1,6 +1,6 @@
 .app-payscale {
   @extend .govuk-body-l;
-  border-bottom: 4px solid govuk-colour("turquoise");
+  border-bottom: 4px solid $app-turquoise;
   position: relative;
   height: 2em;
   margin-bottom: 3em;
@@ -9,7 +9,7 @@
     content: "";
     display: block;
     position: absolute;
-    background: govuk-colour("turquoise");
+    background: $app-turquoise;
     bottom: -2px;
     transform: translateY(50%);
     width: 4px;
