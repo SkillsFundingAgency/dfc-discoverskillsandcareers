@@ -20,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             try
             {
                 var appSettings = ConfigurationHelper.ReadConfiguration(context);
-                log.LogDebug($"QuestionRouterFunction questionInput={questionInput} appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
+                log.LogInformation($"QuestionRouterFunction questionInput={questionInput} appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
 
                 var questionRepository = new QuestionRepository(appSettings.CosmosSettings);
 
