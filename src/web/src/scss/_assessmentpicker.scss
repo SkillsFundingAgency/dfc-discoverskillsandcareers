@@ -1,5 +1,11 @@
 .app-assessment-picker {
-  padding: govuk-spacing(6) 0;
+  padding: govuk-spacing(3) 0;
+  @include govuk-media-query($from: desktop){
+    padding: govuk-spacing(9) 0;
+  }
+  .govuk-grid-column-one-third {
+    margin-bottom: govuk-spacing(3);  
+  }
 }
 
 .app-assessment-picker__title {
