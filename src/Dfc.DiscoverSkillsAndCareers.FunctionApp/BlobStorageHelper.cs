@@ -7,16 +7,14 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 {
     public class BlobStorageHelper
     {
-        public static async Task<CloudBlockBlob> GetCloudBlockBlob(string blobName)
+        public static async Task<CloudBlockBlob> GetCloudBlockBlob(BlobStorageSettings settings, string blobName)
         {
-            string containerReference = Environment.GetEnvironmentVariable("ContainerName");
-            string storageConnectionString = Environment.GetEnvironmentVariable("BlobStorage:StorageConnectionString");
 
             CloudStorageAccount cloudStorageAccount;
-            if (CloudStorageAccount.TryParse(storageConnectionString, out cloudStorageAccount) == true)
+            if (CloudStorageAccount.TryParse(settings.StorageConnectionString, out cloudStorageAccount) == true)
             {
                 var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-                var cloudBlobContainer = cloudBlobClient.GetContainerReference(containerReference);
+                var cloudBlobContainer = cloudBlobClient.GetContainerReference(settings.ContainerName);
                 await cloudBlobContainer.CreateIfNotExistsAsync();
 
                 CloudBlockBlob blob = cloudBlobContainer.GetBlockBlobReference(blobName);
@@ -25,11 +23,11 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
             return null;
         }
 
-        public static async Task<string> GetBlob(string blobName)
+        public static async Task<string> GetBlob(BlobStorageSettings settings, string blobName)
         {
             try
             {
-                var cloudBlockBlob = await GetCloudBlockBlob(blobName);
+                var cloudBlockBlob = await GetCloudBlockBlob(settings, blobName);
 
                 string html = await cloudBlockBlob.DownloadTextAsync();
                 return html;
@@ -40,9 +38,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
             }
         }
 
-        public static async Task CreateBlob(string localFileName, string blobName)
+        public static async Task CreateBlob(BlobStorageSettings settings, string localFileName, string blobName)
         {
-            var cloudBlockBlob = await GetCloudBlockBlob(blobName);
+            var cloudBlockBlob = await GetCloudBlockBlob(settings, blobName);
             await cloudBlockBlob.UploadFromFileAsync(localFileName);
         }
     }

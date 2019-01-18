@@ -64,7 +64,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                 }
 
                 // Build page html
-                var html = new BuildPageHtml(sessionHelper, question).Html;
+                var html = new BuildPageHtml(appSettings.BlobStorage, sessionHelper, question).Html;
 
             // Ok html response
             var response = req.CreateResponse(HttpStatusCode.OK);

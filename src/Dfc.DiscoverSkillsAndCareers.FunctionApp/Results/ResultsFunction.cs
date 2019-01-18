@@ -31,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 
             await sessionHelper.UpdateSession();
 
-            var html = new BuildPageHtml(sessionHelper).Html;
+            var html = new BuildPageHtml(appSettings.BlobStorage, sessionHelper).Html;
 
             // Ok html response
             var response = req.CreateResponse(HttpStatusCode.OK);

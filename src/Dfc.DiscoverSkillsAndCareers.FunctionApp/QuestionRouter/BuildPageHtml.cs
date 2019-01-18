@@ -9,9 +9,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
     {
         public string Html { get; private set; }
 
-        public BuildPageHtml(SessionHelper sessionHelper, Question question)
+        public BuildPageHtml(BlobStorageSettings settings, SessionHelper sessionHelper, Question question)
         {
-            var html = BlobStorageHelper.GetBlob("questions.html").Result;
+            var html = BlobStorageHelper.GetBlob(settings, "questions.html").Result;
 
             string errorMessage = sessionHelper.HasInputError ? "Please select an option above to continue" : string.Empty;
             int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);

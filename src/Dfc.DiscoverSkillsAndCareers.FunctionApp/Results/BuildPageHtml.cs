@@ -8,9 +8,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
     {
         public string Html { get; private set; }
 
-        public BuildPageHtml(SessionHelper sessionHelper)
+        public BuildPageHtml(BlobStorageSettings settings, SessionHelper sessionHelper)
         {
-            var html = BlobStorageHelper.GetBlob("Results.html").Result;
+            var html = BlobStorageHelper.GetBlob(settings, "Results.html").Result;
           
             var jobFamilyHtml = "";
             sessionHelper.Session.ResultData.JobFamilies.ForEach(jobFamily =>
