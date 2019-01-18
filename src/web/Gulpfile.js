@@ -25,7 +25,8 @@ var gulp = require("gulp"),
     connect = require('gulp-connect'),
     mocha = require('gulp-mocha'),
     sassLint = require('gulp-sass-lint'),
-    {protractor} = require('gulp-protractor');
+    {protractor} = require('gulp-protractor'),
+    header = require('gulp-header');
 
 // paths
 
@@ -129,6 +130,7 @@ gulp.task('html', function() {
             "node_modules/govuk-frontend/components/", 
             "src/templates/"]
         }))
+        .pipe(header('\ufeff'))
         .pipe(gulp.dest(paths.dist))
         .pipe(connect.reload());
 });
