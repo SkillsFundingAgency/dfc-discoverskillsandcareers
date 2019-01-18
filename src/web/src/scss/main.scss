@@ -26,10 +26,20 @@ $app-purple: #8c0052;
   border-bottom-color: $app-purple;
 }
 
+.govuk-phase-banner__content__tag {
+  color: govuk-colour('white');
+  background: govuk-colour("pink");
+}
+
 .app-page--home, 
 .app-page--results {
   .govuk-header__container {
     border-bottom-color: govuk-colour('white');
+  }
+
+  .govuk-phase-banner__content__tag {
+    background: govuk-colour('white');
+    color: govuk-colour("pink");
   }
 }
 
