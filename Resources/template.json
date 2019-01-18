@@ -225,7 +225,7 @@
                         "value": "[variables('StorageAccountName')]"
                     },
                     "storageContainerName": {
-                        "value": "[parameters('StorageContainerName')]"
+                        "value": "[tolower(parameters('StorageContainerName'))]"
                     }
                 }
             },
