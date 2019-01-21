@@ -197,7 +197,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDasBaseUrl'), 'storage-account-arm.json ')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account-arm.json ')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
