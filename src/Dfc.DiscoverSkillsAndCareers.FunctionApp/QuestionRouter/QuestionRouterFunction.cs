@@ -81,9 +81,13 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             catch (Exception ex)
             {
                 log.LogError(ex, "QuestionRouterFunction run");
-                throw;
+                var response = req.CreateResponse(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent("{ \"message\": \"" + ex.Message + "\" }");
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                return response;
             }
         }
+
 
         private static async Task SetupNewSession(SessionHelper sessionHelper, QuestionSetInfo questionSetInfo)
         {
