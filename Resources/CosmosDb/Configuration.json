@@ -1,0 +1,19 @@
+{
+    "Databases": [
+      {
+        "DatabaseName": "DiscoverMySkillsAndCareers",
+        "Collections": [
+          {
+            "CollectionName": "Questions",
+            "OfferThroughput": 400,
+            "StoredProcedures": []
+          },
+          {
+            "CollectionName": "UserSessions",
+            "OfferThroughput": 400,
+            "StoredProcedures": []
+          }
+        ]
+      }
+    ]
+  }

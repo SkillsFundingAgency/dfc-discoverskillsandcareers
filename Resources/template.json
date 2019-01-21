@@ -10,6 +10,9 @@
         },
         "Environment": {
             "type": "string"
+        },
+        "StorageContainerName": {
+            "type": "string"
         }
     },
     "variables": {
@@ -155,6 +158,26 @@
                             {
                                 "name": "AzureWebJobsStorage",
                                 "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
+                            },
+                            {
+                                "name": "BlobStorage__StorageConnectionString",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "BlobStorage__ContainerName",
+                                "value": "DiscoverMySkillsAndCareers"
                             }
                         ]
                     }
@@ -163,7 +186,8 @@
             "dependsOn": [
                 "[variables('AppServicePlanName')]",
                 "[variables('AppInsightsName')]",
-                "[variables('CosmosDbName')]"
+                "[variables('CosmosDbName')]",
+                "[variables('StorageAccountName')]"
             ]
         },
         {
@@ -179,9 +203,38 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('StorageAccountName')]"
+                    },
+                    "storageKind": {
+                        "value": "StorageV2"
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[parameters('StorageContainerName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account-arm-container.json ')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('StorageAccountName')]"
+                    },
+                    "storageContainerName": {
+                        "value": "[tolower(parameters('StorageContainerName'))]"
+                    },
+                    "publicAccess": {
+                        "value": "Container"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('StorageAccountName')]"
+            ]
         }
     ],
     "outputs": {}
