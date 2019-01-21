@@ -6,12 +6,14 @@
           {
             "CollectionName": "Questions",
             "OfferThroughput": 400,
-            "StoredProcedures": []
+            "StoredProcedures": [],
+            "PartitionKey":  "partitionKey"
           },
           {
             "CollectionName": "UserSessions",
             "OfferThroughput": 400,
-            "StoredProcedures": []
+            "StoredProcedures": [],
+            "PartitionKey": "partitionKey"
           }
         ]
       }
