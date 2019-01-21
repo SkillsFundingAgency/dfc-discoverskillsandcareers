@@ -56,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             return new QuestionSetInfo()
             {
                 QuestionSetVersion = "201901",
-                MaxQuestions = 7
+                MaxQuestions = 40
             };
         }
     }

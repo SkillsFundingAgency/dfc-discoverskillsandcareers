@@ -9,25 +9,25 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
     {
         public string Html { get; private set; }
 
-        public BuildPageHtml(BlobStorageSettings settings, SessionHelper sessionHelper, Question question)
+        public BuildPageHtml(string html, SessionHelper sessionHelper, Question question)
         {
-            var html = BlobStorageHelper.GetBlob(settings, "questions.html").Result;
-
             string errorMessage = sessionHelper.HasInputError ? "Please select an option above to continue" : string.Empty;
             int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
+            int displayPercentComplete = percentComplete - (percentComplete % 10);
             var nextRoute = GetNextRoute(sessionHelper.Session);
             var buttonText = sessionHelper.Session.IsComplete ? "Finish" : "Continue";
 
             // Replace placeholder text strings
+            html = html.Replace("/assets/css/main.css", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main.css");
             html = html.Replace("[question_id]", question.QuestionId.ToString());
-            html = html.Replace("[question_text]", question.Texts.Where(x => x.LanguageCode == sessionHelper.Session.LanguageCode).FirstOrDefault()?.Text);
+            html = html.Replace("[question_text]", question.Texts.Where(x => x.LanguageCode.ToLower() == sessionHelper.Session.LanguageCode.ToLower()).FirstOrDefault()?.Text);
             html = html.Replace("[question_number]", question.Order.ToString());
             html = html.Replace("[trait_code]", question.TraitCode);
             html = html.Replace("[form_route]", nextRoute);
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[button_text]", buttonText);
             html = html.Replace("[error_message]", errorMessage);
-            html = html.Replace("[percentage]", percentComplete.ToString());
+            html = html.Replace("[percentage]", displayPercentComplete.ToString());
             Html = html;
         }
 

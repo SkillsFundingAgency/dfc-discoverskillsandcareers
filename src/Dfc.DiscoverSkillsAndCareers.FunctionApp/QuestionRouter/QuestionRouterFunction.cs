@@ -15,7 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
     public static class QuestionRouterFunction
     {
         [FunctionName("QuestionRouterFunction")]
-        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "q/{questionInput?}")]HttpRequestMessage req, string questionInput, ILogger log, ExecutionContext context)
+        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "q/{questionInput?}")]HttpRequestMessage req, string questionInput, ILogger log, ExecutionContext context)
         {
             try
             {
@@ -64,13 +64,18 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                 }
 
                 // Build page html
-                var html = new BuildPageHtml(appSettings.BlobStorage, sessionHelper, question).Html;
+                var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, "questions.html").Result;
+                if (templateHtml == null)
+                {
+                    throw new Exception($"Blob could not be found");
+                }
+                var html = new BuildPageHtml(templateHtml, sessionHelper, question).Html;
 
-            // Ok html response
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StringContent(html);
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-            return response;
+                // Ok html response
+                var response = req.CreateResponse(HttpStatusCode.OK);
+                response.Content = new StringContent(html);
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                return response;
             }
 
             catch (Exception ex)

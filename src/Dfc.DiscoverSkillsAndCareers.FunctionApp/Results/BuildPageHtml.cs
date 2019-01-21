@@ -8,10 +8,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
     {
         public string Html { get; private set; }
 
-        public BuildPageHtml(BlobStorageSettings settings, SessionHelper sessionHelper)
+        public BuildPageHtml(string html, SessionHelper sessionHelper)
         {
-            var html = BlobStorageHelper.GetBlob(settings, "Results.html").Result;
-          
             var jobFamilyHtml = "";
             sessionHelper.Session.ResultData.JobFamilies.ForEach(jobFamily =>
             {
@@ -31,6 +29,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             });
 
             // Replace placeholder text strings
+            html = html.Replace("/assets/css/main.css", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main.css");
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[job_families_li_html]", jobFamilyHtml);
             html = html.Replace("[traits_li_html]", traitHtml);

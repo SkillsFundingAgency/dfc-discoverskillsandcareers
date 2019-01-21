@@ -316,7 +316,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                 {
                     TraitCode = g.First().TraitCode,
                     TraitName = traits.Where(x => x.TraitCode == g.First().TraitCode).First().TraitName,
-                    TraitText = traits.Where(x => x.TraitCode == g.First().TraitCode).First().Texts.Where(x => x.LanguageCode == userSession.LanguageCode).First().Text,
+                    TraitText = traits.Where(x => x.TraitCode == g.First().TraitCode).First().Texts.Where(x => x.LanguageCode.ToLower() == userSession.LanguageCode.ToLower()).FirstOrDefault()?.Text,
                     TotalScore = g.Sum(x => x.Score)
                 })
                 .OrderByDescending(x => x.TotalScore)
@@ -340,8 +340,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
               {
                   JobFamilyCode = x.JobFamilyCode,
                   JobFamilyName = x.JobFamilyName,
-                  JobFamilyText = x.Texts.Where(t => t.LanguageCode == languageCode).First().Text,
-                  Url = x.Texts.Where(t => t.LanguageCode == languageCode).First().Url,
+                  JobFamilyText = x.Texts.Where(t => t.LanguageCode.ToLower() == languageCode?.ToLower()).FirstOrDefault()?.Text,
+                  Url = x.Texts.Where(t => t.LanguageCode.ToLower() == languageCode?.ToLower()).FirstOrDefault()?.Url,
                   TraitsTotal = userTraits.Where(t => x.TraitCodes.Contains(t.TraitCode)).Sum(t => t.TotalScore),
                   TraitValues = userTraits
                       .Where(t => x.TraitCodes.Contains(t.TraitCode))

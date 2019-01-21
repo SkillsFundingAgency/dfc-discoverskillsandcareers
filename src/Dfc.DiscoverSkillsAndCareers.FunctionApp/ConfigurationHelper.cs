@@ -20,9 +20,6 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
             var appSettings = new AppSettings();
             config.Bind(appSettings);
-            //Shouldn't need this as it should be available in the Environment settings.
-            // Environment.SetEnvironmentVariable("BlobStorage:ContainerName", appSettings.BlobStorage.ContainerName);
-            // Environment.SetEnvironmentVariable("BlobStorage:StorageConnectionString", appSettings.BlobStorage.StorageConnectionString);
             return appSettings;
         }
     }

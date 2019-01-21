@@ -15,26 +15,29 @@ namespace Dfc.LocalDataSetupTests
             string containerName = "mycontainer";
             string storageConnectionString = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;";
 
-            Environment.SetEnvironmentVariable("ContainerName", containerName);
-            Environment.SetEnvironmentVariable("BlobStorage:StorageConnectionString", storageConnectionString);
 
+            var settings = new Dfc.DiscoverSkillsAndCareers.FunctionApp.BlobStorageSettings()
+            {
+                ContainerName = containerName,
+                StorageConnectionString = storageConnectionString
+            };
             string blobHtml;
             string name;
             string localFileName;
 
-            name = "Question.html";
+            name = "questions.html";
             localFileName = @".\pages\QuestionStyled.html";
-            await BlobStorageHelper.CreateBlob(localFileName, name);
-            blobHtml = await BlobStorageHelper.GetBlob(name);
+            await BlobStorageHelper.CreateBlob(settings, localFileName, name);
+            blobHtml = await BlobStorageHelper.GetBlob(settings, name);
 
             Assert.NotNull(blobHtml);
             Assert.Contains("<html", blobHtml);
 
-            name = "Results.html";
-            blobHtml = await BlobStorageHelper.GetBlob(name);
+            name = "results.html";
+            blobHtml = await BlobStorageHelper.GetBlob(settings, name);
             localFileName = @".\pages\ResultsStyled.html";
-            await BlobStorageHelper.CreateBlob(localFileName, name);
-            blobHtml = await BlobStorageHelper.GetBlob(name);
+            await BlobStorageHelper.CreateBlob(settings, localFileName, name);
+            blobHtml = await BlobStorageHelper.GetBlob(settings, name);
 
             Assert.NotNull(blobHtml);
             Assert.Contains("<html", blobHtml);
