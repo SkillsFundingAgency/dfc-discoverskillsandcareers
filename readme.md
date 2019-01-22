@@ -48,11 +48,44 @@ to run the function app again
 
 ### Build web assets and templates 
 
+#### Development 
+
+To build the web assets and templates navigate to `src/web` and run 
+
+    gulp dev
+
+#### Production 
+
 To build the web assets and templates navigate to `src/web` and run 
 
     gulp
 
 this will build the assets to `src/web/dist`
+
+Production task also revisions assets. 
+
+#### Asset Revisioning 
+
+Assets are revisioned using [`gulp-rev`](https://github.com/sindresorhus/gulp-rev) and references to those files are updated using [`gulp-rev-rewrite`](https://github.com/TheDancingCode/gulp-rev-rewrite). 
+
+Note that these assets are only revisioned when the file is changed, and not every time the task is run. 
+
+### Front-end Testing 
+
+@todo
+
+#### Linting 
+
+@todo
+
+#### Cross-browser
+
+@todo
+
+#### Accessibility
+
+@todo
+
 
 ## Deployment Structure 
 
