@@ -142,44 +142,44 @@
                         "value": "[resourceGroup().name]"
                     },
                     "functionAppAppSettings": {
-                        "value": [
-                            {
-                                "name": "FUNCTIONS_EXTENSION_VERSION",
-                                "value": "~2"
-                            },
-                            {
-                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
-                                "value": "1"
-                            },
-                            {
-                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(variables('AppInsightsName')).outputs.InstrumentationKey.value]"
-                            },
-                            {
-                                "name": "AzureWebJobsStorage",
-                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                            },
-                            {
-                                "name": "CosmosSettings__Endpoint",
-                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
-                            },
-                            {
-                                "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
-                            },
-                            {
-                                "name": "CosmosSettings__DatabaseName",
-                                "value": "DiscoverMySkillsAndCareers"
-                            },
-                            {
-                                "name": "BlobStorage__StorageConnectionString",
-                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                            },
-                            {
-                                "name": "BlobStorage__ContainerName",
-                                "value": "DiscoverMySkillsAndCareers"
-                            }
-                        ]
+                      "value": [
+                        {
+                          "name": "FUNCTIONS_EXTENSION_VERSION",
+                          "value": "~2"
+                        },
+                        {
+                          "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                          "value": "1"
+                        },
+                        {
+                          "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                          "value": "[reference(variables('AppInsightsName')).outputs.InstrumentationKey.value]"
+                        },
+                        {
+                          "name": "AzureWebJobsStorage",
+                          "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                        },
+                        {
+                          "name": "CosmosSettings__Endpoint",
+                          "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                        },
+                        {
+                          "name": "CosmosSettings__Key",
+                          "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                        },
+                        {
+                          "name": "CosmosSettings__DatabaseName",
+                          "value": "DiscoverMySkillsAndCareers"
+                        },
+                        {
+                          "name": "BlobStorage__StorageConnectionString",
+                          "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                        },
+                        {
+                          "name": "BlobStorage__ContainerName",
+                          "value": "discovermyskillsandcareers"
+                        }
+                      ]
                     }
                 }
             },
