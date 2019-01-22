@@ -33,6 +33,7 @@
 .app-controls {
   .app-button--outline {
     display: block;
+    text-align: center;
     margin-bottom: govuk-spacing(3);
     @include govuk-media-query($from: desktop){
       display: inline-block;
