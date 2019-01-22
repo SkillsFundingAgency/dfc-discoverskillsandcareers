@@ -5,25 +5,28 @@
 {% block main %}
 
   <div class="app-masthead">
-    <div class="govuk-width-container app-site-width-container">
+    <div class="govuk-width-container">
         
-        {{ govukPhaseBanner({
-          tag: {
-            text: "alpha"
-          },
-          html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-        }) }}
+      {{ govukPhaseBanner({
+        tag: {
+          text: "alpha"
+        },
+        html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+      }) }}
 
-        {{ govukBreadcrumbs({
-          items: [
-            {
-              text: "Home"
-            }
-          ]
-        }) }}
-
-      <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
-      <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
+      {{ govukBreadcrumbs({
+        items: [
+          {
+            text: "Home"
+          }
+        ]
+      }) }}
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
+          <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
+        </div>
+      </div>
     </div>
   </div>
 

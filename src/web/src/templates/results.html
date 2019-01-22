@@ -4,33 +4,38 @@
 {% block main %}
 
   <div class="app-masthead">
-    <div class="govuk-width-container app-site-width-container">
+    <div class="govuk-width-container">
         
-        {{ govukPhaseBanner({
-          tag: {
-            text: "alpha"
+      {{ govukPhaseBanner({
+        tag: {
+          text: "alpha"
+        },
+        html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+      }) }}
+
+      {{ govukBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/"
           },
-          html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-        }) }}
+          {
+            text: "See job categories",
+            href: "/start.html"
+          },
+          {
+            text: "Results"
+          }
+        ]
+      }) }}
 
-        {{ govukBreadcrumbs({
-          items: [
-            {
-              text: "Home",
-              href: "/"
-            },
-            {
-              text: "See job categories",
-              href: "/start.html"
-            },
-            {
-              text: "Results"
-            }
-          ]
-        }) }}
-
-      <h1 class="govuk-heading-xl app-masthead__title">Job categories you might be suited to </h1>
-      <p class="govuk-body-l">10 results</p>
+      <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl app-masthead__title">Job categories you might be suited to </h1>
+          <p class="govuk-body-l">10 results</p>
+        </div>
+      </div>
+          
     </div>
   </div>
 
