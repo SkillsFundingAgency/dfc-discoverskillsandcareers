@@ -12,7 +12,10 @@
             "type": "string"
         },
         "StorageContainerName": {
-            "type": "string"
+          "type": "string"
+        },
+        "StaticSiteDomain": {
+          "type": "string"
         }
     },
     "variables": {
@@ -178,6 +181,10 @@
                         {
                           "name": "BlobStorage__ContainerName",
                           "value": "discovermyskillsandcareers"
+                        },
+                        {
+                          "name": "StaticSiteDomain",
+                          "value": "[parameters('StaticSiteDomain')]"
                         }
                       ]
                     }
