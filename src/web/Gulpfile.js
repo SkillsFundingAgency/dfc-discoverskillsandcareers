@@ -26,7 +26,10 @@ var gulp = require("gulp"),
     mocha = require('gulp-mocha'),
     sassLint = require('gulp-sass-lint'),
     {protractor} = require('gulp-protractor'),
-    header = require('gulp-header');
+    header = require('gulp-header'),
+    filter = require('gulp-filter'),
+    rev = require('gulp-rev'),
+    revRewrite = require('gulp-rev-rewrite');
 
 // paths
 
@@ -135,6 +138,17 @@ gulp.task('html', function() {
         .pipe(connect.reload());
 });
 
+gulp.task('rev', () => {
+    const assetFilter = filter(['**/*', '!**/*.html'], { restore: true });
+  
+    return gulp.src(paths.dist + '**/*')
+      .pipe(assetFilter)
+      .pipe(rev()) // Rename all files except index.html
+      .pipe(assetFilter.restore)
+      .pipe(revRewrite()) // Substitute in new filenames
+      .pipe(gulp.dest(paths.dist));
+  });
+  
 gulp.task('connect', function() {
   connect.server({
     root: paths.dist,
@@ -222,7 +236,8 @@ gulp.task("prod",
         "sass",
         "html",
         "eslint",
-        "min")
+        "min",
+        'rev')
 );
 
 gulp.task("default", gulp.series("prod"));
