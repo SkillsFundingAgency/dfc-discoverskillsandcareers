@@ -133,7 +133,6 @@ gulp.task('html', function() {
             "node_modules/govuk-frontend/components/", 
             "src/templates/"]
         }))
-        .pipe(header('\ufeff'))
         .pipe(gulp.dest(paths.dist))
         .pipe(connect.reload());
 });
@@ -146,6 +145,7 @@ gulp.task('rev', () => {
       .pipe(rev()) // Rename all files except index.html
       .pipe(assetFilter.restore)
       .pipe(revRewrite()) // Substitute in new filenames
+      .pipe(header('\ufeff'))
       .pipe(gulp.dest(paths.dist));
   });
   
