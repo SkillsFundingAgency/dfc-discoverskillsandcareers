@@ -64,10 +64,11 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                 }
 
                 // Build page html
-                var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, "questions.html").Result;
+                string blobName = "questions.html";
+                var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
                 if (templateHtml == null)
                 {
-                    throw new Exception($"Blob could not be found");
+                    throw new Exception($"Blob {blobName} could not be found in {sessionHelper.Config.BlobStorage.ContainerName}");
                 }
                 var html = new BuildPageHtml(templateHtml, sessionHelper, question).Html;
 
