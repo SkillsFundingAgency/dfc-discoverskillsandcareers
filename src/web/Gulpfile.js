@@ -139,7 +139,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('rev', () => {
-    const assetFilter = filter(['**/*', '!**/*.html'], { restore: true });
+    const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot'], { restore: true });
   
     return gulp.src(paths.dist + '**/*')
       .pipe(assetFilter)
