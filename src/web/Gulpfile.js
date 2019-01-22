@@ -145,9 +145,14 @@ gulp.task('rev', () => {
       .pipe(rev()) // Rename all files except index.html
       .pipe(assetFilter.restore)
       .pipe(revRewrite()) // Substitute in new filenames
-      .pipe(header('\ufeff'))
       .pipe(gulp.dest(paths.dist));
   });
+
+gulp.task('headers', () => {
+    return gulp.src(paths.dist + '**/*.html')
+        .pipe(header('\ufeff'))
+        .pipe(gulp.dest(paths.dist));
+});
   
 gulp.task('connect', function() {
   connect.server({
@@ -220,6 +225,7 @@ gulp.task("dev",
         "js",
         "html",
         "min:css",
+        'headers',
         gulp.parallel(
             "html:watch",
             "css:watch",
@@ -237,7 +243,8 @@ gulp.task("prod",
         "html",
         "eslint",
         "min",
-        'rev')
+        'rev',
+        'headers')
 );
 
 gulp.task("default", gulp.series("prod"));
