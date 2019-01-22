@@ -17,6 +17,7 @@
     "gulp-mocha": "^6.0.0",
     "gulp-nunjucks-render": "^2.2.2",
     "gulp-protractor": "^4.1.1",
+    "gulp-replace": "^1.0.0",
     "gulp-rev": "^9.0.0",
     "gulp-rev-rewrite": "^1.1.4",
     "gulp-sass": "^4.0.1",

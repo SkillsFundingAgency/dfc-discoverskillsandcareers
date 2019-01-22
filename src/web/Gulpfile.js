@@ -29,7 +29,8 @@ var gulp = require("gulp"),
     header = require('gulp-header'),
     filter = require('gulp-filter'),
     rev = require('gulp-rev'),
-    revRewrite = require('gulp-rev-rewrite');
+    revRewrite = require('gulp-rev-rewrite'),
+    replace = require('gulp-replace');
 
 // paths
 
@@ -187,6 +188,24 @@ gulp.task('stopTestServer', function(done) {
     connect.serverClose();
     done();
 });
+
+gulp.task('replaceQuestionPlaceholders', function(done) {
+    gulp.src([paths.dist + "questions.html"])
+        .pipe(replace('>[percentage]', '>0'))
+        .pipe(replace('[question_text]', 'I make decisions quickly'))
+        .pipe(replace('[error_message]', 'Please select an option above or this does not apply to continue'))
+        .pipe(replace('[button_text]', 'Continue'))
+        .pipe(gulp.dest(paths.dist))
+        .on("end", done);
+});
+    
+gulp.task('replaceResultsPlaceholders', function(done) {
+    gulp.src([paths.dist + "results.html"])
+        .pipe(replace('[traits_li_html]', '\u2022 Influencer Some text about the Influencer trait\n\u2022 Driver Some text about the Driver trait\n\u2022 Influencer Some text about the Influencer trait'))
+        .pipe(replace('[job_families_li_html]', '\u2022 Influencer Some text about the Influencer trait\n\u2022 Driver Some text about the Driver trait\n\u2022 Influencer Some text about the Influencer trait'))
+        .pipe(gulp.dest(paths.dist))
+        .on("end", done);
+});
  
 // watches
 
@@ -215,7 +234,7 @@ gulp.task("html:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("startTestServer", "browserStack", "pa11y", "stopTestServer"));
+gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "pa11y", "stopTestServer", "browserStack"));
 
 gulp.task("dev",
     gulp.series(
