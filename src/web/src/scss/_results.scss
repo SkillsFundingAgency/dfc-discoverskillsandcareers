@@ -1,7 +1,8 @@
 .app-results__col-header {
   border-bottom: 1px solid $govuk-border-colour;
+
   span {
-    @include govuk-media-query($from: desktop){
+    @include govuk-media-query($from: desktop) {
       float: right;
     }
   }
@@ -10,6 +11,7 @@
 .app-results__cta {
   .govuk-button {
     margin-bottom: govuk-spacing(3);
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -17,27 +19,29 @@
 }
 
 .app-result__body {
-  background: govuk-colour("grey-4");
+  background: govuk-colour('grey-4');
   padding: govuk-spacing(4);
+
   .govuk-button {
     margin-bottom: 0;
   }
 }
 
 .app-result__header {
-  background: govuk-colour("grey-3");
+  background: govuk-colour('grey-3');
   padding: govuk-spacing(4);
   margin: 0;
 }
 
 .app-results-cta {
   background: $app-turquoise;
-  color: govuk-colour("white");
+  color: govuk-colour('white');
   padding: govuk-spacing(4);
   margin-bottom: govuk-spacing(4);
+
   .govuk-heading-m,
   .govuk-body {
-    color: govuk-colour("white");
+    color: govuk-colour('white');
   }
 
 }

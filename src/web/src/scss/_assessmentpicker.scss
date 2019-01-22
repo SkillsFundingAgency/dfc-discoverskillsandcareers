@@ -1,8 +1,9 @@
 .app-assessment-picker {
   padding: govuk-spacing(3) 0;
-  @include govuk-media-query($from: desktop){
+  @include govuk-media-query($from: desktop) {
     padding: govuk-spacing(9) 0;
   }
+
   .govuk-grid-column-one-third {
     margin-bottom: govuk-spacing(3);  
   }
@@ -11,15 +12,17 @@
 .app-assessment-picker__title {
   background-color: $app-turquoise;
   padding: govuk-spacing(3);
+
   .govuk-heading-l {
-    color: govuk-colour("white");
+    color: govuk-colour('white');
     margin: 0;
   }
 }
 
 .app-assessment-picker__body {
-  background-color: govuk-colour("grey-4");
+  background-color: govuk-colour('grey-4');
   padding: govuk-spacing(3);
+
   .govuk-inset-text {
     margin-top: 0;
     border-color: $app-turquoise;

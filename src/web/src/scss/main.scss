@@ -15,12 +15,18 @@ $app-turquoise: #1F7E77;
 @import 'results';
 @import 'footer';
 
-.visually-hidden { /* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
+// sass-lint:disable-all
+%visually-hidden { /* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
   position: absolute !important;
   height: 1px; width: 1px;
   overflow: hidden;
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
+}
+// sass-lint:enable-all
+
+.visually-hidden {
+  @extend %visually-hidden;
 }
 
 .govuk-header__container {
@@ -29,10 +35,10 @@ $app-turquoise: #1F7E77;
 
 .govuk-phase-banner__content__tag {
   color: govuk-colour('white');
-  background: govuk-colour("pink");
+  background: govuk-colour('pink');
 }
 
-.app-page--home, 
+.app-page--home,
 .app-page--results {
   .govuk-header__container {
     border-bottom-color: govuk-colour('white');
@@ -40,7 +46,7 @@ $app-turquoise: #1F7E77;
 
   .govuk-phase-banner__content__tag {
     background: govuk-colour('white');
-    color: govuk-colour("pink");
+    color: govuk-colour('pink');
   }
 }
 
@@ -55,15 +61,17 @@ $app-turquoise: #1F7E77;
 }
 
 .app-button--white {
-  background-color: govuk-colour("white");
+  background-color: govuk-colour('white');
   box-shadow: none;
   color: govuk-colour('black');
+
   &:link,
   &:visited,
   &:active {
-    color: govuk-colour('black');    
+    color: govuk-colour('black');
   }
-  &:focus, 
+
+  &:focus,
   &:hover {
     color: govuk-colour('white');
   }
@@ -75,11 +83,13 @@ $app-turquoise: #1F7E77;
   background-color: govuk-colour('white');
   box-shadow: none;
   padding-bottom: 8px;
+
   &:focus,
   &:hover {
     background-color: $app-purple;
     color: govuk-colour('white');
   }
+
   input[type=radio]:checked + &.govuk-radios__label {
     outline: 3px solid  $govuk-focus-colour;  
     outline-offset: 0;

@@ -1,29 +1,38 @@
 .app-question {
-  @include govuk-media-query($from: desktop){
+  @include govuk-media-query($from: desktop) {
     clear: both;
+
     .govuk-fieldset__legend {
       width: 50%;
       float: left;
     }
+
     .govuk-radios {
       width: 50%;
       float: right;
       text-align: center;
     }
+
     .govuk-radios__item {
       position: relative;
       padding-left: 0;
       width: 20%;
       text-align: center;
+
       &:last-child {
         margin-right: 0;
       }
     }
-    .govuk-radios__input + .govuk-radios__label::before,
-    .govuk-radios__input + .govuk-radios__label::after {
-      left: 50%;
-      transform: translateX(-50%)
+
+    .govuk-radios__input + .govuk-radios__label {
+
+      &::before,
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
+
     .govuk-radios__label {
       padding-top: 3em;
     }
@@ -35,12 +44,13 @@
     display: block;
     text-align: center;
     margin-bottom: govuk-spacing(3);
-    @include govuk-media-query($from: desktop){
+    @include govuk-media-query($from: desktop) {
       display: inline-block;
     }
   }
+
   .govuk-error-message {
-    @include govuk-media-query($from: desktop){
+    @include govuk-media-query($from: desktop) {
       text-align: right;
     }
   }
