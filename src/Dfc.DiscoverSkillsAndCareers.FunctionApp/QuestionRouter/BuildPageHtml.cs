@@ -11,7 +11,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
 
         public BuildPageHtml(string html, SessionHelper sessionHelper, Question question)
         {
-            string errorMessage = sessionHelper.HasInputError ? "Please select an option above to continue" : string.Empty;
+            string errorMessage = sessionHelper.HasInputError ? "Please select an option above or this does not apply to continue" : string.Empty;
             int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
             int displayPercentComplete = percentComplete - (percentComplete % 10);
             var nextRoute = GetNextRoute(sessionHelper.Session);
