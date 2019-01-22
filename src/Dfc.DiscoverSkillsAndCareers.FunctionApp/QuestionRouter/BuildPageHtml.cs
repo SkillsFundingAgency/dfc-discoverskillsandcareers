@@ -18,7 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             var buttonText = sessionHelper.Session.IsComplete ? "Finish" : "Continue";
 
             // Replace placeholder text strings
-            html = html.Replace("/assets/css/main.css", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main.css");
+            html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
             html = html.Replace("[question_id]", question.QuestionId.ToString());
             html = html.Replace("[question_text]", question.Texts.Where(x => x.LanguageCode.ToLower() == sessionHelper.Session.LanguageCode.ToLower()).FirstOrDefault()?.Text);
             html = html.Replace("[question_number]", question.Order.ToString());
