@@ -20,6 +20,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
             var appSettings = new AppSettings();
             config.Bind(appSettings);
+            if (appSettings.StaticSiteDomain?.EndsWith('/') == true)
+            {
+                appSettings.StaticSiteDomain = appSettings.StaticSiteDomain.TrimEnd('/');
+            }
             return appSettings;
         }
     }
