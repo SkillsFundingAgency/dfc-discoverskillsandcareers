@@ -2,7 +2,6 @@
   "version": "1.0.0",
   "name": "dfc-discoverskillsandcareers",
   "private": true,
-  "sasslintConfig": ".sasslintrc",
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "browserstack-local": "^1.3.7",
