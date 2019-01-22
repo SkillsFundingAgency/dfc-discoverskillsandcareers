@@ -76,7 +76,7 @@ Note that these assets are only revisioned when the file is changed, and not eve
 
 #### Linting 
 
-@todo
+Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/govuk-lint/blob/master/configs/scss_lint/gds-sass-styleguide.yml) project and [converted from the “SCSS Lint” style to “Sass Lint”](http://sasstools.github.io/make-sass-lint-config/) to work with the [`sass-lint`](https://www.npmjs.com/package/sass-lint) module. 
 
 #### Cross-browser
 
