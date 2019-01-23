@@ -28,6 +28,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             html = html.Replace("[button_text]", buttonText);
             html = html.Replace("[error_message]", errorMessage);
             html = html.Replace("[percentage]", displayPercentComplete.ToString());
+            html = html.Replace("[percentage_left]", displayPercentComplete == 0 ? "" : displayPercentComplete.ToString());
             Html = html;
         }
 
