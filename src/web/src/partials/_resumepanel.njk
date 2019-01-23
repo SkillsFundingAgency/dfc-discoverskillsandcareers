@@ -1,0 +1,19 @@
+<div class="app-sidebar app-resume-panel">
+    <h3 class="govuk-heading-m">Resume your progress?</h3>
+    <form action="">
+
+      {{ govukInput({
+        label: {
+          text: "Your reference number"
+        },
+        id: "name",
+        name: "name"
+      }) }}
+      
+      {{ govukButton({
+        text: "Resume progress"
+      }) }}
+
+    </form>
+
+</div>

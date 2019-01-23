@@ -140,7 +140,8 @@ gulp.task('html', function() {
           path: [
             "node_modules/govuk-frontend/", 
             "node_modules/govuk-frontend/components/", 
-            "src/templates/"]
+            "src/templates/",
+            "src/partials/"]
         }))
         .pipe(gulp.dest(paths.dist))
         .pipe(connect.reload());
