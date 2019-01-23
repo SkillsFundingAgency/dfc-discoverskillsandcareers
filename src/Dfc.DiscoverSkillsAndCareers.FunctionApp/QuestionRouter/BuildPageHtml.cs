@@ -34,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
 
         public static string GetNextRoute(UserSession userSession)
         {
-            if (userSession.IsComplete)
+            if (userSession.IsComplete || userSession.RecordedAnswers.Count - 1 >= userSession.MaxQuestions)
             {
                 return "/results";
             }
@@ -46,7 +46,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             {
                 // Goto last unaswered question
                 int questionNumber = 1;
-                for (int i = 1; i< userSession.MaxQuestions; i++)
+                for (int i = 1; i < userSession.MaxQuestions; i++)
                 {
                     if (userSession.RecordedAnswers.Any(x => x.QuestionNumber == i.ToString()) == false)
                     {

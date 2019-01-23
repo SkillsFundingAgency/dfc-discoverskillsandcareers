@@ -127,6 +127,11 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
                     IsNegative = question.IsNegative,
                 };
                 Session.RecordedAnswers.Add(answer);
+                if (Session.RecordedAnswers.Count == Session.MaxQuestions)
+                {
+                    Session.IsComplete = true;
+                    Session.CompleteDt = DateTime.Now;
+                }
             }
             else
             {
