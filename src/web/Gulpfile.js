@@ -10,6 +10,10 @@ function handlePa11yError () {
 function handlebrowserStackError () {
     process.exit(1);
 }
+
+function handleLighthouseError () {
+    process.exit(1);
+}
 // requires
 
 var gulp = require("gulp"),
@@ -47,7 +51,8 @@ paths.scss = paths.src + "scss/**/*.scss";
 paths.js = paths.src + "js/**/*.js";
 paths.images = paths.src + "images/**/*";
 paths.minJs = paths.src + "js/**/*.min.js";
-paths.accessibilty = paths.buildScript + "*.spec.js";
+paths.accessibilty = paths.buildScript + "accessibility.spec.js";
+paths.performance = paths.buildScript + "performance.spec.js";
 paths.browserStackConf = paths.buildScript + "conf/conf.js";
 paths.browserStackSpec = paths.buildScript + "specs/*.spec.js";
 
@@ -217,6 +222,13 @@ gulp.task('replaceResultsPlaceholders', function(done) {
         .pipe(gulp.dest(paths.dist))
         .on("end", done);
 });
+
+gulp.task('lighthousePerformanceTest', function(done) {
+    gulp.src([paths.performance], {read: false})
+        .pipe(mocha())
+        .on("error", handleLighthouseError)
+        .on("end", done);
+});
  
 // watches
 
@@ -249,7 +261,7 @@ gulp.task("images:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "pa11y", "stopTestServer", "browserStack"));
+gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "pa11y", "lighthousePerformanceTest", "stopTestServer", "browserStack"));
 
 gulp.task("dev",
     gulp.series(
