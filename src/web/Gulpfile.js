@@ -76,7 +76,6 @@ gulp.task('assets', function () {
         .pipe(gulp.dest(paths.assetsDest))
 
     var images = gulp.src(paths.images)
-        .pipe(imagemin())
         .pipe(gulp.dest(paths.imagesDest))
 
     return merge(govuk, images);

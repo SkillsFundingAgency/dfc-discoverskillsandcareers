@@ -62,6 +62,15 @@ $app-turquoise: #1F7E77;
 
 .app-button--white {
   background-color: govuk-colour('white');
+  background-image: govuk-image-url("../images/icon-pointer-black.png");
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+
+  @include govuk-device-pixel-ratio {
+    background-image: govuk-image-url("../images/icon-pointer-black-2x.png");
+    background-size: 13px 16px;
+  }
+
   box-shadow: none;
   color: govuk-colour('black');
 
