@@ -3,14 +3,12 @@
 
 // helpers 
 
-function handlePa11yError (err) {
-    console.log(err.toString());
-    this.emit('end');
+function handlePa11yError () {
+    process.exit(1);
 } 
 
-function handlebrowserStackError (err) {
-    console.log(err.toString());
-    this.emit('end');
+function handlebrowserStackError () {
+    process.exit(1);
 }
 // requires
 
