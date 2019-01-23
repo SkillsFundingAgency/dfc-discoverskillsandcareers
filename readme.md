@@ -97,10 +97,12 @@ There are 3 deployment artifacts
 
 ## Deployment URLs
 
-DEV
-https://dfcdevskillscareersstr.z6.web.core.windows.net
-https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1
+#### DEV
+Web: https://dfcdevskillscareersstr.z6.web.core.windows.net
 
-SIT
-https://dfcsitskillscareersstr.z6.web.core.windows.net
-https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1
+Questions: https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1
+
+#### SIT
+Web: https://dfcsitskillscareersstr.z6.web.core.windows.net
+
+Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1

@@ -1,13 +1,13 @@
 <div class="app-sidebar app-resume-panel">
     <h3 class="govuk-heading-m">Resume your progress?</h3>
-    <form action="">
+    <form action="https://dfc-dev-skillscareers-fa.azurewebsites.net/reload">
 
       {{ govukInput({
         label: {
           text: "Your reference number"
         },
-        id: "name",
-        name: "name"
+        id: "code",
+        name: "code"
       }) }}
       
       {{ govukButton({
