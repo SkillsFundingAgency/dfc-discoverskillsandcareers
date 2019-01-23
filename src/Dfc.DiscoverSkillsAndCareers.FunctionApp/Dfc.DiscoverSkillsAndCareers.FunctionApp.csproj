@@ -4,6 +4,7 @@
         <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Hashids.net" Version="1.2.2" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     </ItemGroup>
@@ -31,8 +32,5 @@
         <None Update="pages\ResultsStyled.html">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Helpers\" />
     </ItemGroup>
 </Project>

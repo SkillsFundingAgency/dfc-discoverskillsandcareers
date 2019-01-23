@@ -12,10 +12,15 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
         /// </summary>
         public static AppSettings ReadConfiguration(ExecutionContext context)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(context.FunctionAppDirectory)
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
+            bool isLocal = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID"));
+
+            var configBuilder = new ConfigurationBuilder()
+                .SetBasePath(context.FunctionAppDirectory);
+            if (isLocal)
+            {
+                configBuilder.AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
+            }
+            var config = configBuilder.AddEnvironmentVariables()
                 .Build();
 
             var appSettings = new AppSettings();

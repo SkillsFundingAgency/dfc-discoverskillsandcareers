@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using static Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.HttpResponseHelpers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 {
@@ -22,31 +21,14 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                 log.LogDebug($"ResultsFunction appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
 
                 var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
-
                 if (!sessionHelper.HasSession)
                 {
-                    // TODO:
-                    throw new Exception("Session not found");
+                    // No session so redirect to question #1 and generate a new session
+                    return RedirectStartAtQuestionOne(req);
                 }
 
-                CalculateResult.Run(sessionHelper.Session);
-
-                await sessionHelper.UpdateSession();
-
-                // Build page html
-                string blobName = "results.html";
-                var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
-                if (templateHtml == null)
-                {
-                    throw new Exception($"Blob {blobName} could not be found");
-                }
-                var html = new BuildPageHtml(templateHtml, sessionHelper).Html;
-
-                // Ok html response
-                var response = req.CreateResponse(HttpStatusCode.OK);
-                response.Content = new StringContent(html);
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-                return response;
+                // Return the results or last unanswered question page if not complete
+                return await ResultsOrLastQuestionPage(req, sessionHelper);
             }
 
             catch (Exception ex)
@@ -54,6 +36,36 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                 log.LogError(ex, "ResultsFunction run");
                 throw;
             }
+        }
+
+        public static async Task<HttpResponseMessage> ResultsOrLastQuestionPage(HttpRequestMessage req, SessionHelper sessionHelper)
+        {
+            if (!sessionHelper.Session.IsComplete)
+            {
+                // Session is not complete so continue where we was last
+                return RedirectToQuestionNumber(req, sessionHelper);
+            }
+
+            CalculateResult.Run(sessionHelper.Session);
+
+            await sessionHelper.UpdateSession();
+
+            return CreateResultsPage(req, sessionHelper);
+        }
+
+        public static HttpResponseMessage CreateResultsPage(HttpRequestMessage req, SessionHelper sessionHelper)
+        {
+            // Build page html from the template blob
+            string blobName = "results.html";
+            var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
+            if (templateHtml == null)
+            {
+                throw new Exception($"Blob {blobName} could not be found");
+            }
+            var html = new BuildPageHtml(templateHtml, sessionHelper).Html;
+
+            // Ok html response
+            return new HttpHtmlWithSessionCookieResponse(req, html, sessionHelper.Session.PrimaryKey);
         }
     }
 }

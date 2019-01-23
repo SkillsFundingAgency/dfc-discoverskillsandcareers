@@ -23,6 +23,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         public async Task<UserSession> GetUserSession(string primaryKey)
         {
             int pos = primaryKey.IndexOf('-');
+            if (pos <= 0)
+            {
+                return null;
+            }
             string partitionKey = primaryKey.Substring(0, pos);
             string userSessionId = primaryKey.Substring(pos + 1, primaryKey.Length - (pos + 1));
             return await GetUserSessionAsync(userSessionId, partitionKey);

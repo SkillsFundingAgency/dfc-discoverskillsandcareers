@@ -94,3 +94,13 @@ There are 3 deployment artifacts
 1. Function App - To be deployed to the function environment.
 2. Page templates - To be deployed to blob container.
 3. Static Landing Pages - To be deployed to blob container. 
+
+## Deployment URLs
+
+DEV
+https://dfc-dev-skillscareers-as.azurewebsites.net
+https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1
+
+SIT
+https://dfc-sit-skillscareers-as.azurewebsites.net
+https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1

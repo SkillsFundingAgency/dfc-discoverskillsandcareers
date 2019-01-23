@@ -28,13 +28,42 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 MaxQuestions = 5,
-                CurrentQuestion = 5
+                CurrentQuestion = 5,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "3" },
+                    new Answer() { QuestionNumber = "4" },
+                    new Answer() { QuestionNumber = "5" },
+                }
             };
 
             QuestionRouterFunction.ManageIfComplete(userSession);
 
             Assert.True(userSession.IsComplete);
             Assert.NotNull(userSession.CompleteDt);
+        }
+
+        [Fact]
+        public void ManageIfComplete_WithMissingAnswers_ShouldNotBeComplete()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "5" },
+                }
+            };
+
+            QuestionRouterFunction.ManageIfComplete(userSession);
+
+            Assert.False(userSession.IsComplete);
+            Assert.Null(userSession.CompleteDt);
         }
 
         [Theory]
@@ -54,6 +83,19 @@ namespace Dfc.UnitTests
             };
 
             string actual = BuildPageHtml.GetNextRoute(userSession);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0, 40, 1)]
+        [InlineData(1, 40, 1)]
+        [InlineData(5, 40, 5)]
+        [InlineData(40, 40, 40)]
+        [InlineData(42, 40, 40)]
+        public void GetCurrentQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int expected)
+        {
+            int actual = QuestionRouterFunction.GetCurrentQuestionNumber(question, max);
 
             Assert.Equal(expected, actual);
         }

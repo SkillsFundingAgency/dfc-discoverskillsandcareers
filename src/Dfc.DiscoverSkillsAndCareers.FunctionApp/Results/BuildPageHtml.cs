@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 {
@@ -19,7 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             var traitHtml = "";
             sessionHelper.Session.ResultData.Traits.ForEach(trait =>
             {
-                traitHtml += $"<li>{trait.TraitName} {trait.TraitText}</li>";
+                traitHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
             });
 
             string answersHtml = string.Empty;

@@ -1,13 +1,16 @@
 ﻿using System;
+using HashidsNet;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 {
     public static class SessionIdHelper
     {
-        public static string GenerateSessionId()
+        public static string GenerateSessionId(string salt)
         {
-            // TODO: 
-            return Guid.NewGuid().ToString();
+            var hashids = new Hashids(salt, 4);
+            long digits = Convert.ToInt64(DateTime.Now.ToString("yyMMddHHmmssf"));
+            var hash = hashids.EncodeLong(digits);
+            return hash;
         }
     }
 }

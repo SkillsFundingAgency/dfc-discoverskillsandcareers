@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
@@ -12,7 +11,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
         public BuildPageHtml(string html, SessionHelper sessionHelper, Question question)
         {
             string errorMessage = sessionHelper.HasInputError ? "Please select an option above or this does not apply to continue" : string.Empty;
-            int percentComplete = Convert.ToInt32(((sessionHelper.Session.CurrentQuestion - 1) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
+            int percentComplete = Convert.ToInt32(((sessionHelper.Session.RecordedAnswers.Count) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
             int displayPercentComplete = percentComplete - (percentComplete % 10);
             var nextRoute = GetNextRoute(sessionHelper.Session);
             var buttonText = sessionHelper.Session.IsComplete ? "Finish" : "Continue";
@@ -29,9 +28,34 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             html = html.Replace("[error_message]", errorMessage);
             html = html.Replace("[percentage]", displayPercentComplete.ToString());
             html = html.Replace("[percentage_left]", displayPercentComplete == 0 ? "" : displayPercentComplete.ToString());
+            html = html.Replace("[code]", sessionHelper.Session.UserSessionId);
             Html = html;
         }
 
-        public static string GetNextRoute(UserSession userSession) => userSession.IsComplete ? "/results" : $"/q/{userSession.CurrentQuestion + 1}";
+        public static string GetNextRoute(UserSession userSession)
+        {
+            if (userSession.IsComplete)
+            {
+                return "/results";
+            }
+            else if (userSession.CurrentQuestion + 1 <= userSession.MaxQuestions)
+            {
+                return $"/q/{userSession.CurrentQuestion + 1}";
+            }
+            else
+            {
+                // Goto last unaswered question
+                int questionNumber = 1;
+                for (int i = 1; i< userSession.MaxQuestions; i++)
+                {
+                    if (userSession.RecordedAnswers.Any(x => x.QuestionNumber == i.ToString()) == false)
+                    {
+                        questionNumber = i;
+                        break;
+                    }
+                }
+                return $"/q/{questionNumber}";
+            }
+        }
     }
 }

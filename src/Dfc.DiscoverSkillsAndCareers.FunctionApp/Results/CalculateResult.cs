@@ -38,9 +38,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "LEADER", "DRIVER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() 
+                        new JobFamilyText()
                         {
-                            LanguageCode = "en", 
+                            LanguageCode = "en",
                             Text = "Managerial result text",
                             Url = "https://nationalcareers.service.gov.uk/job-categories/managerial"
                         }
@@ -57,7 +57,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                         {
                             LanguageCode = "en",
                             Text = "Beauty and wellbeing result text",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/beauty-and-wellbeing" 
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/beauty-and-wellbeing"
                         }
                     }
                 },
@@ -70,7 +70,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     {
                         new JobFamilyText()
                         {
-                            LanguageCode = "en", 
+                            LanguageCode = "en",
                             Text = "Science and research result text",
                             Url = "https://nationalcareers.service.gov.uk/job-categories/science-and-research"
                         }
@@ -83,7 +83,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DRIVER", "ANALYST", "ORGANISER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Manufacturing result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Manufacturing result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/manufacturing"
+                        }
                     }
                 },
                 new JobFamily()
@@ -93,7 +98,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "LEADER", "HELPER", "ORGANISER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Teaching and education result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Teaching and education result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/teaching-and-education"
+                        }
                     }
                 },
                 new JobFamily()
@@ -103,7 +113,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DRIVER", "ORGANISER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Business and finance result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Business and finance result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/business-and-finance"
+                        }
                     }
                 },
                 new JobFamily()
@@ -113,7 +128,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DRIVER", "ORGANISER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Law and legal result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Law and legal result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/law-and-legal"
+                        }
                     }
                 },
                 new JobFamily()
@@ -123,7 +143,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ANALYST", "CREATOR" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Computing, technology and digital result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Computing, technology and digital result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/computing-technology-and-digital"
+                        }
                     }
                 },
                 new JobFamily()
@@ -133,7 +158,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "HELPER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Social care result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Social care result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/social-care"
+                        }
                     }
                 },
                 new JobFamily()
@@ -143,7 +173,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "HELPER", "ANALYST", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Healthcare result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Healthcare result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/healthcare"
+                        }
                     }
                 },
                 new JobFamily()
@@ -153,7 +188,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "HELPER", "ANALYST", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Animal care result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Animal care result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/animal-care"
+                        }
                     }
                 },
                 new JobFamily()
@@ -163,7 +203,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "LEADER", "HELPER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Emergency and uniform services result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Emergency and uniform services result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/emergency-and-uniform-services"
+                        }
                     }
                 },
                 new JobFamily()
@@ -173,7 +218,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DRIVER", "CREATOR" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Sports and leisure result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Sports and leisure result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/sports-and-leisure"
+                        }
                     }
                 },
                 new JobFamily()
@@ -183,7 +233,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "HELPER", "ORGANISER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Travel and tourism result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Travel and tourism result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/travel-and-tourism"
+                        }
                     }
                 },
                 new JobFamily()
@@ -193,7 +248,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ANALYST", "ORGANISER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Administration result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Administration result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/administration"
+                        }
                     }
                 },
                 new JobFamily()
@@ -203,7 +263,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ORGANISER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Government services result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Government services result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/government-services"
+                        }
                     }
                 },
                 new JobFamily()
@@ -213,7 +278,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ORGANISER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Home services result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Home services result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/home-services"
+                        }
                     }
                 },
                 new JobFamily()
@@ -223,7 +293,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Environment and land result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Environment and land result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/environment-and-land"
+                        }
                     }
                 },
                 new JobFamily()
@@ -233,7 +308,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ANALYST", "CREATOR", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Construction and trades result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Construction and trades result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/construction-and-trades"
+                        }
                     }
                 },
                 new JobFamily()
@@ -243,7 +323,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ANALYST", "CREATOR", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Creative and media result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Creative and media result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/creative-and-media"
+                        }
                     }
                 },
                 new JobFamily()
@@ -253,7 +338,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "INFLUENCER", "HELPER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Retail and sales result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Retail and sales result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/retail-and-sales"
+                        }
                     }
                 },
                 new JobFamily()
@@ -263,7 +353,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "INFLUENCER", "HELPER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Hospitality and food result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Hospitality and food result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/hospitality-and-food"
+                        }
                     }
                 },
                 new JobFamily()
@@ -273,7 +368,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Engineering and maintenance result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Engineering and maintenance result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/engineering-and-maintenance"
+                        }
                     }
                 },
                 new JobFamily()
@@ -283,7 +383,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ORGANISER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Transport result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Transport result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/transport"
+                        }
                     }
                 },
                 new JobFamily()
@@ -293,7 +398,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                     TraitCodes = new List<string>() { "ORGANISER", "DOER" },
                     Texts = new List<JobFamilyText>()
                     {
-                        new JobFamilyText() { LanguageCode = "en", Text = "Delivery and storage result text" }
+                        new JobFamilyText()
+                        {
+                            LanguageCode = "en",
+                            Text = "Delivery and storage result text",
+                            Url = "https://nationalcareers.service.gov.uk/job-categories/delivery-and-storage"
+                        }
                     }
                 },
             };

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,6 +8,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using static Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.HttpResponseHelpers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
 {
@@ -25,16 +25,22 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                 var questionRepository = new QuestionRepository(appSettings.CosmosSettings);
 
                 var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
+                int questionNumber = 0;
                 if (sessionHelper.HasSession)
                 {
-                    int questionNumber;
+                    // Set the current question based on the request
                     int.TryParse(questionInput, out questionNumber);
-                    if (sessionHelper.HasInputError == false)
+                    if (sessionHelper.HasInputError == false && questionNumber > 0)
                     {
-                        sessionHelper.Session.CurrentQuestion = questionNumber;
+                        int shouldDisplayQuestion = GetCurrentQuestionNumber(questionNumber, sessionHelper.Session.MaxQuestions);
+                        if (shouldDisplayQuestion != questionNumber)
+                        {
+                            return RedirectToQuestionNumber(req, shouldDisplayQuestion, sessionHelper.Session.PrimaryKey);
+                        }
+                        sessionHelper.Session.CurrentQuestion = shouldDisplayQuestion;
                     }
                 }
-                else if (questionInput == "1")
+                if (questionNumber == 0 || questionInput == "1")
                 {
                     // Setup a new session with the current question set version
                     var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
@@ -44,11 +50,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                 if (!sessionHelper.HasSession)
                 {
                     // Session id is missing, redirect to question 1
-                    var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
-                    var uri = req.RequestUri;
-                    var host = uri.AbsoluteUri.Replace(uri.AbsolutePath, "");
-                    redirectResponse.Headers.Location = new System.Uri($"{host}/q/1");
-                    return redirectResponse;
+                    return RedirectToNewSession(req);
                 }
 
                 // Determine if we are complete and update the session
@@ -63,20 +65,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                     throw new Exception($"Question {questionId} could not be found");
                 }
 
-                // Build page html
-                string blobName = "questions.html";
-                var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
-                if (templateHtml == null)
-                {
-                    throw new Exception($"Blob {blobName} could not be found in {sessionHelper.Config.BlobStorage.ContainerName}");
-                }
-                var html = new BuildPageHtml(templateHtml, sessionHelper, question).Html;
-
-                // Ok html response
-                var response = req.CreateResponse(HttpStatusCode.OK);
-                response.Content = new StringContent(html);
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-                return response;
+                // Return the question page
+                return CreateQuestionPage(req, sessionHelper, question);
             }
 
             catch (Exception ex)
@@ -89,6 +79,18 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             }
         }
 
+        public static int GetCurrentQuestionNumber(int questionNumber, int maxQuestions)
+        {
+            if (questionNumber <= 0)
+            {
+                return 1;
+            }
+            else if (questionNumber > maxQuestions)
+            {
+                return maxQuestions;
+            }
+            return questionNumber;
+        }
 
         private static async Task SetupNewSession(SessionHelper sessionHelper, QuestionSetInfo questionSetInfo)
         {
@@ -102,11 +104,27 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
 
         public static void ManageIfComplete(UserSession userSession)
         {
-            if (userSession.CurrentQuestion >= userSession.MaxQuestions)
+            bool allQuestionsAnswered = userSession.RecordedAnswers.Count == userSession.MaxQuestions;
+            if (allQuestionsAnswered && userSession.CurrentQuestion >= userSession.MaxQuestions)
             {
                 userSession.IsComplete = true;
                 userSession.CompleteDt = DateTime.Now;
             }
+        }
+
+        public static HttpResponseMessage CreateQuestionPage(HttpRequestMessage req, SessionHelper sessionHelper, Question question)
+        {
+            // Build page html from the template blob
+            string blobName = "questions.html";
+            var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
+            if (templateHtml == null)
+            {
+                throw new Exception($"Blob {blobName} could not be found in {sessionHelper.Config.BlobStorage.ContainerName}");
+            }
+            var html = new BuildPageHtml(templateHtml, sessionHelper, question).Html;
+
+            // Ok html response
+            return new HttpHtmlWithSessionCookieResponse(req, html, sessionHelper.Session.PrimaryKey);
         }
     }
 }
