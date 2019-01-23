@@ -29,10 +29,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
             string partitionKey = primaryKey.Substring(0, pos);
             string userSessionId = primaryKey.Substring(pos + 1, primaryKey.Length - (pos + 1));
-            return await GetUserSessionAsync(userSessionId, partitionKey);
+            return await GetUserSession(userSessionId, partitionKey);
         }
 
-        public async Task<UserSession> GetUserSessionAsync(string userSessionId, string partitionKey)
+        public async Task<UserSession> GetUserSession(string userSessionId, string partitionKey)
         {
             try
             {

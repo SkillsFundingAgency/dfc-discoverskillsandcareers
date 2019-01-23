@@ -59,11 +59,15 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
             if (request.Content.IsFormData())
             {
-                var formSessionId = FormData.GetValues("sessionId").FirstOrDefault();
-                if (string.IsNullOrEmpty(formSessionId) == false)
+                try
                 {
-                    sessionId = formSessionId;
+                    var formSessionId = FormData.GetValues("sessionId").FirstOrDefault();
+                    if (string.IsNullOrEmpty(formSessionId) == false)
+                    {
+                        sessionId = formSessionId;
+                    }
                 }
+                catch { };
             }
             return sessionId;
         }
@@ -97,7 +101,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
 
         public async Task Reload(string code)
         {
-            var userSession = await userSessionRepository.GetUserSession(code);
+            string partitionKey = DateTime.Now.ToString("yyyyMM"); // TODO:
+            var userSession = await userSessionRepository.GetUserSession(code, partitionKey);
             Session = userSession;
         }
 
