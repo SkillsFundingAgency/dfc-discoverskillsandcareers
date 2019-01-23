@@ -261,7 +261,7 @@ gulp.task("images:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series(/*"replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "pa11y", "lighthousePerformanceTest", "stopTestServer", */"browserStack"));
+gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "pa11y", "lighthousePerformanceTest", "stopTestServer", "browserStack"));
 
 gulp.task("dev",
     gulp.series(
