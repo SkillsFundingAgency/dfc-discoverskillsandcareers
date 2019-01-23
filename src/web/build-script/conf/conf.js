@@ -1,7 +1,9 @@
+const {BrowserStackKey, BrowserStackUser} = require('../../config');
+
 exports.config = {
     'specs': [ '../specs/*.spec.js' ],
-    'browserstackUser': 'gohariqbal1',
-    'browserstackKey': 'YMUAYzQaieSxxseByonh',
+    'browserstackUser': process.env.BrowserStackUser || BrowserStackUser,
+    'browserstackKey': process.env.BrowserStackKey|| BrowserStackKey,
     
     'commonCapabilities': {
       'build': 'private_beta',
