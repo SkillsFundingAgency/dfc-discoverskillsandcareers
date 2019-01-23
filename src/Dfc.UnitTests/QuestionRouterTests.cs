@@ -87,6 +87,49 @@ namespace Dfc.UnitTests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void GetNextRoute_WithRecordedAnswerLess1_ShouldBeResultsNextRoute()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                IsComplete = false,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "3" },
+                    new Answer() { QuestionNumber = "4" }
+                },
+            };
+
+            string actual = BuildPageHtml.GetNextRoute(userSession);
+
+            Assert.Equal("/results", actual);
+        }
+
+        [Fact]
+        public void GetNextRoute_WithRecordedAnswersLess2_ShouldBeQuestionNextRoute()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 4,
+                IsComplete = false,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "3" }
+                },
+            };
+
+            string actual = BuildPageHtml.GetNextRoute(userSession);
+
+            Assert.Equal("/q/5", actual);
+        }
+
         [Theory]
         [InlineData(0, 40, 1)]
         [InlineData(1, 40, 1)]
