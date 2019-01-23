@@ -28,7 +28,8 @@ var gulp = require("gulp"),
     filter = require('gulp-filter'),
     rev = require('gulp-rev'),
     revRewrite = require('gulp-rev-rewrite'),
-    replace = require('gulp-replace');
+    replace = require('gulp-replace'),
+    merge = require('merge-stream');
 
 // paths
 
@@ -44,6 +45,7 @@ var paths = {
 paths.html = paths.src + "templates/**/*.html";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.js = paths.src + "js/**/*.js";
+paths.images = paths.src + "images/**/*";
 paths.minJs = paths.src + "js/**/*.min.js";
 paths.accessibilty = paths.buildScript + "*.spec.js";
 paths.browserStackConf = paths.buildScript + "conf/conf.js";
@@ -59,6 +61,7 @@ paths.concatJsDest = paths.temp + "js/site.js";
 paths.concatMinJsDest = paths.dist + "js/site.min.js";
 paths.assetsDest = paths.dist + "assets/";
 paths.cssDest = paths.assetsDest + "css/";
+paths.imagesDest = paths.assetsDest + "images/";
 
 const testServerOptions = {
     port: 3000,
@@ -68,8 +71,16 @@ const testServerOptions = {
 // tasks
 
 gulp.task('assets', function () {
-    return gulp.src(['./node_modules/govuk-frontend/assets/**/*'])
-        .pipe(gulp.dest(paths.assetsDest));
+
+    var govuk = gulp.src(['./node_modules/govuk-frontend/assets/**/*'])
+        .pipe(gulp.dest(paths.assetsDest))
+
+    var images = gulp.src(paths.images)
+        .pipe(imagemin())
+        .pipe(gulp.dest(paths.imagesDest))
+
+    return merge(govuk, images);
+
 });
 
 gulp.task("clean:js", function (cb) {
@@ -227,6 +238,10 @@ gulp.task("html:watch", function () {
     gulp.watch([paths.html], gulp.series("html"));
 });
 
+gulp.task("images:watch", function () {
+    gulp.watch([paths.html], gulp.series("assets"));
+});
+
 // commands
 
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
@@ -247,6 +262,7 @@ gulp.task("dev",
             "html:watch",
             "css:watch",
             "sass:watch",
+            "images:watch",
             "js:watch",
             "eslint:watch",
             "connect"))
