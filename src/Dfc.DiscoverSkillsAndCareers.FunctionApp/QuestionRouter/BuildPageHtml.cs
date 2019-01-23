@@ -34,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
 
         public static string GetNextRoute(UserSession userSession)
         {
-            if (userSession.IsComplete || userSession.RecordedAnswers.Count - 1 >= userSession.MaxQuestions)
+            if (userSession.IsComplete || userSession.RecordedAnswers.Count + 1 >= userSession.MaxQuestions)
             {
                 return "/results";
             }
