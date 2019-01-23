@@ -15,9 +15,17 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             });
 
             var traitHtml = "";
+            bool isLocal = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID"));
             sessionHelper.Session.ResultData.Traits.ForEach(trait =>
             {
-                traitHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
+                if (isLocal)
+                {
+                    traitHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
+                }
+                else
+                {
+                    traitHtml += $"<li>{trait.TraitText}</li>";
+                }
             });
 
             string answersHtml = string.Empty;
