@@ -47,7 +47,14 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         public async Task<Document> CreateQuestion(Question question)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            return await client.CreateDocumentAsync(uri, question);
+            try
+            {
+                return await client.CreateDocumentAsync(uri, question);
+            }
+            catch
+            {
+                return await client.UpsertDocumentAsync(uri, question);
+            }
         }
 
         public async Task<QuestionSetInfo> GetCurrentQuestionSetVersion()
