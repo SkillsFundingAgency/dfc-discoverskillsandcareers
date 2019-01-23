@@ -171,10 +171,7 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('startTestServer', function(done) {
-    connect.server(testServerOptions);
-    done();
-});
+// QA
 
 gulp.task('pa11y', function(done) {
     gulp.src(paths.accessibilty, {read: false})
@@ -190,6 +187,11 @@ gulp.task('browserStack', function(done) {
         }))
         .on("error", handlebrowserStackError)
         .on("end", done);
+});
+
+gulp.task('startTestServer', function(done) {
+    connect.server(testServerOptions);
+    done();
 });
 
 gulp.task('stopTestServer', function(done) {
