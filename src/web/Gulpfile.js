@@ -179,11 +179,10 @@ gulp.task('connect', function() {
 
 // QA
 
-gulp.task('pa11y', function(done) {
-    gulp.src(paths.accessibilty, {read: false})
-        .pipe(mocha())
-        .on("error", handlePa11yError)
-        .on("end", done);
+gulp.task('pa11y', function() {
+    return gulp.src(paths.accessibilty, {read: false})
+        .pipe(mocha({exit: true}))
+        .once("error", handlePa11yError)
 });
 
 gulp.task('browserStack', function(done) {
@@ -223,11 +222,10 @@ gulp.task('replaceResultsPlaceholders', function(done) {
         .on("end", done);
 });
 
-gulp.task('lighthousePerformanceTest', function(done) {
-    gulp.src([paths.performance], {read: false})
-        .pipe(mocha())
-        .on("error", handleLighthouseError)
-        .on("end", done);
+gulp.task('lighthousePerformanceTest', function() {
+    return gulp.src([paths.performance], {read: false})
+        .pipe(mocha({exit: true}))
+        .once("error", handleLighthouseError);
 });
  
 // watches
@@ -261,7 +259,7 @@ gulp.task("images:watch", function () {
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "pa11y", "lighthousePerformanceTest", "stopTestServer", "browserStack"));
+gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "lighthousePerformanceTest", "pa11y", "stopTestServer", "browserStack"));
 
 gulp.task("dev",
     gulp.series(
