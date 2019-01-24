@@ -11,7 +11,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
         {
             var jobFamilyHtml = "";
             int displayCounter = 0;
-            bool displayAll = false;
+            bool displayAll = true;
             sessionHelper.Session.ResultData.JobFamilies.ForEach(jobFamily =>
             {
                 if (displayCounter < 3 || displayAll)
