@@ -7,7 +7,7 @@
 ## Developer Requirements
 
 * Visual Studio 2017 / Visual Studio Code
-* .NET Core 2.1 or higher
+* .NET Core 2.2 or higher
 * [Azure Functions Tools](https://www.npmjs.com/package/azure-functions-core-tools)
 * [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator) - Note, this is included as part of the Azure SDK but a standalone installer is available for windows. Alternatively you could create a storage account on azure.
 * [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
