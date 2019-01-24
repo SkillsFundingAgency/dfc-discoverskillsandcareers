@@ -11,6 +11,17 @@
       width: 50%;
       float: right;
       text-align: center;
+      position: relative;
+
+      &:before {
+        position: absolute;
+        left: -2em;
+        height: 100%;
+        width: 1px;
+        content: '';
+        display: block;
+        border-left: 1px solid govuk-colour('black');
+      }
     }
 
     .govuk-radios__item {
