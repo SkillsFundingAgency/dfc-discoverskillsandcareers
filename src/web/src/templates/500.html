@@ -1,0 +1,34 @@
+{% set pageName = 'finish' %}
+
+{% extends "_base.njk" %}
+
+{% block main %}
+
+  <div class="govuk-width-container app-site-width-container">
+    
+    {{ govukPhaseBanner({
+      tag: {
+        text: "alpha"
+      },
+      html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+    }) }}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/"
+        }
+      ]
+    }) }}      
+    
+  </div>
+
+  <main id="content" class="govuk-width-container" role="main">
+    {{ govukPanel({
+      titleText: "500",
+      html: "Server error"
+    }) }}
+  </main> 
+
+{% endblock %}
