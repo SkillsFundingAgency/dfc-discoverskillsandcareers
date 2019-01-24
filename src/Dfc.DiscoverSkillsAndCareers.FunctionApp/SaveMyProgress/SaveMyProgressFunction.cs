@@ -42,6 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
                 html = html.Replace("[code]", sessionHelper.Session.UserSessionId);
                 html = html.Replace("[session_date]", sessionHelper.Session.StartedDt.ToString("dd MMMM yyyy"));
                 html = html.Replace("[status]", $"{sessionHelper.Session.RecordedAnswers.Count} out of {sessionHelper.Session.MaxQuestions} statements complete");
+                html = html.Replace("[static_site_domain]", sessionHelper.Config.StaticSiteDomain);
 
                 // Ok html response
                 return OKHtmlWithCookie(req, html, sessionHelper.Session.PrimaryKey);
