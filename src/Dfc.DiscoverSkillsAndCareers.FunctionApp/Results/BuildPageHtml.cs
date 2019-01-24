@@ -41,6 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             html = html.Replace("[job_families_li_html]", jobFamilyHtml);
             html = html.Replace("[traits_li_html]", traitHtml);
             html = html.Replace("[static_site_domain]", sessionHelper.Config.StaticSiteDomain);
+            html = html.Replace("[job_family_count]", sessionHelper.Session.ResultData.JobFamilies.Count);
             Html = html;
         }
     }
