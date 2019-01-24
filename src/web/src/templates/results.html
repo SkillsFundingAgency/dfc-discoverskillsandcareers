@@ -71,31 +71,21 @@
           <ul class="govuk-list govuk-!-margin-bottom-3">
             [job_families_li_html]
           </ul>
-
-          <div class="app-results-cta govuk-!-margin-bottom-3">
-            <div class="govuk-grid-row ">
-              <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-m">Want to see specific job roles?</h3>
-                <p class="govuk-body">You can take a lomnger assessment of 10 to 15 minutes to find out about specific job eroles that might be suitable for you.</p>
-              </div>
-              <div class="govuk-grid-column-one-third">
-                  {{ govukButton({
-                    text: "Start assessment",
-                    classes: "govuk-button--start app-button--block app-button--small app-button--white govuk-!-font-size-14",
-                    href: "[static_site_domain]"
-                  }) }}
-              </div>
-            </div>
-          </div>
-
+          
         </div>
 
         <h2 class="govuk-heading-m">See [job_family_more_count] other job categories you are suited to</h2>
 
         <p><a class="govuk-link govuk-link--no-visited-state" href="#">See matches</a></p>
-        <p><a class="govuk-link govuk-link--no-visited-state" href="#">&uarr; Back to top</a></p>
-
+        
+        <div class="app-back-to-top" data-module="app-back-to-top">
+          <a class="govuk-link govuk-link--no-visited-state" href="#top">
+            <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">
+              <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+            </svg>Back to top
+          </a>
         </div>
+
       </div>
   </main>
 
