@@ -10,7 +10,10 @@ describe('Accessibility testing for web pages', function () {
     // Pa11y test each html page
     htmlPages.forEach(page => {
         it(page, () => {
-            return pa11y(`http://localhost:3000/${page}`)
+            return pa11y(`http://localhost:3000/${page}`, {
+                standard: "WCAG2AA",
+                ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
+            })
                 .then(({issues}) => {
                     expect(issues).to.eql([]);
                 });
