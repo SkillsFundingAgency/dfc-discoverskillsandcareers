@@ -42,6 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
                     html = html.Replace("<div class=\"app-resume-panel__input govuk-form-group\"", "<div class=\"app-resume-panel__input govuk-form-group govuk-form-group--error\"");
                     html = html.Replace("Your reference number</label>", "Your reference number</label><span id=\"code-error\" class=\"govuk-error-message\">The code could not be found</span>");
                     html = html.Replace("<input class=\"govuk-input\" id=\"code\" name=\"code\" type=\"text\" required", "<input class=\"govuk-input govuk-input--error\" id=\"code\" name=\"code\" type=\"text\" required aria-describedby=\"code-error\"");
+                    html = html.Replace("/start.html", $"{sessionHelper.Config.StaticSiteDomain}/start.html");
                     return OKHtmlWithCookie(req, html, null);
                 }
                 // We have a session from our code, so display the last point
