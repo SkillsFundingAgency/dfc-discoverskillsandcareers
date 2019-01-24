@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
+using static Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.HttpResponseHelpers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
 {
@@ -13,7 +14,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
     {
         [FunctionName("ReloadFunction")]
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "reload")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", "get", Route = "reload")] HttpRequestMessage req,
             ILogger log, ExecutionContext context)
         {
             try
@@ -22,14 +23,26 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
                 log.LogDebug($"ReloadFunction appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
 
                 var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
-                var code = sessionHelper.FormData.GetValues("code").FirstOrDefault();
-                await sessionHelper.Reload(code);
+                var code = sessionHelper.FormData?.GetValues("code").FirstOrDefault();
+                if (string.IsNullOrEmpty(code) == false)
+                {
+                    await sessionHelper.Reload(code);
+                }
                 if (!sessionHelper.HasSession)
                 {
-                    // TODO: return not found page (waiting on design)
-                    throw new Exception("Session not found");
+                    // Build page html from the template blob
+                    string blobName = "index.html";
+                    var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
+                    if (templateHtml == null)
+                    {
+                        throw new Exception($"Blob {blobName} could not be found in {sessionHelper.Config.BlobStorage.ContainerName}");
+                    }
+                    string html = templateHtml;
+                    html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
+                    html = html.Replace("<span id=\"codeNotFoundMessage\" style=\"display:none\"", "<span id=\"codeNotFoundMessage\" style=\"display:block\"");
+                    return OKHtmlWithCookie(req, html, null);
                 }
-
+                // We have a session from our code, so display the last point
                 return await Results.ResultsFunction.ResultsOrLastQuestionPage(req, sessionHelper);
             }
 

@@ -23,6 +23,9 @@
         <None Update="pages\finish.html">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="pages\index.html">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="pages\Question.html">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

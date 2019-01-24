@@ -33,8 +33,11 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         public static HttpResponseMessage OKHtmlWithCookie(HttpRequestMessage req, string html, string sessionId)
         {
             var okResponse = req.CreateResponse(HttpStatusCode.OK);
-            var sessionCookie = CreateSessionCookie(req.RequestUri.Host, sessionId);
-            okResponse.Headers.AddCookies(new List<CookieHeaderValue>() { sessionCookie });
+            if (sessionId != null)
+            {
+                var sessionCookie = CreateSessionCookie(req.RequestUri.Host, sessionId);
+                okResponse.Headers.AddCookies(new List<CookieHeaderValue>() { sessionCookie });
+            }
             okResponse.StatusCode = HttpStatusCode.OK;
             okResponse.Content = new StringContent(html);
             okResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");

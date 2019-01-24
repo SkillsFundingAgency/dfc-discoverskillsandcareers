@@ -52,6 +52,15 @@ namespace Dfc.LocalDataSetupTests
 
             Assert.NotNull(blobHtml);
             Assert.Contains("<html", blobHtml);
+
+
+            name = "index.html";
+            localFileName = @".\pages\index.html";
+            await BlobStorageHelper.CreateBlob(settings, localFileName, name);
+            blobHtml = await BlobStorageHelper.GetBlob(settings, name);
+
+            Assert.NotNull(blobHtml);
+            Assert.Contains("<html", blobHtml);
         }
     }
 }
