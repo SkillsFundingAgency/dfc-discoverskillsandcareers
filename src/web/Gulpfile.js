@@ -76,15 +76,9 @@ const testServerOptions = {
 // tasks
 
 gulp.task('assets', function () {
-
-    var govuk = gulp.src(['./node_modules/govuk-frontend/assets/**/*'])
-        .pipe(gulp.dest(paths.assetsDest))
-
-    var images = gulp.src(paths.images)
-        .pipe(gulp.dest(paths.imagesDest))
-
+    var govuk = gulp.src(['./node_modules/govuk-frontend/assets/**/*']).pipe(gulp.dest(paths.assetsDest))
+    var images = gulp.src(paths.images).pipe(gulp.dest(paths.imagesDest))
     return merge(govuk, images);
-
 });
 
 gulp.task("clean:js", function (cb) {
@@ -232,29 +226,12 @@ gulp.task('lighthousePerformanceTest', function(done) {
  
 // watches
 
-gulp.task("css:watch", function () {
-    gulp.watch([paths.css], gulp.series("min:css"));
-});
-
-gulp.task("sass:watch", function () {
-    gulp.watch(paths.scss, gulp.series("sass"));
-});
-
-gulp.task("eslint:watch", function () {
-    gulp.watch([paths.js], gulp.series("eslint"));
-});
-
-gulp.task("js:watch", function () {
-    gulp.watch([paths.js], gulp.series("js"));
-});
-
-gulp.task("html:watch", function () {
-    gulp.watch([paths.html], gulp.series("html"));
-});
-
-gulp.task("images:watch", function () {
-    gulp.watch([paths.html], gulp.series("assets"));
-});
+gulp.task("css:watch", () => gulp.watch([paths.css], gulp.series("min:css")));
+gulp.task("sass:watch", () => gulp.watch(paths.scss, gulp.series("sass")));
+gulp.task("eslint:watch", () => gulp.watch([paths.js], gulp.series("eslint")));
+gulp.task("js:watch", () => gulp.watch([paths.js], gulp.series("js")));
+gulp.task("html:watch", () => gulp.watch([paths.html], gulp.series("html")));
+gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")));
 
 // commands
 
