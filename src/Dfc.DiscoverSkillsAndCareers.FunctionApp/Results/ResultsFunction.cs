@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using static Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.HttpResponseHelpers;
+using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 {

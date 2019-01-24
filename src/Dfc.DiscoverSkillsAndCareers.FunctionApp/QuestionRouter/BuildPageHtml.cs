@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter

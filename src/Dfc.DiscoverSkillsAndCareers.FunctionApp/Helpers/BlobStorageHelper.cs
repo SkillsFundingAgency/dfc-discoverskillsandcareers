@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 {
     public class BlobStorageHelper
     {

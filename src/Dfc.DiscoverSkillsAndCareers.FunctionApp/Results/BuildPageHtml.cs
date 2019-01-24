@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
+using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 {

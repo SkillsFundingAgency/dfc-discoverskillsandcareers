@@ -6,7 +6,7 @@ using System.Linq;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 {
     public class SessionHelper
     {

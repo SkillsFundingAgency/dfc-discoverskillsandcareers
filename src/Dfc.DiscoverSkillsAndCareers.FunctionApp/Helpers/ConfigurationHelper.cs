@@ -2,7 +2,7 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 {
     public static class ConfigurationHelper
     {

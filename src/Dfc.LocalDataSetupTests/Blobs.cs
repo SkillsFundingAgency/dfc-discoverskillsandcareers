@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Xunit;
 using Dfc.DiscoverSkillsAndCareers.FunctionApp;
+using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 
 namespace Dfc.LocalDataSetupTests
 {

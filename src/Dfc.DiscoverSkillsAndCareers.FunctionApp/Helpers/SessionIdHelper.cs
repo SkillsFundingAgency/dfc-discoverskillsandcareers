@@ -1,7 +1,7 @@
 ﻿using System;
 using HashidsNet;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 {
     public static class SessionIdHelper
     {
