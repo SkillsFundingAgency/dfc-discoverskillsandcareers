@@ -38,8 +38,8 @@ $app-turquoise: #1F7E77;
 }
 
 .govuk-phase-banner__content__tag {
-  color: govuk-colour('white');
-  background: govuk-colour('black');
+  background-color: govuk-colour('white');
+  color: $app-purple;
 }
 
 .app-page--home,
@@ -114,8 +114,8 @@ $app-turquoise: #1F7E77;
 }
 
 .govuk-tag--coming-soon {
-  background-color: govuk-colour('orange'); 
-  color: govuk-colour('white'); 
+  background-color: govuk-colour('white'); 
+  color: $app-turquoise; 
 }
 
 .govuk-button:hover {
