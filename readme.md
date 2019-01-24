@@ -72,7 +72,9 @@ Note that these assets are only revisioned when the file is changed, and not eve
 
 ### Front-end Testing 
 
-@todo
+To run front-end testing navigate to `src/web` and run
+
+    gulp test
 
 #### Linting 
 
@@ -80,12 +82,21 @@ Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/g
 
 #### Cross-browser
 
-@todo
+Cross-browser testing is carried out using [`BrowserStack`](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through happy/negative paths and is part of gulp test task. To run manually navigate to `src/web` and run
+
+    gulp browserStack 
 
 #### Accessibility
 
-@todo
+Accessibility testing is carried out using [`Pa11y`](https://github.com/pa11y/pa11y). WCAG2AA is used as testing standard and is part of gulp test task. To run manually navigate to `src/web` and run
 
+    gulp pa11y
+
+#### Performance
+
+Performance testing is carried out using [`Lighthouse`](https://github.com/GoogleChrome/lighthouse#readme) and is part of gulp test task. To run manually navigate to `src/web` and run
+
+    gulp lighthousePerformanceTest
 
 ## Deployment Structure 
 
