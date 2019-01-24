@@ -29,14 +29,14 @@ exports.config = {
         'os': 'Windows',
         'os_version': '10',
         'browserName': 'Chrome',
-        'browser_version': '72.0 beta',
+        'browser_version': '71.0',
         'resolution': '1024x768'
     },
     {
         'os': 'Windows',
         'os_version': '10',
         'browserName': 'Firefox',
-        'browser_version': '65.0 beta',
+        'browser_version': '64.0',
         'resolution': '1024x768'
     },
     {
@@ -50,14 +50,14 @@ exports.config = {
         'os': 'OS X',
         'os_version': 'Mojave',
         'browserName': 'Chrome',
-        'browser_version': '72.0 beta',
+        'browser_version': '71.0',
         'resolution': '1024x768'
     },
     {
         'os': 'OS X',
         'os_version': 'Mojave',
         'browserName': 'Firefox',
-        'browser_version': '65.0 beta',
+        'browser_version': '64.0',
         'resolution': '1024x768'
     },
     {
