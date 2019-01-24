@@ -40,6 +40,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[job_families_li_html]", jobFamilyHtml);
             html = html.Replace("[traits_li_html]", traitHtml);
+            html = html.Replace("[static_site_domain]", sessionHelper.Config.StaticSiteDomain);
             Html = html;
         }
     }

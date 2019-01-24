@@ -39,6 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
                 string html = templateHtml;
                 html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
                 html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
+                html = html.Replace("[static_site_domain]", sessionHelper.Config.StaticSiteDomain);
 
                 // Ok html response
                 return OKHtmlWithCookie(req, html, sessionHelper.Session.PrimaryKey);
