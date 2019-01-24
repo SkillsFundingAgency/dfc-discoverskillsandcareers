@@ -124,7 +124,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             var html = new BuildPageHtml(templateHtml, sessionHelper, question).Html;
 
             // Ok html response
-            return new HttpHtmlWithSessionCookieResponse(req, html, sessionHelper.Session.PrimaryKey);
+            return OKHtmlWithCookie(req, html, sessionHelper.Session.PrimaryKey);
         }
     }
 }

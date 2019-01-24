@@ -24,7 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                 if (!sessionHelper.HasSession)
                 {
                     // No session so redirect to question #1 and generate a new session
-                    return RedirectStartAtQuestionOne(req);
+                    return RedirectToNewSession(req);
                 }
 
                 // Return the results or last unanswered question page if not complete
@@ -65,7 +65,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             var html = new BuildPageHtml(templateHtml, sessionHelper).Html;
 
             // Ok html response
-            return new HttpHtmlWithSessionCookieResponse(req, html, sessionHelper.Session.PrimaryKey);
+            return OKHtmlWithCookie(req, html, sessionHelper.Session.PrimaryKey);
         }
     }
 }
