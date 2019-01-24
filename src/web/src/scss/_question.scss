@@ -5,6 +5,7 @@
     .govuk-fieldset__legend {
       width: 50%;
       float: left;
+      padding-right: 2em;
     }
 
     .govuk-radios {
@@ -15,7 +16,7 @@
 
       &:before {
         position: absolute;
-        left: -2em;
+        left: -1em;
         height: 100%;
         width: 1px;
         content: '';
