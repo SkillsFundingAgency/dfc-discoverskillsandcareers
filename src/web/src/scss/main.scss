@@ -3,6 +3,7 @@ $govuk-global-styles: true;
 @import 'node_modules/govuk-frontend/all';
 
 $app-purple: #8c0052;
+$app-purple-hover: #A73C7B;
 $app-turquoise: #1F7E77;
 
 @import 'progress';
@@ -115,4 +116,8 @@ $app-turquoise: #1F7E77;
 .govuk-tag--coming-soon {
   background-color: govuk-colour('orange'); 
   color: govuk-colour('white'); 
+}
+
+.govuk-button:hover {
+  background: $app-purple-hover;
 }
