@@ -21,11 +21,11 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             {
                 if (isLocal)
                 {
-                    traitHtml += $"<li>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</li>";
+                    traitHtml += $"<p>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</p>";
                 }
                 else
                 {
-                    traitHtml += $"<li>{trait.TraitText}</li>";
+                    traitHtml += $"<p>{trait.TraitText}</p>";
                 }
             });
 
