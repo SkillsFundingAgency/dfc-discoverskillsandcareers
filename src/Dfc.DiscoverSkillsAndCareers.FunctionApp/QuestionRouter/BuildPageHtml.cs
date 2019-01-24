@@ -30,6 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             html = html.Replace("[percentage]", displayPercentComplete.ToString());
             html = html.Replace("[percentage_left]", displayPercentComplete == 0 ? "" : displayPercentComplete.ToString());
             html = html.Replace("[code]", sessionHelper.Session.UserSessionId);
+            html = html.Replace("[static_site_domain]", sessionHelper.Config.StaticSiteDomain);
             Html = html;
         }
 
