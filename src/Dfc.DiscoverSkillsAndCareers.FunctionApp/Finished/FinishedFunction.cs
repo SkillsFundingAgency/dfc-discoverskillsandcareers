@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 using static Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.HttpResponseHelpers;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
 {
