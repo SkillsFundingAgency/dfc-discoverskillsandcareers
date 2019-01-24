@@ -134,8 +134,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
                 Session.RecordedAnswers.Add(answer);
                 if (Session.RecordedAnswers.Count == Session.MaxQuestions)
                 {
+                    // We have complete the session as we have all the answers
                     Session.IsComplete = true;
                     Session.CompleteDt = DateTime.Now;
+                    await userSessionRepository.UpdateUserSession(Session);
                 }
             }
             else

@@ -7,7 +7,7 @@ namespace Dfc.LocalDataSetupTests
 {
     public class Questions
     {
-        [Fact]
+
         public async void SetupQuestions()
         {
             string QuestionSetVersion = "201901";

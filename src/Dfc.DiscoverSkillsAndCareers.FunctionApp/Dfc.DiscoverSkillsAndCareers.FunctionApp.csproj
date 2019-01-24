@@ -20,6 +20,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+        <None Update="pages\finish.html">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="pages\Question.html">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

@@ -37,7 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
         {
             if (userSession.IsComplete || userSession.RecordedAnswers.Count + 1 >= userSession.MaxQuestions)
             {
-                return "/results";
+                return "/finish";
             }
             else if (userSession.CurrentQuestion + 1 <= userSession.MaxQuestions)
             {

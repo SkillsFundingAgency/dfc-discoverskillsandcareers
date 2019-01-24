@@ -71,8 +71,8 @@ namespace Dfc.UnitTests
         [InlineData(2, false, "/q/3")]
         [InlineData(3, false, "/q/4")]
         [InlineData(4, false, "/q/5")]
-        [InlineData(5, true, "/results")]
-        [InlineData(6, true, "/results")]
+        [InlineData(5, true, "/finish")]
+        [InlineData(6, true, "/finish")]
         public void GetNextRoute_WithSetup_ShouldHaveCorrectRoute(int question, bool isComplete, string expected)
         {
             var userSession = new UserSession()
@@ -106,7 +106,7 @@ namespace Dfc.UnitTests
 
             string actual = BuildPageHtml.GetNextRoute(userSession);
 
-            Assert.Equal("/results", actual);
+            Assert.Equal("/finish", actual);
         }
 
         [Fact]
