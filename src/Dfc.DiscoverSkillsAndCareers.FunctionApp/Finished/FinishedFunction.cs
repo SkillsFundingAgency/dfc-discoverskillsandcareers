@@ -46,7 +46,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
             catch (Exception ex)
             {
                 log.LogError(ex, "ReloadFunction run");
-                throw;
+                var response = req.CreateResponse(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent("{ \"message\": \"" + ex.Message + "\" }");
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                return response;
             }
         }
     }
