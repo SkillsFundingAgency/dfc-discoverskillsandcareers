@@ -2,16 +2,11 @@
     <h3 class="govuk-heading-m">Resume your progress?</h3>
     <form method="post" action="https://__FunctionAppName__.azurewebsites.net/reload">
 
-      {{ govukInput({
-        label: {
-          text: "Your reference number"
-        },
-        id: "code",
-        name: "code"
-      }) }}
+      <div class="app-resume-panel__input govuk-form-group">
+        <label class="govuk-label" for="code">Your reference number</label>
+        <input class="govuk-input govuk-input--error" id="code" name="code" type="text">
+      </div>
 
-      <span id="codeNotFoundMessage" style="display:none" class="govuk-error-message">The code could not be found</span>
-      
       {{ govukButton({
         text: "Resume progress"
       }) }}
