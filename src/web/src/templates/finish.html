@@ -40,11 +40,18 @@
         <h1 class="govuk-heading-m">What to do next</h1>
         <p class="govuk-body">On the next page you will see your results, which are based on the statements you have just responded to.</p>
 
-        {{ govukButton({
-          classes: "app-button",
-          text: "View results",
-          url: "#"
-        }) }}
+        <form action="/results" method="post">
+          <input type="hidden" name="sessionId" value="[session_id]" />
+    
+          <div>
+            {{ govukButton({
+              text: "View results",
+              classes: "app-button",
+              type: "submit"
+            }) }}
+          </div>
+    
+        </form>
 
       </div>
 
