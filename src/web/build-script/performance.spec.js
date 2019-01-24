@@ -17,7 +17,7 @@ function launchChromeAndRunLighthouse(url, opts, config = null) {
 }
 
 describe('Lighthouse performance testing for web pages', function() {
-    this.timeout(5000);
+    this.timeout(20000);
     const opts = {
         chromeFlags: ['--headless'],
         onlyCategories: ['performance']
