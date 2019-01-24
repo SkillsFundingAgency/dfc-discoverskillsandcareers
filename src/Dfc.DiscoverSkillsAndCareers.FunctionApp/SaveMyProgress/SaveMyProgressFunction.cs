@@ -11,17 +11,17 @@ using System.Net.Http.Headers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
 {
-    public static class FinishFunction
+    public static class SaveMyProgressFunction
     {
-        [FunctionName("FinishFunction")]
+        [FunctionName("SaveMyProgressFunction")]
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "finish")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "save-my-progress")] HttpRequestMessage req,
             ILogger log, ExecutionContext context)
         {
             try
             {
                 var appSettings = ConfigurationHelper.ReadConfiguration(context);
-                log.LogDebug($"FinishFunction appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
+                log.LogDebug($"SaveMyProgressFunction appSettings={Newtonsoft.Json.JsonConvert.SerializeObject(appSettings)}");
 
                 var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
                 if (!sessionHelper.HasSession)
@@ -30,7 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
                 }
 
                 // Build page html from the template blob
-                string blobName = "finish.html";
+                string blobName = "resume-code.html";
                 var templateHtml = BlobStorageHelper.GetBlob(sessionHelper.Config.BlobStorage, blobName).Result;
                 if (templateHtml == null)
                 {
@@ -39,6 +39,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
                 string html = templateHtml;
                 html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
                 html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
+                html = html.Replace("[code]", sessionHelper.Session.UserSessionId);
+                html = html.Replace("[session_date]", sessionHelper.Session.StartedDt.ToString("dd MMMM yyyy"));
+                html = html.Replace("[status]", $"{sessionHelper.Session.RecordedAnswers.Count} out of {sessionHelper.Session.MaxQuestions} statements complete");
 
                 // Ok html response
                 return OKHtmlWithCookie(req, html, sessionHelper.Session.PrimaryKey);
@@ -46,7 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
 
             catch (Exception ex)
             {
-                log.LogError(ex, "FinishFunction run");
+                log.LogError(ex, "SaveMyProgressFunction run");
                 var response = req.CreateResponse(HttpStatusCode.InternalServerError);
                 response.Content = new StringContent("{ \"message\": \"" + ex.Message + "\" }");
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
