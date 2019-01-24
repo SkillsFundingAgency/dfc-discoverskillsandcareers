@@ -111,3 +111,8 @@ $app-turquoise: #1F7E77;
 .app-text--light {
   color: $govuk-secondary-text-colour;
 }
+
+.govuk-tag--coming-soon {
+  background-color: govuk-colour('orange'); 
+  color: govuk-colour('white'); 
+}
