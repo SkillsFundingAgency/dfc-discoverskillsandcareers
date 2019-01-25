@@ -24,6 +24,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
 
                 var sessionHelper = await SessionHelper.CreateWithInit(req, appSettings);
                 var code = sessionHelper.FormData?.GetValues("code").FirstOrDefault();
+                if (code == "500test")
+                {
+                    throw new Exception("500 test");
+                }
                 if (string.IsNullOrEmpty(code) == false)
                 {
                     await sessionHelper.Reload(code);
@@ -52,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
             catch (Exception ex)
             {
                 log.LogError(ex, "ReloadFunction run");
-                throw;
+                return InternalServerError(req, context);
             }
         }
     }

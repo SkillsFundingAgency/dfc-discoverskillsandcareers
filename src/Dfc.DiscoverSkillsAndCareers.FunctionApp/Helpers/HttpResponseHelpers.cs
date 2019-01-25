@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.WebJobs;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -51,6 +52,28 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
             sessionCookie.Domain = domain;
             sessionCookie.Path = "/";
             return sessionCookie;
+        }
+
+        public static HttpResponseMessage InternalServerError(HttpRequestMessage req, ExecutionContext context)
+        {
+            var okResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+            try
+            {
+                var appSettings = ConfigurationHelper.ReadConfiguration(context);
+                if (appSettings?.BlobStorage != null)
+                {
+                    string blobName = "500.html";
+                    var templateHtml = BlobStorageHelper.GetBlob(appSettings.BlobStorage, blobName).Result;
+                    if (templateHtml == null)
+                    {
+                        throw new Exception($"Blob {blobName} could not be found");
+                    }
+                    okResponse.Content = new StringContent(templateHtml);
+                }
+            }
+            catch (Exception) { okResponse.Content = new StringContent(""); }
+            okResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return okResponse;
         }
     }
 }
