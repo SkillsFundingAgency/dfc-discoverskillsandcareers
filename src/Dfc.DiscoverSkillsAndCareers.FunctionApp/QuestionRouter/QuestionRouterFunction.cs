@@ -1,7 +1,5 @@
 using System;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 using Dfc.DiscoverSkillsAndCareers.Models;
@@ -75,10 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             catch (Exception ex)
             {
                 log.LogError(ex, "QuestionRouterFunction run");
-                var response = req.CreateResponse(HttpStatusCode.InternalServerError);
-                response.Content = new StringContent("{ \"message\": \"" + ex.Message + "\" }");
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                return response;
+                return InternalServerError(req, context);
             }
         }
 

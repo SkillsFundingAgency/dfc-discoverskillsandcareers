@@ -6,8 +6,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 using static Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.HttpResponseHelpers;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
 {
@@ -51,10 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
             catch (Exception ex)
             {
                 log.LogError(ex, "SaveMyProgressFunction run");
-                var response = req.CreateResponse(HttpStatusCode.InternalServerError);
-                response.Content = new StringContent("{ \"message\": \"" + ex.Message + "\" }");
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                return response;
+                return InternalServerError(req, context);
             }
         }
     }

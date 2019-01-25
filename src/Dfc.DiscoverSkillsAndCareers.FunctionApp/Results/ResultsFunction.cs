@@ -35,7 +35,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             catch (Exception ex)
             {
                 log.LogError(ex, "ResultsFunction run");
-                throw;
+                return InternalServerError(req, context);
             }
         }
 
