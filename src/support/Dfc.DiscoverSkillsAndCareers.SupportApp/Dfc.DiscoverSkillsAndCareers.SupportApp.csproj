@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.FunctionApp\Dfc.DiscoverSkillsAndCareers.FunctionApp.csproj" />
     <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
     <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
   </ItemGroup>
