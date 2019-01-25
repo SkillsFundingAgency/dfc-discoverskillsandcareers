@@ -68,6 +68,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
                     {
                         throw new Exception($"Blob {blobName} could not be found");
                     }
+                    var html = templateHtml;
+                    html = html.Replace("/assets/css/main", $"{appSettings.StaticSiteDomain}/assets/css/main");
                     okResponse.Content = new StringContent(templateHtml);
                 }
             }
