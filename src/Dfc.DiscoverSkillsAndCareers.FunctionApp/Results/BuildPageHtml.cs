@@ -55,6 +55,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 
             // Replace placeholder text strings
             html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
+            html = html.Replace("/assets/js/site", $"{sessionHelper.Config.StaticSiteDomain}/assets/js/site");
             html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
             html = html.Replace("[job_families_li_html]", jobFamilyHtml);
             html = html.Replace("[traits_li_html]", traitHtml);
