@@ -34,7 +34,8 @@ var gulp = require("gulp"),
     revRewrite = require('gulp-rev-rewrite'),
     replace = require('gulp-replace'),
     merge = require('merge-stream'),
-    babel = require("gulp-babel");
+    babel = require("gulp-babel"),
+    autoprefixer = require('gulp-autoprefixer');
 
 // paths
 
@@ -106,6 +107,9 @@ gulp.task("sass", function () {
         .pipe(sassLint.failOnError())
         .pipe(sass({
             includePaths: 'node_modules'
+        }))
+        .pipe(autoprefixer({
+            browsers: ['last 3 versions']
         }))
         .pipe(gulp.dest(paths.cssDest))
         .pipe(connect.reload());

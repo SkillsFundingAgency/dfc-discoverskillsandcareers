@@ -12,6 +12,7 @@
     "eslint-config-defaults": "^9.0.0",
     "eslint-plugin-react": "^7.12.4",
     "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0-beta.2",
     "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.2.0",
