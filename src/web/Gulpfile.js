@@ -33,7 +33,8 @@ var gulp = require("gulp"),
     rev = require('gulp-rev'),
     revRewrite = require('gulp-rev-rewrite'),
     replace = require('gulp-replace'),
-    merge = require('merge-stream');
+    merge = require('merge-stream'),
+    babel = require("gulp-babel");
 
 // paths
 
@@ -112,6 +113,7 @@ gulp.task("sass", function () {
 
 gulp.task("js", function () {
     return gulp.src(paths.js)
+        .pipe(babel())
         .pipe(gulp.dest(paths.jsDest))
         .pipe(connect.reload());
 });
