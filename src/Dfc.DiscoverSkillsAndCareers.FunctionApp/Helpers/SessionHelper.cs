@@ -50,8 +50,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
             var cookieSessionId = request.Headers.GetCookies("ncs-session-id").FirstOrDefault()?.Cookies.Where(x => x.Name == "ncs-session-id").FirstOrDefault()?.Value;
             sessionId = cookieSessionId;
 
-            var queryDictionary = System.Web.HttpUtility.ParseQueryString(request.RequestUri.Query);
-            var code = queryDictionary.Get("sessionId");
+            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.RequestUri.Query);
+            var code = QueryDictionary.Get("sessionId");
             if (string.IsNullOrEmpty(code) == false)
             {
                 sessionId = code;
@@ -77,8 +77,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         public bool HasSession => Session != null;
         public AppSettings Config { get; private set; }
         public bool HasInputError { get; private set; }
+        public NameValueCollection QueryDictionary { get; private set; }
 
-        public async Task CreateSession(string languageCode = "en")
+        public async Task CreateSession(string questionSetVersion, int maxQuestions, string languageCode = "en")
         {
             string partitionKey = DateTime.Now.ToString("yyyyMM");
             string salt = Guid.NewGuid().ToString();
@@ -88,7 +89,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
                 Salt = salt,
                 StartedDt = DateTime.Now,
                 LanguageCode = languageCode,
-                PartitionKey = partitionKey
+                PartitionKey = partitionKey,
+                QuestionSetVersion = questionSetVersion,
+                MaxQuestions = maxQuestions,
+                CurrentQuestion = 1
             };
             await userSessionRepository.CreateUserSession(Session);
         }

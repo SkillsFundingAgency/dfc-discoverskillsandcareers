@@ -8,11 +8,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 {
     public static class HttpResponseHelpers
     {
+        public static string GetHost(Uri uri) => $"{uri.Scheme}://{uri.Authority}";
+
         public static HttpResponseMessage RedirectToNewSession(HttpRequestMessage req)
         {
             var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
-            var uri = req.RequestUri;
-            var host = uri.AbsoluteUri.Replace(uri.AbsolutePath, "");
+            var host = GetHost(req.RequestUri);
             redirectResponse.Headers.Location = new Uri($"{host}/q/1");
             return redirectResponse;
         }
@@ -22,8 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         public static HttpResponseMessage RedirectToQuestionNumber(HttpRequestMessage req, int questionNumber, string sessionId)
         {
             var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
-            var uri = req.RequestUri;
-            var host = uri.AbsoluteUri.Replace(uri.AbsolutePath, "");
+            var host = GetHost(req.RequestUri);
             redirectResponse.Headers.Location = new Uri($"{host}/q/{questionNumber}");
             var sessionCookie = CreateSessionCookie(req.RequestUri.Host, sessionId);
             redirectResponse.Headers.AddCookies(new List<CookieHeaderValue>() { sessionCookie });

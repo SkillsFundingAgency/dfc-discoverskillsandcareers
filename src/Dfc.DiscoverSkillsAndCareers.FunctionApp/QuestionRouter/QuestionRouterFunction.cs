@@ -41,11 +41,13 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
                         sessionHelper.Session.CurrentQuestion = shouldDisplayQuestion;
                     }
                 }
-                if (questionNumber == 0 || questionInput == "1")
+                var assessmentType = sessionHelper?.QueryDictionary.Get("assessmentType");
+                if ((questionNumber == 0 || questionInput == "1") && assessmentType == "short")
                 {
                     // Setup a new session with the current question set version
                     var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
                     await SetupNewSession(sessionHelper, currentQuestionSetInfo);
+                    return RedirectToQuestionNumber(req, sessionHelper);
                 }
 
                 if (!sessionHelper.HasSession)
@@ -96,11 +98,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
         private static async Task SetupNewSession(SessionHelper sessionHelper, QuestionSetInfo questionSetInfo)
         {
             // Create a new session
-            await sessionHelper.CreateSession();
-            // Assign the question set details
-            sessionHelper.Session.QuestionSetVersion = questionSetInfo.QuestionSetVersion;
-            sessionHelper.Session.MaxQuestions = questionSetInfo.MaxQuestions;
-            sessionHelper.Session.CurrentQuestion = 1;
+            await sessionHelper.CreateSession(questionSetInfo.QuestionSetVersion, questionSetInfo.MaxQuestions);
         }
 
         public static void ManageIfComplete(UserSession userSession)
