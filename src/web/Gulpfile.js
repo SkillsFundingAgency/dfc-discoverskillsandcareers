@@ -48,25 +48,28 @@ var paths = {
 
 paths.html = paths.src + "templates/**/*.html";
 paths.scss = paths.src + "scss/**/*.scss";
-paths.js = paths.src + "js/**/*.js";
 paths.images = paths.src + "images/**/*";
-paths.minJs = paths.src + "js/**/*.min.js";
-paths.accessibilty = paths.buildScript + "accessibility.spec.js";
-paths.performance = paths.buildScript + "performance.spec.js";
-paths.browserStackConf = paths.buildScript + "conf/conf.js";
-paths.browserStackSpec = paths.buildScript + "specs/*.spec.js";
+paths.js = paths.src + "js/**/*.js";
 
 // paths - output
 
 paths.css = paths.temp + "css/**/*.css";
-
 paths.minCss = paths.temp + "css/**/*.min.css";
 paths.concatMinCssDest = paths.dist + "css/site.min.css";
-paths.concatJsDest = paths.temp + "js/site.js";
+paths.minJs = paths.temp + "js/**/*.min.js";
+paths.concatJsDest = paths.dist + "js/site.js";
 paths.concatMinJsDest = paths.dist + "js/site.min.js";
 paths.assetsDest = paths.dist + "assets/";
 paths.cssDest = paths.assetsDest + "css/";
+paths.jsDest = paths.assetsDest + "js/";
 paths.imagesDest = paths.assetsDest + "images/";
+
+// paths - tests
+
+paths.accessibilty = paths.buildScript + "accessibility.spec.js";
+paths.performance = paths.buildScript + "performance.spec.js";
+paths.browserStackConf = paths.buildScript + "conf/conf.js";
+paths.browserStackSpec = paths.buildScript + "specs/*.spec.js";
 
 const testServerOptions = {
     port: 3000,
@@ -82,6 +85,7 @@ gulp.task('assets', function () {
 });
 
 gulp.task("clean:js", function (cb) {
+    rimraf(paths.jsDest + "", cb);
     rimraf(paths.concatMinJsDest + "", cb);
 });
 
@@ -107,16 +111,15 @@ gulp.task("sass", function () {
 });
 
 gulp.task("js", function () {
-    return gulp.src([paths.js], { base: "." })
-        .pipe(concat(paths.concatJsDest))
-        .pipe(gulp.dest("."));
+    return gulp.src(paths.js)
+        .pipe(gulp.dest(paths.jsDest))
+        .pipe(connect.reload());
 });
 
 gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatMinJsDest))
+    return gulp.src(paths.jsDest + 'site.js')
         .pipe(uglify())
-        .pipe(gulp.dest("."));
+        .pipe(gulp.dest(paths.jsDest))
 });
 
 gulp.task("min:css", function () {
@@ -253,7 +256,7 @@ gulp.task("dev",
             "sass:watch",
             "images:watch",
             "js:watch",
-            "eslint:watch",
+            // "eslint:watch",
             "connect"))
 );
 
@@ -262,8 +265,9 @@ gulp.task("prod",
         "clean",
         "assets",
         "sass",
+        "js",
         "html",
-        "eslint",
+        // "eslint",
         "min",
         'rev',
         'headers')
