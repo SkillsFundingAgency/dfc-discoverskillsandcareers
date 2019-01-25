@@ -1,6 +1,7 @@
 .app-your-reference {
   background-color: govuk-colour('grey-4');
   padding: govuk-spacing(3);
+  margin-bottom: govuk-spacing(6);
   border-left: 10px solid $app-turquoise;
 }
 
@@ -11,7 +12,7 @@
 
 .app-your-reference__meta p {  
   margin-bottom: 0;
-
+  color: $govuk-secondary-text-colour;
   &:last-child {
     @include govuk-media-query($from: desktop) {
       text-align: right;

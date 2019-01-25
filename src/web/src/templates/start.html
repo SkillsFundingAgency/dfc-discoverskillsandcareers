@@ -15,7 +15,7 @@
     {{ govukBreadcrumbs({
       items: [
         {
-          text: "Home",
+          text: "Home: Discover your skills and careers",
           href: "/"
         },
         {
@@ -34,7 +34,7 @@
 
         <div class="govuk-grid-column-two-thirds">
             
-          <h1 class="govuk-heading-xl govuk-!-margin-bottom-3 govuk-!-margin-top-6">Job categories</h1>
+          <h1 class="govuk-heading-xl govuk-!-margin-bottom-5 govuk-!-margin-top-6">Job categories</h1>
 
           <p class="govuk-body-l">Answer statements about what you enjoy, and discover job categories tailored to you</p>
 
@@ -42,21 +42,17 @@
             This assessment will take 5 minutes
           </p>
 
-          <ul class="govuk-list govuk-list--bullet">
-            <li>On the following screens, we will ask you to agree or disagree with statements about yourself</li>
-            <li>We’ll use your answers to suggest types of work you might be suited to</li>
-            <li>Some of the statements are very similar. This is to help us make sure your results are more reliable. Try to answer quickly, even if you think you’ve seen a statement before</li>
-            <li>You will get more accurate results if you answer honestly and respond to every statement. But you can use the option called ‘this doesn’t apply to me’ if you are finding it hard to respond to a particular statement            </li>
-          </ul>
-
+          <p>On the following screens, we will ask you to agree or disagree with statements about yourself.</p>
+          <p>We’ll use your answers to suggest types of work you might be suited to.</p>
+          <p>Some of the statements are very similar. This is to help us make sure your results are more reliable. Try to answer quickly, even if you think you’ve seen a statement before.</p>
+          <p>You will get more accurate results if you answer honestly and respond to every statement. But you can use the option called ‘this doesn’t apply to me’ if you are finding it hard to respond to a particular statement.            </p>
+          
           {{ govukButton({
             text: "Start now",
             href: "https://__FunctionAppName__.azurewebsites.net/q/1?assessmentType=short",
-            classes: "govuk-button--start app-button"
+            classes: "govuk-button--start app-button govuk-!-margin-top-5"
           }) }}
-          <br>
-          <a href="/" class="govuk-back-link">Back</a>
-
+          
         </div>
 
       </div>

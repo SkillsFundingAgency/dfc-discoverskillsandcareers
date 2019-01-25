@@ -8,6 +8,10 @@
   }
 }
 
+.app-result {
+  margin-bottom: govuk-spacing(6);
+}
+
 .app-results__cta {
   .govuk-button {
     margin-bottom: govuk-spacing(3);
@@ -29,7 +33,7 @@
 
 .app-result__header {
   background: govuk-colour('grey-3');
-  padding: govuk-spacing(4);
+  padding: govuk-spacing(3) govuk-spacing(4);
   margin: 0;
 }
 
