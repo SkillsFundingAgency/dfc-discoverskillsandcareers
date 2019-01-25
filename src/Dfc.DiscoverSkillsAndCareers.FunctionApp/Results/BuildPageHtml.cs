@@ -23,14 +23,24 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
 
             var traitHtml = "";
             displayCounter = 0;
+            int maxTraitDisplay = 3;
             bool isLocal = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID"));
+            // Top 3 traits get displayed; unless 3 and 4 draw then it's 4
+            if (sessionHelper.Session.ResultData.Traits.Count > 3)
+            {
+                if (sessionHelper.Session.ResultData.Traits[2].TotalScore == sessionHelper.Session.ResultData.Traits[3].TotalScore)
+                {
+                    maxTraitDisplay += 1;
+                }
+            }
+            // List the traits to display
             sessionHelper.Session.ResultData.Traits.ForEach(trait =>
             {
                 if (isLocal)
                 {
                     traitHtml += $"<p>{trait.TraitName} {trait.TotalScore} {trait.TraitText}</p>";
                 }
-                else if (displayCounter < 3)
+                else if (displayCounter < maxTraitDisplay)
                 {
                     traitHtml += $"<p>{trait.TraitText}</p>";
                     displayCounter++;
