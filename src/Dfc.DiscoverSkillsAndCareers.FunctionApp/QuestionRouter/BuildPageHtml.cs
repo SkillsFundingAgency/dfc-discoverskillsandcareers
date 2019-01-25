@@ -15,7 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
             int percentComplete = Convert.ToInt32(((sessionHelper.Session.RecordedAnswers.Count) / Convert.ToDecimal(sessionHelper.Session.MaxQuestions)) * 100);
             int displayPercentComplete = percentComplete - (percentComplete % 10);
             var nextRoute = GetNextRoute(sessionHelper.Session);
-            var buttonText = sessionHelper.Session.IsComplete ? "Finish" : "Continue";
+            var buttonText = "Next";
 
             // Replace placeholder text strings
             html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
