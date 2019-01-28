@@ -24,11 +24,17 @@
     
   </div>
 
-  <main id="content" class="govuk-width-container" role="main">
-    {{ govukPanel({
-      titleText: "500",
-      html: "Server error"
-    }) }}
+  <main id="content" class="govuk-width-container govuk-!-margin-bottom-9 govuk-!-margin-top-9" role="main">
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+          <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+          <p class="govuk-body">Try again later.</p>
+
+        </div>
+      </div>
+
   </main> 
 
 {% endblock %}
