@@ -2,11 +2,15 @@
   @include govuk-media-query($from: desktop) {
     margin-top: govuk-spacing(7);
     clear: both;
+    position: relative;
 
     .govuk-fieldset__legend {
       width: 50%;
       float: left;
       padding-right: 2em;
+      top: 50%;
+      position: absolute;
+      transform: translateY(-50%);
     }
 
     .govuk-radios {
@@ -29,8 +33,12 @@
     .govuk-radios__item {
       position: relative;
       padding-left: 0;
-      width: 20%;
+      width: 25%;
+      display: block;
       text-align: center;
+      float: left;
+      clear: none;
+      margin: 0;
 
       &:last-child {
         margin-right: 0;
@@ -41,7 +49,7 @@
 
       &::before,
       &::after {
-        left: 50%;
+        left: calc(50% + 2px);
         transform: translateX(-50%);
       }
     }
