@@ -15,7 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         {
             var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
             var host = GetHost(req.RequestUri);
-            redirectResponse.Headers.Location = new Uri($"{host}/q/1");
+            redirectResponse.Headers.Location = new Uri($"{host}/q/1?assessmentType=short");
             return redirectResponse;
         }
 
