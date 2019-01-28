@@ -14,6 +14,7 @@ function handlebrowserStackError () {
 function handleLighthouseError () {
     process.exit(1);
 }
+
 // requires
 
 var gulp = require("gulp"),
@@ -164,7 +165,7 @@ gulp.task('rev', () => {
       .pipe(assetFilter.restore)
       .pipe(revRewrite()) // Substitute in new filenames
       .pipe(gulp.dest(paths.dist));
-  });
+});
 
 gulp.task('headers', () => {
     return gulp.src(paths.dist + '**/*.html')
@@ -262,7 +263,6 @@ gulp.task("dev",
             "sass:watch",
             "images:watch",
             "js:watch",
-            // "eslint:watch",
             "connect"))
 );
 
@@ -273,7 +273,6 @@ gulp.task("prod",
         "sass",
         "js",
         "html",
-        // "eslint",
         "min",
         'rev',
         'headers')
