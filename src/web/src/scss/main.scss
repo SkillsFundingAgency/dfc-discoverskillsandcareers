@@ -36,7 +36,11 @@ $app-turquoise: #1F7E77;
 .govuk-header__container {
   border-bottom-color: $app-purple;
 }
+.govuk-phase-bannertag {  // legacy version support
+  margin-right: 10px;
+}
 
+.govuk-phase-bannertag,  // legacy version support
 .govuk-phase-banner__content__tag {
   background-color: $app-purple;
   color: govuk-colour('white');
