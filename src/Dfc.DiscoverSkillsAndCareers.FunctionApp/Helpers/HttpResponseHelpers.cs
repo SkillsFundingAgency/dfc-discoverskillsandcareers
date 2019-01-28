@@ -70,6 +70,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
                     }
                     var html = templateHtml;
                     html = html.Replace("/assets/css/main", $"{appSettings.StaticSiteDomain}/assets/css/main");
+                    html = html.Replace("[static_site_domain]", appSettings.StaticSiteDomain);
                     okResponse.Content = new StringContent(html);
                 }
             }
