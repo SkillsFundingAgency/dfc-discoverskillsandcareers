@@ -13,10 +13,19 @@
 .app-assessment-picker__title {
   background-color: $app-turquoise;
   padding: govuk-spacing(5) govuk-spacing(3);
+  position: relative;
 
   .govuk-heading-l {
     color: govuk-colour('white');
     margin: 0;
+  }
+
+  .govuk-tag--coming-soon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    z-index: 3;
+    transform: translateY(-50%);
   }
 }
 
@@ -44,12 +53,5 @@
     content: '';
     top: 0;
     left: 0;
-  }
-
-  .govuk-tag--coming-soon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 3;
   }
 }
