@@ -124,13 +124,18 @@ namespace Dfc.UnitTests
 
             var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
-            Assert.True(result.Count == 6);
+            var jobs = FriendlyJobsString(result);
+            Assert.True(result.Count == 10);
             Assert.True(result[0].JobFamilyCode == "CTD");
             Assert.True(result[1].JobFamilyCode == "RAS");
             Assert.True(result[2].JobFamilyCode == "HAF");
-            Assert.True(result[3].JobFamilyCode == "SOC");
-            Assert.True(result[4].JobFamilyCode == "MAN");
-            Assert.True(result[5].JobFamilyCode == "SAL");
+            Assert.True(result[3].JobFamilyCode == "CAT");
+            Assert.True(result[4].JobFamilyCode == "CAM");
+            Assert.True(result[5].JobFamilyCode == "SOC");
+            Assert.True(result[6].JobFamilyCode == "HEC");
+            Assert.True(result[7].JobFamilyCode == "ANC");
+            Assert.True(result[8].JobFamilyCode == "ADM");
+            Assert.True(result[9].JobFamilyCode == "TAE");
         }
 
         [Fact]
@@ -150,7 +155,8 @@ namespace Dfc.UnitTests
 
             var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
-            Assert.True(result.Count == 16);
+            var jobs = FriendlyJobsString(result);
+            Assert.True(result.Count == 10);
             Assert.True(result[0].JobFamilyCode == "CTD");
             Assert.True(result[1].JobFamilyCode == "HEC");
             Assert.True(result[2].JobFamilyCode == "ANC");
@@ -161,12 +167,6 @@ namespace Dfc.UnitTests
             Assert.True(result[7].JobFamilyCode == "EUS");
             Assert.True(result[8].JobFamilyCode == "ADM");
             Assert.True(result[9].JobFamilyCode == "RAS");
-            Assert.True(result[10].JobFamilyCode == "HAF");
-            Assert.True(result[11].JobFamilyCode == "SOC");
-            Assert.True(result[12].JobFamilyCode == "HOM");
-            Assert.True(result[13].JobFamilyCode == "TRA");
-            Assert.True(result[14].JobFamilyCode == "DAS");
-            Assert.True(result[15].JobFamilyCode == "GOV");
         }
 
         [Fact]
@@ -226,8 +226,23 @@ namespace Dfc.UnitTests
 
             var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
-            Assert.True(result.Count == 1);
+            var jobs = FriendlyJobsString(result);
+            Assert.True(result.Count == 10);
             Assert.True(result[0].JobFamilyCode == "MAN");
+            Assert.True(result[1].JobFamilyCode == "BAW");
+            Assert.True(result[2].JobFamilyCode == "SAL");
+            Assert.True(result[3].JobFamilyCode == "RAS");
+            Assert.True(result[4].JobFamilyCode == "HAF");
+            Assert.True(result[5].JobFamilyCode == "SAR");
+            Assert.True(result[6].JobFamilyCode == "MAU");
+            Assert.True(result[7].JobFamilyCode == "TAE");
+            Assert.True(result[8].JobFamilyCode == "BAF");
+            Assert.True(result[9].JobFamilyCode == "LAL");
+        }
+
+        private string FriendlyJobsString(List<JobFamilyResult> result)
+        {
+            return string.Join(Environment.NewLine, result.Select(x => $"{x.JobFamilyName} {x.Total.ToString("N2")} {x.JobFamilyCode} {x.TraitsTotal.ToString()}").ToArray());
         }
 
         [Fact]
@@ -247,9 +262,18 @@ namespace Dfc.UnitTests
 
             var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
-            Assert.True(result.Count == 2);
+            var jobs = FriendlyJobsString(result);
+            Assert.True(result.Count == 10);
             Assert.True(result[0].JobFamilyCode == "CTD");
             Assert.True(result[1].JobFamilyCode == "SOC");
+            Assert.True(result[2].JobFamilyCode == "HEC");
+            Assert.True(result[3].JobFamilyCode == "ANC");
+            Assert.True(result[4].JobFamilyCode == "CAT");
+            Assert.True(result[5].JobFamilyCode == "CAM");
+            Assert.True(result[6].JobFamilyCode == "SAL");
+            Assert.True(result[7].JobFamilyCode == "ADM");
+            Assert.True(result[8].JobFamilyCode == "RAS");
+            Assert.True(result[9].JobFamilyCode == "HAF");
         }
 
         [Fact]
@@ -269,13 +293,18 @@ namespace Dfc.UnitTests
 
             var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
-            Assert.True(result.Count == 6);
+            var jobs = FriendlyJobsString(result);
+            Assert.True(result.Count == 10);
             Assert.True(result[0].JobFamilyCode == "GOV");
             Assert.True(result[1].JobFamilyCode == "HOM");
             Assert.True(result[2].JobFamilyCode == "ENV");
             Assert.True(result[3].JobFamilyCode == "EAM");
             Assert.True(result[4].JobFamilyCode == "TRA");
             Assert.True(result[5].JobFamilyCode == "DAS");
+            Assert.True(result[6].JobFamilyCode == "BAF");
+            Assert.True(result[7].JobFamilyCode == "LAL");
+            Assert.True(result[8].JobFamilyCode == "TAT");
+            Assert.True(result[9].JobFamilyCode == "BAW");
         }
 
         [Fact]
@@ -295,11 +324,38 @@ namespace Dfc.UnitTests
 
             var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
 
-            Assert.True(result.Count == 4);
+            var jobs = FriendlyJobsString(result);
+            Assert.True(result.Count == 10);
             Assert.True(result[0].JobFamilyCode == "ADM");
             Assert.True(result[1].JobFamilyCode == "GOV");
             Assert.True(result[2].JobFamilyCode == "SAR");
             Assert.True(result[3].JobFamilyCode == "MAU");
+            Assert.True(result[4].JobFamilyCode == "BAF");
+            Assert.True(result[5].JobFamilyCode == "LAL");
+            Assert.True(result[6].JobFamilyCode == "MAN");
+            Assert.True(result[7].JobFamilyCode == "BAW");
+            Assert.True(result[8].JobFamilyCode == "CTD");
+            Assert.True(result[9].JobFamilyCode == "SAL");
+        }
+
+        [Fact]
+        public void CalculateJobFamilyRelevance_WithAllAgree_Should()
+        {
+            var userTraits = new List<TraitResult>()
+            {
+                new TraitResult() { TraitCode = "LEADER", TotalScore = 3 },
+                new TraitResult() { TraitCode = "DRIVER", TotalScore = 3 },
+                new TraitResult() { TraitCode = "INFLUENCER", TotalScore = 3 },
+                new TraitResult() { TraitCode = "HELPER", TotalScore = 3 },
+                new TraitResult() { TraitCode = "ANALYST", TotalScore = 3 },
+                new TraitResult() { TraitCode = "CREATOR", TotalScore = 3 },
+                new TraitResult() { TraitCode = "ORGANISER", TotalScore = 3 },
+                new TraitResult() { TraitCode = "DOER", TotalScore = 3 }
+            };
+
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
+
+            Assert.True(result.Count == 10);
         }
     }
 }
