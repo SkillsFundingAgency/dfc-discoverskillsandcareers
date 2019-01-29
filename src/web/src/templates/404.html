@@ -6,12 +6,7 @@
 
   <div class="govuk-width-container app-site-width-container">
     
-    {{ govukPhaseBanner({
-      tag: {
-        text: "beta"
-      },
-      html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-    }) }}
+    {% include "_phasebanner.njk" %}
 
     {{ govukBreadcrumbs({
       items: [
