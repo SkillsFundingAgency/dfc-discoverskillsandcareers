@@ -208,5 +208,98 @@ namespace Dfc.UnitTests
 
             Assert.True(result.Count == 0);
         }
+
+        [Fact]
+        public void CalculateJobFamilyRelevance_WithLeaderDriverInfluencer_Should()
+        {
+            var userTraits = new List<TraitResult>()
+            {
+                new TraitResult() { TraitCode = "LEADER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "DRIVER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "INFLUENCER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "HELPER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "ANALYST", TotalScore = -6 },
+                new TraitResult() { TraitCode = "CREATOR", TotalScore = -6 },
+                new TraitResult() { TraitCode = "ORGANISER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
+            };
+
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
+
+            Assert.True(result.Count == 1);
+            Assert.True(result[0].JobFamilyCode == "MAN");
+        }
+
+        [Fact]
+        public void CalculateJobFamilyRelevance_WithHelperAnalystCreator_Should()
+        {
+            var userTraits = new List<TraitResult>()
+            {
+                new TraitResult() { TraitCode = "LEADER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "DRIVER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "INFLUENCER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "HELPER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "ANALYST", TotalScore = 6 },
+                new TraitResult() { TraitCode = "CREATOR", TotalScore = 6 },
+                new TraitResult() { TraitCode = "ORGANISER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
+            };
+
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
+
+            Assert.True(result.Count == 2);
+            Assert.True(result[0].JobFamilyCode == "CTD");
+            Assert.True(result[1].JobFamilyCode == "SOC");
+        }
+
+        [Fact]
+        public void CalculateJobFamilyRelevance_WithOrganiserDoer_Should()
+        {
+            var userTraits = new List<TraitResult>()
+            {
+                new TraitResult() { TraitCode = "LEADER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "DRIVER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "INFLUENCER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "HELPER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "ANALYST", TotalScore = -6 },
+                new TraitResult() { TraitCode = "CREATOR", TotalScore = -6 },
+                new TraitResult() { TraitCode = "ORGANISER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "DOER", TotalScore = 6 }
+            };
+
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
+
+            Assert.True(result.Count == 6);
+            Assert.True(result[0].JobFamilyCode == "GOV");
+            Assert.True(result[1].JobFamilyCode == "HOM");
+            Assert.True(result[2].JobFamilyCode == "ENV");
+            Assert.True(result[3].JobFamilyCode == "EAM");
+            Assert.True(result[4].JobFamilyCode == "TRA");
+            Assert.True(result[5].JobFamilyCode == "DAS");
+        }
+
+        [Fact]
+        public void CalculateJobFamilyRelevance_WithAnalystOrganiserDriver_Should()
+        {
+            var userTraits = new List<TraitResult>()
+            {
+                new TraitResult() { TraitCode = "LEADER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "DRIVER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "INFLUENCER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "HELPER", TotalScore = -6 },
+                new TraitResult() { TraitCode = "ANALYST", TotalScore = 6 },
+                new TraitResult() { TraitCode = "CREATOR", TotalScore = -6 },
+                new TraitResult() { TraitCode = "ORGANISER", TotalScore = 6 },
+                new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
+            };
+
+            var result = CalculateResult.CalculateJobFamilyRelevance(userTraits, "en");
+
+            Assert.True(result.Count == 4);
+            Assert.True(result[0].JobFamilyCode == "ADM");
+            Assert.True(result[1].JobFamilyCode == "GOV");
+            Assert.True(result[2].JobFamilyCode == "SAR");
+            Assert.True(result[3].JobFamilyCode == "MAU");
+        }
     }
 }

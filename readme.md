@@ -48,21 +48,11 @@ to run the function app again
 
 ### Build web assets and templates 
 
-#### Development 
+#### Tasks 
 
-To build the web assets and templates navigate to `src/web` and run 
-
-    gulp dev
-
-#### Production 
-
-To build the web assets and templates navigate to `src/web` and run 
-
-    gulp
-
-this will build the assets to `src/web/dist`
-
-Production task also revisions assets. 
+- `gulp` - Runs the build task, revisions assets, outputs to `dist` directory
+- `gulp dev` - Runs the build task, starts development server with LiveReload
+- `gulp test` - Runs test scripts 
 
 #### Asset Revisioning 
 
@@ -70,10 +60,13 @@ Assets are revisioned using [`gulp-rev`](https://github.com/sindresorhus/gulp-re
 
 Note that these assets are only revisioned when the file is changed, and not every time the task is run. 
 
+#### JavaScript 
+
+JavaScript is written in ES6 and transpiled using Babel
+
 ### Front-end Testing 
 
-To run front-end testing navigate to `src/web` and run
-
+    cd src/web
     gulp test
 
 #### Linting 
@@ -82,19 +75,19 @@ Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/g
 
 #### Cross-browser
 
-Cross-browser testing is carried out using [`BrowserStack`](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through happy/negative paths and is part of gulp test task. To run manually navigate to `src/web` and run
+Cross-browser testing is carried out using [BrowserStack](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through happy/negative paths and is part of gulp test task. To run manually navigate to `src/web` and run
 
     gulp browserStack 
 
 #### Accessibility
 
-Accessibility testing is carried out using [`Pa11y`](https://github.com/pa11y/pa11y). WCAG2AA is used as testing standard and is part of gulp test task. To run manually navigate to `src/web` and run
+Accessibility testing is carried out using [Pa11y](https://github.com/pa11y/pa11y). WCAG2AA is used as testing standard and is part of gulp test task. To run manually navigate to `src/web` and run
 
     gulp pa11y
 
 #### Performance
 
-Performance testing is carried out using [`Lighthouse`](https://github.com/GoogleChrome/lighthouse#readme) and is part of gulp test task. To run manually navigate to `src/web` and run
+Performance testing is carried out using [Lighthouse](https://github.com/GoogleChrome/lighthouse#readme) and is part of gulp test task. To run manually navigate to `src/web` and run
 
     gulp lighthousePerformanceTest
 
@@ -109,11 +102,11 @@ There are 3 deployment artifacts
 ## Deployment URLs
 
 #### DEV
-Web: https://dfcdevskillscareersstr.z6.web.core.windows.net
 
-Questions: https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
+- Web: https://dfcdevskillscareersstr.z6.web.core.windows.net
+- Questions: https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
 
 #### SIT
-Web: https://dfcsitskillscareersstr.z6.web.core.windows.net
 
-Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
+- Web: https://dfcsitskillscareersstr.z6.web.core.windows.net
+- Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
