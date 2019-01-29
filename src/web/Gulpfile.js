@@ -44,7 +44,7 @@ var paths = {
     src: "src/",
     dist: "dist/",
     temp: ".temp/",
-    buildScript: "build-script/"
+    tests: "tests/"
 };
 
 // paths – input
@@ -70,10 +70,10 @@ paths.imagesDest = paths.assetsDest + "images/";
 
 // paths - tests
 
-paths.accessibilty = paths.buildScript + "accessibility.spec.js";
-paths.performance = paths.buildScript + "performance.spec.js";
-paths.browserStackConf = paths.buildScript + "conf/conf.js";
-paths.browserStackSpec = paths.buildScript + "specs/*.spec.js";
+paths.accessibilty = paths.tests + "accessibility.spec.js";
+paths.performance = paths.tests + "performance.spec.js";
+paths.browserStackConf = paths.tests + "conf/conf.js";
+paths.browserStackSpec = paths.tests + "specs/*.spec.js";
 
 const testServerOptions = {
     port: 3000,
