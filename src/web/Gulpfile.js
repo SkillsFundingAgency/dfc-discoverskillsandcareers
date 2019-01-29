@@ -50,6 +50,7 @@ var paths = {
 // paths – input
 
 paths.html = paths.src + "templates/**/*.html";
+paths.nunjucks = paths.src + "partials/**/*.njk";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.images = paths.src + "images/**/*";
 paths.js = paths.src + "js/**/*.js";
@@ -238,7 +239,7 @@ gulp.task("css:watch", () => gulp.watch([paths.css], gulp.series("min:css")));
 gulp.task("sass:watch", () => gulp.watch(paths.scss, gulp.series("sass")));
 gulp.task("eslint:watch", () => gulp.watch([paths.js], gulp.series("eslint")));
 gulp.task("js:watch", () => gulp.watch([paths.js], gulp.series("js")));
-gulp.task("html:watch", () => gulp.watch([paths.html], gulp.series("html")));
+gulp.task("html:watch", () => gulp.watch([paths.html, paths.nunjucks], gulp.series("html")));
 gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")));
 
 // commands
