@@ -27,9 +27,9 @@
     
   </div>
 
-  <main id="content" class="govuk-width-container govuk-!-margin-bottom-9 govuk-!-margin-top-8" role="main">
+  <main id="content" class="govuk-width-container" role="main">
 
-    <div class="govuk-grid-row">
+    <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
       <div class="govuk-grid-column-two-thirds">
 
         {{ govukPanel({
@@ -43,19 +43,16 @@
 
         <form action="/results" method="post">
           <input type="hidden" name="sessionId" value="[session_id]" />
-    
-          <div>
-            {{ govukButton({
-              text: "View results",
-              classes: "app-button",
-              type: "submit"
-            }) }}
-          </div>
-    
+  
+          {{ govukButton({
+            text: "View results",
+            classes: "app-button",
+            type: "submit"
+          }) }}
+  
         </form>
 
       </div>
-
     </div>
 
   </main> 
