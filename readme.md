@@ -62,7 +62,9 @@ Note that these assets are only revisioned when the file is changed, and not eve
 
 #### JavaScript 
 
-JavaScript is written in ES6 and transpiled using Babel
+JavaScript is written in ES6 and is compiled using Babel in order to support older browsers. 
+
+JavaScript is linted using the [Standard](https://standardjs.com) linter, as documented in the [GOV.UK coding standards and guidelines](https://github.com/alphagov/styleguides/blob/master/js.md#linting)
 
 ### Front-end Testing 
 
@@ -95,9 +97,9 @@ Performance testing is carried out using [Lighthouse](https://github.com/GoogleC
 
 There are 3 deployment artifacts 
 
-1. Function App - To be deployed to the function environment.
-2. Page templates - To be deployed to blob container.
-3. Static Landing Pages - To be deployed to blob container. 
+1. **Function App** - To be deployed to the function environment.
+2. **Page templates** - To be deployed to blob container.
+3. **Static Landing Pages** - To be deployed to blob container. 
 
 ## Deployment URLs
 

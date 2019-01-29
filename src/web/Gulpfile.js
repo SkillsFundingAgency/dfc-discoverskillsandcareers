@@ -36,7 +36,8 @@ var gulp = require("gulp"),
     replace = require('gulp-replace'),
     merge = require('merge-stream'),
     babel = require("gulp-babel"),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    standard = require('gulp-standard');
 
 // paths
 
@@ -119,6 +120,8 @@ gulp.task("sass", function () {
 
 gulp.task("js", function () {
     return gulp.src(paths.js)
+        .pipe(standard())
+        .pipe(standard.reporter('default'))
         .pipe(babel())
         .pipe(gulp.dest(paths.jsDest))
         .pipe(connect.reload());

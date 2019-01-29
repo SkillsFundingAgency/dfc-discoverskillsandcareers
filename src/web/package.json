@@ -27,6 +27,7 @@
     "gulp-rev-rewrite": "^1.1.4",
     "gulp-sass": "^4.0.1",
     "gulp-sass-lint": "^1.4.0",
+    "gulp-standard": "^12.0.0",
     "gulp-uglify": "^3.0.1",
     "lighthouse": "^4.0.0",
     "merge-stream": "^1.0.1",
