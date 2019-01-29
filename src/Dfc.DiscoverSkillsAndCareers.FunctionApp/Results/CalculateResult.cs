@@ -463,7 +463,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                       }).ToList(),
                     NormalizedTotal = x.ResultMultiplier
               })
-              .Where(x => !x.TraitValues.Any(v => v.NormalizedTotal < 0.5m))
+              .Where(x => x.TraitValues.Any(v => v.Total > 0))
               .ToList();
             userJobFamilies.ForEach(x =>
             {
@@ -471,8 +471,9 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
                 x.NormalizedTotal = x.NormalizedTotal * x.TraitValues.Sum(v => v.Total);
             });
             var result = userJobFamilies
-                .Where(x => x.NormalizedTotal >= 1)
-                .OrderByDescending(x => x.Total).ToList();
+                .OrderByDescending(x => x.Total)
+                .Take(10)
+                .ToList();
             return result;
         }
     }
