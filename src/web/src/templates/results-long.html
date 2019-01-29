@@ -38,102 +38,104 @@
     </div>
   </div>
 
-  <main id="content"  class="govuk-main-wrapper govuk-width-container" role="main">
+  <main id="content" role="main">
+    <div class="govuk-main-wrapper govuk-width-container">
 
-    <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-9">
+      <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-9">
 
-      <div class="govuk-grid-column-two-thirds">
-          
-        <h2 class="govuk-heading-l">What you told us</h2>
+        <div class="govuk-grid-column-two-thirds">
+            
+          <h2 class="govuk-heading-l">What you told us</h2>
 
-        <ul class="govuk-list govuk-list--bullet">
-            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-            <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-            <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-        </ul>
+          <ul class="govuk-list govuk-list--bullet">
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+              <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+              <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+          </ul>
 
-        <p class="govuk-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p class="govuk-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        </div>
+
+        <div class="govuk-grid-column-one-third app-sidebar">
+          <h3 class="govuk-heading-m">Things to do with your results</h3>
+          <ul class="govuk-list">
+            <li>
+              <a class="govuk-link" href="#">Print</a>
+            </li>
+            <li>
+              <a class="govuk-link" href="#">Email</a>
+            </li>
+            <li>
+              <a class="govuk-link" href="#">Download</a>
+            </li>
+            <li>
+              <a class="govuk-link" href="#">Add to your CV</a>
+            </li>
+          </ul>
+        </div>
 
       </div>
 
-      <div class="govuk-grid-column-one-third app-sidebar">
-        <h3 class="govuk-heading-m">Things to do with your results</h3>
+      <div class="app-results">
+
+        <h2 class="govuk-heading-l">Your results</h2>
+
         <ul class="govuk-list">
           <li>
-            <a class="govuk-link" href="#">Print</a>
-          </li>
-          <li>
-            <a class="govuk-link" href="#">Email</a>
-          </li>
-          <li>
-            <a class="govuk-link" href="#">Download</a>
-          </li>
-          <li>
-            <a class="govuk-link" href="#">Add to your CV</a>
+            <h3 class="govuk-heading-m">Call centre operator</h3>
+            <p class="govuk-body-l app-text--light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <div class="govuk-grid-row govuk-!-margin-bottom-3">
+              <div class="govuk-grid-column-one-third">
+                <h5 class="govuk-body app-results__col-header">Average salary <span>(a year)</span></h5>
+                <div class="app-payscale govuk-body-l">
+                  <span class="app-payscale__from">£13,500 <i class="govuk-body">Starter</i></span><span class="app-payscale__join">–</span><span class="app-payscale__to">£28,000 <i class="govuk-body">Experienced</i></span>
+                </div>
+              </div>
+              <div class="govuk-grid-column-one-third">
+                <h5 class="govuk-body app-results__col-header">Typical hours <span>(a week)</span></h5>
+                <p class="govuk-body-l">38 to 40 a week</p>
+              </div>
+              <div class="govuk-grid-column-one-third">
+                <h5 class="govuk-body  app-results__col-header">You could work</h5>
+                <p class="govuk-body-l">evenings / weekends / bank holidays on shifts</p>
+              </div>
+            </div>
+            <h4 class="govuk-heading-m">Start your journey</h4>
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body app-text--light">Choose from one of the two options to find out more information about this role, or training opportunities</p>
+              </div>
+              <div class="govuk-grid-column-one-third app-results__cta">
+                {{ govukButton({
+                  text: "View job information",
+                  classes: "govuk-button--start app-button--block app-button--alt",
+                  href: "#"
+                }) }}
+                {{ govukButton({
+                  text: "View training opportunities",
+                  classes: "govuk-button--start app-button--block app-button--alt",
+                  href: "#"
+                }) }}
+              </div>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
           </li>
         </ul>
+
       </div>
 
-    </div>
-
-    <div class="app-results">
-
-      <h2 class="govuk-heading-l">Your results</h2>
+      <h2 class="govuk-heading-m">Want to see more job roles?</h2>
 
       <ul class="govuk-list">
         <li>
-          <h3 class="govuk-heading-m">Call centre operator</h3>
-          <p class="govuk-body-l app-text--light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <div class="govuk-grid-row govuk-!-margin-bottom-3">
-            <div class="govuk-grid-column-one-third">
-              <h5 class="govuk-body app-results__col-header">Average salary <span>(a year)</span></h5>
-              <div class="app-payscale govuk-body-l">
-                <span class="app-payscale__from">£13,500 <i class="govuk-body">Starter</i></span><span class="app-payscale__join">–</span><span class="app-payscale__to">£28,000 <i class="govuk-body">Experienced</i></span>
-              </div>
-            </div>
-            <div class="govuk-grid-column-one-third">
-              <h5 class="govuk-body app-results__col-header">Typical hours <span>(a week)</span></h5>
-              <p class="govuk-body-l">38 to 40 a week</p>
-            </div>
-            <div class="govuk-grid-column-one-third">
-              <h5 class="govuk-body  app-results__col-header">You could work</h5>
-              <p class="govuk-body-l">evenings / weekends / bank holidays on shifts</p>
-            </div>
-          </div>
-          <h4 class="govuk-heading-m">Start your journey</h4>
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-              <p class="govuk-body app-text--light">Choose from one of the two options to find out more information about this role, or training opportunities</p>
-            </div>
-            <div class="govuk-grid-column-one-third app-results__cta">
-              {{ govukButton({
-                text: "View job information",
-                classes: "govuk-button--start app-button--block app-button--alt",
-                href: "#"
-              }) }}
-              {{ govukButton({
-                text: "View training opportunities",
-                classes: "govuk-button--start app-button--block app-button--alt",
-                href: "#"
-              }) }}
-            </div>
-          </div>
-          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+          <a class="govuk-link" href="#">View 7 more job matches</a>
+        </li>
+        <li>
+          <a class="govuk-link" href="#">&uarr; Back to top</a>
         </li>
       </ul>
-
     </div>
-
-    <h2 class="govuk-heading-m">Want to see more job roles?</h2>
-
-    <ul class="govuk-list">
-      <li>
-        <a class="govuk-link" href="#">View 7 more job matches</a>
-      </li>
-      <li>
-        <a class="govuk-link" href="#">&uarr; Back to top</a>
-      </li>
-    </ul>
 
   </main>
 

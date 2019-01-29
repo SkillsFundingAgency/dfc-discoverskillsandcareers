@@ -27,31 +27,33 @@
     
   </div>
 
-  <main id="content" class="govuk-width-container" role="main">
-
-    <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
-      <div class="govuk-grid-column-two-thirds">
-
-        {{ govukPanel({
-          titleText: "Assessment complete",
-          html: "Thank you",
-          classes: "govuk-!-margin-bottom-6"
-        }) }}
-
-        <h1 class="govuk-heading-m">What to do next</h1>
-        <p class="govuk-body govuk-!-margin-bottom-5">On the next page you will see your results, which are based on the statements you have just responded to.</p>
-
-        <form action="/results" method="post">
-          <input type="hidden" name="sessionId" value="[session_id]" />
+  <main id="content" role="main">
   
-          {{ govukButton({
-            text: "View results",
-            classes: "app-button",
-            type: "submit"
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
+        <div class="govuk-grid-column-two-thirds">
+
+          {{ govukPanel({
+            titleText: "Assessment complete",
+            html: "Thank you",
+            classes: "govuk-!-margin-bottom-6"
           }) }}
-  
-        </form>
 
+          <h1 class="govuk-heading-m">What to do next</h1>
+          <p class="govuk-body govuk-!-margin-bottom-5">On the next page you will see your results, which are based on the statements you have just responded to.</p>
+
+          <form action="/results" method="post">
+            <input type="hidden" name="sessionId" value="[session_id]" />
+    
+            {{ govukButton({
+              text: "View results",
+              classes: "app-button",
+              type: "submit"
+            }) }}
+    
+          </form>
+
+        </div>
       </div>
     </div>
 
