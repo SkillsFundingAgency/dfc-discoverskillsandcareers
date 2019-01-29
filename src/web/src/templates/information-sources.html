@@ -1,0 +1,47 @@
+{% set pageName = 'finish' %}
+
+{% extends "_base.njk" %}
+
+{% block main %}
+
+  <div class="govuk-width-container app-site-width-container">
+    
+    {{ govukPhaseBanner({
+      tag: {
+        text: "beta"
+      },
+      html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+    }) }}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home: Discover your skills and careers",
+          href: "[static_site_domain]"
+        },
+        {
+          text: "See job categories"
+        }
+      ]
+    }) }}      
+    
+  </div>
+
+  <main id="content" class="govuk-width-container" role="main">
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-xl">Information sources</h1>
+        <h2 class="govuk-heading-l">Our occupational psychology subject matter experts</h2>
+        <div class="govuk-body">
+          <p>We worked with subject matter experts, SHL Group Limited, to create the ‘Discover your skills and careers’ service.</p>
+          <p>We're constantly working to improve our information and your feedback is important to us. Please email us with your feedback.</p>
+        </div>
+        
+      </div>
+    </div>
+
+  </main> 
+
+{% endblock %}
