@@ -1,10 +1,29 @@
 # Discover Skills and Careers
 
-## Architecture Documents 
+## Screenshots 
+
+TODO
+
+## Live examples
+
+### DEV
+
+- Web: https://dfcdevskillscareersstr.z6.web.core.windows.net
+- Questions: https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
+
+### SIT
+
+- Web: https://dfcsitskillscareersstr.z6.web.core.windows.net
+- Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
+
+
+## Technical documentation  
+
+### Architecture Documents 
 
 [High level solution Architecture Diagram](https://drive.google.com/open?id=16ukfuSa6eKJW3lgVBvaFFobpEQ3a13D2)
 
-## Developer Requirements
+### Dependencies
 
 * Visual Studio 2017 / Visual Studio Code
 * .NET Core 2.2 or higher
@@ -12,16 +31,16 @@
 * [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator) - Note, this is included as part of the Azure SDK but a standalone installer is available for windows. Alternatively you could create a storage account on azure.
 * [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
 
-## Solution Structure
+### Solution Structure
 
 * **Dfc.DiscoverSkillsAndCareers.FunctionApp** - Contains the code for the function application deployables 
 * **Dfc.DiscoverSkillsAndCareers.Models** - Any shared code that may be required.
 * **Dfc.DiscoverSkillsAndCareers.Repositories** - Any data access code that is required 
 * **web** - static assests to be deployed to blob service. 
 
-## Building Solution 
+### Running the application
 
-### Building and Running Function App
+#### Building and Running Function App
 
 Create a local.settings.json file (change as requried but the following works with the Cosmos and Blob emulators)
 ```
@@ -46,9 +65,7 @@ to run the function app again
 
     func host start
 
-### Build web assets and templates 
-
-#### Tasks 
+#### Building and running the front-end 
 
 - `gulp` - Runs the build task, revisions assets, outputs to `dist` directory
 - `gulp dev` - Runs the build task, starts development server with LiveReload
@@ -66,7 +83,9 @@ JavaScript is written in ES6 and is compiled using Babel in order to support old
 
 JavaScript is linted using the [Standard](https://standardjs.com) linter, as documented in the [GOV.UK coding standards and guidelines](https://github.com/alphagov/styleguides/blob/master/js.md#linting)
 
-### Front-end Testing 
+### Running the test suite
+
+#### Front-end
 
     cd src/web
     gulp test
@@ -75,19 +94,19 @@ JavaScript is linted using the [Standard](https://standardjs.com) linter, as doc
 
 Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/govuk-lint/blob/master/configs/scss_lint/gds-sass-styleguide.yml) project and [converted from the “SCSS Lint” style to “Sass Lint”](http://sasstools.github.io/make-sass-lint-config/) to work with the [`sass-lint`](https://www.npmjs.com/package/sass-lint) module. 
 
-#### Cross-browser
+#### Cross-browser Testing
 
 Cross-browser testing is carried out using [BrowserStack](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through happy/negative paths and is part of gulp test task. To run manually navigate to `src/web` and run
 
     gulp browserStack 
 
-#### Accessibility
+#### Accessibility Testing
 
 Accessibility testing is carried out using [Pa11y](https://github.com/pa11y/pa11y). WCAG2AA is used as testing standard and is part of gulp test task. To run manually navigate to `src/web` and run
 
     gulp pa11y
 
-#### Performance
+#### Performance Testing
 
 Performance testing is carried out using [Lighthouse](https://github.com/GoogleChrome/lighthouse#readme) and is part of gulp test task. To run manually navigate to `src/web` and run
 
@@ -101,14 +120,6 @@ There are 3 deployment artifacts
 2. **Page templates** - To be deployed to blob container.
 3. **Static Landing Pages** - To be deployed to blob container. 
 
-## Deployment URLs
+## Licence
 
-#### DEV
-
-- Web: https://dfcdevskillscareersstr.z6.web.core.windows.net
-- Questions: https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
-
-#### SIT
-
-- Web: https://dfcsitskillscareersstr.z6.web.core.windows.net
-- Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
+TODO
