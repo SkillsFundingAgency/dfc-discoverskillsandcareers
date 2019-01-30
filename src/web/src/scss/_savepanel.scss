@@ -1,18 +1,29 @@
-.app-save-panel--alt {
+.app-save-panel--alt,
+.app-save-panel--alt-mobile {
   background-color: govuk-colour('grey-4');
   border-bottom: 4px solid $govuk-border-colour;
   padding: govuk-spacing(3);
   margin-bottom: govuk-spacing(6);
-  display: none;
-  
-  @include govuk-media-query($from: desktop) {
-    display: block;
-  }
 
   .govuk-heading-m {
     border-top: 0;
     margin: 0;
     padding: 0;
     margin-bottom: govuk-spacing(2);
+  }
+}
+
+
+.app-save-panel--alt-mobile {
+  margin-bottom: 0;
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+.app-save-panel--alt {
+  display: none;
+  @include govuk-media-query($from: desktop) {
+    display: block;
   }
 }
