@@ -49,3 +49,21 @@
   }
 
 }
+
+.app-page--results {
+  @include govuk-media-query($from: desktop) {
+
+    .app-save-panel {
+      margin-top: -120px;
+      background: govuk-colour('white');
+      padding: govuk-spacing(3);
+      border-top: 3px solid govuk-colour('black');
+
+      .govuk-heading-m {
+        border: 0;
+        padding-top: 0;
+        margin-bottom: govuk-spacing(2);
+      }
+    }
+  }
+}
