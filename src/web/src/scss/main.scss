@@ -55,9 +55,16 @@ $app-turquoise: #1F7E77;
 }
 
 .app-button {
-  background-color: $app-purple;
-  color: govuk-colour('white');
 
+  &,
+  &:link, 
+  &:visited,
+  &:active {
+    background-color: $app-purple;
+    color: govuk-colour('white');
+  }
+
+  &:focus,
   &:hover {
     background-color: $app-purple-hover;
   }
