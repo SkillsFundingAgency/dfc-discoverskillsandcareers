@@ -11,7 +11,6 @@
     margin: govuk-spacing(8) 0;
     clear: both;
     position: relative;
-    min-height: 156px;
     display: table;
     width: 100%;
 
@@ -25,10 +24,12 @@
       vertical-align: middle;
       width: 50%;
       position: relative;
+      height: 156px;
     }
 
     .govuk-fieldset__heading {
       padding-right: govuk-spacing(5);
+
     }
 
     .app-question__question {
