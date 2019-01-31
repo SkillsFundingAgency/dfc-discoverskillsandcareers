@@ -23,10 +23,10 @@
     },
     "variables": {
         "AppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
-        "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "BuildingBlocksDasBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "TestBuildingBlocksDfcBaseUrl": "https://github.com/SkillsFundingAgency/dfc-devops/blob/NCSD-135-AddCdnTemplates/ArmTemplates/",
         "CdnEndpointName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-end'))]",
         "CdnProfileName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdn'))]",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
@@ -130,7 +130,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDasBaseUrl'), 'cdn-endpoint.json')]",
+                    "uri": "[concat(variables('TestBuildingBlocksDfcBaseUrl'), 'cdn-endpoint.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
