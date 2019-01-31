@@ -31,7 +31,7 @@
         <input type="hidden" name="traitCode" value="[trait_code]" />
 
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-column-two-thirds-from-desktop">
 
               <div class="ncs-progress">
                 <span class="ncs-progress__count"><b class="govuk-!-font-size-36">[percentage]%</b> <b class="visually-hidden">Complete</b></span>
@@ -39,7 +39,7 @@
               </div>
             
             </div>
-            <div class="govuk-grid-column-one-third">
+            <div class="govuk-grid-column-one-third-from-desktop">
                 {% set savepanelClass = 'alt' %}
                 {% include "_savepanel.njk" %}
             </div>
@@ -47,58 +47,72 @@
 
         <span class="govuk-error-message">[error_message]</span>
 
-        <div class="app-question">
-
-          {{ govukRadios({
-            classes: "govuk-radios--inline",
-            idPrefix: "selected_answer",
-            name: "selected_answer",
-            fieldset: {
-              legend: {
-                text: "[question_text]",
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
-              }
-            },
-            items: [
-              {
-                value: "StronglyAgree",
-                text: "Strongly agree"
-              },
-              {
-                value: "Agree",
-                text: "Agree"
-              },
-              {
-                value: "Disagree",
-                text: "Disagree"
-              },
-              {
-                value: "StronglyDisagree",
-                text: "Strongly disagree"
-              }
-            ]
-          }) }}
-
-        </div>
+        <fieldset class="govuk-fieldset">
       
-        <div class="app-controls">
-              
-          <input id="selected_answer-5" name="selected_answer" type="radio" value="Neutral" class="visually-hidden">
-          <label class="govuk-label govuk-radios__label app-button--outline" for="selected_answer-5">
-              This doesn&rsquor;t apply to me
-          </label>
+          <div class="app-question">
 
-          {{ govukButton({
-            text: "[button_text]",
-            classes: "app-button",
-            type: "submit"
-          }) }}
+            <div class="app-question__question">
           
-        </div>
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                  [question_text]
+                </h1>
+              </legend>
 
-        {% set savepanelClass = 'alt-mobile' %}
-        {% include "_savepanel.njk" %}
+            </div>
+            
+            <div class="app-question__answer govuk-radios govuk-radios--inline">
+              
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" value="StronglyAgree">
+                <label class="govuk-label govuk-radios__label" for="selected_answer-1">
+                  Strongly agree
+                </label>
+              </div>
+              
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" value="Agree">
+                <label class="govuk-label govuk-radios__label" for="selected_answer-2">
+                  Agree
+                </label>
+              </div>
+              
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="selected_answer-3" name="selected_answer" type="radio" value="Disagree">
+                <label class="govuk-label govuk-radios__label" for="selected_answer-3">
+                  Disagree
+                </label>
+              </div>
+
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="selected_answer-4" name="selected_answer" type="radio" value="StronglyDisagree">
+                <label class="govuk-label govuk-radios__label" for="selected_answer-4">
+                  Strongly disagree
+                </label>
+              </div>
+              
+            </div>
+          </fieldset>
+        
+          <div class="app-controls">
+                
+            <input id="selected_answer-5" name="selected_answer" type="radio" value="Neutral" class="visually-hidden">
+            <label class="govuk-label govuk-radios__label app-button--outline" for="selected_answer-5">
+                This doesn&rsquor;t apply to me
+            </label>
+
+            {{ govukButton({
+              text: "[button_text]",
+              classes: "app-button",
+              type: "submit"
+            }) }}
+            
+          </div>
+
+          {% set savepanelClass = 'alt-mobile' %}
+          {% include "_savepanel.njk" %}
+
+        </div>
 
       </form>
     </div>
