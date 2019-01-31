@@ -8,6 +8,9 @@
         "AspTier": {
             "type": "string"
         },
+        "CustomDomainName": {
+            "type": "string"
+        },
         "Environment": {
             "type": "string"
         },
@@ -24,7 +27,8 @@
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "BuildingBlocksDasBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
-        "CdnName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdn'))]",
+        "CdnEndpointName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-end'))]",
+        "CdnProfileName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdn'))]",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "FunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-fa'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]"
@@ -101,7 +105,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('CdnName')]",
+            "name": "[variables('CdnProfileName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -111,13 +115,43 @@
                 },
                 "parameters": {
                     "cdnProfileName": {
-                        "value": "[variables('CdnName')]"
+                        "value": "[variables('CdnProfileName')]"
                     },
                     "cdnSKU": {
                         "value": "Standard_Microsoft"
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('CdnEndpointName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDasBaseUrl'), 'cdn-endpoint.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "cdnProfileName": {
+                        "value": "[variables('CdnProfileName')]"
+                    },
+                    "cdnEndPointName": {
+                        "value": "[variables('CdnEndpointName')]"
+                    },
+                    "originHostName": {
+                        "value": "[concat('https://', variables('StorageAccountName') , '.blob.core.windows.net/')]"
+                    },
+                    "customDomainName": {
+                        "value": "[parameters('CustomDomainName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('CdnProfileName')]",
+                "[parameters('StorageContainerName')]"
+            ]
         },
         {
             "apiVersion": "2017-05-10",
