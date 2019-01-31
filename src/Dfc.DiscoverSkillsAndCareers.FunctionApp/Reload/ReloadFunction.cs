@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
                 {
                     await sessionHelper.Reload(code);
                 }
-                if (!sessionHelper.HasSession)
+                if (string.IsNullOrEmpty(code?.Trim()) || !sessionHelper.HasSession)
                 {
                     // Build page html from the template blob
                     string blobName = "index.html";
