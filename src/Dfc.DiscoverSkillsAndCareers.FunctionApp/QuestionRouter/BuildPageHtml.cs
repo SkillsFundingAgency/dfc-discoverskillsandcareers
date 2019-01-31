@@ -19,6 +19,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter
 
             // Replace placeholder text strings
             html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
+            html = html.Replace("/information-sources.html", $"{sessionHelper.Config.StaticSiteDomain}/information-sources.html");
             html = html.Replace("[question_id]", question.QuestionId.ToString());
             html = html.Replace("[question_text]", question.Texts.Where(x => x.LanguageCode.ToLower() == sessionHelper.Session.LanguageCode.ToLower()).FirstOrDefault()?.Text);
             html = html.Replace("[question_number]", question.Order.ToString());

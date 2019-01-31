@@ -36,6 +36,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Finish
                 }
                 string html = templateHtml;
                 html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
+                html = html.Replace("/information-sources.html", $"{sessionHelper.Config.StaticSiteDomain}/information-sources.html");
                 html = html.Replace("[session_id]", sessionHelper.Session.PrimaryKey);
                 html = html.Replace("[code]", sessionHelper.Session.UserSessionId);
                 html = html.Replace("[session_date]", sessionHelper.Session.StartedDt.ToString("dd MMMM yyyy"));

@@ -1,37 +1,52 @@
 .app-question {
+  .app-question__answer {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  .govuk-radios__item {
+    width: 100%;
+  }
+
   @include govuk-media-query($from: desktop) {
     margin: govuk-spacing(8) 0;
     clear: both;
     position: relative;
-    overflow: hidden;
+    min-height: 148px;
+    display: table;
+    width: 100%;
 
-    .govuk-form-group {
+    .govuk-error-message {
       margin-bottom: 0;
     }
 
-    .govuk-fieldset__legend {
+    .app-question__question,
+    .app-question__answer {
+      display: table-cell;
+      vertical-align: middle;
       width: 50%;
-      float: left;
-      padding-right: 2em;
-      margin-bottom: 0;
-      line-height: 1.2;
-    }
-
-    .govuk-radios {
-      width: 50%;
-      float: right;
-      text-align: center;
       position: relative;
+    }
 
-      &:before {
+    .app-question__question {
+      &:after {
         position: absolute;
-        left: -1em;
-        height: 30em;
+        right: 0;
+        top: 0;
+        height: 100%;
         width: 1px;
         content: '';
         display: block;
         border-left: 1px solid govuk-colour('black');
       }
+    }
+
+    .govuk-form-group {
+      margin-bottom: 0;
+    }
+
+    .govuk-radios {
+      text-align: center;
+      position: relative;
     }
 
     .govuk-radios__item {
@@ -65,9 +80,14 @@
 }
 
 .app-controls {
+  .app-button {
+    width: 100%;
+  }
+
   .app-button, 
   .app-button--outline {
     @include govuk-media-query($from: desktop) {
+      width: auto;
       min-width: 240px;
       padding-left: 0;
       padding-right: 0;
@@ -84,12 +104,6 @@
     padding-bottom: 7px;
     @include govuk-media-query($from: desktop) {
       display: inline-block;
-    }
-  }
-
-  .govuk-error-message {
-    @include govuk-media-query($from: desktop) {
-      text-align: right;
     }
   }
 }
