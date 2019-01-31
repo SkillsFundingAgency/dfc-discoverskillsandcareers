@@ -12,7 +12,7 @@
 
 .app-your-reference__meta p {  
   margin-bottom: 0;
-
+  color: $app-text-light;
   &:last-child {
     @include govuk-media-query($from: desktop) {
       text-align: right;
