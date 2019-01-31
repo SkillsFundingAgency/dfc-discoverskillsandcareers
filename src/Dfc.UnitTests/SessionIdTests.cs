@@ -11,21 +11,20 @@ namespace Dfc.UnitTests
         [Fact]
         public void GenerateHash_ShouldAllBeUnique()
         {
+            int amount = 100;
             var codes = new List<string>();
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < amount; i++)
             {
                 string salt = Guid.NewGuid().ToString();
-                var hashids = new Hashids(salt, 8);
-                long l = Convert.ToInt64(DateTime.Now.ToString("yyMMddHHmmssf"));
-                var hash = hashids.EncodeLong(l);
+                var hash = Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers.SessionIdHelper.GenerateSessionId(salt);
                 if (codes.Contains(hash) == true)
                 {
                     throw new Exception($"duplicate {i}");
                 }
-                Assert.True(hash.Length < 10);
+                Assert.True(hash.Length < 14);
                 codes.Add(hash);
             }
-            Assert.Equal(100, codes.Count);
+            Assert.Equal(amount, codes.Count);
         }
     }
 }
