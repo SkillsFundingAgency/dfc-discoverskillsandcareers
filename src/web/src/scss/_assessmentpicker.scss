@@ -46,7 +46,7 @@
   &:after {
     position: absolute;
     display: block;
-    height: 100%;
+    height: calc(100% + 4px);
     width: 100%;
     background: govuk-colour('black');
     opacity: 0.5;
