@@ -47,20 +47,16 @@
 
         <span class="govuk-error-message">[error_message]</span>
 
-        <fieldset class="govuk-fieldset">
-      
-          <div class="app-question">
+        <fieldset class="govuk-fieldset app-question">
+     
+            <legend class="visually-hidden">[question_text]</legend>
 
-            <div class="app-question__question">
-          
-              <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                <h1 class="govuk-fieldset__heading">
-                  [question_text]
-                </h1>
-              </legend>
-
+            <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
+              <h1 class="govuk-fieldset__heading" aria-hidden="true">
+                [question_text]
+              </h1>
             </div>
-            
+
             <div class="app-question__answer govuk-radios govuk-radios--inline">
               
               <div class="govuk-radios__item">
@@ -91,7 +87,7 @@
                 </label>
               </div>
               
-            </div>
+            {# </div> #}
           </fieldset>
         
           <div class="app-controls">
