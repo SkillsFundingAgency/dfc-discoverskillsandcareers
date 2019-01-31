@@ -24,6 +24,7 @@
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "BuildingBlocksDasBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "CdnName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdn'))]",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "FunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-fa'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]"
@@ -94,6 +95,26 @@
                     },
                     "defaultConsistencyLevel": {
                         "value": "Strong"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('CdnName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDasBaseUrl'), 'cdn-profile.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "cdnProfileName": {
+                        "value": "[variables('CdnName')]"
+                    },
+                    "cdnSKU": {
+                        "value": "Standard_Microsoft"
                     }
                 }
             }
