@@ -51,32 +51,6 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('AppServiceName')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDasBaseUrl'), 'app-service.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appServiceName": {
-                        "value": "[variables('AppServiceName')]"
-                    },
-                    "appServicePlanName": {
-                        "value": "[variables('AppServicePlanName')]"
-                    },
-                    "appServicePlanResourceGroup": {
-                        "value": "[resourceGroup().name]"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[variables('AppServicePlanName')]"
-            ]
-        },
-        {
-            "apiVersion": "2017-05-10",
             "name": "[variables('AppServicePlanName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
