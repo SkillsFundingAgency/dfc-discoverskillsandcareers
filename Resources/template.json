@@ -147,7 +147,7 @@
                         "value": "[parameters('CustomDomainName')]"
                     },
                     "originPath": {
-                        "value": "[parameters('StorageContainerName')]"
+                        "value": "[concat('/', parameters('StorageContainerName'))]"
                     }
                 }
             },
