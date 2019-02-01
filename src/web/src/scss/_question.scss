@@ -4,7 +4,7 @@
   }
 
   .govuk-radios__item {
-    width: 100%;
+    width: auto;
   }
 
   @include govuk-media-query($from: desktop) {
