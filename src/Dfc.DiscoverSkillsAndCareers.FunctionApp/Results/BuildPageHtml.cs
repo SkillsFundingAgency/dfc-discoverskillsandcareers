@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Results
             {
                 if (displayCounter < 3 || displayAll)
                 {
-                    jobFamilyHtml += $"<li class=\"app-result\"><h3 class=\"govuk-heading-m app-result__header\">{jobFamily.JobFamilyName}</h3><div class=\"app-result__body\"><p>{jobFamily.JobFamilyText}</p><a href=\"{jobFamily.Url}\" role=\"button\" draggable=\"false\" class=\"govuk-button govuk-button--start app-button--alt\">See job category</a></div></li>";
+                    jobFamilyHtml += $"<li class=\"app-result\"><h3 class=\"govuk-heading-m app-result__header\">{jobFamily.JobFamilyName}</h3><div class=\"app-result__body\"><p>{jobFamily.JobFamilyText}</p><a href=\"{jobFamily.Url}\" role=\"button\" draggable=\"false\" class=\"govuk-button govuk-button--start app-button\">See job category</a></div></li>";
                     displayCounter++;
                 }
             });
