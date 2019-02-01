@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 const isPage = className => document.getElementsByClassName(className).length
 
 if (isPage('app-page--results')) {
