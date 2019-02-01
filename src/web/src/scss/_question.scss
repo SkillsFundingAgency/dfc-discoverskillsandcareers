@@ -33,16 +33,7 @@
     }
 
     .app-question__question {
-      &:after {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        width: 1px;
-        content: '';
-        display: block;
-        border-left: 1px solid govuk-colour('black');
-      }
+      border-right: 1px solid govuk-colour('black');
     }
 
     .govuk-form-group {
