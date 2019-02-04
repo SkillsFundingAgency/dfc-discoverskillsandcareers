@@ -64,6 +64,9 @@ if (!$CdnServicePrincipal) {
 
 }
 
+Write-Verbose -Message "Disconnecting from AAD"
+Disconnect-AzureAD
+
 $KeyVault = Get-AzureRmKeyVault -VaultName $KeyVaultName
 if ($KeyVault) {
 
