@@ -12,6 +12,17 @@ param(
     [string]$EndpointClientSecret
 )
 
+if (!(Get-Module AzureAd)) {
+
+    if (!(Get-InstalledModule AzureAd -ErrorAction SilentlyContinue)) {
+
+        Install-Module AzureAd -Scope CurrentUser -Force
+
+    }
+    Import-Module AzureAd
+
+}
+
 try {
 
     if(!($ENV:TF_BUILD)) {
@@ -49,7 +60,7 @@ $CdnServicePrincipal = Get-AzureADServicePrincipal -SearchString Microsoft.Azure
 if (!$CdnServicePrincipal) {
 
     Write-Verbose -Message "Service Principle not registered for Microsoft.Azure.Cdn, registering ..."
-    $CdnServicePrincipal = New-AzureADServicePrincipal -AppId "205478c0-bd83-4e1b-a9d6-db63a3e1e1c8" -AccountEnabled $true -Tags {WindowsAzureActiveDirectoryIntegratedApp}
+    $CdnServicePrincipal = New-AzureADServicePrincipal -AppId "205478c0-bd83-4e1b-a9d6-db63a3e1e1c8" -AccountEnabled $true -Tags {WindowsAzureActiveDirectoryIntegratedApp} $VerbosePreference
 
 }
 
@@ -60,13 +71,14 @@ if ($KeyVault) {
     if (!$CdnSpnKeyVaultAccessPolicy) {
 
         Write-Verbose -Message "Setting KeyVault access policy for CDN Service Principal"
-        Set-AzureRmKeyVaultAccessPolicy -VaultName  $KeyVaultName -ResourceGroupName $KeyVaultResourceGroup -ServicePrincipalName "205478c0-bd83-4e1b-a9d6-db63a3e1e1c8" -PermissionsToSecrets get
+        Set-AzureRmKeyVaultAccessPolicy -VaultName  $KeyVaultName -ResourceGroupName $KeyVaultResourceGroup -ServicePrincipalName $CdnServicePrincipal.ServicePrincipalNames[0] -PermissionsToSecrets get $VerbosePreference
 
     }
     else {
 
         Write-Host "CDN Service Principal Access Policy:"
         $CdnSpnKeyVaultAccessPolicy
+
     }
     
 }
