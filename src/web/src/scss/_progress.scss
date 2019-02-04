@@ -13,7 +13,7 @@
   background-color: $govuk-border-colour;
   border-radius: 5px;
   overflow: hidden;
-  top: 16px;
+  top: 8px;
   @include govuk-media-query($from: desktop) {
     top: 16px;
   }
