@@ -14,8 +14,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0b0c0c" /> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>National Careers Service</title>
+    <title>{{ pageTitle | default('National Careers Service') }}</title>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <script>
+      dataLayer = [{}];
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
