@@ -154,9 +154,6 @@
                     },
                     "customDomainName": {
                         "value": "[parameters('CustomDomainName')]"
-                    },
-                    "originPath": {
-                        "value": null
                     }
                 }
             },
