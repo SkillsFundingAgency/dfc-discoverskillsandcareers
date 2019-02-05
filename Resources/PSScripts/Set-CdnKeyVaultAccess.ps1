@@ -4,10 +4,10 @@ param(
     [string]$KeyVaultName,
     [Parameter(Mandatory=$true)]
     [string]$KeyVaultResourceGroup,
-    [Parameter(Mandatory=$false)]
-    [string]$CdnServicePrincipalName = '$CdnServicePrincipalName',
-    [Parameter(Mandatory=$false)]
-    [string]$CdnServicePrincipalObjectId = '$CdnServicePrincipalObjectId'
+    [Parameter(Mandatory=$true)]
+    [string]$CdnServicePrincipalName,
+    [Parameter(Mandatory=$true)]
+    [string]$CdnServicePrincipalObjectId
 )
 
 $KeyVault = Get-AzureRmKeyVault -VaultName $KeyVaultName
