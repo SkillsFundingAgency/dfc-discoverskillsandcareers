@@ -8,10 +8,19 @@
         "AspTier": {
             "type": "string"
         },
+        "CdnServicePrincipalObjectId": {
+            "type": "string"
+        },
         "CustomDomainName": {
             "type": "string"
         },
         "Environment": {
+            "type": "string"
+        },
+        "KeyVaultName": {
+            "type": "string"
+        },
+        "KeyVaultResourceGroup": {
             "type": "string"
         },
         "StorageContainerName": {
@@ -141,7 +150,7 @@
                         "value": "[variables('CdnEndpointName')]"
                     },
                     "originHostName": {
-                        "value": "[concat('https://', variables('StorageAccountName') , '.blob.core.windows.net/')]"
+                        "value": "[concat('https://', variables('StorageAccountName') , '.z6.web.core.windows.net/')]"
                     },
                     "customDomainName": {
                         "value": "[parameters('CustomDomainName')]"
@@ -231,12 +240,36 @@
         },
         {
             "apiVersion": "2017-05-10",
+            "name": "[concat(parameters('KeyVaultName'), '-cdn-access-policy')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('KeyVaultResourceGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('TestBuildingBlocksDfcBaseUrl'), 'keyvault-access-policy.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "keyVaultName": {
+                        "value": "[parameters('KeyVaultName')]"
+                    },
+                    "servicePrincipalObjectId": {
+                        "value": "[parameters('CdnServicePrincipalObjectId')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('CdnProfileName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
             "name": "[variables('StorageAccountName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account.json ')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
