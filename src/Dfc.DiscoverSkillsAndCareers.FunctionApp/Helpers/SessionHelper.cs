@@ -78,11 +78,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         public AppSettings Config { get; private set; }
         public bool HasInputError { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }
+        private string SessionSalt = "ncs";
 
         public async Task CreateSession(string questionSetVersion, int maxQuestions, string languageCode = "en")
         {
             string partitionKey = DateTime.Now.ToString("yyyyMM");
-            string salt = Guid.NewGuid().ToString();
+            string salt = SessionSalt;
             Session = new UserSession()
             {
                 UserSessionId = SessionIdHelper.GenerateSessionId(salt),
@@ -105,7 +106,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 
         public async Task Reload(string code)
         {
-            string partitionKey = DateTime.Now.ToString("yyyyMM"); // TODO:
+            var datetimeStamp = SessionIdHelper.Decode(SessionSalt, code);
+            string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
             var userSession = await userSessionRepository.GetUserSession(code, partitionKey);
             Session = userSession;
         }

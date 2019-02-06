@@ -1,35 +1,59 @@
 .app-question {
-  @include govuk-media-query($from: desktop) {
-    clear: both;
+  .app-question__answer {
+    margin-bottom: govuk-spacing(3);
+  }
 
-    .govuk-fieldset__legend {
+  .govuk-radios__item {
+    width: auto;
+  }
+
+  @include govuk-media-query($from: desktop) {
+    margin: govuk-spacing(8) 0;
+    clear: both;
+    position: relative;
+    display: table;
+    width: 100%;
+
+    .govuk-error-message {
+      margin-bottom: 0;
+    }
+
+    .app-question__question,
+    .app-question__answer {
+      display: table-cell;
+      vertical-align: middle;
       width: 50%;
-      float: left;
-      padding-right: 2em;
+      position: relative;
+      height: 156px;
+    }
+
+    .govuk-fieldset__heading {
+      padding-right: govuk-spacing(5);
+
+    }
+
+    .app-question__question {
+      border-right: 1px solid govuk-colour('black');
+    }
+
+    .govuk-form-group {
+      margin-bottom: 0;
     }
 
     .govuk-radios {
-      width: 50%;
-      float: right;
       text-align: center;
       position: relative;
-
-      &:before {
-        position: absolute;
-        left: -1em;
-        height: 100%;
-        width: 1px;
-        content: '';
-        display: block;
-        border-left: 1px solid govuk-colour('black');
-      }
     }
 
     .govuk-radios__item {
       position: relative;
       padding-left: 0;
-      width: 20%;
+      width: 25%;
+      display: block;
       text-align: center;
+      float: left;
+      clear: none;
+      margin: 0;
 
       &:last-child {
         margin-right: 0;
@@ -40,7 +64,7 @@
 
       &::before,
       &::after {
-        left: 50%;
+        left: calc(50% + 2px);
         transform: translateX(-50%);
       }
     }
@@ -52,20 +76,30 @@
 }
 
 .app-controls {
+  .app-button {
+    width: 100%;
+  }
+
+  .app-button, 
+  .app-button--outline {
+    @include govuk-media-query($from: desktop) {
+      width: auto;
+      min-width: 240px;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: govuk-spacing(3);
+    }
+  }
+
   .app-button--outline {
     display: block;
     text-align: center;
     margin-bottom: govuk-spacing(3);
     line-height: 1;
-    padding-bottom: 9px;
+    padding-top: 10px;
+    padding-bottom: 7px;
     @include govuk-media-query($from: desktop) {
       display: inline-block;
-    }
-  }
-
-  .govuk-error-message {
-    @include govuk-media-query($from: desktop) {
-      text-align: right;
     }
   }
 }

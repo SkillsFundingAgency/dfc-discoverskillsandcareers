@@ -14,6 +14,7 @@ function handlebrowserStackError () {
 function handleLighthouseError () {
     process.exit(1);
 }
+
 // requires
 
 var gulp = require("gulp"),
@@ -35,7 +36,9 @@ var gulp = require("gulp"),
     replace = require('gulp-replace'),
     merge = require('merge-stream'),
     babel = require("gulp-babel"),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    standard = require('gulp-standard'),
+    browserify = require('gulp-browserify');
 
 // paths
 
@@ -43,12 +46,13 @@ var paths = {
     src: "src/",
     dist: "dist/",
     temp: ".temp/",
-    buildScript: "build-script/"
+    tests: "tests/"
 };
 
 // paths – input
 
 paths.html = paths.src + "templates/**/*.html";
+paths.nunjucks = paths.src + "partials/**/*.njk";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.images = paths.src + "images/**/*";
 paths.js = paths.src + "js/**/*.js";
@@ -68,10 +72,10 @@ paths.imagesDest = paths.assetsDest + "images/";
 
 // paths - tests
 
-paths.accessibilty = paths.buildScript + "accessibility.spec.js";
-paths.performance = paths.buildScript + "performance.spec.js";
-paths.browserStackConf = paths.buildScript + "conf/conf.js";
-paths.browserStackSpec = paths.buildScript + "specs/*.spec.js";
+paths.accessibilty = paths.tests + "accessibility.spec.js";
+paths.performance = paths.tests + "performance.spec.js";
+paths.browserStackConf = paths.tests + "conf/conf.js";
+paths.browserStackSpec = paths.tests + "specs/*.spec.js";
 
 const testServerOptions = {
     port: 3000,
@@ -117,6 +121,9 @@ gulp.task("sass", function () {
 
 gulp.task("js", function () {
     return gulp.src(paths.js)
+        .pipe(standard())
+        .pipe(browserify())
+        .pipe(standard.reporter('default'))
         .pipe(babel())
         .pipe(gulp.dest(paths.jsDest))
         .pipe(connect.reload());
@@ -164,7 +171,7 @@ gulp.task('rev', () => {
       .pipe(assetFilter.restore)
       .pipe(revRewrite()) // Substitute in new filenames
       .pipe(gulp.dest(paths.dist));
-  });
+});
 
 gulp.task('headers', () => {
     return gulp.src(paths.dist + '**/*.html')
@@ -237,7 +244,7 @@ gulp.task("css:watch", () => gulp.watch([paths.css], gulp.series("min:css")));
 gulp.task("sass:watch", () => gulp.watch(paths.scss, gulp.series("sass")));
 gulp.task("eslint:watch", () => gulp.watch([paths.js], gulp.series("eslint")));
 gulp.task("js:watch", () => gulp.watch([paths.js], gulp.series("js")));
-gulp.task("html:watch", () => gulp.watch([paths.html], gulp.series("html")));
+gulp.task("html:watch", () => gulp.watch([paths.html, paths.nunjucks], gulp.series("html")));
 gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")));
 
 // commands
@@ -245,7 +252,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "lighthousePerformanceTest", "pa11y", "stopTestServer", "browserStack"));
+gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "lighthousePerformanceTest", "pa11y", "stopTestServer"));
 
 gulp.task("dev",
     gulp.series(
@@ -262,7 +269,6 @@ gulp.task("dev",
             "sass:watch",
             "images:watch",
             "js:watch",
-            // "eslint:watch",
             "connect"))
 );
 
@@ -273,7 +279,6 @@ gulp.task("prod",
         "sass",
         "js",
         "html",
-        // "eslint",
         "min",
         'rev',
         'headers')

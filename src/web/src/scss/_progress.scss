@@ -5,22 +5,26 @@
 }
 
 .ncs-progress__bar {
+  display: block;
   height: 10px;
-  border-radius: 5px;
   width: calc(100% - 100px);
   float: right;
-  top: 16px;
   position: relative;
-}
-
-.ncs-progress__bar[value]::-webkit-progress-bar {
   background-color: $govuk-border-colour;
   border-radius: 5px;
-}
+  overflow: hidden;
+  top: 8px;
+  @include govuk-media-query($from: desktop) {
+    top: 16px;
+  }
 
-.ncs-progress__bar[value]::-webkit-progress-value {
-  background-color: govuk-colour('green');
-  border-radius: 0; 
+  span {
+    background-color: govuk-colour('green');
+    height: 10px;
+    display: block;
+    width: 50%;
+    border-radius: 5px;
+  }
 }
 
 .ncs-progress__count {

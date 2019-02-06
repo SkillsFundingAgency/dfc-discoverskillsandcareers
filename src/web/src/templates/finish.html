@@ -6,17 +6,12 @@
 
   <div class="govuk-width-container app-site-width-container">
     
-    {{ govukPhaseBanner({
-      tag: {
-        text: "alpha"
-      },
-      html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-    }) }}
+    {% include "_phasebanner.njk" %}
 
     {{ govukBreadcrumbs({
       items: [
         {
-          text: "Home",
+          text: "Home: Discover your skills and careers",
           href: "[static_site_domain]"
         },
         {
@@ -27,34 +22,34 @@
     
   </div>
 
-  <main id="content" class="govuk-width-container" role="main">
+  <main id="content" role="main">
 
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
+        <div class="govuk-grid-column-two-thirds">
 
-        {{ govukPanel({
-          titleText: "Assessment complete",
-          html: "Thank you"
-        }) }}
+          {{ govukPanel({
+            titleText: "Assessment complete",
+            html: "Thank you",
+            classes: "govuk-!-margin-bottom-6"
+          }) }}
 
-        <h1 class="govuk-heading-m">What to do next</h1>
-        <p class="govuk-body">On the next page you will see your results, which are based on the statements you have just responded to.</p>
+          <h1 class="govuk-heading-m">What to do next</h1>
+          <p class="govuk-body govuk-!-margin-bottom-5">On the next page you will see your results, which are based on the statements you have just responded to.</p>
 
-        <form action="/results" method="post">
-          <input type="hidden" name="sessionId" value="[session_id]" />
+          <form action="/results" method="post">
+            <input type="hidden" name="sessionId" value="[session_id]" />
     
-          <div>
             {{ govukButton({
               text: "View results",
               classes: "app-button",
               type: "submit"
             }) }}
-          </div>
     
-        </form>
+          </form>
 
+        </div>
       </div>
-
     </div>
 
   </main> 

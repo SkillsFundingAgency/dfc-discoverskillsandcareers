@@ -11,13 +11,20 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template no-js">
   <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="theme-color" content="#0b0c0c" /> 
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0c0c" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>National Careers Service</title>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
+    <!-- End Google Tag Manager -->
   </head>
-  <body class="govuk-template__body  app-page--{{ pageName }}">
+  <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
 
     {{ govukSkipLink({
       text: "Skip to main content",
@@ -25,9 +32,9 @@
     }) }}
 
     {{ govukHeader({
-      homepageUrl: "#",
+      homepageUrl: "https://gov.uk/",
       serviceName: "National Careers Service",
-      serviceUrl: "#"
+      serviceUrl: "https://nationalcareers.service.gov.uk/"
     }) }}
 
     {% block main %}{% endblock %}
@@ -36,7 +43,7 @@
       meta: {
         items: [
           {
-            href: "mailto:xxx@xxx.xxx",
+            href: "mailto:Discover.SkillsCareers@education.gov.uk",
             text: "Help"
           },
           {
@@ -46,6 +53,10 @@
           {
             href: "https://nationalcareers.service.gov.uk/help/terms-and-conditions",
             text: "Terms and conditions"
+          },
+          {
+            href: "/information-sources.html",
+            text: "Information sources"
           }
         ]
       } 

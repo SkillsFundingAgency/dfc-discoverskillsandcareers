@@ -11,13 +11,7 @@ exports.config = {
       'browserstack.debug': 'true'
     },
   
-    'multiCapabilities': [{
-        'os': 'Windows',
-        'os_version': '10',
-        'browserName': 'IE',
-        'browser_version': '11.0',
-        'resolution': '1024x768'
-    },
+    'multiCapabilities': [
     {
         'os': 'Windows',
         'os_version': '10',

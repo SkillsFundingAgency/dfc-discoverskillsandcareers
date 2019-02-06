@@ -7,17 +7,12 @@
   <div class="app-masthead">
     <div class="govuk-width-container">
         
-      {{ govukPhaseBanner({
-        tag: {
-          text: "alpha"
-        },
-        html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
-      }) }}
+      {% include "_phasebanner.njk" %}
 
       {{ govukBreadcrumbs({
         items: [
           {
-            text: "Home"
+            text: "Home: Discover your skills and careers"
           }
         ]
       }) }}
@@ -28,45 +23,50 @@
           <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
         </div>
       </div>
+
     </div>
   </div>
 
-  <main id="content"  class="govuk-main-wrapper govuk-width-container" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        
-        <div class="app-assessment-picker">
-          <div class="app-assessment-picker__title">
-            <h2 class="govuk-heading-l">See job categories</h2>
-          </div>
-          <div class="app-assessment-picker__body">
-            <div class="govuk-inset-text">
-              5 minutes
-            </div>
-            <a href="/start.html" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state">Start assessment</a>
-          </div>
-        </div>
-        
-        <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
-          <strong class="govuk-tag govuk-tag--coming-soon">Coming soon</strong>
-          <div class="app-assessment-picker__title">
-            <h2 class="govuk-heading-l">See specific job roles</h2>
-          </div>
-          <div class="app-assessment-picker__body">
-            <div class="govuk-inset-text">
-              10 to 15 minutes
-            </div>
-            <a href="/start.html" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state">Start assessment</a>
-          </div>
-        </div>
-        
-      </div>
-      <div class="govuk-grid-column-one-third ">
+  <main id="content" role="main">
+  
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
-        {% include "_resumepanel.njk" %}
+        <div class="govuk-grid-column-two-thirds">
+
+          <div class="app-assessment-picker">
+            <div class="app-assessment-picker__title">
+              <h2 class="govuk-heading-l">See job categories</h2>
+            </div>
+            <div class="app-assessment-picker__body">
+              <div class="govuk-inset-text">
+                5 minutes
+              </div>
+              <a href="/start.html" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state">Start assessment</a>
+            </div>
+          </div>
+
+          <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
+            <div class="app-assessment-picker__title">
+              <strong class="govuk-tag govuk-tag--coming-soon">Coming soon</strong>
+              <h2 class="govuk-heading-l">See specific job roles</h2>
+            </div>
+            <div class="app-assessment-picker__body">
+              <div class="govuk-inset-text">
+                10 to 15 minutes
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+          {% include "_resumepanel.njk" %}
+        </div>
 
       </div>
-    </main>
-  </div>
+    </div>
+
+  </main>
 
 {% endblock %}

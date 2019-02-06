@@ -15,7 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         {
             var redirectResponse = req.CreateResponse(HttpStatusCode.Redirect);
             var host = GetHost(req.RequestUri);
-            redirectResponse.Headers.Location = new Uri($"{host}/q/1");
+            redirectResponse.Headers.Location = new Uri($"{host}/q/1?assessmentType=short");
             return redirectResponse;
         }
 
@@ -70,6 +70,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
                     }
                     var html = templateHtml;
                     html = html.Replace("/assets/css/main", $"{appSettings.StaticSiteDomain}/assets/css/main");
+                    html = html.Replace("[static_site_domain]", appSettings.StaticSiteDomain);
+                    html = html.Replace("href=\"/\"", appSettings.StaticSiteDomain);
                     okResponse.Content = new StringContent(html);
                 }
             }

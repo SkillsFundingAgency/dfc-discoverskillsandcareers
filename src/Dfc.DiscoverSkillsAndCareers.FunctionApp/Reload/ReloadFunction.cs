@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
                 {
                     await sessionHelper.Reload(code);
                 }
-                if (!sessionHelper.HasSession)
+                if (string.IsNullOrEmpty(code?.Trim()) || !sessionHelper.HasSession)
                 {
                     // Build page html from the template blob
                     string blobName = "index.html";
@@ -42,10 +42,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Reload
                         throw new Exception($"Blob {blobName} could not be found in {sessionHelper.Config.BlobStorage.ContainerName}");
                     }
                     string html = templateHtml;
+                    string errorMessage = string.IsNullOrEmpty(code?.Trim()) ? "Enter your reference number" : "The code could not be found";
                     html = html.Replace("/assets/css/main", $"{sessionHelper.Config.StaticSiteDomain}/assets/css/main");
+                    html = html.Replace("/information-sources.html", $"{sessionHelper.Config.StaticSiteDomain}/information-sources.html");
                     html = html.Replace("<div class=\"app-resume-panel__input govuk-form-group\"", "<div class=\"app-resume-panel__input govuk-form-group govuk-form-group--error\"");
-                    html = html.Replace("Your reference number</label>", "Your reference number</label><span id=\"code-error\" class=\"govuk-error-message\">The code could not be found</span>");
-                    html = html.Replace("<input class=\"govuk-input\" id=\"code\" name=\"code\" type=\"text\" required", "<input class=\"govuk-input govuk-input--error\" id=\"code\" name=\"code\" type=\"text\" required aria-describedby=\"code-error\"");
+                    html = html.Replace("Reference number</label>", "Reference number</label><span id=\"code-error\" class=\"govuk-error-message\">" + errorMessage + "</span>");                    
+                    html = html.Replace("<input class=\"govuk-input\" id=\"code\" name=\"code\" type=\"text\"", "<input class=\"govuk-input govuk-input--error\" id=\"code\" name=\"code\" type=\"text\" aria-describedby=\"code-error\"");
                     html = html.Replace("/start.html", $"{sessionHelper.Config.StaticSiteDomain}/start.html");
                     return OKHtmlWithCookie(req, html, null);
                 }
