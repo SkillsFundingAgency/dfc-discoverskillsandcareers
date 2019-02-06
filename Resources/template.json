@@ -139,7 +139,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('TestBuildingBlocksDfcBaseUrl'), 'cdn-endpoint.json')]",
+                    "uri": "[concat(variables('TestBuildingBlocksDfcBaseUrl'), 'CDN/cdn-endpoint.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -243,7 +243,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('TestBuildingBlocksDfcBaseUrl'), 'keyvault-access-policy.json')]",
+                    "uri": "[concat(variables('TestBuildingBlocksDfcBaseUrl'), 'KeyVault/keyvault-access-policy.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
