@@ -16,7 +16,7 @@ foreach ($AllowedOrigin in $AllowedOrigins) {
 
     $CORSRules = (@{
         AllowedHeaders  = @("*");
-        AllowedOrigins  = @("$AllowedOrigin");
+        AllowedOrigins  = @("$($AllowedOrigin.ToLower)");
         MaxAgeInSeconds = 3600;
         AllowedMethods  = @("Get")
     })
