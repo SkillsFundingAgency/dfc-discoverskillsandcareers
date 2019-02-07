@@ -9,7 +9,7 @@ param(
 )
 
 Write-Verbose -Message "Setting Storage Context"
-$StorageContext = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
+$StorageContext = New-AzureStorageContext -StorageAccountName $StorageAccountName.ToLower() -StorageAccountKey $StorageAccountKey
 
 # ---- CORS Settings
 foreach ($AllowedOrigin in $AllowedOrigins) {
