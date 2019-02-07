@@ -41,7 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             string salt = Guid.NewGuid().ToString();
             return new UserSession()
             {
-                UserSessionId = SessionIdHelper.GenerateSessionId(salt),
+                UserSessionId = SessionIdHelper.GenerateSessionId(salt) + "_shl",
                 Salt = salt,
                 StartedDt = DateTime.Now,
                 LanguageCode = languageCode,
