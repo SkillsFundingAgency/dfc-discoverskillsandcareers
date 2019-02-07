@@ -3,11 +3,13 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$StorageAccountName,
     [Parameter(Mandatory = $true)]
+    [string]$StorageAccountKey,
+    [Parameter(Mandatory = $true)]
     [string[]]$AllowedOrigins
 )
 
 Write-Verbose -Message "Setting Storage Context"
-$StorageContext = New-AzureStorageContext -StorageAccountName $StorageAccountName -UseConnectedAccount
+$StorageContext = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountName
 
 # ---- CORS Settings
 foreach ($AllowedOrigin in $AllowedOrigins) {
