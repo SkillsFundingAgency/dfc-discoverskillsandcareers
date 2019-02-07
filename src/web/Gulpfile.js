@@ -12,7 +12,8 @@ function handlebrowserStackError () {
 }
 
 function handleLighthouseError () {
-    process.exit(1);
+    // Uncomment to exit on fail
+    // process.exit(1);
 }
 
 // requires

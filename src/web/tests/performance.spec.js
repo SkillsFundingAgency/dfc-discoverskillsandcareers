@@ -22,7 +22,7 @@ describe('Lighthouse performance testing for web pages', function() {
         chromeFlags: ['--headless'],
         onlyCategories: ['performance']
     };
-    const performanceThreshold = 0.90;
+    const performanceThreshold = 0.5;
 
     // Lighthouse performance test each html page
     htmlPages.forEach(page => {
