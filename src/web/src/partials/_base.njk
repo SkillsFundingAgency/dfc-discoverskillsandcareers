@@ -22,13 +22,13 @@
         window.digitalData = new Object();
         window.digitalData = (function() {
 
-            var _pageGroup = {{ pageGroup }};
-            var _pageID = {{ pageName }};
+            var _pageGroup = {{ pageGroup | default('') }};
+            var _pageID = {{ pageName | default('') }};
             var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev',
 
             var _rqpath = window.location.pathname;
-            var _clrpath = _rqpath.split("?");
-            var _fldrelmnt = _clrpath[0].split("/");
+            var _clrpath = _rqpath.split('?');
+            var _fldrelmnt = _clrpath[0].split('/');
             var _pgurl = window.location.hostname + _clrpath[0];
 
             var _referringURL = document.referrer;
