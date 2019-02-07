@@ -22,6 +22,14 @@ $app-text-light: #646C70;
 @import 'results';
 @import 'footer';
 
+%clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
 // sass-lint:disable-all
 %visually-hidden { /* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
   position: absolute !important;
