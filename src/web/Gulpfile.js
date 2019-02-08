@@ -12,7 +12,8 @@ function handlebrowserStackError () {
 }
 
 function handleLighthouseError () {
-    process.exit(1);
+    // Uncomment to exit on fail
+    // process.exit(1);
 }
 
 // requires
@@ -183,7 +184,8 @@ gulp.task('connect', function() {
   connect.server({
     root: paths.dist,
     port: 3000,
-    livereload: true
+    livereload: true,
+    host: '0.0.0.0'
   });
 });
 
