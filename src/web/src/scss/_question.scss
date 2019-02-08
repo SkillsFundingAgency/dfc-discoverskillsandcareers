@@ -5,6 +5,7 @@
 
   .govuk-radios__item {
     width: auto;
+    clear: both;
   }
 
   @include govuk-media-query($from: desktop) {
