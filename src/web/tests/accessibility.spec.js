@@ -21,7 +21,6 @@ describe('Accessibility testing for web pages', function () {
                         return issue
                     });
                     resultsJSON.release.pa11y = resultsJSON.release.pa11y.concat(issuesWithPageName);
-                    console.log(resultsJSON);
                     fs.writeFileSync('./tests/log/results.json', JSON.stringify(resultsJSON));
                     expect(issues).to.eql([]);
                 });
