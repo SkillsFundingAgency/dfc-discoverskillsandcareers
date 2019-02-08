@@ -22,8 +22,8 @@
         window.digitalData = new Object();
         window.digitalData = (function() {
 
-            var _pageGroup = {{ pageGroup | default('null') }};
-            var _pageID = {{ pageName | default('null') }};
+            var _pageGroup = "{{ pageGroup }}";
+            var _pageID = "{{ pageName }}";
             var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
 
             var _rqpath = window.location.pathname;
@@ -36,8 +36,8 @@
             return {
                 page: {
                     pageInfo: {
-                        pageID: _pageTitle,
-                        pageGroup: _pageGroup
+                        pageID: _pageID,
+                        pageGroup: _pageGroup,
                         destinationURL: _pgurl,
                         pageInstanceID: _environment,
                         referringURL: _referringURL,
