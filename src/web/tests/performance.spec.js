@@ -29,7 +29,7 @@ describe('Lighthouse performance testing for web pages', function() {
     htmlPages.forEach(page => {
         it(page, () => {
             return launchChromeAndRunLighthouse(`http://localhost:3000/${page}`, opts).then(({categories}) => {
-                if (categories.performance.score > performanceThreshold) {
+                if (categories.performance.score < performanceThreshold) {
                     const modifiedCategories = categories;
                     modifiedCategories.performance.page = page;
                     resultsJSON.release.lighthouse.push(modifiedCategories);
