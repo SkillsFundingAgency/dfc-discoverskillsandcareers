@@ -3,6 +3,14 @@
 
 // helpers 
 
+function pa11yErrorHandler() {
+    this.emit("end");
+}
+
+function lighthouseErrorHandler() {
+    this.emit("end");
+}
+
 // requires
 
 var gulp = require("gulp"),
@@ -182,7 +190,8 @@ gulp.task('connect', function() {
 
 gulp.task('pa11y', function() {
     return gulp.src(paths.accessibilty, {read: false})
-        .pipe(mocha({exit: true}));
+        .pipe(mocha({exit: true}))
+        .on("error", pa11yErrorHandler);
 });
 
 gulp.task('browserStack', function(done) {
@@ -223,7 +232,8 @@ gulp.task('replaceResultsPlaceholders', function(done) {
 
 gulp.task('lighthousePerformanceTest', function() {
     return gulp.src([paths.performance], {read: false})
-        .pipe(mocha({exit: true}));
+        .pipe(mocha({exit: true}))
+        .on("error", lighthouseErrorHandler);
 });
 
 gulp.task('slackResults', function(done) {
@@ -251,6 +261,7 @@ gulp.task('slackResults', function(done) {
             }
         ]
     }).then(() => {
+        if (pa11yTestFailed || lighthouseTestFailed || browserStackTestFailed) process.exit(1);
         done();
     })
 });
