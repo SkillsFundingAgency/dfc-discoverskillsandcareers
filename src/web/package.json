@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "axios": "^0.18.0",
     "govuk-frontend": "^2.5.1",
     "gulp-connect": "^5.7.0",
     "jquery": "^3.3.1",
