@@ -1,5 +1,5 @@
-const analytics = require('./analytics.js')
-const results = require('./results.js')
+const analytics = require('./modules/analytics.js')
+const results = require('./modules/results.js')
 
 const isPage = className => document.getElementsByClassName(className).length
 
