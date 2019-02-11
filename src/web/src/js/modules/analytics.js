@@ -278,13 +278,13 @@ var analytics = (function () {
     return str
   }
 
-  const pushValues = function (values) {
+  const pushValues = function (values, text) {
     // eventName, eventAction, type, action_label
     var obj = {
       eventName: values[0],
-      eventAction: values[1],
-      type: values[2],
-      action_label: values[3]
+      eventAction: 'click',
+      type: values[1],
+      action_label: text
     }
     console.log(obj)
   }
@@ -297,7 +297,8 @@ var analytics = (function () {
       trackingElements.map(trackingElement => {
         trackingElement.addEventListener('click', function (event) {
           const values = event.target.getAttribute('gov-analytics-data').split('|').map(value => removeDiacritics(value.trim()))
-          pushValues(values)
+          const text = event.target.innerText
+          pushValues(values, text)
         })
       })
     }
