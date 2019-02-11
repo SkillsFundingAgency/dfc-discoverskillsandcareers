@@ -32,16 +32,22 @@
             var _pgurl = window.location.hostname + _clrpath[0];
 
             var _referringURL = document.referrer;
+            var _userAgent = navigator.userAgent; 
+
             
-            return {
+            return {  
                 page: {
+                    user: {
+                      deviceAgent: _userAgent
+                    },
                     pageInfo: {
                         pageID: _pageID,
                         pageGroup: _pageGroup,
                         destinationURL: _pgurl,
                         pageInstanceID: _environment,
                         referringURL: _referringURL,
-                        environment: _environment,
+                        previous_page: _referringURL,
+                        environment: _environment,  
                     },
                 }
             }
