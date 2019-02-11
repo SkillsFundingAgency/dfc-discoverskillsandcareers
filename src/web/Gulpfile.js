@@ -3,17 +3,12 @@
 
 // helpers 
 
-function handlePa11yError () {
-    process.exit(1);
-} 
-
-function handlebrowserStackError () {
-    process.exit(1);
+function pa11yErrorHandler() {
+    this.emit("end");
 }
 
-function handleLighthouseError () {
-    // Uncomment to exit on fail
-    // process.exit(1);
+function lighthouseErrorHandler() {
+    this.emit("end");
 }
 
 // requires
@@ -39,7 +34,9 @@ var gulp = require("gulp"),
     babel = require("gulp-babel"),
     autoprefixer = require('gulp-autoprefixer'),
     standard = require('gulp-standard'),
-    browserify = require('gulp-browserify');
+    browserify = require('gulp-browserify'),
+    axios = require('axios'),
+    testResults = require('./tests/log/results.json');
 
 // paths
 
@@ -194,7 +191,7 @@ gulp.task('connect', function() {
 gulp.task('pa11y', function() {
     return gulp.src(paths.accessibilty, {read: false})
         .pipe(mocha({exit: true}))
-        .once("error", handlePa11yError)
+        .on("error", pa11yErrorHandler);
 });
 
 gulp.task('browserStack', function(done) {
@@ -202,7 +199,6 @@ gulp.task('browserStack', function(done) {
         .pipe(protractor({
             configFile: paths.browserStackConf
         }))
-        .on("error", handlebrowserStackError)
         .on("end", done);
 });
 
@@ -237,7 +233,37 @@ gulp.task('replaceResultsPlaceholders', function(done) {
 gulp.task('lighthousePerformanceTest', function() {
     return gulp.src([paths.performance], {read: false})
         .pipe(mocha({exit: true}))
-        .once("error", handleLighthouseError);
+        .on("error", lighthouseErrorHandler);
+});
+
+gulp.task('slackResults', function(done) {
+    const pa11yTestFailed = testResults.release.pa11y.length > 0;
+    const lighthouseTestFailed = testResults.release.lighthouse.length > 0;
+    const browserStackTestFailed = testResults.release.browserStack.length >0;
+
+    axios.post('https://hooks.slack.com/services/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', {
+        text: 'Dev Front-end Test Results:',
+        attachments: [
+            {
+                title: "Pa11y",
+                text: pa11yTestFailed? 'Failed' : 'Passed',
+                color: pa11yTestFailed? 'warning' : 'good'
+            },
+            {
+                title: "Lighthouse",
+                text: lighthouseTestFailed? 'Failed' : 'Passed',
+                color: lighthouseTestFailed? 'warning' : 'good'
+            },
+            {
+                title: "Browser Stack",
+                text: browserStackTestFailed? 'Failed' : 'Passed',
+                color: browserStackTestFailed? 'warning' : 'good'
+            }
+        ]
+    }).then(() => {
+        if (pa11yTestFailed || lighthouseTestFailed || browserStackTestFailed) process.exit(1);
+        done();
+    })
 });
  
 // watches
@@ -254,7 +280,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "lighthousePerformanceTest", "pa11y", "stopTestServer"));
+gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "lighthousePerformanceTest", "pa11y", "stopTestServer", "slackResults"));
 
 gulp.task("dev",
     gulp.series(

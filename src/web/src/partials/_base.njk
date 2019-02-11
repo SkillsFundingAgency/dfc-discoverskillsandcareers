@@ -17,6 +17,13 @@
     <title>{{ pageTitle | default('National Careers Service') }}</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/print.css" media="print">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
+    <!-- End Google Tag Manager -->
     <script>
       (function() {
         window.digitalData = new Object();
@@ -32,16 +39,21 @@
             var _pgurl = window.location.hostname + _clrpath[0];
 
             var _referringURL = document.referrer;
+            var _userAgent = navigator.userAgent;
             
-            return {
+            return {  
                 page: {
+                    user: {
+                      deviceAgent: _userAgent
+                    },
                     pageInfo: {
                         pageID: _pageID,
                         pageGroup: _pageGroup,
                         destinationURL: _pgurl,
                         pageInstanceID: _environment,
                         referringURL: _referringURL,
-                        environment: _environment,
+                        previous_page: _referringURL,
+                        environment: _environment,  
                     },
                 }
             }
@@ -49,13 +61,6 @@
       }).call(this);
   
     </script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
-    <!-- End Google Tag Manager -->
   </head>
   <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
 
@@ -94,6 +99,9 @@
         ]
       } 
     }) }}
+
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=default%2CElement.prototype.remove%2CSymbol.isConcatSpreadable"></script>
+    <script src="/assets/js/site.js" type="text/javascript"></script>
 
   </body>
 </html>
