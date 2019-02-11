@@ -10,7 +10,19 @@
 .govuk-breadcrumbs,
 .app-save-panel, 
 .app-resume-panel, 
+.app-results-cta,
 .app-back-to-top, 
 .govuk-footer {
   display: none;
+}
+
+.app-result {
+  display: block !important;
+}
+
+.app-result__body, 
+.app-result__header {
+  background: transparent;
+  color: govuk-colour('black');
+  padding: 0;
 }
