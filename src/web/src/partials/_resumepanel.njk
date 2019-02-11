@@ -9,7 +9,10 @@
 
       {{ govukButton({
         text: "Resume progress",
-        classes: "app-button"
+        classes: "app-button",
+        attributes: {
+          "gov-analytics-data": pageName + " | click | button | Resume progress"
+        }
       }) }}
 
     </form>
