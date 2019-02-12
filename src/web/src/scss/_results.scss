@@ -12,6 +12,8 @@
 
   .govuk-list > li {
     margin-bottom: govuk-spacing(6);
+    counter-increment: section;
+    content: counter(section); 
   }
 
   .app-results__cta {
