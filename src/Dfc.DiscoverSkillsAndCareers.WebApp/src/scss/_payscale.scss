@@ -1,0 +1,53 @@
+.app-payscale {
+  border-bottom: 4px solid $app-turquoise;
+  position: relative;
+  height: 2em;
+  margin-bottom: 3em;
+
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    background: $app-turquoise;
+    bottom: -2px;
+    transform: translateY(50%);
+    width: 4px;
+    height: 24px;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  i {
+    display: block;
+    position: absolute;
+    bottom: -3em;
+    margin-bottom: 0;
+  }
+}
+
+.app-payscale__to {
+  float: right;
+
+  i {
+    right: 0;
+  }
+}
+
+.app-payscale__from {
+  float: left;
+
+  i {
+    left: 0;
+  }
+}
+
+.app-payscale__join {
+  @extend %visually-hidden;
+}

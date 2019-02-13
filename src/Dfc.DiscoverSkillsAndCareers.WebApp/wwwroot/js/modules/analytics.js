@@ -27,27 +27,6 @@
   return s;
 })({
   1: [function (require, module, exports) {
-    const analytics = require('./modules/analytics.js');
-
-    const results = require('./modules/results.js');
-
-    const isPage = className => document.getElementsByClassName(className).length;
-
-    analytics.init();
-
-    if (isPage('app-page--start')) {
-      analytics.startSurvey();
-    }
-
-    if (isPage('app-page--results')) {
-      results.init();
-      analytics.finishSurvey();
-    }
-  }, {
-    "./modules/analytics.js": 2,
-    "./modules/results.js": 3
-  }],
-  2: [function (require, module, exports) {
     var analytics = function () {
       function setCookie(name, value, days) {
         var expires = '';
@@ -392,47 +371,5 @@
     }();
 
     module.exports = analytics;
-  }, {}],
-  3: [function (require, module, exports) {
-    var results = function () {
-      return {
-        init: function () {
-          const resultsList = document.getElementById('app-results-list');
-          const resultsItems = [...resultsList.children];
-          const other = resultsItems.filter(result => resultsItems.indexOf(result) >= 3);
-
-          if (other.length) {
-            other.map(item => {
-              item.style.display = 'none';
-            });
-            const wrapperElement = document.createElement('div');
-            wrapperElement.classList.add('app-results-load-more'); // "See x other job…" title
-
-            const titleElement = document.createElement('h2');
-            const titleText = 'See ' + other.length + ' other job categories you are suited to';
-            titleElement.innerHTML = titleText;
-            wrapperElement.appendChild(titleElement); // "See matches" button
-
-            const buttonElement = document.createElement('p');
-            const buttonText = '<a class="govuk-link govuk-link--no-visited-state" href="">See matches</a>';
-            buttonElement.innerHTML = buttonText;
-            wrapperElement.appendChild(buttonElement); // Append everything to container
-
-            resultsList.parentNode.appendChild(wrapperElement);
-            buttonElement.addEventListener('click', function (event) {
-              event.preventDefault();
-              other.map(item => {
-                item.style.display = 'block';
-              });
-              titleElement.remove();
-              buttonElement.remove();
-              return false;
-            });
-          }
-        }
-      };
-    }();
-
-    module.exports = results;
   }, {}]
 }, {}, [1]);

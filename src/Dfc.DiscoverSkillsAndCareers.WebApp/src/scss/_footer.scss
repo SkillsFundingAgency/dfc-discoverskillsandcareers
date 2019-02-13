@@ -1,0 +1,6 @@
+.govuk-footer {
+  padding-bottom: 6em;
+  @include govuk-media-query($from: desktop) {
+    padding-bottom: govuk-spacing(9);
+  }
+}

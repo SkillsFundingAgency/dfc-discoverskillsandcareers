@@ -1,0 +1,95 @@
+﻿@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+
+{% from "header/macro.njk" import govukHeader %}
+{% from "footer/macro.njk" import govukFooter %}  
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "radios/macro.njk" import govukRadios %}
+{% from "button/macro.njk" import govukButton %}
+{% from "skip-link/macro.njk" import govukSkipLink %}
+{% from "input/macro.njk" import govukInput %}
+{% from "panel/macro.njk" import govukPanel %}
+
+{% set pageName = 'home' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block main %}
+
+  <div class="app-masthead">
+    <div class="govuk-width-container">
+        
+      {% include "_phasebanner.njk" %}
+
+      {{ govukBreadcrumbs({
+        items: [
+          {
+            text: "Home: Discover your skills and careers"
+          }
+        ]
+      }) }}
+
+      <div class="text-center">
+    <h1 class="display-4">Index @Model.SessionId</h1>
+    <a href="/start">Start</a>
+</div>
+
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
+          <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <main id="content" role="main">
+  
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
+
+        <div class="govuk-grid-column-two-thirds">
+
+          <div class="app-assessment-picker">
+            <div class="app-assessment-picker__title">
+              <h2 class="govuk-heading-l">See job categories</h2>
+            </div>
+            <div class="app-assessment-picker__body">
+              <div class="govuk-inset-text">
+                5 minutes
+              </div>
+              <a href="/start.html" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state" gov-analytics-data="{{pageName}} | click | button | Start assessment">Start assessment</a>
+            </div>
+          </div>
+
+          <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
+            <div class="app-assessment-picker__title">
+              <strong class="govuk-tag govuk-tag--coming-soon">Coming soon</strong>
+              <h2 class="govuk-heading-l">See specific job roles</h2>
+            </div>
+            <div class="app-assessment-picker__body">
+              <div class="govuk-inset-text">
+                10 to 15 minutes
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+          {% include "_resumepanel.njk" %}
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+{% endblock %}

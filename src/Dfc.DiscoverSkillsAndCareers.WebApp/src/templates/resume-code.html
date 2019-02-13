@@ -1,0 +1,63 @@
+{% set pageName = 'resume-code' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block main %}
+
+  <div class="govuk-width-container app-site-width-container">
+      
+    {% include "_phasebanner.njk" %}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home: Discover your skills and careers",
+          href: "[static_site_domain]"
+        },
+        {
+          text: "Save your progress"
+        }
+      ]
+    }) }}
+    
+  </div>
+
+  <main id="content" role="main">
+    <div class="govuk-main-wrapper govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+          <div class="app-your-reference govuk-body">
+            
+            <p>            
+              Reference
+              <span class="app-your-reference__code govuk-heading-xl">[code]</span>
+            </p>
+            
+            <div class="app-your-reference__meta govuk-grid-row">
+              <p class="govuk-grid-column-one-third govuk-body-s">[session_date]</p>
+              <p class="govuk-grid-column-two-thirds govuk-body-s">[status]</p>
+            </div>
+
+          </div>
+
+          <div class="govuk-body">
+            
+            <h1 class="govuk-heading-m">What to do</h1>
+            <p>The code above is your unique reference number. You can use this to:</p>
+            <ul>
+              <li>Return to the assessment and resume your progress</li>
+              <li>Access your results after finishing the assessment</li>
+            </ul>
+
+            <p>Please write this code down and store it somewhere safe.</p>
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+  
+{% endblock %}
