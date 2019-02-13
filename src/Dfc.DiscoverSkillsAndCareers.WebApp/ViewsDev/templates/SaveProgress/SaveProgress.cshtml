@@ -1,13 +1,15 @@
-﻿@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
+﻿{% set pageName = 'resume-code' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Index";
     Layout = null;
 }
-
-{% set pageName = 'resume-code' %}
-{% set pageGroup = '' %}
-
-{% extends "_base.njk" %}
+{% endblock %}
 
 {% block main %}
 

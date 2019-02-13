@@ -1,13 +1,15 @@
-﻿@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.StartViewModel;
+﻿{% set pageName = 'start' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.StartViewModel;
 @{
     ViewData["Title"] = "Index";
     Layout = null;
 }
-
-{% set pageName = 'start' %}
-{% set pageGroup = '' %}
-
-{% extends "_base.njk" %}
+{% endblock %}
 
 {% block main %}
 

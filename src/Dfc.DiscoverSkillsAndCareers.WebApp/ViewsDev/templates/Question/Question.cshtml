@@ -1,10 +1,4 @@
-﻿@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
-@{
-    ViewData["Title"] = "Question";
-    Layout = null;
-}
-
-{% set pageName = 'questions' %}
+﻿{% set pageName = 'questions' %}
 {% set pageGroup = '' %}
 {% set pageTitle = @$"Statement ${Model.QuestionNumber}" %}
 {% set sessionId= '@Model.SessionId' %}
@@ -14,6 +8,14 @@
 {% set traitCode= '@Model.TraitCode' %}
 
 {% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
+@{
+    ViewData["Title"] = "Question";
+    Layout = null;
+}
+{% endblock %}
 
 {% block main %}
 
