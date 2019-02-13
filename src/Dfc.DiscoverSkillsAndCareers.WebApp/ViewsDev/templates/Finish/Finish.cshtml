@@ -1,13 +1,15 @@
-﻿@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
+﻿{% set pageName = 'finish' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
     ViewData["Title"] = "Finish";
     Layout = null;
 }
-
-{% set pageName = 'finish' %}
-{% set pageGroup = '' %}
-
-{% extends "_base.njk" %}
+{% endblock %}
 
 {% block main %}
 

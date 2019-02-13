@@ -1,13 +1,15 @@
-﻿@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
-@{
-    ViewData["Title"] = "Home Page";
-    Layout = null;
-}
-
-{% set pageName = 'home' %}
+﻿{% set pageName = 'home' %}
 {% set pageGroup = '' %}
 
 {% extends "_base.njk" %}
+
+{% block pre %}
+  @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
+  @{
+      ViewData["Title"] = "Home Page";
+      Layout = null;
+  }
+{% endblock %}
 
 {% block main %}
 
