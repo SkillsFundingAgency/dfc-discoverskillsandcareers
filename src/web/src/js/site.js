@@ -5,6 +5,11 @@ const isPage = className => document.getElementsByClassName(className).length
 
 analytics.init()
 
+if (isPage('app-page--start')) {
+  analytics.startSurvey()
+}
+
 if (isPage('app-page--results')) {
   results.init()
+  analytics.finishSurvey()
 }
