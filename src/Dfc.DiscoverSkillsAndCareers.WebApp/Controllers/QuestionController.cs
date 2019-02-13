@@ -27,12 +27,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [Route("q/{questionNumber:int}")]
-        public IActionResult AtQuestionNumber(int questionNumber, string assessmentType)
+        public async Task<IActionResult> AtQuestionNumber(int questionNumber, string assessmentType)
         {
-            var resp = UserSessionService.CreateSession("test", 4);
+            var question = await QuestionRepository.GetQuestion($"201901-{questionNumber.ToString()}"); // TODO test to ensure working
+
+
             var model = new QuestionViewModel()
             {
                 // TODO:
+                QuestionText = question.Texts.Where(x => x.LanguageCode.ToLower() == "en".ToLower()).FirstOrDefault()?.Text
             };
             return View("Question", model);
         }
