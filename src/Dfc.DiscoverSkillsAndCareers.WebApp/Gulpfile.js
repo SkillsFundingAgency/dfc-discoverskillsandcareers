@@ -65,7 +65,7 @@ paths.concatMinCssDest = paths.dist + "css/site.min.css";
 paths.minJs = paths.temp + "js/**/*.min.js";
 paths.concatJsDest = paths.dist + "js/site.js";
 paths.concatMinJsDest = paths.dist + "js/site.min.js";
-paths.assetsDest = paths.dist;
+paths.assetsDest = paths.dist + "assets/";
 paths.cssDest = paths.assetsDest + "css/";
 paths.jsDest = paths.assetsDest + "js/";
 paths.imagesDest = paths.assetsDest + "images/";
@@ -299,8 +299,7 @@ gulp.task("dev",
             "css:watch",
             "sass:watch",
             "images:watch",
-            "js:watch",
-            "connect"))
+            "js:watch"))
 );
 
 gulp.task("prod",
