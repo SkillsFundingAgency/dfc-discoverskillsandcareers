@@ -320,7 +320,7 @@ var analytics = (function () {
       const start = parseInt(getCookie('ncs-survey-start'), 10)
       const end = new Date().getTime()
       const delta = ((end - start) / 1000)
-      window.digitalData.page.pageInfo.timeLapsed = delta
+      window.digitalData.user.timeLapsed = delta
     },
 
     init: function () {
