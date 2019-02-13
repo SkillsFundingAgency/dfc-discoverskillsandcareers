@@ -116,7 +116,10 @@
           {{ govukButton({
             text: "[button_text]",
             classes: "app-button",
-            type: "submit"
+            type: "submit",
+            attributes: {
+            "gov-analytics-data": pageName + " | click | button | Submit"
+            }
           }) }}
           
         </div>

@@ -50,7 +50,10 @@
             {{ govukButton({
               text: "View results",
               classes: "app-button",
-              type: "submit"
+              type: "submit",
+              attributes: {
+                "gov-analytics-data": pageName + " | click | button | View results"
+              }
             }) }}
     
           </form>

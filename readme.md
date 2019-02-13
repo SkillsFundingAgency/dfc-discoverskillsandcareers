@@ -120,6 +120,25 @@ There are 3 deployment artifacts
 2. **Page templates** - To be deployed to blob container.
 3. **Static Landing Pages** - To be deployed to blob container. 
 
+
+## Analytics 
+
+### Event Tracking
+
+HTML Elements
+
+    gov-analytics-data="{{pageName}} | click | button | Start assessment"
+
+Nunjucks partials
+
+    {{ govukButton({
+        text: "Resume progress",
+        classes: "app-button",
+        attributes: {
+          "gov-analytics-data": pageName + " | click | button | Resume progress"
+        }
+      }) }}
+
 ## Licence
 
 TODO
