@@ -35,7 +35,7 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <h1 class="govuk-heading-xl app-masthead__title">Job categories you might be suited to </h1>
-          <p class="govuk-body-l app-results-count">[job_family_count] results</p>
+          <p class="govuk-body-l app-results-count">@Model.JobFamilies.size results</p>
         </div>
       </div>
           
@@ -53,7 +53,10 @@
           <h2 class="govuk-heading-l">What you told us</h2>
 
           <div class="govuk-text">
-            [traits_li_html]
+            @foreach (var trait in Model.Traits)
+            {
+                Html.Raw($"<li>{trait.Texts.First().Text}</li>");
+            }
             <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
           </div>
             
@@ -73,8 +76,11 @@
 
             <h2 class="govuk-heading-l">Your results</h2>
 
-            <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
-              [job_families_li_html]
+            <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">            
+              @foreach (var jobFamily in Model.JobFamilies)
+              {
+                  Html.Raw($"<li>{jobFamily.Texts.First().Text}</li>");
+              }
             </ol>
             
           </div>
