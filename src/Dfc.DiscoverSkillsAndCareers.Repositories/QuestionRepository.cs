@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    public class QuestionRepository
+    public class QuestionRepository : IQuestionRepository
     {
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
@@ -19,6 +20,13 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.cosmosSettings = cosmosSettings;
             this.collectionName = collectionName;
             client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
+        }
+
+        public QuestionRepository(IOptions<CosmosSettings> cosmosSettings, string collectionName = "Questions")
+        {
+            this.cosmosSettings = cosmosSettings?.Value;
+            this.collectionName = collectionName;
+            client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
         }
 
         public async Task<Question> GetQuestion(string questionId)

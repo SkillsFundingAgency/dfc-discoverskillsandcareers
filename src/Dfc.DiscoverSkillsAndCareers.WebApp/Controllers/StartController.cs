@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {

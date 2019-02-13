@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Dfc.DiscoverSkillsAndCareers.Services;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
@@ -24,15 +27,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
+            services.AddOptions();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<CosmosSettings>(Configuration.GetSection("AppSettings:CosmosSettings"));
+
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
+            services.AddTransient<IUserSessionService, UserSessionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +55,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
