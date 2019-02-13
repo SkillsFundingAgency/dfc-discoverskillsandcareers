@@ -8,6 +8,8 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace Dfc.DiscoverSkillsAndCareers.Services
 {
@@ -23,13 +25,13 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
             QuestionRepository = questionRepository;
         }
 
-        public async Task Init(HttpRequestMessage request)
+        public async Task Init(HttpRequest request)
         {
             UserSession userSession = null;
 
-            if (request.Content.IsFormData())
+            if (request.HasFormContentType)
             {
-                FormData = await request.Content.ReadAsFormDataAsync();
+                FormData = await request.ReadFormAsync();
             }
 
             string sessionId = TryGetSessionId(request);
@@ -45,32 +47,34 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
             }
         }
 
-        public NameValueCollection FormData { get; private set; }
+        public IFormCollection FormData { get; private set; }
         public UserSession Session { get; private set; }
-        public bool HasSession => Session != null;
+        public bool HasSession { get { return Session != null; } }
         public IAppSettings Config { get; private set; }
         public bool HasInputError { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }
         private string SessionSalt = "ncs";
 
-        public string TryGetSessionId(HttpRequestMessage request)
+        public string TryGetSessionId(HttpRequest request)
         {
             string sessionId = string.Empty;
-            var cookieSessionId = request.Headers.GetCookies("ncs-session-id").FirstOrDefault()?.Cookies.Where(x => x.Name == "ncs-session-id").FirstOrDefault()?.Value;
+            string cookieSessionId;
+            request.Cookies.TryGetValue("ncs-session-id", out cookieSessionId);
             sessionId = cookieSessionId;
 
-            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.RequestUri.Query);
+            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
             var code = QueryDictionary.Get("sessionId");
             if (string.IsNullOrEmpty(code) == false)
             {
                 sessionId = code;
             }
 
-            if (request.Content.IsFormData())
+            if (request.HasFormContentType)
             {
                 try
                 {
-                    var formSessionId = FormData.GetValues("sessionId").FirstOrDefault();
+                    string formSessionId = GetFormValue("sessionId");
+
                     if (string.IsNullOrEmpty(formSessionId) == false)
                     {
                         sessionId = formSessionId;
@@ -79,6 +83,26 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
                 catch { };
             }
             return sessionId;
+        }
+
+        public string GetFormValue(string key)
+        {
+            if (FormData == null) return null;
+            StringValues value;
+            FormData.TryGetValue(key, out value);
+            if (value.Count == 0) return null;
+            return value[0];
+        }
+
+        public int? GetFormNumberValue(string key)
+        {
+            var value = GetFormValue(key);
+            int number;
+            if (int.TryParse(value, out number))
+            {
+                return number;
+            }
+            return null;
         }
 
         public async Task CreateSession(string questionSetVersion, int maxQuestions, string languageCode = "en")
@@ -117,9 +141,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
         {
             AnswerOption answerValue;
             HasInputError = false;
-            if (Enum.TryParse(FormData.GetValues("selected_answer")?.FirstOrDefault(), out answerValue))
+            if (Enum.TryParse(GetFormValue("selected_answer"), out answerValue))
             {
-                string questionId = FormData.GetValues("questionId").FirstOrDefault();
+                string questionId = GetFormValue("questionId");
                 var questionRepository = new QuestionRepository(this.Config.CosmosSettings);
                 var question = await questionRepository.GetQuestion(questionId);
                 if (question == null)
@@ -133,8 +157,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
                     AnsweredDt = DateTime.Now,
                     SelectedOption = answerValue,
                     QuestionId = questionId,
-                    QuestionNumber = FormData.GetValues("questionNumber")?.FirstOrDefault(),
-                    QuestionText = FormData.GetValues("questionText")?.FirstOrDefault(),
+                    QuestionNumber = GetFormValue("questionNumber"),
+                    QuestionText = GetFormValue("questionText"),
                     TraitCode = question.TraitCode,
                     IsNegative = question.IsNegative,
                 };

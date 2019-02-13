@@ -1,6 +1,6 @@
 ﻿{% set pageName = 'questions' %}
 {% set pageGroup = '' %}
-{% set pageTitle = @$"Statement ${Model.QuestionNumber}" %}
+{% set pageTitle = 'Statement @Model.QuestionNumber' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set questionId= '@Model.QuestionId' %}
 {% set questionNumber= '@Model.QuestionNumber' %}
@@ -39,7 +39,7 @@
 
   <main id="content" role="main">
     <div class="govuk-main-wrapper govuk-width-container">
-      <form action="[form_route]" method="post">
+      <form action="@Model.FormRoute" method="post">
       
         <input type="hidden" name="sessionId" value="@Model.SessionId" />
         <input type="hidden" name="questionId" value="@Model.QuestionId" />
@@ -52,7 +52,7 @@
 
             <div class="ncs-progress">
               <span class="ncs-progress__count"><b class="govuk-!-font-size-36">@Model.Percentage%</b> <b class="visually-hidden">Complete</b></span>
-              <div class="ncs-progress__bar"><span style=@($"width: {Model.Percentage}%")></span></div>
+              <div class="ncs-progress__bar"><span style="width: @Model.Percentage%"></span></div>
             </div>
           
           </div>
