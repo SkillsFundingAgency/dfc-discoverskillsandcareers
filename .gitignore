@@ -6,6 +6,7 @@
 
 # Gulp-generated files
 src/web/dist
+src/Dfc.DiscoverSkillsAndCareers.WebApp/Views
 
 # Config files with access keys
 src/web/config.js
