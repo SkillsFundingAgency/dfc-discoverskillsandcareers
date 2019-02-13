@@ -1,6 +1,5 @@
 var analytics = (function () {
-
-  function setCookie(name, value, days) {
+  function setCookie (name, value, days) {
     var expires = ''
     if (days) {
       var date = new Date()
@@ -10,7 +9,7 @@ var analytics = (function () {
     document.cookie = name + '=' + (value || '') + expires + '; path=/'
   }
 
-  function getCookie(name) {
+  function getCookie (name) {
     var nameEQ = name + '='
     var ca = document.cookie.split(';')
     for (var i = 0; i < ca.length; i++) {
@@ -318,10 +317,9 @@ var analytics = (function () {
     },
 
     finishSurvey: function () {
-      const start = parseInt(getCookie('ncs-survey-start'), 10);
+      const start = parseInt(getCookie('ncs-survey-start'), 10)
       const end = new Date().getTime()
-      
-      const delta = ((end - start) / 1000);
+      const delta = ((end - start) / 1000)
       console.log(delta, ' seconds')
     },
 
