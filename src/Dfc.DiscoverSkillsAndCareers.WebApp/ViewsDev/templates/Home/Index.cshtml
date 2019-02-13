@@ -4,16 +4,6 @@
     Layout = null;
 }
 
-{% from "header/macro.njk" import govukHeader %}
-{% from "footer/macro.njk" import govukFooter %}  
-{% from "phase-banner/macro.njk" import govukPhaseBanner %}
-{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "radios/macro.njk" import govukRadios %}
-{% from "button/macro.njk" import govukButton %}
-{% from "skip-link/macro.njk" import govukSkipLink %}
-{% from "input/macro.njk" import govukInput %}
-{% from "panel/macro.njk" import govukPanel %}
-
 {% set pageName = 'home' %}
 {% set pageGroup = '' %}
 
@@ -33,7 +23,7 @@
           }
         ]
       }) }}
-      
+
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
