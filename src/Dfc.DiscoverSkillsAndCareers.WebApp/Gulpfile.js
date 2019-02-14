@@ -125,6 +125,7 @@ gulp.task("js", function () {
         .pipe(browserify())
         .pipe(standard.reporter('default'))
         .pipe(babel())
+        .pipe(filter(['**/*', '!**/modules/*']))
         .pipe(gulp.dest(paths.jsDest))
         .pipe(connect.reload());
 });
