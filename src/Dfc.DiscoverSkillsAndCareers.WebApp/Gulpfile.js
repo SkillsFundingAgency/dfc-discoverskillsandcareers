@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 "use strict";
 
-// helpers 
+// helpers
 
 function pa11yErrorHandler() {
     this.emit("end");
@@ -122,8 +122,8 @@ gulp.task("sass", function () {
 gulp.task("js", function () {
     return gulp.src(paths.js)
         .pipe(standard())
-        .pipe(browserify())
         .pipe(standard.reporter('default'))
+        .pipe(browserify())
         .pipe(babel())
         .pipe(filter(['**/*', '!**/modules/*']))
         .pipe(gulp.dest(paths.jsDest))
@@ -155,8 +155,8 @@ gulp.task('html', function() {
         .pipe(nunjucks({
           ext: '.cshtml',
           path: [
-            "node_modules/govuk-frontend/", 
-            "node_modules/govuk-frontend/components/", 
+            "node_modules/govuk-frontend/",
+            "node_modules/govuk-frontend/components/",
             paths.templatesSrc + "templates/",
             paths.templatesSrc + "partials/"]
         }))
@@ -166,7 +166,7 @@ gulp.task('html', function() {
 
 gulp.task('rev', () => {
     const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot'], { restore: true });
-  
+
     return gulp.src(paths.dist + '**/*')
       .pipe(assetFilter)
       .pipe(rev()) // Rename all files except index.html
@@ -180,7 +180,7 @@ gulp.task('headers', () => {
         .pipe(header('\ufeff'))
         .pipe(gulp.dest(paths.dist));
 });
-  
+
 gulp.task('connect', function() {
   connect.server({
     root: paths.dist,
@@ -225,7 +225,7 @@ gulp.task('replaceQuestionPlaceholders', function(done) {
         .pipe(gulp.dest(paths.dist))
         .on("end", done);
 });
-    
+
 gulp.task('replaceResultsPlaceholders', function(done) {
     gulp.src([paths.dist + "results.html"])
         .pipe(replace('[traits_li_html]', '\u2022 Influencer Some text about the Influencer trait\n\u2022 Driver Some text about the Driver trait\n\u2022 Influencer Some text about the Influencer trait'))
@@ -269,7 +269,7 @@ gulp.task('slackResults', function(done) {
         done();
     })
 });
- 
+
 // watches
 
 gulp.task("css:watch", () => gulp.watch([paths.css], gulp.series("min:css")));
