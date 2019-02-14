@@ -21,7 +21,7 @@
       items: [
         {
           text: "Home: Discover your skills and careers",
-          href: "[static_site_domain]"
+          href: "/"
         },
         {
           text: "Save your progress"
@@ -40,12 +40,12 @@
             
             <p>            
               Reference
-              <span class="app-your-reference__code govuk-heading-xl">[code]</span>
+              <span class="app-your-reference__code govuk-heading-xl">@Model.Code</span>
             </p>
             
             <div class="app-your-reference__meta govuk-grid-row">
-              <p class="govuk-grid-column-one-third govuk-body-s">[session_date]</p>
-              <p class="govuk-grid-column-two-thirds govuk-body-s">[status]</p>
+              <p class="govuk-grid-column-one-third govuk-body-s">@Model.SessionDate</p>
+              <p class="govuk-grid-column-two-thirds govuk-body-s">@Model.Status</p>
             </div>
 
           </div>

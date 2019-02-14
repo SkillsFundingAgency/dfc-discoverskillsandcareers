@@ -11,7 +11,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
     public interface IUserSessionService
     {
         string TryGetSessionId(HttpRequest request);
-        Task CreateSession(string questionSetVersion, int maxQuestions, string languageCode = "en");
+        Task CreateSession(string questionSetVersion, int maxQuestions, string assessmentType, string languageCode = "en");
         Task UpdateSession();
         Task Reload(string code);
         Task Init(HttpRequest request);

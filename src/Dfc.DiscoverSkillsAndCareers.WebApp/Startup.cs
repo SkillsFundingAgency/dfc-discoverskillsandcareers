@@ -37,6 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IUserSessionService, UserSessionService>();
+            services.AddTransient<IResultsService, ResultsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -32,5 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public DateTime StartedDt { get; set; }
         [JsonProperty("completeDt")]
         public DateTime? CompleteDt { get; set; }
+        [JsonProperty("assessmentType")]
+        public string AssessmentType { get; set; }
     }
 }

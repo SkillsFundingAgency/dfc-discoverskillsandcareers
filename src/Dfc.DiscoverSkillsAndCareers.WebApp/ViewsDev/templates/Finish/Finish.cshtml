@@ -47,7 +47,7 @@
           <p class="govuk-body govuk-!-margin-bottom-5">On the next page you will see your results, which are based on the statements you have just responded to.</p>
 
           <form action="/results/" method="post">
-            <input type="hidden" name="sessionId" value="[session_id]" />
+            <input type="hidden" name="sessionId" value="@Model.SessionId" />
     
             {{ govukButton({
               text: "View results",

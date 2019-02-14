@@ -15,7 +15,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var model = new IndexViewModel()
             {
                 // TODO:
-                SessionId = Guid.NewGuid().ToString()
             };
             return View(model);
         }

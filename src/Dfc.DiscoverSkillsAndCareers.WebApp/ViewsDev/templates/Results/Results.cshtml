@@ -57,7 +57,7 @@
           <div class="govuk-text">
             @foreach (var trait in Model.Traits)
             {
-                Html.Raw($"<li>{trait.Texts.First().Text}</li>");
+                <li>@trait</li>
             }
             <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
           </div>
@@ -78,11 +78,17 @@
 
             <h2 class="govuk-heading-l">Your results</h2>
 
-            <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">            
-              @foreach (var jobFamily in Model.JobFamilies)
-              {
-                  Html.Raw($"<li>{jobFamily.Texts.First().Text}</li>");
-              }
+            <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
+                @foreach (var jobFamily in Model.JobFamilies)
+                {
+                    <li class="app-result">
+                        <h3 class="govuk-heading-m app-result__header">@jobFamily.JobFamilyName</h3>
+                        <div class="app-result__body">
+                            <p>@jobFamily.JobFamilyText</p>
+                            <a href="@jobFamily.Url" role="button" draggable="false" class="govuk-button govuk-button--start app-button">See job category</a>
+                        </div>
+                    </li>
+                }
             </ol>
             
           </div>

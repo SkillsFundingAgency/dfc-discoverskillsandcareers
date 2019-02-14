@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Helpers;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using System;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Services
 {
@@ -105,7 +104,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
             return null;
         }
 
-        public async Task CreateSession(string questionSetVersion, int maxQuestions, string languageCode = "en")
+        public async Task CreateSession(string questionSetVersion, int maxQuestions, string assessmentType, string languageCode = "en")
         {
             string partitionKey = DateTime.Now.ToString("yyyyMM");
             string salt = SessionSalt;
@@ -118,7 +117,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
                 PartitionKey = partitionKey,
                 QuestionSetVersion = questionSetVersion,
                 MaxQuestions = maxQuestions,
-                CurrentQuestion = 1
+                CurrentQuestion = 1,
+                AssessmentType = assessmentType
             };
             await UserSessionRepository.CreateUserSession(Session);
         }

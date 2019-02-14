@@ -110,7 +110,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 TraitCode = question.TraitCode,
                 QuestionText = question.Texts.Where(x => x.LanguageCode.ToLower() == "en".ToLower()).FirstOrDefault()?.Text
             };
-            Response.Cookies.Append("ncs-session-id", UserSessionService.Session.UserSessionId);
+            Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
             return View("Question", model);
         }
 
@@ -156,7 +156,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         private async Task SetupNewSession(QuestionSetInfo questionSetInfo)
         {
             // Create a new session
-            await UserSessionService.CreateSession(questionSetInfo.QuestionSetVersion, questionSetInfo.MaxQuestions);
+            await UserSessionService.CreateSession(questionSetInfo.QuestionSetVersion, questionSetInfo.MaxQuestions, questionSetInfo.AssessmentType);
         }
 
         public static void ManageIfComplete(UserSession userSession)
