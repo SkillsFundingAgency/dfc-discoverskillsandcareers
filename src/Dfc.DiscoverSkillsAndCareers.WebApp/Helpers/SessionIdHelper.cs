@@ -30,7 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Helpers
             var decoded = hashids.DecodeLong(code);
             if (decoded.Length > 0)
             {
-                decoded[0].ToString();
+                return decoded[0].ToString();
             }
             return null;
         }
