@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
-using Dfc.DiscoverSkillsAndCareers.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("finish")]
     public class FinishController : Controller
     {
+        readonly ILogger<FinishController> Logger;
         readonly IUserSessionService UserSessionService;
 
-        public FinishController(IUserSessionService userSessionService)
+        public FinishController(ILogger<FinishController> logger, 
+            IUserSessionService userSessionService)
         {
+            Logger = logger;
             UserSessionService = userSessionService;
         }
 

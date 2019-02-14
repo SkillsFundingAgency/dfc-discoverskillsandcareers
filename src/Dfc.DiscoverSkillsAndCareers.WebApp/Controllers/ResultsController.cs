@@ -1,6 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +11,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("results")]
     public class ResultsController : Controller
     {
+        readonly ILogger<ResultsController> Logger;
         readonly IUserSessionService UserSessionService;
         readonly IResultsService ResultsService;
 
-        public ResultsController(IUserSessionService userSessionService, IResultsService resultsService)
+        public ResultsController(ILogger<ResultsController> logger,
+            IUserSessionService userSessionService,
+            IResultsService resultsService)
         {
+            Logger = logger;
             UserSessionService = userSessionService;
             ResultsService = resultsService;
         }

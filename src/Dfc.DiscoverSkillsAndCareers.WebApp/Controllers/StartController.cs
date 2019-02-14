@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("start")]
     public class StartController : Controller
     {
+        readonly ILogger<StartController> Logger;
+
+        public StartController(ILogger<StartController> logger)
+        {
+            Logger = logger;
+        }
+
         public IActionResult Index()
         {
             var model = new StartViewModel()

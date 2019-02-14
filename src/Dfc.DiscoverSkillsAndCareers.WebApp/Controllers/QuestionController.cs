@@ -1,23 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.Services;
-using Dfc.DiscoverSkillsAndCareers.Models;
-using Microsoft.AspNetCore.Http;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     public class QuestionController : Controller
     {
+        readonly ILogger<QuestionController> Logger;
         readonly IUserSessionService UserSessionService;
         readonly IQuestionRepository QuestionRepository;
 
-        public QuestionController(IUserSessionService userSessionService, IQuestionRepository questionRepository)
+        public QuestionController(ILogger<QuestionController> logger,
+            IUserSessionService userSessionService,
+            IQuestionRepository questionRepository)
         {
+            Logger = logger;
             UserSessionService = userSessionService;
             QuestionRepository = questionRepository;
         }

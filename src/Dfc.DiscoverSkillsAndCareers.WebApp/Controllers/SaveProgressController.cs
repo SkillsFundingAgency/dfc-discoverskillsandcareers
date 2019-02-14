@@ -1,6 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
@@ -8,10 +9,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("save-my-progress")]
     public class SaveProgressController : Controller
     {
+        readonly ILogger<SaveProgressController> Logger;
         readonly IUserSessionService UserSessionService;
 
-        public SaveProgressController(IUserSessionService userSessionService)
+        public SaveProgressController(ILogger<SaveProgressController> logger,
+            IUserSessionService userSessionService)
         {
+            Logger = logger;
             UserSessionService = userSessionService;
         }
 
