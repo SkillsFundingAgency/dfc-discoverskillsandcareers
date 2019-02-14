@@ -15,15 +15,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     public class HomeController : Controller
     {
         readonly ILogger<HomeController> Logger;
-        readonly ILoggerHelper LoggerHelper;
         readonly IUserSessionService UserSessionService;
 
-        public HomeController(ILogger<HomeController> logger, 
-            ILoggerHelper loggerHelper, 
+        public HomeController(ILogger<HomeController> logger,  
             IUserSessionService userSessionService)
         {
             Logger = logger;
-            LoggerHelper = loggerHelper;
             UserSessionService = userSessionService;
         }
 
@@ -32,7 +29,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 Logger.LogInformation("Standard logger");
-                LoggerHelper.LogInformationMessage(Logger, Guid.NewGuid(), "test home");
+                // LoggerHelper.LogInformationMessage(Logger, Guid.NewGuid(), "test home");
 
                 var model = new IndexViewModel()
                 {
@@ -43,7 +40,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Standard logger");
-                LoggerHelper.LogException(Logger, Guid.NewGuid(), ex);
+                // LoggerHelper.LogException(Logger, Guid.NewGuid(), ex);
                 return StatusCode(500);
             }
         }
