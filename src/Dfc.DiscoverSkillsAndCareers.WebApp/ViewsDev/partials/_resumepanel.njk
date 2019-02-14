@@ -2,9 +2,9 @@
     <h3 class="govuk-heading-m">Resume your progress</h3>
     <form method="post" action="/reload">
 
-      <div class="app-resume-panel__input govuk-form-group">
+      <div class="app-resume-panel__input govuk-form-group @(Model.HasReloadError ? "govuk-form-group--error" : string.Empty)">
         <label class="govuk-label" for="code">Reference number</label>
-        <input class="govuk-input" id="code" name="code" type="text">
+         <input class="govuk-input" id="code" name="code" type="text"></input>
       </div>
 
       {{ govukButton({
