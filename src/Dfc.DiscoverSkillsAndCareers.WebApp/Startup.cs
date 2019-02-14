@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+using DFC.Common.Standard.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
@@ -38,6 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IUserSessionService, UserSessionService>();
             services.AddTransient<IResultsService, ResultsService>();
+            services.AddTransient<ILoggerHelper, LoggerHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
