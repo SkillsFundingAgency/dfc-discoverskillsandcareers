@@ -132,9 +132,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
         public async Task Reload(string code)
         {
             var datetimeStamp = SessionIdHelper.Decode(SessionSalt, code);
-            string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
-            var userSession = await UserSessionRepository.GetUserSession(code, partitionKey);
-            Session = userSession;
+            if (datetimeStamp != null)
+            {
+                string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
+                var userSession = await UserSessionRepository.GetUserSession(code, partitionKey);
+                Session = userSession;
+            }
         }
 
         private async Task CheckForAnswer()

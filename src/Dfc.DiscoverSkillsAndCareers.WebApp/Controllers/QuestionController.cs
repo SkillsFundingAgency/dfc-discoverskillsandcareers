@@ -58,7 +58,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     int shouldDisplayQuestion = GetCurrentQuestionNumber(questionNumber, UserSessionService.Session.MaxQuestions);
                     if (shouldDisplayQuestion != questionNumber)
                     {
-                        return RedirectToQuestionNumber(Request, shouldDisplayQuestion, UserSessionService.Session.PrimaryKey);
+                        return RedirectToQuestionNumber(shouldDisplayQuestion, UserSessionService.Session.PrimaryKey);
                     }
                     UserSessionService.Session.CurrentQuestion = shouldDisplayQuestion;
                 }
@@ -69,13 +69,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 // Setup a new session with the current question set version
                 var currentQuestionSetInfo = await QuestionRepository.GetCurrentQuestionSetVersion();
                 await SetupNewSession(currentQuestionSetInfo);
-                return RedirectToQuestionNumber(Request);
+                return RedirectToQuestionNumber(UserSessionService.Session);
             }
 
             if (!UserSessionService.HasSession)
             {
                 // Session id is missing, redirect to question 1
-                return RedirectToNewSession(Request);
+                return RedirectToNewSession();
             }
 
             // Determine if we are complete and update the session
@@ -169,18 +169,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        public static IActionResult RedirectToNewSession(HttpRequest req)
+        public static IActionResult RedirectToNewSession()
         {
             return new RedirectResult($"/q/1?assessmentType=short");
         }
 
-        public IActionResult RedirectToQuestionNumber(HttpRequest req, int questionNumber, string sessionId)
+        public IActionResult RedirectToQuestionNumber(int questionNumber, string sessionId)
         {
             var redirectResponse = new RedirectResult($"/q/{questionNumber}");
             Response.Cookies.Append("ncs-session-id", sessionId);
             return redirectResponse;
         }
 
-        public IActionResult RedirectToQuestionNumber(HttpRequest req) => RedirectToQuestionNumber(req, UserSessionService.Session.CurrentQuestion, UserSessionService.Session.PrimaryKey);
+        public IActionResult RedirectToQuestionNumber(UserSession session) => RedirectToQuestionNumber(session.CurrentQuestion, session.PrimaryKey);
     }
 }

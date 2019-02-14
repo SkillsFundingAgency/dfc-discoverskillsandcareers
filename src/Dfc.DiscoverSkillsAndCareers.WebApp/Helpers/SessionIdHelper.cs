@@ -27,7 +27,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Helpers
         public static string Decode(string salt, string code)
         {
             var hashids = new Hashids(salt, 4, Alphabet);
-            return hashids.DecodeLong(code)?[0].ToString();
+            var decoded = hashids.DecodeLong(code);
+            if (decoded.Length > 0)
+            {
+                decoded[0].ToString();
+            }
+            return null;
         }
 
         public static string GetYearMonth(string datetimeStamp)
