@@ -6,25 +6,46 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using DFC.Common.Standard.Logging;
+using DFC.Common.Standard;
+using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        readonly ILogger<HomeController> Logger;
+        readonly ILoggerHelper LoggerHelper;
         readonly IUserSessionService UserSessionService;
 
-        public HomeController(IUserSessionService userSessionService)
+        public HomeController(ILogger<HomeController> logger, 
+            ILoggerHelper loggerHelper, 
+            IUserSessionService userSessionService)
         {
+            Logger = logger;
+            LoggerHelper = loggerHelper;
             UserSessionService = userSessionService;
         }
 
         public IActionResult Index()
         {
-            var model = new IndexViewModel()
+            try
             {
-                // TODO:
-            };
-            return View(model);
+                Logger.LogInformation("Standard logger");
+                LoggerHelper.LogInformationMessage(Logger, Guid.NewGuid(), "test home");
+
+                var model = new IndexViewModel()
+                {
+                    // TODO:
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Standard logger");
+                LoggerHelper.LogException(Logger, Guid.NewGuid(), ex);
+                return StatusCode(500);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
