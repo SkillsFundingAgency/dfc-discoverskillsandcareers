@@ -164,6 +164,6 @@ $app-text-light: #646C70;
 .app-grey {
   &,
   .app-sidebar {
-    background: govuk-colour('grey-4') !important;
+    background: govuk-colour('grey-4');
   }
 }
