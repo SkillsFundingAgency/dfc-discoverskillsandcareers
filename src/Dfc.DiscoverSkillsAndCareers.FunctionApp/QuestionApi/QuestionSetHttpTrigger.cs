@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
         [Display(Name = "Get", Description = "Retrieves a specific question set version")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionSet/{version?}")] HttpRequest req, ILogger log, string version)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionSet/{assessmenttype}/{version}")] HttpRequest req, ILogger log,string assessmenttype, string version)
         {
             return new OkObjectResult(new Models.QuestionSetInfo());
         }

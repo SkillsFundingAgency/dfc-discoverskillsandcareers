@@ -27,7 +27,7 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
         [Display(Name = "Get", Description = "Retrieves the questions contained within the requested question set version")]
 
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmenttype}/{version}/questions")] HttpRequest req, string assessmentType, string version,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmenttype}/{version}/questions")] HttpRequest req, string assessmenttype, string version,
             ILogger log)
         {
 
