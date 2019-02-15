@@ -46,7 +46,8 @@ var paths = {
     dist: "wwwroot/",
     templatesDist: "Views/",
     temp: ".temp/",
-    tests: "tests/"
+    tests: "specs/",
+    conf: "conf/"
 };
 
 // paths – input
@@ -74,13 +75,8 @@ paths.imagesDest = paths.assetsDest + "images/";
 
 paths.accessibilty = paths.tests + "accessibility.spec.js";
 paths.performance = paths.tests + "performance.spec.js";
-paths.browserStackConf = paths.tests + "conf/conf.js";
-paths.browserStackSpec = paths.tests + "specs/*.spec.js";
-
-const testServerOptions = {
-    port: 3000,
-    root: paths.dist,
-}
+paths.browserStackConf = paths.conf + "conf.js";
+paths.browserStackSpec = paths.tests + "browser.spec.js";
 
 // tasks
 
@@ -181,15 +177,6 @@ gulp.task('headers', () => {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('connect', function() {
-  connect.server({
-    root: paths.dist,
-    port: 3000,
-    livereload: true,
-    host: '0.0.0.0'
-  });
-});
-
 // QA
 
 gulp.task('pa11y', function() {
@@ -203,34 +190,6 @@ gulp.task('browserStack', function(done) {
         .pipe(protractor({
             configFile: paths.browserStackConf
         }))
-        .on("end", done);
-});
-
-gulp.task('startTestServer', function(done) {
-    connect.server(testServerOptions);
-    done();
-});
-
-gulp.task('stopTestServer', function(done) {
-    connect.serverClose();
-    done();
-});
-
-gulp.task('replaceQuestionPlaceholders', function(done) {
-    gulp.src([paths.dist + "questions.html"])
-        .pipe(replace('>[percentage]', '>0'))
-        .pipe(replace('[question_text]', 'I make decisions quickly'))
-        .pipe(replace('[error_message]', 'Please select an option above or this does not apply to continue'))
-        .pipe(replace('[button_text]', 'Continue'))
-        .pipe(gulp.dest(paths.dist))
-        .on("end", done);
-});
-
-gulp.task('replaceResultsPlaceholders', function(done) {
-    gulp.src([paths.dist + "results.html"])
-        .pipe(replace('[traits_li_html]', '\u2022 Influencer Some text about the Influencer trait\n\u2022 Driver Some text about the Driver trait\n\u2022 Influencer Some text about the Influencer trait'))
-        .pipe(replace('[job_families_li_html]', '\u2022 Influencer Some text about the Influencer trait\n\u2022 Driver Some text about the Driver trait\n\u2022 Influencer Some text about the Influencer trait'))
-        .pipe(gulp.dest(paths.dist))
         .on("end", done);
 });
 
@@ -284,7 +243,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("replaceQuestionPlaceholders", "replaceResultsPlaceholders", "startTestServer", "lighthousePerformanceTest", "pa11y", "stopTestServer", "slackResults"));
+gulp.task("test", gulp.series("lighthousePerformanceTest", "pa11y", "slackResults"));
 
 gulp.task("dev",
     gulp.series(
