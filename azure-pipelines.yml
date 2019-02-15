@@ -52,6 +52,29 @@ steps:
 
     targetPath: '$(Build.ArtifactStagingDirectory)\webapp'
 
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+
+    publishWebProjects: false
+
+    projects: 'src\Dfc.DiscoverSkillsAndCareers.FunctionApp\Dfc.DiscoverSkillsAndCareers.FunctionApp.csproj'
+
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)\functionapp'
+
+    zipAfterPublish: false
+
+    modifyOutputPath: false
+
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    artifactName: functionapp
+
+    targetPath: '$(Build.ArtifactStagingDirectory)\functionapp'
+
 
 
 
