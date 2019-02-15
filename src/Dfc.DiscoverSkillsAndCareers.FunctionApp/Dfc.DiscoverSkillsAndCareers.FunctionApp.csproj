@@ -4,6 +4,10 @@
         <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="DFC.Common.Standard" Version="0.1.0" />
+        <PackageReference Include="DFC.Functions.DI.Standard" Version="0.1.0" />
+        <PackageReference Include="DFC.HTTP.Standard" Version="0.1.5" />
+        <PackageReference Include="DFC.JSON.Standard" Version="0.1.2" />
         <PackageReference Include="Hashids.net" Version="1.2.2" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
