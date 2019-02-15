@@ -15,7 +15,7 @@
 
   <div class="app-masthead">
     <div class="govuk-width-container">
-        
+
       {% include "_phasebanner.njk" %}
 
       {{ govukBreadcrumbs({
@@ -40,7 +40,7 @@
           <p class="govuk-body-l app-results-count">@Model.JobFamilies.Count results</p>
         </div>
       </div>
-          
+
     </div>
   </div>
 
@@ -51,7 +51,7 @@
       <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-4">
 
         <div class="govuk-grid-column-two-thirds app-intro">
-            
+
           <h2 class="govuk-heading-l">What you told us</h2>
 
           <div class="govuk-text">
@@ -61,7 +61,7 @@
             }
             <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
           </div>
-            
+
         </div>
 
         <div class="govuk-grid-column-one-third app-sidebar">
@@ -72,27 +72,72 @@
 
       <div class="govuk-grid-row govuk-body">
 
-        <div class="govuk-grid-column-two-thirds">
+        <div class="@(Model.AssessmentType == "short" ? "govuk-grid-column-two-thirds" : "govuk-grid-column-full") ">
 
           <div class="app-results">
 
             <h2 class="govuk-heading-l">Your results</h2>
 
-            <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
+            @if(Model.AssessmentType == "short")
+            {
+              <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
                 @foreach (var jobFamily in Model.JobFamilies)
                 {
-                    <li class="app-result">
-                        <h3 class="govuk-heading-m app-result__header">@jobFamily.JobFamilyName</h3>
-                        <div class="app-result__body">
-                            <p>@jobFamily.JobFamilyText</p>
-                            <a href="@jobFamily.Url" role="button" draggable="false" class="govuk-button govuk-button--start app-button">See job category</a>
-                        </div>
-                    </li>
+                  <li class="app-result">
+                      <h3 class="govuk-heading-m app-result__header">@jobFamily.JobFamilyName</h3>
+                      <div class="app-result__body">
+                          <p>@jobFamily.JobFamilyText</p>
+                          <a href="@jobFamily.Url" role="button" draggable="false" class="govuk-button govuk-button--start app-button">See job category</a>
+                      </div>
+                  </li>
                 }
-            </ol>
-            
+              </ol>
+            } else {
+              <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
+                <li>
+                  <h3 class="govuk-heading-m">Call centre operator</h3>
+                  <p class="govuk-body-l app-text--light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <div class="govuk-grid-row govuk-!-margin-bottom-3">
+                    <div class="govuk-grid-column-one-third">
+                      <h5 class="govuk-body app-results__col-header">Average salary <span>(a year)</span></h5>
+                      <div class="app-payscale govuk-body-l">
+                        <span class="app-payscale__from">£13,500 <i class="govuk-body">Starter</i></span><span class="app-payscale__join">–</span><span class="app-payscale__to">£28,000 <i class="govuk-body">Experienced</i></span>
+                      </div>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                      <h5 class="govuk-body app-results__col-header">Typical hours <span>(a week)</span></h5>
+                      <p class="govuk-body-l">38 to 40 a week</p>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                      <h5 class="govuk-body  app-results__col-header">You could work</h5>
+                      <p class="govuk-body-l">evenings / weekends / bank holidays on shifts</p>
+                    </div>
+                  </div>
+                  <h4 class="govuk-heading-m">Start your journey</h4>
+                  <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                      <p class="govuk-body app-text--light">Choose from one of the two options to find out more information about this role, or training opportunities</p>
+                    </div>
+                    <div class="govuk-grid-column-one-third app-results__cta">
+                      {{ govukButton({
+                        text: "View job information",
+                        classes: "govuk-button--start app-button--block app-button--alt",
+                        href: "#"
+                      }) }}
+                      {{ govukButton({
+                        text: "View training opportunities",
+                        classes: "govuk-button--start app-button--block app-button--alt",
+                        href: "#"
+                      }) }}
+                    </div>
+                  </div>
+                  <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+                </li>
+              </ol>
+            }
+
           </div>
-          
+
           <div class="app-back-to-top" data-module="app-back-to-top">
             <a class="govuk-link govuk-link--no-visited-state" href="#top">
               <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">

@@ -48,6 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var jobFamilies = UserSessionService.Session.ResultData.JobFamilies;
             var model = new ResultsViewModel()
             {
+                AssessmentType = UserSessionService.Session.AssessmentType,
                 SessionId = UserSessionService.Session.UserSessionId,
                 JobFamilyCount = UserSessionService.Session.ResultData.JobFamilies.Count,
                 JobFamilyMoreCount = UserSessionService.Session.ResultData.JobFamilies.Count - 3,
