@@ -46,29 +46,35 @@
 
   <main id="content" role="main">
 
+
+  <div class="@(Model.AssessmentType == "short" ? string.Empty : "app-grey")">
     <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
 
-      <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-4">
+        <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-4">
 
-        <div class="govuk-grid-column-two-thirds app-intro">
+          <div class="govuk-grid-column-two-thirds app-intro">
 
-          <h2 class="govuk-heading-l">What you told us</h2>
+            <h2 class="govuk-heading-l">What you told us</h2>
 
-          <div class="govuk-text">
-            @foreach (var trait in Model.Traits)
-            {
-                <li>@trait</li>
-            }
-            <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
+            <div class="govuk-text">
+              @foreach (var trait in Model.Traits)
+              {
+                  <li>@trait</li>
+              }
+              <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
+            </div>
+
+          </div>
+
+          <div class="govuk-grid-column-one-third app-sidebar @(Model.AssessmentType == "short" ? string.Empty : "app-sidebar---grey")">
+              {% include "_savepanel.njk" %}
           </div>
 
         </div>
-
-        <div class="govuk-grid-column-one-third app-sidebar">
-            {% include "_savepanel.njk" %}
-        </div>
-
       </div>
+    </div>
+
+    <div class="govuk-main-wrapper govuk-width-container @(Model.AssessmentType == "short" ? string.Empty : "govuk-!-padding-top-7")">
 
       <div class="govuk-grid-row govuk-body">
 
