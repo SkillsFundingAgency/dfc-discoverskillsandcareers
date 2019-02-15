@@ -1,6 +1,6 @@
 {% block pre %}{% endblock %}
 {% from "header/macro.njk" import govukHeader %}
-{% from "footer/macro.njk" import govukFooter %}  
+{% from "footer/macro.njk" import govukFooter %}
 {% from "phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "radios/macro.njk" import govukRadios %}
@@ -13,7 +13,7 @@
 <html lang="en" class="govuk-template no-js">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0b0c0c" /> 
+    <meta name="theme-color" content="#0b0c0c" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>{{ pageTitle | default('National Careers Service') }}</title>
     <link rel="stylesheet" href="/assets/css/main.css">
@@ -32,6 +32,7 @@
 
             var _pageGroup = "{{ pageGroup }}";
             var _pageID = "{{ pageName }}";
+            var _pageName = "{{ pageTrackingString }}";
             var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
 
             var _rqpath = window.location.pathname;
@@ -41,26 +42,27 @@
 
             var _referringURL = document.referrer;
             var _userAgent = navigator.userAgent;
-            
-            return {  
+
+            return {
                 page: {
                     user: {
                       deviceAgent: _userAgent
                     },
                     pageInfo: {
                         pageID: _pageID,
+                        pageName: _pageName,
                         pageGroup: _pageGroup,
                         destinationURL: _pgurl,
                         pageInstanceID: _environment,
                         referringURL: _referringURL,
                         previous_page: _referringURL,
-                        environment: _environment,  
+                        environment: _environment,
                     },
                 }
             }
         })();
       }).call(this);
-  
+
     </script>
   </head>
   <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
@@ -98,7 +100,7 @@
             text: "Information sources"
           }
         ]
-      } 
+      }
     }) }}
 
     <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=default%2CElement.prototype.remove%2CSymbol.isConcatSpreadable"></script>
