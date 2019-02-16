@@ -15,7 +15,7 @@ describe('Accessibility test Understand Me html pages', function () {
     this.timeout(30000);
 
     it('Home page', () => {
-        return pa11y(`https://localhost:5001`, {
+        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
@@ -26,7 +26,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Start page', () => {
-        return pa11y(`https://localhost:5001/start`, {
+        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
@@ -37,7 +37,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Statement page', () => {
-        return pa11y(`https://localhost:5001/q/1`, {
+        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
@@ -48,7 +48,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Save Progress page', () => {
-        return pa11y('https://localhost:5001/q/1', {
+        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -63,7 +63,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Finish page', () => {
-        return pa11y('https://localhost:5001/q/1', {
+        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -88,7 +88,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Results page', () => {
-        return pa11y('https://localhost:5001/q/1', {
+        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
