@@ -76,5 +76,10 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)\functionapp'
 
 
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    artifactName: specs
 
+    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/specs
 
