@@ -7,6 +7,14 @@ queue:
   - node.js
 
 steps:
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    artifactName: webappDir
+
+    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+
+
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk 2.2.102'
   inputs:
@@ -74,12 +82,4 @@ steps:
     artifactName: functionapp
 
     targetPath: '$(Build.ArtifactStagingDirectory)\functionapp'
-
-
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
-  inputs:
-    artifactName: webappDir
-
-    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/
 
