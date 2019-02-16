@@ -2,6 +2,9 @@
   "version": "1.0.0",
   "name": "dfc-discoverskillsandcareers",
   "private": true,
+  "scripts": {
+    "test": "mocha ./spec/*.spec.js"
+  },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
