@@ -79,7 +79,7 @@ steps:
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Pipeline Artifact'
   inputs:
-    artifactName: specs
+    artifactName: webappDir
 
-    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/specs
+    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/
 
