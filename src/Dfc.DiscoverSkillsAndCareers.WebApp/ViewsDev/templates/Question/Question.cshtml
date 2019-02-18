@@ -1,9 +1,12 @@
 ﻿{% set pageName = 'questions' %}
-{% set trackQuestionText = '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))' %}
-{% set trackQuestionNumber = '@Model.QuestionNumber' %}
-{% set pageTrackingSet = '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))' %}
 {% set pageGroup = '' %}
 {% set pageTitle = 'Statement @Model.QuestionNumber' %}
+
+{% set taggingPageName = 'questions' %}
+{% set taggingQuestionText = '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))' %}
+{% set taggingQuestionNumber = '@Model.QuestionNumber' %}
+{% set taggingVersionNumber = '' %}
+
 {% set sessionId= '@Model.SessionId' %}
 {% set questionId= '@Model.QuestionId' %}
 {% set questionNumber= '@Model.QuestionNumber' %}

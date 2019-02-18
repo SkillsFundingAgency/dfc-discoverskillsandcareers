@@ -32,11 +32,13 @@
 
             var _pageGroup = "{{ pageGroup }}";
             var _pageID = "{{ pageName }}";
-            var _pageName = "{{ trackQuestionText }}";
-            var _questionId = "{{ trackQuestionId }}";
-            var _pageName = "{{ pageTrackingString }}";
-            var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
 
+            var _pageName = "{{ taggingPageName }}";
+            var _questionId = "{{ taggingQuestionId }}";
+            var _questionText = "{{ taggingQuestionText }}";
+            var _versionNumber = "{{ taggingVersionNumber }}";
+
+            var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
             var _rqpath = window.location.pathname;
             var _clrpath = _rqpath.split('?');
             var _fldrelmnt = _clrpath[0].split('/');
