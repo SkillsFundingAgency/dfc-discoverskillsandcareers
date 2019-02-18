@@ -21,7 +21,7 @@
 
 ### Architecture Documents 
 
-[High level solution Architecture Diagram](https://drive.google.com/open?id=16ukfuSa6eKJW3lgVBvaFFobpEQ3a13D2)
+[High level solution Architecture Diagram](https://drive.google.com/open?id=1b6K1Yf8uoWNfewnYEvIozDbVgsZF3x7f)
 
 ### Dependencies
 
