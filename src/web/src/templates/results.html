@@ -7,7 +7,7 @@
 
   <div class="app-masthead">
     <div class="govuk-width-container">
-        
+
       {% include "_phasebanner.njk" %}
 
       {{ govukBreadcrumbs({
@@ -32,7 +32,7 @@
           <p class="govuk-body-l app-results-count">[job_family_count] results</p>
         </div>
       </div>
-          
+
     </div>
   </div>
 
@@ -43,14 +43,16 @@
       <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-4">
 
         <div class="govuk-grid-column-two-thirds app-intro">
-            
+
           <h2 class="govuk-heading-l">What you told us</h2>
 
           <div class="govuk-text">
-            [traits_li_html]
+            <ul class="govuk-list">
+              [traits_li_html]
+            </ul>
             <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
           </div>
-            
+
         </div>
 
         <div class="govuk-grid-column-one-third app-sidebar">
@@ -70,9 +72,9 @@
             <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
               [job_families_li_html]
             </ol>
-            
+
           </div>
-          
+
           <div class="app-back-to-top" data-module="app-back-to-top">
             <a class="govuk-link govuk-link--no-visited-state" href="#top">
               <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">
