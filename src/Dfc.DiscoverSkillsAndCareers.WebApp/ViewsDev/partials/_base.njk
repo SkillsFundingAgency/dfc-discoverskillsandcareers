@@ -32,6 +32,8 @@
 
             var _pageGroup = "{{ pageGroup }}";
             var _pageID = "{{ pageName }}";
+            var _pageName = "{{ trackQuestionText }}";
+            var _questionId = "{{ trackQuestionId }}";
             var _pageName = "{{ pageTrackingString }}";
             var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
 
@@ -57,6 +59,7 @@
                         referringURL: _referringURL,
                         previous_page: _referringURL,
                         environment: _environment,
+                        questionID: _questionId,
                     },
                 }
             }
