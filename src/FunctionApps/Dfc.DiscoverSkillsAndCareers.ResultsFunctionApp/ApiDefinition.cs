@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 {
     public static class ApiDefinition
     {

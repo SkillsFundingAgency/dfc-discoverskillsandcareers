@@ -16,7 +16,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
     public static class NextQuestionHttpTrigger
     {
