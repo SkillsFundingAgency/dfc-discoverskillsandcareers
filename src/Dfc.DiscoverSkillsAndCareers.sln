@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Repositories", "Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj", "{C71327A1-CB21-4389-89D2-4B6A2E38FA97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.LocalDataSetupTests", "Dfc.LocalDataSetupTests\Dfc.LocalDataSetupTests.csproj", "{3188B55A-1EC7-4FC7-88FF-877A978A07E1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.UnitTests", "Dfc.UnitTests\Dfc.UnitTests.csproj", "{6DA3D039-38F6-44E2-9C41-3072A00108D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{704B84F5-E692-4D6A-8E3C-F766BDC00751}"
@@ -19,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.WebApp", "Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj", "{2F9B70E7-5E05-4768-B08E-969B87225FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.Services", "Dfc.DiscoverSkillsAndCareers.Services\Dfc.DiscoverSkillsAndCareers.Services.csproj", "{42A2E819-F570-4716-A2E9-0A562B556D87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Services", "Dfc.DiscoverSkillsAndCareers.Services\Dfc.DiscoverSkillsAndCareers.Services.csproj", "{42A2E819-F570-4716-A2E9-0A562B556D87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{C71327A1-CB21-4389-89D2-4B6A2E38FA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71327A1-CB21-4389-89D2-4B6A2E38FA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71327A1-CB21-4389-89D2-4B6A2E38FA97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3188B55A-1EC7-4FC7-88FF-877A978A07E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DA3D039-38F6-44E2-9C41-3072A00108D6}.Release|Any CPU.ActiveCfg = Release|Any CPU

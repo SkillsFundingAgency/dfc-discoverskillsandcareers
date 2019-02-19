@@ -27,7 +27,6 @@
       <None Remove="SaveMyProgress\**" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Include="Helpers\BlobStorageHelper.cs" />
       <Compile Include="Helpers\ConfigurationHelper.cs" />
       <Compile Include="Helpers\SessionIdHelper.cs" />
       <Compile Include="Results\CalculateResult.cs" />
