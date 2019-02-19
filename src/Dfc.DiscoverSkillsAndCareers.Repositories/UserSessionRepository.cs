@@ -55,10 +55,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<Document> CreateUserSession(UserSession userSession)
+        public async Task CreateUserSession(UserSession userSession)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            return await client.CreateDocumentAsync(uri, userSession);
+            await client.CreateDocumentAsync(uri, userSession);
         }
 
         public async Task<UserSession> UpdateUserSession(UserSession userSession)

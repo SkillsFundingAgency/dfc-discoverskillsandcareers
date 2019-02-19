@@ -7,9 +7,9 @@ namespace Dfc.UnitTests.Fakes
 {
     public class FakeUserSessionRepository : IUserSessionRepository
     {
-        public Task<Document> CreateUserSession(UserSession userSession)
+        public Task CreateUserSession(UserSession userSession)
         {
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<UserSession> GetUserSession(string primaryKey)
