@@ -1,4 +1,3 @@
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
@@ -18,6 +17,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
+using Dfc.DiscoverSkillsAndCareers.Services;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
@@ -41,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
             [Inject]IQuestionRepository questionRepository,
-            [Inject]IResultsService resultsService)
+            [Inject]IAssessmentCalculationService resultsService)
         {
             loggerHelper.LogMethodEnter(log);
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Services
 {
-    public interface IResultsService
+    public interface IAssessmentCalculationService
     {
         Task CalculateShortAssessment(UserSession userSession);
     }

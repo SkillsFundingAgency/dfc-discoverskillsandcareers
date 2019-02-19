@@ -1,6 +1,4 @@
-﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp.Ioc;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Dfc.DiscoverSkillsAndCareers.Services;
+﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
@@ -12,6 +10,7 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
@@ -39,7 +38,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IContentRepository, ContentRepository>();
-            services.AddTransient<IResultsService, ResultsService>();
+
 
             ConfigureOptions(services);
         }

@@ -1,4 +1,4 @@
-﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp;
+﻿using Dfc.DiscoverSkillsAndCareers.ContentFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.UnitTests.Fakes;
 using DFC.Common.Standard.Logging;

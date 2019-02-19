@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Services
 {
-    public class ResultsService : IResultsService
+    public class AssessmentCalculationService : IAssessmentCalculationService
     {
-        public ResultsService()
+        public AssessmentCalculationService()
         {
 
         }

@@ -20,7 +20,6 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
       <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
-      <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Services\Dfc.DiscoverSkillsAndCareers.Services.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="extensions.json">

@@ -1,6 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp.Ioc;
+﻿using Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Dfc.DiscoverSkillsAndCareers.Services;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
@@ -39,7 +38,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IContentRepository, ContentRepository>();
-            services.AddTransient<IResultsService, ResultsService>();
 
             ConfigureOptions(services);
         }

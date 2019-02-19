@@ -1,5 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp;
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.UnitTests.Fakes;
 using DFC.Common.Standard.Logging;

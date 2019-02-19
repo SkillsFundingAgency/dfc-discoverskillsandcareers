@@ -1,7 +1,7 @@
 ﻿using System;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 {
     public class AppSettings
     {
