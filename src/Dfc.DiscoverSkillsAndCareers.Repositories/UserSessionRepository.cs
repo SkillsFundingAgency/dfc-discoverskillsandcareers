@@ -14,17 +14,17 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public UserSessionRepository(ICosmosSettings cosmosSettings, string collectionName = "UserSessions")
-        {
-            this.cosmosSettings = cosmosSettings;
-            this.collectionName = collectionName;
-            client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
-        }
+        //public UserSessionRepository(ICosmosSettings cosmosSettings, string collectionName = "UserSessions")
+        //{
+        //    this.cosmosSettings = cosmosSettings;
+        //    this.collectionName = collectionName;
+        //    client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
+        //}
 
-        public UserSessionRepository(IOptions<CosmosSettings> cosmosSettings, string collectionName = "UserSessions")
+        public UserSessionRepository(IOptions<CosmosSettings> cosmosSettings, string collectionName)
         {
             this.cosmosSettings = cosmosSettings?.Value;
-            this.collectionName = collectionName;
+            this.collectionName = collectionName ?? "UserSessions";
             client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
         }
 

@@ -28,6 +28,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             await UserSessionService.Init(Request);
 
+            if (!UserSessionService.HasSession)
+            {
+                return Redirect("/");
+            }
+
             switch (UserSessionService.Session.AssessmentType)
             {
                 case "short":

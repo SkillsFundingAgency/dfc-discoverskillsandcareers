@@ -25,10 +25,10 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
 
             var appSettings = new AppSettings();
             config.Bind(appSettings);
-            if (appSettings.StaticSiteDomain?.EndsWith('/') == true)
-            {
-                appSettings.StaticSiteDomain = appSettings.StaticSiteDomain.TrimEnd('/');
-            }
+            //if (appSettings.StaticSiteDomain?.EndsWith('/') == true)
+            //{
+            //    appSettings.StaticSiteDomain = appSettings.StaticSiteDomain.TrimEnd('/');
+            //}
             return appSettings;
         }
     }
