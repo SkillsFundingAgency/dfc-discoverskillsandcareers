@@ -15,6 +15,7 @@ describe('Accessibility test Understand Me html pages', function () {
     this.timeout(30000);
 
     it('Home page', () => {
+        // TODO: change url to dev env once known
         return pa11y(`https://localhost:5001`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -26,6 +27,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Start page', () => {
+        // TODO: change url to dev env once known
         return pa11y(`https://localhost:5001/start`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -37,6 +39,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Statement page', () => {
+        // TODO: change url to dev env once known
         return pa11y(`https://localhost:5001/q/1`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -48,6 +51,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Save Progress page', () => {
+        // TODO: change url to dev env once known
         return pa11y('https://localhost:5001/q/1', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -63,6 +67,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Finish page', () => {
+        // TODO: change url to dev env once known
         return pa11y('https://localhost:5001/q/1', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -88,6 +93,7 @@ describe('Accessibility test Understand Me html pages', function () {
     });
 
     it('Results page', () => {
+        // TODO: change url to dev env once known
         return pa11y('https://localhost:5001/q/1', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template

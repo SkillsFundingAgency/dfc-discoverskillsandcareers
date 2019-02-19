@@ -26,6 +26,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     const performanceThreshold = 0.9;
 
     it('Home page', () => {
+        // TODO: change url to dev env once known
         return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/', opts, ).then(({categories}) => {
             performanceScores.push(addPageName(categories.performance, 'Home'));
             expect(categories.performance.score).to.be.at.least(performanceThreshold);
@@ -33,6 +34,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     });
     
     it('Start page', () => {
+        // TODO: change url to dev env once known
         return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/start', opts, ).then(({categories}) => {
             performanceScores.push(addPageName(categories.performance, 'Start'));
             expect(categories.performance.score).to.be.at.least(performanceThreshold);
@@ -40,6 +42,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     });
 
     it('Statement page', () => {
+        // TODO: change url to dev env once known
         return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1', opts, ).then(({categories}) => {
             performanceScores.push(addPageName(categories.performance, 'Statement'));
             expect(categories.performance.score).to.be.at.least(performanceThreshold);
@@ -53,6 +56,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
                 const {webSocketDebuggerUrl} = JSON.parse(resp.body);
                 return puppeteer.connect({browserWSEndpoint: webSocketDebuggerUrl}).then((browser) => {
                     return browser.newPage().then((page) => {
+                        // TODO: change url to dev env once known
                         return page.goto('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1')
                             .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-link--no-visited-state')]))
                             .then(([response]) => lighthouse(response.url(), opts, null))
@@ -74,6 +78,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
                 const {webSocketDebuggerUrl} = JSON.parse(resp.body);
                 return puppeteer.connect({browserWSEndpoint: webSocketDebuggerUrl}).then((browser) => {
                     return browser.newPage().then((page) => {
+                        // TODO: change url to dev env once known
                         return page.goto('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1')
                             .then(() => page.click(`#${answerDict['Agree']}`))
                             .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))
@@ -105,6 +110,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
                 const {webSocketDebuggerUrl} = JSON.parse(resp.body);
                 return puppeteer.connect({browserWSEndpoint: webSocketDebuggerUrl}).then((browser) => {
                     return browser.newPage().then((page) => {
+                        // TODO: change url to dev env once known
                         return page.goto('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1')
                             .then(() => page.click(`#${answerDict['Agree']}`))
                             .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))

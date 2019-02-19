@@ -3,6 +3,7 @@ describe('National Careers Service', () => {
   browser.ignoreSynchronization = true;
   it('Run through short assessment and get result', () => {
     // Go to landing page
+    // TODO: change url to dev env once known
     browser.driver.get('https://dfcdevskillscareersstr.z6.web.core.windows.net/')
       // Wait for element to load and click Start assessment
       .then(() => browser.driver.wait(EC.presenceOf(element(by.className('govuk-link--no-visited-state'))), 10000))
@@ -184,6 +185,7 @@ describe('National Careers Service', () => {
 
   it('Get error message when clicking continue without selecting an option', () => {
     // Go to landing page
+    // TODO: change url to dev env once known
     browser.driver.get('https://dfcdevskillscareersstr.z6.web.core.windows.net/')
       // Wait for page to load and click Start assessment
       .then(() => browser.driver.wait(EC.presenceOf(element(by.className('govuk-link--no-visited-state'))), 5000))
@@ -204,6 +206,7 @@ describe('National Careers Service', () => {
 
   it('Start short assessment, get session ID and check if it resumes assessment', () => {
     // Go to landing page
+    // TODO: change url to dev env once known
     browser.driver.get('https://dfcdevskillscareersstr.z6.web.core.windows.net/')
     // Wait for page to load and Click Start assessment
     .then(() => browser.driver.wait(EC.presenceOf(element(by.className('govuk-link--no-visited-state'))), 5000))
@@ -226,6 +229,7 @@ describe('National Careers Service', () => {
     });
 
   // Go to landing page, wait for page to load, enter session ID and click resume progress
+  // TODO: change url to dev env once known
   browser.driver.get('https://dfcdevskillscareersstr.z6.web.core.windows.net/')
     .then(() => browser.driver.wait(EC.presenceOf(element(by.id('code'))), 10000))
     .then(() => browser.driver.findElement(By.id('code')).sendKeys(sessionId))
