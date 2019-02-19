@@ -3,8 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using Dfc.DiscoverSkillsAndCareers.Services;
+using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Services;
 
 namespace Dfc.UnitTests
 {
@@ -15,8 +16,8 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession();
 
-            var resultsService = new ResultsService();
-            await resultsService.CalculateShortAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService();
+            await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData);
         }
@@ -33,8 +34,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var resultsService = new ResultsService();
-            await resultsService.CalculateShortAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService();
+            await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Count == 1);
@@ -55,8 +56,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var resultsService = new ResultsService();
-            await resultsService.CalculateShortAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService();
+            await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Count == 1);
@@ -79,8 +80,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var resultsService = new ResultsService();
-            await resultsService.CalculateShortAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService();
+            await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Count == 1);
@@ -100,8 +101,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var resultsService = new ResultsService();
-            await resultsService.CalculateShortAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService();
+            await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Count == 1);
@@ -129,7 +130,7 @@ namespace Dfc.UnitTests
             };
 
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
             Assert.True(result.Count == 10);
@@ -160,7 +161,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 6 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
             Assert.True(result.Count == 10);
@@ -191,7 +192,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -8 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             Assert.True(result.Count == 0);
         }
@@ -211,7 +212,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 0 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             Assert.True(result.Count == 0);
         }
@@ -231,7 +232,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
             Assert.True(result.Count == 10);
@@ -267,7 +268,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
             Assert.True(result.Count == 10);
@@ -298,7 +299,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 6 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
             Assert.True(result.Count == 10);
@@ -329,7 +330,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
             Assert.True(result.Count == 10);
@@ -360,7 +361,7 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 3 }
             };
 
-            var result = ResultsService.CalculateJobFamilyRelevance(ResultsService.JobFamilies, userTraits, "en");
+            var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             Assert.True(result.Count == 10);
         }

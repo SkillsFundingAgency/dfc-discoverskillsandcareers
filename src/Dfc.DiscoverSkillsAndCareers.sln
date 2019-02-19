@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.FunctionApp", "Dfc.DiscoverSkillsAndCareers.FunctionApp\Dfc.DiscoverSkillsAndCareers.FunctionApp.csproj", "{DB8AC337-D423-42E6-99E6-55C762E979A9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Models", "Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj", "{15432649-0325-4EB9-8603-79EBA6395A16}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Repositories", "Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj", "{C71327A1-CB21-4389-89D2-4B6A2E38FA97}"
@@ -17,7 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.WebApp", "Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj", "{2F9B70E7-5E05-4768-B08E-969B87225FC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Services", "Dfc.DiscoverSkillsAndCareers.Services\Dfc.DiscoverSkillsAndCareers.Services.csproj", "{42A2E819-F570-4716-A2E9-0A562B556D87}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionApps", "FunctionApps", "{F49CE56E-2680-4C7C-BDE4-563ADF7B6DFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj", "{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.CmsFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.csproj", "{288DD7E3-89C0-4B9E-A012-C01E4A98C930}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.ContentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.csproj", "{5C3FD258-67A9-4099-8EA6-BB0368D11329}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.csproj", "{11996B1B-54F8-4232-B574-F733916F8C3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB8AC337-D423-42E6-99E6-55C762E979A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB8AC337-D423-42E6-99E6-55C762E979A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB8AC337-D423-42E6-99E6-55C762E979A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB8AC337-D423-42E6-99E6-55C762E979A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15432649-0325-4EB9-8603-79EBA6395A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15432649-0325-4EB9-8603-79EBA6395A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15432649-0325-4EB9-8603-79EBA6395A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,16 +51,32 @@ Global
 		{2F9B70E7-5E05-4768-B08E-969B87225FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9B70E7-5E05-4768-B08E-969B87225FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9B70E7-5E05-4768-B08E-969B87225FC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{288DD7E3-89C0-4B9E-A012-C01E4A98C930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288DD7E3-89C0-4B9E-A012-C01E4A98C930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288DD7E3-89C0-4B9E-A012-C01E4A98C930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288DD7E3-89C0-4B9E-A012-C01E4A98C930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3FD258-67A9-4099-8EA6-BB0368D11329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3FD258-67A9-4099-8EA6-BB0368D11329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3FD258-67A9-4099-8EA6-BB0368D11329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3FD258-67A9-4099-8EA6-BB0368D11329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11996B1B-54F8-4232-B574-F733916F8C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11996B1B-54F8-4232-B574-F733916F8C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11996B1B-54F8-4232-B574-F733916F8C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11996B1B-54F8-4232-B574-F733916F8C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{37287922-EED7-4655-B204-4C0F3B834DB1} = {704B84F5-E692-4D6A-8E3C-F766BDC00751}
+		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB} = {F49CE56E-2680-4C7C-BDE4-563ADF7B6DFB}
+		{288DD7E3-89C0-4B9E-A012-C01E4A98C930} = {F49CE56E-2680-4C7C-BDE4-563ADF7B6DFB}
+		{5C3FD258-67A9-4099-8EA6-BB0368D11329} = {F49CE56E-2680-4C7C-BDE4-563ADF7B6DFB}
+		{11996B1B-54F8-4232-B574-F733916F8C3C} = {F49CE56E-2680-4C7C-BDE4-563ADF7B6DFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64C2611B-18F9-427D-B8DA-A5B5FB995402}
