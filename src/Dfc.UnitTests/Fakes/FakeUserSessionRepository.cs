@@ -28,7 +28,7 @@ namespace Dfc.UnitTests.Fakes
 
         public Task<UserSession> UpdateUserSession(UserSession userSession)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult<UserSession>(userSession);
         }
     }
 }
