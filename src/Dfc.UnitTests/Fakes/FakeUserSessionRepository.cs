@@ -7,16 +7,16 @@ namespace Dfc.UnitTests.Fakes
 {
     public class FakeUserSessionRepository : IUserSessionRepository
     {
-        public Task<Document> CreateUserSession(UserSession userSession)
+        public Task CreateUserSession(UserSession userSession)
         {
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<UserSession> GetUserSession(string primaryKey)
         {
             var result = new UserSession()
             {
-
+                MaxQuestions = 5
             };
             return Task.FromResult<UserSession>(result);
         }
@@ -28,7 +28,7 @@ namespace Dfc.UnitTests.Fakes
 
         public Task<UserSession> UpdateUserSession(UserSession userSession)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult<UserSession>(userSession);
         }
     }
 }

@@ -1,146 +1,141 @@
-﻿//using System;
-//using Xunit;
-//using Dfc.DiscoverSkillsAndCareers.Models;
-//using Dfc.DiscoverSkillsAndCareers.FunctionApp.QuestionRouter;
+﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp;
+using Dfc.DiscoverSkillsAndCareers.Models;
+using Xunit;
 
-//namespace Dfc.UnitTests
-//{
-//    public class QuestionRouterTests
-//    {
-//        [Fact]
-//        public void ManageIfComplete_WithNotCompleteState_ShouldNotBeComplete()
-//        {
-//            var userSession = new UserSession()
-//            {
-//                MaxQuestions = 5,
-//                CurrentQuestion = 1
-//            };
+namespace Dfc.UnitTests
+{
+    public class QuestionRouterTests
+    {
+        [Fact]
+        public void ManageIfComplete_WithNotCompleteState_ShouldNotBeComplete()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 1
+            };
 
-//            QuestionRouterFunction.ManageIfComplete(userSession);
+            PostAnswerHttpTrigger.ManageIfComplete(userSession);
 
-//            Assert.False(userSession.IsComplete);
-//            Assert.Null(userSession.CompleteDt);
-//        }
+            Assert.False(userSession.IsComplete);
+            Assert.Null(userSession.CompleteDt);
+        }
 
-//        [Fact]
-//        public void ManageIfComplete_WithCompleteState_ShouldBeComplete()
-//        {
-//            var userSession = new UserSession()
-//            {
-//                MaxQuestions = 5,
-//                CurrentQuestion = 5,
-//                RecordedAnswers = new System.Collections.Generic.List<Answer>()
-//                {
-//                    new Answer() { QuestionNumber = "1" },
-//                    new Answer() { QuestionNumber = "2" },
-//                    new Answer() { QuestionNumber = "3" },
-//                    new Answer() { QuestionNumber = "4" },
-//                    new Answer() { QuestionNumber = "5" },
-//                }
-//            };
+        [Fact]
+        public void ManageIfComplete_WithCompleteState_ShouldBeComplete()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "3" },
+                    new Answer() { QuestionNumber = "4" },
+                    new Answer() { QuestionNumber = "5" },
+                }
+            };
 
-//            QuestionRouterFunction.ManageIfComplete(userSession);
+            PostAnswerHttpTrigger.ManageIfComplete(userSession);
 
-//            Assert.True(userSession.IsComplete);
-//            Assert.NotNull(userSession.CompleteDt);
-//        }
+            Assert.True(userSession.IsComplete);
+            Assert.NotNull(userSession.CompleteDt);
+        }
 
-//        [Fact]
-//        public void ManageIfComplete_WithMissingAnswers_ShouldNotBeComplete()
-//        {
-//            var userSession = new UserSession()
-//            {
-//                MaxQuestions = 5,
-//                CurrentQuestion = 5,
-//                RecordedAnswers = new System.Collections.Generic.List<Answer>()
-//                {
-//                    new Answer() { QuestionNumber = "1" },
-//                    new Answer() { QuestionNumber = "2" },
-//                    new Answer() { QuestionNumber = "5" },
-//                }
-//            };
+        [Fact]
+        public void ManageIfComplete_WithMissingAnswers_ShouldNotBeComplete()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "5" },
+                }
+            };
 
-//            QuestionRouterFunction.ManageIfComplete(userSession);
+            PostAnswerHttpTrigger.ManageIfComplete(userSession);
 
-//            Assert.False(userSession.IsComplete);
-//            Assert.Null(userSession.CompleteDt);
-//        }
+            Assert.False(userSession.IsComplete);
+            Assert.Null(userSession.CompleteDt);
+        }
 
-//        [Theory]
-//        [InlineData(1, false, "/q/2")]
-//        [InlineData(2, false, "/q/3")]
-//        [InlineData(3, false, "/q/4")]
-//        [InlineData(4, false, "/q/5")]
-//        [InlineData(5, true, "/finish")]
-//        [InlineData(6, true, "/finish")]
-//        public void GetNextRoute_WithSetup_ShouldHaveCorrectRoute(int question, bool isComplete, string expected)
-//        {
-//            var userSession = new UserSession()
-//            {
-//                MaxQuestions = 5,
-//                CurrentQuestion = question,
-//                IsComplete = isComplete,
-//            };
+        [Fact]
+        public void GetNextQuestionNumber_WithNoAnswers_ShouldBeFirstQuestion()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                IsComplete = false,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                },
+            };
 
-//            string actual = BuildPageHtml.GetNextRoute(userSession);
+            int actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
 
-//            Assert.Equal(expected, actual);
-//        }
+            Assert.Equal(1, actual);
+        }
 
-//        [Fact]
-//        public void GetNextRoute_WithRecordedAnswerLess1_ShouldBeResultsNextRoute()
-//        {
-//            var userSession = new UserSession()
-//            {
-//                MaxQuestions = 5,
-//                CurrentQuestion = 5,
-//                IsComplete = false,
-//                RecordedAnswers = new System.Collections.Generic.List<Answer>()
-//                {
-//                    new Answer() { QuestionNumber = "1" },
-//                    new Answer() { QuestionNumber = "2" },
-//                    new Answer() { QuestionNumber = "3" },
-//                    new Answer() { QuestionNumber = "4" }
-//                },
-//            };
+        [Fact]
+        public void GetNextQuestionToAnswerNumber_WithGapInAnswers_ShouldBeQuestion3()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "5" },
+                }
+            };
 
-//            string actual = BuildPageHtml.GetNextRoute(userSession);
+            var actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
 
-//            Assert.Equal("/finish", actual);
-//        }
+            Assert.Equal(3, actual);
+        }
 
-//        [Fact]
-//        public void GetNextRoute_WithRecordedAnswersLess2_ShouldBeQuestionNextRoute()
-//        {
-//            var userSession = new UserSession()
-//            {
-//                MaxQuestions = 5,
-//                CurrentQuestion = 4,
-//                IsComplete = false,
-//                RecordedAnswers = new System.Collections.Generic.List<Answer>()
-//                {
-//                    new Answer() { QuestionNumber = "1" },
-//                    new Answer() { QuestionNumber = "2" },
-//                    new Answer() { QuestionNumber = "3" }
-//                },
-//            };
+        [Fact]
+        public void GetNextQuestionNumber_WithRecordedAnswerLess1_ShouldBeLastQuestion()
+        {
+            var userSession = new UserSession()
+            {
+                MaxQuestions = 5,
+                CurrentQuestion = 5,
+                IsComplete = false,
+                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                {
+                    new Answer() { QuestionNumber = "1" },
+                    new Answer() { QuestionNumber = "2" },
+                    new Answer() { QuestionNumber = "3" },
+                    new Answer() { QuestionNumber = "4" }
+                },
+            };
 
-//            string actual = BuildPageHtml.GetNextRoute(userSession);
+            int actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
 
-//            Assert.Equal("/q/5", actual);
-//        }
+            Assert.Equal(5, actual);
+        }
 
-//        [Theory]
-//        [InlineData(0, 40, 1)]
-//        [InlineData(1, 40, 1)]
-//        [InlineData(5, 40, 5)]
-//        [InlineData(40, 40, 40)]
-//        [InlineData(42, 40, 40)]
-//        public void GetCurrentQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int expected)
-//        {
-//            int actual = QuestionRouterFunction.GetCurrentQuestionNumber(question, max);
+        [Theory]
+        [InlineData(0, 40, 1)]
+        [InlineData(1, 40, 1)]
+        [InlineData(5, 40, 5)]
+        [InlineData(40, 40, 40)]
+        [InlineData(42, 40, 40)]
+        public void GetNextQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int expected)
+        {
+            int actual = NextQuestionHttpTrigger.GetNextQuestionNumber(question, max);
 
-//            Assert.Equal(expected, actual);
-//        }
-//    }
-//}
+            Assert.Equal(expected, actual);
+        }
+    }
+}

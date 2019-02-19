@@ -8,6 +8,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Configuration;
 using CsvHelper;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -45,7 +46,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             {
                 configuration.Bind(opts);
 
-                var questionRepository = new QuestionRepository(opts.Cosmos);
+                var questionRepository = new QuestionRepository(Options.Create(opts.Cosmos));
                 using(var fileStream = File.OpenRead(opts.CsvFile))
                 using(var streamReader = new StreamReader(fileStream))
                 using(var reader = new CsvReader(streamReader))

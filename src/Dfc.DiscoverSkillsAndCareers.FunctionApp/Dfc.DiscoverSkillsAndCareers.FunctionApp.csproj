@@ -35,10 +35,7 @@
       <None Remove="SaveMyProgress\**" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Include="Helpers\BlobStorageHelper.cs" />
-      <Compile Include="Helpers\ConfigurationHelper.cs" />
       <Compile Include="Helpers\SessionIdHelper.cs" />
-      <Compile Include="Results\CalculateResult.cs" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="DFC.Common.Standard" Version="0.1.0" />
@@ -73,8 +70,5 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="QuestionRouter\" />
     </ItemGroup>
 </Project>
