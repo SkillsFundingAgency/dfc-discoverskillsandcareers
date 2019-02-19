@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Xunit;
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Results;
+using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Results;
 using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.UnitTests
