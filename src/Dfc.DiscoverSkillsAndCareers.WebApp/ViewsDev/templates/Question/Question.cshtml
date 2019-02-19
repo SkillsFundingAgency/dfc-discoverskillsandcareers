@@ -1,6 +1,12 @@
 ﻿{% set pageName = 'questions' %}
 {% set pageGroup = '' %}
 {% set pageTitle = 'Statement @Model.QuestionNumber' %}
+
+{% set taggingPageName = 'questions' %}
+{% set taggingQuestionText = '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))' %}
+{% set taggingQuestionNumber = '@Model.QuestionNumber' %}
+{% set taggingVersionNumber = '' %}
+
 {% set sessionId= '@Model.SessionId' %}
 {% set questionId= '@Model.QuestionId' %}
 {% set questionNumber= '@Model.QuestionNumber' %}
@@ -20,7 +26,7 @@
 {% block main %}
 
   <div class="govuk-width-container app-site-width-container">
-    
+
     {% include "_phasebanner.njk" %}
 
     {{ govukBreadcrumbs({
@@ -33,14 +39,14 @@
           text: "See job categories"
         }
       ]
-    }) }}      
-    
+    }) }}
+
   </div>
 
   <main id="content" role="main">
     <div class="govuk-main-wrapper govuk-width-container">
       <form action="@Model.FormRoute" method="post">
-      
+
         <input type="hidden" name="sessionId" value="@Model.SessionId" />
         <input type="hidden" name="questionId" value="@Model.QuestionId" />
         <input type="hidden" name="questionNumber" value="@Model.QuestionNumber" />
@@ -54,7 +60,7 @@
               <span class="ncs-progress__count"><b class="govuk-!-font-size-36">@Model.Percentage%</b> <b class="visually-hidden">Complete</b></span>
               <div class="ncs-progress__bar"><span style="width: @Model.Percentage%"></span></div>
             </div>
-          
+
           </div>
           <div class="govuk-grid-column-one-third-from-desktop">
             {% set savepanelClass = 'alt' %}
@@ -65,7 +71,7 @@
         <span class="govuk-error-message">@Model.ErrorMessage</span>
 
         <fieldset class="govuk-fieldset app-question">
-     
+
           <legend class="visually-hidden">@Model.QuestionText</legend>
 
           <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
@@ -75,21 +81,21 @@
           </div>
 
           <div class="app-question__answer govuk-radios govuk-radios--inline">
-            
+
             <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" value="StronglyAgree">
               <label class="govuk-label govuk-radios__label" for="selected_answer-1">
                 Strongly agree
               </label>
             </div>
-            
+
             <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" value="Agree">
               <label class="govuk-label govuk-radios__label" for="selected_answer-2">
                 Agree
               </label>
             </div>
-            
+
             <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="selected_answer-3" name="selected_answer" type="radio" value="Disagree">
               <label class="govuk-label govuk-radios__label" for="selected_answer-3">
@@ -105,11 +111,11 @@
             </div>
 
           </div>
-            
+
         </fieldset>
-        
+
         <div class="app-controls">
-                
+
           <input id="selected_answer-5" name="selected_answer" type="radio" value="Neutral" class="visually-hidden">
           <label class="govuk-label govuk-radios__label app-button--outline" for="selected_answer-5">
               This doesn&rsquor;t apply to me
@@ -123,7 +129,7 @@
               "gov-analytics-data": pageName + " | click | button | Submit"
             }
           }) }}
-          
+
         </div>
 
         {% set savepanelClass = 'alt-mobile' %}
@@ -131,6 +137,6 @@
 
       </form>
     </div>
-  </main> 
+  </main>
 
 {% endblock %}

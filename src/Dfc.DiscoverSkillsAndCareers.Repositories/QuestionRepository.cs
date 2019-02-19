@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,18 +16,24 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public QuestionRepository(ICosmosSettings cosmosSettings, string collectionName = "Questions")
-        {
-            this.cosmosSettings = cosmosSettings;
-            this.collectionName = collectionName;
-            client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
-        }
+        //public QuestionRepository(ICosmosSettings cosmosSettings, string collectionName = "Questions")
+        //{
+        //    this.cosmosSettings = cosmosSettings;
+        //    this.collectionName = collectionName;
+        //    client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
+        //}
 
-        public QuestionRepository(IOptions<CosmosSettings> cosmosSettings, string collectionName = "Questions")
+        public QuestionRepository(IOptions<CosmosSettings> cosmosSettings, string collectionName)
         {
             this.cosmosSettings = cosmosSettings?.Value;
-            this.collectionName = collectionName;
+            this.collectionName = collectionName ?? "Questions";
             client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
+        }
+
+        public async Task<Question> GetQuestion(int questionNumber, string questionSetVersion)
+        {
+            var questionId = $"{questionSetVersion}-{questionNumber}";
+            return await GetQuestion(questionId);
         }
 
         public async Task<Question> GetQuestion(string questionId)
@@ -74,6 +81,42 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 MaxQuestions = 4,
                 AssessmentType = "short"
             };
+        }
+
+        public async Task<QuestionSetInfo> GetQuestionSetInfo(string version)
+        {
+            // TODO: lookup
+            return new QuestionSetInfo()
+            {
+                QuestionSetVersion = "201901",
+                MaxQuestions = 4,
+                AssessmentType = "short"
+            };
+        }
+
+        public async Task<List<Question>> GetQuestions(string assessmentType, string version)
+        {
+            try
+            {
+                // TODO query
+                //var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, );
+                //string partitionKey = questionId.Split('-').FirstOrDefault();
+                //var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
+                //Document document = await client.ReadDocumentAsync(uri, requestOptions);
+                //return (Question)(dynamic)document;
+                return new List<Question>();
+            }
+            catch (DocumentClientException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

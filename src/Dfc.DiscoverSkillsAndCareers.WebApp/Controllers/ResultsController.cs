@@ -28,6 +28,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             await UserSessionService.Init(Request);
 
+            if (!UserSessionService.HasSession)
+            {
+                return Redirect("/");
+            }
+
             switch (UserSessionService.Session.AssessmentType)
             {
                 case "short":
@@ -48,6 +53,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var jobFamilies = UserSessionService.Session.ResultData.JobFamilies;
             var model = new ResultsViewModel()
             {
+                AssessmentType = UserSessionService.Session.AssessmentType,
                 SessionId = UserSessionService.Session.UserSessionId,
                 JobFamilyCount = UserSessionService.Session.ResultData.JobFamilies.Count,
                 JobFamilyMoreCount = UserSessionService.Session.ResultData.JobFamilies.Count - 3,

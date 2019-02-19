@@ -23,6 +23,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             await UserSessionService.Init(Request);
 
+            if (!UserSessionService.HasSession)
+            {
+                return Redirect("/");
+            }
+
             var model = new SaveProgressViewModel()
             {
                 Code = UserSessionService.Session.UserSessionId,

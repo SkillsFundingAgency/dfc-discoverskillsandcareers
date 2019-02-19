@@ -7,7 +7,7 @@ $app-purple-hover: #A73C7B;
 $app-turquoise: #1F7E77;
 $app-turquoise-hover: #48948E;
 $app-dark-border: #7b0048;
-$app-text-light: #646C70; 
+$app-text-light: #646C70;
 
 @import 'progress';
 @import 'masthead';
@@ -68,7 +68,7 @@ $app-text-light: #646C70;
 .app-button {
 
   &,
-  &:link, 
+  &:link,
   &:visited {
     background-color: $app-purple;
     color: govuk-colour('white');
@@ -133,7 +133,7 @@ $app-text-light: #646C70;
   }
 
   input[type=radio]:checked + &.govuk-radios__label {
-    outline: 3px solid  $govuk-focus-colour;  
+    outline: 3px solid  $govuk-focus-colour;
     outline-offset: 0;
   }
 }
@@ -148,8 +148,8 @@ $app-text-light: #646C70;
 }
 
 .govuk-tag--coming-soon {
-  background-color: govuk-colour('white'); 
-  color: $app-turquoise; 
+  background-color: govuk-colour('white');
+  color: $app-turquoise;
 }
 
 .app-back-to-top__icon {
@@ -159,4 +159,11 @@ $app-text-light: #646C70;
   margin-top: -5px;
   margin-right: 10px;
   vertical-align: middle;
+}
+
+.app-grey {
+  &,
+  .app-sidebar {
+    background: govuk-colour('grey-4');
+  }
 }
