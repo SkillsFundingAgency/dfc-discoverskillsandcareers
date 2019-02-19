@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.WebApp", "Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj", "{2F9B70E7-5E05-4768-B08E-969B87225FC1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.Services", "Dfc.DiscoverSkillsAndCareers.Services\Dfc.DiscoverSkillsAndCareers.Services.csproj", "{42A2E819-F570-4716-A2E9-0A562B556D87}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionApps", "FunctionApps", "{F49CE56E-2680-4C7C-BDE4-563ADF7B6DFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj", "{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}"
@@ -53,10 +51,6 @@ Global
 		{2F9B70E7-5E05-4768-B08E-969B87225FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9B70E7-5E05-4768-B08E-969B87225FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9B70E7-5E05-4768-B08E-969B87225FC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42A2E819-F570-4716-A2E9-0A562B556D87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CA51AE2-2E51-4FD8-8C16-508FC1FF9BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
