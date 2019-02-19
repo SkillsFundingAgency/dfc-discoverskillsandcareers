@@ -10,7 +10,7 @@ src/Dfc.DiscoverSkillsAndCareers.WebApp/Views
 src/Dfc.DiscoverSkillsAndCareers.WebApp/wwwroot
 
 # Config files with access keys
-src/web/config.js
+config.js
 
 # Azure Functions localsettings file
 local.settings.json
