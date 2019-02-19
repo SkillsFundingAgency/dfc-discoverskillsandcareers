@@ -1,10 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
@@ -14,17 +14,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        //public UserSessionRepository(ICosmosSettings cosmosSettings, string collectionName = "UserSessions")
-        //{
-        //    this.cosmosSettings = cosmosSettings;
-        //    this.collectionName = collectionName;
-        //    client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
-        //}
-
-        public UserSessionRepository(IOptions<CosmosSettings> cosmosSettings, string collectionName)
+        public UserSessionRepository(IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
-            this.collectionName = collectionName ?? "UserSessions";
+            this.collectionName = "UserSessions";
             client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
         }
 

@@ -53,7 +53,8 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp
             if (contentModel == null)
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Content type does not exist {0}", contentType));
-                return httpResponseMessageHelper.NoContent();
+                var result = httpResponseMessageHelper.NoContent();
+                return result;
             }
 
             loggerHelper.LogMethodExit(log);

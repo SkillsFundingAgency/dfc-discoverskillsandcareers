@@ -147,8 +147,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
             if (Enum.TryParse(GetFormValue("selected_answer"), out answerValue))
             {
                 string questionId = GetFormValue("questionId");
-                var questionRepository = new QuestionRepository(this.Config.CosmosSettings);
-                var question = await questionRepository.GetQuestion(questionId);
+                var question = await QuestionRepository.GetQuestion(questionId);
                 if (question == null)
                 {
                     throw new Exception($"QuestionId {questionId} could not be found on session {Session?.UserSessionId}");
