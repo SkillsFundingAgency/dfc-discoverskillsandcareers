@@ -108,7 +108,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Services
                 new Trait() { TraitCode = "INFLUENCER", TraitName = "Influencer", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You are sociable and find it easy to understand people." } } }
             };
         // TODO: store
-        private static List<JobFamily> JobFamilies = new List<JobFamily>()
+        public static List<JobFamily> JobFamilies = new List<JobFamily>()
             {
                 new JobFamily()
                 {
