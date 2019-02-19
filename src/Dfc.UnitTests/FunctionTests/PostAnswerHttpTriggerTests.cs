@@ -1,8 +1,8 @@
-﻿using Dfc.DiscoverSkillsAndCareers.FunctionApp;
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.UnitTests.Fakes;
 using DFC.Common.Standard.Logging;
 using DFC.HTTP.Standard;
@@ -29,7 +29,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
-            _resultsService = Substitute.For<IResultsService>();
+            _resultsService = Substitute.For<IAssessmentCalculationService>();
         }
 
         public void Dispose()
@@ -47,7 +47,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
         private IQuestionRepository _questionRepository;
-        private IResultsService _resultsService;
+        private IAssessmentCalculationService _resultsService;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId)
         {
