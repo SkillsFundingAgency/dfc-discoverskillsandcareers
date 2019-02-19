@@ -103,11 +103,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 IsNegative = question.IsNegative,
             };
             userSession.RecordedAnswers.Add(answer);
-            if (userSession.RecordedAnswers.Count == userSession.MaxQuestions)
+
+            ManageIfComplete(userSession);
+            if (userSession.IsComplete)
             {
-                // We have complete the session as we have all the answers
-                userSession.IsComplete = true;
-                userSession.CompleteDt = DateTime.Now;
+                // Calculate the result
                 switch (userSession.AssessmentType)
                 {
                     case "short":
@@ -123,15 +123,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             }
             else
             {
-                // Setup the next question to be lowest missing answer
-                for (int i = 1; i <= userSession.MaxQuestions; i++)
-                {
-                    if (!userSession.RecordedAnswers.Any(x => x.QuestionNumber == i.ToString()))
-                    {
-                        userSession.CurrentQuestion = i;
-                        break;
-                    }
-                }
+                userSession.CurrentQuestion = GetNextQuestionToAnswerNumber(userSession);
             }
             await userSessionRepository.UpdateUserSession(userSession);
 
@@ -144,6 +136,29 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             loggerHelper.LogMethodExit(log);
 
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
+        }
+
+        public static void ManageIfComplete(UserSession userSession)
+        {
+            bool allQuestionsAnswered = userSession.RecordedAnswers.Count == userSession.MaxQuestions;
+            if (allQuestionsAnswered)
+            {
+                // We have complete the session as we have all the answers
+                userSession.IsComplete = true;
+                userSession.CompleteDt = DateTime.Now;
+            }
+        }
+
+        public static int GetNextQuestionToAnswerNumber(UserSession userSession)
+        {
+            for (int i = 1; i <= userSession.MaxQuestions; i++)
+            {
+                if (!userSession.RecordedAnswers.Any(x => x.QuestionNumber == i.ToString()))
+                {
+                    return i;
+                }
+            }
+            throw new Exception("All questions answered");
         }
     }
 }
