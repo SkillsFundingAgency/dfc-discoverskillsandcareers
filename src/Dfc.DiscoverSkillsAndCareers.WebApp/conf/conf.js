@@ -1,7 +1,7 @@
-const {BrowserStackKey, BrowserStackUser} = require('../../config');
+const {BrowserStackKey, BrowserStackUser} = require('./config');
 
 exports.config = {
-    'specs': [ '../specs/*.spec.js' ],
+    'specs': [ '../specs/browser.spec.js' ],
     'browserstackUser': process.env.BrowserStackUser || BrowserStackUser,
     'browserstackKey': process.env.BrowserStackKey|| BrowserStackKey,
     
