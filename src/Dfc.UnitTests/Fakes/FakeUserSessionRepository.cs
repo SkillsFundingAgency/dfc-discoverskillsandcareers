@@ -16,7 +16,7 @@ namespace Dfc.UnitTests.Fakes
         {
             var result = new UserSession()
             {
-
+                MaxQuestions = 5
             };
             return Task.FromResult<UserSession>(result);
         }

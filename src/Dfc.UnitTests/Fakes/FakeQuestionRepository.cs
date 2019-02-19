@@ -26,7 +26,17 @@ namespace Dfc.UnitTests.Fakes
 
         public Task<Question> GetQuestion(string questionId)
         {
-            throw new System.NotImplementedException();
+            var result = new Question()
+            {
+                QuestionId = "1",
+                Texts = new List<QuestionText>()
+                  {
+                       new QuestionText() { LanguageCode = "en", Text = "Unit test question" }
+                  },
+                Order = 1,
+                TraitCode = "DOER"
+            };
+            return Task.FromResult<Question>(result);
         }
 
         public Task<Question> GetQuestion(int questionNumber, string questionSetVersion)
