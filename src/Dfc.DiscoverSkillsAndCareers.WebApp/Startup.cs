@@ -33,7 +33,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.Configure<CosmosSettings>(Configuration.GetSection("AppSettings:CosmosSettings"));
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
