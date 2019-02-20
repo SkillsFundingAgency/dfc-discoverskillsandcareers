@@ -1,5 +1,6 @@
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Models;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -64,7 +66,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
                 return httpResponseMessageHelper.NoContent();
             }
 
-            userSession.CurrentQuestion = GetNextQuestionNumber(userSession.CurrentQuestion, userSession.MaxQuestions);
             var question = await questionRepository.GetQuestion(userSession.CurrentQuestion, userSession.QuestionSetVersion);
             if (question == null)
             {
@@ -74,22 +75,31 @@ namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
 
             await userSessionRepository.UpdateUserSession(userSession);
 
+            int percentComplete = Convert.ToInt32(((userSession.RecordedAnswers.Count) / Convert.ToDecimal(userSession.MaxQuestions)) * 100);
+            var nextQuestionResponse = new NextQuestionResponse()
+            {
+                IsComplete = userSession.IsComplete,
+                NextQuestionNumber = GetNextQuestionNumber(userSession.CurrentQuestion, userSession.MaxQuestions),
+                QuestionId = question.QuestionId,
+                QuestionText = question.Texts.Where(x => x.LanguageCode.ToLower() == "en").FirstOrDefault()?.Text,
+                TraitCode = question.TraitCode,
+                QuestionNumber = question.Order,
+                SessionId = question.PartitionKey,
+                PercentComplete = percentComplete
+            };
+
             loggerHelper.LogMethodExit(log);
 
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(question));
+            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(nextQuestionResponse));
         }
 
-        public static int GetNextQuestionNumber(int questionNumber, int maxQuestions)
+        public static int? GetNextQuestionNumber(int questionNumber, int maxQuestions)
         {
-            if (questionNumber <= 0)
+            if (questionNumber + 1 > maxQuestions)
             {
-                return 1;
+                return null;
             }
-            else if (questionNumber > maxQuestions)
-            {
-                return maxQuestions;
-            }
-            return questionNumber;
+            return questionNumber + 1;
         }
     }
 }
