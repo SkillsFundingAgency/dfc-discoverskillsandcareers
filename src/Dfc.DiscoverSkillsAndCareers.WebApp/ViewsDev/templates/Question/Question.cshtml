@@ -97,6 +97,13 @@
             </div>
 
             <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="selected_answer-5" name="selected_answer" type="radio" value="Neutral">
+              <label class="govuk-label govuk-radios__label" for="selected_answer-5">
+                Doesn&rsquor;t apply
+              </label>
+            </div>
+
+            <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="selected_answer-3" name="selected_answer" type="radio" value="Disagree">
               <label class="govuk-label govuk-radios__label" for="selected_answer-3">
                 Disagree
@@ -115,11 +122,6 @@
         </fieldset>
 
         <div class="app-controls">
-
-          <input id="selected_answer-5" name="selected_answer" type="radio" value="Neutral" class="visually-hidden">
-          <label class="govuk-label govuk-radios__label app-button--outline" for="selected_answer-5">
-              This doesn&rsquor;t apply to me
-          </label>
 
           {{ govukButton({
             text: "@Model.ButtonText",
