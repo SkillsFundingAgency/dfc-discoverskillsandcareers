@@ -6,7 +6,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
-    ViewData["Title"] = "Finish";
+    ViewData["Title"] = "@Model.Title";
     Layout = null;
 }
 {% endblock %}
@@ -38,19 +38,19 @@
         <div class="govuk-grid-column-two-thirds">
 
           {{ govukPanel({
-            titleText: "Assessment complete",
-            html: "Thank you",
+            titleText: "@Model.Headline",
+            html: "@Model.HeadlineStrap",
             classes: "govuk-!-margin-bottom-6"
           }) }}
 
           <h1 class="govuk-heading-m">What to do next</h1>
-          <p class="govuk-body govuk-!-margin-bottom-5">On the next page you will see your results, which are based on the statements you have just responded to.</p>
+          <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
           <form action="/results/" method="post">
             <input type="hidden" name="sessionId" value="@Model.SessionId" />
     
             {{ govukButton({
-              text: "View results",
+              text: "@Model.ViewResultsButtonText",
               classes: "app-button",
               type: "submit",
               attributes: {

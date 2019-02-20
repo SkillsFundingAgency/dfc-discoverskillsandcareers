@@ -97,11 +97,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             int percentComplete = Convert.ToInt32(((UserSessionService.Session.RecordedAnswers.Count) / Convert.ToDecimal(UserSessionService.Session.MaxQuestions)) * 100);
             int displayPercentComplete = percentComplete - (percentComplete % 10);
             var nextRoute = GetNextRoute(UserSessionService.Session);
-            var buttonText = "Next";
 
             var model = new QuestionViewModel()
             {
-                ButtonText = buttonText,
                 Code = UserSessionService.Session.UserSessionId,
                 ErrorMessage = errorMessage,
                 FormRoute = nextRoute,

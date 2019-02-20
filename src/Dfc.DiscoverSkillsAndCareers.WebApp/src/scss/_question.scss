@@ -23,9 +23,13 @@
     .app-question__answer {
       display: table-cell;
       vertical-align: middle;
-      width: 50%;
+      width: 40%;
       position: relative;
       height: 156px;
+    }
+
+    .app-question__answer {
+      width: 60%;
     }
 
     .govuk-fieldset__heading {
@@ -49,7 +53,7 @@
     .govuk-radios__item {
       position: relative;
       padding-left: 0;
-      width: 25%;
+      width: 20%;
       display: block;
       text-align: center;
       float: left;
