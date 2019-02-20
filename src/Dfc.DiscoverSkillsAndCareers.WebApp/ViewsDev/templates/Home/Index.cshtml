@@ -28,8 +28,8 @@
 
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
-          <p class="govuk-body-l">Take a quick assessment to see job categories you might be suited to. Or take a longer assessment to see specific job roles.</p>
+          <h1 class="govuk-heading-xl app-masthead__title">@Model.Title</h1>
+          <p class="govuk-body-l">@Model.Subheading</p>
         </div>
       </div>
 
@@ -45,11 +45,11 @@
 
           <div class="app-assessment-picker">
             <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">See job categories</h2>
+              <h2 class="govuk-heading-l">@Model.Assessment1Title</h2>
             </div>
             <div class="app-assessment-picker__body">
               <div class="govuk-inset-text">
-                5 minutes
+                @Model.Assessment1Subtitle
               </div>
               <a href="/start/" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state" gov-analytics-data="{{pageName}} | click | button | Start assessment">Start assessment</a>
             </div>
@@ -57,12 +57,12 @@
 
           <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
             <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">See specific job roles</h2>
+              <h2 class="govuk-heading-l">@Model.Assessment2Title</h2>
               <strong class="govuk-tag govuk-tag--coming-soon">Coming soon</strong>
             </div>
             <div class="app-assessment-picker__body">
               <div class="govuk-inset-text">
-                10 to 15 minutes
+                @Model.Assessment2Subtitle
               </div>
             </div>
           </div>
