@@ -1,0 +1,8 @@
+﻿{
+	"extensions": [
+        {
+            "name": "IoC",
+            "typeName": "Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc.WebJobsExtensionStartup, Dfc.DiscoverSkillsAndCareers.CmsFunctionApp"
+        }
+	]
+}
