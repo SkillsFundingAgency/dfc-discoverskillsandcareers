@@ -1,4 +1,4 @@
-﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+﻿using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Xunit;
 
