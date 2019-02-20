@@ -1,26 +1,24 @@
 ﻿{% set pageName = 'questions' %}
-{% set pageGroup = '' %}
+{% set pageGroup = 'questions' %}
 {% set pageTitle = '@Model.Title @Model.QuestionNumber' %}
-
-{% set taggingPageName = 'questions' %}
-{% set taggingQuestionText = '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))' %}
-{% set taggingQuestionNumber = '@Model.QuestionNumber' %}
-{% set taggingVersionNumber = '' %}
-
+{% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
-{% set questionId= '@Model.QuestionId' %}
-{% set questionNumber= '@Model.QuestionNumber' %}
-{% set questionText= '@Model.QuestionText' %}
 {% set traitCode= '@Model.TraitCode' %}
 
 {% extends "_base.njk" %}
 
 {% block pre %}
-@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
-@{
-    ViewData["Title"] = "Question";
-    Layout = null;
-}
+  @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
+  @{
+      ViewData["Title"] = "Question";
+      Layout = null;
+  }
+{% endblock %}
+
+{% block tagging %}
+  window.digitalData.page.pageInfo.questionID = '@Model.QuestionId'
+  window.digitalData.page.pageInfo.questionNumber = '@Model.QuestionNumber'
+  window.digitalData.page.pageInfo.questionText = '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))'
 {% endblock %}
 
 {% block main %}
