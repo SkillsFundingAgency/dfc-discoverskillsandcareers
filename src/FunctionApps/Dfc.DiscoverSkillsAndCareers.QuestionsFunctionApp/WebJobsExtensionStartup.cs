@@ -10,10 +10,10 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Dfc.DiscoverSkillsAndCareers.QuestionFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
-namespace Dfc.DiscoverSkillsAndCareers.QuestionFunctionApp.Ioc
+namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
 {
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {

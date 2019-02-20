@@ -12,9 +12,10 @@ namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
     public static class ApiDefinition
     {
         public const string APITitle = "discover-skills-and-careers";
-        public const string APIDefinitionName = "session" ;
-        public const string APIDefRoute = APITitle + "/" + APIDefinitionName + "-api-definition";
-        public const string APIDescription = "Basic details of a National Careers Service " + APITitle + " " + APIDefinitionName  + " resource";
+        public const string APIName = "sessions";
+        public const string APIDefinitionName = APIName + "-api-definition";
+        public const string APIDefRoute = APITitle + "/" + APIDefinitionName;
+        public const string APIDescription = "Basic details of a National Careers Service " + APITitle + " " + APIName  + " resource";
       
         [FunctionName(APIDefinitionName)]
         public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = APIDefRoute)]HttpRequest req,

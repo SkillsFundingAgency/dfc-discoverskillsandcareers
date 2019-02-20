@@ -23,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
         [FunctionName("GetContentHttpTrigger")]
         [ProducesResponseType(typeof(Content), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Gets the content for a given content type", ShowSchema = true)]
-        [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "No content for the given content type found", ShowSchema = true)]
+        [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "No content for the given content type found", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
         [Display(Name = "Get", Description = "Gets the content for a given content type.")]

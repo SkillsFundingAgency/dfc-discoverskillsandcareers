@@ -16,7 +16,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.QuestionFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
 {
     public static class QuestionSetHttpTrigger
     {
