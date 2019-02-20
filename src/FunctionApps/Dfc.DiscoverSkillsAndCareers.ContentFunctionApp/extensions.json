@@ -2,7 +2,7 @@
 	"extensions": [
         {
             "name": "IoC",
-            "typeName": "Dfc.DiscoverSkillsAndCareers.FunctionApp.Ioc.WebJobsExtensionStartup, Dfc.DiscoverSkillsAndCareers.FunctionApp"
+            "typeName": "Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc.WebJobsExtensionStartup, Dfc.DiscoverSkillsAndCareers.ContentFunctionApp"
         }
 	]
 }
