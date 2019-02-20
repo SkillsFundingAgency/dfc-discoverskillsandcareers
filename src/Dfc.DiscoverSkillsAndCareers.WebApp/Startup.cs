@@ -1,6 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,12 +29,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
-
+            //TODO remove 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IUserSessionService, UserSessionService>();
             services.AddTransient<IResultsService, ResultsService>();
             services.AddTransient<ILoggerHelper, LoggerHelper>();
+            services.AddScoped<IHttpService, HttpService>();
+            services.AddScoped<IApiServices, ApiServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

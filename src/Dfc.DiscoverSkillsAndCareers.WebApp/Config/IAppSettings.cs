@@ -7,5 +7,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
         CosmosSettings CosmosSettings { get; set; }
         BlobStorageSettings BlobStorage { get; set; }
         string StaticSiteDomain { get; set; } // TODO: no longer needed
+        string ContentApiRoot { get; set; }
+        string SessionApiRoot { get; set; }
+        string ResultsApiRoot { get; set; }
     }
 }

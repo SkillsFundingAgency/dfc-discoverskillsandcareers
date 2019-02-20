@@ -30,20 +30,11 @@
         window.digitalData = new Object();
         window.digitalData = (function() {
 
-            var _pageGroup = "{{ pageGroup }}";
-            var _pageID = "{{ pageName }}";
-
-            var _pageName = "{{ taggingPageName }}";
-            var _questionId = "{{ taggingQuestionId }}";
-            var _questionText = "{{ taggingQuestionText }}";
-            var _versionNumber = "{{ taggingVersionNumber }}";
-
             var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
             var _rqpath = window.location.pathname;
             var _clrpath = _rqpath.split('?');
             var _fldrelmnt = _clrpath[0].split('/');
             var _pgurl = window.location.hostname + _clrpath[0];
-
             var _referringURL = document.referrer;
             var _userAgent = navigator.userAgent;
 
@@ -53,20 +44,22 @@
                       deviceAgent: _userAgent
                     },
                     pageInfo: {
-                        pageID: _pageID,
-                        pageName: _pageName,
-                        pageGroup: _pageGroup,
+                        pageID: "{{ pageName }}",
+                        pageName: "{{ pageTitle }}",
+                        pageGroup: "{{ pageGroup }}",
                         destinationURL: _pgurl,
                         pageInstanceID: _environment,
                         referringURL: _referringURL,
                         previous_page: _referringURL,
                         environment: _environment,
-                        questionID: _questionId,
+                        VersionNumber: "{{ versionNumber }}",
                     },
                 }
             }
         })();
       }).call(this);
+
+      {% block tagging %}{% endblock %}
 
     </script>
   </head>
