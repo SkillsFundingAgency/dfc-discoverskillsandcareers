@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Dfc.DiscoverSkillsAndCareers.CmsFunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --port 7070"
+    }
+  }
+}
