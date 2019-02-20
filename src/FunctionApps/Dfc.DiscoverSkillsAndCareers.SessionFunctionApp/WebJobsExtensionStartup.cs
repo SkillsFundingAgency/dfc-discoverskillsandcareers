@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.Services;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Ioc
@@ -38,7 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Ioc
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IContentRepository, ContentRepository>();
-
+            services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
 
             ConfigureOptions(services);
         }
