@@ -67,9 +67,9 @@ steps:
 
     publishWebProjects: false
 
-    projects: 'src\Dfc.DiscoverSkillsAndCareers.FunctionApp\Dfc.DiscoverSkillsAndCareers.FunctionApp.csproj'
+    projects: 'src/FunctionApps/**/*.csproj'
 
-    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)\functionapp'
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/functionapps'
 
     zipAfterPublish: false
 
@@ -79,7 +79,7 @@ steps:
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Pipeline Artifact'
   inputs:
-    artifactName: functionapp
+    artifactName: functionapps
 
-    targetPath: '$(Build.ArtifactStagingDirectory)\functionapp'
+    targetPath: '$(Build.ArtifactStagingDirectory)\functionapps'
 
