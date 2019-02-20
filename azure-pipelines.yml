@@ -73,7 +73,7 @@ steps:
 
     zipAfterPublish: false
 
-    modifyOutputPath: false
+    modifyOutputPath: true
 
 
 - task: PublishPipelineArtifact@0
