@@ -1,5 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Services;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -7,34 +7,29 @@ using System.Threading.Tasks;
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("save-my-progress")]
-    public class SaveProgressController : Controller
+    public class SaveProgressController : BaseController
     {
         readonly ILogger<SaveProgressController> Logger;
-        readonly IUserSessionService UserSessionService;
+        readonly IApiServices ApiServices;
 
         public SaveProgressController(ILogger<SaveProgressController> logger,
-            IUserSessionService userSessionService)
+            IApiServices apiServices)
         {
             Logger = logger;
-            UserSessionService = userSessionService;
+            ApiServices = apiServices;
         }
 
         public async Task<IActionResult> Index()
         {
-            await UserSessionService.Init(Request);
+            var sessionId = await TryGetSessionId(Request);
+            var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage");
 
-            if (!UserSessionService.HasSession)
-            {
-                return Redirect("/");
-            }
-
-            var model = new SaveProgressViewModel()
-            {
-                Code = UserSessionService.Session.UserSessionId,
-                SessionDate = UserSessionService.Session.StartedDt.ToString("dd MMMM yyyy"),
-                Status = $"{UserSessionService.Session.RecordedAnswers.Count} out of {UserSessionService.Session.MaxQuestions} statements complete",
-                SessionId = UserSessionService.Session.PrimaryKey
-            };
+            var nextQuestionResponse = await ApiServices.NextQuestion(sessionId);
+            model.SessionId = sessionId;
+            model.Code = nextQuestionResponse.ReloadCode;
+            model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
+            model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
+            Response.Cookies.Append("ncs-session-id", sessionId);
             return View("SaveProgress", model);
         }
     }

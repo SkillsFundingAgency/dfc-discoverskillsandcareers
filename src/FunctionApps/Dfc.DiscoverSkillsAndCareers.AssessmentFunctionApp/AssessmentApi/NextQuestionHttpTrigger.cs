@@ -84,8 +84,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 QuestionText = question.Texts.Where(x => x.LanguageCode.ToLower() == "en").FirstOrDefault()?.Text,
                 TraitCode = question.TraitCode,
                 QuestionNumber = question.Order,
-                SessionId = question.PartitionKey,
-                PercentComplete = percentComplete
+                SessionId = userSession.PrimaryKey,
+                PercentComplete = percentComplete,
+                ReloadCode = userSession.UserSessionId,
+                MaxQuestionsCount = userSession.MaxQuestions,
+                RecordedAnswersCount = userSession.RecordedAnswers.Count,
+                StartedDt = userSession.StartedDt
             };
 
             loggerHelper.LogMethodExit(log);

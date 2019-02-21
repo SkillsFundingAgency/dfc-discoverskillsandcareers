@@ -1,4 +1,6 @@
-﻿namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
+﻿using System;
+
+namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
 {
     public class NextQuestionResponse
     {
@@ -10,5 +12,9 @@
         public int PercentComplete { get; set; }
         public int? NextQuestionNumber { get; set; }
         public bool IsComplete { get; set; }
+        public string ReloadCode { get; set; }
+        public DateTime StartedDt { get; set; }
+        public int RecordedAnswersCount { get; set; }
+        public int MaxQuestionsCount { get; set; }
     }
 }
