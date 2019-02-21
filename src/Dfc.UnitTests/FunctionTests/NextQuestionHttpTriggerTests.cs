@@ -72,7 +72,7 @@ namespace Dfc.UnitTests.FunctionTests
             _userSessionRepository = new FakeUserSessionRepository();
             _questionRepository = new FakeQuestionRepository();
 
-            var result = await RunFunction("session1");
+            var result = await RunFunction("201901-session1");
             var content = await result.Content.ReadAsAsync<NextQuestionResponse>();
 
             Assert.IsType<HttpResponseMessage>(result);
