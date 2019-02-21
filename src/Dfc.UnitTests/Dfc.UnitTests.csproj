@@ -19,11 +19,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
-    <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.csproj" />
+    <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.csproj" />
+    <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.csproj" />
+    <ProjectReference Include="..\support\Dfc.DiscoverSkillsAndCareers.SupportApp\Dfc.DiscoverSkillsAndCareers.SupportApp.csproj" />
   </ItemGroup>
 
 </Project>
