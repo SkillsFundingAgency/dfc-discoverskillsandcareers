@@ -1,65 +1,38 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Services;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("results")]
-    public class ResultsController : Controller
+    public class ResultsController : BaseController
     {
         readonly ILogger<ResultsController> Logger;
-        readonly IUserSessionService UserSessionService;
-        readonly IResultsService ResultsService;
+        readonly IApiServices ApiServices;
 
         public ResultsController(ILogger<ResultsController> logger,
-            IUserSessionService userSessionService,
-            IResultsService resultsService)
+            IApiServices apiServices)
         {
             Logger = logger;
-            UserSessionService = userSessionService;
-            ResultsService = resultsService;
+            ApiServices = apiServices;
         }
 
         public async Task<IActionResult> Index()
         {
-            await UserSessionService.Init(Request);
+            var sessionId = await TryGetSessionId(Request);
 
-            if (!UserSessionService.HasSession)
-            {
-                return Redirect("/");
-            }
+            var resultsResponse = await ApiServices.Results(sessionId);
 
-            switch (UserSessionService.Session.AssessmentType)
-            {
-                case "short":
-                    {
-                        // Calcualte and save the result of the short assessment
-                        await ResultsService.CalculateShortAssessment(UserSessionService.Session);
-                        await UserSessionService.UpdateSession();
-                        break;
-                    }
-                default:
-                    {
-                        throw new NotImplementedException("Assessment type result not implemented");
-                    }
-            }
-
-            var traits = UserSessionService.Session.ResultData.Traits;
-            int traitsTake = (traits.Count > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
-            var jobFamilies = UserSessionService.Session.ResultData.JobFamilies;
-            var model = new ResultsViewModel()
-            {
-                AssessmentType = UserSessionService.Session.AssessmentType,
-                SessionId = UserSessionService.Session.UserSessionId,
-                JobFamilyCount = UserSessionService.Session.ResultData.JobFamilies.Count,
-                JobFamilyMoreCount = UserSessionService.Session.ResultData.JobFamilies.Count - 3,
-                Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToList(),
-                JobFamilies = jobFamilies
-            };
+            var contentName = $"{resultsResponse.AssessmentType.ToLower()}page";
+            var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName);
+            model.SessionId = sessionId;
+            model.AssessmentType = resultsResponse.AssessmentType;
+            model.JobFamilies = resultsResponse.JobFamilies;
+            model.JobFamilyCount = resultsResponse.JobFamilyCount;
+            model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
+            model.Traits = resultsResponse.Traits;
             return View("Results", model);
         }
     }

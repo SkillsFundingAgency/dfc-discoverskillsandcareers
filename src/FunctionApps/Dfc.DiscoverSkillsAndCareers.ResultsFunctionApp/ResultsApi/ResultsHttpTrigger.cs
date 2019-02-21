@@ -1,5 +1,6 @@
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -68,6 +70,19 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                 loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Result data does not yet exist for session {0}", userSession.PrimaryKey));
                 return httpResponseMessageHelper.BadRequest();
             }
+
+            var traits = userSession.ResultData.Traits;
+            int traitsTake = (traits.Count > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
+            var jobFamilies = userSession.ResultData.JobFamilies;
+            var model = new ResultsResponse()
+            {
+                AssessmentType = userSession.AssessmentType,
+                SessionId = userSession.UserSessionId,
+                JobFamilyCount = userSession.ResultData.JobFamilies.Count,
+                JobFamilyMoreCount = userSession.ResultData.JobFamilies.Count - 3,
+                Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToList(),
+                JobFamilies = jobFamilies
+            };
 
             loggerHelper.LogMethodExit(log);
 

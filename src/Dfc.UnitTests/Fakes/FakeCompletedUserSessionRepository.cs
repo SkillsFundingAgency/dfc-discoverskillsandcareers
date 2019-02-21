@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Microsoft.Azure.Documents;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dfc.UnitTests.Fakes
 {
@@ -18,7 +18,8 @@ namespace Dfc.UnitTests.Fakes
             {
                 ResultData = new ResultData()
                 {
-                    
+                    Traits = new List<TraitResult>(),
+                    JobFamilies = new List<JobFamilyResult>(),
                 }
             };
             return Task.FromResult<UserSession>(result);

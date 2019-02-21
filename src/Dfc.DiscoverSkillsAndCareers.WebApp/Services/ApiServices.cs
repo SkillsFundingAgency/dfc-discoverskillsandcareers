@@ -59,5 +59,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             var json = await HttpService.PostData(url, postAnswerRequest);
             return JsonConvert.DeserializeObject<PostAnswerResponse>(json);
         }
+
+        public async Task<ResultsResponse> Results(string sessionId)
+        {
+            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}";
+            var json = await HttpService.GetString(url);
+            return JsonConvert.DeserializeObject<ResultsResponse>(json);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         Task<NewSessionResponse> NewSession();
         Task<NextQuestionResponse> NextQuestion(string sessionId);
         Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest);
+        Task<ResultsResponse> Results(string sessionId);
     }
 }
