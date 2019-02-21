@@ -72,15 +72,15 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             }
 
             var traits = userSession.ResultData.Traits;
-            int traitsTake = (traits.Count > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
+            int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
             var jobFamilies = userSession.ResultData.JobFamilies;
             var model = new ResultsResponse()
             {
                 AssessmentType = userSession.AssessmentType,
                 SessionId = userSession.UserSessionId,
-                JobFamilyCount = userSession.ResultData.JobFamilies.Count,
-                JobFamilyMoreCount = userSession.ResultData.JobFamilies.Count - 3,
-                Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToList(),
+                JobFamilyCount = userSession.ResultData.JobFamilies.Length,
+                JobFamilyMoreCount = userSession.ResultData.JobFamilies.Length - 3,
+                Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
                 JobFamilies = jobFamilies
             };
 

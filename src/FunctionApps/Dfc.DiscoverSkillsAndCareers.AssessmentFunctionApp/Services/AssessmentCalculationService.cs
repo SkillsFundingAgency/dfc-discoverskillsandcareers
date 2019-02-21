@@ -44,8 +44,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
             var resultData = new ResultData()
             {
-                Traits = userTraits,
-                JobFamilies = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode)
+                Traits = userTraits.ToArray(),
+                JobFamilies = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray()
             };
 
             userSession.ResultData = resultData;

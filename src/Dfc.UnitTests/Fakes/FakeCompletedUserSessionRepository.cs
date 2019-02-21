@@ -18,8 +18,8 @@ namespace Dfc.UnitTests.Fakes
             {
                 ResultData = new ResultData()
                 {
-                    Traits = new List<TraitResult>(),
-                    JobFamilies = new List<JobFamilyResult>(),
+                    Traits = new TraitResult[]{},
+                    JobFamilies = new JobFamilyResult[]{},
                 }
             };
             return Task.FromResult<UserSession>(result);

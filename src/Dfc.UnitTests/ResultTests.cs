@@ -37,7 +37,7 @@ namespace Dfc.UnitTests
             await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
-            Assert.True(userSession.ResultData.Traits.Count == 1);
+            Assert.True(userSession.ResultData.Traits.Length == 1);
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 2);
         }
 
@@ -59,7 +59,7 @@ namespace Dfc.UnitTests
             await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
-            Assert.True(userSession.ResultData.Traits.Count == 1);
+            Assert.True(userSession.ResultData.Traits.Length == 1);
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 3);
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "LEADER");
         }
@@ -83,7 +83,7 @@ namespace Dfc.UnitTests
             await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
-            Assert.True(userSession.ResultData.Traits.Count == 1);
+            Assert.True(userSession.ResultData.Traits.Length == 1);
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 1);
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "LEADER");
         }
@@ -104,7 +104,7 @@ namespace Dfc.UnitTests
             await AssessmentCalculationService.CalculateShortAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
-            Assert.True(userSession.ResultData.Traits.Count == 1);
+            Assert.True(userSession.ResultData.Traits.Length == 1);
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 2);
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "ORGANISER");
             var govServices = userSession.ResultData.JobFamilies.Where(x => x.Total > 0).FirstOrDefault();
