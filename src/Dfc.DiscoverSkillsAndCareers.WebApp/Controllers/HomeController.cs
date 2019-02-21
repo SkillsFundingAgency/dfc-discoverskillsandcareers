@@ -54,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public async Task<IActionResult> Reload([FromForm] ReloadRequest reloadRequest)
         {
 
-            var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code);
+            var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code ?? "");
             if (nextQuestionResponse == null)
             {
                 var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage");
