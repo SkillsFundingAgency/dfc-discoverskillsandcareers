@@ -14,6 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Dfc.UnitTests.FunctionTests
 {
@@ -68,7 +69,7 @@ namespace Dfc.UnitTests.FunctionTests
             _questionRepository = new FakeQuestionRepository();
 
             var result = await RunFunction("session1");
-            var content = await result.Content.ReadAsAsync<Question>();
+            var content = await result.Content.ReadAsAsync<NextQuestionResponse>();
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);

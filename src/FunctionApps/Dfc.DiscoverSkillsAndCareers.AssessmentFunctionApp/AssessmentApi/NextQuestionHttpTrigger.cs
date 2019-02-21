@@ -99,6 +99,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             {
                 return null;
             }
+            
             return questionNumber + 1;
         }
     }

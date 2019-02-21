@@ -17,9 +17,9 @@ using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
 {
-    public class NewSessionHttpTriggerTests : IDisposable
+    public class NewAssessmentHttpTriggerTests : IDisposable
     {
-        public NewSessionHttpTriggerTests()
+        public NewAssessmentHttpTriggerTests()
         {
             _request = new DefaultHttpRequest(new DefaultHttpContext());
             _log = Substitute.For<ILogger>();
@@ -49,7 +49,7 @@ namespace Dfc.UnitTests.FunctionTests
 
         private async Task<HttpResponseMessage> RunFunction()
         {
-            return await NewSessionHttpTrigger.Run(
+            return await NewAssessmentHttpTrigger.Run(
                 _request,
                 _log,
                 _loggerHelper,

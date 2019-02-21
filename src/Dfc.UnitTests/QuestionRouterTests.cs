@@ -127,11 +127,11 @@ namespace Dfc.UnitTests
 
         [Theory]
         [InlineData(0, 40, 1)]
-        [InlineData(1, 40, 1)]
-        [InlineData(5, 40, 5)]
-        [InlineData(40, 40, 40)]
-        [InlineData(42, 40, 40)]
-        public void GetNextQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int expected)
+        [InlineData(1, 40, 2)]
+        [InlineData(5, 40, 6)]
+        [InlineData(40, 40, null)]
+        [InlineData(42, 40, null)]
+        public void GetNextQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int? expected)
         {
             int? actual = NextQuestionHttpTrigger.GetNextQuestionNumber(question, max);
 

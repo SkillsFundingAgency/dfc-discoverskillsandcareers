@@ -21,9 +21,9 @@ using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
-    public static class NewSessionHttpTrigger
+    public static class NewAssessmentHttpTrigger
     {
-        [FunctionName("NewSessionHttpTrigger")]
+        [FunctionName("NewAssessmentHttpTrigger")]
         [ProducesResponseType(typeof(DscSession), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new assessment session", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
