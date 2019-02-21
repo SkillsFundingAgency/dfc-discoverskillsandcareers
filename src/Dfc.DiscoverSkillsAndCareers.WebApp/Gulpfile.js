@@ -35,7 +35,7 @@ var gulp = require("gulp"),
     autoprefixer = require('gulp-autoprefixer'),
     standard = require('gulp-standard'),
     browserify = require('gulp-browserify'),
-    axios = require('axios');
+    axios = require('axios'),
     testResults = require('./log/results');
 
 // paths
