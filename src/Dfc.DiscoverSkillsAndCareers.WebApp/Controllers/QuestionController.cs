@@ -53,7 +53,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var nextQuestionResponse = await ApiServices.NextQuestion(sessionId);
 
             var model = await ApiServices.GetContentModel<QuestionViewModel>("questionpage");
-            var nextRoute = nextQuestionResponse.IsComplete ? "/finish" : $"/q/{nextQuestionResponse.NextQuestionNumber.ToString()}";
+            var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? "/finish" : $"/q/{nextQuestionResponse.NextQuestionNumber.ToString()}";
 
             model.Code = sessionId;
             model.ErrorMessage = string.Empty;

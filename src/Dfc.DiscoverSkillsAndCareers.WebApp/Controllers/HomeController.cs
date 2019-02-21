@@ -1,10 +1,7 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Services;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
-using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -27,8 +24,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var sessionId = await TryGetSessionId(Request);
             var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage");
             model.SessionId = sessionId;
-            Response.Cookies.Append("ncs-session-id", sessionId);
-            return View("Question", model);
+            if (string.IsNullOrEmpty(sessionId) == false)
+            {
+                Response.Cookies.Append("ncs-session-id", sessionId);
+            }
+            return View("Index", model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

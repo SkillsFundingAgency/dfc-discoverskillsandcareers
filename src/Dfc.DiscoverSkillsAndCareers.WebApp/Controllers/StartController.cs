@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("start")]
-    public class StartController : Controller
+    public class StartController : BaseController
     {
         readonly ILogger<StartController> Logger;
         readonly IApiServices ApiServices;
@@ -21,7 +21,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var sessionId = await TryGetSessionId(Request);
             var model = await ApiServices.GetContentModel<StartViewModel>("startpage");
+            if (string.IsNullOrEmpty(sessionId) == false)
+            {
+                Response.Cookies.Append("ncs-session-id", sessionId);
+            }
             return View("Start", model);
         }
     }

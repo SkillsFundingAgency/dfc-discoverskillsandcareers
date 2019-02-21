@@ -28,9 +28,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return Redirect("/");
             }
 
+            PostAnswerRequest postAnswerRequest = new PostAnswerRequest()
+            {
+                QuestionId = GetFormValue("questionId"),
+                SelectedOption = GetFormValue("selected_answer")
+            };
+            PostAnswerResponse postAnswerResponse = await ApiServices.PostAnswer(sessionId, postAnswerRequest);
+
             var model = await ApiServices.GetContentModel<FinishViewModel>("finishpage");
             Response.Cookies.Append("ncs-session-id", sessionId);
-            return View("SaveProgress", model);
+            return View("Finish", model);
         }
     }
 }

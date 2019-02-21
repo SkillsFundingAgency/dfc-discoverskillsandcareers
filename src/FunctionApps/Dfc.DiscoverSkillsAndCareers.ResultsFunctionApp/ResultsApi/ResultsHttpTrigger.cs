@@ -86,7 +86,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 
             loggerHelper.LogMethodExit(log);
 
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(userSession.ResultData));
+            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(model));
         }
     }
 }

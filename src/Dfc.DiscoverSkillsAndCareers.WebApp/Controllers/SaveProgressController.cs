@@ -22,6 +22,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var sessionId = await TryGetSessionId(Request);
+
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                return Redirect("/");
+            }
+
             var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage");
 
             var nextQuestionResponse = await ApiServices.NextQuestion(sessionId);

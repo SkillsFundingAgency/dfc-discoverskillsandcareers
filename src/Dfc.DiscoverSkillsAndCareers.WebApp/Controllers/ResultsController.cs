@@ -23,6 +23,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             var sessionId = await TryGetSessionId(Request);
 
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                return Redirect("/");
+            }
+
             var resultsResponse = await ApiServices.Results(sessionId);
 
             var contentName = $"{resultsResponse.AssessmentType.ToLower()}page";
