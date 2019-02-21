@@ -1,4 +1,4 @@
-﻿using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Xunit;
 
@@ -133,7 +133,7 @@ namespace Dfc.UnitTests
         [InlineData(42, 40, 40)]
         public void GetNextQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int expected)
         {
-            int actual = NextQuestionHttpTrigger.GetNextQuestionNumber(question, max);
+            int? actual = NextQuestionHttpTrigger.GetNextQuestionNumber(question, max);
 
             Assert.Equal(expected, actual);
         }

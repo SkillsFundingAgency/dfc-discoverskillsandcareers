@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Models;
-using Dfc.DiscoverSkillsAndCareers.Services;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 
 namespace Dfc.UnitTests
 {

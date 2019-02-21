@@ -17,21 +17,21 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 
-namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
     public static class NewSessionHttpTrigger
     {
         [FunctionName("NewSessionHttpTrigger")]
         [ProducesResponseType(typeof(DscSession), (int)HttpStatusCode.OK)]
-        [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new user session", ShowSchema = true)]
+        [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new assessment session", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
-        [Display(Name = "Get", Description = "Creates a new user session and returns the session details")]
+        [Display(Name = "Get", Description = "Creates a new assessment session and returns the assessment session details")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "session")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment")]HttpRequest req,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,

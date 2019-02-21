@@ -1,7 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.Services
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public interface IAssessmentCalculationService
     {

@@ -1,6 +1,6 @@
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
@@ -18,7 +18,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
     public static class NextQuestionHttpTrigger
     {
@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
         [Display(Name = "Get", Description = "")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "session/{sessionId}/next")]HttpRequest req, 
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "assessment/{sessionId}/next")]HttpRequest req, 
             string sessionId,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,

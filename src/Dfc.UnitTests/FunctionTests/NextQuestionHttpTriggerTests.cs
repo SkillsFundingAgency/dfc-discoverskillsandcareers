@@ -1,5 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp;
-using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.UnitTests.Fakes;

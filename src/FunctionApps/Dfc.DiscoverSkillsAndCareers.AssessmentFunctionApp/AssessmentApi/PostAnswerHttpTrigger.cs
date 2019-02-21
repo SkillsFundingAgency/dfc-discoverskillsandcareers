@@ -17,10 +17,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
-using Dfc.DiscoverSkillsAndCareers.Services;
-using Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 
-namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
     public static class PostAnswerHttpTrigger
     {
@@ -34,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
         [Display(Name = "Post", Description = "Stores an answer for a given question against the current session.")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "session/{sessionId}")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment/{sessionId}")]HttpRequest req,
             string sessionId,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,

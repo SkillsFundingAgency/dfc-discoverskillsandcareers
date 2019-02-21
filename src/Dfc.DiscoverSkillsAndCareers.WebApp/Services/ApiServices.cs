@@ -41,21 +41,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 
         public async Task<NewSessionResponse> NewSession()
         {
-            string url = $"{AppSettings.SessionApiRoot}/session";
+            string url = $"{AppSettings.SessionApiRoot}/assessment";
             var json = await HttpService.PostData(url, "");
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
 
         public async Task<NextQuestionResponse> NextQuestion(string sessionId)
         {
-            string url = $"{AppSettings.SessionApiRoot}/session/{sessionId}/next";
+            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/next";
             var json = await HttpService.GetString(url);
             return JsonConvert.DeserializeObject<NextQuestionResponse>(json);
         }
 
         public async Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest)
         {
-            string url = $"{AppSettings.SessionApiRoot}/session/{sessionId}";
+            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}";
             var json = await HttpService.PostData(url, postAnswerRequest);
             return JsonConvert.DeserializeObject<PostAnswerResponse>(json);
         }

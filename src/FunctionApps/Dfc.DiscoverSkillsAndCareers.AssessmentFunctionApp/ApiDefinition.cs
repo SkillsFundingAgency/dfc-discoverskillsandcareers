@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 
-namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
     public static class ApiDefinition
     {
         public const string APITitle = "discover-skills-and-careers";
-        public const string APIName = "sessions";
+        public const string APIName = "assessment";
         public const string APIDefinitionName = APIName + "-api-definition";
         public const string APIDefRoute = APITitle + "/" + APIDefinitionName;
         public const string APIDescription = "Basic details of a National Careers Service " + APITitle + " " + APIName  + " resource";

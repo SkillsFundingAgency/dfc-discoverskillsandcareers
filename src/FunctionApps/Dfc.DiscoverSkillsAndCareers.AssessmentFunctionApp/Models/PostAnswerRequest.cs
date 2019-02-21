@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.Models
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
 {
     public class PostAnswerRequest
     {

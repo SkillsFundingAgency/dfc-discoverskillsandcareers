@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.Services
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class AssessmentCalculationService : IAssessmentCalculationService
     {

@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.csproj", "{18A184B4-27ED-41D7-B991-523597900095}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.SessionFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.SessionFunctionApp\Dfc.DiscoverSkillsAndCareers.SessionFunctionApp.csproj", "{4AC98039-8CD2-4490-BB84-76081026F9BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj", "{4AC98039-8CD2-4490-BB84-76081026F9BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{961E2D86-AB2D-42F2-917B-20B2CF53A8EC}"
 EndProject
