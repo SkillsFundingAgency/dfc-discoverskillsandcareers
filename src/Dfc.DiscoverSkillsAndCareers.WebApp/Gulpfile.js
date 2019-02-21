@@ -36,7 +36,7 @@ var gulp = require("gulp"),
     standard = require('gulp-standard'),
     browserify = require('gulp-browserify'),
     axios = require('axios');
-    // testResults = require('./tests/log/results.json');
+    testResults = require('./log/results');
 
 // paths
 
@@ -200,9 +200,9 @@ gulp.task('lighthousePerformanceTest', function() {
 });
 
 gulp.task('slackResults', function(done) {
-    const pa11yTestFailed = testResults.release.pa11y.length > 0;
-    const lighthouseTestFailed = testResults.release.lighthouse.length > 0;
-    const browserStackTestFailed = testResults.release.browserStack.length >0;
+    const pa11yTestFailed = testResults.release.pa11y.some((result) => result.type === 'Error');
+    const lighthouseTestFailed = testResults.release.lighthouse.some((result) => result.score < 0.9);
+    const browserStackTestFailed = testResults.release.browserStack.length > 0;
 
     axios.post('https://hooks.slack.com/services/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', {
         text: 'Dev Front-end Test Results:',
@@ -243,7 +243,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest"));
+gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "slackResults"));
 
 gulp.task("dev",
     gulp.series(
