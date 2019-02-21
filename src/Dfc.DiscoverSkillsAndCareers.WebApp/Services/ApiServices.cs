@@ -19,7 +19,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             AppSettings = appSettings.Value;
         }
 
-        public async Task<T> GetContentModel<T>(string contentType) where T : class
+        public async Task<T> GetContentModel<T>(string contentType, Guid correlationId) where T : class
         {
             try
             {
@@ -39,28 +39,28 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             }
         }
 
-        public async Task<NewSessionResponse> NewSession()
+        public async Task<NewSessionResponse> NewSession(Guid correlationId)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment";
             var json = await HttpService.PostData(url, "");
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
 
-        public async Task<NextQuestionResponse> NextQuestion(string sessionId)
+        public async Task<NextQuestionResponse> NextQuestion(string sessionId, Guid correlationId)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/next";
             var json = await HttpService.GetString(url);
             return JsonConvert.DeserializeObject<NextQuestionResponse>(json);
         }
 
-        public async Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest)
+        public async Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest, Guid correlationId)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}";
             var json = await HttpService.PostData(url, postAnswerRequest);
             return JsonConvert.DeserializeObject<PostAnswerResponse>(json);
         }
 
-        public async Task<ResultsResponse> Results(string sessionId)
+        public async Task<ResultsResponse> Results(string sessionId, Guid correlationId)
         {
             string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}";
             var json = await HttpService.GetString(url);

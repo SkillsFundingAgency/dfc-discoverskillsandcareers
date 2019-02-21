@@ -1,7 +1,9 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
@@ -9,25 +11,44 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("start")]
     public class StartController : BaseController
     {
-        readonly ILogger<StartController> Logger;
+        readonly ILogger<StartController> Log;
+        readonly ILoggerHelper LoggerHelper;
         readonly IApiServices ApiServices;
 
-        public StartController(ILogger<StartController> logger,
+        public StartController(
+            ILogger<StartController> log,
+            ILoggerHelper loggerHelper,
             IApiServices apiServices)
         {
-            Logger = logger;
+            Log = log;
+            LoggerHelper = loggerHelper;
             ApiServices = apiServices;
         }
 
         public async Task<IActionResult> Index()
         {
-            var sessionId = await TryGetSessionId(Request);
-            var model = await ApiServices.GetContentModel<StartViewModel>("startpage");
-            if (string.IsNullOrEmpty(sessionId) == false)
+            var correlationId = Guid.NewGuid();
+            try
             {
-                Response.Cookies.Append("ncs-session-id", sessionId);
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+                var model = await ApiServices.GetContentModel<StartViewModel>("startpage", correlationId);
+                if (string.IsNullOrEmpty(sessionId) == false)
+                {
+                    Response.Cookies.Append("ncs-session-id", sessionId);
+                }
+                return View("Start", model);
             }
-            return View("Start", model);
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
         }
     }
 }

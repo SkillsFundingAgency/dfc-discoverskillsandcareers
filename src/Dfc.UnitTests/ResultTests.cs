@@ -1,11 +1,10 @@
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp;
-using Dfc.DiscoverSkillsAndCareers.Models;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 
 namespace Dfc.UnitTests
 {
