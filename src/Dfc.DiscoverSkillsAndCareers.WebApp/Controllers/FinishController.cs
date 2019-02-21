@@ -1,5 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Services;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -7,32 +7,30 @@ using System.Threading.Tasks;
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("finish")]
-    public class FinishController : Controller
+    public class FinishController : BaseController
     {
         readonly ILogger<FinishController> Logger;
-        readonly IUserSessionService UserSessionService;
+        readonly IApiServices ApiServices;
 
-        public FinishController(ILogger<FinishController> logger, 
-            IUserSessionService userSessionService)
+        public FinishController(ILogger<FinishController> logger,
+            IApiServices apiServices)
         {
             Logger = logger;
-            UserSessionService = userSessionService;
+            ApiServices = apiServices;
         }
 
         public async Task<IActionResult> Index()
         {
-            await UserSessionService.Init(Request);
+            var sessionId = await TryGetSessionId(Request);
 
-            if (!UserSessionService.HasSession)
+            if (string.IsNullOrEmpty(sessionId))
             {
                 return Redirect("/");
             }
 
-            var model = new FinishViewModel()
-            {
-                SessionId = UserSessionService.Session.PrimaryKey
-            };
-            return View("Finish", model);
+            var model = await ApiServices.GetContentModel<FinishViewModel>("finishpage");
+            Response.Cookies.Append("ncs-session-id", sessionId);
+            return View("SaveProgress", model);
         }
     }
 }

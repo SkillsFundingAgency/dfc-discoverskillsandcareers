@@ -1,5 +1,6 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Services;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,40 +10,25 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         readonly ILogger<HomeController> Logger;
-        readonly ILoggerHelper LoggerHelper;
-        readonly IUserSessionService UserSessionService;
+        readonly IApiServices ApiServices;
 
         public HomeController(ILogger<HomeController> logger,
-            ILoggerHelper loggerHelper,
-            IUserSessionService userSessionService)
+            IApiServices apiServices)
         {
             Logger = logger;
-            LoggerHelper = loggerHelper;
-            UserSessionService = userSessionService;
+            ApiServices = apiServices;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            try
-            {
-                Logger.LogInformation("Standard logger");
-                LoggerHelper.LogInformationMessage(Logger, Guid.NewGuid(), "test home");
-
-                var model = new IndexViewModel()
-                {
-                    // TODO:
-                };
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Standard logger");
-                LoggerHelper.LogException(Logger, Guid.NewGuid(), ex);
-                return StatusCode(500);
-            }
+            var sessionId = await TryGetSessionId(Request);
+            var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage");
+            model.SessionId = sessionId;
+            Response.Cookies.Append("ncs-session-id", sessionId);
+            return View("Question", model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -60,25 +46,26 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [Route("reload")]
         public async Task<IActionResult> Reload([FromForm] ReloadRequest reloadRequest)
         {
-            await UserSessionService.Reload(reloadRequest.Code);
+            // TODO:
+            //await UserSessionService.Reload(reloadRequest.Code);
 
-            if (UserSessionService.HasSession)
-            {
-                if (UserSessionService.Session.IsComplete)
-                {
-                    // Session has complete, redirect to results
-                    var redirectResponse = new RedirectResult($"/results");
-                    Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
-                    return redirectResponse;
-                }
-                else
-                {
-                    // Session is not complete so continue where we was last
-                    var redirectResponse = new RedirectResult($"/q/{UserSessionService.Session.CurrentQuestion}");
-                    Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
-                    return redirectResponse;
-                }
-            }
+            //if (UserSessionService.HasSession)
+            //{
+            //    if (UserSessionService.Session.IsComplete)
+            //    {
+            //        // Session has complete, redirect to results
+            //        var redirectResponse = new RedirectResult($"/results");
+            //        Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
+            //        return redirectResponse;
+            //    }
+            //    else
+            //    {
+            //        // Session is not complete so continue where we was last
+            //        var redirectResponse = new RedirectResult($"/q/{UserSessionService.Session.CurrentQuestion}");
+            //        Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
+            //        return redirectResponse;
+            //    }
+            //}
             // Session could not be found
             var model = new IndexViewModel()
             {
