@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
@@ -39,7 +40,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
-            [Inject]IQuestionRepository questionRepository)
+            [Inject]IQuestionRepository questionRepository,
+            [Inject]IOptions<AppSettings> appSettings)
         {
             loggerHelper.LogMethodEnter(log);
 
@@ -57,6 +59,24 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, "Session Id not supplied");
                 return httpResponseMessageHelper.BadRequest();
+            }
+
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                loggerHelper.LogInformationMessage(log, correlationGuid, "Session salt not missing from configuration");
+                return httpResponseMessageHelper.BadRequest();
+            }
+
+            if (!sessionId.Contains("-"))
+            {
+                var datetimeStamp = SessionIdHelper.Decode(appSettings?.Value.SessionSalt, sessionId);
+                if (datetimeStamp == null)
+                {
+                    loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sessionId));
+                    return httpResponseMessageHelper.NoContent();
+                }
+                string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
+                sessionId = $"{partitionKey}-{sessionId}";
             }
 
             var userSession = await userSessionRepository.GetUserSession(sessionId);
@@ -103,7 +123,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             {
                 return null;
             }
-            
             return questionNumber + 1;
         }
     }

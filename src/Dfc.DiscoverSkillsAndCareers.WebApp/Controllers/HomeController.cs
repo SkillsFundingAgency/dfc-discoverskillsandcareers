@@ -42,36 +42,38 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             public string Code { get; set; }
         }
 
+        [HttpGet]
+        [Route("reload")]
+        public IActionResult ReloadGet()
+        {
+            return Redirect("/");
+        }
+
         [HttpPost]
         [Route("reload")]
         public async Task<IActionResult> Reload([FromForm] ReloadRequest reloadRequest)
         {
-            // TODO:
-            //await UserSessionService.Reload(reloadRequest.Code);
 
-            //if (UserSessionService.HasSession)
-            //{
-            //    if (UserSessionService.Session.IsComplete)
-            //    {
-            //        // Session has complete, redirect to results
-            //        var redirectResponse = new RedirectResult($"/results");
-            //        Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
-            //        return redirectResponse;
-            //    }
-            //    else
-            //    {
-            //        // Session is not complete so continue where we was last
-            //        var redirectResponse = new RedirectResult($"/q/{UserSessionService.Session.CurrentQuestion}");
-            //        Response.Cookies.Append("ncs-session-id", UserSessionService.Session.PrimaryKey);
-            //        return redirectResponse;
-            //    }
-            //}
-            // Session could not be found
-            var model = new IndexViewModel()
+            var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code);
+            if (nextQuestionResponse == null)
             {
-                HasReloadError = true
-            };
-            return View("Index", model);
+                var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage");
+                model.HasReloadError = true;
+                return View("Index", model);
+            }
+            Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId);
+            if (nextQuestionResponse.IsComplete)
+            {
+                // Session has complete, redirect to results
+                var redirectResponse = new RedirectResult($"/results");
+                return redirectResponse;
+            }
+            else
+            {
+                // Session is not complete so continue where we was last
+                var redirectResponse = new RedirectResult($"/q/{nextQuestionResponse.NextQuestionNumber}");
+                return redirectResponse;
+            }
         }
     }
 }

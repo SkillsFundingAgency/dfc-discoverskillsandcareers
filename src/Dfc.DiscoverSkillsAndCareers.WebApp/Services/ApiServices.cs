@@ -33,7 +33,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
                 }
                 return model;
             }
-            catch (System.Net.Http.HttpRequestException ex)
+            catch (System.Net.Http.HttpRequestException)
             {
                 return Activator.CreateInstance<T>();
             }

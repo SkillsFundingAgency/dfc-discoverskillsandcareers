@@ -1,9 +1,9 @@
-﻿using System;
-using Xunit;
-using System.Linq;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 using Xunit.Abstractions;
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 
 namespace Dfc.UnitTests
 {

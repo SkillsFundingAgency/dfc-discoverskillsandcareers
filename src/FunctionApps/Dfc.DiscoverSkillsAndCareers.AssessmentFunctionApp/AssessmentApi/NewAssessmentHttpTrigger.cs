@@ -1,4 +1,4 @@
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
@@ -17,7 +17,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {

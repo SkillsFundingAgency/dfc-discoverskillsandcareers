@@ -8,6 +8,7 @@ using DFC.HTTP.Standard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
 using System.Net;
@@ -29,6 +30,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
+            _optsAppSettings = Options.Create(new AppSettings { SessionSalt = "ncs" });
         }
 
         public void Dispose()
@@ -46,6 +48,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
         private IQuestionRepository _questionRepository;
+        private IOptions<AppSettings> _optsAppSettings;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId)
         {
@@ -57,7 +60,8 @@ namespace Dfc.UnitTests.FunctionTests
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _userSessionRepository,
-                _questionRepository
+                _questionRepository,
+                _optsAppSettings
             ).ConfigureAwait(false);
         }
 

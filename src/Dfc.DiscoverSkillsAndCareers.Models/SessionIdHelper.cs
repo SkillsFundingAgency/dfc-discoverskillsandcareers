@@ -1,7 +1,7 @@
 ﻿using System;
 using HashidsNet;
 
-namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
+namespace Dfc.DiscoverSkillsAndCareers.Models
 {
     public static class SessionIdHelper
     {
@@ -27,7 +27,12 @@ namespace Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers
         public static string Decode(string salt, string code)
         {
             var hashids = new Hashids(salt, 4, Alphabet);
-            return hashids.DecodeLong(code)?[0].ToString();
+            var decode = hashids.DecodeLong(code);
+            if (decode.Length > 0)
+            {
+                return decode[0].ToString();
+            }
+            return null;
         }
 
         public static string GetYearMonth(string datetimeStamp)
