@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dfc.DiscoverSkillsAndCareers.Repositories
+﻿namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface ICosmosSettings
     {
