@@ -1,5 +1,6 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
+{% set pageTitle = '@Model.Title' %}
 
 {% extends "_base.njk" %}
 
@@ -14,7 +15,7 @@
 {% block main %}
 
   <div class="govuk-width-container app-site-width-container">
-      
+
     {% include "_phasebanner.njk" %}
 
     {{ govukBreadcrumbs({
@@ -28,7 +29,7 @@
         }
       ]
     }) }}
-    
+
   </div>
 
   <main id="content" role="main">
@@ -37,12 +38,12 @@
         <div class="govuk-grid-column-two-thirds">
 
           <div class="app-your-reference govuk-body">
-            
-            <p>            
+
+            <p>
               Reference
               <span class="app-your-reference__code govuk-heading-xl">@Model.Code</span>
             </p>
-            
+
             <div class="app-your-reference__meta govuk-grid-row">
               <p class="govuk-grid-column-one-third govuk-body-s">@Model.SessionDate</p>
               <p class="govuk-grid-column-two-thirds govuk-body-s">@Model.Status</p>
@@ -51,7 +52,7 @@
           </div>
 
           <div class="govuk-body">
-            
+
             <h1 class="govuk-heading-m">What to do</h1>
             <p>The code above is your unique reference number. You can use this to:</p>
             <ul>
@@ -60,12 +61,12 @@
             </ul>
 
             <p>Please write this code down and store it somewhere safe.</p>
-            
+
           </div>
 
         </div>
       </div>
     </div>
   </main>
-  
+
 {% endblock %}
