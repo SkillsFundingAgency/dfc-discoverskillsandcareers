@@ -39,43 +39,59 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IQuestionRepository questionRepository,
             [Inject]IOptions<AppSettings> appSettings)
         {
-            loggerHelper.LogMethodEnter(log);
-
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            Guid correlationGuid;
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
+                loggerHelper.LogMethodEnter(log);
+
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
+
+                if (!Guid.TryParse(correlationId, out correlationGuid))
+                {
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
+                }
+
+                var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
+
+                string partitionKey = DateTime.Now.ToString("yyyyMM");
+                string salt = appSettings.Value.SessionSalt;
+                var userSession = new UserSession()
+                {
+                    UserSessionId = SessionIdHelper.GenerateSessionId(salt),
+                    Salt = salt,
+                    StartedDt = DateTime.Now,
+                    LanguageCode = "en",
+                    PartitionKey = partitionKey,
+                    QuestionSetVersion = currentQuestionSetInfo.QuestionSetVersion,
+                    MaxQuestions = currentQuestionSetInfo.MaxQuestions,
+                    CurrentQuestion = 1,
+                    AssessmentType = currentQuestionSetInfo.AssessmentType.ToLower()
+                };
+                await userSessionRepository.CreateUserSession(userSession);
+
+                loggerHelper.LogMethodExit(log);
+
+                var result = new DscSession()
+                {
+                    SessionId = userSession.PrimaryKey
+                };
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
             }
 
-            var currentQuestionSetInfo = await questionRepository.GetCurrentQuestionSetVersion();
-
-            string partitionKey = DateTime.Now.ToString("yyyyMM");
-            string salt = appSettings.Value.SessionSalt;
-            var userSession = new UserSession()
+            catch (Exception ex)
             {
-                UserSessionId = SessionIdHelper.GenerateSessionId(salt),
-                Salt = salt,
-                StartedDt = DateTime.Now,
-                LanguageCode = "en",
-                PartitionKey = partitionKey,
-                QuestionSetVersion = currentQuestionSetInfo.QuestionSetVersion,
-                MaxQuestions = currentQuestionSetInfo.MaxQuestions,
-                CurrentQuestion = 1,
-                AssessmentType = currentQuestionSetInfo.AssessmentType.ToLower()
-            };
-            await userSessionRepository.CreateUserSession(userSession);
+                correlationGuid = Guid.NewGuid();
+                loggerHelper.LogException(log, correlationGuid, ex);
 
-            loggerHelper.LogMethodExit(log);
-
-            var result = new DscSession()
-            {
-                SessionId = userSession.PrimaryKey
-            };
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(ex.ToString())
+                };
+            }
         }
     }
 }
