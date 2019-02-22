@@ -16,6 +16,11 @@
         }
     },
     "variables": {
+        "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
+        "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
+        "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
+        "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
@@ -27,11 +32,7 @@
                 "count": "[length(parameters('FunctionAppNames'))]",
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
             }
-        ],
-        "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
-        "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
-        "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
-        "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]"
+        ]
     },
     "resources": [
         {
@@ -58,6 +59,41 @@
                 "count": "[length(variables('AppInsightsNames'))]"
             }
         },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('AppServiceName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('AppServiceName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "app"
+                    },
+                    "appServiceAppSettings": {
+                      "value": [
+
+                      ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "AppInsightsCopy",
+                "[variables('AppServicePlanName')]"
+            ]
+        },      
         {
             "apiVersion": "2017-05-10",
             "name": "[variables('AppServicePlanName')]",
