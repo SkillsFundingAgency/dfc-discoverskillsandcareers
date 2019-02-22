@@ -102,7 +102,7 @@
                 },
                 "parameters": {
                     "appServiceName": {
-                        "value": "[last(split(variables('FunctionAppName'), '/'))]"
+                        "value": "[variables('FunctionAppName')]"
                     },
                     "appServicePlanName": {
                         "value": "[variables('AppServicePlanName')]"
