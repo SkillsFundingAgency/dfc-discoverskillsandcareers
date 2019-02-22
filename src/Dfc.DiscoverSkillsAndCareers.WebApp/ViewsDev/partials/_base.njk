@@ -27,6 +27,18 @@
     <!-- End Google Tag Manager -->
     <script>
       (function() {
+
+        var patterns = {
+          protocol: '^(http(s)?(:\/\/))?(www\.)?',
+          domain: '[a-zA-Z0-9-_\.]+'
+        }
+
+        function urlToString (url) {
+          var pattern = new RegExp(patterns.protocol + patterns.domain, 'gi');
+          var res = pattern.exec(url)[0];
+          return url.replace(res, '').replace(/\//g, ':').substr(1);
+        }
+
         window.digitalData = new Object();
         window.digitalData = (function() {
 
@@ -36,6 +48,7 @@
             var _fldrelmnt = _clrpath[0].split('/');
             var _pgurl = window.location.hostname + _clrpath[0];
             var _referringURL = document.referrer;
+            var _previousPage = urlToString(document.referrer);
             var _userAgent = navigator.userAgent;
 
             return {
@@ -50,7 +63,7 @@
                         destinationURL: _pgurl,
                         pageInstanceID: _environment,
                         referringURL: _referringURL,
-                        previous_page: _referringURL,
+                        previous_page: _previousPage,
                         environment: _environment,
                         VersionNumber: "{{ versionNumber }}",
                     },
