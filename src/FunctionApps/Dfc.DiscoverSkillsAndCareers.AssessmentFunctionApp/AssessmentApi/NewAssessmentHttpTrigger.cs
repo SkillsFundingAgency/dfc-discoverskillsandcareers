@@ -32,17 +32,19 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment")]HttpRequest req,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
+            // [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
             [Inject]IQuestionRepository questionRepository,
             [Inject]IOptions<AppSettings> appSettings)
         {
+            Console.WriteLine("Run");
+
             Guid correlationGuid;
             try
             {
-                loggerHelper.LogMethodEnter(log);
+                // loggerHelper.LogMethodEnter(log);
 
                 var correlationId = httpRequestHelper.GetDssCorrelationId(req);
                 if (string.IsNullOrEmpty(correlationId))
@@ -72,7 +74,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 };
                 await userSessionRepository.CreateUserSession(userSession);
 
-                loggerHelper.LogMethodExit(log);
+                // loggerHelper.LogMethodExit(log);
 
                 var result = new DscSession()
                 {
@@ -84,7 +86,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             catch (Exception ex)
             {
                 correlationGuid = Guid.NewGuid();
-                loggerHelper.LogException(log, correlationGuid, ex);
+                // loggerHelper.LogException(log, correlationGuid, ex);
 
                 return new HttpResponseMessage()
                 {
