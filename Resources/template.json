@@ -150,8 +150,29 @@
             "dependsOn": [
                 "[variables('AppServicePlanName')]",
                 "[variables('AppInsightsName')]",
-                "[variables('CosmosDbName')]"
+                "[variables('CosmosDbName')]",
+                "[variables('StorageAccountName')]"
             ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('StorageAccountName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('StorageAccountName')]"
+                    },
+                    "storageKind": {
+                        "value": "StorageV2"
+                    }
+                }
+            }
         }
     ],
     "outputs": {}
