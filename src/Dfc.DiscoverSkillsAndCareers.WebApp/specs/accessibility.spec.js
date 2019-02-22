@@ -2,7 +2,14 @@ const pa11y = require('pa11y');
 const {expect} = require('chai');
 const fs = require('fs');
 const resultsJSON = require('../log/results')
-const failures = [];
+const results = {
+    home: {passed: false, issues: []},
+    start: {passed: false, issues: []},
+    statement: {passed: false, issues: []},
+    saveProgress: {passed: false, issues: []},
+    finish: {passed: false, issues: []},
+    results: {passed: false, issues: []}
+};
 const answerDict = {
     'Strongly agree': 'selected_answer-1',
     'Agree': 'selected_answer-2',
@@ -12,47 +19,55 @@ const answerDict = {
 };
 
 describe('Accessibility test Understand Me html pages', function () {
-    this.timeout(30000);
+    this.timeout(60000);
+
+    after(function() {
+        resultsJSON.release.pa11y = results;
+        fs.writeFileSync('./log/results.json', JSON.stringify(resultsJSON));
+    });
 
     it('Home page', () => {
         // TODO: change url to dev env once known
-        return pa11y(`https://localhost:5001`, {
+        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         }).then(({issues}) => {
-            failures.push(addPageName(issues, 'Home'));
+            if (issues.length) results.home.issues = issues;
+            else results.home.passed = true; 
             expect(issues).to.eql([]);
         });
     });
 
     it('Start page', () => {
         // TODO: change url to dev env once known
-        return pa11y(`https://localhost:5001/start`, {
+        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/start`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         }).then(({issues}) => {
-            failures.push(addPageName(issues, 'Start'));
+            if (issues.length) results.start.issues = issues;
+            else results.start.passed = true; 
             expect(issues).to.eql([]);
         });
     });
 
     it('Statement page', () => {
         // TODO: change url to dev env once known
-        return pa11y(`https://localhost:5001/q/1`, {
+        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         }).then(({issues}) => {
-            failures.push(addPageName(issues, 'Statement'));
+            if (issues.length) results.statement.issues = issues;
+            else results.statement.passed = true; 
             expect(issues).to.eql([]);
         });
     });
 
     it('Save Progress page', () => {
         // TODO: change url to dev env once known
-        return pa11y('https://localhost:5001/q/1', {
+        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -61,14 +76,15 @@ describe('Accessibility test Understand Me html pages', function () {
                 'wait for path to be /save-my-progress'
             ]
         }).then(({issues}) => {
-            failures.push(addPageName(issues, 'Save Progress'));
+            if (issues.length) results.saveProgress.issues = issues;
+            else results.saveProgress.passed = true; 
             expect(issues).to.eql([]);
         });
     });
 
     it('Finish page', () => {
         // TODO: change url to dev env once known
-        return pa11y('https://localhost:5001/q/1', {
+        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -87,14 +103,15 @@ describe('Accessibility test Understand Me html pages', function () {
                 'wait for path to be /finish'
             ]
         }).then(({issues}) => {
-            failures.push(addPageName(issues, 'Finish'));
+            if (issues.length) results.finish.issues = issues;
+            else results.finish.passed = true; 
             expect(issues).to.eql([]);
         })
     });
 
     it('Results page', () => {
         // TODO: change url to dev env once known
-        return pa11y('https://localhost:5001/q/1', {
+        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1', {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -116,23 +133,9 @@ describe('Accessibility test Understand Me html pages', function () {
                 'screen capture results.png'
             ]
         }).then(({issues}) => {
-            failures.push(addPageName(issues, 'Results'));
-            resultsJSON.release.pa11y = failures;
-            fs.writeFileSync('./log/results.json', JSON.stringify(resultsJSON));
+            if (issues.length) results.results.issues = issues;
+            else results.results.passed = true; 
             expect(issues).to.eql([]);
         })
     });
 });
-
-function addPageName (issues, pageName) {
-    if (issues.length) {
-        const issuesWithPageName = issues.map(issue => {
-            issue.page = pageName;
-            return issue;
-        });
-        return issuesWithPageName;
-    } else return {
-        type: 'Pass',
-        page: pageName
-    };
-}

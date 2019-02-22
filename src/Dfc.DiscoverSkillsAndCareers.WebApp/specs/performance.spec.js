@@ -14,10 +14,17 @@ const answerDict = {
     'Strongly disagree': 'selected_answer-4',
     "This doesn't apply to me": 'selected_answer-5'
 };
-const performanceScores = [];
+const performanceScores = {
+    home: {score: 0},
+    start: {score: 0},
+    statement: {score: 0},
+    saveProgress: {score: 0},
+    finish: {score: 0},
+    results: {score: 0}
+};
 
 describe('Lighthouse performance testing for Understand Me web pages', function() {
-    this.timeout(20000);
+    this.timeout(60000);
     const opts = {
         chromeFlags: ['--headless'],
         onlyCategories: ['performance'],
@@ -25,10 +32,15 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     };
     const performanceThreshold = 0.9;
 
+    after(function() {
+        resultsJSON.release.lighthouse = performanceScores;
+        fs.writeFileSync('./log/results.json', JSON.stringify(resultsJSON));
+    });
+
     it('Home page', () => {
         // TODO: change url to dev env once known
         return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/', opts, ).then(({categories}) => {
-            performanceScores.push(addPageName(categories.performance, 'Home'));
+            performanceScores.home = categories.performance;
             expect(categories.performance.score).to.be.at.least(performanceThreshold);
         });
     });
@@ -36,7 +48,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     it('Start page', () => {
         // TODO: change url to dev env once known
         return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/start', opts, ).then(({categories}) => {
-            performanceScores.push(addPageName(categories.performance, 'Start'));
+            performanceScores.start = categories.performance;
             expect(categories.performance.score).to.be.at.least(performanceThreshold);
         });
     });
@@ -44,7 +56,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     it('Statement page', () => {
         // TODO: change url to dev env once known
         return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1', opts, ).then(({categories}) => {
-            performanceScores.push(addPageName(categories.performance, 'Statement'));
+            performanceScores.statement = categories.performance;
             expect(categories.performance.score).to.be.at.least(performanceThreshold);
         });
     });
@@ -62,7 +74,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
                             .then(([response]) => lighthouse(response.url(), opts, null))
                             .then(results => {
                                 instance.kill();
-                                performanceScores.push(addPageName(results.lhr.categories.performance, 'Save Progress'));
+                                performanceScores.saveProgress = categories.performance;
                                 expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                             });
                     });
@@ -94,7 +106,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
                             .then(([response]) => lighthouse(response.url(), opts, null))
                             .then((results) => {
                                 instance.kill();
-                                performanceScores.push(addPageName(results.lhr.categories.performance, 'Finish'));
+                                performanceScores.finish = categories.performance;
                                 expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                             });
                     });
@@ -128,9 +140,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
                             .then(([response]) => lighthouse(response.url(), opts, null))
                             .then((results) => {
                                 instance.kill();
-                                performanceScores.push(addPageName(results.lhr.categories.performance, 'Results'));
-                                resultsJSON.release.lighthouse = performanceScores;
-                                fs.writeFileSync('./log/results.json', JSON.stringify(resultsJSON));
+                                performanceScores.results = categories.performance;                                
                                 expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                             });
                     });
@@ -148,9 +158,4 @@ function launchChromeAndRunLighthouse(url, opts, config = null) {
         return instance.kill().then(() => results.lhr)
       });
     });
-}
-
-function addPageName(performanceScore, pageName) {
-    performanceScore.page = pageName;
-    return performanceScore;
 }

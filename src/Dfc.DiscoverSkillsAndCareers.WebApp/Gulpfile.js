@@ -200,22 +200,22 @@ gulp.task('lighthousePerformanceTest', function() {
 });
 
 gulp.task('slackResults', function(done) {
-    const pa11yTestFailed = testResults.release.pa11y.some((result) => result.type === 'Error');
-    const lighthouseTestFailed = testResults.release.lighthouse.some((result) => result.score < 0.9);
+    const pa11yTestPassed = Object.keys(testResults.release.pa11y).every((page) => testResults.release.pa11y[page].passed);
+    const lighthouseTestPassed = Object.keys(testResults.release.lighthouse).every((page) => testResults.release.lighthouse[page].score > 0.9)
     const browserStackTestFailed = testResults.release.browserStack.length > 0;
 
     axios.post('https://hooks.slack.com/services/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', {
-        text: 'Dev Front-end Test Results:',
+        text: `Front-end Test Results for build number ${process.env.BUILD_BUILDNUMBER? process.env.BUILD_BUILDNUMBER : '0'} from ${process.env.BUILD_DEFINITIONNAME? process.env.BUILD_DEFINITIONNAME : 'local'}:`,
         attachments: [
             {
                 title: "Pa11y",
-                text: pa11yTestFailed? 'Failed' : 'Passed',
-                color: pa11yTestFailed? 'warning' : 'good'
+                text: pa11yTestPassed? 'Passed' : 'Failed',
+                color: pa11yTestPassed? 'good' : 'warning'
             },
             {
                 title: "Lighthouse",
-                text: lighthouseTestFailed? 'Failed' : 'Passed',
-                color: lighthouseTestFailed? 'warning' : 'good'
+                text: lighthouseTestPassed? 'Passed' : 'Failed',
+                color: lighthouseTestPassed? 'good' : 'warning'
             },
             {
                 title: "Browser Stack",
@@ -224,7 +224,7 @@ gulp.task('slackResults', function(done) {
             }
         ]
     }).then(() => {
-        if (pa11yTestFailed || lighthouseTestFailed || browserStackTestFailed) process.exit(1);
+        if (pa11yTestPassed || lighthouseTestPassed || browserStackTestFailed) process.exit(1);
         done();
     })
 });
