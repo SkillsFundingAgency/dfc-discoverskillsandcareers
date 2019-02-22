@@ -10,20 +10,33 @@
         },
         "Environment": {
             "type": "string"
+        },
+        "FunctionAppNames": {
+            "type": "array"
         }
     },
     "variables": {
-        "AppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
+        "copy": [
+            {
+                "name": "AppInsightsNames",
+                "count": "[length(parameters('FunctionAppNames'))]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
+            },
+            {
+                "name": "FunctionAppNames",
+                "count": "[length(parameters('FunctionAppNames'))]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
+            }
+        ],
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
-        "FunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-fa'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]"
     },
     "resources": [
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('AppInsightsName')]",
+            "name": "[variables('AppInsightsNames')[copyIndex()]]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -33,12 +46,16 @@
                 },
                 "parameters": {
                     "appInsightsName": {
-                        "value": "[variables('AppInsightsName')]"
+                        "value": "[variables('AppInsightsNames')[copyIndex()]]"
                     },
                     "attachedService": {
-                        "value": "[variables('FunctionAppName')]"
+                        "value": ""
                     }
                 }
+            },
+            "copy": {
+                "name": "AppInsightsCopy",
+                "count": "[length(variables('AppInsightsNames'))]"
             }
         },
         {
@@ -92,7 +109,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('FunctionAppName')]",
+            "name": "[variables('FunctionAppNames')[copyIndex()]]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -102,7 +119,7 @@
                 },
                 "parameters": {
                     "appServiceName": {
-                        "value": "[variables('FunctionAppName')]"
+                        "value": "[variables('FunctionAppNames')[copyIndex()]]"
                     },
                     "appServicePlanName": {
                         "value": "[variables('AppServicePlanName')]"
@@ -125,7 +142,7 @@
                         },
                         {
                           "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                          "value": "[reference(variables('AppInsightsName')).outputs.InstrumentationKey.value]"
+                          "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
                         },
                         {
                           "name": "AzureWebJobsStorage",
@@ -147,9 +164,13 @@
                     }
                 }
             },
+            "copy": {
+                "name": "FunctionAppCopy",
+                "count": "[length(variables('FunctionAppNames'))]"
+            },
             "dependsOn": [
+                "AppInsightsCopy",
                 "[variables('AppServicePlanName')]",
-                "[variables('AppInsightsName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
