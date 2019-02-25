@@ -69,8 +69,15 @@ steps:
     contents: '**'
     targetFolder: '$(build.artifactstagingdirectory)/Azure'
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
+#- task: PublishPipelineArtifact@0
+#  displayName: 'Publish Pipeline Artifact'
+#  inputs:
+#    artifactName: azuretemplates
+#    targetPath: '$(Build.ArtifactStagingDirectory)\Azure'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: ${{ parameters.SolutionBaseName }}'
   inputs:
-    artifactName: azuretemplates
-    targetPath: '$(Build.ArtifactStagingDirectory)\Azure'
+     pathtoPublish: $(build.artifactstagingdirectory)/Azure
+     artifactName: azuretemplates
+     publishLocation: container
