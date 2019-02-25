@@ -7,11 +7,12 @@ queue:
   - node.js
 
 steps:
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: webappDir'
   inputs:
-    artifactName: webappDir
-    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+     pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+     artifactName: webappDir
+     publishLocation: container
 
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk 2.2.102'
@@ -40,11 +41,12 @@ steps:
     zipAfterPublish: false
     modifyOutputPath: false
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: webapp'
   inputs:
-    artifactName: webapp
-    targetPath: '$(Build.ArtifactStagingDirectory)\webapp'
+     pathtoPublish: $(build.artifactstagingdirectory)/webapp
+     artifactName: webapp
+     publishLocation: container
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
@@ -56,11 +58,12 @@ steps:
     zipAfterPublish: true
     modifyOutputPath: true
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: functionapps'
   inputs:
-    artifactName: functionapps
-    targetPath: '$(Build.ArtifactStagingDirectory)\functionapps'
+     pathtoPublish: $(build.artifactstagingdirectory)/functionapps
+     artifactName: functionapps
+     publishLocation: container
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Azure'
@@ -68,12 +71,6 @@ steps:
     sourceFolder: 'Resources'
     contents: '**'
     targetFolder: '$(build.artifactstagingdirectory)/Azure'
-
-#- task: PublishPipelineArtifact@0
-#  displayName: 'Publish Pipeline Artifact'
-#  inputs:
-#    artifactName: azuretemplates
-#    targetPath: '$(Build.ArtifactStagingDirectory)\Azure'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: azuretemplates'
