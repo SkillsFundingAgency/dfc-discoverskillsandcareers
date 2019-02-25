@@ -74,6 +74,12 @@ To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.WebAp
 
     dotnet run 
 
+#### Visual Studio run everything for debug
+
+You can set your startup projects to start all the apis and the front-end at the same time to debug.
+
+![](screenshot-startprojects.png) 
+
 #### Asset Revisioning 
 
 Assets are revisioned using [`gulp-rev`](https://github.com/sindresorhus/gulp-rev) and references to those files are updated using [`gulp-rev-rewrite`](https://github.com/TheDancingCode/gulp-rev-rewrite). 

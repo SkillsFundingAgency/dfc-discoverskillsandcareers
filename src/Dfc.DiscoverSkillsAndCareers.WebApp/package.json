@@ -26,7 +26,6 @@
     "gulp-mocha": "^6.0.0",
     "gulp-nunjucks-render": "^2.2.2",
     "gulp-protractor": "^4.1.1",
-    "gulp-replace": "^1.0.0",
     "gulp-rev": "^9.0.0",
     "gulp-rev-rewrite": "^1.1.4",
     "gulp-sass": "^4.0.1",
@@ -39,7 +38,6 @@
     "pa11y": "^5.1.0",
     "protractor": "^5.4.2",
     "puppeteer": "^1.12.2",
-    "request": "^2.88.0",
     "rimraf": "^2.6.2"
   },
   "dependencies": {
