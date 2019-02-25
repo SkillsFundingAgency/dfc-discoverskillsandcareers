@@ -61,3 +61,16 @@ steps:
   inputs:
     artifactName: functionapps
     targetPath: '$(Build.ArtifactStagingDirectory)\functionapps'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Azure'
+  inputs:
+    sourceFolder: 'Resources'
+    contents: '**'
+    targetFolder: '$(build.artifactstagingdirectory)/Azure'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    artifactName: azuretemplates
+    targetPath: '$(Build.ArtifactStagingDirectory)\Azure'
