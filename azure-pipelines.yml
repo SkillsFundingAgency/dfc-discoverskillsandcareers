@@ -53,7 +53,7 @@ steps:
     publishWebProjects: false
     projects: 'src/FunctionApps/**/*.csproj'
     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/functionapps'
-    zipAfterPublish: false
+    zipAfterPublish: true
     modifyOutputPath: true
 
 - task: PublishPipelineArtifact@0
