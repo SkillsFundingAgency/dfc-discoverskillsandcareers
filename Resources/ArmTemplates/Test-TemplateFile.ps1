@@ -16,8 +16,8 @@ if (!$ResourceGroup) {
 
 $DeploymentParameters = @{
     ResourceGroup         = $ResourceGroupName
-    TemplateParameterFile = ".\Resources\test-parameters.json"
-    TemplateFile          = ".\Resources\template.json"
+    TemplateParameterFile = ".\Resources\ArmTemplates\test-parameters.json"
+    TemplateFile          = ".\Resources\ArmTemplates\template.json"
 }
 
 Write-Host "- Deploying template"
