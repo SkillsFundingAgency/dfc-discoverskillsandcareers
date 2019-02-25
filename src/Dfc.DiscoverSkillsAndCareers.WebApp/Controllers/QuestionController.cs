@@ -1,8 +1,10 @@
-﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -13,15 +15,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         readonly ILogger<QuestionController> Log;
         readonly ILoggerHelper LoggerHelper;
         readonly IApiServices ApiServices;
+        readonly AppSettings AppSettings;
 
         public QuestionController(
             ILogger<QuestionController> log,
             ILoggerHelper loggerHelper,
-            IApiServices apiServices)
+            IApiServices apiServices,
+            IOptions<AppSettings> appSettings)
         {
             Log = log;
             LoggerHelper = loggerHelper;
             ApiServices = apiServices;
+            AppSettings = appSettings.Value;
         }
 
         [HttpPost]
@@ -62,12 +67,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 LoggerHelper.LogMethodEnter(Log);
-
+                
                 var sessionId = await TryGetSessionId(Request);
 
                 if (questionNumber == 1 && string.IsNullOrEmpty(assessmentType) == false)
                 {
-                    var newSessionResponse = await ApiServices.NewSession(correlationId);
+                    var queryDictionary = System.Web.HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
+                    var title = queryDictionary.Get(assessmentType);
+                    var newSessionResponse = await ApiServices.NewSession(correlationId, assessmentType, title);
+                    if (newSessionResponse == null)
+                    {
+                        throw new Exception($"Failed to create session for assessment type {assessmentType} using question set {title}");
+                    }
                     sessionId = newSessionResponse.SessionId;
                 }
                 return await NextQuestion(sessionId);
@@ -93,6 +104,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
 
+                if (nextQuestionResponse == null)
+                {
+                    throw new Exception($"Question not found for session {sessionId}");
+                }
                 var model = await ApiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
                 var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? "/finish" : $"/q/{nextQuestionResponse.NextQuestionNumber.ToString()}";
 

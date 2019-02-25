@@ -34,7 +34,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             try
             {
                 var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, questionId);
-                string partitionKey = questionId.Split('-').FirstOrDefault();
+                int pos = questionId.LastIndexOf('-');
+                string partitionKey = questionId.Substring(0, pos);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
                 Document document = await client.ReadDocumentAsync(uri, requestOptions);
                 return (Question)(dynamic)document;
@@ -65,39 +66,17 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<QuestionSetInfo> GetCurrentQuestionSetVersion()
-        {
-            // TODO: lookup
-            return new QuestionSetInfo()
-            {
-                QuestionSetVersion = "201901",
-                MaxQuestions = 4,
-                AssessmentType = "short"
-            };
-        }
-
-        public async Task<QuestionSetInfo> GetQuestionSetInfo(string version)
-        {
-            // TODO: lookup
-            return new QuestionSetInfo()
-            {
-                QuestionSetVersion = "201901",
-                MaxQuestions = 4,
-                AssessmentType = "short"
-            };
-        }
-
-        public async Task<List<Question>> GetQuestions(string assessmentType, string version)
+        public async Task<List<Question>> GetQuestions(string assessmentType, string title, int version)
         {
             try
             {
-                // TODO query
-                //var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, );
-                //string partitionKey = questionId.Split('-').FirstOrDefault();
-                //var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                //Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                //return (Question)(dynamic)document;
-                return new List<Question>();
+                var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
+                FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+                List<Question> queryQuestionSet = client.CreateDocumentQuery<Question>(uri, feedOptions)
+                                       .Where(x => x.PartitionKey == $"{assessmentType.ToLower()}-{title.ToLower()}-{version}")
+                                       .AsEnumerable()
+                                       .ToList();
+                return queryQuestionSet;
             }
             catch (DocumentClientException ex)
             {

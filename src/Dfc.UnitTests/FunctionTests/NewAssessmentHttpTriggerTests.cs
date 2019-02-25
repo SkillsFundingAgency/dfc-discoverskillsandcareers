@@ -28,6 +28,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
+            _questionSetRepository = Substitute.For<IQuestionSetRepository>();
             _optsAppSettings = Options.Create(new AppSettings { SessionSalt = "ncs" });
         }
 
@@ -45,6 +46,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
         private IQuestionRepository _questionRepository;
+        private IQuestionSetRepository _questionSetRepository;
         private IOptions<AppSettings> _optsAppSettings;
 
         private async Task<HttpResponseMessage> RunFunction()
@@ -57,8 +59,22 @@ namespace Dfc.UnitTests.FunctionTests
                 _httpResponseMessageHelper,
                 _userSessionRepository,
                 _questionRepository,
+                _questionSetRepository,
                 _optsAppSettings
             ).ConfigureAwait(false);
+        }
+
+        [Fact]
+        public async Task NewSessionHttpTrigger_WithMissingOptions_ShouldReturnBadRequest()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+            _userSessionRepository = new FakeUserSessionRepository();
+            _questionRepository = new FakeQuestionRepository();
+
+            var result = await RunFunction();
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
@@ -67,6 +83,8 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository = new FakeUserSessionRepository();
             _questionRepository = new FakeQuestionRepository();
+            _request.QueryString = new QueryString("?assessmentType=short&questionSetTitle=test");
+            _questionSetRepository = new FakeQuestionSetRepository();
 
             var result = await RunFunction();
             var content = await result.Content.ReadAsAsync<DscSession>();

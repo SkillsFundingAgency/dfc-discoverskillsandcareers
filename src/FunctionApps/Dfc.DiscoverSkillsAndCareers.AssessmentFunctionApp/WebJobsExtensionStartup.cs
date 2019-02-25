@@ -29,7 +29,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
         private void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine("ConfigureServices");
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
@@ -41,13 +40,13 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IContentRepository, ContentRepository>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
+            services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
 
             ConfigureOptions(services);
         }
 
         private void ConfigureOptions(IServiceCollection services)
         {
-            Console.WriteLine("ConfigureOptions");
             services.AddOptions();
 
             bool isLocal = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_INSTANCE_ID"));

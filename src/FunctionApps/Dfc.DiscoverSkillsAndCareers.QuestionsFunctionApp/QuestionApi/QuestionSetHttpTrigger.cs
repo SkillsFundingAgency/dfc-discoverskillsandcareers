@@ -29,13 +29,15 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
         [Display(Name = "Get", Description = "Retrieves a specific question set version")]
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{version}")]HttpRequest req, 
-            string version,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmentType}/{title}/{version}")]HttpRequest req, 
+            string assessmentType,
+            string title,
+            int version,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
-            [Inject]IQuestionRepository questionRepository)
+            [Inject]IQuestionSetRepository questionSetRepository)
         {
             loggerHelper.LogMethodEnter(log);
 
@@ -49,7 +51,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                 correlationGuid = Guid.NewGuid();
             }
 
-            var questionSetInfo = await questionRepository.GetQuestionSetInfo(version);
+            var questionSetInfo = await questionSetRepository.GetQuestionSetVersion(assessmentType, title, version);
             if (questionSetInfo == null)
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Question set version does not exist {0}", version));

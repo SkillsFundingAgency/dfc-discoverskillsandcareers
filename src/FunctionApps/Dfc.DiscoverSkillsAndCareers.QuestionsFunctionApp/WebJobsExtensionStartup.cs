@@ -38,6 +38,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IContentRepository, ContentRepository>();
+            services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
 
             ConfigureOptions(services);
         }

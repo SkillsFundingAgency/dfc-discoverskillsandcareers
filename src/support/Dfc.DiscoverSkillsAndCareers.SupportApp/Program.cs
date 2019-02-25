@@ -46,22 +46,38 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             {
                 configuration.Bind(opts);
 
+                var title = opts.QuestionVersionKey.Split('-').Last();
+                var questionSetRepository = new QuestionSetRepository(Options.Create(opts.Cosmos));
+                var questionSet = new QuestionSet()
+                {
+                    AssessmentType = "short",
+                    Version = 1,
+                    Title = title,
+                    TitleLowercase = title.ToLower(),
+                    MaxQuestions = 40,
+                    LastUpdated = DateTime.Now,
+                    PartitionKey = "ncs",
+                    QuestionSetVersion = opts.QuestionVersionKey + "-1"
+                };
+                questionSetRepository.CreateQuestionSet(questionSet).GetAwaiter().GetResult();
+
                 var questionRepository = new QuestionRepository(Options.Create(opts.Cosmos));
                 using(var fileStream = File.OpenRead(opts.CsvFile))
                 using(var streamReader = new StreamReader(fileStream))
                 using(var reader = new CsvReader(streamReader))
                 {
-                    var questionPartitionKey = opts.QuestionVersionKey;
+                    var questionPartitionKey = questionSet.QuestionSetVersion;
                     var questionNumber = 1;
 
                     foreach(var question in reader.GetRecords<QuestionStatement>())
                     {
-                        Console.WriteLine($"Creating question {questionPartitionKey} - {questionNumber}");    
+                        var questionId = $"{questionPartitionKey}-{questionNumber}";
+                        Console.WriteLine($"Creating question id: {questionId}");    
 
                         var doc = questionRepository.CreateQuestion(new Question { 
                             IsNegative = question.IsFlipped == 1,  
                             Order = questionNumber,
-                            QuestionId = questionPartitionKey + "-" + questionNumber,
+                            QuestionId = questionId,
                             TraitCode = question.Trait.ToUpper(),
                             PartitionKey = questionPartitionKey,
                             Texts = new List<QuestionText> {  

@@ -76,7 +76,7 @@ To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.WebAp
 
 #### Visual Studio run everything for debug
 
-You can set your startup projects to start all the apis and the front-end at the same time to debug.
+You can set your startup projects to start all, the apis and the front-end at the same time to debug.
 
 ![](screenshot-startprojects.png) 
 

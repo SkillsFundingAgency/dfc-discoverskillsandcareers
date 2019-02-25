@@ -30,9 +30,10 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
         [Display(Name = "Get", Description = "Retrieves the questions contained within the requested question set version")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmenttype}/{version}/questions")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmenttype}/{title}/{version}/questions")]HttpRequest req,
             string assessmentType,
-            string version,
+            string title,
+            int version,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
@@ -51,7 +52,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                 correlationGuid = Guid.NewGuid();
             }
 
-            var questions = await questionRepository.GetQuestions(assessmentType, version);
+            var questions = await questionRepository.GetQuestions(assessmentType, title, version);
             if (questions == null)
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("QuestionSet does not exist {0} {1}", assessmentType, version));

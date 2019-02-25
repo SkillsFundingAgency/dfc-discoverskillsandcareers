@@ -54,7 +54,7 @@ namespace Dfc.UnitTests.Fakes
             return Task.FromResult<Question>(result);
         }
 
-        public Task<List<Question>> GetQuestions(string assessmentType, string version)
+        public Task<List<Question>> GetQuestions(string assessmentType, string title, int version)
         {
             throw new System.NotImplementedException();
         }
