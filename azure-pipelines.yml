@@ -38,7 +38,7 @@ steps:
     publishWebProjects: false
     projects: 'src\Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj'
     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)\webapp'
-    zipAfterPublish: false
+    zipAfterPublish: true
     modifyOutputPath: false
 
 - task: PublishBuildArtifacts@1
