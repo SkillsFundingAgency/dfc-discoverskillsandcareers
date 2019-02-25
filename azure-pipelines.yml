@@ -76,7 +76,7 @@ steps:
 #    targetPath: '$(Build.ArtifactStagingDirectory)\Azure'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: ${{ parameters.SolutionBaseName }}'
+  displayName: 'Publish Artifact: azuretemplates'
   inputs:
      pathtoPublish: $(build.artifactstagingdirectory)/Azure
      artifactName: azuretemplates
