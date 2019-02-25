@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
@@ -14,8 +15,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public ContentRepository(IOptions<CosmosSettings> cosmosSettings)
+        public ContentRepository(ILogger<ContentRepository> logger, IOptions<CosmosSettings> cosmosSettings)
         {
+            logger.LogInformation($"Config: {Newtonsoft.Json.JsonConvert.SerializeObject(cosmosSettings)}");
+
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "Contents";
             client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);

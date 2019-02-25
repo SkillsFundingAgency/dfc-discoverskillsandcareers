@@ -31,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         [Response(HttpStatusCode = (int)HttpStatusCode.BadRequest, Description = "The request is malformed", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
-        [Display(Name = "Post", Description = "Stores an answer for a given question against the current session.")]
+        [Display(Name = "PostAnswer", Description = "Stores an answer for a given question against the current session.")]
 
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment/{sessionId}")]HttpRequest req,
