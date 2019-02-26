@@ -12,12 +12,13 @@ jobs:
    - node.js
 
   steps:
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: webappDir'
-    inputs:
-     pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
-     artifactName: webappDir
-     publishLocation: container
+#  Possibley redundant, taking a long time to run
+#  - task: PublishBuildArtifacts@1
+#    displayName: 'Publish Artifact: webappDir'
+#    inputs:
+#     pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+#     artifactName: webappDir
+#     publishLocation: container
 
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.2.102'
