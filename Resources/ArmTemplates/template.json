@@ -2,10 +2,16 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "ApimRoot": {
+          "type": "string"  
+        },
         "AspSize": {
             "type": "string"
         },
         "AspTier": {
+            "type": "string"
+        },
+        "AssessmentQuestionSetNames": {
             "type": "string"
         },
         "Environment": {
@@ -83,9 +89,24 @@
                         "value": "app"
                     },
                     "appServiceAppSettings": {
-                      "value": [
-
-                      ]
+                        "value": [
+                            {
+                                "name": "AppSettings__ContentApiRoot",
+                                "value": "[concat(parameters('ApimRoot'), '')]"
+                            },
+                            {
+                                "name": "AppSettings__ResultsApiRoot",
+                                "value": "[concat(parameters('ApimRoot'), '')]"
+                            },
+                            {
+                                "name": "AppSettings__SessionApiRoot",
+                                "value": "[concat(parameters('ApimRoot'), '')]"
+                            },
+                            {
+                                "name": "AppSettings__AssessmentQuestionSetNames",
+                                "value": "[parameters('AssessmentQuestionSetNames')]"
+                            }
+                        ]
                     }
                 }
             },
@@ -93,7 +114,7 @@
                 "AppInsightsCopy",
                 "[variables('AppServicePlanName')]"
             ]
-        },      
+        },
         {
             "apiVersion": "2017-05-10",
             "name": "[variables('AppServicePlanName')]",
@@ -167,36 +188,36 @@
                         "value": "functionapp"
                     },
                     "appServiceAppSettings": {
-                      "value": [
-                        {
-                          "name": "FUNCTIONS_EXTENSION_VERSION",
-                          "value": "~2"
-                        },
-                        {
-                          "name": "MSDEPLOY_RENAME_LOCKED_FILES",
-                          "value": "1"
-                        },
-                        {
-                          "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                          "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
-                        },
-                        {
-                          "name": "AzureWebJobsStorage",
-                          "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                        },
-                        {
-                          "name": "CosmosSettings__Endpoint",
-                          "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
-                        },
-                        {
-                          "name": "CosmosSettings__Key",
-                          "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
-                        },
-                        {
-                          "name": "CosmosSettings__DatabaseName",
-                          "value": "DiscoverMySkillsAndCareers"
-                        }
-                      ]
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
+                            }
+                        ]
                     }
                 }
             },
