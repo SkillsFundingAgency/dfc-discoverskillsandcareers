@@ -5,6 +5,9 @@
         "ApimRoot": {
           "type": "string"  
         },
+        "ApimServiceName": {
+            "type": "string"
+        },
         "AspSize": {
             "type": "string"
         },
@@ -25,9 +28,15 @@
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "BuildingBlocksTestDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/NCSD-288-AddingApimChildResources/ArmTemplates/",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "copy": [
+            {
+                "name": "ApiNames",
+                "count": "[length(parameters('FunctionAppNames'))]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
+            },
             {
                 "name": "AppInsightsNames",
                 "count": "[length(parameters('FunctionAppNames'))]",
@@ -41,6 +50,56 @@
         ]
     },
     "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(parameters('ApimServiceName'), '/', parameters('FunctionAppNames')[copyIndex()], 'api')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksTestDfcBaseUrl'), 'apim-api.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "apimProductInstanceName": {
+                        "value": "[reference('skillandcareers-apim-product').outputs.ApimProductInstanceName.value]"
+                    },
+                    "apimServiceName": {
+                        "value": "[parameters('ApimServiceName')]"
+                    },
+                    "apiName": {
+                        "value": "[parameters('FunctionAppNames')[copyIndex()]]"
+                    }
+                }
+            },
+            "copy": {
+                "name": "ApiCopy",
+                "count": "[length(parameters('FunctionAppNames'))]"
+            },
+            "dependsOn": [
+                "[concat(parameters('ApimServiceName'), '/', 'skillandcareers-product')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "skillandcareers-apim-product",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksTestDfcBaseUrl'), 'apim-product.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "apimServiceName": {
+                        "value": "[parameters('ApimServiceName')]"
+                    },
+                    "productDisplayName": {
+                        "value": "Discover My Skills and Careers"
+                    }
+                }
+            }
+        },
         {
             "apiVersion": "2017-05-10",
             "name": "[variables('AppInsightsNames')[copyIndex()]]",
