@@ -11,16 +11,8 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
-    
-
-
-
     class Program
     {
-        
-
-
-
         static void Main(string[] args)
         {
             Console.WriteLine($"{Directory.GetCurrentDirectory()}");
