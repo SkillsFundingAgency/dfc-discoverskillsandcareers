@@ -47,7 +47,7 @@
     "resources": [
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(parameters('ApimServiceName'), '/', parameters('FunctionAppNames')[copyIndex()], 'api')]",
+            "name": "[concat(parameters('ApimServiceName'), '-', parameters('FunctionAppNames')[copyIndex()], '-api')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
