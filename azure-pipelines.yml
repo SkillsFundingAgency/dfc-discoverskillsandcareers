@@ -100,3 +100,17 @@ jobs:
      pathtoPublish: $(build.artifactstagingdirectory)/Azure
      artifactName: azuretemplates
      publishLocation: container
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Data'
+    inputs:
+     sourceFolder: 'data'
+     contents: '**'
+     targetFolder: '$(build.artifactstagingdirectory)/Data'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: data'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/Data
+     artifactName: data
+     publishLocation: container
