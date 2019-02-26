@@ -82,7 +82,7 @@
         {
             "name": "skillandcareers-apim-product",
             "type": "Microsoft.Resources/deployments",
-            "resourceGroup": "[parameters('ApimResourceGroup')]"
+            "resourceGroup": "[parameters('ApimResourceGroup')]",
             "apiVersion": "2017-05-10",
             "properties": {
                 "mode": "Incremental",
