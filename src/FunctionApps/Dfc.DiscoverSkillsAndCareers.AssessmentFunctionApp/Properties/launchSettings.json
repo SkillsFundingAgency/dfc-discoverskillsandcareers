@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --port 7074 "
+    }
+  }
+}

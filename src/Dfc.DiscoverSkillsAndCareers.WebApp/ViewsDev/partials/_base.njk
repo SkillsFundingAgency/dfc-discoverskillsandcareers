@@ -1,0 +1,121 @@
+{% block pre %}{% endblock %}
+{% from "header/macro.njk" import govukHeader %}
+{% from "footer/macro.njk" import govukFooter %}
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "radios/macro.njk" import govukRadios %}
+{% from "button/macro.njk" import govukButton %}
+{% from "skip-link/macro.njk" import govukSkipLink %}
+{% from "input/macro.njk" import govukInput %}
+{% from "panel/macro.njk" import govukPanel %}
+
+<!DOCTYPE html>
+<html lang="en" class="govuk-template no-js">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0c0c" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{{ pageTitle | default('National Careers Service') }}</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
+    <!-- End Google Tag Manager -->
+    <script>
+      (function() {
+
+        var patterns = {
+          protocol: '^(http(s)?(:\/\/))?(www\.)?',
+          domain: '[a-zA-Z0-9-_\.]+'
+        }
+
+        function urlToString (url) {
+          var pattern = new RegExp(patterns.protocol + patterns.domain, 'gi');
+          var res = pattern.exec(url)[0];
+          return url.replace(res, '').replace(/\//g, ':').substr(1);
+        }
+
+        window.digitalData = new Object();
+        window.digitalData = (function() {
+
+            var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
+            var _rqpath = window.location.pathname;
+            var _clrpath = _rqpath.split('?');
+            var _fldrelmnt = _clrpath[0].split('/');
+            var _pgurl = window.location.hostname + _clrpath[0];
+            var _referringURL = document.referrer;
+            var _previousPage = urlToString(document.referrer);
+            var _userAgent = navigator.userAgent;
+
+            return {
+                page: {
+                    user: {
+                      deviceAgent: _userAgent
+                    },
+                    pageInfo: {
+                        pageID: "{{ pageName }}",
+                        pageName: "{{ pageTitle }}",
+                        pageGroup: "{{ pageGroup }}",
+                        destinationURL: _pgurl,
+                        pageInstanceID: _environment,
+                        referringURL: _referringURL,
+                        previous_page: _previousPage,
+                        environment: _environment,
+                        VersionNumber: "{{ versionNumber }}",
+                    },
+                }
+            }
+        })();
+      }).call(this);
+
+      {% block tagging %}{% endblock %}
+
+    </script>
+  </head>
+  <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
+
+    {{ govukSkipLink({
+      text: "Skip to main content",
+      href: "#content"
+    }) }}
+
+    {{ govukHeader({
+      homepageUrl: "https://gov.uk/",
+      serviceName: "National Careers Service",
+      serviceUrl: "https://nationalcareers.service.gov.uk/"
+    }) }}
+
+    {% block main %}{% endblock %}
+
+    {{ govukFooter({
+      meta: {
+        items: [
+          {
+            href: "mailto:Discover.SkillsCareers@education.gov.uk",
+            text: "Help"
+          },
+          {
+            href: "https://nationalcareers.service.gov.uk/help/cookies",
+            text: "Privacy and Cookies"
+          },
+          {
+            href: "https://nationalcareers.service.gov.uk/help/terms-and-conditions",
+            text: "Terms and conditions"
+          },
+          {
+            href: "/information-sources.html",
+            text: "Information sources"
+          }
+        ]
+      }
+    }) }}
+
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=default%2CElement.prototype.remove%2CSymbol.isConcatSpreadable"></script>
+    <script src="/assets/js/site.js" type="text/javascript"></script>
+
+  </body>
+</html>

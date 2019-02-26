@@ -1,0 +1,71 @@
+﻿{% set pageName = 'start' %}
+{% set pageGroup = '' %}
+{% set pageTitle = '@Model.Title' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.StartViewModel;
+@{
+    ViewData["Title"] = "@Model.Title";
+    Layout = null;
+}
+{% endblock %}
+
+{% block main %}
+
+  <div class="govuk-width-container app-site-width-container">
+
+    {% include "_phasebanner.njk" %}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home: Discover your skills and careers",
+          href: "/"
+        },
+        {
+          text: "See job categories"
+        }
+      ]
+    }) }}
+
+  </div>
+
+  <div class="govuk-width-container govuk-!-margin-bottom-9">
+
+    <main id="content" role="main">
+
+      <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+          <h1 class="govuk-heading-xl govuk-!-margin-bottom-5 govuk-!-margin-top-6">@Model.Headline</h1>
+
+          <p class="govuk-body-l">@Model.Subheading</p>
+
+          <p class="govuk-inset-text">
+            @Model.HighlightText
+          </p>
+
+          @Html.Raw(Model.Content)
+
+          {{ govukButton({
+            text: "@Model.StartNowButtontext",
+            href: "/q/1?assessmentType=short",
+            classes: "govuk-button--start app-button govuk-!-margin-top-5",
+            attributes: {
+              "gov-analytics-data": pageName + " | click | button | Start now"
+            }
+          }) }}
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+{% endblock %}
+

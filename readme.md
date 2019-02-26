@@ -21,28 +21,31 @@
 
 ### Architecture Documents 
 
-[High level solution Architecture Diagram](https://drive.google.com/open?id=16ukfuSa6eKJW3lgVBvaFFobpEQ3a13D2)
+![](Architecture-latest.png) 
 
 ### Dependencies
 
 * Visual Studio 2017 / Visual Studio Code
-* .NET Core 2.2 or higher
+* .NET Core 2.1 or higher
 * [Azure Functions Tools](https://www.npmjs.com/package/azure-functions-core-tools)
-* [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator) - Note, this is included as part of the Azure SDK but a standalone installer is available for windows. Alternatively you could create a storage account on azure.
 * [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
 
 ### Solution Structure
 
-* **Dfc.DiscoverSkillsAndCareers.FunctionApp** - Contains the code for the function application deployables 
-* **Dfc.DiscoverSkillsAndCareers.Models** - Any shared code that may be required.
+* **Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp** - Assessment apis for new, move, answer, reload
+* **Dfc.DiscoverSkillsAndCareers.CmsFunctionApp** - CMS timer function 
+* **Dfc.DiscoverSkillsAndCareers.ContentFunctionApp** - Content apis to supply CMS content to pages
+* **Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp** - Question apis to expose question data
+* **Dfc.DiscoverSkillsAndCareers.ResultFunctionApp** - Results api to fetch results for a statement
+* **Dfc.DiscoverSkillsAndCareers.Models** - Any data models.
 * **Dfc.DiscoverSkillsAndCareers.Repositories** - Any data access code that is required 
-* **web** - static assests to be deployed to blob service. 
+* **Dfc.DiscoverSkillsAndCareers.WebApp** - MCV app. 
 
 ### Running the application
 
-#### Building and Running Function App
+#### Building and Running the Api Function Apps
 
-Create a local.settings.json file (change as requried but the following works with the Cosmos and Blob emulators)
+Create a local.settings.json file (change as requried but the following works with the Cosmos emulator)
 ```
 {
     "CosmosSettings": {
@@ -50,14 +53,12 @@ Create a local.settings.json file (change as requried but the following works wi
         "Key": "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
         "DatabaseName": "TestDatabase"
     },
-    "BlobStorage": {
-        "StorageConnectionString": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;",
-        "ContainerName": "mycontainer"
-    },
-    "StaticSiteDomain": "https://dfc-dev-skillscareers-as.azurewebsites.net"
+    "AppSettings": {
+        "SessionSalt": "ncs"
+    }
 }
 ```
-To build the function app navigate to `src/Dfc.DiscoverSkillsAndCareers.FunctionApp` and run 
+To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp` and run 
 
     dotnet build 
 
@@ -65,11 +66,19 @@ to run the function app again
 
     func host start
 
+repeat for all apis to run locally.
+
 #### Building and running the front-end 
 
-- `gulp` - Runs the build task, revisions assets, outputs to `dist` directory
-- `gulp dev` - Runs the build task, starts development server with LiveReload
-- `gulp test` - Runs test scripts 
+To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.WebApp` and run 
+
+    dotnet run 
+
+#### Visual Studio run everything for debug
+
+You can set your startup projects to start all, the apis and the front-end at the same time to debug.
+
+![](screenshot-startprojects.png) 
 
 #### Asset Revisioning 
 
@@ -114,11 +123,34 @@ Performance testing is carried out using [Lighthouse](https://github.com/GoogleC
 
 ## Deployment Structure 
 
-There are 3 deployment artifacts 
+There are 6 deployment artifacts 
 
-1. **Function App** - To be deployed to the function environment.
-2. **Page templates** - To be deployed to blob container.
-3. **Static Landing Pages** - To be deployed to blob container. 
+1. **Assessment Api Function** - To be deployed to the api function environment.
+2. **CMS Api Function** - To be deployed to the api function environment.
+3. **Content Api Function** - To be deployed to the api function environment.
+4. **Questions Api Function** - To be deployed to the api function environment.
+5. **Resukts Api Function** - To be deployed to the api function environment.
+6. **MVC Web App** - To be deployed to the web environment.
+
+The support app can be run in order to create the relevant Statement and Content data.
+
+## Analytics 
+
+### Event Tracking
+
+HTML Elements
+
+    gov-analytics-data="{{pageName}} | click | button | Start assessment"
+
+Nunjucks partials
+
+    {{ govukButton({
+        text: "Resume progress",
+        classes: "app-button",
+        attributes: {
+          "gov-analytics-data": pageName + " | click | button | Resume progress"
+        }
+      }) }}
 
 ## Licence
 

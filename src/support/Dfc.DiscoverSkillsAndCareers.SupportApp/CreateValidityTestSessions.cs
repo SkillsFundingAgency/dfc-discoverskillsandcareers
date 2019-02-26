@@ -1,12 +1,13 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using CommandLine;
 using CsvHelper;
-using Dfc.DiscoverSkillsAndCareers.FunctionApp.Helpers;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using static Dfc.DiscoverSkillsAndCareers.SupportApp.Program;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
@@ -26,6 +27,9 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
             [Option('n', "sessionCount", Required = true, HelpText = "Number of Sessions to create")]
             public int NumberOfSessions { get; set; } = 300;
+
+            [Option('v', "version", Required = true, HelpText = "Question Version Key typically of the format {type}-{YYYYMM}")]
+            public string QuestionVersionKey { get; set; }
         
         }
 
@@ -58,10 +62,12 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             {
                 configuration.Bind(opts);
 
-                var questionRepository = new QuestionRepository(opts.Cosmos);
-                var sessionRepository = new UserSessionRepository(opts.Cosmos);
+                var title = opts.QuestionVersionKey.Split('-').Last();
+                var questionRepository = new QuestionRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var questionSetRepository = new QuestionSetRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var sessionRepository = new UserSessionRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 
-                var questionSet = questionRepository.GetCurrentQuestionSetVersion().GetAwaiter().GetResult();
+                var questionSet = questionSetRepository.GetCurrentQuestionSet("short", title).GetAwaiter().GetResult();
                 
                 using(var fs = File.OpenWrite(opts.CsvFile))
                 using(var sw = new StreamWriter(fs))

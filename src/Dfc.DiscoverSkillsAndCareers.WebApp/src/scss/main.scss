@@ -1,0 +1,169 @@
+$govuk-global-styles: true;
+
+@import 'node_modules/govuk-frontend/all';
+
+$app-purple: #8c0052;
+$app-purple-hover: #A73C7B;
+$app-turquoise: #1F7E77;
+$app-turquoise-hover: #48948E;
+$app-dark-border: #7b0048;
+$app-text-light: #646C70;
+
+@import 'progress';
+@import 'masthead';
+@import 'sidebar';
+@import 'assessmentpicker';
+@import 'yourreference';
+@import 'resumepanel';
+@import 'savepanel';
+@import 'question';
+@import 'controls';
+@import 'payscale';
+@import 'results';
+@import 'footer';
+
+%clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// sass-lint:disable-all
+%visually-hidden { /* https://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+// sass-lint:enable-all
+
+.visually-hidden {
+  @extend %visually-hidden;
+}
+
+.govuk-header__container {
+  border-bottom-color: $app-purple;
+}
+
+.govuk-phase-bannertag {  // legacy version support
+  margin-right: 10px;
+}
+
+.govuk-phase-bannertag,  // legacy version support
+.govuk-phase-banner__content__tag {
+  background-color: $app-purple;
+  color: govuk-colour('white');
+}
+
+.app-page--home,
+.app-page--results {
+  .govuk-header__container {
+    border-bottom-color: govuk-colour('white');
+  }
+}
+
+.app-button {
+
+  &,
+  &:link,
+  &:visited {
+    background-color: $app-purple;
+    color: govuk-colour('white');
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $app-purple-hover;
+  }
+}
+
+.app-button--alt {
+  background-color: $app-turquoise;
+  color: govuk-colour('white');
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $app-turquoise-hover;
+  }
+}
+
+.app-button--white {
+  background-color: govuk-colour('white');
+  background-image: govuk-image-url("../images/icon-pointer-black.png");
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+
+  @include govuk-device-pixel-ratio {
+    background-image: govuk-image-url("../images/icon-pointer-black-2x.png");
+    background-size: 13px 16px;
+  }
+
+  box-shadow: none;
+  color: govuk-colour('black');
+
+  &:link,
+  &:visited,
+  &:active {
+    color: govuk-colour('black');
+  }
+
+  &:focus,
+  &:hover {
+    color: govuk-colour('white');
+  }
+}
+
+.app-button--outline {
+  border: 2px solid $app-purple;
+  color: govuk-colour('black');
+  background-color: govuk-colour('white');
+  box-shadow: none;
+
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: $app-purple-hover;
+    border-color: $app-purple-hover;
+    color: govuk-colour('white');
+  }
+
+  input[type=radio]:checked + &.govuk-radios__label {
+    outline: 3px solid  $govuk-focus-colour;
+    outline-offset: 0;
+  }
+}
+
+.app-button--block {
+  display: block;
+  text-align: left;
+}
+
+.app-text--light {
+  color: $govuk-secondary-text-colour;
+}
+
+.govuk-tag--coming-soon {
+  background-color: govuk-colour('white');
+  color: $app-turquoise;
+}
+
+.app-back-to-top__icon {
+  display: inline-block;
+  width: .8em;
+  height: 1em;
+  margin-top: -5px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.app-grey {
+  &,
+  .app-sidebar {
+    background: govuk-colour('grey-4');
+  }
+}

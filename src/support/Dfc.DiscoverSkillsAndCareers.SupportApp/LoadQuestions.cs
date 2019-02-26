@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using CommandLine;
@@ -6,6 +7,7 @@ using CsvHelper;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -21,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             [Option('f', "csvFile", Required = true, HelpText = "The source CSV file")]
             public string CsvFile { get; set; }
 
-            [Option('v', "version", Required = true, HelpText = "Question Version Key typically of the format YYYYMM")]
+            [Option('v', "version", Required = true, HelpText = "Question Version Key typically of the format {type}-{YYYYMM}")]
             public string QuestionVersionKey { get; set; }
         }
 
@@ -40,22 +42,38 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             {
                 configuration.Bind(opts);
 
-                var questionRepository = new QuestionRepository(opts.Cosmos);
+                var title = opts.QuestionVersionKey.Split('-').Last();
+                var questionSetRepository = new QuestionSetRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var questionSet = new QuestionSet()
+                {
+                    AssessmentType = "short",
+                    Version = 1,
+                    Title = title,
+                    TitleLowercase = title.ToLower(),
+                    MaxQuestions = 40,
+                    LastUpdated = DateTime.Now,
+                    PartitionKey = "ncs",
+                    QuestionSetVersion = opts.QuestionVersionKey + "-1"
+                };
+                questionSetRepository.CreateQuestionSet(questionSet).GetAwaiter().GetResult();
+
+                var questionRepository = new QuestionRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 using(var fileStream = File.OpenRead(opts.CsvFile))
                 using(var streamReader = new StreamReader(fileStream))
                 using(var reader = new CsvReader(streamReader))
                 {
-                    var questionPartitionKey = opts.QuestionVersionKey;
+                    var questionPartitionKey = questionSet.QuestionSetVersion;
                     var questionNumber = 1;
 
                     foreach(var question in reader.GetRecords<QuestionStatement>())
                     {
-                        Console.WriteLine($"Creating question {questionPartitionKey} - {questionNumber}");    
+                        var questionId = $"{questionPartitionKey}-{questionNumber}";
+                        Console.WriteLine($"Creating question id: {questionId}");    
 
                         var doc = questionRepository.CreateQuestion(new Question { 
                             IsNegative = question.IsFlipped == 1,  
                             Order = questionNumber,
-                            QuestionId = questionPartitionKey + "-" + questionNumber,
+                            QuestionId = questionId,
                             TraitCode = question.Trait.ToUpper(),
                             PartitionKey = questionPartitionKey,
                             Texts = new List<QuestionText> {  

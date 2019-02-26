@@ -1,0 +1,23 @@
+<div class="app-sidebar app-resume-panel">
+    <h3 class="govuk-heading-m">@Model.ResumeTitle</h3>
+    <form method="post" action="/reload">
+
+      <div class="app-resume-panel__input govuk-form-group @(Model.HasReloadError ? "govuk-form-group--error" : string.Empty)">
+        <label class="govuk-label" for="code">@Model.ResumeFieldTitle</label>
+          @if (Model.HasReloadError) {
+            <span id="code-error" class="govuk-error-message">@Model.ResumeErrorMessage</span>
+          }
+         <input class="govuk-input @(Model.HasReloadError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasReloadError ? "aria-describedby=code-error" : string.Empty)></input>
+      </div>
+
+      {{ govukButton({
+        text: "@Model.ResumeButtonText",
+        classes: "app-button",
+        attributes: {
+          "gov-analytics-data": pageName + " | click | button | Resume progress"
+        }
+      }) }}
+
+    </form>
+
+</div>

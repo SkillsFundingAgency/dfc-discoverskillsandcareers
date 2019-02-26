@@ -1,23 +1,24 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    public class UserSessionRepository
+    public class UserSessionRepository : IUserSessionRepository
     {
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public UserSessionRepository(ICosmosSettings cosmosSettings, string collectionName = "UserSessions")
+        public UserSessionRepository(IOptions<CosmosSettings> cosmosSettings)
         {
-            this.cosmosSettings = cosmosSettings;
-            this.collectionName = collectionName;
-            client = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
+            this.cosmosSettings = cosmosSettings?.Value;
+            this.collectionName = "UserSessions";
+            client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
         }
 
         public async Task<UserSession> GetUserSession(string primaryKey)
@@ -54,10 +55,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<Document> CreateUserSession(UserSession userSession)
+        public async Task CreateUserSession(UserSession userSession)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            return await client.CreateDocumentAsync(uri, userSession);
+            await client.CreateDocumentAsync(uri, userSession);
         }
 
         public async Task<UserSession> UpdateUserSession(UserSession userSession)

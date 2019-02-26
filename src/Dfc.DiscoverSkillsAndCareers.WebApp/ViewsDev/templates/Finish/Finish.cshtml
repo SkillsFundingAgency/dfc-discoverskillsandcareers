@@ -1,0 +1,70 @@
+﻿{% set pageName = 'finish' %}
+{% set pageGroup = '' %}
+{% set pageTitle = '@Model.Title' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
+@{
+    ViewData["Title"] = "@Model.Title";
+    Layout = null;
+}
+{% endblock %}
+
+{% block main %}
+
+  <div class="govuk-width-container app-site-width-container">
+
+    {% include "_phasebanner.njk" %}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home: Discover your skills and careers",
+          href: "/"
+        },
+        {
+          text: "See job categories"
+        }
+      ]
+    }) }}
+
+  </div>
+
+  <main id="content" role="main">
+
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
+        <div class="govuk-grid-column-two-thirds">
+
+          {{ govukPanel({
+            titleText: "@Model.Headline",
+            html: "@Model.HeadlineStrap",
+            classes: "govuk-!-margin-bottom-6"
+          }) }}
+
+          <h1 class="govuk-heading-m">What to do next</h1>
+          <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
+
+          <form action="/results/" method="post">
+            <input type="hidden" name="sessionId" value="@Model.SessionId" />
+
+            {{ govukButton({
+              text: "@Model.ViewResultsButtonText",
+              classes: "app-button",
+              type: "submit",
+              attributes: {
+                "gov-analytics-data": pageName + " | click | button | View results"
+              }
+            }) }}
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+{% endblock %}

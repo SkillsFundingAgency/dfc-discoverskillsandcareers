@@ -8,7 +8,7 @@ A little utility app to help with various support operational tasks against the 
 
 For example:
 
-    dotnet run -- load-questions -f "C:\ncs\dfc-discoverskillsandcareers-dev\data\short_assessment_statements.csv" -v 201901
+    dotnet run -- load-questions -f "C:\ncs\dfc-discoverskillsandcareers-dev\data\short_assessment_statements.csv" -v short-201901
 
 ## Creating Validity Test Sessions 
 
@@ -19,4 +19,4 @@ For example:
 
 For example:
 
-    dotnet run -- create-validity-sessions -n 300
+    dotnet run -- create-validity-sessions -n 300 -v short-201901

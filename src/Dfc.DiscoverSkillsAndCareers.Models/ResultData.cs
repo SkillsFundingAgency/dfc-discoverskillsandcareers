@@ -7,8 +7,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
     public class ResultData
     {
         [JsonProperty("traits")]
-        public List<TraitResult> Traits { get; set; }
+        public TraitResult[] Traits { get; set; }
         [JsonProperty("jobFamilies")]
-        public List<JobFamilyResult> JobFamilies { get; set; }
+        public JobFamilyResult[] JobFamilies { get; set; }
     }
 }
