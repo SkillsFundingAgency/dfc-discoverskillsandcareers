@@ -1,11 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
-using Dfc.DiscoverSkillsAndCareers.Models;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
@@ -15,23 +11,30 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         readonly ILogger<ShortQuestionSetDataProcessor> Logger;
         readonly IHttpService HttpService;
         readonly IGetShortTraitData GetShortTraitData;
+        readonly AppSettings AppSettings;
 
         public ShortTraitDataProcessor(
             ILogger<ShortQuestionSetDataProcessor> logger,
             IHttpService httpService,
-            IGetShortTraitData getShortTraitData)
+            IGetShortTraitData getShortTraitData,
+            IOptions<AppSettings> appSettings)
         {
             Logger = logger;
             HttpService = httpService;
             GetShortTraitData = getShortTraitData;
+            AppSettings = appSettings.Value;
         }
 
         public async Task RunOnce()
         {
             Logger.LogInformation("Begin poll for ShortTraits");
 
-            string url = "https://dfc-my-skillscareers-sf.azurewebsites.net/api/default/shorttraits"; // TODO: CMS endpoint
+            string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
+
+            string url = $"{siteFinityApiUrlbase}/api/default/shorttraits";
             var data = await GetShortTraitData.GetData(url);
+
+            Logger.LogInformation("End poll for ShortTraits");
         }
     }
 }

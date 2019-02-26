@@ -4,6 +4,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
     public class ShortQuestion
     {
+        [JsonProperty("Id")]
+        public string Id { get; set; }
         [JsonProperty("QuestionText")]
         public string Title { get; set; }
         [JsonProperty("Description")]

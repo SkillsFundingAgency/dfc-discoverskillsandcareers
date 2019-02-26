@@ -1,10 +1,11 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetShortQuestionSetData
     {
-        Task<ShortQuestionSet> GetData(string url);
+        Task<List<ShortQuestionSet>> GetData(string siteFinityApiUrlbase);
     }
 }

@@ -18,7 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
         public async Task<List<ShortTrait>> GetData(string url)
         {
             string json = await HttpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<ShortTrait>>(json);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(json);
             return data.Value;
         }
     }

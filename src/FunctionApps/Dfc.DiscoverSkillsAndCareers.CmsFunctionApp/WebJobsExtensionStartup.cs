@@ -47,6 +47,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
             services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
+            services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
 
             ConfigureOptions(services);
         }
@@ -79,6 +80,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.Configure<AppSettings>(env =>
             {
                 env.SessionSalt = appSettings.SessionSalt;
+                env.SiteFinityApiUrlbase = appSettings.SiteFinityApiUrlbase;
             });
         }
     }

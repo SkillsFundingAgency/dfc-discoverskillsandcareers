@@ -7,7 +7,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
     {
         [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonProperty("PublicationDate")]
+        [JsonProperty("LastModified")]
         public DateTime LastUpdated { get; set; }
     }
 }
