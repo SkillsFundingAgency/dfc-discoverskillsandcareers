@@ -72,7 +72,7 @@
                 "count": "[length(parameters('FunctionAppNames'))]"
             },
             "dependsOn": [
-                "[concat(parameters('ApimServiceName'), '/', 'skillandcareers-product')]"
+                "skillandcareers-apim-product"
             ]
         },
         {
