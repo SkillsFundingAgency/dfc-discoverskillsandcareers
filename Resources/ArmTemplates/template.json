@@ -216,6 +216,10 @@
                             {
                                 "name": "CosmosSettings__DatabaseName",
                                 "value": "DiscoverMySkillsAndCareers"
+                            },
+                            {
+                                "name": "[if(equals(variables('FunctionAppNames')[copyIndex()], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
+                                "value": "[if(equals(variables('FunctionAppNames')[copyIndex()], 'assessments'), 'ncs', 'notrequired')]"
                             }
                         ]
                     }
