@@ -37,7 +37,7 @@ jobs:
      targets: prod
 
   - task: DotNetCoreCLI@2
-    displayName: 'dotnet publish'
+    displayName: 'dotnet publish web app'
     inputs:
      command: publish
      publishWebProjects: false
@@ -54,7 +54,7 @@ jobs:
      publishLocation: container
 
   - task: DotNetCoreCLI@2
-    displayName: 'dotnet publish'
+    displayName: 'dotnet publish function apps'
     inputs:
      command: publish
      publishWebProjects: false
@@ -68,6 +68,23 @@ jobs:
     inputs:
      pathtoPublish: $(build.artifactstagingdirectory)/functionapps
      artifactName: functionapps
+     publishLocation: container
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish support app'
+    inputs:
+     command: publish
+     publishWebProjects: false
+     projects: 'src/support/**/*.csproj'
+     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/supportapp'
+     zipAfterPublish: false
+     modifyOutputPath: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: supportapp'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/supportapp
+     artifactName: supportapp
      publishLocation: container
 
   - task: CopyFiles@2
