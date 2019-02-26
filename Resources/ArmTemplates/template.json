@@ -218,8 +218,8 @@
                                 "value": "DiscoverMySkillsAndCareers"
                             },
                             {
-                                "name": "[if(equals(variables('FunctionAppNames')[copyIndex()], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
-                                "value": "[if(equals(variables('FunctionAppNames')[copyIndex()], 'assessments'), 'ncs', 'notrequired')]"
+                                "name": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
+                                "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
                             }
                         ]
                     }
