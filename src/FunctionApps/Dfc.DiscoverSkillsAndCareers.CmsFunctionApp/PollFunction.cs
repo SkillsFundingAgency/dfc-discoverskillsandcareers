@@ -14,13 +14,15 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         public static  async Task Run([TimerTrigger("*/10 * * * *")]TimerInfo myTimer,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
-            [Inject]IShortQuestionSetPoller shortQuestionSetPoller
+            [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
+            [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-            // Check the short questions
-            await shortQuestionSetPoller.RunOnce();
+            await shortTraitDataProcessor.RunOnce();
+
+            await shortQuestionSetDataProcessor.RunOnce();
 
         }
     }

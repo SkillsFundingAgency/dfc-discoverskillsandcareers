@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class ShortQuestionSetDataProcessor : IShortQuestionSetPoller
+    public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
     {
         readonly ILogger<ShortQuestionSetDataProcessor> Logger;
         readonly IHttpService HttpService;
@@ -34,11 +34,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
         public async Task RunOnce()
         {
-            string assessmentType = "short";
-
             Logger.LogInformation("Begin poll for ShortQuestionSet");
 
-            string url = "https://www.google.com"; // TODO: CMS endpoint
+            string assessmentType = "short";
+
+            string url = "https://dfc-my-skillscareers-sf.azurewebsites.net/api/default/shortquestionsets"; // TODO: CMS endpoint
             var data = await GetShortQuestionSetData.GetData(url);
 
             // Attempt to load the current version for this assessment type and title

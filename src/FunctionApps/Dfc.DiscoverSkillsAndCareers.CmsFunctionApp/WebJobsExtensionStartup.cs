@@ -43,8 +43,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IContentRepository, ContentRepository>();
             services.AddTransient<IHttpService, HttpService>();
             services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
-            services.AddTransient<IShortQuestionSetPoller, ShortQuestionSetDataProcessor>();
+            services.AddTransient<IGetShortTraitData, GetShortTraitData>();
+            services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
+            services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
 
             ConfigureOptions(services);
         }
