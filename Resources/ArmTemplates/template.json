@@ -94,6 +94,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "allowAnonymousAccess": {
+                        "value": true
+                    },
                     "apimServiceName": {
                         "value": "[parameters('ApimServiceName')]"
                     },
