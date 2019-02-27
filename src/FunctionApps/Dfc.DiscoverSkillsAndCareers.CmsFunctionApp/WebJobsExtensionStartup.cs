@@ -1,6 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
@@ -14,6 +15,7 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
@@ -48,6 +50,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
             services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
             services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
+            services.AddTransient<IContentDataProcessor<ContentStartPage>, ContentDataProcessor<ContentStartPage>>();
+            services.AddTransient<IGetContentData<List<ContentStartPage>>, GetContentData<List<ContentStartPage>>>();
 
             ConfigureOptions(services);
         }
