@@ -69,7 +69,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             {
                 existingContent = new Content();
             }
-            existingContent.ContentData = JsonConvert.SerializeObject(data);
+            existingContent.ContentData = JsonConvert.SerializeObject(cmsContent);
             await ContentRepository.CreateContent(existingContent);
 
             Logger.LogInformation("End poll for Content");
