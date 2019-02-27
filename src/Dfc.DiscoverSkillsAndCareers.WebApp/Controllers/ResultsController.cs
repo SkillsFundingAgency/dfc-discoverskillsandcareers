@@ -40,7 +40,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var resultsResponse = await ApiServices.Results(sessionId, correlationId);
 
-                var contentName = $"{resultsResponse.AssessmentType.ToLower()}page";
+                var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
                 var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
                 model.AssessmentType = resultsResponse.AssessmentType;

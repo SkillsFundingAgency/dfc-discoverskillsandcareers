@@ -17,12 +17,21 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentStartPage> startPageContentDataProcessor
+            [Inject]IContentDataProcessor<ContentStartPage> startPageContentDataProcessor,
+            [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
+            [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
+            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
             await startPageContentDataProcessor.RunOnce("startpages", "startpage");
+
+            await questionPageContentDataProcessor.RunOnce("questionpages", "questionpage");
+
+            await finishPageContentDataProcessor.RunOnce("finishpages", "finishpage");
+
+            await shortResultPageContentDataProcessor.RunOnce("shortresultspages", "shortresultpage");
 
             await shortTraitDataProcessor.RunOnce();
 
