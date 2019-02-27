@@ -3,7 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ApimRoot": {
-          "type": "string"  
+          "type": "string",
+          "metadata": {
+              "description": "The APIM proxy address including the protocol and trailing slash. eg https://dev.api.nationalcareersservice.org.uk/"
+          } 
         },
         "ApimResourceGroup": {
             "type": "string"
@@ -151,15 +154,15 @@
                         "value": [
                             {
                                 "name": "AppSettings__ContentApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), '')]"
+                                "value": "[concat(parameters('ApimRoot'), 'content/api')]"
                             },
                             {
                                 "name": "AppSettings__ResultsApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), '')]"
+                                "value": "[concat(parameters('ApimRoot'), 'results/api')]"
                             },
                             {
                                 "name": "AppSettings__SessionApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), '')]"
+                                "value": "[concat(parameters('ApimRoot'), 'assessment/api')]"
                             },
                             {
                                 "name": "AppSettings__AssessmentQuestionSetNames",
