@@ -162,7 +162,7 @@
                             },
                             {
                                 "name": "AppSettings__SessionApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), 'assessment/api')]"
+                                "value": "[concat(parameters('ApimRoot'), 'assessments/api')]"
                             },
                             {
                                 "name": "AppSettings__AssessmentQuestionSetNames",
