@@ -21,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
     public static class QuestionSetHttpTrigger
     {
         [FunctionName("QuestionSetHttpTrigger")]
-        [ProducesResponseType(typeof(QuestionSetInfo), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(QuestionSet), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Question Set Found", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.NoContent, Description = "Question set does not exist", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.BadRequest, Description = "Request was malformed", ShowSchema = false)]
@@ -51,8 +51,8 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                 correlationGuid = Guid.NewGuid();
             }
 
-            var questionSetInfo = await questionSetRepository.GetQuestionSetVersion(assessmentType, title, version);
-            if (questionSetInfo == null)
+            var questionSet = await questionSetRepository.GetQuestionSetVersion(assessmentType, title, version);
+            if (questionSet == null)
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Question set version does not exist {0}", version));
                 return httpResponseMessageHelper.NoContent();
@@ -60,7 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
 
             loggerHelper.LogMethodExit(log);
 
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questionSetInfo));
+            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questionSet));
         }
     }
 }
