@@ -44,22 +44,23 @@
 
         <div class="govuk-grid-column-two-thirds">
 
-          <div class="app-assessment-picker">
+          <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
             <div class="app-assessment-picker__title">
               <h2 class="govuk-heading-l">@Model.Assessment1Title</h2>
+              <strong class="govuk-tag govuk-tag--coming-soon">Unavailable</strong>
             </div>
             <div class="app-assessment-picker__body">
               <div class="govuk-inset-text">
                 @Model.Assessment1Subtitle
               </div>
-              <a href="/start/" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state" gov-analytics-data="{{pageName}} | click | button | Start assessment">Start assessment</a>
+              <!-- <a href="/start/" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state" gov-analytics-data="{{pageName}} | click | button | Start assessment">Start assessment</a> -->
             </div>
           </div>
 
           <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
             <div class="app-assessment-picker__title">
               <h2 class="govuk-heading-l">@Model.Assessment2Title</h2>
-              <strong class="govuk-tag govuk-tag--coming-soon">Coming soon</strong>
+              <strong class="govuk-tag govuk-tag--coming-soon">Unavailable</strong>
             </div>
             <div class="app-assessment-picker__body">
               <div class="govuk-inset-text">

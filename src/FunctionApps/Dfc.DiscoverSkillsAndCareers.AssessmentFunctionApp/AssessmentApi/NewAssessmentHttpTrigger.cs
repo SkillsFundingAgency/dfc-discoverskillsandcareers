@@ -25,6 +25,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         [FunctionName("NewAssessmentHttpTrigger")]
         [ProducesResponseType(typeof(DscSession), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new assessment session", ShowSchema = true)]
+        [Response(HttpStatusCode = (int)HttpStatusCode.BadRequest, Description = "The request was bad or malformed.", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
         [Display(Name = "Get", Description = "Creates a new assessment session and returns the assessment session details")]
