@@ -23,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("currentQuestion")]
         public int CurrentQuestion { get; set; }
         [JsonProperty("recordedAnswers")]
-        public List<Answer> RecordedAnswers { get; set; } = new List<Answer>();
+        public Answer[] RecordedAnswers { get; set; } = {};
         [JsonProperty("resultData")]
         public ResultData ResultData { get; set; } 
         [JsonProperty("isComplete")]

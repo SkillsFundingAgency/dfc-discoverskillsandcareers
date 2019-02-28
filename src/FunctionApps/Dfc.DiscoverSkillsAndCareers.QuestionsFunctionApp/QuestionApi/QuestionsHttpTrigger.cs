@@ -30,7 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
         [Display(Name = "Get", Description = "Retrieves the questions contained within the requested question set version")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmenttype}/{title}/{version}/questions")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questionset/{assessmentType}/{title}/{version}/questions")]HttpRequest req,
             string assessmentType,
             string title,
             int version,

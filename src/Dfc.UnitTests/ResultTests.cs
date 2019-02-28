@@ -27,7 +27,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" }
                 }
@@ -47,7 +47,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" },
                     new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.Agree, TraitCode = "LEADER" }
@@ -70,7 +70,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" },
                     new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.Agree, TraitCode = "LEADER" },
@@ -94,7 +94,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "ORGANISER" },
                 }
@@ -116,7 +116,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithRobExample_ShouldBeAsResult()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = 7 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = 1 },
@@ -148,7 +148,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithColinExample_ShouldBeAsResult()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = 7 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = 0 },
@@ -179,7 +179,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithAllNegative_ShouldHaveNoFamilies()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = -8 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = -8 },
@@ -199,7 +199,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithAllNeutral_ShouldHaveNoFamilies()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = 0 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = 0 },
@@ -219,7 +219,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithLeaderDriverInfluencer_Should()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = 6 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = 6 },
@@ -247,7 +247,7 @@ namespace Dfc.UnitTests
             Assert.True(result[9].JobFamilyCode == "LAL");
         }
 
-        private string FriendlyJobsString(List<JobFamilyResult> result)
+        private string FriendlyJobsString(IEnumerable<JobFamilyResult> result)
         {
             return string.Join(Environment.NewLine, result.Select(x => $"{x.JobFamilyName} {x.Total.ToString("N2")} {x.JobFamilyCode} {x.TraitsTotal.ToString()}").ToArray());
         }
@@ -255,7 +255,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithHelperAnalystCreator_Should()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = -6 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = -6 },
@@ -286,7 +286,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithOrganiserDoer_Should()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = -6 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = -6 },
@@ -317,7 +317,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithAnalystOrganiserDriver_Should()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = -6 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = 6 },
@@ -348,7 +348,7 @@ namespace Dfc.UnitTests
         [Fact]
         public void CalculateJobFamilyRelevance_WithAllAgree_Should()
         {
-            var userTraits = new List<TraitResult>()
+            var userTraits = new []
             {
                 new TraitResult() { TraitCode = "LEADER", TotalScore = 3 },
                 new TraitResult() { TraitCode = "DRIVER", TotalScore = 3 },

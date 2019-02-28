@@ -107,7 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         QuestionId = questionPartitionKey + "-" + questionNumber,
                         TraitCode = dataQuestion.Trait.ToUpper(),
                         PartitionKey = questionPartitionKey,
-                        Texts = new List<QuestionText>
+                        Texts = new []
                     {
                         new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
                     }

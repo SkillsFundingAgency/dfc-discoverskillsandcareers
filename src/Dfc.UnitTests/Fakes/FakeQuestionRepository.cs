@@ -29,7 +29,7 @@ namespace Dfc.UnitTests.Fakes
             var result = new Question()
             {
                 QuestionId = "1",
-                Texts = new List<QuestionText>()
+                Texts = new []
                   {
                        new QuestionText() { LanguageCode = "en", Text = "Unit test question" }
                   },
@@ -44,7 +44,7 @@ namespace Dfc.UnitTests.Fakes
             var result = new Question()
             {
                 QuestionId = "1",
-                Texts = new List<QuestionText>()
+                Texts = new []
                   {
                        new QuestionText() { LanguageCode = "en", Text = "Unit test question" }
                   },
@@ -54,7 +54,7 @@ namespace Dfc.UnitTests.Fakes
             return Task.FromResult<Question>(result);
         }
 
-        public Task<List<Question>> GetQuestions(string assessmentType, string title, int version)
+        public Task<Question[]> GetQuestions(string assessmentType, string title, int version)
         {
             throw new System.NotImplementedException();
         }

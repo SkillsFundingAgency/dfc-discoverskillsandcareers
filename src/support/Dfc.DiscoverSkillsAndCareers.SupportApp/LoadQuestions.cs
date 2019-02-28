@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                             QuestionId = questionId,
                             TraitCode = question.Trait.ToUpper(),
                             PartitionKey = questionPartitionKey,
-                            Texts = new List<QuestionText> {  
+                            Texts = new [] {  
                                 new QuestionText { LanguageCode = "EN", Text = question.Statement }
                             }
                         }).GetAwaiter().GetResult();

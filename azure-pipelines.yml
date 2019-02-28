@@ -41,7 +41,7 @@ jobs:
     displayName: 'dotnet publish web app'
     inputs:
      command: publish
-     publishWebProjects: false
+     publishWebProjects: true
      projects: 'src\Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj'
      arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)\webapp'
      zipAfterPublish: true

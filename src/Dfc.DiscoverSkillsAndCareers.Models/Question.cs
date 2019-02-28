@@ -11,7 +11,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("id")]
         public string QuestionId { get; set; }
         [JsonProperty("texts")]
-        public List<QuestionText> Texts { get; set; } = new List<QuestionText>();
+        public QuestionText[] Texts { get; set; } = {};
         [JsonProperty("traitCode")]
         public string TraitCode { get; set; }
         [JsonProperty("isNegative")]

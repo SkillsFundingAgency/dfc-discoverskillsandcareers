@@ -11,10 +11,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("jobFamilyName")]
         public string JobFamilyName { get; set; }
         [JsonProperty("texts")]
-        public List<JobFamilyText> Texts { get; set; } = new List<JobFamilyText>();
+        public JobFamilyText[] Texts { get; set; } = {};
         [JsonProperty("traitCodes")]
-        public List<string> TraitCodes { get; set; } = new List<string>();
+        public string[] TraitCodes { get; set; } = {};
         [JsonIgnore]
-        public decimal ResultMultiplier {  get { return 1m / TraitCodes.Count; } }
+        public decimal ResultMultiplier {  get { return 1m / TraitCodes.Length; } }
     }
 }

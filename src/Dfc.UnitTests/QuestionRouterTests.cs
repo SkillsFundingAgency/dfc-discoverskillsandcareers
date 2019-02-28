@@ -28,7 +28,7 @@ namespace Dfc.UnitTests
             {
                 MaxQuestions = 5,
                 CurrentQuestion = 5,
-                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { QuestionNumber = "1" },
                     new Answer() { QuestionNumber = "2" },
@@ -51,7 +51,7 @@ namespace Dfc.UnitTests
             {
                 MaxQuestions = 5,
                 CurrentQuestion = 5,
-                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { QuestionNumber = "1" },
                     new Answer() { QuestionNumber = "2" },
@@ -73,9 +73,7 @@ namespace Dfc.UnitTests
                 MaxQuestions = 5,
                 CurrentQuestion = 5,
                 IsComplete = false,
-                RecordedAnswers = new System.Collections.Generic.List<Answer>()
-                {
-                },
+                RecordedAnswers = {},
             };
 
             int actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
@@ -90,7 +88,7 @@ namespace Dfc.UnitTests
             {
                 MaxQuestions = 5,
                 CurrentQuestion = 5,
-                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { QuestionNumber = "1" },
                     new Answer() { QuestionNumber = "2" },
@@ -111,7 +109,7 @@ namespace Dfc.UnitTests
                 MaxQuestions = 5,
                 CurrentQuestion = 5,
                 IsComplete = false,
-                RecordedAnswers = new System.Collections.Generic.List<Answer>()
+                RecordedAnswers = new []
                 {
                     new Answer() { QuestionNumber = "1" },
                     new Answer() { QuestionNumber = "2" },

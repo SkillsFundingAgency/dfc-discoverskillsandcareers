@@ -31,6 +31,7 @@
         }
     },
     "variables": {
+        "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
@@ -108,6 +109,26 @@
         },
         {
             "apiVersion": "2017-05-10",
+            "name": "[variables('AppServiceAppInsightsName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('AppServiceAppInsightsName')]"
+                    },
+                    "attachedService": {
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
             "name": "[variables('AppInsightsNames')[copyIndex()]]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -155,6 +176,10 @@
                     },
                     "appServiceAppSettings": {
                         "value": [
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(variables('AppServiceAppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
                             {
                                 "name": "AppSettings__ContentApiRoot",
                                 "value": "[concat(parameters('ApimRoot'), 'content/api')]"

@@ -95,7 +95,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
             await userSessionRepository.UpdateUserSession(userSession);
 
-            int percentComplete = Convert.ToInt32(((userSession.RecordedAnswers.Count) / Convert.ToDecimal(userSession.MaxQuestions)) * 100);
+            int percentComplete = Convert.ToInt32(((userSession.RecordedAnswers.Length) / Convert.ToDecimal(userSession.MaxQuestions)) * 100);
             var nextQuestionResponse = new NextQuestionResponse()
             {
                 IsComplete = userSession.IsComplete,
@@ -108,7 +108,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 PercentComplete = percentComplete,
                 ReloadCode = userSession.UserSessionId,
                 MaxQuestionsCount = userSession.MaxQuestions,
-                RecordedAnswersCount = userSession.RecordedAnswers.Count,
+                RecordedAnswersCount = userSession.RecordedAnswers.Length,
                 StartedDt = userSession.StartedDt
             };
 
