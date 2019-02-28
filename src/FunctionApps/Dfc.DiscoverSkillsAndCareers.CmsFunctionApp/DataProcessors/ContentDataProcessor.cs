@@ -67,9 +67,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             // Create new if required, otherwise update the content type
             if (existingContent == null)
             {
-                existingContent = new Content();
+                existingContent = new Content { ContentType = contentType.ToLower(), Id = contentType.ToLower() };
             }
             existingContent.ContentData = JsonConvert.SerializeObject(cmsContent);
+            existingContent.LastUpdated = cmsContent.LastUpdated;
             await ContentRepository.CreateContent(existingContent);
 
             Logger.LogInformation("End poll for Content");
