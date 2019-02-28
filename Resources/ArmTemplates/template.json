@@ -189,7 +189,7 @@
                             {
                                 "name": "ASPNETCORE_ENVIRONMENT",
                                 "value": "[parameters('AspNetCoreEnvironment')]"
-                            }
+                            },
                             {
                                 "name": "AppSettings__ContentApiRoot",
                                 "value": "[concat(parameters('ApimRoot'), 'content/api')]"
