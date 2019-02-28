@@ -61,7 +61,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
 
             ConfigureOptions(services);
         }
-
+        
         private void ConfigureOptions(IServiceCollection services)
         {
             services.AddOptions();

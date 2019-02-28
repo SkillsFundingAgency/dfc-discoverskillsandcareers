@@ -1,85 +1,117 @@
 resources:
-- repo: self
-queue:
-  name: Hosted VS2017
-  demands: 
-  - npm
-  - node.js
+ repositories:
+ - repository: self
 
-steps:
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
-  inputs:
-    artifactName: webappDir
+jobs:
+- job: BuildArtefacts
+  displayName: 'Build Artefacts'
+  pool: 
+   name: Continuous Integration 02 - SSD - 160ACU
+   demands: 
+   - npm
+   - node.js
 
-    targetPath: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+  steps:
+#  Possibley redundant, taking a long time to run
+#  - task: PublishBuildArtifacts@1
+#    displayName: 'Publish Artifact: webappDir'
+#    inputs:
+#     pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+#     artifactName: webappDir
+#     publishLocation: container
 
+  - task: DotNetCoreInstaller@0
+    displayName: 'Use .NET Core sdk 2.2.102'
+    inputs:
+     version: 2.2.102
 
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.2.102'
-  inputs:
-    version: 2.2.102
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+     workingDir: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+     verbose: false
 
+  - task: Gulp@0
+    displayName: 'gulp prod'
+    inputs:
+     gulpFile: src/Dfc.DiscoverSkillsAndCareers.WebApp/Gulpfile.js
+     targets: prod
 
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    workingDir: src/Dfc.DiscoverSkillsAndCareers.WebApp/
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish web app'
+    inputs:
+     command: publish
+     publishWebProjects: false
+     projects: 'src\Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj'
+     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)\webapp'
+     zipAfterPublish: true
+     modifyOutputPath: false
 
-    verbose: false
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: webapp'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/webapp
+     artifactName: webapp
+     publishLocation: container
 
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish function apps'
+    inputs:
+     command: publish
+     publishWebProjects: false
+     projects: 'src/FunctionApps/**/*.csproj'
+     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/functionapps'
+     zipAfterPublish: true
+     modifyOutputPath: true
 
-- task: Gulp@0
-  displayName: 'gulp prod'
-  inputs:
-    gulpFile: src/Dfc.DiscoverSkillsAndCareers.WebApp/Gulpfile.js
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: functionapps'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/functionapps
+     artifactName: functionapps
+     publishLocation: container
 
-    targets: prod
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish support app'
+    inputs:
+     command: publish
+     publishWebProjects: false
+     projects: 'src/support/**/*.csproj'
+     arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/supportapp'
+     zipAfterPublish: false
+     modifyOutputPath: true
 
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: supportapp'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/supportapp
+     artifactName: supportapp
+     publishLocation: container
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
-  inputs:
-    command: publish
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Azure'
+    inputs:
+     sourceFolder: 'Resources'
+     contents: '**'
+     targetFolder: '$(build.artifactstagingdirectory)/Azure'
 
-    publishWebProjects: false
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: azuretemplates'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/Azure
+     artifactName: azuretemplates
+     publishLocation: container
 
-    projects: 'src\Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj'
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Data'
+    inputs:
+     sourceFolder: 'data'
+     contents: '**'
+     targetFolder: '$(build.artifactstagingdirectory)/Data'
 
-    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)\webapp'
-
-    zipAfterPublish: false
-
-    modifyOutputPath: false
-
-
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
-  inputs:
-    artifactName: webapp
-
-    targetPath: '$(Build.ArtifactStagingDirectory)\webapp'
-
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
-  inputs:
-    command: publish
-
-    publishWebProjects: false
-
-    projects: 'src/FunctionApps/**/*.csproj'
-
-    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/functionapps'
-
-    zipAfterPublish: false
-
-    modifyOutputPath: true
-
-
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Pipeline Artifact'
-  inputs:
-    artifactName: functionapps
-
-    targetPath: '$(Build.ArtifactStagingDirectory)\functionapps'
-
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: data'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/Data
+     artifactName: data
+     publishLocation: container

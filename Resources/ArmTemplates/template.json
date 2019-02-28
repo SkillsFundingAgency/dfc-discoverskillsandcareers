@@ -1,0 +1,326 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ApimRoot": {
+          "type": "string",
+          "metadata": {
+              "description": "The APIM proxy address including the protocol and trailing slash. eg https://dev.api.nationalcareersservice.org.uk/"
+          } 
+        },
+        "ApimResourceGroup": {
+            "type": "string"
+        },
+        "ApimServiceName": {
+            "type": "string"
+        },
+        "AspSize": {
+            "type": "string"
+        },
+        "AspTier": {
+            "type": "string"
+        },
+        "AssessmentQuestionSetNames": {
+            "type": "string"
+        },
+        "Environment": {
+            "type": "string"
+        },
+        "FunctionAppNames": {
+            "type": "array"
+        }
+    },
+    "variables": {
+        "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
+        "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
+        "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "BuildingBlocksTestDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/NCSD-288-AddingApimChildResources/ArmTemplates/",
+        "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
+        "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
+        "copy": [
+            {
+                "name": "AppInsightsNames",
+                "count": "[length(parameters('FunctionAppNames'))]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
+            },
+            {
+                "name": "FunctionAppNames",
+                "count": "[length(parameters('FunctionAppNames'))]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
+            }
+        ]
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('ApimServiceName'), '-', parameters('FunctionAppNames')[copyIndex()], '-api')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('ApimResourceGroup')]",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksTestDfcBaseUrl'), 'APIM/apim-api.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "apimProductInstanceName": {
+                        "value": "[reference('skillandcareers-apim-product').outputs.ApimProductInstanceName.value]"
+                    },
+                    "apimServiceName": {
+                        "value": "[parameters('ApimServiceName')]"
+                    },
+                    "apiName": {
+                        "value": "[parameters('FunctionAppNames')[copyIndex()]]"
+                    }
+                }
+            },
+            "copy": {
+                "name": "ApiCopy",
+                "count": "[length(parameters('FunctionAppNames'))]"
+            },
+            "dependsOn": [
+                "skillandcareers-apim-product"
+            ]
+        },
+        {
+            "name": "skillandcareers-apim-product",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('ApimResourceGroup')]",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksTestDfcBaseUrl'), 'APIM/apim-product.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "allowAnonymousAccess": {
+                        "value": true
+                    },
+                    "apimServiceName": {
+                        "value": "[parameters('ApimServiceName')]"
+                    },
+                    "productDisplayName": {
+                        "value": "Discover My Skills and Careers"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('AppInsightsNames')[copyIndex()]]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('AppInsightsNames')[copyIndex()]]"
+                    },
+                    "attachedService": {
+                        "value": ""
+                    }
+                }
+            },
+            "copy": {
+                "name": "AppInsightsCopy",
+                "count": "[length(variables('AppInsightsNames'))]"
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('AppServiceName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('AppServiceName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "app"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "AppSettings__ContentApiRoot",
+                                "value": "[concat(parameters('ApimRoot'), 'content/api')]"
+                            },
+                            {
+                                "name": "AppSettings__ResultsApiRoot",
+                                "value": "[concat(parameters('ApimRoot'), 'results/api')]"
+                            },
+                            {
+                                "name": "AppSettings__SessionApiRoot",
+                                "value": "[concat(parameters('ApimRoot'), 'assessments/api')]"
+                            },
+                            {
+                                "name": "AppSettings__AssessmentQuestionSetNames",
+                                "value": "[parameters('AssessmentQuestionSetNames')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "AppInsightsCopy",
+                "[variables('AppServicePlanName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('AppServicePlanName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service-plan.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "aspSize": {
+                        "value": "[parameters('AspSize')]"
+                    },
+                    "aspInstances": {
+                        "value": 1
+                    },
+                    "nonASETier": {
+                        "value": "[parameters('AspTier')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('CosmosDbName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'cosmos-db.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "cosmosDbName": {
+                        "value": "[variables('CosmosDbName')]"
+                    },
+                    "cosmosApiType": {
+                        "value": "SQL"
+                    },
+                    "defaultConsistencyLevel": {
+                        "value": "Strong"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('FunctionAppNames')[copyIndex()]]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('FunctionAppNames')[copyIndex()]]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
+                            },
+                            {
+                                "name": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
+                                "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "copy": {
+                "name": "FunctionAppCopy",
+                "count": "[length(variables('FunctionAppNames'))]"
+            },
+            "dependsOn": [
+                "AppInsightsCopy",
+                "[variables('AppServicePlanName')]",
+                "[variables('CosmosDbName')]",
+                "[variables('StorageAccountName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('StorageAccountName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('StorageAccountName')]"
+                    },
+                    "storageKind": {
+                        "value": "StorageV2"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
