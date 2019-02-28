@@ -26,7 +26,6 @@
     })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
     <!-- End Google Tag Manager -->
     <script>
-      (function() {
 
         var patterns = {
           protocol: '^(http(s)?(:\/\/))?(www\.)?',
@@ -40,38 +39,34 @@
           return url.replace(res, '').replace(/\//g, ':').substr(1);
         }
 
-        window.digitalData = new Object();
-        window.digitalData = (function() {
+        var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
+        var _rqpath = window.location.pathname;
+        var _clrpath = _rqpath.split('?');
+        var _fldrelmnt = _clrpath[0].split('/');
+        var _pgurl = window.location.hostname + _clrpath[0];
+        var _referringURL = document.referrer;
+        var _previousPage = urlToString(document.referrer);
+        var _userAgent = navigator.userAgent;
 
-            var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
-            var _rqpath = window.location.pathname;
-            var _clrpath = _rqpath.split('?');
-            var _fldrelmnt = _clrpath[0].split('/');
-            var _pgurl = window.location.hostname + _clrpath[0];
-            var _referringURL = document.referrer;
-            var _previousPage = urlToString(document.referrer);
-            var _userAgent = navigator.userAgent;
-
-            return {
-                page: {
-                    user: {
-                      deviceAgent: _userAgent
-                    },
-                    pageInfo: {
-                        pageID: "{{ pageName }}",
-                        pageName: "{{ pageTitle }}",
-                        pageGroup: "{{ pageGroup }}",
-                        destinationURL: _pgurl,
-                        pageInstanceID: _environment,
-                        referringURL: _referringURL,
-                        previous_page: _previousPage,
-                        environment: _environment,
-                        VersionNumber: "{{ versionNumber }}",
-                    },
-                }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            page: {
+                user: {
+                  deviceAgent: _userAgent
+                },
+                pageInfo: {
+                    pageID: "{{ pageName }}",
+                    pageName: "{{ pageTitle }}",
+                    pageGroup: "{{ pageGroup }}",
+                    destinationURL: _pgurl,
+                    pageInstanceID: _environment,
+                    referringURL: _referringURL,
+                    previous_page: _previousPage,
+                    environment: _environment,
+                    VersionNumber: "{{ versionNumber }}",
+                },
             }
-        })();
-      }).call(this);
+        });
 
       {% block tagging %}{% endblock %}
 
