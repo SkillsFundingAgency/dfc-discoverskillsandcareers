@@ -1,26 +1,25 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
-    public class GetShortQuestionSetData : IGetShortQuestionSetData
+    public class GetContentData<T> : IGetContentData<T> where T : class
     {
         readonly IHttpService HttpService;
 
-        public GetShortQuestionSetData(IHttpService httpService)
+        public GetContentData(IHttpService httpService)
         {
             HttpService = httpService;
         }
 
-        public async Task<List<ShortQuestionSet>> GetData(string siteFinityApiUrlbase)
+        public async Task<T> GetData(string url)
         {
-            string url = $"{siteFinityApiUrlbase}/api/default/shortquestionsets";
             string json = await HttpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortQuestionSet>>>(json);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<T>>(json);
             return data.Value;
         }
     }

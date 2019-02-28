@@ -1,6 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
@@ -14,6 +15,7 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
@@ -43,8 +45,19 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IContentRepository, ContentRepository>();
             services.AddTransient<IHttpService, HttpService>();
             services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
-            services.AddTransient<IShortQuestionSetPoller, ShortQuestionSetDataProcessor>();
+            services.AddTransient<IGetShortTraitData, GetShortTraitData>();
+            services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
+            services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
+            services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
+            services.AddTransient<IContentDataProcessor<ContentStartPage>, ContentDataProcessor<ContentStartPage>>();
+            services.AddTransient<IGetContentData<List<ContentStartPage>>, GetContentData<List<ContentStartPage>>>();
+            services.AddTransient<IContentDataProcessor<ContentQuestionPage>, ContentDataProcessor<ContentQuestionPage>>();
+            services.AddTransient<IGetContentData<List<ContentQuestionPage>>, GetContentData<List<ContentQuestionPage>>>();
+            services.AddTransient<IContentDataProcessor<ContentFinishPage>, ContentDataProcessor<ContentFinishPage>>();
+            services.AddTransient<IGetContentData<List<ContentFinishPage>>, GetContentData<List<ContentFinishPage>>>();
+            services.AddTransient<IContentDataProcessor<ContentShortResultsPage>, ContentDataProcessor<ContentShortResultsPage>>();
+            services.AddTransient<IGetContentData<List<ContentShortResultsPage>>, GetContentData<List<ContentShortResultsPage>>>();
 
             ConfigureOptions(services);
         }
@@ -77,6 +90,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.Configure<AppSettings>(env =>
             {
                 env.SessionSalt = appSettings.SessionSalt;
+                env.SiteFinityApiUrlbase = appSettings.SiteFinityApiUrlbase;
             });
         }
     }

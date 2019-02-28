@@ -2,7 +2,7 @@
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public interface IShortQuestionSetPoller
+    public interface IShortTraitDataProcessor
     {
         Task RunOnce();
     }

@@ -34,6 +34,7 @@
         }
 
         function urlToString (url) {
+          if (!url) return '';
           var pattern = new RegExp(patterns.protocol + patterns.domain, 'gi');
           var res = pattern.exec(url)[0];
           return url.replace(res, '').replace(/\//g, ':').substr(1);

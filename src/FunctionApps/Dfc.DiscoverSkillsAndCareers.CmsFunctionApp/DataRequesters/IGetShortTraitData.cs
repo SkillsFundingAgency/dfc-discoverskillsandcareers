@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
-    public interface IGetShortQuestionSetData
+    public interface IGetShortTraitData
     {
-        Task<List<ShortQuestionSet>> GetData(string siteFinityApiUrlbase);
+        Task<List<ShortTrait>> GetData(string url);
     }
 }

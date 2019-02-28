@@ -11,8 +11,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 {
 public static class ApiDefinition
     {
-        public const string APITitle = "discover-skills-and-careers";
         public const string APIName = "results";
+        public const string APITitle = "discover-skills-and-careers-" + APIName;
         public const string APIDefinitionName = APIName + "-api-definition";
         public const string APIDefRoute = APITitle + "/" + APIDefinitionName;
         public const string APIDescription = "Basic details of a National Careers Service " + APITitle + " " + APIName  + " resource";

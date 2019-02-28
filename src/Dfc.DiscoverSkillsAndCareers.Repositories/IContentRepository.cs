@@ -6,5 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
     public interface IContentRepository
     {
         Task<Content> GetContent(string contentType);
+        Task<Content> CreateContent(Content contentModel);
     }
 }

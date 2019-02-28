@@ -6,6 +6,11 @@ namespace Dfc.UnitTests.Fakes
 {
     public class FakeContentRepository : IContentRepository
     {
+        public Task<Content> CreateContent(Content contentModel)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<Content> GetContent(string contentType)
         {
             var result = new Content()

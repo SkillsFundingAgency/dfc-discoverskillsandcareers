@@ -13,15 +13,15 @@ namespace Dfc.UnitTests.Fakes
             throw new System.NotImplementedException();
         }
 
-        public Task<QuestionSetInfo> GetCurrentQuestionSetVersion()
+        public Task<QuestionSet> GetCurrentQuestionSetVersion()
         {
-            var result = new QuestionSetInfo()
+            var result = new QuestionSet()
             {
                 AssessmentType = "short",
                 MaxQuestions = 4,
                 QuestionSetVersion = "fakeset"
             };
-            return Task.FromResult<QuestionSetInfo>(result);
+            return Task.FromResult<QuestionSet>(result);
         }
 
         public Task<Question> GetQuestion(string questionId)
@@ -59,7 +59,7 @@ namespace Dfc.UnitTests.Fakes
             throw new System.NotImplementedException();
         }
 
-        public Task<QuestionSetInfo> GetQuestionSetInfo(string version)
+        public Task<QuestionSet> GetQuestionSetInfo(string version)
         {
             throw new System.NotImplementedException();
         }
