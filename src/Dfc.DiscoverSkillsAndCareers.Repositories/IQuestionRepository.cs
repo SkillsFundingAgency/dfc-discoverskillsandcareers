@@ -9,7 +9,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
     {
         Task<Question> GetQuestion(string questionId);
         Task<Document> CreateQuestion(Question question);
-        Task<List<Question>> GetQuestions(string assessmentType, string title, int version);
+        Task<Question[]> GetQuestions(string assessmentType, string title, int version);
         Task<Question> GetQuestion(int questionNumber, string questionSetVersion);
     }
 }

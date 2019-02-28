@@ -66,16 +66,16 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<List<Question>> GetQuestions(string assessmentType, string title, int version)
+        public async Task<Question[]> GetQuestions(string assessmentType, string title, int version)
         {
             try
             {
                 var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
                 FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                List<Question> queryQuestionSet = client.CreateDocumentQuery<Question>(uri, feedOptions)
+                var queryQuestionSet = client.CreateDocumentQuery<Question>(uri, feedOptions)
                                        .Where(x => x.PartitionKey == $"{assessmentType.ToLower()}-{title.ToLower()}-{version}")
                                        .AsEnumerable()
-                                       .ToList();
+                                       .ToArray();
                 return queryQuestionSet;
             }
             catch (DocumentClientException ex)

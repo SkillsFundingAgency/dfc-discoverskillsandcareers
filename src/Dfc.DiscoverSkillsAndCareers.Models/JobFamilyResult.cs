@@ -20,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public decimal Total { get; set; }
         [JsonProperty("normalizedTotal")]
         public decimal NormalizedTotal { get; set; }
-        public List<TraitValue> TraitValues { get; set; } = new List<TraitValue>();
+        public TraitValue[] TraitValues { get; set; } = {};
     }
 
     public class TraitValue

@@ -11,6 +11,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("traitName")]
         public string TraitName { get; set; }
         [JsonProperty("texts")]
-        public List<TraitText> Texts { get; set; } = new List<TraitText>();
+        public TraitText[] Texts { get; set; } = {};
     }
 }

@@ -91,7 +91,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             }
 
             var previousAnswers = userSession.RecordedAnswers.Where(x => x.QuestionId == postAnswerRequest.QuestionId).ToList();
-            userSession.RecordedAnswers.RemoveAll(x => x.QuestionId == postAnswerRequest.QuestionId);
+            var newAnswerSet = userSession.RecordedAnswers.Where(x => x.QuestionId != postAnswerRequest.QuestionId).ToList();
             var answer = new Answer()
             {
                 AnsweredDt = DateTime.Now,
@@ -102,7 +102,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 TraitCode = question.TraitCode,
                 IsNegative = question.IsNegative,
             };
-            userSession.RecordedAnswers.Add(answer);
+
+            newAnswerSet.Add(answer);
+
+            userSession.RecordedAnswers = newAnswerSet.ToArray();
+            
 
             ManageIfComplete(userSession);
             if (userSession.IsComplete)
@@ -140,7 +144,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
         public static void ManageIfComplete(UserSession userSession)
         {
-            bool allQuestionsAnswered = userSession.RecordedAnswers.Count == userSession.MaxQuestions;
+            bool allQuestionsAnswered = userSession.RecordedAnswers.Length == userSession.MaxQuestions;
             if (allQuestionsAnswered)
             {
                 // We have complete the session as we have all the answers

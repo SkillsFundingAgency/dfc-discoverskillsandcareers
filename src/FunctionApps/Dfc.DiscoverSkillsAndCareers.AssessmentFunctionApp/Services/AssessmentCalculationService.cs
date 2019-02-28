@@ -21,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             RunShortAssessment(userSession, jobFamilies, answerOptions, traits);
         }
 
-        public static void RunShortAssessment(UserSession userSession, List<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, List<Trait> traits)
+        public static void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits)
         {
             // User traits
             var userTraits = userSession.RecordedAnswers
@@ -51,7 +51,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             userSession.ResultData = resultData;
         }
 
-        public static List<JobFamilyResult> CalculateJobFamilyRelevance(List<JobFamily> jobFamilies, List<TraitResult> userTraits, string languageCode)
+        public static List<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
         { 
             var userJobFamilies = jobFamilies
               .Select(x => new JobFamilyResult()
@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                           TraitCode = v.TraitCode,
                           Total = v.TotalScore,
                           NormalizedTotal = x.ResultMultiplier * v.TotalScore
-                      }).ToList(),
+                      }).ToArray(),
                   NormalizedTotal = x.ResultMultiplier
               })
               .Where(x => x.TraitValues.Any(v => v.Total > 0))
@@ -98,14 +98,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         // TODO: store
         private static List<Trait> Traits = new List<Trait>()
             {
-                new Trait() { TraitCode = "LEADER", TraitName = "Leader", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You like to lead other people and are good at taking control of situations." } } },
-                new Trait() { TraitCode = "DRIVER", TraitName = "Driver", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You enjoy setting targets and are comfortable competing with other people." } } },
-                new Trait() { TraitCode = "DOER", TraitName = "Doer", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You’re a practical person and enjoy working with your hands." } } },
-                new Trait() { TraitCode = "ORGANISER", TraitName = "Organiser", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You like to plan things and are well organised." } } },
-                new Trait() { TraitCode = "HELPER", TraitName = "Helper", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You enjoy helping and listening to other people." } } },
-                new Trait() { TraitCode = "ANALYST", TraitName = "Analyst", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You like dealing with complicated problems or working with numbers." } } },
-                new Trait() { TraitCode = "CREATOR", TraitName = "Creator", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You’re a creative person and enjoy coming up with new ways of doing things." } } },
-                new Trait() { TraitCode = "INFLUENCER", TraitName = "Influencer", Texts = new List<TraitText>() { new TraitText() { LanguageCode = "en", Text = "You are sociable and find it easy to understand people." } } }
+                new Trait() { TraitCode = "LEADER", TraitName = "Leader", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like to lead other people and are good at taking control of situations." } } },
+                new Trait() { TraitCode = "DRIVER", TraitName = "Driver", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You enjoy setting targets and are comfortable competing with other people." } } },
+                new Trait() { TraitCode = "DOER", TraitName = "Doer", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You’re a practical person and enjoy working with your hands." } } },
+                new Trait() { TraitCode = "ORGANISER", TraitName = "Organiser", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like to plan things and are well organised." } } },
+                new Trait() { TraitCode = "HELPER", TraitName = "Helper", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You enjoy helping and listening to other people." } } },
+                new Trait() { TraitCode = "ANALYST", TraitName = "Analyst", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like dealing with complicated problems or working with numbers." } } },
+                new Trait() { TraitCode = "CREATOR", TraitName = "Creator", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You’re a creative person and enjoy coming up with new ways of doing things." } } },
+                new Trait() { TraitCode = "INFLUENCER", TraitName = "Influencer", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You are sociable and find it easy to understand people." } } }
             };
         // TODO: store
         public static List<JobFamily> JobFamilies = new List<JobFamily>()
@@ -114,8 +114,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "MAN",
                     JobFamilyName = "Managerial",
-                    TraitCodes = new List<string>() { "LEADER", "DRIVER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "LEADER", "DRIVER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -129,8 +129,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "BAW",
                     JobFamilyName = "Beauty and wellbeing",
-                    TraitCodes = new List<string>() { "DRIVER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new []{ "DRIVER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -144,8 +144,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "SAR",
                     JobFamilyName = "Science and research",
-                    TraitCodes = new List<string>() { "DRIVER", "ANALYST", "ORGANISER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DRIVER", "ANALYST", "ORGANISER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -159,8 +159,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "MAU",
                     JobFamilyName = "Manufacturing",
-                    TraitCodes = new List<string>() { "DRIVER", "ANALYST", "ORGANISER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DRIVER", "ANALYST", "ORGANISER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -174,8 +174,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "TAE",
                     JobFamilyName = "Teaching and education",
-                    TraitCodes = new List<string>() { "LEADER", "HELPER", "ORGANISER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "LEADER", "HELPER", "ORGANISER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -189,8 +189,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "BAF",
                     JobFamilyName = "Business and finance",
-                    TraitCodes = new List<string>() { "DRIVER", "ORGANISER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DRIVER", "ORGANISER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -204,8 +204,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "LAL",
                     JobFamilyName = "Law and legal",
-                    TraitCodes = new List<string>() { "DRIVER", "ORGANISER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DRIVER", "ORGANISER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -219,8 +219,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "CTD",
                     JobFamilyName = "Computing, technology and digital",
-                    TraitCodes = new List<string>() { "ANALYST", "CREATOR" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ANALYST", "CREATOR" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -234,8 +234,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "SOC",
                     JobFamilyName = "Social care",
-                    TraitCodes = new List<string>() { "HELPER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "HELPER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -249,8 +249,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "HEC",
                     JobFamilyName = "Healthcare",
-                    TraitCodes = new List<string>() { "HELPER", "ANALYST", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "HELPER", "ANALYST", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -264,8 +264,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "ANC",
                     JobFamilyName = "Animal care",
-                    TraitCodes = new List<string>() { "HELPER", "ANALYST", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "HELPER", "ANALYST", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -279,8 +279,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "EUS",
                     JobFamilyName = "Emergency and uniform services",
-                    TraitCodes = new List<string>() { "LEADER", "HELPER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "LEADER", "HELPER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -294,8 +294,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "SAL",
                     JobFamilyName = "Sports and leisure",
-                    TraitCodes = new List<string>() { "DRIVER", "CREATOR" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DRIVER", "CREATOR" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -309,8 +309,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "TAT",
                     JobFamilyName = "Travel and tourism",
-                    TraitCodes = new List<string>() { "HELPER", "ORGANISER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "HELPER", "ORGANISER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -324,8 +324,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "ADM",
                     JobFamilyName = "Administration",
-                    TraitCodes = new List<string>() { "ANALYST", "ORGANISER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ANALYST", "ORGANISER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -339,8 +339,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "GOV",
                     JobFamilyName = "Government services",
-                    TraitCodes = new List<string>() { "ORGANISER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ORGANISER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -354,8 +354,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "HOM",
                     JobFamilyName = "Home services",
-                    TraitCodes = new List<string>() { "ORGANISER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ORGANISER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -369,8 +369,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "ENV",
                     JobFamilyName = "Environment and land",
-                    TraitCodes = new List<string>() { "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -384,8 +384,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "CAT",
                     JobFamilyName = "Construction and trades",
-                    TraitCodes = new List<string>() { "ANALYST", "CREATOR", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ANALYST", "CREATOR", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -399,8 +399,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "CAM",
                     JobFamilyName = "Creative and media",
-                    TraitCodes = new List<string>() { "ANALYST", "CREATOR", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ANALYST", "CREATOR", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -414,8 +414,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "RAS",
                     JobFamilyName = "Retail and sales",
-                    TraitCodes = new List<string>() { "INFLUENCER", "HELPER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "INFLUENCER", "HELPER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -429,8 +429,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "HAF",
                     JobFamilyName = "Hospitality and food",
-                    TraitCodes = new List<string>() { "INFLUENCER", "HELPER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "INFLUENCER", "HELPER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -444,8 +444,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "EAM",
                     JobFamilyName = "Engineering and maintenance",
-                    TraitCodes = new List<string>() { "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -459,8 +459,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "TRA",
                     JobFamilyName = "Transport",
-                    TraitCodes = new List<string>() { "ORGANISER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ORGANISER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
@@ -474,8 +474,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 {
                     JobFamilyCode = "DAS",
                     JobFamilyName = "Delivery and storage",
-                    TraitCodes = new List<string>() { "ORGANISER", "DOER" },
-                    Texts = new List<JobFamilyText>()
+                    TraitCodes = new [] { "ORGANISER", "DOER" },
+                    Texts = new []
                     {
                         new JobFamilyText()
                         {
