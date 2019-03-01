@@ -115,3 +115,17 @@ jobs:
      pathtoPublish: $(build.artifactstagingdirectory)/Data
      artifactName: data
      publishLocation: container
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Tests'
+    inputs:
+     sourceFolder: 'src/web'
+     contents: '**'
+     targetFolder: '$(build.artifactstagingdirectory)/Tests'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: tests'
+    inputs:
+     pathtoPublish: $(build.artifactstagingdirectory)/Tests
+     artifactName: tests
+     publishLocation: container
