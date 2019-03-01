@@ -12,14 +12,6 @@ jobs:
    - node.js
 
   steps:
-#  Possibley redundant, taking a long time to run
-#  - task: PublishBuildArtifacts@1
-#    displayName: 'Publish Artifact: webappDir'
-#    inputs:
-#     pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
-#     artifactName: webappDir
-#     publishLocation: container
-
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.2.102'
     inputs:
@@ -116,16 +108,9 @@ jobs:
      artifactName: data
      publishLocation: container
 
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/Tests'
-    inputs:
-     sourceFolder: 'src/web'
-     contents: '**'
-     targetFolder: '$(build.artifactstagingdirectory)/Tests'
-
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: tests'
     inputs:
-     pathtoPublish: $(build.artifactstagingdirectory)/Tests
+     pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
      artifactName: tests
      publishLocation: container
