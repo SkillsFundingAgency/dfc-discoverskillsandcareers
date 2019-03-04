@@ -126,7 +126,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 Response.Cookies.Append("ncs-session-id", sessionId);
                 return View("Question", model);
             }
-            catch (System.Net.Http.HttpRequestException ex)
+            catch (System.Net.Http.HttpRequestException)
             {
                 return Redirect("/");
             }
