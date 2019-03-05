@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ApimRoot": {
-          "type": "string",
-          "metadata": {
-              "description": "The APIM proxy address including the protocol and trailing slash. eg https://dev.api.nationalcareersservice.org.uk/"
-          } 
+            "type": "string",
+            "metadata": {
+                "description": "The APIM proxy address including the protocol and trailing slash. eg https://dev.api.nationalcareersservice.org.uk/"
+            }
         },
         "ApimResourceGroup": {
             "type": "string"
@@ -30,11 +30,23 @@
         "AssessmentQuestionSetNames": {
             "type": "string"
         },
+        "CustomHostName": {
+            "type": "string"
+        },
         "Environment": {
             "type": "string"
         },
         "FunctionAppNames": {
             "type": "array"
+        },
+        "keyVaultCertificateName": {
+            "type": "string"
+        },
+        "KeyVaultName": {
+            "type": "string"
+        },
+        "KeyVaultResourceGroup": {
+            "type": "string"
         }
     },
     "variables": {
@@ -180,6 +192,12 @@
                     "appServiceType": {
                         "value": "app"
                     },
+                    "customHostName": {
+                        "value": "[parameters('CustomHostName')]"
+                    },
+                    "certificateThumbprint": {
+                        "value": "[if(greater(length(parameters('CustomHostName')),0), reference('skillscareers-certificate').outputs.certificateThumbprint.value, '')]"
+                    },
                     "appServiceAppSettings": {
                         "value": [
                             {
@@ -242,120 +260,150 @@
             }
         },
         {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('CosmosDbName')]",
+            "name": "skillscareers-certificate",
             "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'cosmos-db.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "cosmosDbName": {
-                        "value": "[variables('CosmosDbName')]"
-                    },
-                    "cosmosApiType": {
-                        "value": "SQL"
-                    },
-                    "defaultConsistencyLevel": {
-                        "value": "Strong"
-                    }
-                }
-            }
-        },
-        {
             "apiVersion": "2017-05-10",
-            "name": "[variables('FunctionAppNames')[copyIndex()]]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appServiceName": {
-                        "value": "[variables('FunctionAppNames')[copyIndex()]]"
-                    },
-                    "appServicePlanName": {
-                        "value": "[variables('AppServicePlanName')]"
-                    },
-                    "appServicePlanResourceGroup": {
-                        "value": "[resourceGroup().name]"
-                    },
-                    "appServiceType": {
-                        "value": "functionapp"
-                    },
-                    "appServiceAppSettings": {
-                        "value": [
-                            {
-                                "name": "FUNCTIONS_EXTENSION_VERSION",
-                                "value": "~2"
-                            },
-                            {
-                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
-                                "value": "1"
-                            },
-                            {
-                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
-                            },
-                            {
-                                "name": "AzureWebJobsStorage",
-                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                            },
-                            {
-                                "name": "CosmosSettings__Endpoint",
-                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
-                            },
-                            {
-                                "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
-                            },
-                            {
-                                "name": "CosmosSettings__DatabaseName",
-                                "value": "DiscoverMySkillsAndCareers"
-                            },
-                            {
-                                "name": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
-                                "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
-                            }
-                        ]
-                    }
-                }
-            },
-            "copy": {
-                "name": "FunctionAppCopy",
-                "count": "[length(variables('FunctionAppNames'))]"
-            },
+            "condition": "[greater(length(parameters('CustomHostName')),0)]",
             "dependsOn": [
-                "AppInsightsCopy",
-                "[variables('AppServicePlanName')]",
-                "[variables('CosmosDbName')]",
-                "[variables('StorageAccountName')]"
-            ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('StorageAccountName')]",
-            "type": "Microsoft.Resources/deployments",
+                "[variables('AppServicePlanName')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account.json')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'),'certificate.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "storageAccountName": {
-                        "value": "[variables('StorageAccountName')]"
+                    "keyVaultName": {
+                        "value": "[parameters('KeyVaultName')]"
                     },
-                    "storageKind": {
-                        "value": "StorageV2"
+                    "keyVaultCertificateName": {
+                        "value": "[parameters('keyVaultCertificateName')]"
+                    },
+                    "keyVaultResourceGroup": {
+                        "value": "[parameters('KeyVaultResourceGroup')]"
+                    },
+                    "serverFarmId": {
+                        "value": "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]"
                     }
                 }
             }
-        }
-    ],
-    "outputs": {}
-}
+        },
+        {
+                "apiVersion": "2017-05-10",
+                "name": "[variables('CosmosDbName')]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'cosmos-db.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "cosmosDbName": {
+                            "value": "[variables('CosmosDbName')]"
+                        },
+                        "cosmosApiType": {
+                            "value": "SQL"
+                        },
+                        "defaultConsistencyLevel": {
+                            "value": "Strong"
+                        }
+                    }
+                }
+            },
+            {
+                "apiVersion": "2017-05-10",
+                "name": "[variables('FunctionAppNames')[copyIndex()]]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "appServiceName": {
+                            "value": "[variables('FunctionAppNames')[copyIndex()]]"
+                        },
+                        "appServicePlanName": {
+                            "value": "[variables('AppServicePlanName')]"
+                        },
+                        "appServicePlanResourceGroup": {
+                            "value": "[resourceGroup().name]"
+                        },
+                        "appServiceType": {
+                            "value": "functionapp"
+                        },
+                        "appServiceAppSettings": {
+                            "value": [
+                                {
+                                    "name": "FUNCTIONS_EXTENSION_VERSION",
+                                    "value": "~2"
+                                },
+                                {
+                                    "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                    "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
+                                },
+                                {
+                                    "name": "AzureWebJobsStorage",
+                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "CosmosSettings__Endpoint",
+                                    "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                                },
+                                {
+                                    "name": "CosmosSettings__Key",
+                                    "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                                },
+                                {
+                                    "name": "CosmosSettings__DatabaseName",
+                                    "value": "DiscoverMySkillsAndCareers"
+                                },
+                                {
+                                    "name": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "copy": {
+                    "name": "FunctionAppCopy",
+                    "count": "[length(variables('FunctionAppNames'))]"
+                },
+                "dependsOn": [
+                    "AppInsightsCopy",
+                    "[variables('AppServicePlanName')]",
+                    "[variables('CosmosDbName')]",
+                    "[variables('StorageAccountName')]"
+                ]
+            },
+            {
+                "apiVersion": "2017-05-10",
+                "name": "[variables('StorageAccountName')]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'storage-account.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "storageAccountName": {
+                            "value": "[variables('StorageAccountName')]"
+                        },
+                        "storageKind": {
+                            "value": "StorageV2"
+                        }
+                    }
+                }
+            }
+        ],
+        "outputs": {}
+    }
