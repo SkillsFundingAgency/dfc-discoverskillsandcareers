@@ -110,11 +110,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var model = await ApiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
                 var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? "/finish" : $"/q/{nextQuestionResponse.NextQuestionNumber.ToString()}";
+                int displayPercentComplete = nextQuestionResponse.PercentComplete - (nextQuestionResponse.PercentComplete % 10);
 
                 model.Code = sessionId;
                 model.ErrorMessage = string.Empty;
                 model.FormRoute = nextRoute;
-                model.Percentage = nextQuestionResponse.PercentComplete.ToString();
+                model.Percentage = displayPercentComplete.ToString();
                 model.PercentrageLeft = nextQuestionResponse.PercentComplete == 0 ? "" : nextQuestionResponse.PercentComplete.ToString();
                 model.QuestionId = nextQuestionResponse.QuestionId;
                 model.QuestionNumber = nextQuestionResponse.QuestionNumber;
@@ -124,6 +125,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 Response.Cookies.Append("ncs-session-id", sessionId);
                 return View("Question", model);
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return Redirect("/");
             }
             catch (Exception ex)
             {
