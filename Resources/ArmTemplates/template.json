@@ -89,7 +89,7 @@
                         "value": "[parameters('ApimServiceName')]"
                     },
                     "apiName": {
-                        "value": "[parameters('FunctionAppNames')[copyIndex()]]"
+                        "value": "[concat(parameters('FunctionAppNames')[copyIndex()], '-sval')]"
                     }
                 }
             },
@@ -210,15 +210,15 @@
                             },
                             {
                                 "name": "AppSettings__ContentApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), 'content/api')]"
+                                "value": "[concat(parameters('ApimRoot'), 'content-sval/api')]"
                             },
                             {
                                 "name": "AppSettings__ResultsApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), 'results/api')]"
+                                "value": "[concat(parameters('ApimRoot'), 'results-sval/api')]"
                             },
                             {
                                 "name": "AppSettings__SessionApiRoot",
-                                "value": "[concat(parameters('ApimRoot'), 'assessments/api')]"
+                                "value": "[concat(parameters('ApimRoot'), 'assessments-sval/api')]"
                             },
                             {
                                 "name": "AppSettings__AssessmentQuestionSetNames",
