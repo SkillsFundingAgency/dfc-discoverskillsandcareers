@@ -3,6 +3,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
@@ -15,77 +16,21 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             HttpService = httpService;
         }
 
-        public Task<List<FilteringQuestion>> GetData(string siteFinityApiUrlbase, string questionSetId)
+        public async Task<List<FilteringQuestion>> GetData(string siteFinityApiUrlbase, string questionSetId)
         {
-            if (questionSetId == "AC1")
+            string getQuestionsUrl = $"{siteFinityApiUrlbase}/api/default/filteringquestionsets({questionSetId})/Questions";
+            string json = await HttpService.GetString(getQuestionsUrl);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestion>>>(json);
+            foreach (var question in data.Value)
             {
-                var result = new List<FilteringQuestion>()
-                {
-                   new FilteringQuestion()
-                   {
-                        Id = System.Guid.NewGuid().ToString(),
-                        Order = 1,
-                        Title = "Filtering question 1",
-                        ExcludesJobProfiles = new List<string>()
-                        {
-                            "Beekeeper",
-                            "Farm worker"
-                        }
-                   }
-                };
-                return Task.FromResult(result);
+                string getJobProfileUrl = $"{siteFinityApiUrlbase}/api/default/filteringquestions({question.Id})/ExcludesJobProfiles";
+                json = await HttpService.GetString(getJobProfileUrl);
+                var fakeJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FakeJobProfile>>>(json);
+                question.ExcludesJobProfiles = fakeJobProfiles.Value
+                                                    .Select(x => x.Title)
+                                                    .ToList();
             }
-
-            else if (questionSetId == "SC1")
-            {
-                var result = new List<FilteringQuestion>()
-                {
-                   new FilteringQuestion()
-                   {
-                        Id = System.Guid.NewGuid().ToString(),
-                        Order = 1,
-                        Title = "Social case filtering question 1",
-                        ExcludesJobProfiles = new List<string>()
-                        {
-                            "Nurse",
-                            "Doctor"
-                        }
-                   }
-                };
-                return Task.FromResult(result);
-            }
-
-            else if (questionSetId == "SL1")
-            {
-                var result = new List<FilteringQuestion>()
-                {
-                   new FilteringQuestion()
-                   {
-                        Id = System.Guid.NewGuid().ToString(),
-                        Order = 1,
-                        Title = "Sports and leisure case filtering question 1",
-                        ExcludesJobProfiles = new List<string>()
-                        {
-                            "Nurse",
-                            "Doctor"
-                        }
-                   },
-                   new FilteringQuestion()
-                   {
-                        Id = System.Guid.NewGuid().ToString(),
-                        Order = 2,
-                        Title = "Sports and leisure question 2",
-                        ExcludesJobProfiles = new List<string>()
-                        {
-                            "Nurse",
-                            "Doctor"
-                        }
-                   }
-                };
-                return Task.FromResult(result);
-            }
-
-            return null;
+            return data.Value;
         }
     }
 }

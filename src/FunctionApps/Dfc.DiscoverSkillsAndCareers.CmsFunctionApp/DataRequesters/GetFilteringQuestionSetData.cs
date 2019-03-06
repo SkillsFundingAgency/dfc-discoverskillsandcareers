@@ -1,37 +1,26 @@
-﻿using System;
+﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionSetData : IGetFilteringQuestionSetData
     {
-        public Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase)
+        readonly IHttpService HttpService;
+
+        public GetFilteringQuestionSetData(IHttpService httpService)
         {
-            var questionSets = new List<FilteringQuestionSet>()
-            {
-                new FilteringQuestionSet()
-                {
-                    Id = "AC1",
-                    Title = "Animal Care",
-                    LastUpdated = new System.DateTime(2019, 1, 1)
-                },
-                new FilteringQuestionSet()
-                {
-                    Id = "SC1",
-                    Title = "Social Care",
-                    LastUpdated = new System.DateTime(2019, 1, 1)
-                },
-                new FilteringQuestionSet()
-                {
-                    Id = "SL1",
-                    Title = "Sports and leisure",
-                    LastUpdated = new System.DateTime(2019, 1, 1)
-                }
-            };
-            return Task.FromResult(questionSets);
+            HttpService = httpService;
+        }
+
+        public async Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase)
+        {
+            string url = $"{siteFinityApiUrlbase}/api/default/filteringquestionsets";
+            string json = await HttpService.GetString(url);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json);
+            return data.Value;
         }
     }
 }

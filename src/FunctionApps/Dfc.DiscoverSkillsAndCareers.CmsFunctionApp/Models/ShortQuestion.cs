@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Description { get; set; }
         public string Trait { get; set; }
         [JsonProperty("Order")]
-        public int Order { get; set; }
+        public int? Order { get; set; }
         public bool IsNegative { get; set; }
     }
 }

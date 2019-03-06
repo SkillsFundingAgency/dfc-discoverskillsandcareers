@@ -21,21 +21,23 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
-            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor
+            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
+            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
             await filteredQuestionSetDataProcessor.RunOnce();
-            return;
 
-            await startPageContentDataProcessor.RunOnce("startpages", "startpage");
+            await indexPageContentDataProcessor.RunOnce("contentindexpages", "indexpage");
 
-            await questionPageContentDataProcessor.RunOnce("questionpages", "questionpage");
+            await startPageContentDataProcessor.RunOnce("contentstartpages", "startpage");
 
-            await finishPageContentDataProcessor.RunOnce("finishpages", "finishpage");
+            await questionPageContentDataProcessor.RunOnce("contentquestionpages", "questionpage");
 
-            await shortResultPageContentDataProcessor.RunOnce("shortresultspages", "shortresultpage");
+            await finishPageContentDataProcessor.RunOnce("contentfinishpages", "finishpage");
+
+            await shortResultPageContentDataProcessor.RunOnce("contentshortresultspages", "shortresultpage");
 
             await shortTraitDataProcessor.RunOnce();
 
