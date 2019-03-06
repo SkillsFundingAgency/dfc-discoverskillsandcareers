@@ -63,7 +63,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
     it('Save progress page', () => {
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then((browser) => {
             return browser.newPage().then((page) => {
-                // TODO: change url to dev env once known
                 return page.goto(`${appUrl}/q/1?assessmentType=short`)
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-link--no-visited-state')]))
                     .then(([response]) => lighthouse(response.url(), opts, null))
@@ -78,7 +77,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
     it('Finish page', () => {
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then((browser) => {
             return browser.newPage().then((page) => {
-                // TODO: change url to dev env once known
                 return page.goto(`${appUrl}/q/1?assessmentType=short`)
                     .then(() => page.click(`#${answerDict['Agree']}`))
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))
@@ -211,7 +209,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
     it('Results page', () => {
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then((browser) => {
             return browser.newPage().then((page) => {
-                // TODO: change url to dev env once known
                 return page.goto(`${appUrl}/q/1?assessmentType=short`)
                     .then(() => page.click(`#${answerDict['Agree']}`))
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))

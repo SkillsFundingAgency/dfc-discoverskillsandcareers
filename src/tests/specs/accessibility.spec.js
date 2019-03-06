@@ -15,7 +15,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     this.timeout(120000);
 
     it('Home page', () => {
-        // TODO: change url to dev env once known
         return pa11y(appUrl, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -26,7 +25,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     });
 
     it('Start page', () => {
-        // TODO: change url to dev env once known
         return pa11y(`${appUrl}/start`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -37,7 +35,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     });
 
     it('Statement page', () => {
-        // TODO: change url to dev env once known
         return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -48,7 +45,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     });
 
     it('Save Progress page', () => {
-        // TODO: change url to dev env once known
         return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -63,7 +59,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     });
 
     it('Finish page', () => {
-        // TODO: change url to dev env once known
         return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
@@ -236,7 +231,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     });
 
     it('Results page', () => {
-        // TODO: change url to dev env once known
         return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
