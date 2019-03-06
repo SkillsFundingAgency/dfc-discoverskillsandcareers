@@ -1,18 +1,21 @@
-const {BrowserStackKey, BrowserStackUser} = require('./config');
+const BrowserStackUser = process.env.BrowserStackUser || require('./config').accessKeys.BrowserStackUser;
+const BrowserStackKey = process.env.BrowserStackKey || require('./config').accessKeys.BrowserStackKey;
+const buildNum = process.env.BUILD_BUILDNUMBER? process.env.BUILD_BUILDNUMBER : 'local';
 
 exports.config = {
-    'specs': [ '../specs/browser.spec.js' ],
-    'browserstackUser': process.env.BrowserStackUser || BrowserStackUser,
-    'browserstackKey': process.env.BrowserStackKey|| BrowserStackKey,
+    'specs': [ '../browser.spec.js' ],
+    'browserstackUser': BrowserStackUser,
+    'browserstackKey': BrowserStackKey,
     
     'commonCapabilities': {
-      'build': 'private_beta',
-      'name': 'ncs_parallel_test',
+      'build': buildNum,
+      'project': 'Understand MySelf - National Careers Service',
       'browserstack.debug': 'true'
     },
   
     'multiCapabilities': [
     {
+        'name': 'Edge E2E Tests',
         'os': 'Windows',
         'os_version': '10',
         'browserName': 'Edge',
@@ -20,6 +23,7 @@ exports.config = {
         'resolution': '1024x768'
     },
     {
+        'name': 'Chrome Win10 E2E Tests',
         'os': 'Windows',
         'os_version': '10',
         'browserName': 'Chrome',
@@ -27,6 +31,7 @@ exports.config = {
         'resolution': '1024x768'
     },
     {
+        'name': 'Firefox Win10 E2E Tests',
         'os': 'Windows',
         'os_version': '10',
         'browserName': 'Firefox',
@@ -34,6 +39,7 @@ exports.config = {
         'resolution': '1024x768'
     },
     {
+        'name': 'Safari MacOS E2E Tests',
         'os': 'OS X',
         'os_version': 'Mojave',
         'browserName': 'Safari',
@@ -41,6 +47,7 @@ exports.config = {
         'resolution': '1024x768'
     },
     {
+        'name': 'Chrome MacOS E2E Tests',
         'os': 'OS X',
         'os_version': 'Mojave',
         'browserName': 'Chrome',
@@ -48,6 +55,7 @@ exports.config = {
         'resolution': '1024x768'
     },
     {
+        'name': 'Firefox MAcOS E2E Tests',
         'os': 'OS X',
         'os_version': 'Mojave',
         'browserName': 'Firefox',
@@ -55,12 +63,14 @@ exports.config = {
         'resolution': '1024x768'
     },
     {
+        'name': 'Safari iOS E2E Tests',
         'browserName' : 'iPhone',
         'device': 'iPhone XS',
         'realMobile': 'true',
         'os_version': '12.1'
     },
     {
+        'name': 'Chrome Android E2E Tests',
         'browserName' : 'android',
         'device': 'Samsung Galaxy S9',
         'realMobile': 'true',

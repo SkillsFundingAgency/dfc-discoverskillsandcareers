@@ -1,0 +1,21 @@
+{
+  "name": "understand-myself-tests",
+  "version": "1.0.0",
+  "description": "Accessibility, front end performance tests and cross browser testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha specs/*.spec.js",
+    "slackResults": "node slackResults.js"
+  },
+  "author": "Gohar Iqbal IW",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "chai": "^4.2.0",
+    "lighthouse": "^4.1.0",
+    "mocha": "^6.0.2",
+    "pa11y": "^5.1.0",
+    "protractor": "^5.4.2",
+    "puppeteer": "^1.12.2"
+  }
+}
