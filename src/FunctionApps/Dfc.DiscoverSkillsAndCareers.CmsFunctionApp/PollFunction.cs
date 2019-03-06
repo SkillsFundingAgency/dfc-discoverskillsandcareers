@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
     public static class PollFunction
     {
         [FunctionName("PollFunction")]
-        public static  async Task Run([TimerTrigger("*/10 * * * *")]TimerInfo myTimer,
+        public static  async Task Run([TimerTrigger("*/1 * * * *")]TimerInfo myTimer,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
@@ -20,10 +20,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentStartPage> startPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor
+            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
+            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
+
+            await filteredQuestionSetDataProcessor.RunOnce();
+            return;
 
             await startPageContentDataProcessor.RunOnce("startpages", "startpage");
 
