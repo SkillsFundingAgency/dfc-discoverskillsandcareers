@@ -22,7 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortQuestion>>>(json);
             foreach (var question in data.Value)
             {
-                string getShortTraitUrl = $"{siteFinityApiUrlbase}/api/default/shortquestions({question.Id})/ShortTrait";
+                string getShortTraitUrl = $"{siteFinityApiUrlbase}/api/default/shortquestions({question.Id})/Trait";
                 json = await HttpService.GetString(getShortTraitUrl);
                 var trait = JsonConvert.DeserializeObject<ShortTrait>(json);
                 question.Trait = trait.Name;
