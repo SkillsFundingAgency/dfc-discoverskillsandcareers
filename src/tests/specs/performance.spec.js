@@ -1,8 +1,6 @@
 const {expect} = require('chai');
-const fs = require('fs');
 const puppeteer = require('puppeteer');
 const lighthouse = require('lighthouse');
-const resultsJSON = require('../log/results')
 
 const answerDict = {
     'Strongly agree': 'selected_answer-1',
@@ -10,14 +8,6 @@ const answerDict = {
     'Disagree': 'selected_answer-3',
     'Strongly disagree': 'selected_answer-4',
     "This doesn't apply to me": 'selected_answer-5'
-};
-const performanceScores = {
-    home: {score: 0},
-    start: {score: 0},
-    statement: {score: 0},
-    saveProgress: {score: 0},
-    finish: {score: 0},
-    results: {score: 0}
 };
 
 const appUrl = 'https://discover-skills-careers-dev.nationalcareersservice.org.uk';
@@ -31,11 +21,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
     };
     const performanceThreshold = 0.9;
 
-    after(function() {
-        resultsJSON.release.lighthouse = performanceScores;
-        fs.writeFileSync('./log/results.json', JSON.stringify(resultsJSON));
-    });
-
     it('Home page', () => {
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then(browser => {
             return browser.newPage().then(page => {
@@ -43,7 +28,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
                     .then(() => lighthouse(page.url(), opts, null))
                     .then(results => {
                         browser.close();
-                        performanceScores.home = results.lhr.categories.performance;
                         expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                     });
             });
@@ -57,7 +41,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
                     .then(() => lighthouse(page.url(), opts, null))
                     .then(results => {
                         browser.close();
-                        performanceScores.start = results.lhr.categories.performance;
                         expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                     });
             });
@@ -71,7 +54,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
                     .then(() => lighthouse(page.url(), opts, null))
                     .then(results => {
                         browser.close();
-                        performanceScores.statement = results.lhr.categories.performance;
                         expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                     });
             });
@@ -87,7 +69,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
                     .then(([response]) => lighthouse(response.url(), opts, null))
                     .then(results => {
                         browser.close();
-                        performanceScores.saveProgress = results.lhr.categories.performance;
                         expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                     });
             });
@@ -221,7 +202,6 @@ describe('Lighthouse performance testing for Understand Myself - National Career
                     .then(([response]) => lighthouse(response.url(), opts, null))
                     .then((results) => {
                         browser.close();
-                        performanceScores.finish = results.lhr.categories.performance;
                         expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                     });
             });
@@ -356,8 +336,7 @@ describe('Lighthouse performance testing for Understand Myself - National Career
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))
                     .then(([response]) => lighthouse(response.url(), opts, null))
                     .then((results) => {
-                        browser.close();
-                        performanceScores.results = results.lhr.categories.performance;                                
+                        browser.close();                              
                         expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
                     });
             });

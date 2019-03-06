@@ -1,15 +1,6 @@
 const pa11y = require('pa11y');
 const {expect} = require('chai');
-const fs = require('fs');
-const resultsJSON = require('../log/results')
-const results = {
-    home: {passed: false, issues: []},
-    start: {passed: false, issues: []},
-    statement: {passed: false, issues: []},
-    saveProgress: {passed: false, issues: []},
-    finish: {passed: false, issues: []},
-    results: {passed: false, issues: []}
-};
+
 const answerDict = {
     'Strongly agree': 'selected_answer-1',
     'Agree': 'selected_answer-2',
@@ -23,11 +14,6 @@ const appUrl = 'https://discover-skills-careers-dev.nationalcareersservice.org.u
 describe('Pa11y accessibility testing for Understand Myself - National Careers Service', function () {
     this.timeout(120000);
 
-    after(function() {
-        resultsJSON.release.pa11y = results;
-        fs.writeFileSync('./log/results.json', JSON.stringify(resultsJSON));
-    });
-
     it('Home page', () => {
         // TODO: change url to dev env once known
         return pa11y(appUrl, {
@@ -35,8 +21,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         }).then(({issues}) => {
-            if (issues.length) results.home.issues = issues;
-            else results.home.passed = true; 
             expect(issues).to.eql([]);
         });
     });
@@ -48,8 +32,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         }).then(({issues}) => {
-            if (issues.length) results.start.issues = issues;
-            else results.start.passed = true; 
             expect(issues).to.eql([]);
         });
     });
@@ -61,8 +43,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         }).then(({issues}) => {
-            if (issues.length) results.statement.issues = issues;
-            else results.statement.passed = true; 
             expect(issues).to.eql([]);
         });
     });
@@ -78,8 +58,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for path to be /save-my-progress'
             ]
         }).then(({issues}) => {
-            if (issues.length) results.saveProgress.issues = issues;
-            else results.saveProgress.passed = true; 
             expect(issues).to.eql([]);
         });
     });
@@ -253,8 +231,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for path to be /finish'
             ]
         }).then(({issues}) => {
-            if (issues.length) results.finish.issues = issues;
-            else results.finish.passed = true; 
             expect(issues).to.eql([]);
         })
     });
@@ -430,8 +406,6 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for path to be /results/'
             ]
         }).then(({issues}) => {
-            if (issues.length) results.results.issues = issues;
-            else results.results.passed = true; 
             expect(issues).to.eql([]);
         })
     });
