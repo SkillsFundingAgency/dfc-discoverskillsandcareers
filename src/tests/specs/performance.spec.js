@@ -2,7 +2,6 @@ const {expect} = require('chai');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const lighthouse = require('lighthouse');
-const chrome = require('chrome-launcher');
 const resultsJSON = require('../log/results')
 
 const answerDict = {
@@ -21,9 +20,12 @@ const performanceScores = {
     results: {score: 0}
 };
 
-describe('Lighthouse performance testing for Understand Me web pages', function() {
+const appUrl = 'https://discover-skills-careers-dev.nationalcareersservice.org.uk';
+
+describe('Lighthouse performance testing for Understand Myself - National Careers Service', function() {
     this.timeout(180000);
     const opts = {
+        port: 9222,
         onlyCategories: ['performance'],
         output: 'json'
     };
@@ -35,26 +37,44 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
     });
 
     it('Home page', () => {
-        // TODO: change url to dev env once known
-        return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/', opts, ).then(({categories}) => {
-            performanceScores.home = categories.performance;
-            expect(categories.performance.score).to.be.at.least(performanceThreshold);
+        return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then(browser => {
+            return browser.newPage().then(page => {
+                return page.goto(appUrl)
+                    .then(() => lighthouse(page.url(), opts, null))
+                    .then(results => {
+                        browser.close();
+                        performanceScores.home = results.lhr.categories.performance;
+                        expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
+                    });
+            });
         });
     });
     
     it('Start page', () => {
-        // TODO: change url to dev env once known
-        return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/start', opts, ).then(({categories}) => {
-            performanceScores.start = categories.performance;
-            expect(categories.performance.score).to.be.at.least(performanceThreshold);
+        return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then(browser => {
+            return browser.newPage().then(page => {
+                return page.goto(`${appUrl}/start`)
+                    .then(() => lighthouse(page.url(), opts, null))
+                    .then(results => {
+                        browser.close();
+                        performanceScores.start = results.lhr.categories.performance;
+                        expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
+                    });
+            });
         });
     });
 
     it('Statement page', () => {
-        // TODO: change url to dev env once known
-        return launchChromeAndRunLighthouse('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short', opts, ).then(({categories}) => {
-            performanceScores.statement = categories.performance;
-            expect(categories.performance.score).to.be.at.least(performanceThreshold);
+        return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then(browser => {
+            return browser.newPage().then(page => {
+                return page.goto(`${appUrl}/q/1?assessmentType=short`)
+                    .then(() => lighthouse(page.url(), opts, null))
+                    .then(results => {
+                        browser.close();
+                        performanceScores.statement = results.lhr.categories.performance;
+                        expect(results.lhr.categories.performance.score).to.be.at.least(performanceThreshold);
+                    });
+            });
         });
     });
 
@@ -62,7 +82,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then((browser) => {
             return browser.newPage().then((page) => {
                 // TODO: change url to dev env once known
-                return page.goto('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short')
+                return page.goto(`${appUrl}/q/1?assessmentType=short`)
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-link--no-visited-state')]))
                     .then(([response]) => lighthouse(response.url(), opts, null))
                     .then(results => {
@@ -78,7 +98,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then((browser) => {
             return browser.newPage().then((page) => {
                 // TODO: change url to dev env once known
-                return page.goto('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short')
+                return page.goto(`${appUrl}/q/1?assessmentType=short`)
                     .then(() => page.click(`#${answerDict['Agree']}`))
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))
                     // Select answer for statement 2 and click next
@@ -212,7 +232,7 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
         return puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]}).then((browser) => {
             return browser.newPage().then((page) => {
                 // TODO: change url to dev env once known
-                return page.goto('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short')
+                return page.goto(`${appUrl}/q/1?assessmentType=short`)
                     .then(() => page.click(`#${answerDict['Agree']}`))
                     .then(() => Promise.all([page.waitForNavigation(), page.click('.govuk-button')]))
                     // Select answer for statement 2 and click next
@@ -344,13 +364,3 @@ describe('Lighthouse performance testing for Understand Me web pages', function(
         });
     });
 });
-
-// launches chrome and performs a lighthouse test
-function launchChromeAndRunLighthouse(url, opts, config = null) {
-    return chrome.launch({chromeFlags: opts.chromeFlags}).then(instance => {
-      opts.port = instance.port;
-      return lighthouse(url, opts, config).then(results => {
-        return instance.kill().then(() => results.lhr)
-      });
-    });
-}

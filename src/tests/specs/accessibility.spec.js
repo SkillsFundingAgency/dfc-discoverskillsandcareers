@@ -18,7 +18,9 @@ const answerDict = {
     "This doesn't apply to me": 'selected_answer-5'
 };
 
-describe('Accessibility test Understand Me html pages', function () {
+const appUrl = 'https://discover-skills-careers-dev.nationalcareersservice.org.uk';
+
+describe('Pa11y accessibility testing for Understand Myself - National Careers Service', function () {
     this.timeout(120000);
 
     after(function() {
@@ -28,7 +30,7 @@ describe('Accessibility test Understand Me html pages', function () {
 
     it('Home page', () => {
         // TODO: change url to dev env once known
-        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net`, {
+        return pa11y(appUrl, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
@@ -41,7 +43,7 @@ describe('Accessibility test Understand Me html pages', function () {
 
     it('Start page', () => {
         // TODO: change url to dev env once known
-        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/start`, {
+        return pa11y(`${appUrl}/start`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
@@ -54,7 +56,7 @@ describe('Accessibility test Understand Me html pages', function () {
 
     it('Statement page', () => {
         // TODO: change url to dev env once known
-        return pa11y(`https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short`, {
+        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
@@ -67,7 +69,7 @@ describe('Accessibility test Understand Me html pages', function () {
 
     it('Save Progress page', () => {
         // TODO: change url to dev env once known
-        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short', {
+        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -84,7 +86,7 @@ describe('Accessibility test Understand Me html pages', function () {
 
     it('Finish page', () => {
         // TODO: change url to dev env once known
-        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short', {
+        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -259,7 +261,7 @@ describe('Accessibility test Understand Me html pages', function () {
 
     it('Results page', () => {
         // TODO: change url to dev env once known
-        return pa11y('https://dfc-my-skillscareers-mvc.azurewebsites.net/q/1?assessmentType=short', {
+        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
