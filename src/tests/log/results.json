@@ -1,0 +1,7 @@
+{
+    "release": {
+        "pa11y": {},
+        "lighthouse": {},
+        "browserStack": []
+    }
+}
