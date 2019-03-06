@@ -29,6 +29,7 @@
 * .NET Core 2.1 or higher
 * [Azure Functions Tools](https://www.npmjs.com/package/azure-functions-core-tools)
 * [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
+* NodeJS 10.15.3 or higher
 
 ### Solution Structure
 
@@ -39,7 +40,8 @@
 * **Dfc.DiscoverSkillsAndCareers.ResultFunctionApp** - Results api to fetch results for a statement
 * **Dfc.DiscoverSkillsAndCareers.Models** - Any data models.
 * **Dfc.DiscoverSkillsAndCareers.Repositories** - Any data access code that is required 
-* **Dfc.DiscoverSkillsAndCareers.WebApp** - MCV app. 
+* **Dfc.DiscoverSkillsAndCareers.WebApp** - MCV app
+* **tests** - Front end tests.
 
 ### Running the application
 
@@ -92,34 +94,34 @@ JavaScript is written in ES6 and is compiled using Babel in order to support old
 
 JavaScript is linted using the [Standard](https://standardjs.com) linter, as documented in the [GOV.UK coding standards and guidelines](https://github.com/alphagov/styleguides/blob/master/js.md#linting)
 
+#### Linting 
+
+Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/govuk-lint/blob/master/configs/scss_lint/gds-sass-styleguide.yml) project and [converted from the “SCSS Lint” style to “Sass Lint”](http://sasstools.github.io/make-sass-lint-config/) to work with the [`sass-lint`](https://www.npmjs.com/package/sass-lint) module.
+
 ### Running the test suite
 
 #### Front-end
 
-    cd src/web
-    gulp test
-
-#### Linting 
-
-Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/govuk-lint/blob/master/configs/scss_lint/gds-sass-styleguide.yml) project and [converted from the “SCSS Lint” style to “Sass Lint”](http://sasstools.github.io/make-sass-lint-config/) to work with the [`sass-lint`](https://www.npmjs.com/package/sass-lint) module. 
+    cd src/tests
+    npm test 
 
 #### Cross-browser Testing
 
-Cross-browser testing is carried out using [BrowserStack](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through happy/negative paths and is part of gulp test task. To run manually navigate to `src/web` and run
+Cross-browser testing is carried out using [BrowserStack](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through positive/negative paths. To run manually navigate to `src/tests` and run
 
-    gulp browserStack 
+    protractor conf/conf.js 
 
 #### Accessibility Testing
 
-Accessibility testing is carried out using [Pa11y](https://github.com/pa11y/pa11y). WCAG2AA is used as testing standard and is part of gulp test task. To run manually navigate to `src/web` and run
+Accessibility testing is carried out using [Pa11y](https://github.com/pa11y/pa11y) with WCAG2AA used as testing standard. To run manually navigate to `src/tests` and run
 
-    gulp pa11y
+    mocha specs/accessibility.spec.js
 
 #### Performance Testing
 
-Performance testing is carried out using [Lighthouse](https://github.com/GoogleChrome/lighthouse#readme) and is part of gulp test task. To run manually navigate to `src/web` and run
+Performance testing is carried out using [Lighthouse](https://github.com/GoogleChrome/lighthouse#readme). To run manually navigate to `src/tests` and run
 
-    gulp lighthousePerformanceTest
+    mocha specs/performance.spec.js
 
 ## Deployment Structure 
 
