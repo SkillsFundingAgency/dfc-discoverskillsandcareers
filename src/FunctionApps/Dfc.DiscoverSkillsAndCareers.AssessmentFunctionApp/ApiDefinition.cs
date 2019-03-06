@@ -21,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = APIDefRoute)]HttpRequest req,
             [Inject]ISwaggerDocumentGenerator swaggerDocumentGenerator)
         {
-           var swagger = swaggerDocumentGenerator.GenerateSwaggerDocument(req, APITitle, APIDescription, APIDefinitionName, Assembly.GetExecutingAssembly());
+           var swagger = swaggerDocumentGenerator.GenerateSwaggerDocument(req, APITitle + "-sval", APIDescription, APIDefinitionName, Assembly.GetExecutingAssembly());
 
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
