@@ -11,5 +11,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         Task<NextQuestionResponse> NextQuestion(string sessionId, Guid correlationId);
         Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest, Guid correlationId);
         Task<ResultsResponse> Results(string sessionId, Guid correlationId);
+        Task<NewSessionResponse> StartFilteredForJobCategory(Guid correlationId, string sessionId, string jobCategory);
+        Task<ResultsJobCategoryResult> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId);
     }
 }

@@ -12,6 +12,7 @@
         public string Percentage { get; set; }
         public string PercentrageLeft { get; set; }
         public string Code { get; set; }
+        public bool IsFilterAssessment { get; set; }
         public string Title { get; set; } = "National Careers Service - Statement";
         public string SaveProgressLinkText { get; set; } = "Save my progress";
         public string StronglyDisagree { get; set; } = "Strongly disagree";
@@ -21,6 +22,7 @@
         public string Agree { get; set; } = "Agree";
         public string NextButtonText { get; set; } = "Next";
         public string Disagree { get; set; } = "Disagree";
-
+        public string Yes { get; set; } = "Yes";
+        public string No { get; set; } = "No";
     }
 }

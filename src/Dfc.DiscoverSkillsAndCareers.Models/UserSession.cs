@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
@@ -34,5 +35,52 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public DateTime? CompleteDt { get; set; }
         [JsonProperty("assessmentType")]
         public string AssessmentType { get; set; }
+        [JsonProperty("currentFilterAssessmentCode")]
+        public string CurrentFilterAssessmentCode { get; set; }
+
+        // TODO: extentions
+        [JsonIgnore]
+        public bool IsFilterAssessment => !string.IsNullOrEmpty(CurrentFilterAssessmentCode);
+        [JsonIgnore]
+        public int CurrentMaxQuestions
+        {
+            get
+            {
+                if (IsFilterAssessment)
+                {
+                    return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment.MaxQuestions;
+                }
+                return MaxQuestions;
+            }
+        }
+        [JsonIgnore]
+        public string CurrentQuestionSetVersion
+        {
+            get
+            {
+                if (!IsFilterAssessment)
+                {
+                    return QuestionSetVersion;
+                }
+                return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment.QuestionSetVersion;
+            }
+        }
+        [JsonIgnore]
+        public IEnumerable<Answer> CurrentRecordedAnswers
+        {
+            get
+            {
+                return RecordedAnswers.Where(x => x.QuestionSetVersion == CurrentQuestionSetVersion);
+            }
+        }
+        [JsonIgnore]
+        public FilterAssessment CurrentFilterAssessment
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CurrentFilterAssessmentCode)) return null;
+                return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment;
+            }
+        }
     }
 }

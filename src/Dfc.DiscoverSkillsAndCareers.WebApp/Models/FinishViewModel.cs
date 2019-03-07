@@ -3,6 +3,8 @@
     public class FinishViewModel
     {
         public string SessionId { get; set; }
+        public string JobCategorySafeUrl { get; set; }
+        public bool IsFilterAssessment { get; set; }
         public string Title { get; set; } = "National Careers Service - Finished";
         public string Content { get; set; } = "On the next page you will see your results, which are based on the statements you have just responded to.";
         public string ContentTitle { get; set; } = "What to do next";

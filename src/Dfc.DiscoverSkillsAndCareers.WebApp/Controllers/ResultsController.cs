@@ -60,5 +60,73 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 LoggerHelper.LogMethodExit(Log);
             }
         }
+
+        [Route("filtered/{jobCategory}")]
+        public async Task<IActionResult> StartFilteredForJobCategory(string jobCategory)
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var resultsResponse = await ApiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
+                Response.Cookies.Append("ncs-session-id", sessionId);
+                var redirectResponse = new RedirectResult($"/qf/{1}"); //TODO: start from 1 or last if previous?
+                return redirectResponse;
+
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
+
+        [Route("{jobCategory}")]
+        public async Task<IActionResult> ResultsFilteredForJobCategory(string jobCategory)
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var resultsForJobCategoryResponse = await ApiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
+
+                var contentName = $"filteredresultpage";
+                var model = await ApiServices.GetContentModel<ResultsForJobCategoryViewModel>(contentName, correlationId);
+                model.SessionId = sessionId;
+                model.JobProfiles = resultsForJobCategoryResponse.JobProfiles;
+                return View("ResultsForJobCategory", model);
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return Redirect("/results");
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
     }
 }

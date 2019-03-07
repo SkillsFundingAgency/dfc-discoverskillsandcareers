@@ -90,8 +90,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 return httpResponseMessageHelper.NoContent();
             }
 
-            var previousAnswers = userSession.RecordedAnswers.Where(x => x.QuestionId == postAnswerRequest.QuestionId).ToList();
-            var newAnswerSet = userSession.RecordedAnswers.Where(x => x.QuestionId != postAnswerRequest.QuestionId).ToList();
             var answer = new Answer()
             {
                 AnsweredDt = DateTime.Now,
@@ -101,63 +99,98 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 QuestionText = question.Texts.FirstOrDefault(x=> x.LanguageCode.ToLower() == "en")?.Text,
                 TraitCode = question.TraitCode,
                 IsNegative = question.IsNegative,
+                QuestionSetVersion = userSession.CurrentQuestionSetVersion
             };
-
+            if (userSession.IsFilterAssessment)
+            {
+                // Update the answer count on the filter assessment 
+                userSession.CurrentFilterAssessment.RecordedAnswerCount = userSession.CurrentRecordedAnswers.Count();
+            }
+            // Add the answer to the session answers
+            var newAnswerSet = userSession.RecordedAnswers.Where(x => x.QuestionId != postAnswerRequest.QuestionId).ToList();
             newAnswerSet.Add(answer);
-
             userSession.RecordedAnswers = newAnswerSet.ToArray();
-            
 
             ManageIfComplete(userSession);
             if (userSession.IsComplete)
             {
                 // Calculate the result
-                switch (userSession.AssessmentType)
+                if (!userSession.IsFilterAssessment)
                 {
-                    case "short":
-                        {
-                            await resultsService.CalculateShortAssessment(userSession);
-                            break;
-                        }
-                    default:
-                        {
-                            throw new NotImplementedException(); 
-                        }
+                    switch (userSession.AssessmentType)
+                    {
+                        case "short":
+                            {
+                                await resultsService.CalculateAssessment(userSession);
+                                break;
+                            }
+                        default:
+                            {
+                                throw new NotImplementedException();
+                            }
+                    }
+                }
+                else
+                {
+                    var filterResultsService = new FilterAssessmentCalculationService(questionRepository);
+                    await filterResultsService.CalculateAssessment(userSession);
                 }
             }
             else
             {
                 userSession.CurrentQuestion = GetNextQuestionToAnswerNumber(userSession);
             }
-            await userSessionRepository.UpdateUserSession(userSession);
 
             var result = new PostAnswerResponse()
             {
                 IsSuccess = true,
-                IsComplete = userSession.IsComplete
+                IsComplete = userSession.IsComplete,
+                IsFilterAssessment = userSession.IsFilterAssessment,
+                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe
             };
+
+
+            if (userSession.IsComplete)
+            {
+                // If we are complete ensure we are no longer in a filtered assessment
+                //userSession.CurrentFilterAssessmentCode = null;
+            }
+            // Update the session
+            await userSessionRepository.UpdateUserSession(userSession);
 
             loggerHelper.LogMethodExit(log);
 
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
         }
 
+        /// <summary>
+        /// Updates the IsComplete property on the UserSession based off the current answers and max questions.
+        /// </summary>
         public static void ManageIfComplete(UserSession userSession)
         {
-            bool allQuestionsAnswered = userSession.RecordedAnswers.Length == userSession.MaxQuestions;
+            bool allQuestionsAnswered = userSession.CurrentRecordedAnswers.Count() == userSession.CurrentMaxQuestions;
             if (allQuestionsAnswered)
             {
-                // We have complete the session as we have all the answers
                 userSession.IsComplete = true;
-                userSession.CompleteDt = DateTime.Now;
+                if (!userSession.IsFilterAssessment)
+                {
+                    userSession.CompleteDt = DateTime.Now;
+                }
+            }
+            else
+            {
+                userSession.IsComplete = false;
             }
         }
 
+        /// <summary>
+        /// Gets the next question number that should be answered.
+        /// </summary>
         public static int GetNextQuestionToAnswerNumber(UserSession userSession)
         {
-            for (int i = 1; i <= userSession.MaxQuestions; i++)
+            for (int i = 1; i <= userSession.CurrentMaxQuestions; i++)
             {
-                if (!userSession.RecordedAnswers.Any(x => x.QuestionNumber == i.ToString()))
+                if (!userSession.CurrentRecordedAnswers.Any(x => x.QuestionNumber == i.ToString()))
                 {
                     return i;
                 }

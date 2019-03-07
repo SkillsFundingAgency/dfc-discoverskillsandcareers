@@ -5,6 +5,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public interface IAssessmentCalculationService
     {
-        Task CalculateShortAssessment(UserSession userSession);
+        Task CalculateAssessment(UserSession userSession);
     }
 }

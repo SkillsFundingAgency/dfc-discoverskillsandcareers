@@ -30,6 +30,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpPost]
+        [Route("qf/{questionNumber:int}")]
+        public async Task<IActionResult> AnswerFilteringQuestion(int questionNumber) => await AnswerQuestion(questionNumber);
+
+        [HttpPost]
         [Route("q/{questionNumber:int}")]
         public async Task<IActionResult> AnswerQuestion(int questionNumber)
         {
@@ -58,6 +62,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 LoggerHelper.LogMethodExit(Log);
             }
         }
+
+        [HttpGet]
+        [Route("qf/{questionNumber:int}")]
+        public async Task<IActionResult> AtQuestionNumber(int questionNumber) => await AtQuestionNumber(questionNumber, null);
 
         [HttpGet]
         [Route("q/{questionNumber:int}")]
@@ -109,7 +117,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Question not found for session {sessionId}");
                 }
                 var model = await ApiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
-                var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? "/finish" : $"/q/{nextQuestionResponse.NextQuestionNumber.ToString()}";
+                var questionRoute = nextQuestionResponse.IsFilterAssessment ? "qf" : "q";
+                var finishRoute = nextQuestionResponse.IsFilterAssessment ? $"finish/{nextQuestionResponse.JobCategorySafeUrl}" : "finish";
+                var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? $"/{finishRoute}"
+                    : $"/{questionRoute}/{nextQuestionResponse.NextQuestionNumber.ToString()}";
                 int displayPercentComplete = nextQuestionResponse.PercentComplete - (nextQuestionResponse.PercentComplete % 10);
 
                 model.Code = sessionId;
@@ -122,9 +133,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.SessionId = sessionId;
                 model.TraitCode = nextQuestionResponse.TraitCode;
                 model.QuestionText = nextQuestionResponse.QuestionText;
+                model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
 
                 Response.Cookies.Append("ncs-session-id", sessionId);
-                return View("Question", model);
+                var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
+                return View(viewName, model);
             }
             catch (System.Net.Http.HttpRequestException)
             {

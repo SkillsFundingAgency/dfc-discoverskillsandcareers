@@ -87,6 +87,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return View("Index", model);
                 }
                 Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId);
+                if (nextQuestionResponse.IsFilterAssessment)
+                {
+                    // Filter assessment is in progress
+                    var redirectResponse = new RedirectResult($"/qf/{nextQuestionResponse.NextQuestionNumber}");
+                    return redirectResponse;
+                }
                 if (nextQuestionResponse.IsComplete)
                 {
                     // Session has complete, redirect to results

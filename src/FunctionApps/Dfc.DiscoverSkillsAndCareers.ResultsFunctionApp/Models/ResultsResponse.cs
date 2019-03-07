@@ -1,7 +1,4 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
 {

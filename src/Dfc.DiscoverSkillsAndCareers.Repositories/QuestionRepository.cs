@@ -72,11 +72,36 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
                 FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                var queryQuestionSet = client.CreateDocumentQuery<Question>(uri, feedOptions)
+                var queryQuestions = client.CreateDocumentQuery<Question>(uri, feedOptions)
                                        .Where(x => x.PartitionKey == $"{assessmentType.ToLower()}-{title.ToLower()}-{version}")
                                        .AsEnumerable()
                                        .ToArray();
-                return queryQuestionSet;
+                return queryQuestions;
+            }
+            catch (DocumentClientException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        public async Task<Question[]> GetQuestions(string questionSetVersion)
+        {
+            try
+            {
+                var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
+                FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+                var queryQuestions = client.CreateDocumentQuery<Question>(uri, feedOptions)
+                                       .Where(x => x.PartitionKey == questionSetVersion)
+                                       .AsEnumerable()
+                                       .ToArray();
+                return queryQuestions;
             }
             catch (DocumentClientException ex)
             {

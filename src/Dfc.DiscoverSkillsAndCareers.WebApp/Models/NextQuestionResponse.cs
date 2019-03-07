@@ -16,5 +16,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public DateTime StartedDt { get; set; }
         public int RecordedAnswersCount { get; set; }
         public int MaxQuestionsCount { get; set; }
+        public string CurrentFilterAssessmentCode { get; set; }
+        public bool IsFilterAssessment { get; set; }
+        public string JobCategorySafeUrl { get; set; }
     }
 }
