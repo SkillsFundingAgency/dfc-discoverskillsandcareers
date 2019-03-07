@@ -27,46 +27,47 @@
     <!-- End Google Tag Manager -->
     <script>
 
-        var patterns = {
-          protocol: '^(http(s)?(:\/\/))?(www\.)?',
-          domain: '[a-zA-Z0-9-_\.]+'
+      var patterns = {
+        protocol: '^(http(s)?(:\/\/))?(www\.)?',
+        domain: '[a-zA-Z0-9-_\.]+'
+      }
+
+      function urlToString (url) {
+        if (!url) return '';
+        var pattern = new RegExp(patterns.protocol + patterns.domain, 'gi');
+        var res = pattern.exec(url)[0];
+        return url.replace(res, '').replace(/\//g, ':').substr(1);
+      }
+
+      var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
+      var _rqpath = window.location.pathname;
+      var _clrpath = _rqpath.split('?');
+      var _fldrelmnt = _clrpath[0].split('/');
+      var _pgurl = window.location.hostname + _clrpath[0];
+      var _referringURL = document.referrer;
+      var _previousPage = urlToString(document.referrer);
+      var _userAgent = navigator.userAgent;
+
+      dataLayer = [{
+        page: {
+          user: {
+            deviceAgent: _userAgent
+          },
+          pageInfo: {
+            pageID: "{{ pageName }}",
+            pageName: "{{ pageTitle }}",
+            pageGroup: "{{ pageGroup }}",
+            destinationURL: _pgurl,
+            pageInstanceID: _environment,
+            referringURL: _referringURL,
+            previous_page: _previousPage,
+            environment: _environment,
+            VersionNumber: "{{ versionNumber }}",
+          },
         }
+      }];
 
-        function urlToString (url) {
-          if (!url) return '';
-          var pattern = new RegExp(patterns.protocol + patterns.domain, 'gi');
-          var res = pattern.exec(url)[0];
-          return url.replace(res, '').replace(/\//g, ':').substr(1);
-        }
-
-        var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
-        var _rqpath = window.location.pathname;
-        var _clrpath = _rqpath.split('?');
-        var _fldrelmnt = _clrpath[0].split('/');
-        var _pgurl = window.location.hostname + _clrpath[0];
-        var _referringURL = document.referrer;
-        var _previousPage = urlToString(document.referrer);
-        var _userAgent = navigator.userAgent;
-
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            page: {
-                user: {
-                  deviceAgent: _userAgent
-                },
-                pageInfo: {
-                    pageID: "{{ pageName }}",
-                    pageName: "{{ pageTitle }}",
-                    pageGroup: "{{ pageGroup }}",
-                    destinationURL: _pgurl,
-                    pageInstanceID: _environment,
-                    referringURL: _referringURL,
-                    previous_page: _previousPage,
-                    environment: _environment,
-                    VersionNumber: "{{ versionNumber }}",
-                },
-            }
-        });
+      window.dataLayer = window.dataLayer || [];
 
       {% block tagging %}{% endblock %}
 

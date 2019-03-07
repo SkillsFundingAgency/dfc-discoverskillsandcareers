@@ -307,7 +307,7 @@ var analytics = (function () {
       type: values[1],
       action_label: text
     }
-    console.log(obj)
+    window.dataLayer.push(obj)
   }
 
   return {
