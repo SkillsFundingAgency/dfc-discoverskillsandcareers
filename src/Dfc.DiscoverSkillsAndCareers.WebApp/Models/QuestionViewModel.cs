@@ -18,7 +18,7 @@
         public string StronglyDisagree { get; set; } = "Strongly disagree";
         public string StronglyAgree { get; set; } = "Strongly agree";
         public string SaveProgressTitle { get; set; } = "Return to this later";
-        public string Neutral { get; set; } = "This doesn't apply to me";
+        public string Neutral { get; set; } = "It depends";
         public string Agree { get; set; } = "Agree";
         public string NextButtonText { get; set; } = "Next";
         public string Disagree { get; set; } = "Disagree";

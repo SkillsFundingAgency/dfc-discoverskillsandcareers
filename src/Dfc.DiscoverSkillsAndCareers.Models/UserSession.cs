@@ -38,7 +38,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("currentFilterAssessmentCode")]
         public string CurrentFilterAssessmentCode { get; set; }
 
-        // TODO: extentions
+        // Extention getters
         [JsonIgnore]
         public bool IsFilterAssessment => !string.IsNullOrEmpty(CurrentFilterAssessmentCode);
         [JsonIgnore]

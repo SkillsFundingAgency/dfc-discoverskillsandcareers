@@ -16,10 +16,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("order")]
         public int Order { get; set; }
         [JsonProperty("excludesJobProfiles")]
-        public List<string> ExcludesJobProfiles { get; set; } = new List<string>();
+        public string[] ExcludesJobProfiles { get; set; } = { };
         [JsonProperty("excludeAnswerTrigger")]
         public string ExcludeAnswerTrigger { get; set; } = "No";
         [JsonProperty("answerOptions")]
-        public List<string> AnswerOptions { get; set; } = new List<string> { "Yes", "No" };
+        public string[] AnswerOptions { get; set; } = new [] { "Yes", "No" };
     }
 }

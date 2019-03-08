@@ -16,7 +16,7 @@ namespace Dfc.UnitTests
                     JobFamily = "ANC",
                     Texts = new [] { new QuestionText() { Text = "", LanguageCode = "en" } },
                     Order = 1,
-                    ExcludesJobProfiles = new List<string>()
+                    ExcludesJobProfiles = new []
                     {
                         "Beekeeper",
                         "Farm worker",
@@ -29,7 +29,7 @@ namespace Dfc.UnitTests
                     JobFamily = "ANC",
                     Texts = new [] { new QuestionText() { Text = "", LanguageCode = "en" } },
                     Order = 2,
-                    ExcludesJobProfiles = new List<string>()
+                    ExcludesJobProfiles = new []
                     {
                         "Farmer",
                         "Gamekeeper",

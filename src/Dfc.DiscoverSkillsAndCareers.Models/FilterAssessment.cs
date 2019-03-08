@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("maxQuestions")]
         public int MaxQuestions { get; set; }
         [JsonProperty("suggestedJobProfiles")]
-        public string[] SuggestedJobProfiles { get; set; }
+        public string[] SuggestedJobProfiles { get; set; } = { };
 
         [JsonIgnore]
         public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");

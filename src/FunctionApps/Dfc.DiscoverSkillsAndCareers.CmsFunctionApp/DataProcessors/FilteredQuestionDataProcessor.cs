@@ -111,7 +111,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         {
                             new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
                         },
-                        ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles
+                        ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray()
                     };
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;

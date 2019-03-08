@@ -19,6 +19,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("order")]
         public int Order { get; set; }
         [JsonProperty("excludesJobProfiles")]
-        public List<string> ExcludesJobProfiles { get; set; } = new List<string>();
+        public string[] ExcludesJobProfiles { get; set; } = {};
     }
 }
