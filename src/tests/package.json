@@ -4,7 +4,7 @@
   "description": "Accessibility, front end performance tests and cross browser testing",
   "main": "index.js",
   "scripts": {
-    "test": "mocha specs/*.spec.js"
+    "test": "mocha specs/*.spec.js && protractor conf/conf.js"
   },
   "author": "Gohar Iqbal IW",
   "license": "ISC",
