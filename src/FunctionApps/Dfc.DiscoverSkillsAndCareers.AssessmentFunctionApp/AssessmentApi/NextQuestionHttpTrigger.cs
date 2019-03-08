@@ -102,7 +102,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             {
                 CurrentFilterAssessmentCode = userSession.CurrentFilterAssessmentCode,
                 IsComplete = userSession.IsComplete,
-                NextQuestionNumber = userSession.CurrentQuestion, //GetNextQuestionNumber(userSession.CurrentQuestion, userSession.MaxQuestions),
+                NextQuestionNumber = GetNextQuestionNumber(userSession.CurrentQuestion, userSession.MaxQuestions),
                 QuestionId = question.QuestionId,
                 QuestionText = question.Texts.Where(x => x.LanguageCode.ToLower() == "en").FirstOrDefault()?.Text,
                 TraitCode = question.TraitCode,
@@ -122,7 +122,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(nextQuestionResponse));
         }
 
-        // TODO: obsolete?
         public static int? GetNextQuestionNumber(int questionNumber, int maxQuestions)
         {
             if (questionNumber + 1 > maxQuestions)

@@ -38,11 +38,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public async Task<IActionResult> AnswerQuestion(int questionNumber)
         {
             var correlationId = Guid.NewGuid();
+            string sessionId = null;
             try
             {
                 LoggerHelper.LogMethodEnter(Log);
 
-                var sessionId = await TryGetSessionId(Request);
+                sessionId = await TryGetSessionId(Request);
 
                 PostAnswerRequest postAnswerRequest = new PostAnswerRequest()
                 {
@@ -50,7 +51,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     SelectedOption = GetFormValue("selected_answer")
                 };
                 PostAnswerResponse postAnswerResponse = await ApiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
-                return await NextQuestion(sessionId);
+                return await NextQuestion(sessionId, postAnswerResponse == null);
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return await NextQuestion(sessionId, true);
             }
             catch (Exception ex)
             {
@@ -89,7 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                     sessionId = newSessionResponse.SessionId;
                 }
-                return await NextQuestion(sessionId);
+                return await NextQuestion(sessionId, false);
             }
             catch (Exception ex)
             {
@@ -103,7 +108,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [NonAction]
-        public async Task<IActionResult> NextQuestion(string sessionId)
+        public async Task<IActionResult> NextQuestion(string sessionId, bool invalidAnswer)
         {
             var correlationId = Guid.NewGuid();
             try
@@ -117,15 +122,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Question not found for session {sessionId}");
                 }
                 var model = await ApiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
-                var questionRoute = nextQuestionResponse.IsFilterAssessment ? "qf" : "q";
-                var finishRoute = nextQuestionResponse.IsFilterAssessment ? $"finish/{nextQuestionResponse.JobCategorySafeUrl}" : "finish";
-                var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? $"/{finishRoute}"
-                    : $"/{questionRoute}/{nextQuestionResponse.NextQuestionNumber.ToString()}";
+                var formRoute = GetAnswerFormPostRoute(nextQuestionResponse, invalidAnswer);
                 int displayPercentComplete = nextQuestionResponse.PercentComplete - (nextQuestionResponse.PercentComplete % 10);
 
                 model.Code = sessionId;
-                model.ErrorMessage = string.Empty;
-                model.FormRoute = nextRoute;
+                model.ErrorMessage = !invalidAnswer ? string.Empty : model.NoAnswerErrorMessage;
+                model.FormRoute = formRoute;
                 model.Percentage = displayPercentComplete.ToString();
                 model.PercentrageLeft = nextQuestionResponse.PercentComplete == 0 ? "" : nextQuestionResponse.PercentComplete.ToString();
                 model.QuestionId = nextQuestionResponse.QuestionId;
@@ -152,6 +154,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodExit(Log);
             }
+        }
+
+        private string GetAnswerFormPostRoute(NextQuestionResponse nextQuestionResponse, bool invalidAnswer)
+        {
+            var questionRoute = nextQuestionResponse.IsFilterAssessment ? "qf" : "q";
+            var finishRoute = nextQuestionResponse.IsFilterAssessment ? $"finish/{nextQuestionResponse.JobCategorySafeUrl}" : "finish";
+            var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? $"/{finishRoute}"
+                : $"/{questionRoute}/{nextQuestionResponse.NextQuestionNumber.ToString()}";
+            return nextRoute;
         }
     }
 }

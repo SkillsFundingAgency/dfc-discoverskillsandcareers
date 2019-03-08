@@ -24,5 +24,6 @@
         public string Disagree { get; set; } = "Disagree";
         public string Yes { get; set; } = "Yes";
         public string No { get; set; } = "No";
+        public string NoAnswerErrorMessage { get; set; } = "Please select an option below to continue";
     }
 }

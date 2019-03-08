@@ -79,6 +79,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodEnter(Log);
 
+                if (string.IsNullOrEmpty(reloadRequest?.Code))
+                {
+                    var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
+                    model.HasReloadError = true;
+                    return View("Index", model);
+                }
+
                 var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code ?? "", correlationId);
                 if (nextQuestionResponse == null)
                 {

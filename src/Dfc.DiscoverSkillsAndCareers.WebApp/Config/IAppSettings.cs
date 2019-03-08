@@ -6,5 +6,6 @@
         string SessionApiRoot { get; set; }
         string ResultsApiRoot { get; set; }
         string AssessmentQuestionSetNames { get; set; }
+        bool UseFilteringQuestions { get; set; }
     }
 }

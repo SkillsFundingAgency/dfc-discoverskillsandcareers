@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{961E2D86-AB2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj", "{6BDB6339-B035-4A83-8B29-F0F93DA90CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfc.IntegrationTests", "Dfc.IntegrationTests\Dfc.IntegrationTests.csproj", "{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.IntegrationTests", "Dfc.IntegrationTests\Dfc.IntegrationTests.csproj", "{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

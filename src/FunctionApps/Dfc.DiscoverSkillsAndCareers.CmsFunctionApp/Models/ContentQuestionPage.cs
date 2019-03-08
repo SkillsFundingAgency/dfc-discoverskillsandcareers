@@ -14,6 +14,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Agree { get; set; } = "Agree";
         public string NextButtonText { get; set; } = "Next";
         public string Disagree { get; set; } = "Disagree";
+        public string NoAnswerErrorMessage { get; set; } = "Please select an option below to continue";
         [JsonProperty("LastModified")]
         public DateTime LastUpdated { get; set; }
     }
