@@ -14,38 +14,38 @@ const appUrl = 'https://discover-skills-careers-dev.nationalcareersservice.org.u
 describe('Pa11y accessibility testing for Understand Myself - National Careers Service', function () {
     this.timeout(120000);
 
-    it('Home page', () => {
-        return pa11y(appUrl, {
+    it('Home page', async () => {
+        const {issues} = await pa11y(appUrl, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
-        }).then(({issues}) => {
-            expect(issues).to.eql([]);
         });
+
+        expect(issues).to.eql([]);
     });
 
-    it('Start page', () => {
-        return pa11y(`${appUrl}/start`, {
+    it('Start page', async () => {
+        const {issues} = await pa11y(`${appUrl}/start`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
-        }).then(({issues}) => {
-            expect(issues).to.eql([]);
         });
+
+        expect(issues).to.eql([]);
     });
 
-    it('Statement page', () => {
-        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
+    it('Statement page', async () => {
+        const {issues} = await pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
-        }).then(({issues}) => {
-            expect(issues).to.eql([]);
         });
+
+        expect(issues).to.eql([]);
     });
 
-    it('Save Progress page', () => {
-        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
+    it('Save Progress page', async () => {
+        const {issues} = await pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -53,13 +53,13 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'click element .govuk-link--no-visited-state',
                 'wait for path to be /save-my-progress'
             ]
-        }).then(({issues}) => {
-            expect(issues).to.eql([]);
         });
+
+        expect(issues).to.eql([]);
     });
 
-    it('Finish page', () => {
-        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
+    it('Finish page', async () => {
+        const {issues} = await pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -225,13 +225,13 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'click element .govuk-button',
                 'wait for path to be /finish'
             ]
-        }).then(({issues}) => {
-            expect(issues).to.eql([]);
-        })
+        });
+
+        expect(issues).to.eql([]);
     });
 
-    it('Results page', () => {
-        return pa11y(`${appUrl}/q/1?assessmentType=short`, {
+    it('Results page', async () => {
+        const {issues} = await pa11y(`${appUrl}/q/1?assessmentType=short`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
@@ -399,8 +399,8 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'click element .govuk-button',
                 'wait for path to be /results/'
             ]
-        }).then(({issues}) => {
-            expect(issues).to.eql([]);
-        })
+        });
+
+        expect(issues).to.eql([]);
     });
 });
