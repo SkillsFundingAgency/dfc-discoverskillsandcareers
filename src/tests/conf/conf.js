@@ -1,6 +1,6 @@
-const BrowserStackUser = process.env.BrowserStackUser || require('./config').accessKeys.BrowserStackUser;
-const BrowserStackKey = process.env.BrowserStackKey || require('./config').accessKeys.BrowserStackKey;
-const buildNum = process.env.BUILD_BUILDNUMBER? process.env.BUILD_BUILDNUMBER : 'local';
+const BrowserStackUser = process.env.BROWSER_STACK_USER || require('./config').Browser_Stack_User;
+const BrowserStackKey = process.env.BROWSER_STACK_KEY || require('./config').Browser_Stack_Key;
+const buildNum = process.env.BUILD_BUILDNUMBER? process.env.BUILD_BUILDNUMBER : `local-${Date.now()}`;
 
 exports.config = {
     'specs': [ '../browser.spec.js' ],
@@ -38,14 +38,14 @@ exports.config = {
         'browser_version': '64.0',
         'resolution': '1024x768'
     },
-    {
-        'name': 'Safari MacOS E2E Tests',
-        'os': 'OS X',
-        'os_version': 'Mojave',
-        'browserName': 'Safari',
-        'browser_version': '12.0',
-        'resolution': '1024x768'
-    },
+    // {
+    //     'name': 'Safari MacOS E2E Tests',
+    //     'os': 'OS X',
+    //     'os_version': 'Mojave',
+    //     'browserName': 'Safari',
+    //     'browser_version': '12.0',
+    //     'resolution': '1024x768'
+    // },
     {
         'name': 'Chrome MacOS E2E Tests',
         'os': 'OS X',
