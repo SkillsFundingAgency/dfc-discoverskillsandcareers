@@ -72,6 +72,38 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [Route("qf/{questionNumber:int}")]
         public async Task<IActionResult> AtQuestionNumber(int questionNumber) => await AtQuestionNumber(questionNumber, null);
 
+        [HttpGet("assessment/{assessmentType}")]
+        public async Task<IActionResult> NewAssessment(string assessmentType)
+        {
+              var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+                
+                var queryDictionary = System.Web.HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
+                var title = queryDictionary.Get(assessmentType);
+                var newSessionResponse = await ApiServices.NewSession(correlationId, assessmentType, title);
+                if (newSessionResponse == null)
+                {
+                    throw new Exception($"Failed to create session for assessment type {assessmentType} using question set {title}");
+                }
+                var sessionId = newSessionResponse.SessionId;
+                Response.Cookies.Append("ncs-session-id", sessionId);
+                var redirectResponse = new RedirectResult($"/q/1");
+                return redirectResponse;
+
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
+
         [HttpGet]
         [Route("q/{questionNumber:int}")]
         public async Task<IActionResult> AtQuestionNumber(int questionNumber, string assessmentType)
@@ -82,17 +114,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 LoggerHelper.LogMethodEnter(Log);
                 
                 var sessionId = await TryGetSessionId(Request);
-
-                if (questionNumber == 1 && string.IsNullOrEmpty(assessmentType) == false)
+                if (string.IsNullOrEmpty(sessionId))
                 {
-                    var queryDictionary = System.Web.HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
-                    var title = queryDictionary.Get(assessmentType);
-                    var newSessionResponse = await ApiServices.NewSession(correlationId, assessmentType, title);
-                    if (newSessionResponse == null)
-                    {
-                        throw new Exception($"Failed to create session for assessment type {assessmentType} using question set {title}");
-                    }
-                    sessionId = newSessionResponse.SessionId;
+                    return Redirect("/");
                 }
                 return await NextQuestion(sessionId, false);
             }
