@@ -1,5 +1,4 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
+﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
@@ -24,13 +23,13 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
     public static class ResultsForJobCategoryHttpTrigger
     {
         [FunctionName("ResultsForJobCategoryHttpTrigger")]
-        [ProducesResponseType(typeof(ResultData), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResultsJobCategoryResult), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Gets the results for the user session and specified job category if the filtering questions have been completed", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.BadRequest, Description = "The filtering results have not yet been generated for the job category on the user session", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "The user session could not be found", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
-        [Display(Name = "Get", Description = "Gets the results for the user session.")]
+        [Display(Name = "GetResultsForJobCategory", Description = "Gets the results for the user session and specified job category provided.")]
 
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}/{jobCategory}")]HttpRequest req,
