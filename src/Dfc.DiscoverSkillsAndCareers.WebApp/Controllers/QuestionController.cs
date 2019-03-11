@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -44,6 +45,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 LoggerHelper.LogMethodEnter(Log);
 
                 sessionId = await TryGetSessionId(Request);
+
+                if (sessionId != HttpUtility.UrlEncode(sessionId))
+                {
+                    return BadRequest();
+                }
 
                 PostAnswerRequest postAnswerRequest = new PostAnswerRequest()
                 {
@@ -88,7 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Failed to create session for assessment type {assessmentType} using question set {title}");
                 }
                 var sessionId = newSessionResponse.SessionId;
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 var redirectResponse = new RedirectResult($"/q/1");
                 return redirectResponse;
 
@@ -161,7 +167,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.QuestionText = nextQuestionResponse.QuestionText;
                 model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
 
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);
             }

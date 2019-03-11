@@ -53,7 +53,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var contentName = postAnswerResponse.IsFilterAssessment ? "finishjobcategorypage" : "finishpage";
                 var model = await ApiServices.GetContentModel<FinishViewModel>("finishpage", correlationId);
                 model.JobCategorySafeUrl = postAnswerResponse.JobCategorySafeUrl;
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View(viewName, model);
             }
             catch (Exception ex)

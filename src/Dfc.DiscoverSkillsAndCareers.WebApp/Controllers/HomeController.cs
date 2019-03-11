@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -37,7 +38,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 }
                 return View("Index", model);
             }
@@ -80,6 +81,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 LoggerHelper.LogMethodEnter(Log);
 
                 if (string.IsNullOrEmpty(reloadRequest?.Code))
+                {
+                    var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
+                    model.HasReloadError = true;
+                    return View("Index", model);
+                }
+
+                if (reloadRequest.Code != HttpUtility.UrlEncode(reloadRequest.Code))
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
                     model.HasReloadError = true;
