@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class ShortQuestion
+    public class FilteringQuestion
     {
         [JsonProperty("Id")]
         public string Id { get; set; }
@@ -10,9 +11,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Title { get; set; }
         [JsonProperty("Description")]
         public string Description { get; set; }
-        public string Trait { get; set; }
         [JsonProperty("Order")]
         public int? Order { get; set; }
-        public bool IsNegative { get; set; }
+        [JsonProperty("ExcludesJobProfiles")]
+        public List<string> ExcludesJobProfiles { get; set; }
     }
 }

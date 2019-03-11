@@ -8,5 +8,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public bool IsSuccess { get; set; }
         [JsonProperty("isComplete")]
         public bool IsComplete { get; set; }
+        public string JobCategorySafeUrl { get; set; }
+        public bool IsFilterAssessment { get; set; }
     }
 }

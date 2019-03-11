@@ -1,4 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿
+using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             ApiServices = apiServices;
         }
 
+        [Route("{jobCategory}")]
+        public async Task<IActionResult> FinishWithJobCategory(string jobCategory) => await Index();
+
         public async Task<IActionResult> Index()
         {
             var correlationId = Guid.NewGuid();
@@ -45,9 +49,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 };
                 PostAnswerResponse postAnswerResponse = await ApiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
 
+                var viewName = postAnswerResponse.IsFilterAssessment ? "FinishFilteredAssessment" : "Finish";
+                var contentName = postAnswerResponse.IsFilterAssessment ? "finishjobcategorypage" : "finishpage";
                 var model = await ApiServices.GetContentModel<FinishViewModel>("finishpage", correlationId);
+                model.JobCategorySafeUrl = postAnswerResponse.JobCategorySafeUrl;
                 Response.Cookies.Append("ncs-session-id", sessionId);
-                return View("Finish", model);
+                return View(viewName, model);
             }
             catch (Exception ex)
             {

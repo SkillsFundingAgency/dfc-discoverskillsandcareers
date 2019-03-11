@@ -18,5 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public bool IsNegative { get; set; }
         [JsonProperty("order")]
         public int Order { get; set; }
+        [JsonProperty("excludesJobProfiles")]
+        public string[] ExcludesJobProfiles { get; set; } = {};
     }
 }

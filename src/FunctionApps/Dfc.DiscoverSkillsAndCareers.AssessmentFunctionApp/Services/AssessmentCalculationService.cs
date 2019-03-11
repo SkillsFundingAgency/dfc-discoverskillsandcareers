@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
         }
 
-        public async Task CalculateShortAssessment(UserSession userSession)
+        public async Task CalculateAssessment(UserSession userSession)
         {
             var jobFamilies = JobFamilies; // TODO: from repo
             var answerOptions = AnswerOptions; // TODO: from repo

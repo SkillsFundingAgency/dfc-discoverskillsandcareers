@@ -66,5 +66,19 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             var json = await HttpService.GetString(url);
             return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }
+
+        public async Task<NewSessionResponse> StartFilteredForJobCategory(Guid correlationId, string sessionId, string jobCategory)
+        {
+            string url = $"{AppSettings.SessionApiRoot}/assessment/filtered/{sessionId}/{jobCategory}";
+            var json = await HttpService.PostData(url, "");
+            return JsonConvert.DeserializeObject<NewSessionResponse>(json);
+        }
+
+        public async Task<ResultsJobCategoryResult> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId)
+        {
+            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/{jobCategory}";
+            var json = await HttpService.GetString(url);
+            return JsonConvert.DeserializeObject<ResultsJobCategoryResult>(json);
+        }
     }
 }

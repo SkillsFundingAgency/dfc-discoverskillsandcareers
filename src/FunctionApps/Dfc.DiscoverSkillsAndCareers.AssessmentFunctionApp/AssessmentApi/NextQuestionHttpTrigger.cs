@@ -61,7 +61,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 return httpResponseMessageHelper.BadRequest();
             }
 
-            if (string.IsNullOrEmpty(sessionId))
+            if (string.IsNullOrEmpty(appSettings?.Value.SessionSalt))
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, "Session salt not missing from configuration");
                 return httpResponseMessageHelper.BadRequest();
@@ -86,7 +86,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 return httpResponseMessageHelper.NoContent();
             }
 
-            var question = await questionRepository.GetQuestion(userSession.CurrentQuestion, userSession.QuestionSetVersion);
+            var questionSetVersion = userSession.CurrentQuestionSetVersion;
+            var question = await questionRepository.GetQuestion(userSession.CurrentQuestion, questionSetVersion);
             if (question == null)
             {
                 loggerHelper.LogInformationMessage(log, correlationGuid, $"Question number {userSession.CurrentQuestion} could not be found on session {userSession.PrimaryKey}");
@@ -95,9 +96,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
             await userSessionRepository.UpdateUserSession(userSession);
 
-            int percentComplete = Convert.ToInt32(((userSession.RecordedAnswers.Length) / Convert.ToDecimal(userSession.MaxQuestions)) * 100);
+            int answerCount = userSession.CurrentRecordedAnswers.Count();
+            int percentComplete = Convert.ToInt32(((answerCount) / Convert.ToDecimal(userSession.MaxQuestions)) * 100);
             var nextQuestionResponse = new NextQuestionResponse()
             {
+                CurrentFilterAssessmentCode = userSession.CurrentFilterAssessmentCode,
                 IsComplete = userSession.IsComplete,
                 NextQuestionNumber = GetNextQuestionNumber(userSession.CurrentQuestion, userSession.MaxQuestions),
                 QuestionId = question.QuestionId,
@@ -109,7 +112,9 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 ReloadCode = userSession.UserSessionId,
                 MaxQuestionsCount = userSession.MaxQuestions,
                 RecordedAnswersCount = userSession.RecordedAnswers.Length,
-                StartedDt = userSession.StartedDt
+                StartedDt = userSession.StartedDt,
+                IsFilterAssessment = userSession.IsFilterAssessment,
+                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe
             };
 
             loggerHelper.LogMethodExit(log);

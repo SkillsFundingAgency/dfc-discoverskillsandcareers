@@ -59,6 +59,11 @@ namespace Dfc.UnitTests.Fakes
             throw new System.NotImplementedException();
         }
 
+        public Task<Question[]> GetQuestions(string questionSetVersion)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<QuestionSet> GetQuestionSetInfo(string version)
         {
             throw new System.NotImplementedException();

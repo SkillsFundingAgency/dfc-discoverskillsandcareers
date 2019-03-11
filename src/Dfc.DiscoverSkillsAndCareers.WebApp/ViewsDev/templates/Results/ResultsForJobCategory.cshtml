@@ -1,0 +1,61 @@
+﻿{% set pageName = 'results' %}
+{% set pageGroup = '' %}
+{% set pageTitle = '@Model.Title' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.ResultsForJobCategoryViewModel;
+@{
+    ViewData["Title"] = "@Model.Title";
+    Layout = null;
+}
+{% endblock %}
+
+{% block main %}
+
+  <div class="app-masthead">
+    <div class="govuk-width-container">
+
+      {% include "_phasebanner.njk" %}
+
+      {{ govukBreadcrumbs({
+        items: [
+          {
+            text: "Home: Discover your skills and careers",
+            href: "/"
+          },
+          {
+            text: "See job profiles",
+            href: "/start"
+          },
+          {
+            text: "Results"
+          }
+        ]
+      }) }}
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+          <p class="govuk-body-l app-results-count">@Model.JobProfiles.Length results</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <main id="content" role="main">
+
+      <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
+          @foreach (var profile in Model.JobProfiles)
+          {
+              <li class="app-result">
+                  <h3 class="govuk-heading-m app-result__header">@profile.Title</h3>
+              </li>
+          }
+      </ol>
+
+</main>
+
+{% endblock %}

@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
     public static class PollFunction
     {
         [FunctionName("PollFunction")]
-        public static  async Task Run([TimerTrigger("*/10 * * * *")]TimerInfo myTimer,
+        public static  async Task Run([TimerTrigger("*/1 * * * *")]TimerInfo myTimer,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
@@ -20,18 +20,24 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentStartPage> startPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor
+            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
+            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
+            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-            await startPageContentDataProcessor.RunOnce("startpages", "startpage");
+            await filteredQuestionSetDataProcessor.RunOnce();
 
-            await questionPageContentDataProcessor.RunOnce("questionpages", "questionpage");
+            await indexPageContentDataProcessor.RunOnce("contentindexpages", "indexpage");
 
-            await finishPageContentDataProcessor.RunOnce("finishpages", "finishpage");
+            await startPageContentDataProcessor.RunOnce("contentstartpages", "startpage");
 
-            await shortResultPageContentDataProcessor.RunOnce("shortresultspages", "shortresultpage");
+            await questionPageContentDataProcessor.RunOnce("contentquestionpages", "questionpage");
+
+            await finishPageContentDataProcessor.RunOnce("contentfinishpages", "finishpage");
+
+            await shortResultPageContentDataProcessor.RunOnce("contentshortresultspages", "shortresultpage");
 
             await shortTraitDataProcessor.RunOnce();
 

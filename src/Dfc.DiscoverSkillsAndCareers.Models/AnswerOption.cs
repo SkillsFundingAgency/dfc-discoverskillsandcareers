@@ -8,6 +8,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         Disagree,
         Neutral,
         Agree,
-        StronglyAgree
+        StronglyAgree,
+        Yes,
+        No
     }
 }

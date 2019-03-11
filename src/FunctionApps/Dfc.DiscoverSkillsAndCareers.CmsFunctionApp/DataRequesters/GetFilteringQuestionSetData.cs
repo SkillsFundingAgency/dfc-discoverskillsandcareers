@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
-    public class GetShortQuestionSetData : IGetShortQuestionSetData
+    public class GetFilteringQuestionSetData : IGetFilteringQuestionSetData
     {
         readonly IHttpService HttpService;
 
-        public GetShortQuestionSetData(IHttpService httpService)
+        public GetFilteringQuestionSetData(IHttpService httpService)
         {
             HttpService = httpService;
         }
 
-        public async Task<List<ShortQuestionSet>> GetData(string siteFinityApiUrlbase)
+        public async Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase)
         {
-            string url = $"{siteFinityApiUrlbase}/api/default/shortquestionsets";
+            string url = $"{siteFinityApiUrlbase}/api/default/filteringquestionsets";
             string json = await HttpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortQuestionSet>>>(json);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json);
             return data.Value;
         }
     }
