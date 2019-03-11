@@ -34,6 +34,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             string url = $"{siteFinityApiUrlbase}/api/default/shorttraits";
             var data = await GetShortTraitData.GetData(url);
 
+            // TODO: save some data
+
             Logger.LogInformation("End poll for ShortTraits");
         }
     }

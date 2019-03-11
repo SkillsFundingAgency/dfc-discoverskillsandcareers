@@ -8,6 +8,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
         [JsonProperty("sessionId")]
         public string SessionId { get; set; }
         [JsonProperty("jobProfiles")]
-        public JobProfile[] JobProfiles { get; set; }
+        public JobProfileResult[] JobProfiles { get; set; }
     }
 }

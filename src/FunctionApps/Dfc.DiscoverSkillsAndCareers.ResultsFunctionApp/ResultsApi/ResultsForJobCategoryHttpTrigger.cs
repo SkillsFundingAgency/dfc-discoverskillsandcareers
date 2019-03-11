@@ -12,6 +12,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -39,7 +40,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
-            [Inject]IUserSessionRepository userSessionRepository)
+            [Inject]IUserSessionRepository userSessionRepository,
+            [Inject]IJobProfileRepository jobProfileRepository)
         {
             loggerHelper.LogMethodEnter(log);
 
@@ -79,15 +81,27 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                 return httpResponseMessageHelper.BadRequest();
             }
 
-            // TODO: basic list
-            var jobProfiles = filteredAssessment.SuggestedJobProfiles.Select(x => new JobProfile()
+            // Build the list of job profiles
+            var showSuggestedJobProfiles = new List<JobProfileResult>();
+            foreach (var socCode in filteredAssessment.SuggestedJobProfiles)
             {
-                Title = x
-            }).ToArray();
+                var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "cms");
+                showSuggestedJobProfiles.Add(new JobProfileResult()
+                {
+                    CareerPathAndProgression = jobProfile.CareerPathAndProgression,
+                    Overview = jobProfile.Overview,
+                    SalaryExperienced = jobProfile.SalaryExperienced,
+                    SalaryStarter = jobProfile.SalaryStarter,
+                    SocCode = jobProfile.SocCode,
+                    Title = jobProfile.Title,
+                    UrlName = jobProfile.UrlName,
+                    WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                });
+            }
 
             var model = new ResultsJobCategoryResult()
             {
-                JobProfiles = jobProfiles,
+                JobProfiles = showSuggestedJobProfiles.ToArray(),
                 SessionId = userSession.UserSessionId
             };
 

@@ -101,17 +101,27 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     model.HasReloadError = true;
                     return View("Index", model);
                 }
-                Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId);
+                Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+
+                if (nextQuestionResponse.IsComplete)
+                {
+                    // Session has complete, redirect to results
+                    RedirectResult redirectResult;
+                    if (nextQuestionResponse.IsFilterAssessment)
+                    {
+                        redirectResult = new RedirectResult($"/results/{nextQuestionResponse.JobCategorySafeUrl}");
+                    }
+                    else
+                    {
+                        redirectResult = new RedirectResult($"/results");
+                    }
+                    return redirectResult;
+                }
+
                 if (nextQuestionResponse.IsFilterAssessment)
                 {
                     // Filter assessment is in progress
                     var redirectResponse = new RedirectResult($"/qf/{nextQuestionResponse.QuestionNumber}");
-                    return redirectResponse;
-                }
-                if (nextQuestionResponse.IsComplete)
-                {
-                    // Session has complete, redirect to results
-                    var redirectResponse = new RedirectResult($"/results");
                     return redirectResponse;
                 }
                 else

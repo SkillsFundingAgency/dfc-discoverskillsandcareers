@@ -41,6 +41,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddTransient<IContentRepository, ContentRepository>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
+            services.AddTransient<IJobProfileRepository, JobProfileRepository>();
 
             ConfigureOptions(services);
         }

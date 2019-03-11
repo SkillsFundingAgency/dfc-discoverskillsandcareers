@@ -42,7 +42,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
             [Inject]IQuestionRepository questionRepository,
-            [Inject]IAssessmentCalculationService resultsService)
+            [Inject]IAssessmentCalculationService resultsService,
+            [Inject]IFilterAssessmentCalculationService filterAssessmentCalculationService)
         {
             loggerHelper.LogMethodEnter(log);
 
@@ -132,8 +133,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 }
                 else
                 {
-                    var filterResultsService = new FilterAssessmentCalculationService(questionRepository);
-                    await filterResultsService.CalculateAssessment(userSession);
+                    await filterAssessmentCalculationService.CalculateAssessment(userSession);
                 }
             }
             else

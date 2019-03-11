@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
+namespace Dfc.DiscoverSkillsAndCareers.Models
 {
     public class JobProfile
     {
-        [JsonProperty("socCode")]
+        [JsonProperty("partitionKey")]
+        public string PartitionKey { get; set; }
+        [JsonProperty("id")]
         public string SocCode { get; set; }
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -20,5 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
         public string WYDDayToDayTasks { get; set; }
         [JsonProperty("careerPathAndProgression")]
         public string CareerPathAndProgression { get; set; }
+        [JsonProperty("jobProfileCategories")]
+        public string[] JobProfileCategories { get; set; }
     }
 }

@@ -22,7 +22,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor
+            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
+            [Inject]IJobProfileDataProcessor jobProfileDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
@@ -43,6 +44,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
             await shortQuestionSetDataProcessor.RunOnce();
 
+            await jobProfileDataProcessor.RunOnce();
         }
     }
 }
