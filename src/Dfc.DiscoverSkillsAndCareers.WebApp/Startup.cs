@@ -53,6 +53,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("cache-control", "no-cache");
+                context.Response.Headers.Add("X-XSS-Protection", "1");
+                await next();
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
