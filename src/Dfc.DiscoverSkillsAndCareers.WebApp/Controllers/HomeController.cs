@@ -97,7 +97,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (nextQuestionResponse.IsFilterAssessment)
                 {
                     // Filter assessment is in progress
-                    var redirectResponse = new RedirectResult($"/qf/{nextQuestionResponse.NextQuestionNumber}");
+                    var redirectResponse = new RedirectResult($"/qf/{nextQuestionResponse.QuestionNumber}");
                     return redirectResponse;
                 }
                 if (nextQuestionResponse.IsComplete)
@@ -109,7 +109,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 else
                 {
                     // Session is not complete so continue where we was last
-                    var redirectResponse = new RedirectResult($"/q/{nextQuestionResponse.NextQuestionNumber}");
+                    var redirectResponse = new RedirectResult($"/q/{nextQuestionResponse.QuestionNumber}");
                     return redirectResponse;
                 }
             }
