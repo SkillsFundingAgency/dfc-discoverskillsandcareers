@@ -88,7 +88,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Failed to create session for assessment type {assessmentType} using question set {title}");
                 }
                 var sessionId = newSessionResponse.SessionId;
-                Response.Cookies.Append("ncs-session-id", sessionId);
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
                 var redirectResponse = new RedirectResult($"/q/1");
                 return redirectResponse;
 
@@ -161,7 +161,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.QuestionText = nextQuestionResponse.QuestionText;
                 model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
 
-                Response.Cookies.Append("ncs-session-id", sessionId);
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);
             }

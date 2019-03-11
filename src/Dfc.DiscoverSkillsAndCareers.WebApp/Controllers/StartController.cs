@@ -36,7 +36,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var model = await ApiServices.GetContentModel<StartViewModel>("startpage", correlationId);
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
-                    Response.Cookies.Append("ncs-session-id", sessionId);
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true });
                 }
                 return View("Start", model);
             }
