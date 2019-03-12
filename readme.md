@@ -54,10 +54,14 @@ Create a local.settings.json file (change as requried but the following works wi
         "DatabaseName": "TestDatabase"
     },
     "AppSettings": {
-        "SessionSalt": "ncs"
+        "SessionSalt": "ncs",
+        "SiteFinityApiUrlbase": "https://localhost:9091"
     }
 }
 ```
+
+*NOTE:* The `SiteFinityApiUrlbase` only applies to the CMS function application. 
+
 To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp` and run 
 
     dotnet build 
