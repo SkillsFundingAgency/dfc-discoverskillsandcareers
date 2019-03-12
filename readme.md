@@ -154,4 +154,4 @@ Nunjucks partials
 
 ## Licence
 
-TODO
+[MIT Licence](/LICENCE) 
