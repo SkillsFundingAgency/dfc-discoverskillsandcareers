@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         [HttpGet]
         [Route("qf/{questionNumber:int}")]
-        public async Task<IActionResult> AtQuestionNumber(int questionNumber) => await AtQuestionNumber(questionNumber, null);
+        public async Task<IActionResult> AtFilteringQuestionNumber(int questionNumber) => await AtQuestionNumber(questionNumber);
 
         [HttpGet("assessment/{assessmentType}")]
         public async Task<IActionResult> NewAssessment(string assessmentType)
@@ -86,7 +86,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodEnter(Log);
                 
-                var queryDictionary = System.Web.HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
+                var queryDictionary = HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
                 var title = queryDictionary.Get(assessmentType);
                 var newSessionResponse = await ApiServices.NewSession(correlationId, assessmentType, title);
                 if (newSessionResponse == null)
@@ -112,7 +112,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         [HttpGet]
         [Route("q/{questionNumber:int}")]
-        public async Task<IActionResult> AtQuestionNumber(int questionNumber, string assessmentType)
+        public async Task<IActionResult> AtQuestionNumber(int questionNumber)
         {
             var correlationId = Guid.NewGuid();
             try

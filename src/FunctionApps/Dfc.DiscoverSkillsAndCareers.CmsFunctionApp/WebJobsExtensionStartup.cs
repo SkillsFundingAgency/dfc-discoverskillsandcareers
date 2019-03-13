@@ -66,6 +66,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetJobProfileData, GetJobProfileData>();
             services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
             services.AddTransient<IJobProfileRepository, JobProfileRepository>();
+            services.AddTransient<IShortTraitRepository, ShortTraitRepository>();
 
             ConfigureOptions(services);
         }

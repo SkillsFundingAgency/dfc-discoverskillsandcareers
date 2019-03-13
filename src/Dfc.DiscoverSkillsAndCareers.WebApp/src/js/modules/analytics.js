@@ -312,17 +312,54 @@ var analytics = (function () {
 
   return {
 
-    startSurvey: function () {
-      setCookie('ncs-survey-start', new Date().getTime())
+    dateStringToNumber: function (date) {
+      return parseInt(date, 10)
     },
 
-    finishSurvey: function () {
-      const start = parseInt(getCookie('ncs-survey-start'), 10)
-      const end = new Date().getTime()
-      const delta = ((end - start) / 1000)
+    getStartTime: function () {
+      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[0])
+    },
+
+    getPreviousTime: function () {
+      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[1])
+    },
+
+    getCurrentTime: function () {
+      return new Date().getTime()
+    },
+
+    getDelta: function (start, end) {
+      return (end - start) / 1000
+    },
+
+    startSurvey: function () {
+      analytics.startTime = new Date().getTime()
+      setCookie('ncs-survey-start', analytics.startTime + ',' + 0)
+    },
+
+    updateSurveyTime: function () {
+      const start = analytics.getPreviousTime()
+      const end = analytics.getCurrentTime()
+      const delta = analytics.getDelta(start, end)
+      setCookie('ncs-survey-start', analytics.startTime + ',' + end)
       window.dataLayer.push({
         page: {
           user: {
+            event: 'Click “Next” button',
+            timeElapsedPage: delta
+          }
+        }
+      })
+    },
+
+    completeSurvey: function () {
+      const start = analytics.getStartTime()
+      const end = analytics.getCurrentTime()
+      const delta = analytics.getDelta(start, end)
+      window.dataLayer.push({
+        page: {
+          user: {
+            event: 'View results page',
             timeLapsed: delta
           }
         }
@@ -339,6 +376,12 @@ var analytics = (function () {
           const text = event.target.innerText
           pushValues(values, text)
         })
+      })
+
+      var nextQuestionButton = document.getElementsByClassName('btn-next-question')[0]
+
+      nextQuestionButton.addEventListener('click', function () {
+        analytics.updateSurveyTime()
       })
     }
   }

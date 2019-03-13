@@ -19,14 +19,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
         public async Task<string> GetString(string url)
         {
             _logger.LogInformation(url);
-            //TODO: add header DssCorrelationId guid
             return await _httpClient.GetStringAsync(url);
         }
 
         public async Task<string> PostData(string url, object data)
         {
             _logger.LogInformation(url);
-            //TODO: add header DssCorrelationId guid
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new JsonContent(data)))
             {
                 using (HttpContent content = res.Content)

@@ -28,6 +28,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
+            await jobProfileDataProcessor.RunOnce();
+
             await filteredQuestionSetDataProcessor.RunOnce();
 
             await indexPageContentDataProcessor.RunOnce("contentindexpages", "indexpage");
@@ -43,8 +45,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             await shortTraitDataProcessor.RunOnce();
 
             await shortQuestionSetDataProcessor.RunOnce();
-
-            await jobProfileDataProcessor.RunOnce();
         }
     }
 }

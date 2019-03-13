@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    public class JobProfileRepository : IJobProfileRepository
+    public class ShortTraitRepository : IShortTraitRepository
     {
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public JobProfileRepository(IOptions<CosmosSettings> cosmosSettings)
+        public ShortTraitRepository(IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "QuestionSets";
             client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
         }
 
-        public async Task<JobProfile> GetJobProfile(string socCode, string partitionKey)
+        public async Task<Trait> GetShortTrait(string name, string partitionKey)
         {
             try
             {
-                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, socCode);
+                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, name);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
                 Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (JobProfile)(dynamic)document;
+                return (Trait)(dynamic)document;
             }
             catch (DocumentClientException ex)
             {
@@ -44,27 +44,28 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<Document> CreateJobProfile(JobProfile jobProfile)
+        public async Task CreateTrait(Trait trait, string partitionKey)
         {
+            trait.PartitionKey = partitionKey;
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
             {
-                return await client.CreateDocumentAsync(uri, jobProfile);
+                await client.CreateDocumentAsync(uri, trait);
             }
             catch
             {
-                return await client.UpsertDocumentAsync(uri, jobProfile);
+                await client.UpsertDocumentAsync(uri, trait);
             }
         }
 
-        public async Task<JobProfile[]> GetJobProfilesForJobFamily(string jobFamily)
+        public async Task<Trait[]> GetTraits(string partitionKey)
         {
             try
             {
                 var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
                 FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                var queryQuestions = client.CreateDocumentQuery<JobProfile>(uri, feedOptions)
-                                       .Where(x => x.JobProfileCategories.Contains(jobFamily))
+                var queryQuestions = client.CreateDocumentQuery<Trait>(uri, feedOptions)
+                                       .Where(x => x.PartitionKey == partitionKey)
                                        .AsEnumerable()
                                        .ToArray();
                 return queryQuestions;
