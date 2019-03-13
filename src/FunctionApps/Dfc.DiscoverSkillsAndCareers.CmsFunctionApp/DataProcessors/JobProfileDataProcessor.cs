@@ -48,7 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     CareerPathAndProgression = jobProfile.CareerPathAndProgression,
                     JobProfileCategories = jobProfile.JobProfileCategories,
                     Overview = jobProfile.Overview,
-                    PartitionKey = "cms",
+                    PartitionKey = "jobprofile-cms",
                     SalaryExperienced = jobProfile.SalaryExperienced,
                     SalaryStarter = jobProfile.SalaryStarter,
                     SocCode = jobProfile.SocCode,

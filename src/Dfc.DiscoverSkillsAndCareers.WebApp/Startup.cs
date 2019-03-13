@@ -53,13 +53,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("cache-control", "no-cache, no-store, must-revalidate");
-                context.Response.Headers.Add("pragma", "no-cache");
-                await next();
-            });
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -84,7 +84,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             var showSuggestedJobProfiles = new List<JobProfileResult>();
             foreach (var socCode in filteredAssessment.SuggestedJobProfiles)
             {
-                var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "cms");
+                var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "jobprofile-cms");
                 showSuggestedJobProfiles.Add(new JobProfileResult()
                 {
                     CareerPathAndProgression = jobProfile.CareerPathAndProgression,
