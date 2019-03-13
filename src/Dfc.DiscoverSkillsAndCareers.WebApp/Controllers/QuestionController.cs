@@ -86,7 +86,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodEnter(Log);
                 
-                var queryDictionary = System.Web.HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
+                var queryDictionary = HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
                 var title = queryDictionary.Get(assessmentType);
                 var newSessionResponse = await ApiServices.NewSession(correlationId, assessmentType, title);
                 if (newSessionResponse == null)
