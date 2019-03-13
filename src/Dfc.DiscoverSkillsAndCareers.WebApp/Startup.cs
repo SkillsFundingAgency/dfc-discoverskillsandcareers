@@ -55,11 +55,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Add("cache-control", "no-cache, no-store, must-revalidate");
                 context.Response.Headers.Add("pragma", "no-cache");
-                context.Response.Headers.Add("X-XSS-Protection", "1");
                 await next();
             });
 
