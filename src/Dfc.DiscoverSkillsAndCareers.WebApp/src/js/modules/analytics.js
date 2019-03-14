@@ -332,6 +332,16 @@ var analytics = (function () {
       return (end - start) / 1000
     },
 
+    formIsValid: function () {
+      var valid = false
+      var radios = document.getElementsByClassName('govuk-radios__input')
+      radios = Array.prototype.slice.call(radios)
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) valid = true
+      }
+      return valid
+    },
+
     startSurvey: function () {
       analytics.startTime = new Date().getTime()
       setCookie('ncs-survey-start', analytics.startTime + ',' + 0)
@@ -341,15 +351,25 @@ var analytics = (function () {
       const start = analytics.getPreviousTime()
       const end = analytics.getCurrentTime()
       const delta = analytics.getDelta(start, end)
-      setCookie('ncs-survey-start', analytics.startTime + ',' + end)
-      window.dataLayer.push({
-        page: {
-          user: {
-            event: 'Click “Next” button',
-            timeElapsedPage: delta
+
+      if (analytics.formIsValid()) {
+        setCookie('ncs-survey-start', analytics.startTime + ',' + end)
+        window.dataLayer.push({
+          page: {
+            user: {
+              event: 'Click “Next” button',
+              timeElapsedPage: delta
+            }
           }
-        }
-      })
+        })
+      } else {
+        window.dataLayer.push({
+          page: {
+            errorType: 'validation_error',
+            errorDescription: 'User did not choose an option'
+          }
+        })
+      }
     },
 
     completeSurvey: function () {
