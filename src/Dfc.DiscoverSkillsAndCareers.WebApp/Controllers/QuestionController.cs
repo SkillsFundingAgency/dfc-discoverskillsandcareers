@@ -46,7 +46,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 sessionId = await TryGetSessionId(Request);
 
-                if (sessionId != HttpUtility.UrlEncode(sessionId))
+                if (sessionId == null || sessionId != HttpUtility.UrlEncode(sessionId))
                 {
                     return BadRequest();
                 }
