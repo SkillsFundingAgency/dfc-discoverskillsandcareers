@@ -386,6 +386,13 @@ var analytics = (function () {
       })
     },
 
+    updateSurvey: function () {
+      var nextQuestionButton = document.getElementsByClassName('btn-next-question')[0]
+      nextQuestionButton.addEventListener('click', function () {
+        analytics.updateSurveyTime()
+      })
+    },
+
     init: function () {
       var dataTrackClick = 'gov-analytics-data'
       var trackingElements = [...document.querySelectorAll(`[${dataTrackClick}]`)]
@@ -396,12 +403,6 @@ var analytics = (function () {
           const text = event.target.innerText
           pushValues(values, text)
         })
-      })
-
-      var nextQuestionButton = document.getElementsByClassName('btn-next-question')[0]
-
-      nextQuestionButton.addEventListener('click', function () {
-        analytics.updateSurveyTime()
       })
     }
   }

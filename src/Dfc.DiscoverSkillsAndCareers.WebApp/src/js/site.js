@@ -9,6 +9,10 @@ if (isPage('app-page--start')) {
   analytics.startSurvey()
 }
 
+if (isPage('app-page--questions')) {
+  analytics.updateSurvey()
+}
+
 if (isPage('app-page--results')) {
   results.init()
   analytics.finishSurvey()
