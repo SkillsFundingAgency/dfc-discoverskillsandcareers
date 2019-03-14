@@ -15,5 +15,5 @@ if (isPage('app-page--questions')) {
 
 if (isPage('app-page--results')) {
   results.init()
-  analytics.finishSurvey()
+  analytics.completeSurvey()
 }
