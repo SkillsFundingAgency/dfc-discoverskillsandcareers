@@ -88,6 +88,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 
                 var queryDictionary = HttpUtility.ParseQueryString(AppSettings.AssessmentQuestionSetNames);
                 var title = queryDictionary.Get(assessmentType);
+
+                if(assessmentType != HttpUtility.UrlEncode(assessmentType))
+                {
+                    return BadRequest();
+                }
+                if (title != HttpUtility.UrlEncode(title))
+                {
+                    return BadRequest();
+                }
+
                 var newSessionResponse = await ApiServices.NewSession(correlationId, assessmentType, title);
                 if (newSessionResponse == null)
                 {
