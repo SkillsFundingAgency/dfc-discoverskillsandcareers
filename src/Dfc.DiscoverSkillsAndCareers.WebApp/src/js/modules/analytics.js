@@ -395,7 +395,7 @@ var analytics = (function () {
 
     init: function () {
       var dataTrackClick = 'gov-analytics-data'
-      var trackingElements = [...document.querySelectorAll(`[${dataTrackClick}]`)]
+      var trackingElements = Array.prototype.slice.call(document.querySelectorAll(`[${dataTrackClick}]`))
 
       trackingElements.map(trackingElement => {
         trackingElement.addEventListener('click', function (event) {

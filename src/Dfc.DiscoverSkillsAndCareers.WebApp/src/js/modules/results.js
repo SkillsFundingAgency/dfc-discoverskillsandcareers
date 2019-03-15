@@ -2,7 +2,7 @@ var results = (function () {
   return {
     init: function () {
       const resultsList = document.getElementById('app-results-list')
-      const resultsItems = [...resultsList.children]
+      const resultsItems = Array.prototype.slice.call(resultsList.children)
 
       const other = resultsItems.filter(result => resultsItems.indexOf(result) >= 3)
 
@@ -36,8 +36,8 @@ var results = (function () {
           other.map(item => {
             item.style.display = 'block'
           })
-          titleElement.remove()
-          buttonElement.remove()
+          titleElement.parentNode.removeChild(titleElement)
+          buttonElement.parentNode.removeChild(buttonElement)
           return false
         })
       }
