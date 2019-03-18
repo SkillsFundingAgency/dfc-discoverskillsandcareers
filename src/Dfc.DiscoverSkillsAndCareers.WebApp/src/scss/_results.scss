@@ -1,5 +1,9 @@
 .app-results {
 
+  .app-results__item {
+    border-bottom: 2px solid  $govuk-border-colour;
+  }
+
   .app-results__col-header {
     border-bottom: 1px solid $govuk-border-colour;
 
@@ -57,20 +61,20 @@
 }
 
 
-.app-page--results {
-  @include govuk-media-query($from: desktop) {
+// .app-page--results {
+//   @include govuk-media-query($from: desktop) {
 
-    .app-save-panel {
-      margin-top: -133px;
-      background: govuk-colour('white');
-      padding: govuk-spacing(3);
-      border-top: 3px solid $app-dark-border;
+//     .app-save-panel {
+//       margin-top: -133px;
+//       background: govuk-colour('white');
+//       padding: govuk-spacing(3);
+//       border-top: 3px solid $app-dark-border;
 
-      .govuk-heading-m {
-        border: 0;
-        padding-top: 0;
-        margin-bottom: govuk-spacing(2);
-      }
-    }
-  }
-}
+//       .govuk-heading-m {
+//         border: 0;
+//         padding-top: 0;
+//         margin-bottom: govuk-spacing(2);
+//       }
+//     }
+//   }
+// }
