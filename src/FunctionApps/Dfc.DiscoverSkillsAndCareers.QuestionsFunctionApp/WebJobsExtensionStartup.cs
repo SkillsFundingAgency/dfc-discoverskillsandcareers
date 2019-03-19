@@ -35,10 +35,11 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
-            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
-            services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IContentRepository, ContentRepository>();
+            services.AddScoped<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddScoped<IJobProfileRepository, JobProfileRepository>();
 
             ConfigureOptions(services);
         }
