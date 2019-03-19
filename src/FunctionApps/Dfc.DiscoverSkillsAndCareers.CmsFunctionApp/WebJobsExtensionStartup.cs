@@ -37,14 +37,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
+            services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
+            services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<IContentRepository, ContentRepository>();
+            services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
+            services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
+            services.AddSingleton<IHttpService, HttpService>();
+            services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
-            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
-            services.AddTransient<IHttpService, HttpService>();
-            services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
             services.AddTransient<IGetShortTraitData, GetShortTraitData>();
             services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
@@ -65,9 +67,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
             services.AddTransient<IGetJobProfileData, GetJobProfileData>();
             services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
-            services.AddTransient<IJobProfileRepository, JobProfileRepository>();
-            services.AddTransient<IShortTraitRepository, ShortTraitRepository>();
-
+            
             ConfigureOptions(services);
         }
         

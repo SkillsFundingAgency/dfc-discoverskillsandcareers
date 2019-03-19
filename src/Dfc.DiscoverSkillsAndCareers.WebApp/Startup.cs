@@ -40,7 +40,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<ILoggerHelper, LoggerHelper>();
             
-            services.AddScoped<IApiServices, ApiServices>();
+            services.AddSingleton<IApiServices, ApiServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

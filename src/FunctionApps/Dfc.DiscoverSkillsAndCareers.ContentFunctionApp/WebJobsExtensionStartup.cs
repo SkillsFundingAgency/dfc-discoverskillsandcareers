@@ -33,11 +33,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
 
-            services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
+            services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
+            services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<IContentRepository, ContentRepository>();
 
-            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
+            services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
             ConfigureOptions(services);
         }
