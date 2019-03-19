@@ -29,10 +29,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
 
+            services.AddSingleton<IHttpService, HttpService>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<ILoggerHelper, LoggerHelper>();
-            services.AddScoped<IHttpService, HttpService>();
+            
             services.AddScoped<IApiServices, ApiServices>();
         }
 
