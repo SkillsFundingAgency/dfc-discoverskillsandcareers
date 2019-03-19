@@ -58,6 +58,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
 
                 string assessmentType = "filtered";
                 var createdQuestionSets = new List<QuestionSet>();
+                var results = new List<string>();
                 foreach (var data in questionSets)
                 {
                     log.LogInformation($"Getting cms data for questionset {data.Id} {data.Title}");
@@ -71,19 +72,13 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                     // Nothing to do so log and exit
                     if (!updateRequired)
                     {
-                        return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new
-                        {
-                            message = $"Filteringquestionset {data.Id} {data.Title} is upto date - no changes to be done"
-                        }));
+                        results.Add($"Filteringquestionset {data.Id} {data.Title} is upto date - no changes to be done");
                     }
 
                     // Attempt to get the questions for this questionset
                     if (data.Questions.Count == 0)
                     {
-                        return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new
-                        {
-                            message = $"Filteringquestionset {data.Id} doesn't have any questions"
-                        }));
+                        results.Add($"Filteringquestionset {data.Id} doesn't have any questions");
                     }
                     log.LogInformation($"Received {data.Questions?.Count} questions for questionset {data.Id} {data.Title}");
 
@@ -138,6 +133,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new
                 {
                     message = "Ok",
+                    results,
                     createdQuestionSets
                 }));
             }
