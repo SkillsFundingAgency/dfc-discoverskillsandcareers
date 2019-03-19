@@ -57,6 +57,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     SelectedOption = GetFormValue("selected_answer")
                 };
                 PostAnswerResponse postAnswerResponse = await ApiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
+
+                if (postAnswerResponse.IsComplete)
+                {
+                    var finishEndpoint = postAnswerResponse.IsFilterAssessment ? $"/finish/{postAnswerResponse.JobCategorySafeUrl}" : "/finish";
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    return Redirect(finishEndpoint);
+                }
                 return await NextQuestion(sessionId, postAnswerResponse == null);
             }
             catch (System.Net.Http.HttpRequestException)
@@ -199,9 +206,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         private string GetAnswerFormPostRoute(NextQuestionResponse nextQuestionResponse, bool invalidAnswer)
         {
             var questionRoute = nextQuestionResponse.IsFilterAssessment ? "qf" : "q";
-            var finishRoute = nextQuestionResponse.IsFilterAssessment ? $"finish/{nextQuestionResponse.JobCategorySafeUrl}" : "finish";
-            var nextRoute = nextQuestionResponse.MaxQuestionsCount == nextQuestionResponse.QuestionNumber ? $"/{finishRoute}"
-                : $"/{questionRoute}/{nextQuestionResponse.NextQuestionNumber.ToString()}";
+            var nextRoute = $"/{questionRoute}/{(nextQuestionResponse.NextQuestionNumber ?? nextQuestionResponse.MaxQuestionsCount).ToString()}";
             return nextRoute;
         }
     }

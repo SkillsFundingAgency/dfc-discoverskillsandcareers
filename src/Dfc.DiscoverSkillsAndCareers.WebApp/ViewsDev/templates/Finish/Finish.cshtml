@@ -47,19 +47,15 @@
           <h1 class="govuk-heading-m">What to do next</h1>
           <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
-          <form action="/results/" method="post">
-            <input type="hidden" name="sessionId" value="@Model.SessionId" />
 
             {{ govukButton({
-              text: "@Model.ViewResultsButtonText",
-              classes: "app-button",
-              type: "submit",
-              attributes: {
-                "gov-analytics-data": pageName + " | click | button | View results"
-              }
+            text: "@Model.ViewResultsButtonText",
+            href: "/results",
+            classes: "app-button",
+            attributes: {
+            "gov-analytics-data": pageName + " | click | button | View results"
+            }
             }) }}
-
-          </form>
 
         </div>
       </div>

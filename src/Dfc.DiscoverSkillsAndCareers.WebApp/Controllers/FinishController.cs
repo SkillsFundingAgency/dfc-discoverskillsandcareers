@@ -27,7 +27,36 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [Route("{jobCategory}")]
-        public async Task<IActionResult> FinishWithJobCategory(string jobCategory) => await Index();
+        public async Task<IActionResult> FinishWithJobCategory(string jobCategory)
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var viewName ="FinishFilteredAssessment";
+                var contentName = "finishjobcategorypage";
+                var model = await ApiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
+                model.JobCategorySafeUrl = jobCategory;
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                return View(viewName, model);
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -42,17 +71,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                PostAnswerRequest postAnswerRequest = new PostAnswerRequest()
-                {
-                    QuestionId = GetFormValue("questionId"),
-                    SelectedOption = GetFormValue("selected_answer")
-                };
-                PostAnswerResponse postAnswerResponse = await ApiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
-
-                var viewName = postAnswerResponse.IsFilterAssessment ? "FinishFilteredAssessment" : "Finish";
-                var contentName = postAnswerResponse.IsFilterAssessment ? "finishjobcategorypage" : "finishpage";
-                var model = await ApiServices.GetContentModel<FinishViewModel>("finishpage", correlationId);
-                model.JobCategorySafeUrl = postAnswerResponse.JobCategorySafeUrl;
+                var viewName = "Finish";
+                var contentName = "finishpage";
+                var model = await ApiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View(viewName, model);
             }
