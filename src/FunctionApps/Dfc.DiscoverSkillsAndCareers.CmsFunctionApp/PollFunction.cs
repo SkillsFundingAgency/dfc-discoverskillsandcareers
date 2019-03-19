@@ -28,23 +28,23 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-            await jobProfileDataProcessor.RunOnce();
+            await filteredQuestionSetDataProcessor.RunOnce(true);
 
-            await filteredQuestionSetDataProcessor.RunOnce();
+            await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
 
-            await indexPageContentDataProcessor.RunOnce("contentindexpages", "indexpage");
+            await startPageContentDataProcessor.RunOnce("startpagecontents", "startpage");
 
-            await startPageContentDataProcessor.RunOnce("contentstartpages", "startpage");
+            await questionPageContentDataProcessor.RunOnce("questionpagecontents", "questionpage");
 
-            await questionPageContentDataProcessor.RunOnce("contentquestionpages", "questionpage");
+            await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
 
-            await finishPageContentDataProcessor.RunOnce("contentfinishpages", "finishpage");
-
-            await shortResultPageContentDataProcessor.RunOnce("contentshortresultspages", "shortresultpage");
+            await shortResultPageContentDataProcessor.RunOnce("shortfinishcontents", "shortresultpage");
 
             await shortTraitDataProcessor.RunOnce();
 
             await shortQuestionSetDataProcessor.RunOnce();
+
+            await jobProfileDataProcessor.RunOnce();
         }
     }
 }

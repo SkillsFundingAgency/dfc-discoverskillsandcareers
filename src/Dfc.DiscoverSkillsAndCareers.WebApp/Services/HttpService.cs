@@ -11,9 +11,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         HttpClient _httpClient;
         ILogger<HttpService> _logger;
 
-        public HttpService(ILogger<HttpService> logger)
+        public HttpService(HttpClient httpClient, ILogger<HttpService> logger)
         {
-            _httpClient = new HttpClient();
+            _httpClient =  httpClient;
             _logger = logger;
         }
 

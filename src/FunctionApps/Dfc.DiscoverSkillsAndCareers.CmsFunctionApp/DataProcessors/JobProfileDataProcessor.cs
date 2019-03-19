@@ -35,8 +35,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             Logger.LogInformation("Begin poll for JobProfiles");
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
+            string siteFinityService = AppSettings.SiteFinityApiWebService;
 
-            string url = $"{siteFinityApiUrlbase}/api/default/jobProfiles";
+            string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/jobProfiles";
             var data = await GetJobProfileData.GetData(url);
 
             Logger.LogInformation($"Have {data?.Count} job profiles to save");

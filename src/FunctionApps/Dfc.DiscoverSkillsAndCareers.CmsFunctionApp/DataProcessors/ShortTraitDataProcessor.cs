@@ -35,8 +35,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             Logger.LogInformation("Begin poll for ShortTraits");
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
+            string siteFinityService = AppSettings.SiteFinityApiWebService;
 
-            string url = $"{siteFinityApiUrlbase}/api/default/shorttraits";
+            string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/traits";
             var data = await GetShortTraitData.GetData(url);
 
             foreach(var traitData in data)

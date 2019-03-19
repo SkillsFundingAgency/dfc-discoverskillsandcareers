@@ -7,6 +7,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
     {
         public string SessionSalt { get; set; }
         public string SiteFinityApiUrlbase { get; set; }
+        public string SiteFinityApiWebService { get; set; }
     }
 
 }

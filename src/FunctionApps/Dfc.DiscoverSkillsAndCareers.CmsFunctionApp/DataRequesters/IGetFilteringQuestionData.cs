@@ -6,6 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetFilteringQuestionData
     {
-        Task<List<FilteringQuestion>> GetData(string siteFinityApiUrlbase, string questionSetId);
+        Task<List<FilteringQuestion>> GetData(string siteFinityApiUrlbase, string siteFinityService, string questionSetId);
     }
 }

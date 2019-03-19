@@ -100,6 +100,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             {
                 env.SessionSalt = appSettings.SessionSalt;
                 env.SiteFinityApiUrlbase = appSettings.SiteFinityApiUrlbase;
+                env.SiteFinityApiWebService = appSettings.SiteFinityApiWebService;
             });
         }
     }

@@ -1,11 +1,9 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +16,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         readonly IQuestionRepository QuestionRepository;
         readonly IQuestionSetRepository QuestionSetRepository;
         readonly IGetFilteringQuestionSetData GetFilteringQuestionSetData;
-        readonly IGetFilteringQuestionData GetFilteringQuestionData;
         readonly AppSettings AppSettings;
 
         public FilteredtQuestionSetDataProcessor(
@@ -27,7 +24,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
             IGetFilteringQuestionSetData getFilteringQuestionSetData,
-            IGetFilteringQuestionData getFilteringQuestionData,
             IOptions<AppSettings> appSettings)
         {
             Logger = logger;
@@ -35,18 +31,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             QuestionRepository = questionRepository;
             QuestionSetRepository = questionSetRepository;
             GetFilteringQuestionSetData = getFilteringQuestionSetData;
-            GetFilteringQuestionData = getFilteringQuestionData;
             AppSettings = appSettings.Value;
         }
 
-        public async Task RunOnce()
+        public async Task RunOnce(bool useLocalFile)
         {
             Logger.LogInformation("Begin poll for FilteredQuestionSet");
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
+            string siteFinityService = AppSettings.SiteFinityApiWebService;
             string assessmentType = "filtered";
 
-            var questionSets = await GetFilteringQuestionSetData.GetData(siteFinityApiUrlbase);
+            var questionSets = await GetFilteringQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService, useLocalFile);
             Logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             foreach (var data in questionSets)
@@ -67,8 +63,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 }
 
                 // Attempt to get the questions for this questionset
-                Logger.LogInformation($"Getting cms questions for filteredquestionset {data.Id} {data.Title}");
-                data.Questions = await GetFilteringQuestionData.GetData(siteFinityApiUrlbase, data.Id);
                 if (data.Questions.Count == 0)
                 {
                     Logger.LogInformation($"Filteringquestionset {data.Id} doesn't have any questions");
@@ -111,7 +105,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         {
                             new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
                         },
-                        ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray()
+                        ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray(),
+                        FilterTrigger = dataQuestion.IsYes ? "Yes" : "No"
+                         
                     };
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;

@@ -40,7 +40,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
 
-            string url = $"{siteFinityApiUrlbase}/api/default/{siteFinityType}";
+            string url = $"{siteFinityApiUrlbase}/api/{AppSettings.SiteFinityApiWebService}/{siteFinityType}";
             var data = await GetContentData.GetData(url);
 
             var cmsContent = data.FirstOrDefault();
@@ -67,7 +67,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             // Create new if required, otherwise update the content type
             if (existingContent == null)
             {
-                existingContent = new Content { ContentType = contentType.ToLower(), Id = contentType.ToLower() };
+                existingContent = new Content { ContentType = contentType.ToLower() };
             }
             existingContent.ContentData = JsonConvert.SerializeObject(cmsContent);
             existingContent.LastUpdated = cmsContent.LastUpdated;

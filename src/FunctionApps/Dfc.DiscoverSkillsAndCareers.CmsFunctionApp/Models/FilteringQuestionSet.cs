@@ -12,7 +12,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Title { get; set; }
         [JsonProperty("Description")]
         public string Description { get; set; }
-        [JsonIgnore()]
         public List<FilteringQuestion> Questions { get; set; }
         [JsonProperty("LastModified")]
         public DateTime LastUpdated { get; set; }
