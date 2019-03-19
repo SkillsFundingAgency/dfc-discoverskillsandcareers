@@ -14,11 +14,11 @@
         "ApimServiceName": {
             "type": "string"
         },
-        "aseHostingEnvironmentName": {
+        "AseHostingEnvironmentName": {
             "type": "string",
             "defaultValue": ""
         },
-        "aseResourceGroup": {
+        "AseResourceGroup": {
             "type": "string",
             "defaultValue": ""
         },
