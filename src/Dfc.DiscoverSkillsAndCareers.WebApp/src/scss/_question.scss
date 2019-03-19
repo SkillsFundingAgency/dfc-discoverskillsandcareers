@@ -87,7 +87,7 @@
       }
       .govuk-radios__item {
         width: auto;
-       @include govuk-responsive-margin(6, "right");
+        @include govuk-responsive-margin(6, "right");
       }
     }
   }

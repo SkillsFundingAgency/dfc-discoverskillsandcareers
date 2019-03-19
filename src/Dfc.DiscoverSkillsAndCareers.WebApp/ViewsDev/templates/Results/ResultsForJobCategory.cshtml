@@ -38,7 +38,6 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
-          <p class="govuk-body-l app-results-count">@Model.JobProfiles.Length results</p>
         </div>
       </div>
 
@@ -46,6 +45,69 @@
   </div>
 
   <main id="content" role="main">
+
+    <div class="app-grey">
+      <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
+
+        <div class="govuk-grid-row">
+
+          <div class="govuk-grid-column-two-thirds app-intro">
+
+            <h2 class="govuk-heading-l">What you told us</h2>
+
+            <div class="govuk-text">
+              <p>You are a strong communicator. You have a confident and relaxed way of interacting, and you might do well in jobs that involve influencing other people's views and behaviour.</p>
+              <p>You enjoy helping other people. You're respectful and supportive in social situations, and you put people first.</p>
+              <p>You're well organised. You like to plan ahead, and you work in a systematic and organised ways. You're also good at following directions and procedures.</p>
+              <p>Because of your answers, we have provided the following job types. You can choose to view more results at the bottom of the page.</p>
+            </div>
+
+          </div>
+
+          <div class="govuk-grid-column-one-third">
+              {% include "_savepanel.njk" %}
+              {% include "_advisorpanel.njk" %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+      <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-1">Job roles you might be suited to</h2>
+        <p class="govuk-body-l text-light">@Model.JobProfiles.Length results</p>
+        <ul class="app-results app-results--long govuk-list govuk-grid-row">
+          <li class="govuk-grid-column-one-third">
+            <div class="app-results__item">
+              <h3>dsfdf</h3>
+              <p>Proofreaders check text before it's printed or published to make sure it's correct and complete.</p>
+              <p><a href="">View more information</a></p>
+              <h4 class="govuk-heading-s">Average salary (a year)</h4>
+
+              <div class="embedded-fa-icon">
+                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pound-sign" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-pound-sign fa-w-10 fa-2x"><path fill="currentColor" d="M308 352h-45.495c-6.627 0-12 5.373-12 12v50.848H128V288h84c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-84v-63.556c0-32.266 24.562-57.086 61.792-57.086 23.658 0 45.878 11.505 57.652 18.849 5.151 3.213 11.888 2.051 15.688-2.685l28.493-35.513c4.233-5.276 3.279-13.005-2.119-17.081C273.124 54.56 236.576 32 187.931 32 106.026 32 48 84.742 48 157.961V224H20c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h28v128H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h296c6.627 0 12-5.373 12-12V364c0-6.627-5.373-12-12-12z" class=""></path></svg>
+              </div>
+
+              <div class="result-meta">
+                <p class="salary-min">£18,000</p>
+                <p class="salary-max">£30,000</p>
+                <div class="range-bar"><hr></div>
+                <p class="level-min">Starter</p>
+                <p class="level-max">Experienced</p>
+              </div>
+
+              <div class="app-results__cta">
+                {{ govukButton({
+                    text: "View job role"
+                  }) 
+                }}
+              </div>
+            </div>
+          </li>
+          <li class="govuk-grid-column-one-third"><div class="app-results__item">dsfdfd   sfdfdsfdfd sfdfdsfdfdsfd fdsfdfdsfdfdsfdfds fdfdsfdfdsf dfdsfdf</div></li>
+          <li class="govuk-grid-column-one-third"><div class="app-results__item">dsfdf</div></li>
+        </ul>
+      </div>
 
       <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
           @foreach (var profile in Model.JobProfiles)
