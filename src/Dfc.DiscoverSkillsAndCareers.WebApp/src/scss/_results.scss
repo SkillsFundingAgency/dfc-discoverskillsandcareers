@@ -71,7 +71,7 @@
   .app-results__item {
     background: govuk-colour('grey-4');
     border: 0;
-    @include govuk-responsive-padding(6);
+    @include govuk-responsive-padding(5);
     height: 100%;
     box-sizing: border-box;
 
@@ -85,6 +85,9 @@
     }
     .app-results__cta {
       text-align: center;
+    }
+    .result-detail {
+      clear: both;
     }
     .result-meta {
       width: calc(100% - 40px);
@@ -132,6 +135,12 @@
         color: $app-turquoise;
       }
     } 
+    .result-meta {
+      span {
+        display: block;
+        font-size: govuk-px-to-rem(16);
+      }
+    }
   }
 
 
