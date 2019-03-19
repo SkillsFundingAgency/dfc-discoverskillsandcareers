@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
+    [Obsolete]
     public class FilteringQuestion
     {
         [JsonProperty("partitionKey")]

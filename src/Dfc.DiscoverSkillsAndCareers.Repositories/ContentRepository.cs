@@ -48,6 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         public async Task<Content> CreateContent(Content contentModel)
         {
+            contentModel.Id = contentModel.ContentType.ToLower();
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
             {

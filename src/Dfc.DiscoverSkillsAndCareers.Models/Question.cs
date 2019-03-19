@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
@@ -20,5 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public int Order { get; set; }
         [JsonProperty("excludesJobProfiles")]
         public string[] ExcludesJobProfiles { get; set; } = {};
+        [JsonProperty("filterTrigger")]
+        public string FilterTrigger { get; set; }
     }
 }
