@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
@@ -28,6 +30,14 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
 
         private void ConfigureServices(IServiceCollection services)
         {
+            ConfigureOptions(services);
+
+            services.AddSingleton<DocumentClient>(srvs => {
+                var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
+                return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
+            });
+
+
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
@@ -40,9 +50,6 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
-            
-
-            ConfigureOptions(services);
         }
 
         private void ConfigureOptions(IServiceCollection services)
