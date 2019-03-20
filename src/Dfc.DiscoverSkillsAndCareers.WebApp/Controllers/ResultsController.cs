@@ -33,11 +33,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var correlationId = Guid.NewGuid();
+            string sessionId = null;
             try
             {
                 LoggerHelper.LogMethodEnter(Log);
 
-                var sessionId = await TryGetSessionId(Request);
+                sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
@@ -55,6 +56,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.Traits = resultsResponse.Traits;
                 model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
                 return View("Results", model);
+            }
+            catch (System.Net.Http.HttpRequestException ex)
+            {
+                if (!string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/reload");
+                }
+                return Redirect("/");
             }
             catch (Exception ex)
             {
