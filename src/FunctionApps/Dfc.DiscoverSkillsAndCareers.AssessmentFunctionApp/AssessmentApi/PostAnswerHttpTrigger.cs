@@ -150,12 +150,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 NextQuestionNumber = userSession.CurrentQuestion
             };
 
-
-            if (userSession.IsComplete)
-            {
-                // If we are complete ensure we are no longer in a filtered assessment
-                //userSession.CurrentFilterAssessmentCode = null;
-            }
             // Update the session
             await userSessionRepository.UpdateUserSession(userSession);
 
