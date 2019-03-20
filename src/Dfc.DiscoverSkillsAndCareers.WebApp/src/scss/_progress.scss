@@ -40,3 +40,12 @@
     display: block;
   }
 }
+
+.ncs-progress--complete {
+  .ncs-progress__count {
+    color: #fff;
+  }
+  .ncs-progress__bar span {
+    background-color: #fff;
+  }
+}
