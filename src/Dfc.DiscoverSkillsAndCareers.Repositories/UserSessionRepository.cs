@@ -14,11 +14,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public UserSessionRepository(IOptions<CosmosSettings> cosmosSettings)
+        public UserSessionRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "UserSessions";
-            client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
+            this.client = client;
         }
 
         public async Task<UserSession> GetUserSession(string primaryKey)
