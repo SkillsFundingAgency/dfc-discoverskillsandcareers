@@ -38,14 +38,14 @@ exports.config = {
         'browser_version': '64.0',
         'resolution': '1024x768'
     },
-    // {
-    //     'name': 'Safari MacOS E2E Tests',
-    //     'os': 'OS X',
-    //     'os_version': 'Mojave',
-    //     'browserName': 'Safari',
-    //     'browser_version': '12.0',
-    //     'resolution': '1024x768'
-    // },
+    {
+        'name': 'Safari MacOS E2E Tests',
+        'os': 'OS X',
+        'os_version': 'Mojave',
+        'browserName': 'Safari',
+        'browser_version': '12.0',
+        'resolution': '1024x768'
+    },
     {
         'name': 'Chrome MacOS E2E Tests',
         'os': 'OS X',
