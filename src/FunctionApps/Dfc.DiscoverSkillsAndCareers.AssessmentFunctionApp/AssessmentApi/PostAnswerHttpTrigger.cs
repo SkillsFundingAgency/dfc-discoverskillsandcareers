@@ -146,7 +146,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 IsSuccess = true,
                 IsComplete = userSession.IsComplete,
                 IsFilterAssessment = userSession.IsFilterAssessment,
-                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe
+                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe,
+                NextQuestionNumber = userSession.CurrentQuestion
             };
 
 
