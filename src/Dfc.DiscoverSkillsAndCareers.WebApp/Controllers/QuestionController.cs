@@ -57,13 +57,19 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     SelectedOption = GetFormValue("selected_answer")
                 };
                 PostAnswerResponse postAnswerResponse = await ApiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
-
+                if (postAnswerRequest.SelectedOption == null || postAnswerResponse == null)
+                {
+                    return await NextQuestion(sessionId, true);
+                }
                 if (postAnswerResponse.IsComplete)
                 {
                     var finishEndpoint = postAnswerResponse.IsFilterAssessment ? $"/finish/{postAnswerResponse.JobCategorySafeUrl}" : "/finish";
                     Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                     return Redirect(finishEndpoint);
                 }
+                var qroute = postAnswerResponse.IsFilterAssessment ? "qf" : "q";
+                var url = $"/{qroute}/{postAnswerResponse.NextQuestionNumber}";
+                return Redirect(url);
                 return await NextQuestion(sessionId, postAnswerResponse == null);
             }
             catch (System.Net.Http.HttpRequestException)
@@ -88,7 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [HttpGet("assessment/{assessmentType}")]
         public async Task<IActionResult> NewAssessment(string assessmentType)
         {
-              var correlationId = Guid.NewGuid();
+            var correlationId = Guid.NewGuid();
             try
             {
                 LoggerHelper.LogMethodEnter(Log);

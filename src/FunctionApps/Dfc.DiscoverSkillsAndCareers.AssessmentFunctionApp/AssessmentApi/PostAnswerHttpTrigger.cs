@@ -146,15 +146,10 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 IsSuccess = true,
                 IsComplete = userSession.IsComplete,
                 IsFilterAssessment = userSession.IsFilterAssessment,
-                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe
+                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe,
+                NextQuestionNumber = userSession.CurrentQuestion
             };
 
-
-            if (userSession.IsComplete)
-            {
-                // If we are complete ensure we are no longer in a filtered assessment
-                //userSession.CurrentFilterAssessmentCode = null;
-            }
             // Update the session
             await userSessionRepository.UpdateUserSession(userSession);
 

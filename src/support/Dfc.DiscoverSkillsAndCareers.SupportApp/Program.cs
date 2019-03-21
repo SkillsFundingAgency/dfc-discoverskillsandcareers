@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using CsvHelper;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Microsoft.Azure.Documents.Client;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -47,7 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 configuration.Bind(opts);
 
                 var title = opts.QuestionVersionKey.Split('-').Last();
-                var questionSetRepository = new QuestionSetRepository(Options.Create(opts.Cosmos));
+                var questionSetRepository = new QuestionSetRepository(new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key), Options.Create(opts.Cosmos));
                 var questionSet = new QuestionSet()
                 {
                     AssessmentType = "short",
@@ -61,7 +62,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 };
                 questionSetRepository.CreateQuestionSet(questionSet).GetAwaiter().GetResult();
 
-                var questionRepository = new QuestionRepository(Options.Create(opts.Cosmos));
+                var questionRepository = new QuestionRepository(new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key), Options.Create(opts.Cosmos));
                 using(var fileStream = File.OpenRead(opts.CsvFile))
                 using(var streamReader = new StreamReader(fileStream))
                 using(var reader = new CsvReader(streamReader))

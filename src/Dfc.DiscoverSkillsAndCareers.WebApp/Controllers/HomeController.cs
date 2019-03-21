@@ -66,8 +66,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         [HttpGet]
         [Route("reload")]
-        public IActionResult ReloadGet()
+        public async Task<IActionResult> ReloadGet()
         {
+            var sessionId = await TryGetSessionId(Request);
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                return await Reload(new ReloadRequest { Code = sessionId });
+            }
             return Redirect("/");
         }
 

@@ -21,7 +21,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         {
             _logger.LogInformation(url);
             AddCorrelationId(dssCorrelationId);
-            return await _httpClient.GetStringAsync(url);
+            using (HttpResponseMessage res = await _httpClient.GetAsync(url))
+            {
+                res.EnsureSuccessStatusCode();
+                using (HttpContent content = res.Content)
+                {
+                    return await content.ReadAsStringAsync();
+                }
+            }
         }
 
         private void AddCorrelationId(Guid? dssCorrelationId)
@@ -39,6 +46,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             AddCorrelationId(dssCorrelationId);
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new JsonContent(data)))
             {
+                res.EnsureSuccessStatusCode();
                 using (HttpContent content = res.Content)
                 {
                     return await content.ReadAsStringAsync();

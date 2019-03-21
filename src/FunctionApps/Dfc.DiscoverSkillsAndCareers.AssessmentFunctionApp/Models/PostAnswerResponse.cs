@@ -12,5 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
         public string JobCategorySafeUrl { get; set; }
         [JsonProperty("isFilterAssessment")]
         public bool IsFilterAssessment { get; set; }
+        [JsonProperty("NextQuestionNumber")]
+        public int NextQuestionNumber { get; set; }
     }
 }
