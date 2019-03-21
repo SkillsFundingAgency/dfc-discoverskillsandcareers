@@ -94,7 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [HttpGet("assessment/{assessmentType}")]
         public async Task<IActionResult> NewAssessment(string assessmentType)
         {
-              var correlationId = Guid.NewGuid();
+            var correlationId = Guid.NewGuid();
             try
             {
                 LoggerHelper.LogMethodEnter(Log);

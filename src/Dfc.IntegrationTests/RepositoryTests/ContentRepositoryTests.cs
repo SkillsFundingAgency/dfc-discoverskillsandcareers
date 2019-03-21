@@ -1,5 +1,6 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -26,7 +27,8 @@ namespace Dfc.IntegrationTests.RepositoryTests
             var cosmosSettings = Configuration.Get<CosmosSettings>();
             _optsCosmosSettings = Options.Create(cosmosSettings);
             _logger = Substitute.For<ILogger<ContentRepository>>();
-            _repository = new ContentRepository(_logger, _optsCosmosSettings);
+            var documentClient = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);
+            _repository = new ContentRepository(_logger, documentClient, _optsCosmosSettings);
         }
 
         public void Dispose() { }
