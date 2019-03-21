@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
@@ -29,6 +31,13 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
         private void ConfigureServices(IServiceCollection services)
         {
+            ConfigureOptions(services);
+
+            services.AddSingleton<DocumentClient>(srvs => {
+                var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
+                return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
+            });
+
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
@@ -41,14 +50,10 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
-           
-
-
-            
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
 
-            ConfigureOptions(services);
+            
         }
 
         private void ConfigureOptions(IServiceCollection services)

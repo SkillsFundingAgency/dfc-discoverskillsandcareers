@@ -9,11 +9,13 @@ using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 
@@ -33,6 +35,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
 
         private void ConfigureServices(IServiceCollection services)
         {
+            ConfigureOptions(services);
+
+            services.AddSingleton<DocumentClient>(srvs => {
+                var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
+                return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
+            });
+
+
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
@@ -68,7 +78,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetJobProfileData, GetJobProfileData>();
             services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
             
-            ConfigureOptions(services);
+            
         }
         
         private void ConfigureOptions(IServiceCollection services)

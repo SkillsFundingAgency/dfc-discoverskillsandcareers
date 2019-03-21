@@ -14,11 +14,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public QuestionSetRepository(IOptions<CosmosSettings> cosmosSettings)
+        public QuestionSetRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "QuestionSets";
-            client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
+            this.client = client;
         }
 
         public async Task<Document> CreateQuestionSet(QuestionSet questionSet)
