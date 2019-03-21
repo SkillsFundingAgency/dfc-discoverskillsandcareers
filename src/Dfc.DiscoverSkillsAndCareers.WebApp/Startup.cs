@@ -1,5 +1,4 @@
-﻿using System;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
+﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using DFC.Common.Standard.Logging;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
+using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
@@ -39,7 +39,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<ILoggerHelper, LoggerHelper>();
-            
             services.AddSingleton<IApiServices, ApiServices>();
         }
 
