@@ -13,5 +13,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         Task<ResultsResponse> Results(string sessionId, Guid correlationId);
         Task<NewSessionResponse> StartFilteredForJobCategory(Guid correlationId, string sessionId, string jobCategory);
         Task<ResultsJobCategoryResult> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId);
+        Task<NotifyResponse> SendEmail(string domain, string emailAddress, string templateId, string sessionId, Guid correlationId);
+        Task<NotifyResponse> SendSms(string domain, string mobileNumber, string templateId, string sessionId, Guid correlationId);
     }
 }

@@ -52,15 +52,26 @@
 
           <div class="govuk-body">
 
-            <h1 class="govuk-heading-m">What to do</h1>
-            <p>The code above is your unique reference number. You can use this to:</p>
-            <ul>
-              <li>Return to the assessment and resume your progress</li>
-              <li>Access your results after finishing the assessment</li>
-            </ul>
+              <h1 class="govuk-heading-m">What to do</h1>
+              <p>The code above is your unique reference number. You can use this to:</p>
+              <ul>
+                  <li>Return to the assessment and resume your progress</li>
+                  <li>Access your results after finishing the assessment</li>
+              </ul>
 
-            <p>Please write this code down and store it somewhere safe.</p>
+              <p>Please write this code down and store it somewhere safe.</p>
 
+              <h2>Send email</h2>
+              <form action="/save-my-progress/email" method="post">
+                  <input name="email" type="email" />
+                  <button type="submit">Send</button>
+              </form>
+
+              <h2>Send sms</h2>
+              <form action="/save-my-progress/sms" method="post">
+                  <input name="mobileNumber" type="text" />
+                  <button type="submit">Send</button>
+              </form>
           </div>
 
         </div>
