@@ -10,7 +10,7 @@
   .govuk-phase-bannertag, // legacy version support
   .govuk-phase-banner__content__tag {
     background-color: govuk-colour('white');
-    color: $app-turquoise;
+    color: $govuk-brand-colour;
   }
 
   a:link,
