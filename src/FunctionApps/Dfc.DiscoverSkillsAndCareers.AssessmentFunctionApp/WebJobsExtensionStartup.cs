@@ -14,6 +14,8 @@ using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
+using Notify.Interfaces;
+using Notify.Client;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
@@ -47,13 +49,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddSingleton<IContentRepository, ContentRepository>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
-
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
-
-            
+            services.AddSingleton<INotificationClient>(srvs => {
+                var appSettings = srvs.GetService<IOptions<AppSettings>>().Value;
+                return new NotificationClient(appSettings.NotifyApiKey);
+            });
+            services.AddTransient<INotifyClient, NotifyClient>();
         }
 
         private void ConfigureOptions(IServiceCollection services)
@@ -84,6 +87,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.Configure<AppSettings>(env =>
             {
                 env.SessionSalt = appSettings.SessionSalt;
+                env.NotifyApiKey = appSettings.NotifyApiKey;
             });
         }
     }
