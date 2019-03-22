@@ -105,9 +105,6 @@
   .app-button, 
   .app-button--outline {
     @include govuk-media-query($from: desktop) {
-      width: auto;
-      padding-left: 0;
-      padding-right: 0;
       margin-left: govuk-spacing(3);
     }
   }
