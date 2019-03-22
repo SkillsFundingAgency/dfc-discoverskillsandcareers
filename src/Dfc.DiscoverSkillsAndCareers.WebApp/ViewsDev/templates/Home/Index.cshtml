@@ -30,7 +30,6 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           <h1 class="govuk-heading-xl app-masthead__title">@Model.Title</h1>
-          <p class="govuk-body-l">@Model.Subheading</p>
         </div>
       </div>
 
@@ -44,34 +43,28 @@
 
         <div class="govuk-grid-column-two-thirds">
 
-          <div class="app-assessment-picker">
-            <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">@Model.Assessment1Title</h2>
-            </div>
-            <div class="app-assessment-picker__body">
-              <div class="govuk-inset-text">
-                @Model.Assessment1Subtitle
-              </div>
-              <a href="/start/" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state" gov-analytics-data="{{pageName}} | click | button | Start assessment">Start assessment</a>
-            </div>
+          <p class="govuk-body">@Model.Subheading</p>
+
+          <div class="govuk-inset-text">
+            @Model.Assessment1Subtitle
           </div>
 
-          <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
-            <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">@Model.Assessment2Title</h2>
-              <strong class="govuk-tag govuk-tag--coming-soon">Coming soon</strong>
-            </div>
-            <div class="app-assessment-picker__body">
-              <div class="govuk-inset-text">
-                @Model.Assessment2Subtitle
-              </div>
-            </div>
-          </div>
+          <p class="govuk-body">[new CMS field required]</p>
+          
+          {{ govukButton({
+            text: "Start assessment",
+            href: "/assessment/short/",
+            classes: "govuk-button--start",
+            attributes: {
+              "gov-analytics-data": pageName + " | click | button | Start assessment"
+            }
+          }) }}
 
         </div>
 
         <div class="govuk-grid-column-one-third">
           {% include "_resumepanel.njk" %}
+          {% include "_advisorpanel.njk" %}
         </div>
 
       </div>

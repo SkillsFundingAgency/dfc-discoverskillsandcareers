@@ -46,7 +46,7 @@ $app-text-light: #646C70;
 }
 
 .govuk-header__container {
-  border-bottom-color: $app-purple;
+  border-bottom-color: $govuk-brand-colour;
 }
 
 .govuk-phase-bannertag {  // legacy version support
@@ -55,7 +55,7 @@ $app-text-light: #646C70;
 
 .govuk-phase-bannertag,  // legacy version support
 .govuk-phase-banner__content__tag {
-  background-color: $app-purple;
+  background-color: $govuk-brand-colour;
   color: govuk-colour('white');
 }
 
