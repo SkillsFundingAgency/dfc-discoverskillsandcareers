@@ -82,6 +82,8 @@
 
         <div class="@(Model.AssessmentType == "short" ? "govuk-grid-column-two-thirds" : "govuk-grid-column-full") ">
 
+          {% include "_sendresults.njk" %}
+
           <div class="app-results">
 
             <h2 class="govuk-heading-l govuk-!-margin-bottom-1">Job categories you might be suited to</h2>
