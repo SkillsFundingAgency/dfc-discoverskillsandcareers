@@ -46,11 +46,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
 
-                var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
-                model.SessionId = sessionId;
-                model.Code = nextQuestionResponse.ReloadCode;
-                model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
-                model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("SaveProgress", model);
             }
@@ -114,7 +109,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 try
                 {
                     notifyResponse = await ApiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email, AppSettings.NotifyEmailTemplateId, sessionId, correlationId);
-
+                    if (!notifyResponse.IsSuccess)
+                    {
+                        throw new Exception(notifyResponse?.Message);
+                    }
                     model.SentTo = sendEmailRequest.Email?.ToLower();
                     Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                     return View("EmailSent", model);
@@ -187,7 +185,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 try
                 {
                     notifyResponse = await ApiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, AppSettings.NotifySmsTemplateId, sessionId, correlationId);
-
+                    if (!notifyResponse.IsSuccess)
+                    {
+                        throw new Exception(notifyResponse?.Message);
+                    }
                     model.SentTo = sendSmsRequest.MobileNumber;
                     Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                     return View("SmsSent", model);
@@ -227,6 +228,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+
+                var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
+                model.SessionId = sessionId;
+                model.Code = nextQuestionResponse.ReloadCode;
+                model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
+                model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
 
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("ReferenceNumber", model);

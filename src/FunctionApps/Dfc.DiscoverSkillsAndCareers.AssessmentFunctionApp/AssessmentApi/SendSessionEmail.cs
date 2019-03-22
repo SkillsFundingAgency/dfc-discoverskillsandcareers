@@ -101,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             {
                 var result = new SendSessionEmailResponse()
                 {
-                    IsSuccess = true,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
