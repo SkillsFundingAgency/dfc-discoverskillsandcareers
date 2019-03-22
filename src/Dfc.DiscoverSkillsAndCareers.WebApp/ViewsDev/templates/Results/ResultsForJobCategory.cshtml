@@ -74,6 +74,11 @@
     </div>
 
     <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds app-intro">
+          {% include "_sendresults.njk" %}
+        </div>
+      </div>
       <h2 class="govuk-heading-l govuk-!-margin-bottom-1">Job roles you might be suited to</h2>
       <p class="govuk-body-l text-light">@Model.JobProfiles.Length results</p>
       <ul class="app-results app-results--long govuk-list govuk-grid-row">
