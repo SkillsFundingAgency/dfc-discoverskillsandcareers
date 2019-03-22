@@ -6,6 +6,10 @@
   .govuk-radios__item {
     width: auto;
     clear: both;
+    &:nth-child(3) {
+      // Prevent 'it depends' from wrapping into two lines
+      white-space: nowrap;
+    }
   }
   
   @include govuk-media-query($from: desktop) {
