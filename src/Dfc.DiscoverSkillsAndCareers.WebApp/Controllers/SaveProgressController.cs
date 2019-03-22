@@ -65,6 +65,37 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
+        [HttpGet("email")]
+        public async Task<IActionResult> EmailInput()
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                return View("EmailInput", model);
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
+
         [HttpPost("email")]
         public async Task<IActionResult> SendEmail([FromForm]SendEmailRequest sendEmailRequest)
         {
@@ -78,10 +109,54 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-                
-                var notifyResponse = await ApiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email, AppSettings.NotifyEmailTemplateId , sessionId, correlationId);
-                // TODO: ui
-                return new OkObjectResult("sent - UI page for result tbd");
+                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                NotifyResponse notifyResponse = null;
+                try
+                {
+                    notifyResponse = await ApiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email, AppSettings.NotifyEmailTemplateId, sessionId, correlationId);
+
+                    model.SentTo = sendEmailRequest.Email?.ToLower();
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    return View("EmailSent", model);
+
+                }
+                catch (Exception ex)
+                {
+                    model.ErrorMessage = ex.Message;
+                    return View("EmailInput", model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
+
+        [HttpGet("sms")]
+        public async Task<IActionResult> SmsInput()
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                return View("SmsInput", model);
             }
             catch (Exception ex)
             {
@@ -107,10 +182,54 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
+                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                NotifyResponse notifyResponse = null;
+                try
+                {
+                    notifyResponse = await ApiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, AppSettings.NotifySmsTemplateId, sessionId, correlationId);
 
-                var notifyResponse = await ApiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, AppSettings.NotifyEmailTemplateId, sessionId, correlationId);
-                // TODO: ui
-                return new OkObjectResult("sent - UI page for result tbd");
+                    model.SentTo = sendSmsRequest.MobileNumber;
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    return View("SmsSent", model);
+
+                }
+                catch (Exception ex)
+                {
+                    model.ErrorMessage = ex.Message;
+                    return View("SmsInput", model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
+
+        [HttpGet("reference")]
+        public async Task<IActionResult> ReferenceNumber()
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+
+                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                return View("ReferenceNumber", model);
             }
             catch (Exception ex)
             {
