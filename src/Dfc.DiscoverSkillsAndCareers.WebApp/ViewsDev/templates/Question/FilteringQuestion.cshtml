@@ -57,65 +57,62 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
 
-                    <div class="ncs-progress">
-                        <span class="ncs-progress__count"><b class="govuk-!-font-size-36">@Model.Percentage%</b> <b class="visually-hidden">Complete</b></span>
-                        <div class="ncs-progress__bar"><span style="width: @Model.Percentage%"></span></div>
+                     <span class="govuk-error-message">@Model.ErrorMessage</span>
+
+                    <fieldset class="govuk-fieldset app-question app-question--long">
+
+                        <legend class="visually-hidden">@Model.QuestionText</legend>
+
+                        <div class="govuk-fieldset__legend--l app-question__question">
+                            <h1 class="govuk-fieldset__heading" aria-hidden="true">
+                                @Model.QuestionText
+                            </h1>
+                        </div>
+
+                        <div class="app-question__answer govuk-radios govuk-radios--inline">
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" value="Yes">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-1">
+                                    @Model.Yes
+                                </label>
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" value="No">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-2">
+                                    @Model.No
+                                </label>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+                    <div class="app-controls">
+
+                        {{ govukButton({
+                        text: "@Model.NextButtonText",
+                        classes: "app-button",
+                        type: "submit",
+                        attributes: {
+                        "gov-analytics-data": pageName + " | click | button | Submit"
+                        }
+                        }) }}
+
                     </div>
 
+                    {% set savepanelClass = 'alt-mobile' %}
+                    {% include "_savepanel.njk" %}
+
                 </div>
+
                 <div class="govuk-grid-column-one-third-from-desktop">
                     {% set savepanelClass = 'alt' %}
                     {% include "_savepanel.njk" %}
                 </div>
-            </div>
-
-            <span class="govuk-error-message">@Model.ErrorMessage</span>
-
-            <fieldset class="govuk-fieldset app-question app-question--long">
-
-                <legend class="visually-hidden">@Model.QuestionText</legend>
-
-                <div class="govuk-fieldset__legend--l app-question__question">
-                    <h1 class="govuk-fieldset__heading" aria-hidden="true">
-                        @Model.QuestionText
-                    </h1>
-                </div>
-
-                <div class="app-question__answer govuk-radios govuk-radios--inline">
-
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" value="Yes">
-                        <label class="govuk-label govuk-radios__label" for="selected_answer-1">
-                            @Model.Yes
-                        </label>
-                    </div>
-
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" value="No">
-                        <label class="govuk-label govuk-radios__label" for="selected_answer-2">
-                            @Model.No
-                        </label>
-                    </div>
-
-                </div>
-
-            </fieldset>
-
-            <div class="app-controls">
-
-                {{ govukButton({
-                text: "@Model.NextButtonText",
-                classes: "app-button",
-                type: "submit",
-                attributes: {
-                "gov-analytics-data": pageName + " | click | button | Submit"
-                }
-                }) }}
 
             </div>
-
-            {% set savepanelClass = 'alt-mobile' %}
-            {% include "_savepanel.njk" %}
 
         </form>
     </div>
