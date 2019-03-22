@@ -77,10 +77,16 @@
       <h2 class="govuk-heading-l govuk-!-margin-bottom-1">Job roles you might be suited to</h2>
       <p class="govuk-body-l text-light">@Model.JobProfiles.Length results</p>
       <ul class="app-results app-results--long govuk-list govuk-grid-row">
+        @foreach (var profile in Model.JobProfiles)
+        {
         <li class="govuk-grid-column-one-third">
           <div class="app-results__item">
-            <h3>dsfdf</h3>
-            <p>Proofreaders check text before it's printed or published to make sure it's correct and complete.</p>
+            <h3>@profile.Title</h3>
+            <p>@profile.Overview</p>
+            <p>SocCode : @profile.SocCode</p>
+            <p>CareerPathAndProgression : @profile.CareerPathAndProgression</p>
+            <p>WYDDayToDayTasks : @profile.WYDDayToDayTasks</p>
+            <p>UrlName : @profile.UrlName</p>
             <p><a href="">View more information</a></p>
             <div class="result-detail">
               <h4 class="govuk-heading-s">Average salary (a year)</h4>
@@ -88,8 +94,8 @@
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pound-sign" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-pound-sign fa-w-10 fa-2x"><path fill="currentColor" d="M308 352h-45.495c-6.627 0-12 5.373-12 12v50.848H128V288h84c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-84v-63.556c0-32.266 24.562-57.086 61.792-57.086 23.658 0 45.878 11.505 57.652 18.849 5.151 3.213 11.888 2.051 15.688-2.685l28.493-35.513c4.233-5.276 3.279-13.005-2.119-17.081C273.124 54.56 236.576 32 187.931 32 106.026 32 48 84.742 48 157.961V224H20c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h28v128H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h296c6.627 0 12-5.373 12-12V364c0-6.627-5.373-12-12-12z" class=""></path></svg>
               </div>
               <div class="result-meta">
-                <p class="salary-min">£18,000</p>
-                <p class="salary-max">£30,000</p>
+                <p class="salary-min">@profile.SalaryStarter</p>
+                <p class="salary-max">@profile.SalaryExperienced</p>
                 <div class="range-bar"><hr></div>
                 <p class="level-min">Starter</p>
                 <p class="level-max">Experienced</p>
@@ -122,8 +128,7 @@
             </div>
           </div>
         </li>
-        <li class="govuk-grid-column-one-third"><div class="app-results__item">Placeholder</div></li>
-        <li class="govuk-grid-column-one-third"><div class="app-results__item">Placeholder</div></li>
+        }
       </ul>
       <p><a href="#">Show x more results</a></p>
     </div>
@@ -147,24 +152,6 @@
         </div>
       </div>
     </div>
-
-    <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
-        @foreach (var profile in Model.JobProfiles)
-        {
-            <li class="app-result">
-                <h3 class="govuk-heading-m app-result__header">@profile.Title</h3>
-                <ul>
-                    <li>Overview : @profile.Overview</li>
-                    <li>SalaryStarter : @profile.SalaryStarter</li>
-                    <li>SalaryExperienced : @profile.SalaryExperienced</li>
-                    <li>SocCode : @profile.SocCode</li>
-                    <li>CareerPathAndProgression : @profile.CareerPathAndProgression</li>
-                    <li>WYDDayToDayTasks : @profile.WYDDayToDayTasks</li>
-                    <li>UrlName : @profile.UrlName</li>
-                </ul>
-            </li>
-        }
-    </ol>
 
 </main>
 
