@@ -75,6 +75,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
             services.AddTransient<IGetJobProfileData, GetJobProfileData>();
             services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
+            services.AddTransient<IFunctionalCompetencyDataProcessor, FunctionalCompetencyDataProcessor>();
+            services.AddTransient<IGetFunctionalCompetenciesData, GetFunctionalCompetenciesData>();
         }
         
         private void ConfigureOptions(IServiceCollection services)

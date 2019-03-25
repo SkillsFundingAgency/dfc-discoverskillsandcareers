@@ -20,5 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string[] ExcludesJobProfiles { get; set; } = {};
         [JsonProperty("filterTrigger")]
         public string FilterTrigger { get; set; }
+        [JsonProperty("sfid")]
+        public string SfId { get; set; }
     }
 }

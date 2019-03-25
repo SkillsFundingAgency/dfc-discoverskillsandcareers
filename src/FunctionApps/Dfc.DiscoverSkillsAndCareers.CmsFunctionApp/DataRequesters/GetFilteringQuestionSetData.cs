@@ -34,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
                 fqs.Questions = await GetFilteringQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, fqs.Id);
 
             }
-            var localPath = @"C:\ncs\dfc-discoverskillsandcareers-dev\src\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp";
+            var localPath = @"C:\ncs\dfc-discoverskillsandcareers-dev\src\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp"; //TODO: temp issue as no CMS
             var saveFilename = System.IO.Path.Combine(localPath, "filtering_questions.json");
             await System.IO.File.WriteAllTextAsync(saveFilename, JsonConvert.SerializeObject(data.Value));
             return data.Value;

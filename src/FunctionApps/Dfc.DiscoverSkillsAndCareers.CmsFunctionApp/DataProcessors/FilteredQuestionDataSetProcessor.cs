@@ -54,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
                 // Determine if an update is required i.e. the last updated datetime stamp has changed
                 bool updateRequired = questionSet == null || (data.LastUpdated != questionSet.LastUpdated);
-
+                updateRequired = true;
                 // Nothing to do so log and exit
                 if (!updateRequired)
                 {
@@ -106,8 +106,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                             new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
                         },
                         ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray(),
-                        FilterTrigger = dataQuestion.IsYes ? "Yes" : "No"
-                         
+                        FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
+                        SfId = dataQuestion.Id
                     };
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;

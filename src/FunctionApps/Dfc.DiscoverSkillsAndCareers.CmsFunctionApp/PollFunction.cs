@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
     public static class PollFunction
     {
         [FunctionName("PollFunction")]
-        public static  async Task Run([TimerTrigger("*/1 * * * *")]TimerInfo myTimer,
+        public static  async Task Run([TimerTrigger("*/4 * * * *")]TimerInfo myTimer,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
@@ -22,12 +22,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
             [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
-            [Inject]IJobProfileDataProcessor jobProfileDataProcessor
+            [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
+            [Inject]IFunctionalCompetencyDataProcessor functionalCompetencyDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-            await filteredQuestionSetDataProcessor.RunOnce(true);
+            await filteredQuestionSetDataProcessor.RunOnce(false);
 
             await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
 
@@ -42,6 +43,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             await shortQuestionSetDataProcessor.RunOnce();
 
             await jobProfileDataProcessor.RunOnce();
+
+            await functionalCompetencyDataProcessor.RunOnce();
         }
     }
 }
