@@ -7,7 +7,7 @@
 {% block pre %}
   @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
   @{
-      ViewData["Title"] = "Home Page";
+      ViewData["Title"] = Model.Title;
       Layout = null;
   }
 {% endblock %}
@@ -15,25 +15,25 @@
 {% block main %}
 
   <div class="app-masthead">
-    <div class="govuk-width-container">
+      <div class="govuk-width-container">
 
-      {% include "_phasebanner.njk" %}
+          {% include "_phasebanner.njk" %}
 
-      {{ govukBreadcrumbs({
-        items: [
+          {{ govukBreadcrumbs({
+          items: [
           {
-            text: "Home: Discover your skills and careers"
+          text: "Home: @Model.Headline"
           }
-        ]
-      }) }}
+          ]
+          }) }}
 
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">@Model.Title</h1>
-        </div>
+          <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                  <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+              </div>
+          </div>
+
       </div>
-
-    </div>
   </div>
 
   <main id="content" role="main">
