@@ -19,5 +19,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string SeeLinkButtonText { get; set; } = "See job category";
         public string SaveProgressTitle { get; set; } = "Return to this later";
         public bool UseFilteringQuestions { get; set; }
+        public JobProfileResult[] JobProfiles { get; set; }
     }
 }

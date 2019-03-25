@@ -25,6 +25,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpRequestHelper = Substitute.For<IHttpRequestHelper>();
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
+            _jobProfileRepository = Substitute.For<IJobProfileRepository>();
         }
 
         public void Dispose()
@@ -32,6 +33,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpRequestHelper = null;
             _httpResponseMessageHelper = null;
             _userSessionRepository = null;
+            _jobProfileRepository = null;
         }
 
         private HttpRequest _request;
@@ -40,6 +42,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpRequestHelper _httpRequestHelper;
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
+        private IJobProfileRepository _jobProfileRepository;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId)
         {
@@ -50,7 +53,8 @@ namespace Dfc.UnitTests.FunctionTests
                 _loggerHelper,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
-                _userSessionRepository
+                _userSessionRepository,
+                _jobProfileRepository
             ).ConfigureAwait(false);
         }
 
