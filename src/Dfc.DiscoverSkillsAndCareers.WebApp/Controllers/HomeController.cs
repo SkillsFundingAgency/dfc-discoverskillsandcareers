@@ -92,6 +92,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return View("Index", model);
                 }
 
+                reloadRequest.Code = reloadRequest.Code.Replace(" ", "").ToLower();
                 if (reloadRequest.Code != HttpUtility.UrlEncode(reloadRequest.Code))
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
@@ -99,7 +100,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return View("Index", model);
                 }
 
-                var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code.Replace(" ", ""), correlationId);
+                var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code, correlationId);
                 if (nextQuestionResponse == null)
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);

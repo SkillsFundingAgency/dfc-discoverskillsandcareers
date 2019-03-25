@@ -23,6 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         public async Task<UserSession> GetUserSession(string primaryKey)
         {
+            primaryKey = primaryKey.ToLower().Replace(" ", "");
             int pos = primaryKey.IndexOf('-');
             if (pos <= 0)
             {
