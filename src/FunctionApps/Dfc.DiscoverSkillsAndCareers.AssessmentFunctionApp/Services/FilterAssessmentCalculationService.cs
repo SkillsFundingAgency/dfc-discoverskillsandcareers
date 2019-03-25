@@ -28,18 +28,23 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             var allJobProfiles = await JobProfileRepository.GetJobProfilesForJobFamily(jobFamilyName);
             var suggestedJobProfiles = allJobProfiles.ToList();
 
-            // All answers that may reduce the job profiles
-            var noanswers = userSession.CurrentRecordedAnswers
-                .Where(x => x.SelectedOption == AnswerOption.No)
+            // All answers in order 
+            var answers = userSession.CurrentRecordedAnswers
                 .OrderBy(x => x.QuestionNumber)
                 .ToList();
 
             // Iterate through removing all in a "guess-who" fashion
-            foreach (var answer in noanswers)
+            foreach (var answer in answers)
             {
                 var question = questions.Where(x => x.QuestionId == answer.QuestionId).First();
-                var toremove = question.ExcludesJobProfiles;
-                suggestedJobProfiles.RemoveAll(x => toremove.Contains(x.Title));
+                if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
+                {
+                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
+                }
+                else if (question.FilterTrigger == "Yes" && answer.SelectedOption == AnswerOption.Yes)
+                {
+                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
+                }
             }
 
             // Update the filter assessment with the soc codes we are going to suggest
