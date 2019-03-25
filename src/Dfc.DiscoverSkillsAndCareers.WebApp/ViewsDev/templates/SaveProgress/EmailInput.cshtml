@@ -15,19 +15,14 @@
 
 <div class="govuk-width-container app-site-width-container">
 
-    {% include "_phasebanner.njk" %}
+    {% from "back-link/macro.njk" import govukBackLink %}
 
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "Save your progress"
-        }
-      ]
-    }) }}
+    {% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "@Model.BackLink"
+      }) }}
+    {% endblock %}
 
 </div>
 

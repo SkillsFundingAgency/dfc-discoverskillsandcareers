@@ -13,23 +13,18 @@
 
 {% block main %}
 
-  <div class="govuk-width-container app-site-width-container">
+<div class="govuk-width-container app-site-width-container">
 
-    {% include "_phasebanner.njk" %}
+    {% from "back-link/macro.njk" import govukBackLink %}
 
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "Save your progress"
-        }
-      ]
-    }) }}
+    {% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "@Model.BackLink"
+      }) }}
+    {% endblock %}
 
-  </div>
+</div>
 
   <main id="content" role="main">
     <div class="govuk-main-wrapper govuk-width-container">
@@ -53,15 +48,15 @@
               items: [
                 {
                   value: "email",
-                  text: "Email"
+                  text: "Send me an email"
                 },
                 {
                   value: "sms",
-                  text: "SMS"
+                  text: "Send me a text"
                 },
                 {
                   value: "reference",
-                  text: "Reference"
+                  text: "Give me a reference number"
                 }
               ]
             }) }}
@@ -74,7 +69,7 @@
 
           <div class="govuk-body">
 
-            <p><a href="#">Return to assessment</a></p>
+            <p><a href="@Model.BackLink">Return to assessment</a></p>
 
           </div>
 
