@@ -41,17 +41,19 @@
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
-        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-grid-column-two-thirds">
 
-          <p class="govuk-body">@Model.Subheading</p>
+              <p class="govuk-body">@Model.TextBlock1</p>
 
-          <div class="govuk-inset-text">
-            @Model.Assessment1Subtitle
-          </div>
+              <p class="govuk-body">@Model.TextBlock2</p>
 
-          <p class="govuk-body">[new CMS field required]</p>
-          
-          {{ govukButton({
+              <div class="govuk-inset-text">
+                  @Model.TextHighlight
+              </div>
+
+              <p class="govuk-body">@Model.TextBlock3</p>
+
+              {{ govukButton({
             text: "Start assessment",
             href: "/assessment/short/",
             classes: "govuk-button--start",
@@ -60,7 +62,7 @@
             }
           }) }}
 
-        </div>
+          </div>
 
         <div class="govuk-grid-column-one-third">
           {% include "_resumepanel.njk" %}
