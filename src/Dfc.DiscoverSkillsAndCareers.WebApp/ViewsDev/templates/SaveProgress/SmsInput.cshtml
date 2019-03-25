@@ -37,12 +37,13 @@
 
                     <form action="/save-my-progress/sms" method="post">
                         {{ govukInput({
-                        label: {
-                            text: "Phone number"
-                        },
-                        classes: "govuk-input--width-20",
-                        id: "mobileNumber",
-                        name: "mobileNumber"
+                            label: {
+                                text: "Phone number"
+                            },
+                            classes: "govuk-input--width-20",
+                            id: "mobileNumber",
+                            name: "mobileNumber",
+                            required: "true"
                         }) }}
                         {{ govukButton({
                             text: "Send"

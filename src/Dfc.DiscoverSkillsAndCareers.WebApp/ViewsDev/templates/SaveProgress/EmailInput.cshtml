@@ -37,13 +37,14 @@
 
                     <form action="/save-my-progress/email" method="post">
                         {{ govukInput({
-                        label: {
-                            text: "Email"
-                        },
-                        classes: "govuk-input--width-20",
-                        type: "email",
-                        id: "email",
-                        name: "email"
+                            label: {
+                                text: "Email"
+                            },
+                            classes: "govuk-input--width-20",
+                            type: "email",
+                            id: "email",
+                            name: "email",
+                            required: "true"
                         }) }}
                         {{ govukButton({
                             text: "Send"
