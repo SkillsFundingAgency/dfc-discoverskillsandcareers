@@ -99,7 +99,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return View("Index", model);
                 }
 
-                var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code ?? "", correlationId);
+                var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code.Replace(" ", ""), correlationId);
                 if (nextQuestionResponse == null)
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);

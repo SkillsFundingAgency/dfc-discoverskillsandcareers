@@ -239,6 +239,23 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
+        [NonAction]
+        public string GetDisplayCode(string code)
+        {
+            string result = "";
+            int i = 0;
+            foreach(var c in code.ToUpper().ToCharArray())
+            {
+                i++;
+                if (i % 4 == 1 && i > 1)
+                {
+                    result += " ";
+                }
+                result += c.ToString();
+            }
+            return result;
+        }
+
         [HttpGet("reference", Name = "SaveProgressReference")]
         public async Task<IActionResult> ReferenceNumber()
         {
@@ -258,7 +275,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.BackLink = Request.Headers["Referer"];
                 var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
                 model.SessionId = sessionId;
-                model.Code = nextQuestionResponse.ReloadCode;
+                model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
                 model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
                 model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
 
