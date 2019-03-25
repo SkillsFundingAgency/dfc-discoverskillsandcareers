@@ -30,6 +30,31 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             AppSettings = appSettings.Value;
         }
 
+        [HttpPost]
+        public IActionResult SaveProgressOption([FromForm]SaveProgressOptionRequest saveProgressOptionRequest)
+        {
+            switch (saveProgressOptionRequest.SelectedOption)
+            {
+                case "email":
+                    {
+                        return RedirectToAction("EmailInput");
+                    }
+                case "sms":
+                    {
+                        return RedirectToAction("SmsInput");
+                    }
+                case "reference":
+                    {
+                        return RedirectToAction("ReferenceNumber");
+                    }
+                default:
+                    {
+                        return RedirectToAction("Index");
+                    }
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var correlationId = Guid.NewGuid();
@@ -60,7 +85,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpGet("email")]
+        [HttpGet("email", Name = "SaveProgressEmailInput")]
         public async Task<IActionResult> EmailInput()
         {
             var correlationId = Guid.NewGuid();
@@ -136,7 +161,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpGet("sms")]
+        [HttpGet("sms", Name = "SaveProgressSmsInput")]
         public async Task<IActionResult> SmsInput()
         {
             var correlationId = Guid.NewGuid();
@@ -212,7 +237,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpGet("reference")]
+        [HttpGet("reference", Name = "SaveProgressReference")]
         public async Task<IActionResult> ReferenceNumber()
         {
             var correlationId = Guid.NewGuid();

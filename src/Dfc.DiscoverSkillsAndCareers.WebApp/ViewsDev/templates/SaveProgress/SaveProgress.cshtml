@@ -38,11 +38,11 @@
 
           <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
 
-          <form>
+          <form action="/save-my-progress" method="post">
 
-            {{ govukRadios({
-              idPrefix: "where-do-you-live",
-              name: "where-do-you-live",
+              {{ govukRadios({
+              idPrefix: "SelectedOption",
+              name: "SelectedOption",
               fieldset: {
                 legend: {
                   text: "Choose how to recieve your results",
@@ -66,7 +66,7 @@
               ]
             }) }}
 
-            {{ govukButton({
+              {{ govukButton({
               text: "Next"
             }) }}
 
