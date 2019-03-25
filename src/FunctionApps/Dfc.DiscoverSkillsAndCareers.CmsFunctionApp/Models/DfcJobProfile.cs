@@ -20,6 +20,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string WYDDayToDayTasks { get; set; }
         [JsonProperty("CareerPathAndProgression")]
         public string CareerPathAndProgression { get; set; }
+        [JsonProperty("typicalHours")]
+        public string TypicalHours { get; set; }
+        [JsonProperty("shiftPattern")]
+        public string ShiftPattern { get; set; }
         [JsonProperty("JobProfileCategories")]
         public string[] JobProfileCategories { get; set; }
     }

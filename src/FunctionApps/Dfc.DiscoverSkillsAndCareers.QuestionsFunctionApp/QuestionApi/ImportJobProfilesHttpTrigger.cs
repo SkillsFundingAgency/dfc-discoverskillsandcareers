@@ -71,7 +71,9 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                         SocCode = jobProfile.SocCode,
                         Title = jobProfile.Title,
                         UrlName = jobProfile.UrlName,
-                        WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                        WYDDayToDayTasks = jobProfile.WYDDayToDayTasks,
+                        ShiftPattern = jobProfile.ShiftPattern,
+                        TypicalHours = jobProfile.TypicalHours
                     });
                 }
 
@@ -115,6 +117,10 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
             public string WYDDayToDayTasks { get; set; }
             [JsonProperty("CareerPathAndProgression")]
             public string CareerPathAndProgression { get; set; }
+            [JsonProperty("typicalHours")]
+            public string TypicalHours { get; set; }
+            [JsonProperty("shiftPattern")]
+            public string ShiftPattern { get; set; }
             [JsonProperty("JobProfileCategories")]
             public string[] JobProfileCategories { get; set; }
         }

@@ -24,5 +24,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string CareerPathAndProgression { get; set; }
         [JsonProperty("jobProfileCategories")]
         public string[] JobProfileCategories { get; set; }
+        [JsonProperty("typicalHours")]
+        public string TypicalHours { get; set; }
+        [JsonProperty("shiftPattern")]
+        public string ShiftPattern { get; set; }
     }
 }

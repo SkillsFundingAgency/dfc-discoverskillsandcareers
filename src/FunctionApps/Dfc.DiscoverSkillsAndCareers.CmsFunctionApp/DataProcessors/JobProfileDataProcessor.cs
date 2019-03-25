@@ -55,7 +55,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     SocCode = jobProfile.SocCode,
                     Title = jobProfile.Title,
                     UrlName = jobProfile.UrlName,
-                    WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                    WYDDayToDayTasks = jobProfile.WYDDayToDayTasks,
+                    ShiftPattern = jobProfile.ShiftPattern,
+                    TypicalHours = jobProfile.TypicalHours
                 });
             }
 
