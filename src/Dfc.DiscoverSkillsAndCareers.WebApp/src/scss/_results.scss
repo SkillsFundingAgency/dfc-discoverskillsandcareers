@@ -1,7 +1,11 @@
 .app-results {
 
   .app-results__item {
-    border-bottom: 2px solid  $govuk-border-colour;
+    margin-bottom: govuk-spacing(3);
+    hr {
+      border: 0;
+      border-bottom: 2px solid $govuk-border-colour;
+    }
   }
 
   .app-results__col-header {
@@ -17,7 +21,7 @@
   .govuk-list > li {
     margin-bottom: govuk-spacing(6);
     counter-increment: section;
-    content: counter(section); 
+    content: counter(section);
   }
 
   .app-results__cta {
@@ -60,15 +64,20 @@
 
 }
 
-.app-results--long {
+.app-long-results {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   li {
-
     flex: 0 1 33%;
+    display: none;
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      display: block;
+    }
   }
-  .app-results__item {
+  .app-long-results__item {
     background: govuk-colour('grey-4');
     border: 0;
     @include govuk-responsive-padding(5);
@@ -99,11 +108,11 @@
     .level-max {
       width: 50%;
     }
-    .level-max, 
+    .level-max,
     .level-min {
       font-size: govuk-px-to-rem(16);
     }
-    .salary-max, 
+    .salary-max,
     .salary-min {
       margin-bottom: 8px;
     }
@@ -134,7 +143,7 @@
       svg {
         color: $app-turquoise;
       }
-    } 
+    }
     .result-meta {
       span {
         display: block;

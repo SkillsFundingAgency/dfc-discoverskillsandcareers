@@ -1,8 +1,13 @@
 .app-sendresults {
     background: govuk-colour("grey-3");
-    @include govuk-responsive-margin(6, "bottom");
+    border-bottom: 3px solid govuk-colour("grey-1");
+    @include govuk-responsive-margin(9, "bottom");
     padding: govuk-spacing(6);
     clear: both;
+    position: relative;
+    .govuk-heading-m {
+        @include govuk-responsive-margin(2, "bottom");
+    }
     p {
         margin-bottom: 0;
     }
