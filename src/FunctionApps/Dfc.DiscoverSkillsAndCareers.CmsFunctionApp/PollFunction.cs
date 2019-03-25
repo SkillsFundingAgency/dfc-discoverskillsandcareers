@@ -17,7 +17,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentStartPage> startPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
@@ -31,8 +30,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             await filteredQuestionSetDataProcessor.RunOnce(true);
 
             await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
-
-            await startPageContentDataProcessor.RunOnce("startpagecontents", "startpage");
 
             await questionPageContentDataProcessor.RunOnce("questionpagecontents", "questionpage");
 

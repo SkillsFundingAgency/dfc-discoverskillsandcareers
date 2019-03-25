@@ -55,6 +55,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
                 model.Traits = resultsResponse.Traits;
                 model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
+                model.JobProfiles = resultsResponse.JobProfiles;
                 return View("Results", model);
             }
             catch (System.Net.Http.HttpRequestException ex)
@@ -125,11 +126,17 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var resultsForJobCategoryResponse = await ApiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
+                var resultsForJobCategoryResponse = await ApiServices.Results(sessionId, correlationId);
 
                 var contentName = $"filteredresultpage";
-                var model = await ApiServices.GetContentModel<ResultsForJobCategoryViewModel>(contentName, correlationId);
+                var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
+                model.AssessmentType = resultsForJobCategoryResponse.AssessmentType;
+                model.JobFamilies = resultsForJobCategoryResponse.JobFamilies;
+                model.JobFamilyCount = resultsForJobCategoryResponse.JobFamilyCount;
+                model.JobFamilyMoreCount = resultsForJobCategoryResponse.JobFamilyMoreCount;
+                model.Traits = resultsForJobCategoryResponse.Traits;
+                model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
                 model.JobProfiles = resultsForJobCategoryResponse.JobProfiles;
                 return View("ResultsForJobCategory", model);
             }

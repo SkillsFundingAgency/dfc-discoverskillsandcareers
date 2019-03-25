@@ -15,19 +15,12 @@
 
 <div class="govuk-width-container app-site-width-container">
 
-    {% include "_phasebanner.njk" %}
-
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "Save your progress"
-        }
-      ]
-    }) }}
+    {% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "@Model.BackLink"
+      }) }}
+    {% endblock %}
 
 </div>
 
@@ -38,10 +31,14 @@
 
                 <div class="govuk-body">
 
-                    <h1 class="govuk-heading-m">Email sent</h1>
+                    <h1 class="govuk-heading-xl">Check your phone</h1>
 
-                    <p>@Model.SentTo</p>
-                    
+                    <p>An email has been sent to @Model.SentTo</p>
+
+                    <p>Click the link in the email to return to your assessment</p>
+
+                    <a href="/results" class="govuk-button">Continue</a>
+
                 </div>
 
             </div>

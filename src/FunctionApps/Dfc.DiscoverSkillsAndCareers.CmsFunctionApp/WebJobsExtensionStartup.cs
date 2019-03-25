@@ -62,8 +62,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
             services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
             services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
-            services.AddTransient<IContentDataProcessor<ContentStartPage>, ContentDataProcessor<ContentStartPage>>();
-            services.AddTransient<IGetContentData<List<ContentStartPage>>, GetContentData<List<ContentStartPage>>>();
             services.AddTransient<IContentDataProcessor<ContentQuestionPage>, ContentDataProcessor<ContentQuestionPage>>();
             services.AddTransient<IGetContentData<List<ContentQuestionPage>>, GetContentData<List<ContentQuestionPage>>>();
             services.AddTransient<IContentDataProcessor<ContentFinishPage>, ContentDataProcessor<ContentFinishPage>>();
@@ -77,8 +75,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
             services.AddTransient<IGetJobProfileData, GetJobProfileData>();
             services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
-            
-            
         }
         
         private void ConfigureOptions(IServiceCollection services)

@@ -13,34 +13,61 @@
 
 {% block main %}
 
-  <div class="govuk-width-container app-site-width-container">
+<div class="govuk-width-container app-site-width-container">
 
-    {% include "_phasebanner.njk" %}
+    {% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "@Model.BackLink"
+      }) }}
+    {% endblock %}
 
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "Save your progress"
-        }
-      ]
-    }) }}
-
-  </div>
+</div>
 
   <main id="content" role="main">
     <div class="govuk-main-wrapper govuk-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
 
+          <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
+
+          <form action="/save-my-progress" method="post">
+
+              {{ govukRadios({
+              idPrefix: "SelectedOption",
+              name: "SelectedOption",
+              fieldset: {
+                legend: {
+                  text: "Choose how to recieve your results",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--xl"
+                }
+              },
+              items: [
+                {
+                  value: "email",
+                  text: "Send me an email"
+                },
+                {
+                  value: "sms",
+                  text: "Send me a text"
+                },
+                {
+                  value: "reference",
+                  text: "Give me a reference number"
+                }
+              ]
+            }) }}
+
+              {{ govukButton({
+              text: "Next"
+            }) }}
+
+          </form>
+
           <div class="govuk-body">
 
-              <a href="/save-my-progress/email">Email</a>
-              <a href="/save-my-progress/sms">Sms</a>
-              <a href="/save-my-progress/reference">Reference</a>
+            <p><a href="@Model.BackLink">Return to assessment</a></p>
 
           </div>
 

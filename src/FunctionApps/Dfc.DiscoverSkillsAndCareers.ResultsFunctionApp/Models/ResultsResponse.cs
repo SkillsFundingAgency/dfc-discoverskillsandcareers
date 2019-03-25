@@ -10,5 +10,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
         public int JobFamilyCount { get; set; }
         public int JobFamilyMoreCount { get; set; }
         public string AssessmentType { get; set; }
+        public JobProfileResult[] JobProfiles { get; set; }
     }
 }

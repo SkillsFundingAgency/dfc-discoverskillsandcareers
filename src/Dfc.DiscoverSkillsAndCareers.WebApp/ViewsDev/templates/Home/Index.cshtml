@@ -7,7 +7,7 @@
 {% block pre %}
   @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
   @{
-      ViewData["Title"] = "Home Page";
+      ViewData["Title"] = Model.Title;
       Layout = null;
   }
 {% endblock %}
@@ -15,25 +15,25 @@
 {% block main %}
 
   <div class="app-masthead">
-    <div class="govuk-width-container">
+      <div class="govuk-width-container">
 
-      {% include "_phasebanner.njk" %}
+          {% include "_phasebanner.njk" %}
 
-      {{ govukBreadcrumbs({
-        items: [
+          {{ govukBreadcrumbs({
+          items: [
           {
-            text: "Home: Discover your skills and careers"
+          text: "Home: @Model.Headline"
           }
-        ]
-      }) }}
+          ]
+          }) }}
 
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">@Model.Title</h1>
-        </div>
+          <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                  <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+              </div>
+          </div>
+
       </div>
-
-    </div>
   </div>
 
   <main id="content" role="main">
@@ -41,17 +41,19 @@
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
-        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-grid-column-two-thirds">
 
-          <p class="govuk-body">@Model.Subheading</p>
+              <p class="govuk-body">@Model.TextBlock1</p>
 
-          <div class="govuk-inset-text">
-            @Model.Assessment1Subtitle
-          </div>
+              <p class="govuk-body">@Model.TextBlock2</p>
 
-          <p class="govuk-body">[new CMS field required]</p>
-          
-          {{ govukButton({
+              <div class="govuk-inset-text">
+                  @Model.TextHighlight
+              </div>
+
+              <p class="govuk-body">@Model.TextBlock3</p>
+
+              {{ govukButton({
             text: "Start assessment",
             href: "/assessment/short/",
             classes: "govuk-button--start",
@@ -60,7 +62,7 @@
             }
           }) }}
 
-        </div>
+          </div>
 
         <div class="govuk-grid-column-one-third">
           {% include "_resumepanel.njk" %}

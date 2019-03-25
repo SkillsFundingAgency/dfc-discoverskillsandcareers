@@ -30,6 +30,31 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             AppSettings = appSettings.Value;
         }
 
+        [HttpPost]
+        public IActionResult SaveProgressOption([FromForm]SaveProgressOptionRequest saveProgressOptionRequest)
+        {
+            switch (saveProgressOptionRequest.SelectedOption)
+            {
+                case "email":
+                    {
+                        return RedirectToAction("EmailInput");
+                    }
+                case "sms":
+                    {
+                        return RedirectToAction("SmsInput");
+                    }
+                case "reference":
+                    {
+                        return RedirectToAction("ReferenceNumber");
+                    }
+                default:
+                    {
+                        return RedirectToAction("Index");
+                    }
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var correlationId = Guid.NewGuid();
@@ -45,7 +70,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-
+                model.BackLink = Request.Headers["Referer"];
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("SaveProgress", model);
             }
@@ -60,7 +85,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpGet("email")]
+        [HttpGet("email", Name = "SaveProgressEmailInput")]
         public async Task<IActionResult> EmailInput()
         {
             var correlationId = Guid.NewGuid();
@@ -76,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-
+                model.BackLink = Request.Headers["Referer"];
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("EmailInput", model);
             }
@@ -105,6 +130,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                model.BackLink = Request.Headers["Referer"];
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -136,7 +162,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpGet("sms")]
+        [HttpGet("sms", Name = "SaveProgressSmsInput")]
         public async Task<IActionResult> SmsInput()
         {
             var correlationId = Guid.NewGuid();
@@ -152,7 +178,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-
+                model.BackLink = Request.Headers["Referer"];
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("SmsInput", model);
             }
@@ -181,6 +207,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                model.BackLink = Request.Headers["Referer"];
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -212,7 +239,24 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpGet("reference")]
+        [NonAction]
+        public string GetDisplayCode(string code)
+        {
+            string result = "";
+            int i = 0;
+            foreach(var c in code.ToUpper().ToCharArray())
+            {
+                i++;
+                if (i % 4 == 1 && i > 1)
+                {
+                    result += " ";
+                }
+                result += c.ToString();
+            }
+            return result;
+        }
+
+        [HttpGet("reference", Name = "SaveProgressReference")]
         public async Task<IActionResult> ReferenceNumber()
         {
             var correlationId = Guid.NewGuid();
@@ -228,10 +272,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-
+                model.BackLink = Request.Headers["Referer"];
                 var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
                 model.SessionId = sessionId;
-                model.Code = nextQuestionResponse.ReloadCode;
+                model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
                 model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
                 model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
 

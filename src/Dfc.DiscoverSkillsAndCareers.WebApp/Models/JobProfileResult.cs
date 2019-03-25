@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
+namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
 {
     public class JobProfileResult
     {

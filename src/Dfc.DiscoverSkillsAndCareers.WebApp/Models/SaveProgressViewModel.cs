@@ -8,5 +8,6 @@
         public string Status { get; set; }
         public string ErrorMessage { get; set; }
         public string SentTo { get; set; }
+        public string BackLink { get; set; }
     }
 }
