@@ -36,11 +36,52 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
 
+          <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
+
+          <form>
+
+            {{ govukRadios({
+              idPrefix: "where-do-you-live",
+              name: "where-do-you-live",
+              fieldset: {
+                legend: {
+                  text: "Choose how to recieve your results",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--xl"
+                }
+              },
+              items: [
+                {
+                  value: "email",
+                  text: "Email"
+                },
+                {
+                  value: "sms",
+                  text: "SMS"
+                },
+                {
+                  value: "reference",
+                  text: "Reference"
+                }
+              ]
+            }) }}
+
+            {{ govukButton({
+              text: "Next"
+            }) }}
+
+          </form>
+
           <div class="govuk-body">
 
+            <p>
+              Wire these to form radios:
               <a href="/save-my-progress/email">Email</a>
               <a href="/save-my-progress/sms">Sms</a>
               <a href="/save-my-progress/reference">Reference</a>
+            </p>
+
+            <p><a href="#">Return to assessment</a></p>
 
           </div>
 
