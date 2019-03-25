@@ -28,6 +28,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     it('Statement page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
             standard: "WCAG2AA",
+            timeout: 60000,
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
             actions: [
@@ -42,6 +43,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     it('Save Progress page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
             standard: "WCAG2AA",
+            timeout: 90000,
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
             actions: [
@@ -60,7 +62,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            timeout: 120000,
+            timeout: 180000,
             actions: [
                 'click element .govuk-button--start',
                 `wait for element #${answerDict['Agree']} to be added`,
@@ -234,7 +236,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            timeout: 120000,
+            timeout: 180000,
             actions: [
                 'click element .govuk-button--start',
                 `wait for element #${answerDict['Agree']} to be added`,
