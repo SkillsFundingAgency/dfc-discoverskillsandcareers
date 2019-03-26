@@ -1,4 +1,4 @@
-﻿{% set pageName = 'results' %}
+﻿{% set pageName = 'results-long' %}
 {% set pageGroup = '' %}
 {% set pageTitle = '@Model.Title' %}
 
@@ -148,10 +148,7 @@
 
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-two-thirds">
-                @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 0)
-                {
-                  <p class="govuk-body-l text-light"><a href="#">Show @Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count more results</a></p>
-                }
+                <div class="show-more"></div>
                 <hr>
               </div>
             </div>

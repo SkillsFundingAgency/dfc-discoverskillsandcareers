@@ -14,6 +14,10 @@ if (isPage('app-page--questions')) {
 }
 
 if (isPage('app-page--results')) {
-  results.init()
+  results.short()
   analytics.completeSurvey()
+}
+
+if (isPage('app-page--results-long')) {
+  results.long()
 }
