@@ -96,7 +96,7 @@
                 @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count == 0)
                 {
                   <p>To find out job roles you might be suited to in @jobCategory.JobFamilyName, answer around three more questions.</p>
-                  <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button govuk-button--start app-button">Answer questions</a>
+                  <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer questions</a>
                 }
               </div>
             </div>
