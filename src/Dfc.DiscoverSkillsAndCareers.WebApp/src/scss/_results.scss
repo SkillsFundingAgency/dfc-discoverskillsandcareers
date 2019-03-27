@@ -72,17 +72,13 @@
   margin-bottom: 0;
   li {
     flex: 0 1 33%;
-    // display: none;
-    // &:nth-child(1),
-    // &:nth-child(2),
-    // &:nth-child(3) {
-    //   display: block;
-    // }
+    border-right: 1px solid $govuk-border-colour;
+    &:nth-child(3n) {
+      border: 0;
+    }
   }
   .app-long-results__item {
-    background: govuk-colour('grey-4');
     border: 0;
-    @include govuk-responsive-padding(5);
     height: 100%;
     box-sizing: border-box;
 
