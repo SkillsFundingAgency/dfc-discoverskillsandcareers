@@ -45,6 +45,10 @@ $app-text-light: #646C70;
   @extend %visually-hidden;
 }
 
+.hidden-screen {
+  display: none;
+}
+
 .govuk-header__container {
   border-bottom-color: $govuk-brand-colour;
 }

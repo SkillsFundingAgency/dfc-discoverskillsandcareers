@@ -1,6 +1,6 @@
 @import 'node_modules/govuk-frontend/all';
 
-.app-masthead, 
+.app-masthead,
 .app-masthead__title {
   background: transparent;
   color: govuk-colour('black');
@@ -10,14 +10,15 @@
   margin-bottom: 20px;
 }
 
-.govuk-phase-banner, 
+.govuk-phase-banner,
 .govuk-breadcrumbs,
 .govuk-button,
-.app-save-panel, 
+.app-save-panel,
 .app-results-load-more,
-.app-resume-panel, 
+.app-resume-panel,
+.app-print-panel,
 .app-results-cta,
-.app-back-to-top, 
+.app-back-to-top,
 .app-results-count,
 .govuk-footer {
   display: none;
@@ -49,10 +50,14 @@
 
   counter-reset: section;
 
-  .govuk-list > li {
+  .app-results__item {
     margin-bottom: 0;
     display: block !important;
     counter-increment: section;
+  }
+
+  hr {
+    display: none;
   }
 
   .app-result {
@@ -61,7 +66,7 @@
     margin: 0;
   }
 
-  .app-result__header {
+  .govuk-heading-m {
     @extend %govuk-heading-s;
 
     &::before {
@@ -69,11 +74,67 @@
     }
   }
 
-  .app-result__body, 
+  .app-result__body,
   .app-result__header {
     background: transparent;
     color: govuk-colour('black');
     padding: 0;
     margin: 0;
   }
+}
+
+.app-long-results {
+  @extend .govuk-inset-text;
+  display: block;
+  li {
+    border: 0;
+    margin: 0 !important;
+  }
+  .app-long-results__item {
+    display: block;
+    width: 100%;
+    border: 0;
+
+    .embedded-fa-icon {
+      display: none;
+    }
+    .govuk-heading-s {
+
+    }
+    .result-meta,
+    .govuk-heading-s {
+      display: inline-block;
+      font-weight: bold;
+      border: 0;
+      width: auto;
+      float: none;
+      margin: 0;
+      font-size: govuk-px-to-rem(18);
+    }
+    .salary-min,
+    .salary-max {
+      width: auto;
+      display: inline;
+      margin: 0;
+      float: none;
+    }
+    .result-meta {
+      p {
+        margin: 0;
+      }
+      .small {
+        font-size: govuk-px-to-rem(18);
+        display: inline;
+      }
+    }
+    .range-bar,
+    .level-min,
+    .level-max {
+      display: none;
+    }
+  }
+}
+
+.hidden-screen {
+  display: initial;
 }
