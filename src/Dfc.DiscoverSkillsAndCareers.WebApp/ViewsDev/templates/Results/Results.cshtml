@@ -92,9 +92,8 @@
               <li class="app-results__item">
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-two-thirds">
-                    <h3 class="govuk-heading-m">@jobFamily.JobFamilyName</h3>
+                    <h3 class="govuk-heading-m"><a href="@jobFamily.Url" role="button" draggable="false" class="">@jobFamily.JobFamilyName</a></h3>
                     <p>@jobFamily.JobFamilyText</p>
-                    <p><a href="@jobFamily.Url" role="button" draggable="false" class="">See more @jobFamily.JobFamilyName roles</a></p>
                     <p>To find out job roles you might be suited to in adminstration, answer more questions.</p>
                     @if (Model.UseFilteringQuestions) {
                         @if (jobFamily.FilterAssessment != null)
