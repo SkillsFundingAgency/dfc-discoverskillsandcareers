@@ -2,29 +2,30 @@
   .app-question__answer {
     margin-bottom: govuk-spacing(3);
   }
-  
+
   .govuk-radios__item {
     width: auto;
     clear: both;
+
     &:nth-child(3) {
       // Prevent 'it depends' from wrapping into two lines
       white-space: nowrap;
     }
   }
-  
+
   @include govuk-media-query($from: desktop) {
     &--short {
-      
+
       margin: govuk-spacing(8) 0;
       clear: both;
       position: relative;
       display: table;
       width: 100%;
-      
+
       .govuk-error-message {
         margin-bottom: 0;
       }
-      
+
       .app-question__question,
       .app-question__answer {
         display: table-cell;
@@ -33,30 +34,30 @@
         position: relative;
         height: 156px;
       }
-      
+
       .app-question__answer {
         width: 60%;
       }
-      
+
       .govuk-fieldset__heading {
         padding-right: govuk-spacing(5);
-        
+
       }
-      
+
       .app-question__question {
         border-right: 1px solid govuk-colour('black');
       }
-      
+
       .govuk-form-group {
         margin-bottom: 0;
       }
     }
-    
+
     .govuk-radios {
       text-align: center;
       position: relative;
     }
-    
+
     .govuk-radios__item {
       position: relative;
       padding-left: 0;
@@ -66,21 +67,21 @@
       float: left;
       clear: none;
       margin: 0;
-      
+
       &:last-child {
         margin-right: 0;
       }
     }
-    
+
     .govuk-radios__input + .govuk-radios__label {
-      
+
       &::before,
       &::after {
         left: calc(50% + 2px);
         transform: translateX(-50%);
       }
     }
-    
+
     .govuk-radios__label {
       padding-top: 3em;
     }
@@ -89,6 +90,7 @@
       .app-question__question {
         @include govuk-responsive-margin(6, "bottom");
       }
+
       .govuk-radios__item {
         width: auto;
         @include govuk-responsive-margin(6, "right");
@@ -101,14 +103,14 @@
   .app-button {
     width: 100%;
   }
-  
-  .app-button, 
+
+  .app-button,
   .app-button--outline {
     @include govuk-media-query($from: desktop) {
       margin-left: govuk-spacing(3);
     }
   }
-  
+
   .app-button--outline {
     display: block;
     text-align: center;

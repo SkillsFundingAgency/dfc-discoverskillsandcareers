@@ -70,26 +70,7 @@ $app-text-light: #646C70;
   }
 }
 
-.app-button {
-
-  &,
-  &:link,
-  &:visited {
-    // background-color: $app-purple;
-    // color: govuk-colour('white');
-  }
-
-  &:hover,
-  &:focus,
-  &:active {
-    // background-color: $app-purple-hover;
-  }
-}
-
 .app-button--alt {
-  // background-color: $app-turquoise;
-  // color: govuk-colour('white');
-
   &:hover,
   &:focus,
   &:active {

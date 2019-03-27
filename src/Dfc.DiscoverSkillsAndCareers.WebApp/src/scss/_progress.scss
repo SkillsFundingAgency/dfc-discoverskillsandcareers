@@ -43,9 +43,10 @@
 
 .ncs-progress--complete {
   .ncs-progress__count {
-    color: #fff;
+    color: govuk-colour("white");
   }
+
   .ncs-progress__bar span {
-    background-color: #fff;
+    background-color: govuk-colour("white");
   }
 }
