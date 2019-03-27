@@ -64,6 +64,7 @@
           </div>
 
           <div class="govuk-grid-column-one-third">
+            {% include "_printpanel.njk" %}
             {% include "_advisorpanel.njk" %}
           </div>
 
@@ -96,10 +97,11 @@
                     <p><a href="@jobFamily.Url" role="button" draggable="false" class="">See more @jobFamily.JobFamilyName roles</a></p>
                     <p>To find out job roles you might be suited to in adminstration, answer more questions.</p>
                     @if (Model.UseFilteringQuestions) {
-                        <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer more questions</a>
                         @if (jobFamily.FilterAssessment != null)
                         {
-                        <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button--start app-button">View results</a>
+                          <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
+                        } else {
+                          <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer more questions</a>
                         }
                     }
                     <hr>
