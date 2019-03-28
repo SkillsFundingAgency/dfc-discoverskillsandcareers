@@ -70,7 +70,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-                model.BackLink = Request.Headers["Referer"];
+                model.BackLink = "/reload";
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("SaveProgress", model);
             }
@@ -101,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-                model.BackLink = Request.Headers["Referer"];
+                model.BackLink = "/save-my-progress";
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("EmailInput", model);
             }
@@ -135,7 +135,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     model.ErrorMessage = $"You must enter an email address";
                     return View("EmailInput", model);
                 }
-                model.BackLink = Request.Headers["Referer"];
+                model.BackLink = "/save-my-progress";
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -183,7 +183,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-                model.BackLink = Request.Headers["Referer"];
+                model.BackLink = "/save-my-progress";
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("SmsInput", model);
             }
@@ -217,7 +217,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     model.ErrorMessage = $"You must enter a phone numner";
                     return View("SmsInput", model);
                 }
-                model.BackLink = Request.Headers["Referer"];
+                model.BackLink = "/save-my-progress";
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -282,7 +282,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-                model.BackLink = Request.Headers["Referer"];
+                model.BackLink = "/save-my-progress";
                 var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
                 model.SessionId = sessionId;
                 model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
