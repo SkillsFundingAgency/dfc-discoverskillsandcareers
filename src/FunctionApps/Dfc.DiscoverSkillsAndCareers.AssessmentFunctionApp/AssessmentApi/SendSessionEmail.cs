@@ -63,26 +63,26 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
                 if (sendSessionEmailRequest == null || string.IsNullOrEmpty(sendSessionEmailRequest.SessionId))
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, "Session Id not supplied");
+                    loggerHelper.LogError(log, correlationGuid, new Exception("Session Id not supplied"));
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.Domain))
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, "Domain not supplied");
+                    loggerHelper.LogError(log, correlationGuid, new Exception("Domain not supplied"));
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.TemplateId))
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, "TemplateId not supplied");
+                    loggerHelper.LogError(log, correlationGuid, new Exception("TemplateId not supplied"));
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 var userSession = await userSessionRepository.GetUserSession(sendSessionEmailRequest.SessionId);
                 if (userSession == null)
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sendSessionEmailRequest.SessionId));
+                    loggerHelper.LogWarningMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sendSessionEmailRequest.SessionId));
                     return httpResponseMessageHelper.NoContent();
                 }
 

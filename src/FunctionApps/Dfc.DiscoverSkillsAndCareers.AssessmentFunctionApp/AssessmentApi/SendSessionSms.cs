@@ -63,19 +63,19 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
                 if (sendSessionSmsRequest == null || string.IsNullOrEmpty(sendSessionSmsRequest.SessionId))
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, "Session Id not supplied");
+                    loggerHelper.LogError(log, correlationGuid, new Exception("Session Id not supplied"));
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionSmsRequest.Domain))
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, "Domain not supplied");
+                    loggerHelper.LogError(log, correlationGuid, new Exception("Domain not supplied"));
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionSmsRequest.TemplateId))
                 {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, "TemplateId not supplied");
+                    loggerHelper.LogError(log, correlationGuid, new Exception("TemplateId not supplied"));
                     return httpResponseMessageHelper.BadRequest();
                 }
 
