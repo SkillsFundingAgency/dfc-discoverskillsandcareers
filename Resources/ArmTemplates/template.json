@@ -14,6 +14,14 @@
         "ApimServiceName": {
             "type": "string"
         },
+        "AseHostingEnvironmentName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AseResourceGroup": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "AspNetCoreEnvironment": {
             "type": "string",
             "allowedValues": [
@@ -269,6 +277,12 @@
                 "parameters": {
                     "appServicePlanName": {
                         "value": "[variables('AppServicePlanName')]"
+                    },
+                    "aseHostingEnvironmentName": {
+                        "value": "[parameters('aseHostingEnvironmentName')]"
+                    },
+                    "aseResourceGroup": {
+                        "value": "[parameters('aseResourceGroup')]"
                     },
                     "aspSize": {
                         "value": "[parameters('AspSize')]"
