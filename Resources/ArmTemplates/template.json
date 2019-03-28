@@ -393,19 +393,19 @@
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
                                 },
                                 {
-                                    "name": "NotifyApiKey",
+                                    "name": "AppSettings__NotifyApiKey",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
                                 },
                                 {
-                                    "name": "SiteFinityApiUrlbase",
+                                    "name": "AppSettings__SiteFinityApiUrlbase",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiUrlbase'), 'notrequired')]"
                                 },
                                 {
-                                    "name": "SiteFinityApiWebService",
+                                    "name": "AppSettings__SiteFinityApiWebService",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), 'dsac', 'notrequired')]"
                                 },
                                 {
-                                    "name": "SiteFinityApiKey",
+                                    "name": "AppSettings__SiteFinityApiKey",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiKey'), 'notrequired')]"
                                 }
                             ]
