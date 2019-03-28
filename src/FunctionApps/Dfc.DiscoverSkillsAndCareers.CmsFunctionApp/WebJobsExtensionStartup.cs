@@ -42,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
-
+            services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
@@ -54,9 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
             services.AddSingleton<IHttpService, HttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
-
-            services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-
+            services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
             services.AddTransient<IGetShortTraitData, GetShortTraitData>();
             services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
@@ -77,6 +75,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
             services.AddTransient<IFunctionalCompetencyDataProcessor, FunctionalCompetencyDataProcessor>();
             services.AddTransient<IGetFunctionalCompetenciesData, GetFunctionalCompetenciesData>();
+            services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();
+            services.AddTransient<IJobCategoryDataProcessor, JobCategoryDataProcessor>();
         }
         
         private void ConfigureOptions(IServiceCollection services)

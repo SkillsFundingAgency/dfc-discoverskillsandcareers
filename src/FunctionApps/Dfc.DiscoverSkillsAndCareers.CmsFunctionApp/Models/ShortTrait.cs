@@ -6,6 +6,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
     public class ShortTrait
     {
+        [JsonProperty("Id")]
+        public string Id { get; set; }
         [JsonProperty("Title")]
         public string Name { get; set; }
         [JsonProperty("LastModified")]
