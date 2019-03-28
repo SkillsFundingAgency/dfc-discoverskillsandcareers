@@ -4,11 +4,11 @@
 // helpers
 
 function pa11yErrorHandler() {
-    process.exit(1);
+    this.emit('end');
 }
 
 function lighthouseErrorHandler() {
-    process.exit(1);
+    this.emit('end');
 }
 
 // requires
