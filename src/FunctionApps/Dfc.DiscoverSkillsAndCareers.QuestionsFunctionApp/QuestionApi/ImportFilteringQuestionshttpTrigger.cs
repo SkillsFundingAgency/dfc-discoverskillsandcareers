@@ -118,7 +118,8 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                                 new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
                             },
                             ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray(),
-                            FilterTrigger = dataQuestion.IsYes ? "Yes" : "No"
+                            FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
+                            SfId = dataQuestion.Id,
                         };
                         newQuestionSet.MaxQuestions = questionNumber;
                         questionNumber++;

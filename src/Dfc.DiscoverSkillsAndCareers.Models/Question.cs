@@ -22,5 +22,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string FilterTrigger { get; set; }
         [JsonProperty("sfid")]
         public string SfId { get; set; }
+        [JsonProperty("positiveResultDisplayText")]
+        public string PositiveResultDisplayText { get; set; }
+        [JsonProperty("negativeResultDisplayText")]
+        public string NegativeResultDisplayText { get; set; }
     }
 }

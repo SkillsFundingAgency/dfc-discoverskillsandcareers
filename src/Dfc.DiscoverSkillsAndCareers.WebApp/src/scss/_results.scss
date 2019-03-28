@@ -3,6 +3,7 @@
 
   .app-results__item {
     margin-bottom: govuk-spacing(3);
+
     hr {
       border: 0;
       border-bottom: 2px solid $govuk-border-colour;
@@ -70,63 +71,72 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 0;
+
   li {
     flex: 0 1 33%;
-    // display: none;
-    // &:nth-child(1),
-    // &:nth-child(2),
-    // &:nth-child(3) {
-    //   display: block;
-    // }
+    border-right: 1px solid $govuk-border-colour;
+
+    &:nth-child(3n) {
+      border: 0;
+    }
   }
+
   .app-long-results__item {
-    background: govuk-colour('grey-4');
     border: 0;
-    @include govuk-responsive-padding(5);
     height: 100%;
     box-sizing: border-box;
 
     h3 {
       margin-top: 0;
     }
+
     .govuk-heading-s {
       border-bottom: 1px solid $govuk-border-colour;
       font-weight: normal;
       @include govuk-responsive-padding(1, "bottom");
     }
+
     .app-results__cta {
       text-align: center;
     }
+
     .result-detail {
       clear: both;
     }
+
     .result-meta {
       width: calc(100% - 40px);
       float: right;
     }
+
     .salary-min,
     .salary-max,
     .level-min,
     .level-max {
       width: 50%;
     }
+
     .level-max,
     .level-min {
       font-size: govuk-px-to-rem(16);
     }
+
     .salary-max,
     .salary-min {
       margin-bottom: 8px;
     }
+
     .salary-max,
     .level-max {
       text-align: right;
       float: right;
     }
+
     .salary-min,
     .level-min {
       float: left;
     }
+
     .range-bar {
       clear: both;
       margin-bottom: govuk-px-to-rem(8);
@@ -135,19 +145,23 @@
       border-right: 4px solid $app-turquoise;
       padding-top: govuk-px-to-rem(4);
       padding-bottom: govuk-px-to-rem(4);
+
       hr {
         border: 2px solid $app-turquoise;
       }
     }
+
     .embedded-fa-icon {
       width: 24px;
       float: left;
+
       svg {
         color: $app-turquoise;
       }
     }
+
     .result-meta {
-      span {
+      .small {
         display: block;
         font-size: govuk-px-to-rem(16);
       }

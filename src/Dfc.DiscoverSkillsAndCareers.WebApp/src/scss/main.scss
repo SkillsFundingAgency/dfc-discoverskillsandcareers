@@ -45,6 +45,10 @@ $app-text-light: #646C70;
   @extend %visually-hidden;
 }
 
+.hidden-screen {
+  display: none;
+}
+
 .govuk-header__container {
   border-bottom-color: $govuk-brand-colour;
 }
@@ -60,32 +64,14 @@ $app-text-light: #646C70;
 }
 
 .app-page--home,
-.app-page--results {
+.app-page--results,
+.app-page--results-long {
   .govuk-header__container {
     border-bottom-color: govuk-colour('white');
   }
 }
 
-.app-button {
-
-  &,
-  &:link,
-  &:visited {
-    // background-color: $app-purple;
-    // color: govuk-colour('white');
-  }
-
-  &:hover,
-  &:focus,
-  &:active {
-    // background-color: $app-purple-hover;
-  }
-}
-
 .app-button--alt {
-  // background-color: $app-turquoise;
-  // color: govuk-colour('white');
-
   &:hover,
   &:focus,
   &:active {

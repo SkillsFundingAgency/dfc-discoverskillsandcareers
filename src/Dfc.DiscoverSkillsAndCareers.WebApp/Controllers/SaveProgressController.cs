@@ -130,11 +130,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
+                {
+                    model.ErrorMessage = $"You must enter an email address";
+                    return View("EmailInput", model);
+                }
                 model.BackLink = Request.Headers["Referer"];
                 NotifyResponse notifyResponse = null;
                 try
                 {
-                    notifyResponse = await ApiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email, AppSettings.NotifyEmailTemplateId, sessionId, correlationId);
+                    notifyResponse = await ApiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email?.ToLower(), AppSettings.NotifyEmailTemplateId, sessionId, correlationId);
                     if (!notifyResponse.IsSuccess)
                     {
                         throw new Exception(notifyResponse?.Message);
@@ -146,7 +151,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    model.ErrorMessage = ex.Message;
+                    model.ErrorMessage = $"An error occured sending an email to {sendEmailRequest.Email}";
                     return View("EmailInput", model);
                 }
 
@@ -207,6 +212,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()))
+                {
+                    model.ErrorMessage = $"You must enter a phone numner";
+                    return View("SmsInput", model);
+                }
                 model.BackLink = Request.Headers["Referer"];
                 NotifyResponse notifyResponse = null;
                 try
@@ -223,7 +233,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    model.ErrorMessage = ex.Message;
+                    model.ErrorMessage = $"An error occured sending a text to {sendSmsRequest.MobileNumber}";
                     return View("SmsInput", model);
                 }
 
