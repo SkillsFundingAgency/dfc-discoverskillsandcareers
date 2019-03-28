@@ -47,6 +47,21 @@
         },
         "KeyVaultResourceGroup": {
             "type": "string"
+        },
+        "NotifyApiKey": {
+            "type": "string"
+        },
+        "NotifyEmailTemplateId": {
+            "type": "string"
+        },
+        "NotifySmsTemplateId": {
+            "type": "string"
+        },
+        "SiteFinityApiKey": {
+            "type": "string"
+        },
+        "SiteFinityApiUrlbase": {
+            "type": "string"
         }
     },
     "variables": {
@@ -223,6 +238,14 @@
                             {
                                 "name": "AppSettings__AssessmentQuestionSetNames",
                                 "value": "[parameters('AssessmentQuestionSetNames')]"
+                            },
+                            {
+                                "name": "NotifyEmailTemplateId",
+                                "value": "[parameters('NotifyEmailTemplateId')]"
+                            },
+                            {
+                                "name": "NotifySmsTemplateId",
+                                "value": "[parameters('NotifySmsTemplateId')]"
                             }
                         ]
                     }
@@ -366,8 +389,24 @@
                                     "value": "DiscoverMySkillsAndCareers"
                                 },
                                 {
-                                    "name": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'AppSettings__SessionSalt', 'notrequired')]",
+                                    "name": "AppSettings__SessionSalt",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
+                                },
+                                {
+                                    "name": "NotifyApiKey",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
+                                },
+                                {
+                                    "name": "SiteFinityApiUrlbase",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiUrlbase'), 'notrequired')]"
+                                },
+                                {
+                                    "name": "SiteFinityApiWebService",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), 'dsac', 'notrequired')]"
+                                },
+                                {
+                                    "name": "SiteFinityApiKey",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiKey'), 'notrequired')]"
                                 }
                             ]
                         }
