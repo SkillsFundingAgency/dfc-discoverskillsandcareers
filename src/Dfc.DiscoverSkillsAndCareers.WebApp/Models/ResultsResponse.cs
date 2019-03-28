@@ -12,5 +12,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public int JobFamilyMoreCount { get; set; }
         public string AssessmentType { get; set; }
         public JobProfileResult[] JobProfiles { get; set; }
+        public string[] WhatYouToldUs { get; set; }
     }
 }

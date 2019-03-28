@@ -107,7 +107,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         },
                         ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray(),
                         FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
-                        SfId = dataQuestion.Id
+                        SfId = dataQuestion.Id,
+                        PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
+                        NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText
                     };
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;

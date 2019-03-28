@@ -111,7 +111,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                 JobFamilyMoreCount = userSession.ResultData.JobFamilies.Length - 3,
                 Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
                 JobFamilies = jobFamilies,
-                JobProfiles = suggestedJobProfiles.ToArray()
+                JobProfiles = suggestedJobProfiles.ToArray(),
+                WhatYouToldUs = userSession.ResultData.WhatYouToldUs
             };
 
             loggerHelper.LogMethodExit(log);

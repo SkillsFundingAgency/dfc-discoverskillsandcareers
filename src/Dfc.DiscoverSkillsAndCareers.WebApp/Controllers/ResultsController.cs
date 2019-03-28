@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.Models;
+using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -132,12 +135,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
                 model.AssessmentType = resultsForJobCategoryResponse.AssessmentType;
-                model.JobFamilies = resultsForJobCategoryResponse.JobFamilies;
+                model.JobFamilies = ReOrderWithFirst(resultsForJobCategoryResponse.JobFamilies, jobCategory);
                 model.JobFamilyCount = resultsForJobCategoryResponse.JobFamilyCount;
                 model.JobFamilyMoreCount = resultsForJobCategoryResponse.JobFamilyMoreCount;
                 model.Traits = resultsForJobCategoryResponse.Traits;
                 model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
                 model.JobProfiles = resultsForJobCategoryResponse.JobProfiles;
+                model.WhatYouToldUs = resultsForJobCategoryResponse.WhatYouToldUs;
                 return View("ResultsForJobCategory", model);
             }
             catch (System.Net.Http.HttpRequestException)
@@ -153,6 +157,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodExit(Log);
             }
+        }
+
+        private JobFamilyResult[] ReOrderWithFirst(JobFamilyResult[] jobFamilyResults, string jobCategory)
+        {
+            var highlightCategory = jobFamilyResults.Where(x => x.FilterAssessment?.JobFamilyNameUrlSafe == jobCategory).FirstOrDefault();
+            var otherCategories = jobFamilyResults.Where(x => x.FilterAssessment?.JobFamilyNameUrlSafe != jobCategory).ToList();
+            var newList = otherCategories.ToList();
+            newList.Insert(0, highlightCategory);
+            return newList.ToArray();
         }
     }
 }

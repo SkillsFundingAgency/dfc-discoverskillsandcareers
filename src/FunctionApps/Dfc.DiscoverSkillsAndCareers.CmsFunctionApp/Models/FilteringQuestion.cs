@@ -17,5 +17,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public List<string> ExcludesJobProfiles { get; set; }
         [JsonProperty("IsYes")]
         public bool IsYes { get; set; }
+        [JsonProperty("PositiveResultDisplayText")]
+        public string PositiveResultDisplayText { get; set; }
+        [JsonProperty("NegativeResultDisplayText")]
+        public string NegativeResultDisplayText { get; set; }
     }
 }
