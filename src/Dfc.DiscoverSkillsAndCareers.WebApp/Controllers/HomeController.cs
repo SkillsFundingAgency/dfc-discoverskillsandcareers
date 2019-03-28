@@ -53,12 +53,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
         public class ReloadRequest
         {
             public string Code { get; set; }
@@ -98,6 +92,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
                     model.HasReloadError = true;
                     return View("Index", model);
+                }
+
+                if (reloadRequest.Code == "throw500") // TODO: for testing
+                {
+                    throw new Exception("Test 500 exception!");
                 }
 
                 var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code, correlationId);
