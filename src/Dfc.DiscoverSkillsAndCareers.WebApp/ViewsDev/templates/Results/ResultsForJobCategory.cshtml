@@ -106,7 +106,7 @@
               <ul class="app-long-results govuk-list govuk-grid-row" id="app-results-list--long">
                 @foreach (var profile in Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList())
                 {
-                  <li class="govuk-grid-column-one-third">
+                  <li class="">
                     <div class="app-long-results__item">
                       <h3><a href="@profile.UrlName">@profile.Title</a></h3>
                       <p>@profile.Overview</p>
