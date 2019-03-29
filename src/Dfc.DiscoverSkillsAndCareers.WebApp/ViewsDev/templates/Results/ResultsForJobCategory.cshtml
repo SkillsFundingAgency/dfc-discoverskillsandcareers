@@ -89,7 +89,15 @@
                 @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 0)
                 {
                   <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href="@jobCategory.Url" role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
-                  <p class="text-light">@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count roles that might suit you</p>
+                  <p class="text-light">
+                    @Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count
+                    @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 1) {
+                      <span> roles </span>
+                    } else {
+                      <span> role </span>
+                    }
+                    that might suit you
+                  </p>
                 } else {
                   <h2 class="govuk-heading-m"><a href="@jobCategory.Url" role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
                 }
