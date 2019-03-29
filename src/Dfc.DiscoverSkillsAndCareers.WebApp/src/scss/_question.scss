@@ -1,4 +1,4 @@
-.app-question {
+.app-question--short {
   .app-question__answer {
     margin-bottom: govuk-spacing(3);
   }
@@ -99,6 +99,13 @@
   }
 }
 
+.app-question--long {
+  .app-question__answer {
+    @include govuk-responsive-margin(6, "bottom");
+    @include govuk-responsive-margin(6, "top");
+  }
+}
+
 .app-controls {
   .app-button {
     width: 100%;
@@ -123,3 +130,4 @@
     }
   }
 }
+
