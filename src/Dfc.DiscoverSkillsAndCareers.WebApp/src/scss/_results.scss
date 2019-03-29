@@ -75,7 +75,7 @@
   li {
     flex: 0 1 33%;
     border-right: 1px solid $govuk-border-colour;
-
+    &:last-child,
     &:nth-child(3n) {
       border: 0;
     }
