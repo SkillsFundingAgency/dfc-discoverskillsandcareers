@@ -18,6 +18,10 @@
             "type": "string",
             "defaultValue": ""
         },
+        "AseOutboundIpAddress": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "AseResourceGroup": {
             "type": "string",
             "defaultValue": ""
@@ -345,6 +349,9 @@
                         },
                         "defaultConsistencyLevel": {
                             "value": "Strong"
+                        },
+                        "additionalIpAddresses": {
+                            "value": "[parameters('AseOutboundIpAddress')]"
                         }
                     }
                 }
