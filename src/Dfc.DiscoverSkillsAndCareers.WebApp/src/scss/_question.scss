@@ -1,21 +1,56 @@
-.app-question--short {
-  .app-question__answer {
-    margin-bottom: govuk-spacing(3);
-  }
+.app-question {
 
-  .govuk-radios__item {
-    width: auto;
-    clear: both;
+  &--short {
+    .app-question__answer {
+      margin-bottom: govuk-spacing(3);
+    }
 
-    &:nth-child(3) {
-      // Prevent 'it depends' from wrapping into two lines
-      white-space: nowrap;
+    .govuk-radios__item {
+      width: auto;
+      clear: both;
+
+      &:nth-child(3) {
+        // Prevent 'it depends' from wrapping into two lines
+        white-space: nowrap;
+      }
+    }
+
+    .govuk-radios {
+      text-align: center;
+      position: relative;
+    }
+
+    .govuk-radios__item {
+      position: relative;
+      padding-left: 0;
+      width: 20%;
+      display: block;
+      text-align: center;
+      float: left;
+      clear: none;
+      margin: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .govuk-radios__input + .govuk-radios__label {
+
+      &::before,
+      &::after {
+        left: calc(50% + 2px);
+        transform: translateX(-50%);
+      }
+    }
+
+    .govuk-radios__label {
+      padding-top: 3em;
     }
   }
 
   @include govuk-media-query($from: desktop) {
     &--short {
-
       margin: govuk-spacing(8) 0;
       clear: both;
       position: relative;
@@ -51,39 +86,6 @@
       .govuk-form-group {
         margin-bottom: 0;
       }
-    }
-
-    .govuk-radios {
-      text-align: center;
-      position: relative;
-    }
-
-    .govuk-radios__item {
-      position: relative;
-      padding-left: 0;
-      width: 20%;
-      display: block;
-      text-align: center;
-      float: left;
-      clear: none;
-      margin: 0;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-
-    .govuk-radios__input + .govuk-radios__label {
-
-      &::before,
-      &::after {
-        left: calc(50% + 2px);
-        transform: translateX(-50%);
-      }
-    }
-
-    .govuk-radios__label {
-      padding-top: 3em;
     }
 
     &--long {
