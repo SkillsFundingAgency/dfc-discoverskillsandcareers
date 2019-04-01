@@ -109,6 +109,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "apimLoggerName": {
+                        "value": "[reference('skillandcareers-apim-logger').outputs.ApimLoggerName.value]"
+                    },
                     "apimProductInstanceName": {
                         "value": "[reference('skillandcareers-apim-product').outputs.ApimProductInstanceName.value]"
                     },
@@ -125,8 +128,30 @@
                 "count": "[length(parameters('FunctionAppNames'))]"
             },
             "dependsOn": [
+                "skillandcareers-apim-logger",
                 "skillandcareers-apim-product"
             ]
+        },
+        {
+            "name": "skillandcareers-apim-logger",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('ApimResourceGroup')]",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat('https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/NCSD-406-AddApimLoggerTemplate/ArmTemplates/APIM/apim-logger.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "apimServiceName": {
+                        "value": "[parameters('ApimServiceName')]"
+                    },
+                    "productDisplayName": {
+                        "value": "Discover My Skills and Careers"
+                    }
+                }
+            }
         },
         {
             "name": "skillandcareers-apim-product",
