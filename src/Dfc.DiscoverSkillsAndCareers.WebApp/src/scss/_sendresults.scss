@@ -33,3 +33,18 @@
     margin: 0;
   }
 }
+
+.app-printcode {
+  @include govuk-responsive-margin(9, 'bottom');
+  clear: both;
+  position: relative;
+  display: none;
+
+  .govuk-heading-m {
+    @include govuk-responsive-margin(2, 'bottom');
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
