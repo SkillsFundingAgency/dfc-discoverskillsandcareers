@@ -41,7 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
             await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
 
-            await shortResultPageContentDataProcessor.RunOnce("shortfinishcontents", "shortresultpage");
+            await shortResultPageContentDataProcessor.RunOnce("resultspagecontent", "shortresultpage");
 
             await shortQuestionSetDataProcessor.RunOnce();
 
