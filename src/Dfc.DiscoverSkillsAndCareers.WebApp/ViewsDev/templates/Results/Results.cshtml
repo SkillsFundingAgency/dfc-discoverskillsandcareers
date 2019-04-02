@@ -91,20 +91,23 @@
             {
               <li class="app-results__item">
                 <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-two-thirds">
-                    <h3 class="govuk-heading-m"><a href="@jobFamily.Url" role="button" draggable="false" class="">@jobFamily.JobFamilyName</a></h3>
-                    <p>@jobFamily.JobFamilyText</p>
-                    <p>To find out job roles you might be suited to in adminstration, answer more questions.</p>
-                    @if (Model.UseFilteringQuestions) {
-                      @if (jobFamily.FilterAssessment != null && jobFamily.FilterAssessment.SuggestedJobProfiles.Length > 0)
-                      {
-                        <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
-                      } else {
-                        <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer more questions</a>
-                      }
-                    }
-                    <hr>
-                  </div>
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-m"><a href="@jobFamily.Url" role="button" draggable="false" class="">@jobFamily.JobFamilyName</a></h3>
+                        <p>@jobFamily.JobFamilyText</p>
+                        @if (Model.UseFilteringQuestions)
+                        {
+                            <p>@Model.ResultsAnswerMoreText?.Replace("[jobcategory]", jobFamily.JobFamilyName)</p>
+                            @if (jobFamily.FilterAssessment != null && jobFamily.FilterAssessment.SuggestedJobProfiles.Length > 0)
+                            {
+                                <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">@Model.ViewResultsButtonText</a>
+                            }
+                            else
+                            {
+                                <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">@Model.StartFilterQuestionsButtonText</a>
+                            }
+                        }
+                        <hr>
+                    </div>
                 </div>
               </li>
             }
