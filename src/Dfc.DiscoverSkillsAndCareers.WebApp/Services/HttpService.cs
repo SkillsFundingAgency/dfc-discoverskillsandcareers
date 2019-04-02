@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 {
@@ -10,23 +11,42 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         HttpClient _httpClient;
         ILogger<HttpService> _logger;
 
-        public HttpService(ILogger<HttpService> logger)
+        public HttpService(HttpClient httpClient, ILogger<HttpService> logger)
         {
-            _httpClient = new HttpClient();
+            _httpClient =  httpClient;
             _logger = logger;
         }
 
-        public async Task<string> GetString(string url)
+        public async Task<string> GetString(string url, Guid? dssCorrelationId)
         {
             _logger.LogInformation(url);
-            return await _httpClient.GetStringAsync(url);
+            AddCorrelationId(dssCorrelationId);
+            using (HttpResponseMessage res = await _httpClient.GetAsync(url))
+            {
+                res.EnsureSuccessStatusCode();
+                using (HttpContent content = res.Content)
+                {
+                    return await content.ReadAsStringAsync();
+                }
+            }
         }
 
-        public async Task<string> PostData(string url, object data)
+        private void AddCorrelationId(Guid? dssCorrelationId)
+        {
+            _httpClient.DefaultRequestHeaders.Remove("DssCorrelationId");
+            if (dssCorrelationId != null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("DssCorrelationId", dssCorrelationId.Value.ToString());
+            }
+        }
+
+        public async Task<string> PostData(string url, object data, Guid? dssCorrelationId)
         {
             _logger.LogInformation(url);
+            AddCorrelationId(dssCorrelationId);
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new JsonContent(data)))
             {
+                res.EnsureSuccessStatusCode();
                 using (HttpContent content = res.Content)
                 {
                     return await content.ReadAsStringAsync();
@@ -42,3 +62,4 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         }
     }
 }
+

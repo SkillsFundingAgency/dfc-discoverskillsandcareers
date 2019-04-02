@@ -8,6 +8,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Configuration;
 using CsvHelper;
 using System.Threading.Tasks;
+using Microsoft.Azure.Documents.Client;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -24,8 +25,14 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
             Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options>(args)
                          .MapResult(
-                             (LoadQuestions.Options opts) => LoadQuestions.Execute(config, opts),
-                             (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(config, opts),
+                             (LoadQuestions.Options opts) => {
+                                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
+                                 return LoadQuestions.Execute(config, client, opts);
+                             },
+                             (CreateValidityTestSessions.Options opts) => {
+                                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
+                                 return CreateValidityTestSessions.Execute(config, client, opts);
+                             },
                              errs => {
                                  Console.WriteLine(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
                                  return SuccessFailCode.Fail;

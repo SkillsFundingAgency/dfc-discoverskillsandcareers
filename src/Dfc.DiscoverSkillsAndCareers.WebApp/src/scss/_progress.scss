@@ -40,3 +40,13 @@
     display: block;
   }
 }
+
+.ncs-progress--complete {
+  .ncs-progress__count {
+    color: govuk-colour("white");
+  }
+
+  .ncs-progress__bar span {
+    background-color: govuk-colour("white");
+  }
+}

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
@@ -11,5 +10,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         Task<Document> CreateQuestion(Question question);
         Task<Question[]> GetQuestions(string assessmentType, string title, int version);
         Task<Question> GetQuestion(int questionNumber, string questionSetVersion);
+        Task<Question[]> GetQuestions(string questionSetVersion);
     }
 }

@@ -1,0 +1,57 @@
+﻿{% set pageName = 'home' %}
+{% set pageTitle = '@Model.Title' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = null;
+}
+{% endblock %}
+
+{% block main %}
+
+<div class="app-masthead">
+    <div class="govuk-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {{ govukBreadcrumbs({
+        items: [
+        {
+        text: "Home: @Model.Headline"
+        }
+        ]
+        }) }}
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<main id="content" role="main">
+
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
+
+            <h1 class="govuk-heading-xl">Page not found</h1>
+            <p class="govuk-body">
+                If you typed the web address, check it is correct.
+            </p>
+            <p class="govuk-body">
+                If you pasted the web address, check you copied the entire address.
+            </p>
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

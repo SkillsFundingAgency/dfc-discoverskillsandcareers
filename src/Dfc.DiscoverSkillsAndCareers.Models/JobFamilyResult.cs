@@ -21,6 +21,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("normalizedTotal")]
         public decimal NormalizedTotal { get; set; }
         public TraitValue[] TraitValues { get; set; } = {};
+        [JsonProperty("filterAssessment")]
+        public FilterAssessment FilterAssessment { get; set; }
     }
 
     public class TraitValue

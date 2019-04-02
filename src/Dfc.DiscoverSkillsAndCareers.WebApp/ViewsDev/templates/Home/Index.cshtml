@@ -7,7 +7,7 @@
 {% block pre %}
   @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
   @{
-      ViewData["Title"] = "Home Page";
+      ViewData["Title"] = Model.Title;
       Layout = null;
   }
 {% endblock %}
@@ -15,26 +15,25 @@
 {% block main %}
 
   <div class="app-masthead">
-    <div class="govuk-width-container">
+      <div class="govuk-width-container">
 
-      {% include "_phasebanner.njk" %}
+          {% include "_phasebanner.njk" %}
 
-      {{ govukBreadcrumbs({
-        items: [
+          {{ govukBreadcrumbs({
+          items: [
           {
-            text: "Home: Discover your skills and careers"
+          text: "Home: @Model.Headline"
           }
-        ]
-      }) }}
+          ]
+          }) }}
 
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">@Model.Title</h1>
-          <p class="govuk-body-l">@Model.Subheading</p>
-        </div>
+          <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                  <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+              </div>
+          </div>
+
       </div>
-
-    </div>
   </div>
 
   <main id="content" role="main">
@@ -42,37 +41,32 @@
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
-        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-grid-column-two-thirds">
 
-          <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
-            <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">@Model.Assessment1Title</h2>
-              <strong class="govuk-tag govuk-tag--coming-soon">Unavailable</strong>
-            </div>
-            <div class="app-assessment-picker__body">
+              <p class="govuk-body">@Model.TextBlock1</p>
+
+              <p class="govuk-body">@Model.TextBlock2</p>
+
               <div class="govuk-inset-text">
-                @Model.Assessment1Subtitle
+                  @Model.TextHighlight
               </div>
-              <!-- <a href="/start/" class="govuk-body govuk-!-font-size-19 govuk-link govuk-link--no-visited-state" gov-analytics-data="{{pageName}} | click | button | Start assessment">Start assessment</a> -->
-            </div>
-          </div>
 
-          <div class="app-assessment-picker app-assessment-picker--inactive" aria-disabled="true">
-            <div class="app-assessment-picker__title">
-              <h2 class="govuk-heading-l">@Model.Assessment2Title</h2>
-              <strong class="govuk-tag govuk-tag--coming-soon">Unavailable</strong>
-            </div>
-            <div class="app-assessment-picker__body">
-              <div class="govuk-inset-text">
-                @Model.Assessment2Subtitle
-              </div>
-            </div>
-          </div>
+              <p class="govuk-body">@Model.TextBlock3</p>
 
-        </div>
+              {{ govukButton({
+            text: "Start assessment",
+            href: "/assessment/short/",
+            classes: "govuk-button--start",
+            attributes: {
+              "gov-analytics-data": pageName + " | click | button | Start assessment"
+            }
+          }) }}
+          <strong class="govuk-tag govuk-tag--coming-soon">Unavailable</strong>
+          </div>
 
         <div class="govuk-grid-column-one-third">
           {% include "_resumepanel.njk" %}
+          {% include "_advisorpanel.njk" %}
         </div>
 
       </div>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
@@ -18,5 +16,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public bool IsNegative { get; set; }
         [JsonProperty("order")]
         public int Order { get; set; }
+        [JsonProperty("excludesJobProfiles")]
+        public string[] ExcludesJobProfiles { get; set; } = {};
+        [JsonProperty("filterTrigger")]
+        public string FilterTrigger { get; set; }
+        [JsonProperty("sfid")]
+        public string SfId { get; set; }
+        [JsonProperty("positiveResultDisplayText")]
+        public string PositiveResultDisplayText { get; set; }
+        [JsonProperty("negativeResultDisplayText")]
+        public string NegativeResultDisplayText { get; set; }
     }
 }

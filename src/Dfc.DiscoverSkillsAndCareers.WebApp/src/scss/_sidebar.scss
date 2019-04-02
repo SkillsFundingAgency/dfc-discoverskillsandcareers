@@ -1,9 +1,14 @@
 .app-sidebar {
+  @include govuk-responsive-margin(6, "bottom");
   @include govuk-media-query($from: desktop) {
     .govuk-heading-m {
       border-top: 8px solid $app-turquoise;
       padding-top: 20px;
     }
+  }
+
+  &:last-child {
+    @include govuk-responsive-margin(0, "bottom");
   }
 
   .govuk-body {

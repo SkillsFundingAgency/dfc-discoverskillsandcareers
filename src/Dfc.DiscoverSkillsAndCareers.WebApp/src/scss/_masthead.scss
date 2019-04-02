@@ -1,5 +1,5 @@
 .app-masthead {
-  background-color: $app-purple;
+  background-color: $app-turquoise;
   color: govuk-colour('white');
   margin-top: -10px;
   padding: 10px 0 20px 0;
@@ -10,7 +10,7 @@
   .govuk-phase-bannertag, // legacy version support
   .govuk-phase-banner__content__tag {
     background-color: govuk-colour('white');
-    color: $app-purple;
+    color: $govuk-brand-colour;
   }
 
   a:link,

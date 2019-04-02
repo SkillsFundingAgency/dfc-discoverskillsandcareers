@@ -32,4 +32,14 @@
       margin: 0 0 0 govuk-spacing(3);
     }
   }
+
+  &--left {
+    @include govuk-media-query($from: desktop) {
+      text-align: left;
+
+      .app-button {
+        margin-left: 0;
+      }
+    }
+  }
 }

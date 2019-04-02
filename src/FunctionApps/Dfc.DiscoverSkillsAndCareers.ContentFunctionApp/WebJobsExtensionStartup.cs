@@ -5,11 +5,13 @@ using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
@@ -28,18 +30,25 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
 
         private void ConfigureServices(IServiceCollection services)
         {
+            ConfigureOptions(services);
+
+            services.AddSingleton<DocumentClient>(srvs => {
+                var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
+                return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
+            });
+
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
 
+            services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
+            services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<IContentRepository, ContentRepository>();
+
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
-            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
-
-            ConfigureOptions(services);
+            
         }
 
         private void ConfigureOptions(IServiceCollection services)

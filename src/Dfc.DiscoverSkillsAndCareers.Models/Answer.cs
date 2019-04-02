@@ -19,5 +19,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public DateTime AnsweredDt { get; set; }
         [JsonProperty("isNegative")]
         public bool IsNegative { get; set; }
+        [JsonProperty("questionSetVersion")]
+        public string QuestionSetVersion { get; set; }
     }
 }

@@ -43,9 +43,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             Logger.LogInformation("Begin poll for ShortQuestionSet");
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
+            string siteFinityService = AppSettings.SiteFinityApiWebService;
             string assessmentType = "short";
 
-            var questionSets = await GetShortQuestionSetData.GetData(siteFinityApiUrlbase);
+            var questionSets = await GetShortQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
             Logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             foreach (var data in questionSets)
@@ -67,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
                 // Attempt to get the questions for this questionset
                 Logger.LogInformation($"Getting cms questions for questionset {data.Id} {data.Title}");
-                data.Questions = await GetShortQuestionData.GetData(siteFinityApiUrlbase, data.Id);
+                data.Questions = await GetShortQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, data.Id);
                 if (data.Questions.Count == 0)
                 {
                     Logger.LogInformation($"Questionset {data.Id} doesn't have any questions");

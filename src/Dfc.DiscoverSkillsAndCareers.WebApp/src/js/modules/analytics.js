@@ -307,31 +307,95 @@ var analytics = (function () {
       type: values[1],
       action_label: text
     }
-    console.log(obj)
+    window.dataLayer.push(obj)
   }
 
   return {
 
-    startSurvey: function () {
-      setCookie('ncs-survey-start', new Date().getTime())
+    dateStringToNumber: function (date) {
+      return parseInt(date, 10)
     },
 
-    finishSurvey: function () {
-      const start = parseInt(getCookie('ncs-survey-start'), 10)
-      const end = new Date().getTime()
-      const delta = ((end - start) / 1000)
+    getStartTime: function () {
+      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[0])
+    },
+
+    getPreviousTime: function () {
+      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[1])
+    },
+
+    getCurrentTime: function () {
+      return new Date().getTime()
+    },
+
+    getDelta: function (start, end) {
+      return (end - start) / 1000
+    },
+
+    formIsValid: function () {
+      var valid = false
+      var radios = document.getElementsByClassName('govuk-radios__input')
+      radios = Array.prototype.slice.call(radios)
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) valid = true
+      }
+      return valid
+    },
+
+    startSurvey: function () {
+      analytics.startTime = new Date().getTime()
+      setCookie('ncs-survey-start', analytics.startTime + ',' + 0)
+    },
+
+    updateSurveyTime: function () {
+      const start = analytics.getPreviousTime()
+      const end = analytics.getCurrentTime()
+      const delta = analytics.getDelta(start, end)
+
+      if (analytics.formIsValid()) {
+        setCookie('ncs-survey-start', analytics.startTime + ',' + end)
+        window.dataLayer.push({
+          page: {
+            user: {
+              event: 'Click “Next” button',
+              timeElapsedPage: delta
+            }
+          }
+        })
+      } else {
+        window.dataLayer.push({
+          page: {
+            errorType: 'validation_error',
+            errorDescription: 'User did not choose an option'
+          }
+        })
+      }
+    },
+
+    completeSurvey: function () {
+      const start = analytics.getStartTime()
+      const end = analytics.getCurrentTime()
+      const delta = analytics.getDelta(start, end)
       window.dataLayer.push({
         page: {
           user: {
+            event: 'View results page',
             timeLapsed: delta
           }
         }
       })
     },
 
+    updateSurvey: function () {
+      var nextQuestionButton = document.getElementsByClassName('btn-next-question')[0]
+      nextQuestionButton.addEventListener('click', function () {
+        analytics.updateSurveyTime()
+      })
+    },
+
     init: function () {
       var dataTrackClick = 'gov-analytics-data'
-      var trackingElements = [...document.querySelectorAll(`[${dataTrackClick}]`)]
+      var trackingElements = Array.prototype.slice.call(document.querySelectorAll(`[${dataTrackClick}]`))
 
       trackingElements.map(trackingElement => {
         trackingElement.addEventListener('click', function (event) {

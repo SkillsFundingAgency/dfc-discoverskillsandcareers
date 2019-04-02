@@ -25,7 +25,7 @@
           href: "/"
         },
         {
-          text: "See job categories"
+          text: "@Model.BreadcrumbText"
         }
       ]
     }) }}
@@ -38,28 +38,35 @@
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
         <div class="govuk-grid-column-two-thirds">
 
-          {{ govukPanel({
-            titleText: "@Model.Headline",
-            html: "@Model.HeadlineStrap",
-            classes: "govuk-!-margin-bottom-6"
-          }) }}
+          <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
+            <div class="govuk-panel__body">
+             <div class="ncs-progress ncs-progress--complete status-100">
+                <div class="ncs-progress__count">
+                  <span class="govuk-!-font-size-36">100%</span>
+                  <span class="visually-hidden">Complete</span>
+                </div>
+                <div class="ncs-progress__bar">
+                  <span style="width: 100%"></span>
+                </div>
+              </div>
+            </div>
+            <h1 class="govuk-panel__title">
+              Assessment complete
+            </h1>
+          </div>
 
           <h1 class="govuk-heading-m">What to do next</h1>
           <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
-          <form action="/results/" method="post">
-            <input type="hidden" name="sessionId" value="@Model.SessionId" />
 
             {{ govukButton({
-              text: "@Model.ViewResultsButtonText",
-              classes: "app-button",
-              type: "submit",
-              attributes: {
-                "gov-analytics-data": pageName + " | click | button | View results"
-              }
+            text: "@Model.ViewResultsButtonText",
+            href: "/results",
+            classes: "app-button",
+            attributes: {
+            "gov-analytics-data": pageName + " | click | button | View results"
+            }
             }) }}
-
-          </form>
 
         </div>
       </div>

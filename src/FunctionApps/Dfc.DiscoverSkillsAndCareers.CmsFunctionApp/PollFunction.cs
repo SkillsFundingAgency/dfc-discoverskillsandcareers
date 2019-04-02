@@ -12,31 +12,42 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
     public static class PollFunction
     {
         [FunctionName("PollFunction")]
-        public static  async Task Run([TimerTrigger("*/10 * * * *")]TimerInfo myTimer,
+        public static  async Task Run([TimerTrigger("*/4 * * * *")]TimerInfo myTimer,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentStartPage> startPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor
+            [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
+            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
+            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
+            [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
+            [Inject]IFunctionalCompetencyDataProcessor functionalCompetencyDataProcessor,
+            [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
             )
         {
             log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-            await startPageContentDataProcessor.RunOnce("startpages", "startpage");
-
-            await questionPageContentDataProcessor.RunOnce("questionpages", "questionpage");
-
-            await finishPageContentDataProcessor.RunOnce("finishpages", "finishpage");
-
-            await shortResultPageContentDataProcessor.RunOnce("shortresultspages", "shortresultpage");
-
             await shortTraitDataProcessor.RunOnce();
+
+            await jobCategoryDataProcessor.RunOnce();
+
+            await filteredQuestionSetDataProcessor.RunOnce(false);
+
+            await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
+
+            await questionPageContentDataProcessor.RunOnce("questionpagecontents", "questionpage");
+
+            await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
+
+            await shortResultPageContentDataProcessor.RunOnce("shortfinishcontents", "shortresultpage");
 
             await shortQuestionSetDataProcessor.RunOnce();
 
+            await jobProfileDataProcessor.RunOnce();
+
+            await functionalCompetencyDataProcessor.RunOnce();
         }
     }
 }

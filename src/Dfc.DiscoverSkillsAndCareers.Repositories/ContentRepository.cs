@@ -15,13 +15,13 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public ContentRepository(ILogger<ContentRepository> logger, IOptions<CosmosSettings> cosmosSettings)
+        public ContentRepository(ILogger<ContentRepository> logger, DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             logger.LogInformation($"Config: {Newtonsoft.Json.JsonConvert.SerializeObject(cosmosSettings)}");
 
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "Contents";
-            client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
+            this.client = client;
         }
 
         public async Task<Content> GetContent(string contentType)
@@ -48,6 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         public async Task<Content> CreateContent(Content contentModel)
         {
+            contentModel.Id = contentModel.ContentType.ToLower();
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
             {

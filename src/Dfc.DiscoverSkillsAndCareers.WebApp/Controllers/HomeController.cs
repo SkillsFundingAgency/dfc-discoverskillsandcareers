@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -37,7 +38,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
-                    Response.Cookies.Append("ncs-session-id", sessionId);
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 }
                 return View("Index", model);
             }
@@ -52,12 +53,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
         public class ReloadRequest
         {
             public string Code { get; set; }
@@ -65,8 +60,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         [HttpGet]
         [Route("reload")]
-        public IActionResult ReloadGet()
+        public async Task<IActionResult> ReloadGet()
         {
+            var sessionId = await TryGetSessionId(Request);
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                return await Reload(new ReloadRequest { Code = sessionId });
+            }
             return Redirect("/");
         }
 
@@ -79,24 +79,60 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodEnter(Log);
 
-                var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code ?? "", correlationId);
+                if (string.IsNullOrEmpty(reloadRequest?.Code))
+                {
+                    var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
+                    model.HasReloadError = true;
+                    return View("Index", model);
+                }
+
+                reloadRequest.Code = reloadRequest.Code.Replace(" ", "").ToLower();
+                if (reloadRequest.Code != HttpUtility.UrlEncode(reloadRequest.Code))
+                {
+                    var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
+                    model.HasReloadError = true;
+                    return View("Index", model);
+                }
+
+                if (reloadRequest.Code == "throw500") // TODO: for testing
+                {
+                    throw new Exception("Test 500 exception!");
+                }
+
+                var nextQuestionResponse = await ApiServices.NextQuestion(reloadRequest.Code, correlationId);
                 if (nextQuestionResponse == null)
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
                     model.HasReloadError = true;
                     return View("Index", model);
                 }
-                Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId);
+                Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+
                 if (nextQuestionResponse.IsComplete)
                 {
                     // Session has complete, redirect to results
-                    var redirectResponse = new RedirectResult($"/results");
+                    RedirectResult redirectResult;
+                    if (nextQuestionResponse.IsFilterAssessment)
+                    {
+                        redirectResult = new RedirectResult($"/results/{nextQuestionResponse.JobCategorySafeUrl}");
+                    }
+                    else
+                    {
+                        redirectResult = new RedirectResult($"/results");
+                    }
+                    return redirectResult;
+                }
+
+                if (nextQuestionResponse.IsFilterAssessment)
+                {
+                    // Filter assessment is in progress
+                    var redirectResponse = new RedirectResult($"/qf/{nextQuestionResponse.QuestionNumber}");
                     return redirectResponse;
                 }
                 else
                 {
                     // Session is not complete so continue where we was last
-                    var redirectResponse = new RedirectResult($"/q/{nextQuestionResponse.NextQuestionNumber}");
+                    var redirectResponse = new RedirectResult($"/q/{nextQuestionResponse.QuestionNumber}");
                     return redirectResponse;
                 }
             }

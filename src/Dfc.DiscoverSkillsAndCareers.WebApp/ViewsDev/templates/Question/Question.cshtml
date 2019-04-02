@@ -40,7 +40,7 @@
           href: "/"
         },
         {
-          text: "See job categories"
+          text: "@Model.Breadcrumb"
         }
       ]
     }) }}
@@ -53,9 +53,6 @@
 
             <input type="hidden" name="sessionId" value="@Model.SessionId" />
             <input type="hidden" name="questionId" value="@Model.QuestionId" />
-            <input type="hidden" name="questionNumber" value="@Model.QuestionNumber" />
-            <input type="hidden" name="questionText" value="@Model.QuestionText" />
-            <input type="hidden" name="traitCode" value="@Model.TraitCode" />
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
@@ -74,7 +71,7 @@
 
             <span class="govuk-error-message">@Model.ErrorMessage</span>
 
-            <fieldset class="govuk-fieldset app-question">
+            <fieldset class="govuk-fieldset app-question app-question--short">
 
                 <legend class="visually-hidden">@Model.QuestionText</legend>
 
@@ -130,7 +127,7 @@
 
                 {{ govukButton({
                 text: "@Model.NextButtonText",
-                classes: "app-button",
+                classes: "app-button btn-next-question",
                 type: "submit",
                 attributes: {
                 "gov-analytics-data": pageName + " | click | button | Submit"

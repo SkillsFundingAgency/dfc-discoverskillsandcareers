@@ -12,6 +12,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -29,7 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
         [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "The user session could not be found", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
-        [Display(Name = "Get", Description = "Gets the results for the user session.")]
+        [Display(Name = "GetResults", Description = "Gets the results for the user session.")]
 
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}")]HttpRequest req,
@@ -38,7 +39,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
-            [Inject]IUserSessionRepository userSessionRepository)
+            [Inject]IUserSessionRepository userSessionRepository,
+            [Inject]IJobProfileRepository jobProfileRepository)
         {
             loggerHelper.LogMethodEnter(log);
 
@@ -74,6 +76,33 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             var traits = userSession.ResultData.Traits;
             int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
             var jobFamilies = userSession.ResultData.JobFamilies;
+            var suggestedJobProfiles = new List<JobProfileResult>();
+            foreach (var jobCategory in jobFamilies)
+            {
+                if (jobCategory.FilterAssessment == null)
+                {
+                    continue;
+                }
+
+                // Build the list of job profiles
+                foreach (var socCode in jobCategory.FilterAssessment.SuggestedJobProfiles)
+                {
+                    var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "jobprofile-cms");
+                    suggestedJobProfiles.Add(new JobProfileResult()
+                    {
+                        JobCategory = jobCategory.JobFamilyName,
+                        CareerPathAndProgression = jobProfile.CareerPathAndProgression,
+                        Overview = jobProfile.Overview,
+                        SalaryExperienced = jobProfile.SalaryExperienced,
+                        SalaryStarter = jobProfile.SalaryStarter,
+                        SocCode = jobProfile.SocCode,
+                        Title = jobProfile.Title,
+                        UrlName = jobProfile.UrlName,
+                        WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                    });
+                }
+            }
+
             var model = new ResultsResponse()
             {
                 AssessmentType = userSession.AssessmentType,
@@ -81,7 +110,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                 JobFamilyCount = userSession.ResultData.JobFamilies.Length,
                 JobFamilyMoreCount = userSession.ResultData.JobFamilies.Length - 3,
                 Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
-                JobFamilies = jobFamilies
+                JobFamilies = jobFamilies,
+                JobProfiles = suggestedJobProfiles.ToArray(),
+                WhatYouToldUs = userSession.ResultData.WhatYouToldUs
             };
 
             loggerHelper.LogMethodExit(log);

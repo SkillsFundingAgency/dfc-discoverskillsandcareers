@@ -1,7 +1,6 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
-using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.UnitTests.Fakes;
 using DFC.Common.Standard.Logging;
@@ -30,6 +29,7 @@ namespace Dfc.UnitTests.FunctionTests
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
             _resultsService = Substitute.For<IAssessmentCalculationService>();
+            _filterAssessmentCalculationService = Substitute.For<IFilterAssessmentCalculationService>();
         }
 
         public void Dispose()
@@ -48,6 +48,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IUserSessionRepository _userSessionRepository;
         private IQuestionRepository _questionRepository;
         private IAssessmentCalculationService _resultsService;
+        private IFilterAssessmentCalculationService _filterAssessmentCalculationService;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId)
         {
@@ -60,7 +61,8 @@ namespace Dfc.UnitTests.FunctionTests
                 _httpResponseMessageHelper,
                 _userSessionRepository,
                 _questionRepository,
-                _resultsService
+                _resultsService,
+                _filterAssessmentCalculationService
             ).ConfigureAwait(false);
         }
 

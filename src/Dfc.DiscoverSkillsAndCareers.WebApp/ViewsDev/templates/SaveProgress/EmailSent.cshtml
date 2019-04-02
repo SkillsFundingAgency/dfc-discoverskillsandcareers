@@ -1,0 +1,42 @@
+﻿{% set pageName = 'resume-code' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+{% endblock %}
+
+{% block main %}
+
+<div class="govuk-width-container app-site-width-container">
+
+</div>
+
+<main id="content" role="main">
+    <div class="govuk-main-wrapper govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+
+                <div class="govuk-body">
+
+                    <h1 class="govuk-heading-xl">Check your email</h1>
+
+                    <p>An email has been sent to @Model.SentTo</p>
+
+                    <p>Click the link in the email to return to your assessment</p>
+
+                    <a href="/results" class="govuk-button">Continue</a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

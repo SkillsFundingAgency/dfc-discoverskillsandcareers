@@ -54,10 +54,14 @@ Create a local.settings.json file (change as requried but the following works wi
         "DatabaseName": "TestDatabase"
     },
     "AppSettings": {
-        "SessionSalt": "ncs"
+        "SessionSalt": "ncs",
+        "SiteFinityApiUrlbase": "https://localhost:9091"
     }
 }
 ```
+
+*NOTE:* The `SiteFinityApiUrlbase` only applies to the CMS function application. 
+
 To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp` and run 
 
     dotnet build 
@@ -67,12 +71,6 @@ to run the function app again
     func host start
 
 repeat for all apis to run locally.
-
-#### Building and running the front-end 
-
-To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.WebApp` and run 
-
-    dotnet run 
 
 #### Visual Studio run everything for debug
 
@@ -96,8 +94,65 @@ JavaScript is linted using the [Standard](https://standardjs.com) linter, as doc
 
 #### Front-end
 
-    cd src/web
+Generate the front-end files navigate to `src/Dfc.DiscoverSkillsAndCareers.WebApp` and run
+    
     gulp test
+
+#### Building and running the front-end 
+
+##### Config of APIs
+
+Navigate to `src/Dfc.DiscoverSkillsAndCareers.WebApp` and edit appsettings.json
+
+For a local run of everything:
+```
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Warning"
+        }
+    },
+    "AllowedHosts": "*",
+    "AppSettings": {
+        "SessionSalt": "ncs",
+        "ContentApiRoot": "http://localhost:7071/api",
+        "SessionApiRoot": "http://localhost:7074/api",
+        "ResultsApiRoot": "http://localhost:7073/api",
+        "AssessmentQuestionSetNames": "short=Draft01&long=long test",
+        "UseFilteringQuestions": "true"
+    },
+    "CosmosSettings": {
+        "Endpoint": "https://localhost:8081",
+        "Key": "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+        "DatabaseName": "TestDatabase"
+    }
+}
+```
+
+Or to use remote apis:
+```
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Warning"
+        }
+    },
+    "AllowedHosts": "*",
+    "AppSettings": {
+        "SessionSalt": "ncs",
+        "ContentApiRoot": "https://dfc-sval-skillscareers-content-fa.azurewebsites.net/api",
+        "SessionApiRoot": "https://dfc-sval-skillscareers-assessments-fa.azurewebsites.net/api",
+        "ResultsApiRoot": "https://dfc-sval-skillscareers-results-fa.azurewebsites.net/api",
+        "AssessmentQuestionSetNames": "short=201901&long=long test",
+        "UseFilteringQuestions": "true"
+    }
+}
+```
+
+To build and run the front-end and run 
+
+    dotnet run 
+
 
 #### Linting 
 
@@ -154,4 +209,4 @@ Nunjucks partials
 
 ## Licence
 
-TODO
+[MIT Licence](/LICENCE) 

@@ -14,11 +14,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly string collectionName;
         readonly DocumentClient client;
 
-        public QuestionSetRepository(IOptions<CosmosSettings> cosmosSettings)
+        public QuestionSetRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "QuestionSets";
-            client = new DocumentClient(new Uri(this.cosmosSettings.Endpoint), this.cosmosSettings.Key);
+            this.client = client;
         }
 
         public async Task<Document> CreateQuestionSet(QuestionSet questionSet)
@@ -36,25 +36,27 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         
         public async Task<QuestionSet> GetCurrentQuestionSet(string assessmentType, string title)
         {
+            var titleLowercase = title.ToLower().Replace(" ", "-");
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
             QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-                                   .Where(x => x.AssessmentType == assessmentType && x.TitleLowercase == title.ToLower())
+                                   .Where(x => x.AssessmentType == assessmentType && x.TitleLowercase == titleLowercase)
                                    .OrderByDescending(x => x.Version)
                                    .AsEnumerable()
                                    .FirstOrDefault();
-            return queryQuestionSet;
+            return await Task.FromResult(queryQuestionSet);
         }
 
         public async Task<QuestionSet> GetQuestionSetVersion(string assessmentType, string title, int version)
         {
+            var titleLowercase = title.ToLower().Replace(" ", "-");
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
             QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-                                   .Where(x => x.AssessmentType == assessmentType && x.TitleLowercase == title.ToLower() && x.Version == version)
+                                   .Where(x => x.AssessmentType == assessmentType && x.TitleLowercase == titleLowercase && x.Version == version)
                                    .AsEnumerable()
                                    .FirstOrDefault();
-            return queryQuestionSet;
+            return await Task.FromResult(queryQuestionSet);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession();
 
             var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateShortAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData);
         }
@@ -34,7 +34,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateShortAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -56,7 +56,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateShortAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -80,7 +80,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateShortAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -101,7 +101,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateShortAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);

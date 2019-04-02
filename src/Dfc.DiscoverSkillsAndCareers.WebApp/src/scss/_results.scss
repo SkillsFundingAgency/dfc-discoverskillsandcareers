@@ -1,4 +1,14 @@
-.app-results {
+.app-results,
+.app-results--long {
+
+  .app-results__item {
+    margin-bottom: govuk-spacing(3);
+
+    hr {
+      border: 0;
+      border-bottom: 2px solid $govuk-border-colour;
+    }
+  }
 
   .app-results__col-header {
     border-bottom: 1px solid $govuk-border-colour;
@@ -13,7 +23,7 @@
   .govuk-list > li {
     margin-bottom: govuk-spacing(6);
     counter-increment: section;
-    content: counter(section); 
+    content: counter(section);
   }
 
   .app-results__cta {
@@ -56,21 +66,106 @@
 
 }
 
+.app-long-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 0;
 
-.app-page--results {
-  @include govuk-media-query($from: desktop) {
+  li {
+    flex: 0 1 33%;
+    border-right: 1px solid $govuk-border-colour;
 
-    .app-save-panel {
-      margin-top: -133px;
-      background: govuk-colour('white');
-      padding: govuk-spacing(3);
-      border-top: 3px solid $app-dark-border;
+    &:nth-child(3n) {
+      border: 0;
+    }
+  }
 
-      .govuk-heading-m {
-        border: 0;
-        padding-top: 0;
-        margin-bottom: govuk-spacing(2);
+  .app-long-results__item {
+    border: 0;
+    height: 100%;
+    box-sizing: border-box;
+
+    h3 {
+      margin-top: 0;
+    }
+
+    .govuk-heading-s {
+      border-bottom: 1px solid $govuk-border-colour;
+      font-weight: normal;
+      @include govuk-responsive-padding(1, "bottom");
+    }
+
+    .app-results__cta {
+      text-align: center;
+    }
+
+    .result-detail {
+      clear: both;
+    }
+
+    .result-meta {
+      width: calc(100% - 40px);
+      float: right;
+    }
+
+    .salary-min,
+    .salary-max,
+    .level-min,
+    .level-max {
+      width: 50%;
+    }
+
+    .level-max,
+    .level-min {
+      font-size: govuk-px-to-rem(16);
+    }
+
+    .salary-max,
+    .salary-min {
+      margin-bottom: 8px;
+    }
+
+    .salary-max,
+    .level-max {
+      text-align: right;
+      float: right;
+    }
+
+    .salary-min,
+    .level-min {
+      float: left;
+    }
+
+    .range-bar {
+      clear: both;
+      margin-bottom: govuk-px-to-rem(8);
+      width: calc(100% - 8px);
+      border-left: 4px solid $app-turquoise;
+      border-right: 4px solid $app-turquoise;
+      padding-top: govuk-px-to-rem(4);
+      padding-bottom: govuk-px-to-rem(4);
+
+      hr {
+        border: 2px solid $app-turquoise;
+      }
+    }
+
+    .embedded-fa-icon {
+      width: 24px;
+      float: left;
+
+      svg {
+        color: $app-turquoise;
+      }
+    }
+
+    .result-meta {
+      .small {
+        display: block;
+        font-size: govuk-px-to-rem(16);
       }
     }
   }
+
 }

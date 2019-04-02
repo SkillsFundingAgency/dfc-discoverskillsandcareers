@@ -12,6 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
+using Notify.Interfaces;
+using Notify.Client;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
@@ -29,20 +33,30 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
         private void ConfigureServices(IServiceCollection services)
         {
+            ConfigureOptions(services);
+
+            services.AddSingleton<DocumentClient>(srvs => {
+                var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
+                return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
+            });
+
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
-
+            services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
+            services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<IContentRepository, ContentRepository>();
+            services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-
-            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
-            services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
-
-            ConfigureOptions(services);
+            services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
+            services.AddSingleton<INotificationClient>(srvs => {
+                var appSettings = srvs.GetService<IOptions<AppSettings>>().Value;
+                return new NotificationClient(appSettings.NotifyApiKey);
+            });
+            services.AddTransient<INotifyClient, NotifyClient>();
         }
 
         private void ConfigureOptions(IServiceCollection services)
@@ -73,6 +87,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.Configure<AppSettings>(env =>
             {
                 env.SessionSalt = appSettings.SessionSalt;
+                env.NotifyApiKey = appSettings.NotifyApiKey;
             });
         }
     }

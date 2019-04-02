@@ -9,6 +9,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using static Dfc.DiscoverSkillsAndCareers.SupportApp.Program;
+using Microsoft.Azure.Documents.Client;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -56,16 +57,16 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             };
         }
 
-        public static SuccessFailCode Execute(IConfiguration configuration, Options opts)
+        public static SuccessFailCode Execute(IConfiguration configuration, DocumentClient client, Options opts)
         {
             try
             {
                 configuration.Bind(opts);
 
                 var title = opts.QuestionVersionKey.Split('-').Last();
-                var questionRepository = new QuestionRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
-                var questionSetRepository = new QuestionSetRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
-                var sessionRepository = new UserSessionRepository(new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var questionSetRepository = new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var sessionRepository = new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 
                 var questionSet = questionSetRepository.GetCurrentQuestionSet("short", title).GetAwaiter().GetResult();
                 

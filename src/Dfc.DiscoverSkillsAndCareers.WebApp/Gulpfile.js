@@ -4,11 +4,11 @@
 // helpers
 
 function pa11yErrorHandler() {
-    this.emit("end");
+    this.emit('end');
 }
 
 function lighthouseErrorHandler() {
-    this.emit("end");
+    this.emit('end');
 }
 
 // requires
@@ -33,8 +33,7 @@ var gulp = require("gulp"),
     babel = require("gulp-babel"),
     autoprefixer = require('gulp-autoprefixer'),
     standard = require('gulp-standard'),
-    browserify = require('gulp-browserify'),
-    axios = require('axios');
+    browserify = require('gulp-browserify');
 
 // paths
 
@@ -55,6 +54,7 @@ paths.nunjucks = paths.templatesSrc + "partials/**/*.njk";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.images = paths.src + "images/**/*";
 paths.js = paths.src + "js/**/*.js";
+paths.favicon = paths.src + "favicon.ico"
 
 // paths - output
 
@@ -158,8 +158,12 @@ gulp.task('html', function() {
         .pipe(connect.reload());
 });
 
+gulp.task('favicon', function() {
+    return gulp.src(paths.favicon).pipe(gulp.dest(paths.dist))
+})
+
 gulp.task('rev', () => {
-    const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot'], { restore: true });
+    const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot', '!**/*.ico'], { restore: true });
 
     return gulp.src(paths.dist + '**/*')
       .pipe(assetFilter)
@@ -197,38 +201,6 @@ gulp.task('lighthousePerformanceTest', function() {
         .on("error", lighthouseErrorHandler);
 });
 
-gulp.task('slackResults', function(done) {
-    // Moved require down so the latest version of the JSON file is read
-    const testResults = require('./log/results');
-    const pa11yTestPassed = Object.keys(testResults.release.pa11y).length? Object.keys(testResults.release.pa11y).every((page) => testResults.release.pa11y[page].passed) : false;
-    const lighthouseTestPassed = Object.keys(testResults.release.lighthouse).length? Object.keys(testResults.release.lighthouse).every((page) => testResults.release.lighthouse[page].score >= 0.9) : false;
-    // const browserStackTestFailed = testResults.release.browserStack.length > 0;
-
-    axios.post('https://hooks.slack.com/services/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', {
-        text: `Front-end Test Results for build number ${process.env.BUILD_BUILDNUMBER? process.env.BUILD_BUILDNUMBER : '0'} from ${process.env.BUILD_DEFINITIONNAME? process.env.BUILD_DEFINITIONNAME : 'local'}:`,
-        attachments: [
-            {
-                title: "Pa11y",
-                text: pa11yTestPassed? 'Passed' : 'Failed',
-                color: pa11yTestPassed? 'good' : 'warning'
-            },
-            {
-                title: "Lighthouse",
-                text: lighthouseTestPassed? 'Passed' : 'Failed',
-                color: lighthouseTestPassed? 'good' : 'warning'
-            },
-            {
-                title: "Browser Stack",
-                text: 'Disabled',
-                color: 'warning'
-            }
-        ]
-    }).then(() => {
-        if (!pa11yTestPassed || !lighthouseTestPassed) done();
-        else process.exit(1);
-    });
-});
-
 // watches
 
 gulp.task("css:watch", () => gulp.watch([paths.css], gulp.series("min:css")));
@@ -243,7 +215,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "slackResults"));
+gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest"));
 
 gulp.task("dev",
     gulp.series(
@@ -254,6 +226,7 @@ gulp.task("dev",
         "html",
         "min:css",
         'headers',
+        'favicon',
         gulp.parallel(
             "html:watch",
             "css:watch",
@@ -271,7 +244,8 @@ gulp.task("prod",
         "html",
         "min",
         'rev',
-        'headers')
+        'headers',
+        'favicon')
 );
 
 gulp.task("default", gulp.series("prod"));
