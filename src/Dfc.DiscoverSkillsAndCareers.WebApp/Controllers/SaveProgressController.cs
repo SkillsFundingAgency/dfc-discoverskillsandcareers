@@ -250,7 +250,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [NonAction]
-        public string GetDisplayCode(string code)
+        public static string GetDisplayCode(string code)
         {
             string result = "";
             int i = 0;
