@@ -96,12 +96,12 @@
                     <p>@jobFamily.JobFamilyText</p>
                     <p>To find out job roles you might be suited to in adminstration, answer more questions.</p>
                     @if (Model.UseFilteringQuestions) {
-                        @if (jobFamily.FilterAssessment != null)
-                        {
-                          <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
-                        } else {
-                          <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer more questions</a>
-                        }
+                      @if (jobFamily.FilterAssessment != null && jobFamily.FilterAssessment.SuggestedJobProfiles.Length > 0)
+                      {
+                        <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
+                      } else {
+                        <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer more questions</a>
+                      }
                     }
                     <hr>
                   </div>
