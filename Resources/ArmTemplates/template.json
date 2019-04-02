@@ -140,7 +140,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat('https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/NCSD-406-AddApimLoggerTemplate/ArmTemplates/APIM/apim-logger.json')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'APIM/apim-logger.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
