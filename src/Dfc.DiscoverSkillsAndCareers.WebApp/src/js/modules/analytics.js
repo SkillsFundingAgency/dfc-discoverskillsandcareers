@@ -1,24 +1,4 @@
 var analytics = (function () {
-  function setCookie (name, value, days) {
-    var expires = ''
-    if (days) {
-      var date = new Date()
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-      expires = '; expires=' + date.toUTCString()
-    }
-    document.cookie = name + '=' + (value || '') + expires + '; path=/'
-  }
-
-  function getCookie (name) {
-    var nameEQ = name + '='
-    var ca = document.cookie.split(';')
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i]
-      while (c.charAt(0) === ' ') c = c.substring(1, c.length)
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length)
-    }
-    return null
-  }
 
   var diacriticsMap = [{
     base: 'A',
@@ -303,34 +283,14 @@ var analytics = (function () {
     // eventName, eventAction, type, action_label
     var obj = {
       eventName: values[0],
-      eventAction: 'click',
-      type: values[1],
+      eventAction: values[1],
+      type: values[2],
       action_label: text
     }
     window.dataLayer.push(obj)
   }
 
   return {
-
-    dateStringToNumber: function (date) {
-      return parseInt(date, 10)
-    },
-
-    getStartTime: function () {
-      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[0])
-    },
-
-    getPreviousTime: function () {
-      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[1])
-    },
-
-    getCurrentTime: function () {
-      return new Date().getTime()
-    },
-
-    getDelta: function (start, end) {
-      return (end - start) / 1000
-    },
 
     formIsValid: function () {
       var valid = false
@@ -340,57 +300,6 @@ var analytics = (function () {
         if (radios[i].checked) valid = true
       }
       return valid
-    },
-
-    startSurvey: function () {
-      analytics.startTime = new Date().getTime()
-      setCookie('ncs-survey-start', analytics.startTime + ',' + 0)
-    },
-
-    updateSurveyTime: function () {
-      const start = analytics.getPreviousTime()
-      const end = analytics.getCurrentTime()
-      const delta = analytics.getDelta(start, end)
-
-      if (analytics.formIsValid()) {
-        setCookie('ncs-survey-start', analytics.startTime + ',' + end)
-        window.dataLayer.push({
-          page: {
-            user: {
-              event: 'Click “Next” button',
-              timeElapsedPage: delta
-            }
-          }
-        })
-      } else {
-        window.dataLayer.push({
-          page: {
-            errorType: 'validation_error',
-            errorDescription: 'User did not choose an option'
-          }
-        })
-      }
-    },
-
-    completeSurvey: function () {
-      const start = analytics.getStartTime()
-      const end = analytics.getCurrentTime()
-      const delta = analytics.getDelta(start, end)
-      window.dataLayer.push({
-        page: {
-          user: {
-            event: 'View results page',
-            timeLapsed: delta
-          }
-        }
-      })
-    },
-
-    updateSurvey: function () {
-      var nextQuestionButton = document.getElementsByClassName('btn-next-question')[0]
-      nextQuestionButton.addEventListener('click', function () {
-        analytics.updateSurveyTime()
-      })
     },
 
     init: function () {
