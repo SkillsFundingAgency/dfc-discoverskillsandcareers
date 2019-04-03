@@ -44,18 +44,17 @@
             classes: "govuk-!-margin-bottom-6"
           }) }}
 
-            <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
+          <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
           <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
-            {{ govukButton({
-            text: "@Model.ViewResultsButtonText",
-            classes: "app-button",
-            href: "/results/@Model.JobCategorySafeUrl",
-            attributes: {
-            "gov-analytics-data": pageName + " | click | button | View results"
-            }
-            }) }}
-
+          {{ govukButton({
+          text: "@Model.ViewResultsButtonText",
+          classes: "app-button",
+          href: "/results/@Model.JobCategorySafeUrl",
+          attributes: {
+          "gov-analytics-data": pageName + " | click | button | View results"
+          }
+          }) }}
 
         </div>
       </div>

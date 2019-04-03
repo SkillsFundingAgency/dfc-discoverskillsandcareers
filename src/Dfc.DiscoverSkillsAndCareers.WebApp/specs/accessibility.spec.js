@@ -13,7 +13,7 @@ const answerDict = {
 const appUrl = `https://${customHostName}`;
 
 describe('Pa11y accessibility testing for Understand Myself - National Careers Service', function () {
-    this.timeout(120000);
+    this.timeout(240000);
 
     it('Home page', async () => {
         const {issues} = await pa11y(appUrl, {
@@ -28,7 +28,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     it('Statement page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
             standard: "WCAG2AA",
-            timeout: 60000,
+            timeout: 900000,
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
             actions: [
@@ -43,7 +43,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
     it('Save Progress page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
             standard: "WCAG2AA",
-            timeout: 90000,
+            timeout: 120000,
             // Rule ignored due to problem in GOV template
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
             actions: [

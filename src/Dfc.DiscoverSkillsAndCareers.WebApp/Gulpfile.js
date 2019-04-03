@@ -11,6 +11,10 @@ function lighthouseErrorHandler() {
     this.emit('end');
 }
 
+function browserStackErrorHandler() {
+    this.emit('end');
+}
+
 // requires
 
 var gulp = require("gulp"),
@@ -192,7 +196,8 @@ gulp.task('browserStack', function(done) {
         .pipe(protractor({
             configFile: paths.browserStackConf
         }))
-        .on("end", done);
+        .on("end", done)
+        .on("error", browserStackErrorHandler)
 });
 
 gulp.task('lighthousePerformanceTest', function() {
@@ -215,7 +220,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest"));
+gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "browserStack"));
 
 gulp.task("dev",
     gulp.series(
