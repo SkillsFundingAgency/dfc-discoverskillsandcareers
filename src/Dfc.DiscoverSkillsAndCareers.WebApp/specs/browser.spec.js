@@ -30,8 +30,8 @@ describe('National Careers Service', () => {
     await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button'))), 20000);
     await browser.driver.findElement(By.className('govuk-button')).click();
     await browser.driver.wait(EC.urlContains('results'), 20000);
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-body-l'))), 20000);
-    const numberOfResultsStr = await browser.driver.findElement(By.className('govuk-body-l')).getText();
+    await browser.driver.wait(EC.presenceOf(element.all(By.className('govuk-heading-l'))), 20000);
+    const numberOfResultsStr = await browser.driver.findElements(By.className('govuk-heading-l'))[1].getText();
     const numberOfResults = parseInt(numberOfResultsStr.split(' ')[0]);
     expect(numberOfResults > 0).toEqual(true);
   }, 220000);
