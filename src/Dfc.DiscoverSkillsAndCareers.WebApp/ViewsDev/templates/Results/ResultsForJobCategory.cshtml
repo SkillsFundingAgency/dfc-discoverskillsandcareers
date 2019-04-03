@@ -92,7 +92,6 @@
                     {
                         <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href="@jobCategory.Url" role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
                         <p class="text-light">
-                            @Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count
                             @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 1)
                             {
                                 <span> @Model.JobProfileTextPlural </span>
