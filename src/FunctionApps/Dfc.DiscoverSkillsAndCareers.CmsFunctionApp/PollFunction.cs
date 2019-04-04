@@ -33,7 +33,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
             await jobCategoryDataProcessor.RunOnce();
 
-            await filteredQuestionSetDataProcessor.RunOnce(false);
+            await filteredQuestionSetDataProcessor.RunOnce();
+
+            await functionalCompetencyDataProcessor.RunOnce();
 
             await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
 
@@ -41,13 +43,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
             await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
 
-            await shortResultPageContentDataProcessor.RunOnce("resultspagecontent", "shortresultpage");
+            await shortResultPageContentDataProcessor.RunOnce("resultspagecontents", "shortresultpage");
 
             await shortQuestionSetDataProcessor.RunOnce();
 
             await jobProfileDataProcessor.RunOnce();
-
-            await functionalCompetencyDataProcessor.RunOnce();
         }
     }
 }

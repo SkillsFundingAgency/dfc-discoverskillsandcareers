@@ -4,6 +4,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public interface IFilteredQuestionSetDataProcessor
     {
-        Task RunOnce(bool useLocalFile);
+        Task RunOnce();
     }
 }
