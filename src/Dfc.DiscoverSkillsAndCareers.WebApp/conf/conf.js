@@ -2,6 +2,8 @@ const BrowserStackUser = process.env['BROWSER.STACK.USER'] || require('../Config
 const BrowserStackKey = process.env['BROWSER.STACK.KEY'] || require('../Config/config').Browser_Stack_Key;
 const buildNum = process.env.BUILD_BUILDNUMBER? process.env.BUILD_BUILDNUMBER : `local-${Date.now()}`;
 
+console.log(process.env);
+
 exports.config = {
     'specs': [ '../specs/browser.spec.js' ],
     'browserstackUser': BrowserStackUser,
