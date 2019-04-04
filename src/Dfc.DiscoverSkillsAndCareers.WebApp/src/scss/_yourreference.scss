@@ -10,12 +10,13 @@
   margin-bottom: 0;
 }
 
-.app-your-reference__meta p {  
+.app-your-reference__meta p {
   margin-bottom: 0;
   color: $app-text-light;
-
   &:last-child {
+    margin-top: 5px;
     @include govuk-media-query($from: desktop) {
+      margin-top: 0;
       text-align: right;
     }
   }

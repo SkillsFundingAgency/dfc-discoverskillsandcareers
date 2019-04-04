@@ -220,7 +220,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "browserStack"));
+gulp.task("test", gulp.series("browserStack"));
 
 gulp.task("dev",
     gulp.series(

@@ -57,6 +57,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     throw new Exception($"Questionset for {functionalCompetency.JobCategory} could not be found - maybe a typo in sitefinity?");
                 }
+
                 if (!sets.Any(x => x.QuestionSetVersion == questionSet.QuestionSetVersion))
                 {
                     sets.Add(questionSet);
@@ -106,9 +107,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     }).ToList()
                 });
             }
-            // var localPath = @"C:\ncs\dfc-discoverskillsandcareers-dev\src\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp"; //TODO: temp issue as no CMS
-            // var saveFilename = System.IO.Path.Combine(localPath, "filtering_questions_2.json");
-            // await System.IO.File.WriteAllTextAsync(saveFilename, JsonConvert.SerializeObject(output));
+            var localPath = @"C:\ncs\dfc-discoverskillsandcareers-dev\src\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp"; //TODO: temp issue as no CMS
+            var saveFilename = System.IO.Path.Combine(localPath, "filtering_questions_2.json");
+            await System.IO.File.WriteAllTextAsync(saveFilename, JsonConvert.SerializeObject(output));
         }
     }
 }

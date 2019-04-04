@@ -43,6 +43,8 @@
 
 ### Running the application
 
+You will need to complete Prerequisites for Notify https://docs.notifications.service.gov.uk/net.html#net-client-documentation
+
 #### Building and Running the Api Function Apps
 
 Create a local.settings.json file (change as requried but the following works with the Cosmos emulator)
