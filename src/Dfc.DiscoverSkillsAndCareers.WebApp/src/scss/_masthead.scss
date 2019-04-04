@@ -13,6 +13,10 @@
     color: $govuk-brand-colour;
   }
 
+  .govuk-phase-banner {
+    border-color: transparent;
+  }
+
   a:link,
   a:visited,
   a:hover,
@@ -28,10 +32,10 @@
     margin-bottom: 0;
   }
 
-  .govuk-breadcrumbs {
-    margin-bottom: 20px;
+  .govuk-grid-row {
+    margin-top: 20px;
     @include govuk-media-query($from: desktop) {
-      margin-bottom: 30px;
+      margin-top: 30px;
     }
   }
 
@@ -41,7 +45,7 @@
       border-color: govuk-colour('white');
     }
   }
-  
+
 }
 
 .app-masthead__title {
