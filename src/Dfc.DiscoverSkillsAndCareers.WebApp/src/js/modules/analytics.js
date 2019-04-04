@@ -279,13 +279,13 @@ var analytics = (function () {
     return str
   }
 
-  const pushValues = function (values, text) {
-    // eventName, eventAction, type, action_label
+  const pushValues = function (values, text, data) {
     var obj = {
       eventName: values[0],
       eventAction: values[1],
       type: values[2],
-      action_label: text
+      action_label: text,
+      data: data ? data : ''
     }
     window.dataLayer.push(obj)
   }
@@ -302,7 +302,22 @@ var analytics = (function () {
       return valid
     },
 
+    getFormData: function () {
+      var radios = document.getElementsByName('selected_answer')
+      var selected = ''
+      if (radios.length) {
+        for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+            selected = radios[i].value;
+            break;
+          }
+        }
+      }
+      return selected
+    },
+
     init: function () {
+      var t = this
       var dataTrackClick = 'gov-analytics-data'
       var trackingElements = Array.prototype.slice.call(document.querySelectorAll(`[${dataTrackClick}]`))
 
@@ -310,7 +325,8 @@ var analytics = (function () {
         trackingElement.addEventListener('click', function (event) {
           const values = event.target.getAttribute('gov-analytics-data').split('|').map(value => removeDiacritics(value.trim()))
           const text = event.target.innerText
-          pushValues(values, text)
+          const data = t.getFormData()
+          pushValues(values, text, data)
         })
       })
     }
