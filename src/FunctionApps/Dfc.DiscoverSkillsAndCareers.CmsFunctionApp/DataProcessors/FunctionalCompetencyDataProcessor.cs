@@ -97,7 +97,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     {
                         Id = x.SfId,
                         Title = x.Texts.First().Text,
-                        ExcludesJobProfiles = x.ExcludesJobProfiles.ToList(),
+                        ExcludesJobProfiles = x.ExcludesJobProfiles.OrderBy(p => p).ToList(),
                         IsYes = x.IsNegative,
                         NegativeResultDisplayText = x.NegativeResultDisplayText,
                         PositiveResultDisplayText = x.PositiveResultDisplayText,
