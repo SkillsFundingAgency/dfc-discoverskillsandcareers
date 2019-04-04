@@ -19,7 +19,12 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
         const {issues} = await pa11y(appUrl, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
+            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
+            log: {
+                debug: console.log,
+				error: console.error,
+				info: console.log
+            }
         });
 
         expect(issues).to.eql([]);
@@ -34,7 +39,12 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             actions: [
                 'click element .govuk-button--start',
                 'wait for path to be /q/1'
-            ]
+            ],
+            log: {
+                debug: console.log,
+				error: console.error,
+				info: console.log
+            }
         });
 
         expect(issues).to.eql([]);
@@ -51,7 +61,12 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for element .govuk-link--no-visited-state to be added',
                 'click element .govuk-link--no-visited-state',
                 'wait for path to be /save-my-progress'
-            ]
+            ],
+            log: {
+                debug: console.log,
+				error: console.error,
+				info: console.log
+            }
         });
 
         expect(issues).to.eql([]);
@@ -225,7 +240,12 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 `check field #${answerDict['Agree']}`,
                 'click element .govuk-button',
                 'wait for path to be /finish'
-            ]
+            ],
+            log: {
+                debug: console.log,
+				error: console.error,
+				info: console.log
+            }
         });
 
         expect(issues).to.eql([]);
@@ -402,7 +422,12 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for element .govuk-button to be added',
                 'click element .govuk-button',
                 'wait for path to be /results'
-            ]
+            ],
+            log: {
+                debug: console.log,
+				error: console.error,
+				info: console.log
+            }
         });
 
         expect(issues).to.eql([]);
