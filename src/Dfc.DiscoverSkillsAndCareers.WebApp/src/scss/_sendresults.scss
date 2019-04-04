@@ -2,7 +2,10 @@
   background: govuk-colour('grey-3');
   border-bottom: 3px solid govuk-colour('grey-1');
   @include govuk-responsive-margin(9, 'bottom');
-  padding: govuk-spacing(6);
+  padding: govuk-spacing(3);
+  @include govuk-media-query($from: desktop) {
+    padding: govuk-spacing(6);
+  }
   clear: both;
   position: relative;
 
@@ -20,8 +23,11 @@
     top: 50%;
     transform: translateY(-50%);
     right: 0;
-    padding: 0 govuk-spacing(6);
+    padding: 0 govuk-spacing(3);
     box-sizing: border-box;
+    @include govuk-media-query($from: desktop) {
+      padding: 0 govuk-spacing(6);
+    }
   }
 
   p {
