@@ -41,10 +41,11 @@ jobs:
     displayName: 'Run Unit tests'
     inputs:
       command: test
-      projects: "src\Dfc.UnitTests\Dfc.UnitTests.csproj"
-      arguments: "-l:\"trx;LogFileName=../../../UnitTestResults.xml\""
+      projects: src/Dfc.UnitTests/Dfc.UnitTests.csproj'
+      arguments: '-l:\"trx;LogFileName=../../../UnitTestResults.xml\"''
 
   - task: PublishTestResults@2
+    displayName: 'Publish test results'
     inputs:
       testResultsFormat: 'xUnit'
       testResultsFiles: 'UnitTestResults.xml' 
