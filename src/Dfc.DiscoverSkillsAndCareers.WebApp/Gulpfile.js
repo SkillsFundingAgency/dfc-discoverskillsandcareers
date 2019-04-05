@@ -187,7 +187,12 @@ gulp.task('headers', () => {
 
 gulp.task('pa11y', function() {
     return gulp.src(paths.accessibilty, {read: false})
-        .pipe(mocha({exit: true}))
+        .pipe(mocha({
+            exit: true,
+            reporter: 'mocha-junit-reporter',
+            reporterOptions: {
+                mochaFile: 'pa11y_testresults.xml'
+            }}))
         .on("error", pa11yErrorHandler);
 });
 
@@ -202,7 +207,12 @@ gulp.task('browserStack', function(done) {
 
 gulp.task('lighthousePerformanceTest', function() {
     return gulp.src([paths.performance], {read: false})
-        .pipe(mocha({exit: true}))
+        .pipe(mocha({
+            exit: true,
+            reporter: 'mocha-junit-reporter',
+            reporterOptions: {
+                mochaFile: 'lighthouse_testresults.xml'
+            }}))
         .on("error", lighthouseErrorHandler);
 });
 
@@ -220,7 +230,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("browserStack"));
+gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest"));
 
 gulp.task("dev",
     gulp.series(
