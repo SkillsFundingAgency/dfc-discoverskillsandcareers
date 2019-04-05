@@ -14,8 +14,6 @@ const optionDictionary = {
 describe('National Careers Service', () => {
   browser.ignoreSynchronization = true;
   it('Run through short assessment and get result', async () => {
-    // Go to landing page
-    // TODO: change url to dev env once known
     await browser.driver.get(appUrl);
     await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button--start'))), 20000);
     await browser.driver.findElement(By.className('govuk-button--start')).click();
@@ -31,8 +29,9 @@ describe('National Careers Service', () => {
     await browser.driver.findElement(By.className('govuk-button')).click();
     await browser.driver.wait(EC.urlContains('results'), 20000);
     await browser.driver.wait(EC.presenceOf(element.all(By.className('govuk-heading-l'))), 20000);
-    const numberOfResultsStr = await browser.driver.findElements(By.className('govuk-heading-l'))[1].getText();
-    const numberOfResults = parseInt(numberOfResultsStr.split(' ')[0]);
+    const [firstElement, secondElement] = await browser.driver.findElements(By.className('govuk-heading-l'));
+    const resultText = await secondElement.getText();
+    const numberOfResults = parseInt(resultText.split(' ')[0]);
     expect(numberOfResults > 0).toEqual(true);
   }, 220000);
 
