@@ -274,4 +274,4 @@ paket-files/
 __pycache__/
 *.pyc
 
-*_testresults.xml
+TEST-*.xml
