@@ -38,6 +38,12 @@ jobs:
      targets: prod
 
   - task: DotNetCoreCLI@2
+    displayName: 'Run Unit tests'
+    inputs:
+      command: test
+      projects: 'src\Dfc.UnitTests\Dfc.UnitTests.csproj'
+
+  - task: DotNetCoreCLI@2
     displayName: 'dotnet publish web app'
     inputs:
      command: publish

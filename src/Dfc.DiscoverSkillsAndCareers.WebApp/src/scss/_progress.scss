@@ -7,7 +7,7 @@
 .ncs-progress__bar {
   display: block;
   height: 10px;
-  width: calc(100% - 70px);
+  width: calc(100% - 80px);
   float: right;
   position: relative;
   background-color: $govuk-border-colour;
@@ -43,10 +43,19 @@
 
 .ncs-progress--complete {
   .ncs-progress__count {
-    color: govuk-colour("white");
+    color: govuk-colour('white');
   }
 
   .ncs-progress__bar span {
-    background-color: govuk-colour("white");
+    background-color: govuk-colour('white');
+  }
+
+  .ncs-progress__bar {
+    width: calc(100% - 100px);
+  }
+
+  .ncs-progress__count  {
+    width: 100px;
+    text-align: left;
   }
 }
