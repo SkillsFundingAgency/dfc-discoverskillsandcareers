@@ -13,6 +13,7 @@
 .app-your-reference__meta p {
   margin-bottom: 0;
   color: $app-text-light;
+
   &:last-child {
     margin-top: 5px;
     @include govuk-media-query($from: desktop) {

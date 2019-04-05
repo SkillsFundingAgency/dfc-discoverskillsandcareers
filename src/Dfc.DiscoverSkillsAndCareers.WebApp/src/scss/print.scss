@@ -71,7 +71,7 @@
     @extend %govuk-heading-s;
 
     &::before {
-      content: counter(section) ". ";
+      content: counter(section) '. ';
     }
   }
 
