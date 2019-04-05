@@ -191,7 +191,7 @@ gulp.task('pa11y', function() {
             exit: true,
             reporter: 'mocha-junit-reporter',
             reporterOptions: {
-                mochaFile: 'pa11y_testresults.xml'
+                mochaFile: 'TEST-pa11y.xml'
             }}))
         .on("error", pa11yErrorHandler);
 });
@@ -211,7 +211,7 @@ gulp.task('lighthousePerformanceTest', function() {
             exit: true,
             reporter: 'mocha-junit-reporter',
             reporterOptions: {
-                mochaFile: 'lighthouse_testresults.xml'
+                mochaFile: 'TEST-lighthouse.xml'
             }}))
         .on("error", lighthouseErrorHandler);
 });
