@@ -190,7 +190,7 @@ gulp.task('pa11y', function() {
             exit: true,
             reporter: 'mocha-junit-reporter',
             reporterOptions: {
-                mochaFile: 'pa11y_testresults.xml'
+                mochaFile: 'TEST-pa11y.xml'
             }}))
         .on("error", pa11yErrorHandler);
 });
@@ -213,7 +213,7 @@ gulp.task('lighthousePerformanceTest', function() {
             exit: true,
             reporter: 'mocha-junit-reporter',
             reporterOptions: {
-                mochaFile: 'lighthouse_testresults.xml'
+                mochaFile: 'TEST-lighthouse.xml'
             }}))
         .on("error", lighthouseErrorHandler);
 });
@@ -232,7 +232,11 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
+<<<<<<< HEAD
 gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "browserStack"));
+=======
+gulp.task("test", gulp.series("lighthousePerformanceTest", "pa11y"));
+>>>>>>> 2a8284e1009eba16c4a5cf96ab259c0979f2956c
 
 gulp.task("dev",
     gulp.series(
