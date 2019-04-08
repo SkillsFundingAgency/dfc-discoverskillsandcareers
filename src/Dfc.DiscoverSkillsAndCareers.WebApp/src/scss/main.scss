@@ -158,3 +158,10 @@ $app-text-light: #646C70;
 .text-light {
   color: $govuk-secondary-text-colour;
 }
+
+.app-print-panel {
+  display: none;
+  @include govuk-media-query($from: desktop) {
+    display: block;
+  }
+}
