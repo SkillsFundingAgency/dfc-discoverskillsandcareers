@@ -35,10 +35,12 @@
     "merge-stream": "^1.0.1",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.21.0",
+    "mocha.parallel": "^0.15.6",
     "pa11y": "^5.1.0",
     "protractor": "^5.4.2",
     "puppeteer": "^1.12.2",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",

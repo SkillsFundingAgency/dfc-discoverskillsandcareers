@@ -28,7 +28,6 @@ var gulp = require("gulp"),
     connect = require('gulp-connect'),
     mocha = require('gulp-mocha'),
     sassLint = require('gulp-sass-lint'),
-    {protractor} = require('gulp-protractor'),
     header = require('gulp-header'),
     filter = require('gulp-filter'),
     rev = require('gulp-rev'),
@@ -196,12 +195,15 @@ gulp.task('pa11y', function() {
         .on("error", pa11yErrorHandler);
 });
 
-gulp.task('browserStack', function(done) {
+gulp.task('browserStack', function() {
     gulp.src([paths.browserStackSpec])
-        .pipe(protractor({
-            configFile: paths.browserStackConf
+        .pipe(mocha({
+            exit: true,
+            reporter: 'mocha-junit-reporter',
+            reporterOptions: {
+                mochaFile: 'browserstack_testresults.xml'
+            }
         }))
-        .on("end", done)
         .on("error", browserStackErrorHandler)
 });
 
@@ -230,7 +232,7 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest"));
+gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "browserStack"));
 
 gulp.task("dev",
     gulp.series(
