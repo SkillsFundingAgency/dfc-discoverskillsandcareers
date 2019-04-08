@@ -4,7 +4,11 @@
     margin-bottom: govuk-spacing(3);
   }
 
-  @include govuk-media-query($from: desktop) {
+  .govuk-radios__item {
+    clear: both;
+  }
+
+  @include govuk-media-query($from: 800px) {
     margin: govuk-spacing(8) 0;
     clear: both;
     position: relative;
@@ -52,6 +56,8 @@
 
     .govuk-radios__label {
       padding-top: 3em;
+      padding-left: 5px;
+      padding-right: 5px;
     }
 
     .govuk-error-message {
