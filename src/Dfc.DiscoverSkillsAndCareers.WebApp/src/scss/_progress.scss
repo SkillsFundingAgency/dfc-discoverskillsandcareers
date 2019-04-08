@@ -14,7 +14,8 @@
   border-radius: 5px;
   overflow: hidden;
   top: 8px;
-  @include govuk-media-query($from: desktop) {
+  @include govuk-media-query($from: tablet) {
+    width: calc(100% - 100px);
     top: 16px;
   }
 
@@ -31,9 +32,12 @@
   color: $govuk-secondary-text-colour;
   display: block;
   font-family: sans-serif;
-  width: 70px;
+  width: 80px;
   float: left;
-
+  text-align: left;
+  @include govuk-media-query($from: tablet) {
+    width: 100px;
+  }
   b {
     color: govuk-colour('green');
     margin-bottom: 4px;
@@ -48,14 +52,5 @@
 
   .ncs-progress__bar span {
     background-color: govuk-colour('white');
-  }
-
-  .ncs-progress__bar {
-    width: calc(100% - 100px);
-  }
-
-  .ncs-progress__count  {
-    width: 100px;
-    text-align: left;
   }
 }
