@@ -1,11 +1,9 @@
 .app-masthead {
+  @extend %clearfix;
   background-color: $app-turquoise;
   color: govuk-colour('white');
   margin-top: -10px;
-  padding: 10px 0 20px 0;
-  @include govuk-media-query($from: desktop) {
-    padding: 10px 0 30px 0;
-  }
+  padding: 10px 0 0 0;
 
   .govuk-phase-bannertag, // legacy version support
   .govuk-phase-banner__content__tag {
@@ -30,6 +28,7 @@
 
   .govuk-back-link {
     border-color: govuk-colour('white');
+    margin-bottom: 0;
   }
 
   .govuk-body-l {
@@ -37,9 +36,9 @@
   }
 
   .govuk-grid-row {
-    margin-top: 20px;
+    margin-top: govuk-px-to-rem(20);
     @include govuk-media-query($from: desktop) {
-      margin-top: 30px;
+      margin-top: govuk-px-to-rem(40);
     }
   }
 
@@ -54,5 +53,8 @@
 
 .app-masthead__title {
   color: govuk-colour('white');
-  margin-bottom: govuk-spacing(6);
+  margin-bottom: govuk-px-to-rem(20);
+  @include govuk-media-query($from: desktop) {
+    margin-bottom: govuk-px-to-rem(40);
+  }
 }
