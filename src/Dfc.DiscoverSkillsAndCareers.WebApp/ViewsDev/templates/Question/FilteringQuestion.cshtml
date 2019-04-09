@@ -47,7 +47,9 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
 
-                     <span class="govuk-error-message">@Model.ErrorMessage</span>
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
+                        <span class="govuk-error-message">@Model.ErrorMessage</span>
+                    }
 
                     <fieldset class="govuk-fieldset app-question app-question--long">
 

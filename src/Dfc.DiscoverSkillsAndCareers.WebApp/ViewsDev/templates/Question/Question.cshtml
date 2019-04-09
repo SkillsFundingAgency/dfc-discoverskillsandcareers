@@ -59,7 +59,9 @@
                 </div>
             </div>
 
-            <span class="govuk-error-message">@Model.ErrorMessage</span>
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
+                <span class="govuk-error-message">@Model.ErrorMessage</span>
+            }
 
             <fieldset class="govuk-fieldset app-question app-question--short">
 
