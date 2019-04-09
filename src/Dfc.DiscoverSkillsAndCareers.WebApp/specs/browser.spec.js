@@ -56,6 +56,7 @@ parallel('Understand Myself tests ', function() {
         await driver.get(appUrl);
         startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
         await startAssessmentButton.click();
+        await driver.wait(until.urlContains(`q/1`), 20000);
         const nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
         await nextButton.click();
         let errorElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
