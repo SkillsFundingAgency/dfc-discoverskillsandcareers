@@ -196,12 +196,12 @@ gulp.task('pa11y', function() {
 });
 
 gulp.task('browserStack', function() {
-    gulp.src([paths.browserStackSpec])
+    return gulp.src([paths.browserStackSpec])
         .pipe(mocha({
             exit: true,
             reporter: 'mocha-junit-reporter',
             reporterOptions: {
-                mochaFile: 'browserstack_testresults.xml'
+                mochaFile: 'TEST_browserstack.xml'
             }
         }))
         .on("error", browserStackErrorHandler)
