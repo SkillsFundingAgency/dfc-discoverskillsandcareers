@@ -201,7 +201,7 @@ gulp.task('browserStack', function() {
             exit: true,
             reporter: 'mocha-junit-reporter',
             reporterOptions: {
-                mochaFile: 'TEST_browserstack.xml'
+                mochaFile: 'TEST-browserstack.xml'
             }
         }))
         .on("error", browserStackErrorHandler)
