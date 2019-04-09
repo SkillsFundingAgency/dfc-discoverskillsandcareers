@@ -1,3 +1,9 @@
+.app-question {
+  .govuk-radios__label {
+    padding-top: 11px; // vertically align labels to radio buttons
+  }
+}
+
 .app-question--short {
 
   .app-question__answer {
