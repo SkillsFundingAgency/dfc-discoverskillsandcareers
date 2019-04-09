@@ -18,17 +18,7 @@
 
     {% include "_phasebanner.njk" %}
 
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "@Model.BreadcrumbText"
-        }
-      ]
-    }) }}
+    {% include "_breadcrumbpanel.njk" %}
 
   </div>
 
