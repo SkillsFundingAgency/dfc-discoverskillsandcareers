@@ -15,14 +15,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     public class ContentDataProcessor<T> : IContentDataProcessor<T> where T : IContentPage
     {
         readonly ILogger<ShortQuestionSetDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetContentData<List<T>> GetContentData;
         readonly AppSettings AppSettings;
         readonly IContentRepository ContentRepository;
 
         public ContentDataProcessor(
             ILogger<ShortQuestionSetDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IGetContentData<List<T>> getContentData,
             IOptions<AppSettings> appSettings,
             IContentRepository contentRepository)
@@ -41,6 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
 
             string url = $"{siteFinityApiUrlbase}/api/{AppSettings.SiteFinityApiWebService}/{siteFinityType}";
+
             var data = await GetContentData.GetData(url);
 
             var cmsContent = data.FirstOrDefault();

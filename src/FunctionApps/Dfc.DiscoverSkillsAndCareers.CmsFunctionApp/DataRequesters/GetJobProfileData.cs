@@ -8,9 +8,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetJobProfileData : IGetJobProfileData
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetJobProfileData(IHttpService httpService)
+        public GetJobProfileData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }

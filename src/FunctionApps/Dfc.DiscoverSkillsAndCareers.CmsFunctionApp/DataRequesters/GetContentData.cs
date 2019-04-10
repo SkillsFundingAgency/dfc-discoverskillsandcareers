@@ -7,9 +7,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetContentData<T> : IGetContentData<T> where T : class
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetContentData(IHttpService httpService)
+        public GetContentData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }

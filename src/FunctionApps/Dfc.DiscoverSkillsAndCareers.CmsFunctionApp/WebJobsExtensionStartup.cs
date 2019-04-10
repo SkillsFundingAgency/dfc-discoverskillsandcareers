@@ -52,7 +52,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddSingleton<IContentRepository, ContentRepository>();
             services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
-            services.AddSingleton<IHttpService, HttpService>();
+            services.AddSingleton<ISiteFinityHttpService, SiteFinityHttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
             services.AddTransient<IGetShortTraitData, GetShortTraitData>();

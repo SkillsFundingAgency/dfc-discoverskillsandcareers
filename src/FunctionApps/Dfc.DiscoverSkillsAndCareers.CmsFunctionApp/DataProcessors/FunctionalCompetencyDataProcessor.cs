@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     public class FunctionalCompetencyDataProcessor : IFunctionalCompetencyDataProcessor
     {
         readonly ILogger<FunctionalCompetencyDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetFunctionalCompetenciesData GetFunctionalCompetenciesData;
         readonly AppSettings AppSettings;
         readonly IQuestionRepository QuestionRepository;
@@ -24,7 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
         public FunctionalCompetencyDataProcessor(
             ILogger<FunctionalCompetencyDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IGetFunctionalCompetenciesData getFunctionalCompetenciesData,
             IOptions<AppSettings> appSettings,
             IQuestionRepository questionRepository,

@@ -11,14 +11,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     public class ShortTraitDataProcessor : IShortTraitDataProcessor
     {
         readonly ILogger<ShortQuestionSetDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetShortTraitData GetShortTraitData;
         readonly AppSettings AppSettings;
         readonly IShortTraitRepository ShortTraitRepository;
 
         public ShortTraitDataProcessor(
             ILogger<ShortQuestionSetDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IGetShortTraitData getShortTraitData,
             IOptions<AppSettings> appSettings,
             IShortTraitRepository shortTraitRepository)

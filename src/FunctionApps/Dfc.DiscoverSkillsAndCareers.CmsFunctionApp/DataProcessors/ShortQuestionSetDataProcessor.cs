@@ -13,7 +13,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
     {
         readonly ILogger<ShortQuestionSetDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IQuestionRepository QuestionRepository;
         readonly IQuestionSetRepository QuestionSetRepository;
         readonly IGetShortQuestionSetData GetShortQuestionSetData;
@@ -22,7 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
         public ShortQuestionSetDataProcessor(
             ILogger<ShortQuestionSetDataProcessor> logger, 
-            IHttpService httpService, 
+            ISiteFinityHttpService httpService, 
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
             IGetShortQuestionSetData getShortQuestionSetData,

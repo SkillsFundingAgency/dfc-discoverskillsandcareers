@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     public class FilteredtQuestionSetDataProcessor : IFilteredQuestionSetDataProcessor
     {
         readonly ILogger<ShortQuestionSetDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IQuestionRepository QuestionRepository;
         readonly IQuestionSetRepository QuestionSetRepository;
         readonly IGetFilteringQuestionSetData GetFilteringQuestionSetData;
@@ -20,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
         public FilteredtQuestionSetDataProcessor(
             ILogger<ShortQuestionSetDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
             IGetFilteringQuestionSetData getFilteringQuestionSetData,

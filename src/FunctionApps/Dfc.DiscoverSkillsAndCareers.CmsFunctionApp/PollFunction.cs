@@ -1,9 +1,11 @@
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -11,8 +13,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 {
     public static class PollFunction
     {
+        public const string Schedule = "%PollingSchedule%";
+
         [FunctionName("PollFunction")]
-        public static  async Task Run([TimerTrigger("*/4 * * * *")]TimerInfo myTimer,
+        public static  async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
             ILogger log,
             [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,

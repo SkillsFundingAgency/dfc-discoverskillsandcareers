@@ -8,9 +8,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetShortTraitData : IGetShortTraitData
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetShortTraitData(IHttpService httpService)
+        public GetShortTraitData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }

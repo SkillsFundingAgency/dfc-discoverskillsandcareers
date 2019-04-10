@@ -11,14 +11,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     public class JobProfileDataProcessor : IJobProfileDataProcessor
     {
         readonly ILogger<JobProfileDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetJobProfileData GetJobProfileData;
         readonly AppSettings AppSettings;
         readonly IJobProfileRepository JobProfileRepository;
 
         public JobProfileDataProcessor(
             ILogger<JobProfileDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IGetJobProfileData getJobProfileData,
             IOptions<AppSettings> appSettings,
             IJobProfileRepository jobProfileRepository)
