@@ -4,7 +4,7 @@ $govuk-global-styles: true;
 
 $app-purple: #8c0052;
 $app-purple-hover: #A73C7B;
-$app-turquoise: #1F7E77;
+$app-turquoise: #207E77;
 $app-turquoise-hover: #48948E;
 $app-dark-border: #7b0048;
 $app-text-light: #646C70;
@@ -50,7 +50,7 @@ $app-text-light: #646C70;
 }
 
 .govuk-header__container {
-  border-bottom-color: $govuk-brand-colour;
+  border-bottom-color: $app-turquoise;
 }
 
 .govuk-phase-bannertag {  // legacy version support
@@ -67,7 +67,7 @@ $app-text-light: #646C70;
 .app-page--results,
 .app-page--results-long {
   .govuk-header__container {
-    border-bottom-color: govuk-colour('white');
+    border-bottom-color: transparent;
   }
 }
 
@@ -157,4 +157,15 @@ $app-text-light: #646C70;
 
 .text-light {
   color: $govuk-secondary-text-colour;
+}
+
+.app-print-panel {
+  display: none;
+  @include govuk-media-query($from: desktop) {
+    display: block;
+  }
+}
+
+.app-advisor-panel {
+  margin-top: 5px;
 }

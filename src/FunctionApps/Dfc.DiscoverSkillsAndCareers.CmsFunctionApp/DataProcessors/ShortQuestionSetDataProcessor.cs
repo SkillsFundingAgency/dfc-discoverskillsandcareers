@@ -80,6 +80,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     // Change the current question set to be not current
                     questionSet.IsCurrent = false;
+                    await QuestionSetRepository.CreateQuestionSet(questionSet);
                 }
 
                 // Create the new current version

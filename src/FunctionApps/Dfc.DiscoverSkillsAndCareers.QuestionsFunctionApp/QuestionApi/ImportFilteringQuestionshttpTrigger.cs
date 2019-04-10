@@ -120,6 +120,8 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                             ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray(),
                             FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
                             SfId = dataQuestion.Id,
+                            PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
+                            NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText
                         };
                         newQuestionSet.MaxQuestions = questionNumber;
                         questionNumber++;
@@ -175,6 +177,10 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
             public List<string> ExcludesJobProfiles { get; set; }
             [JsonProperty("IsYes")]
             public bool IsYes { get; set; }
+            [JsonProperty("PositiveResultDisplayText")]
+            public string PositiveResultDisplayText { get; set; }
+            [JsonProperty("NegativeResultDisplayText")]
+            public string NegativeResultDisplayText { get; set; }
         }
 
     }

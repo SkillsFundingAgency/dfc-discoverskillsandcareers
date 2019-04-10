@@ -1,8 +1,21 @@
-const protractor = require('protractor');
+const {expect} = require('chai');
+const {Builder, By, until} = require('selenium-webdriver');
+const capabilities = require('../conf/conf').capabilities;
+const parallel = require('mocha.parallel');
+
 const customHostName = process.env.CustomHostName? process.env.CustomHostName : require('../Config/config').CustomHostName;
 
+const buildDriver = (caps) => {
+  return new Promise((resolve, reject) => {
+    const driver = new Builder()
+      .usingServer('https://hub-cloud.browserstack.com/wd/hub')
+      .withCapabilities(caps)
+      .build();
+    resolve(driver);
+  })
+}
+
 const appUrl = `https://${customHostName}`;
-const EC = protractor.ExpectedConditions;
 const optionDictionary = {
   'Strongly Agree': 'selected_answer-1',
   'Agree': 'selected_answer-2',
@@ -11,98 +24,107 @@ const optionDictionary = {
   "This doesn't apply to me": 'selected_answer-5'
 };
 
-describe('National Careers Service', () => {
-  browser.ignoreSynchronization = true;
-  it('Run through short assessment and get result', async () => {
-    // Go to landing page
-    // TODO: change url to dev env once known
-    await browser.driver.get(appUrl);
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button--start'))), 20000);
-    await browser.driver.findElement(By.className('govuk-button--start')).click();
+parallel('Understand Myself tests ', function() {
+  this.timeout(600000);
+  for (let cap of capabilities) {
+    it(`${cap.browserName}, ${cap.os? cap.os: cap.device}: Run through assessment, negative tests and check resume functionality`, async (done) => {
+      const driver = await buildDriver(cap);
 
-    for (let i = 1; i < 41; i++) {
-      await browser.driver.wait(EC.urlContains(`q/${i}`), 20000);
-      await browser.driver.wait(() => selectAnswer(optionDictionary['Agree']), 20000);
-      await browser.driver.findElement(By.className('govuk-button')).click();
-    }
-
-    await browser.driver.wait(EC.urlContains('finish'), 20000);
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button'))), 20000);
-    await browser.driver.findElement(By.className('govuk-button')).click();
-    await browser.driver.wait(EC.urlContains('results'), 20000);
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-body-l'))), 20000);
-    const numberOfResultsStr = await browser.driver.findElement(By.className('govuk-body-l')).getText();
-    const numberOfResults = parseInt(numberOfResultsStr.split(' ')[0]);
-    expect(numberOfResults > 0).toEqual(true);
-  }, 220000);
-
-  it('Get error message when clicking continue without selecting an option', async () => {
-    let errorText = '';
-    await browser.driver.get(appUrl);
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button--start'))), 20000);
-    await browser.driver.findElement(By.className('govuk-button--start')).click();
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button'))), 20000);
-    await browser.driver.findElement(By.className('govuk-button')).click();
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-error-message'))), 20000);
-    try {
-      errorText = await browser.driver.findElement(By.className('govuk-error-message')).getText();
-    }
-    catch(err) {
-      if (err.name === 'StaleElementReferenceError') errorText = await browser.driver.findElement(By.className('govuk-error-message')).getText();
-    }
-    expect(errorText.trim()).toEqual('Please select an option below to continue');
-  }, 30000);
-
-  it('Start assessment, get session ID and check if it resumes assessment', async () => {
-    await browser.driver.get(appUrl);
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-button--start'))), 20000);
-    await browser.driver.findElement(By.className('govuk-button--start')).click();
-    await browser.driver.wait(EC.presenceOf(element(by.id(optionDictionary['Agree']))), 20000);
-    await browser.driver.findElement(By.id(optionDictionary['Agree'])).click();
-    await browser.driver.findElement(By.className('govuk-button')).click();
-    // Wait for page to load and click Save my progress
-    await browser.driver.wait(EC.urlContains('q/2'), 20000);
-    await browser.driver.wait(EC.presenceOf(element(by.linkText('Save my progress'))), 20000);
-    try {
-      await browser.driver.findElement(By.linkText('Save my progress')).click();
-    }
-    catch(err) {
-      if (err.name === 'StaleElementReferenceError') await browser.driver.findElement(By.linkText('Save my progress')).click();
-    }
-    // Wait for page to load and save session ID text
-    await browser.driver.wait(EC.urlContains('save-my-progress'), 20000);
-    await browser.driver.wait(() => selectAnswer('SelectedOption-3'), 20000);
-    await browser.driver.findElement(By.className('govuk-button')).click();
-    await browser.driver.wait(EC.presenceOf(element(by.className('app-your-reference__code'))), 20000);
-    const sessionIdText = await browser.driver.findElement(By.className('app-your-reference__code')).getText();
-
-    // Go to landing page, wait for page to load, enter session ID and click resume progress
-    await browser.driver.get(appUrl);
-    await browser.driver.wait(EC.presenceOf(element(by.id('code'))), 20000);
-    await browser.driver.findElement(By.id('code')).sendKeys(sessionIdText);
-    await browser.driver.findElement(By.className('app-button')).click();
-    //Wait for Url to contain q/2
-    const urlFound = await browser.driver.wait(EC.urlContains('q/2'));
-    expect(urlFound).toEqual(true);
-  }, 60000); 
+      console.log(`${cap.browserName}: Running through assessment`);
+      await driver.get(appUrl);
+      let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      await startAssessmentButton.click();
   
-  it('Error message if no session ID is entered', async () => {
-    await browser.driver.get(appUrl);
-    await browser.driver.wait(EC.presenceOf(element(by.className('app-button'))), 20000);
-    await browser.driver.findElement(By.className('app-button')).click();
-    await browser.driver.wait(EC.presenceOf(element(by.className('govuk-error-message'))), 20000);
-    const errorText = await browser.driver.findElement(By.className('govuk-error-message')).getText();
-    expect(errorText.trim()).toEqual('The code could not be found');
-  }, 30000);
+      for (let i = 1; i < 41; i++) {
+        try {
+          await driver.wait(until.urlContains(`q/${i}`), 20000);
+        }
+        catch(err) {
+          if (err.name === 'TypeError') await driver.wait(until.urlContains(`q/${i}`), 20000);
+          else console.log(err);
+        }
+        await driver.wait(() => selectAnswer(driver, optionDictionary['Agree']), 20000);
+        await driver.findElement(By.className('govuk-button')).click();
+      }
+  
+      await driver.wait(until.urlContains('finish'), 20000);
+      const seeResultsButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      await seeResultsButton.click();
+      await driver.wait(until.urlContains('results'), 20000);
+      const [firstElement, secondElement] = await driver.wait(until.elementsLocated(By.className('govuk-heading-l')), 20000);
+      const resultText = await secondElement.getText();
+      const numberOfResults = parseInt(resultText.split(' ')[0]);
+      expect(numberOfResults).to.be.greaterThan(0);
+
+      console.log(`${cap.browserName}: Checking for error when clicking next without selecting any options`);
+      let errorText = '';
+      await driver.get(appUrl);
+      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      await startAssessmentButton.click();
+      await driver.wait(until.urlContains(`q/1`), 20000);
+      const nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      await nextButton.click();
+      let errorElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      try {
+        errorText = await errorElement.getText();
+      }
+      catch(err) {
+        if (err.name === 'StaleElementReferenceError') errorText = errorElement.getText();
+      }
+      expect(errorText.trim()).to.equal('Please select an option below to continue');
+
+      console.log(`${cap.browserName}: Start assessment, get session ID and check if it resumes assessment`);
+      await driver.get(appUrl);
+      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      await startAssessmentButton.click();
+      const agreeOption = await driver.wait(until.elementLocated(By.id(optionDictionary['Agree'])), 20000);
+      await agreeOption.click();
+      await driver.findElement(By.className('govuk-button')).click();
+      // Wait for page to load and click Save my progress
+      await driver.wait(until.urlContains('q/2'), 20000);
+      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Save my progress')), 20000);
+      try {
+        await saveProgressLink.click();
+      }
+      catch(err) {
+        if (err.name === 'StaleElementReferenceError') await saveProgressLink.click();
+      }
+      // Wait for page to load and save session ID text
+      await driver.wait(until.urlContains('save-my-progress'), 20000);
+      await driver.wait(() => selectAnswer(driver, 'SelectedOption-3'), 20000);
+      await driver.findElement(By.className('govuk-button')).click();
+      const sessionIdTextElement = await driver.wait(until.elementLocated(By.className('app-your-reference__code')), 20000);
+      const sessionIdText = await sessionIdTextElement.getText();
+  
+      // Go to landing page, wait for page to load, enter session ID and click resume progress
+      await driver.get(appUrl);
+      const resumeEntryTextBox = await driver.wait(until.elementLocated(By.id('code')), 20000);
+      await resumeEntryTextBox.sendKeys(sessionIdText);
+      await driver.findElement(By.className('app-button')).click();
+      //Wait for Url to contain q/2
+      const urlFound = await driver.wait(until.urlContains('q/2'));
+      expect(urlFound).to.equal(true);
+
+      console.log(`${cap.browserName}: Check for error message if no session ID is entered`);
+      await driver.get(appUrl);
+      const resumeButton = await driver.wait(until.elementLocated(By.className('app-button')), 20000);
+      await resumeButton.click();
+      errorElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      errorText = await errorElement.getText();
+      await driver.quit();
+      expect(errorText.trim()).to.equal('The code could not be found');
+      done();
+    });
+  }
 });
 
-async function selectAnswer(option) {
+async function selectAnswer(driver, option) {
   try {
-    await browser.driver.findElement(by.id(option)).click();
+    await driver.findElement(By.id(option)).click();
   }
   catch(err) {
-    if (err.name === 'StaleElementReferenceError') await browser.driver.findElement(by.id(option)).click();
+    if (err.name === 'StaleElementReferenceError') await driver.findElement(By.id(option)).click();
   }
-  const optionSelected = await browser.driver.findElement(by.id(option)).isSelected();
+  const optionSelected = await driver.findElement(By.id(option)).isSelected();
   return optionSelected;
 }

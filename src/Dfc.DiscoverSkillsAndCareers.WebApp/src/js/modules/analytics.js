@@ -1,25 +1,4 @@
 var analytics = (function () {
-  function setCookie (name, value, days) {
-    var expires = ''
-    if (days) {
-      var date = new Date()
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-      expires = '; expires=' + date.toUTCString()
-    }
-    document.cookie = name + '=' + (value || '') + expires + '; path=/'
-  }
-
-  function getCookie (name) {
-    var nameEQ = name + '='
-    var ca = document.cookie.split(';')
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i]
-      while (c.charAt(0) === ' ') c = c.substring(1, c.length)
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length)
-    }
-    return null
-  }
-
   var diacriticsMap = [{
     base: 'A',
     letters: /(&#65;|&#9398;|&#65313;|&#192;|&#193;|&#194;|&#7846;|&#7844;|&#7850;|&#7848;|&#195;|&#256;|&#258;|&#7856;|&#7854;|&#7860;|&#7858;|&#550;|&#480;|&#196;|&#478;|&#7842;|&#197;|&#506;|&#461;|&#512;|&#514;|&#7840;|&#7852;|&#7862;|&#7680;|&#260;|&#570;|&#11375;|[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F])/g
@@ -299,38 +278,18 @@ var analytics = (function () {
     return str
   }
 
-  const pushValues = function (values, text) {
-    // eventName, eventAction, type, action_label
+  const pushValues = function (values, text, data) {
     var obj = {
       eventName: values[0],
-      eventAction: 'click',
-      type: values[1],
-      action_label: text
+      eventAction: values[1],
+      type: values[2],
+      action_label: text,
+      data: data
     }
     window.dataLayer.push(obj)
   }
 
   return {
-
-    dateStringToNumber: function (date) {
-      return parseInt(date, 10)
-    },
-
-    getStartTime: function () {
-      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[0])
-    },
-
-    getPreviousTime: function () {
-      return analytics.dateStringToNumber(getCookie('ncs-survey-start').split(',')[1])
-    },
-
-    getCurrentTime: function () {
-      return new Date().getTime()
-    },
-
-    getDelta: function (start, end) {
-      return (end - start) / 1000
-    },
 
     formIsValid: function () {
       var valid = false
@@ -342,58 +301,22 @@ var analytics = (function () {
       return valid
     },
 
-    startSurvey: function () {
-      analytics.startTime = new Date().getTime()
-      setCookie('ncs-survey-start', analytics.startTime + ',' + 0)
-    },
-
-    updateSurveyTime: function () {
-      const start = analytics.getPreviousTime()
-      const end = analytics.getCurrentTime()
-      const delta = analytics.getDelta(start, end)
-
-      if (analytics.formIsValid()) {
-        setCookie('ncs-survey-start', analytics.startTime + ',' + end)
-        window.dataLayer.push({
-          page: {
-            user: {
-              event: 'Click “Next” button',
-              timeElapsedPage: delta
-            }
-          }
-        })
-      } else {
-        window.dataLayer.push({
-          page: {
-            errorType: 'validation_error',
-            errorDescription: 'User did not choose an option'
-          }
-        })
-      }
-    },
-
-    completeSurvey: function () {
-      const start = analytics.getStartTime()
-      const end = analytics.getCurrentTime()
-      const delta = analytics.getDelta(start, end)
-      window.dataLayer.push({
-        page: {
-          user: {
-            event: 'View results page',
-            timeLapsed: delta
+    getFormData: function () {
+      var radios = document.getElementsByName('selected_answer')
+      var selected = ''
+      if (radios.length) {
+        for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+            selected = radios[i].value
+            break
           }
         }
-      })
-    },
-
-    updateSurvey: function () {
-      var nextQuestionButton = document.getElementsByClassName('btn-next-question')[0]
-      nextQuestionButton.addEventListener('click', function () {
-        analytics.updateSurveyTime()
-      })
+      }
+      return selected
     },
 
     init: function () {
+      var t = this
       var dataTrackClick = 'gov-analytics-data'
       var trackingElements = Array.prototype.slice.call(document.querySelectorAll(`[${dataTrackClick}]`))
 
@@ -401,7 +324,8 @@ var analytics = (function () {
         trackingElement.addEventListener('click', function (event) {
           const values = event.target.getAttribute('gov-analytics-data').split('|').map(value => removeDiacritics(value.trim()))
           const text = event.target.innerText
-          pushValues(values, text)
+          const data = t.getFormData()
+          pushValues(values, text, data)
         })
       })
     }

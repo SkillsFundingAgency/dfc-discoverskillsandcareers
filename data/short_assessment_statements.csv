@@ -2,15 +2,15 @@ Statement,Trait,IsFlipped
 I am comfortable telling people what they need to do,Leader,0
 I make decisions quickly,Leader,0
 I like to take control of situations,Leader,0
-I prefer to follow what other people are doing,Leader,0
+I prefer to follow what other people are doing,Leader,1
 I like taking responsibility for other people,Leader,0
 "I set myself targets when I have things to do, and usually meet them",Driver,0
 I like to see things through to the end,Driver,0
 I think I am a competitive person,Driver,0
-I need to feel like I am constantly improving,Driver,0
+Doing well in a career motivates me,Driver,0
 I set myself goals in life,Driver,0
-I like to persuade others,Influencer,0
-I am comfortable negotiating with others,Influencer,0
+I am comfortable talking people around to my way of thinking,Influencer,0
+I am good at coming to an agreement with other people,Influencer,0
 I am comfortable talking in front of a group of people,Influencer,0
 I like meeting new people,Influencer,0
 I find it hard to understand other people's point of view,Influencer,1
@@ -25,16 +25,16 @@ I like working with facts,Analyst,0
 I like working with numbers,Analyst,0
 I enjoy learning new things,Analyst,0
 I enjoy coming up with new ways of doing things,Creator,0
-I prefer to take my own approach,Creator,0
+I try to think differently to others,Creator,0
 I like to use my imagination to create new things,Creator,0
 I like to try new things,Creator,0
 I enjoy creative activities,Creator,0
-I like to focus on the detail,Organiser,0
+I like to focus on details,Organiser,0
 I plan my day so I can use my time best,Organiser,0
 I like doing things in a careful order,Organiser,0
-I just do things when I want to do them,Organiser,1
+I like to follow rules and processes,Organiser,1
 I feel restricted when I have to follow a routine,Organiser,1
-I like having something physical to show for my work,Doer,0
+I like to see the results of the work I do,Doer,0
 I like to get involved in making things,Doer,0
 I enjoy getting involved in practical tasks,Doer,0
 I like working with my hands or tools,Doer,0

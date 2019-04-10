@@ -16,5 +16,17 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string SaveProgressTitle { get; set; } = "Return to this later";
         [JsonProperty("LastModified")]
         public DateTime LastUpdated { get; set; }
+        public string StartFilterQuestionsButtonText { get; set; } = "Answer more questions";
+        public string ViewResultsButtonText { get; set; } = "View results";
+        public string WhatYouToldUsTitle { get; set; } = "What you told us";
+        public string JobProfilesTitle { get; set; } = "Job roles that might suit you";
+        public string JobProfileTextSingle { get; set; } = "role";
+        public string JobProfileTextPlural { get; set; } = "roles";
+        public string ThatMightSuitText { get; set; } = "that might suit you";
+        public string AverageSalaryText { get; set; } = "Average salary (a year)";
+        public string StarterText { get; set; } = "Starter";
+        public string ExperiencedText { get; set; } = "Experienced";
+        public string TypicalHoursText { get; set; } = "Typical hours (a week)";
+        public string YouCouldWorkText { get; set; } = "You could work";
     }
 }

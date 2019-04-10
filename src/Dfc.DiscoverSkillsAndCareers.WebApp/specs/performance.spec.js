@@ -52,6 +52,19 @@ describe('Lighthouse performance testing for Understand Myself - National Career
         expect(categories.performance.score).to.be.at.least(performanceThreshold);
     });
 
+    it('Save progress reference page', async () => {
+        const browser = await puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]});
+        const page = await browser.newPage();
+        await page.goto(appUrl);
+        await Promise.all([page.waitForNavigation(), page.click('.govuk-button--start')]);
+        await Promise.all([page.waitForNavigation(), page.click('.govuk-link--no-visited-state')]);
+        await page.click('#SelectedOption-3');
+        const [response] = await Promise.all([page.waitForNavigation(), page.click('.govuk-button')]);
+        const {lhr: {categories}} = await lighthouse(response.url(), opts, null);
+        await browser.close();
+        expect(categories.performance.score).to.be.at.least(performanceThreshold);
+    });
+
     it('Finish page', async () => {
         const browser = await puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]});
         const page = await browser.newPage();
@@ -78,6 +91,22 @@ describe('Lighthouse performance testing for Understand Myself - National Career
             await Promise.all([page.waitForNavigation(), page.click('.govuk-button')]);
         }
         const [response] = await Promise.all([page.waitForNavigation(), page.click('.govuk-button')]);
+        const {lhr: {categories}} = await lighthouse(response.url(), opts, null);
+        await browser.close();
+        expect(categories.performance.score).to.be.at.least(performanceThreshold);
+    });
+
+    it('Filtering statements page', async () => {
+        const browser = await puppeteer.launch({args: [`--remote-debugging-port=${opts.port}`]});
+        const page = await browser.newPage();
+        await page.goto(appUrl);
+        await Promise.all([page.waitForNavigation(), page.click('.govuk-button--start')]);
+        for (let i = 0; i < 40; i++) {
+            await page.click(`#${answerDict['Agree']}`);
+            await Promise.all([page.waitForNavigation(), page.click('.govuk-button')]);
+        }
+        await Promise.all([page.waitForNavigation(), page.click('.govuk-button')]);
+        const [response] = await Promise.all([page.waitForNavigation(), page.click('.app-button')]);
         const {lhr: {categories}} = await lighthouse(response.url(), opts, null);
         await browser.close();
         expect(categories.performance.score).to.be.at.least(performanceThreshold);

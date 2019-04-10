@@ -18,17 +18,7 @@
 
     {% include "_phasebanner.njk" %}
 
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "@Model.BreadcrumbText"
-        }
-      ]
-    }) }}
+    {% include "_breadcrumbpanel.njk" %}
 
   </div>
 
@@ -51,22 +41,21 @@
               </div>
             </div>
             <h1 class="govuk-panel__title">
-              Assessment complete
+              @Model.Headline
             </h1>
           </div>
 
-          <h1 class="govuk-heading-m">What to do next</h1>
+          <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
           <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
-
-            {{ govukButton({
-            text: "@Model.ViewResultsButtonText",
-            href: "/results",
-            classes: "app-button",
-            attributes: {
-            "gov-analytics-data": pageName + " | click | button | View results"
-            }
-            }) }}
+          {{ govukButton({
+          text: "@Model.ViewResultsButtonText",
+          href: "/results",
+          classes: "app-button",
+          attributes: {
+          "gov-analytics-data": pageName + " | click | button | View results"
+          }
+          }) }}
 
         </div>
       </div>

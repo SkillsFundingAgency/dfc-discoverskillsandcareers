@@ -11,6 +11,10 @@ function lighthouseErrorHandler() {
     this.emit('end');
 }
 
+function browserStackErrorHandler() {
+    this.emit('end');
+}
+
 // requires
 
 var gulp = require("gulp"),
@@ -24,7 +28,6 @@ var gulp = require("gulp"),
     connect = require('gulp-connect'),
     mocha = require('gulp-mocha'),
     sassLint = require('gulp-sass-lint'),
-    {protractor} = require('gulp-protractor'),
     header = require('gulp-header'),
     filter = require('gulp-filter'),
     rev = require('gulp-rev'),
@@ -183,21 +186,35 @@ gulp.task('headers', () => {
 
 gulp.task('pa11y', function() {
     return gulp.src(paths.accessibilty, {read: false})
-        .pipe(mocha({exit: true}))
+        .pipe(mocha({
+            exit: true,
+            reporter: 'mocha-junit-reporter',
+            reporterOptions: {
+                mochaFile: 'TEST-pa11y.xml'
+            }}))
         .on("error", pa11yErrorHandler);
 });
 
-gulp.task('browserStack', function(done) {
-    gulp.src([paths.browserStackSpec])
-        .pipe(protractor({
-            configFile: paths.browserStackConf
+gulp.task('browserStack', function() {
+    return gulp.src([paths.browserStackSpec])
+        .pipe(mocha({
+            exit: true,
+            reporter: 'mocha-junit-reporter',
+            reporterOptions: {
+                mochaFile: 'TEST-browserstack.xml'
+            }
         }))
-        .on("end", done);
+        .on("error", browserStackErrorHandler)
 });
 
 gulp.task('lighthousePerformanceTest', function() {
     return gulp.src([paths.performance], {read: false})
-        .pipe(mocha({exit: true}))
+        .pipe(mocha({
+            exit: true,
+            reporter: 'mocha-junit-reporter',
+            reporterOptions: {
+                mochaFile: 'TEST-lighthouse.xml'
+            }}))
         .on("error", lighthouseErrorHandler);
 });
 
@@ -215,7 +232,8 @@ gulp.task("images:watch", () => gulp.watch([paths.html], gulp.series("assets")))
 gulp.task("clean", gulp.parallel("clean:js", "clean:css", "clean:assets"));
 gulp.task("min", gulp.parallel("min:js", "min:css"));
 
-gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest"));
+gulp.task("test", gulp.series("pa11y", "lighthousePerformanceTest", "browserStack"));
+
 
 gulp.task("dev",
     gulp.series(

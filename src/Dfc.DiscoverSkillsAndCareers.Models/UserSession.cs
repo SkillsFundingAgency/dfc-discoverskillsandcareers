@@ -37,6 +37,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string AssessmentType { get; set; }
         [JsonProperty("currentFilterAssessmentCode")]
         public string CurrentFilterAssessmentCode { get; set; }
+        [JsonProperty("lastUpdatedDt")]
+        public DateTime LastUpdatedDt { get; set; }
 
         // Extention getters
         [JsonIgnore]

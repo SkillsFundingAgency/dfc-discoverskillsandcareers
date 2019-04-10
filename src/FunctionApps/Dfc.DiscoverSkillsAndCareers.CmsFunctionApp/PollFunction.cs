@@ -27,27 +27,35 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
             )
         {
-            log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
+            var id = Guid.NewGuid();
+            try
+            {
+                log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-            await shortTraitDataProcessor.RunOnce();
+                await shortTraitDataProcessor.RunOnce();
 
-            await jobCategoryDataProcessor.RunOnce();
+                await jobCategoryDataProcessor.RunOnce();
 
-            await filteredQuestionSetDataProcessor.RunOnce(false);
+                await filteredQuestionSetDataProcessor.RunOnce();
 
-            await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
+                await functionalCompetencyDataProcessor.RunOnce();
 
-            await questionPageContentDataProcessor.RunOnce("questionpagecontents", "questionpage");
+                await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
 
-            await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
+                await questionPageContentDataProcessor.RunOnce("questionpagecontents", "questionpage");
 
-            await shortResultPageContentDataProcessor.RunOnce("shortfinishcontents", "shortresultpage");
+                await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
 
-            await shortQuestionSetDataProcessor.RunOnce();
+                await shortResultPageContentDataProcessor.RunOnce("resultspagecontents", "shortresultpage");
 
-            await jobProfileDataProcessor.RunOnce();
+                await shortQuestionSetDataProcessor.RunOnce();
 
-            await functionalCompetencyDataProcessor.RunOnce();
+                await jobProfileDataProcessor.RunOnce();
+            }
+            catch (Exception ex)
+            {
+                loggerHelper.LogException(log, id, ex);
+            }
         }
     }
 }

@@ -15,25 +15,17 @@
 {% block main %}
 
   <div class="app-masthead">
-      <div class="govuk-width-container">
+    <div class="govuk-width-container">
 
-          {% include "_phasebanner.njk" %}
+      {% include "_phasebanner.njk" %}
 
-          {{ govukBreadcrumbs({
-          items: [
-          {
-          text: "Home: @Model.Headline"
-          }
-          ]
-          }) }}
-
-          <div class="govuk-grid-row">
-              <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                  <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
-              </div>
-          </div>
-
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+        </div>
       </div>
+
+    </div>
   </div>
 
   <main id="content" role="main">

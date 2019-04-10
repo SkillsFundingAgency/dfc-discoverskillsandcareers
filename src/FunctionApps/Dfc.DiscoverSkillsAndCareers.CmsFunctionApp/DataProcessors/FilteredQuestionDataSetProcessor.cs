@@ -34,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             AppSettings = appSettings.Value;
         }
 
-        public async Task RunOnce(bool useLocalFile)
+        public async Task RunOnce()
         {
             Logger.LogInformation("Begin poll for FilteredQuestionSet");
 
@@ -42,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             string siteFinityService = AppSettings.SiteFinityApiWebService;
             string assessmentType = "filtered";
 
-            var questionSets = await GetFilteringQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService, useLocalFile);
+            var questionSets = await GetFilteringQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
             Logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             foreach (var data in questionSets)
@@ -74,6 +74,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     // Change the current question set to be not current
                     questionSet.IsCurrent = false;
+                    await QuestionSetRepository.CreateQuestionSet(questionSet);
                 }
 
                 // Create the new current version
