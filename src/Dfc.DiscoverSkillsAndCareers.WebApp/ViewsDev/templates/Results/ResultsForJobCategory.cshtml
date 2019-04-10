@@ -48,12 +48,14 @@
                         <li>@trait</li>
                     }
                 </ul>
+                @if (Model.WhatYouToldUs != null) {
                 <ul class="govuk-list">
                     @foreach (var whatYouToldUs in Model.WhatYouToldUs)
                     {
                         <li>@whatYouToldUs</li>
                     }
                 </ul>
+                }
             </div>
 
           </div>
