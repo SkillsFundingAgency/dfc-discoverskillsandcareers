@@ -43,6 +43,12 @@
 
             <div class="govuk-text">
                 <ul class="govuk-list">
+                    @foreach (var trait in Model.Traits)
+                    {
+                        <li>@trait</li>
+                    }
+                </ul>
+                <ul class="govuk-list">
                     @foreach (var whatYouToldUs in Model.WhatYouToldUs)
                     {
                         <li>@whatYouToldUs</li>
