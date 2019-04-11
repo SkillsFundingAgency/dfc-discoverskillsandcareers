@@ -57,11 +57,13 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             };
         }
 
-        public static SuccessFailCode Execute(IConfiguration configuration, DocumentClient client, Options opts)
+        public static SuccessFailCode Execute(IConfiguration configuration, Options opts)
         {
             try
             {
                 configuration.Bind(opts);
+
+                var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
 
                 var title = opts.QuestionVersionKey.Split('-').Last();
                 var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));

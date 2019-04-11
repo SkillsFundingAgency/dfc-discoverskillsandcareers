@@ -26,12 +26,11 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options>(args)
                          .MapResult(
                              (LoadQuestions.Options opts) => {
-                                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
-                                 return LoadQuestions.Execute(config, client, opts);
+                                 
+                                return LoadQuestions.Execute(config, opts);
                              },
                              (CreateValidityTestSessions.Options opts) => {
-                                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
-                                 return CreateValidityTestSessions.Execute(config, client, opts);
+                                return CreateValidityTestSessions.Execute(config, opts);
                              },
                              errs => {
                                  Console.WriteLine(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
