@@ -1,6 +1,7 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters

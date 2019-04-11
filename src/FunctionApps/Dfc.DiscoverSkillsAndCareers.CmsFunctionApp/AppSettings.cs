@@ -10,6 +10,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         public string SessionSalt { get; set; }
         public string SiteFinityApiUrlbase { get; set; }
         public string SiteFinityApiWebService { get; set; }
+        public bool SiteFinityRequiresAuthentication { get; set; }
         public string SiteFinityApiAuthenicationEndpoint { get; set;}
         public string SiteFinityScope { get; set; }
         public string SiteFinityUsername { get; set; }

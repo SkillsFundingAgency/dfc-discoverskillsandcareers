@@ -24,6 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentShortResultsPage> shortResultPageContentDataProcessor,
+            [Inject]IContentDataProcessor<ContentSaveProgressPage> saveProgressPageContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
             [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
             [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
@@ -52,9 +53,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
                 await shortResultPageContentDataProcessor.RunOnce("resultspagecontents", "shortresultpage");
 
+                await saveProgressPageContentDataProcessor.RunOnce("saveprogresscontents", "saveprogresspage");
+
                 await shortQuestionSetDataProcessor.RunOnce();
 
                 await jobProfileDataProcessor.RunOnce();
+
+                log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }
             catch (Exception ex)
             {

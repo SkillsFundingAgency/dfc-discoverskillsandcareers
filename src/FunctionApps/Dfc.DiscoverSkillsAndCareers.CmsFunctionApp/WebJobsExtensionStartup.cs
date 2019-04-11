@@ -66,6 +66,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetContentData<List<ContentFinishPage>>, GetContentData<List<ContentFinishPage>>>();
             services.AddTransient<IContentDataProcessor<ContentShortResultsPage>, ContentDataProcessor<ContentShortResultsPage>>();
             services.AddTransient<IGetContentData<List<ContentShortResultsPage>>, GetContentData<List<ContentShortResultsPage>>>();
+            services.AddTransient<IContentDataProcessor<ContentSaveProgressPage>, ContentDataProcessor<ContentSaveProgressPage>>();
+            services.AddTransient<IGetContentData<List<ContentSaveProgressPage>>, GetContentData<List<ContentSaveProgressPage>>>();
             services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();
             services.AddTransient<IGetFilteringQuestionSetData, GetFilteringQuestionSetData>();
             services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredtQuestionSetDataProcessor>();
@@ -92,24 +94,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             }
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
-            var appSettings = new AppSettings();
-            Configuration.Bind("AppSettings", appSettings);
-
-            var cosmosSettings = new CosmosSettings();
-            Configuration.Bind("CosmosSettings", cosmosSettings);
-
-            services.Configure<CosmosSettings>(env =>
-            {
-                env.DatabaseName = cosmosSettings.DatabaseName;
-                env.Endpoint = cosmosSettings.Endpoint;
-                env.Key = cosmosSettings.Key;
-            });
-            services.Configure<AppSettings>(env =>
-            {
-                env.SessionSalt = appSettings.SessionSalt;
-                env.SiteFinityApiUrlbase = appSettings.SiteFinityApiUrlbase;
-                env.SiteFinityApiWebService = appSettings.SiteFinityApiWebService;
-            });
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
     }
 }

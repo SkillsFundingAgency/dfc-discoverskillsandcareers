@@ -14,14 +14,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ContentDataProcessor<T> : IContentDataProcessor<T> where T : IContentPage
     {
-        readonly ILogger<ShortQuestionSetDataProcessor> Logger;
+        readonly ILogger<ContentDataProcessor<T>> Logger;
         readonly ISiteFinityHttpService HttpService;
         readonly IGetContentData<List<T>> GetContentData;
         readonly AppSettings AppSettings;
         readonly IContentRepository ContentRepository;
 
         public ContentDataProcessor(
-            ILogger<ShortQuestionSetDataProcessor> logger,
+            ILogger<ContentDataProcessor<T>> logger,
             ISiteFinityHttpService httpService,
             IGetContentData<List<T>> getContentData,
             IOptions<AppSettings> appSettings,
