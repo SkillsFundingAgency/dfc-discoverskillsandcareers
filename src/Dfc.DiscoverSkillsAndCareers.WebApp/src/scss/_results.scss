@@ -101,8 +101,10 @@
       margin-top: 0;
     }
 
-    .result-description {
-      min-height: 150px;
+    @include govuk-media-query($from: desktop) {
+      .result-description {
+        min-height: 150px;
+      }
     }
 
     .govuk-heading-s--alt {
