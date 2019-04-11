@@ -122,8 +122,10 @@
                 {
                   <li class="">
                     <div class="app-long-results__item">
-                      <h3 class="govuk-heading-s"><a href="@profile.UrlName">@profile.Title</a></h3>
-                      <p>@profile.Overview</p>
+                      <div class="result-description">
+                        <h3 class="govuk-heading-s"><a href="@profile.UrlName">@profile.Title</a></h3>
+                        <p>@profile.Overview</p>
+                      </div>
                       <div class="result-detail">
                         <h4 class="govuk-heading-s govuk-heading-s--alt">@Model.AverageSalaryText</h4>
                         <div class="embedded-fa-icon">
