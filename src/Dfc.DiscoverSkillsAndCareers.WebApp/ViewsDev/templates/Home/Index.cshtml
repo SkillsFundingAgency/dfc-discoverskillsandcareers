@@ -46,14 +46,14 @@
               <p class="govuk-body">@Model.TextBlock3</p>
 
               {{ govukButton({
-            text: "Start assessment",
+            text: "Start assessment (unavailable)",
             href: "/assessment/short/",
             classes: "govuk-button--start",
             attributes: {
-              "gov-analytics-data": pageName + " | click | button | Start assessment"
+              "gov-analytics-data": pageName + " | click | button | Start assessment",
+              disabled: true
             }
           }) }}
-          <strong class="govuk-tag govuk-tag--coming-soon">Unavailable</strong>
           </div>
 
         <div class="govuk-grid-column-one-third">
