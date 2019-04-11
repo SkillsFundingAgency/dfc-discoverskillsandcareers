@@ -84,14 +84,13 @@ $app-text-light: #646C70;
   background-image: govuk-image-url("../images/icon-pointer-black.png");
   background-repeat: no-repeat;
   background-position: right 15px top 50%;
+  box-shadow: none;
+  color: govuk-colour('black');
 
   @include govuk-device-pixel-ratio {
     background-image: govuk-image-url("../images/icon-pointer-black-2x.png");
     background-size: 13px 16px;
   }
-
-  box-shadow: none;
-  color: govuk-colour('black');
 
   &:link,
   &:visited,
@@ -152,6 +151,10 @@ $app-text-light: #646C70;
   &,
   .app-sidebar {
     background: govuk-colour('grey-4');
+  }
+
+  .text-light {
+    color: $govuk-text-colour;
   }
 }
 

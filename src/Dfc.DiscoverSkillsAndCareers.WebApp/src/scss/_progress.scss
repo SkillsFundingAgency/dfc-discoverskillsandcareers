@@ -38,6 +38,7 @@
   @include govuk-media-query($from: tablet) {
     width: 100px;
   }
+
   b {
     color: govuk-colour('green');
     margin-bottom: 4px;

@@ -43,11 +43,19 @@
 
             <div class="govuk-text">
                 <ul class="govuk-list">
+                    @foreach (var trait in Model.Traits)
+                    {
+                        <li>@trait</li>
+                    }
+                </ul>
+                @if (Model.WhatYouToldUs != null) {
+                <ul class="govuk-list">
                     @foreach (var whatYouToldUs in Model.WhatYouToldUs)
                     {
                         <li>@whatYouToldUs</li>
                     }
                 </ul>
+                }
             </div>
 
           </div>
@@ -82,6 +90,8 @@
                     {
                         <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href="@jobCategory.Url" role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
                         <p class="text-light">
+                            <span>@Model.JobProfiles.Count(x => x.JobCategory == jobCategory.JobFamilyName).ToString()</span>
+
                             @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 1)
                             {
                                 <span> @Model.JobProfileTextPlural </span>
@@ -112,8 +122,10 @@
                 {
                   <li class="">
                     <div class="app-long-results__item">
-                      <h3 class="govuk-heading-s"><a href="@profile.UrlName">@profile.Title</a></h3>
-                      <p>@profile.Overview</p>
+                      <div class="result-description">
+                        <h3 class="govuk-heading-s"><a href="@profile.UrlName">@profile.Title</a></h3>
+                        <p>@profile.Overview</p>
+                      </div>
                       <div class="result-detail">
                         <h4 class="govuk-heading-s govuk-heading-s--alt">@Model.AverageSalaryText</h4>
                         <div class="embedded-fa-icon">

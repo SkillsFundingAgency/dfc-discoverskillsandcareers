@@ -68,12 +68,6 @@
 
 .app-long-results {
 
-  margin-bottom: 0;
-
-  li {
-    margin-bottom: govuk-spacing(3);
-  }
-
   @include govuk-media-query($from: desktop) {
     display: flex;
     flex-wrap: wrap;
@@ -95,10 +89,20 @@
     border: 0;
     height: 100%;
     box-sizing: border-box;
-    padding: 0 govuk-spacing(3);
+    padding: 0 govuk-spacing(4);
+    margin-bottom: govuk-spacing(6);
+    @include govuk-media-query($from: desktop) {
+      margin-bottom: govuk-spacing(3);
+    }
 
     h3 {
       margin-top: 0;
+    }
+
+    @include govuk-media-query($from: desktop) {
+      .result-description {
+        min-height: 150px;
+      }
     }
 
     .govuk-heading-s--alt {
