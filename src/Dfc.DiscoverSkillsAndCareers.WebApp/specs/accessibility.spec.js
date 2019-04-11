@@ -366,4 +366,19 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
         expect(issues).to.eql([]);
     });
+
+    it('404 page', async () => {
+        const {issues} = await pa11y(`${appUrl}/dummy`, {
+            standard: "WCAG2AA",
+            // Rule ignored due to problem in GOV template
+            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
+            log: {
+                debug: console.log,
+                error: console.error,
+                info: console.info
+            }
+        });
+
+        expect(issues).to.eql([]);
+    });
 });
