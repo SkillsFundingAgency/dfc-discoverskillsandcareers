@@ -1,8 +1,8 @@
 # Discover Skills and Careers
 
-## Screenshots 
+## Screenshots
 
-![](screenshot.png) 
+![](screenshot.png)
 
 ## Live examples
 
@@ -17,11 +17,11 @@
 - Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
 
 
-## Technical documentation  
+## Technical documentation
 
-### Architecture Documents 
+### Architecture Documents
 
-![](Architecture-latest.png) 
+![](Architecture-latest.png)
 
 ### Dependencies
 
@@ -33,13 +33,13 @@
 ### Solution Structure
 
 * **Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp** - Assessment apis for new, move, answer, reload
-* **Dfc.DiscoverSkillsAndCareers.CmsFunctionApp** - CMS timer function 
+* **Dfc.DiscoverSkillsAndCareers.CmsFunctionApp** - CMS timer function
 * **Dfc.DiscoverSkillsAndCareers.ContentFunctionApp** - Content apis to supply CMS content to pages
 * **Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp** - Question apis to expose question data
 * **Dfc.DiscoverSkillsAndCareers.ResultFunctionApp** - Results api to fetch results for a statement
 * **Dfc.DiscoverSkillsAndCareers.Models** - Any data models.
-* **Dfc.DiscoverSkillsAndCareers.Repositories** - Any data access code that is required 
-* **Dfc.DiscoverSkillsAndCareers.WebApp** - MCV app. 
+* **Dfc.DiscoverSkillsAndCareers.Repositories** - Any data access code that is required
+* **Dfc.DiscoverSkillsAndCareers.WebApp** - MCV app.
 
 ### Running the application
 
@@ -62,13 +62,13 @@ Create a local.settings.json file (change as requried but the following works wi
 }
 ```
 
-*NOTE:* The `SiteFinityApiUrlbase` only applies to the CMS function application. 
+*NOTE:* The `SiteFinityApiUrlbase` only applies to the CMS function application.
 
-To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp` and run 
+To build an api function app navigate to `src/Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp` and run
 
-    dotnet build 
+    dotnet build
 
-to run the function app again 
+to run the function app again
 
     func host start
 
@@ -78,17 +78,17 @@ repeat for all apis to run locally.
 
 You can set your startup projects to start all, the apis and the front-end at the same time to debug.
 
-![](screenshot-startprojects.png) 
+![](screenshot-startprojects.png)
 
-#### Asset Revisioning 
+#### Asset Revisioning
 
-Assets are revisioned using [`gulp-rev`](https://github.com/sindresorhus/gulp-rev) and references to those files are updated using [`gulp-rev-rewrite`](https://github.com/TheDancingCode/gulp-rev-rewrite). 
+Assets are revisioned using [`gulp-rev`](https://github.com/sindresorhus/gulp-rev) and references to those files are updated using [`gulp-rev-rewrite`](https://github.com/TheDancingCode/gulp-rev-rewrite).
 
-Note that these assets are only revisioned when the file is changed, and not every time the task is run. 
+Note that these assets are only revisioned when the file is changed, and not every time the task is run.
 
-#### JavaScript 
+#### JavaScript
 
-JavaScript is written in ES6 and is compiled using Babel in order to support older browsers. 
+JavaScript is written in ES6 and is compiled using Babel in order to support older browsers.
 
 JavaScript is linted using the [Standard](https://standardjs.com) linter, as documented in the [GOV.UK coding standards and guidelines](https://github.com/alphagov/styleguides/blob/master/js.md#linting)
 
@@ -97,10 +97,10 @@ JavaScript is linted using the [Standard](https://standardjs.com) linter, as doc
 #### Front-end
 
 Generate the front-end files navigate to `src/Dfc.DiscoverSkillsAndCareers.WebApp` and run
-    
+
     gulp test
 
-#### Building and running the front-end 
+#### Building and running the front-end
 
 ##### Config of APIs
 
@@ -142,29 +142,29 @@ Or to use remote apis:
     "AllowedHosts": "*",
     "AppSettings": {
         "SessionSalt": "ncs",
-        "ContentApiRoot": "https://dfc-sval-skillscareers-content-fa.azurewebsites.net/api",
-        "SessionApiRoot": "https://dfc-sval-skillscareers-assessments-fa.azurewebsites.net/api",
-        "ResultsApiRoot": "https://dfc-sval-skillscareers-results-fa.azurewebsites.net/api",
+        "ContentApiRoot": "https://dfc-dev-skillscareers-content-fa.azurewebsites.net/api",
+        "SessionApiRoot": "https://dfc-dev-skillscareers-assessments-fa.azurewebsites.net/api",
+        "ResultsApiRoot": "https://dfc-dev-skillscareers-results-fa.azurewebsites.net/api",
         "AssessmentQuestionSetNames": "short=201901&long=long test",
         "UseFilteringQuestions": "true"
     }
 }
 ```
 
-To build and run the front-end and run 
+To build and run the front-end and run
 
-    dotnet run 
+    dotnet run
 
 
-#### Linting 
+#### Linting
 
-Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/govuk-lint/blob/master/configs/scss_lint/gds-sass-styleguide.yml) project and [converted from the “SCSS Lint” style to “Sass Lint”](http://sasstools.github.io/make-sass-lint-config/) to work with the [`sass-lint`](https://www.npmjs.com/package/sass-lint) module. 
+Sass linting config is taken from the [`gov-lint`](https://github.com/alphagov/govuk-lint/blob/master/configs/scss_lint/gds-sass-styleguide.yml) project and [converted from the “SCSS Lint” style to “Sass Lint”](http://sasstools.github.io/make-sass-lint-config/) to work with the [`sass-lint`](https://www.npmjs.com/package/sass-lint) module.
 
 #### Cross-browser Testing
 
 Cross-browser testing is carried out using [BrowserStack](https://www.browserstack.com/automate/protractor). BrowserStack testing will run through happy/negative paths and is part of gulp test task. To run manually navigate to `src/web` and run
 
-    gulp browserStack 
+    gulp browserStack
 
 #### Accessibility Testing
 
@@ -178,9 +178,9 @@ Performance testing is carried out using [Lighthouse](https://github.com/GoogleC
 
     gulp lighthousePerformanceTest
 
-## Deployment Structure 
+## Deployment Structure
 
-There are 6 deployment artifacts 
+There are 6 deployment artifacts
 
 1. **Assessment Api Function** - To be deployed to the api function environment.
 2. **CMS Api Function** - To be deployed to the api function environment.
@@ -191,7 +191,7 @@ There are 6 deployment artifacts
 
 The support app can be run in order to create the relevant Statement and Content data.
 
-## Analytics 
+## Analytics
 
 ### Event Tracking
 
@@ -211,4 +211,4 @@ Nunjucks partials
 
 ## Licence
 
-[MIT Licence](/LICENCE) 
+[MIT Licence](/LICENCE)
