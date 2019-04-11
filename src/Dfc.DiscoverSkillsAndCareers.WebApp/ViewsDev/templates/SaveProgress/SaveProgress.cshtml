@@ -6,7 +6,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @Model.PageTitle;
     Layout = null;
 }
 {% endblock %}
@@ -29,7 +29,7 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
 
-          <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
+          <h1 class="govuk-heading-xl visually-hidden">@Model.SaveProgressHeader</h1>
 
           <form action="/save-my-progress" method="post">
 
@@ -38,7 +38,7 @@
               name: "SelectedOption",
               fieldset: {
                 legend: {
-                  text: "Choose how to recieve your results",
+                  text: "@Model.SaveProgressLabel",
                   isPageHeading: true,
                   classes: "govuk-fieldset__legend--xl"
                 }
@@ -46,15 +46,15 @@
               items: [
                 {
                   value: "email",
-                  text: "Send me an email"
+                  text: "@Model.SaveProgressOptionEmail"
                 },
                 {
                   value: "sms",
-                  text: "Send me a text"
+                  text: "@Model.SaveProgressOptionSms"
                 },
                 {
                   value: "reference",
-                  text: "Give me a reference number"
+                  text: "@Model.SaveProgressOptionReference"
                 }
               ]
             }) }}
@@ -67,7 +67,7 @@
 
           <div class="govuk-body">
 
-            <p><a href="@Model.BackLink">Return to assessment</a></p>
+            <p><a href="@Model.BackLink">@Model.SaveProgressReturnText</a></p>
 
           </div>
 

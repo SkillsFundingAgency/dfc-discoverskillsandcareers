@@ -64,6 +64,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         public async Task<UserSession> UpdateUserSession(UserSession userSession)
         {
+            userSession.LastUpdatedDt = DateTime.UtcNow;
             var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, userSession.UserSessionId);
             var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(userSession.PartitionKey) };
             var response = await client.ReplaceDocumentAsync(uri, userSession, requestOptions);

@@ -3,6 +3,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -56,6 +57,17 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                    .Where(x => x.AssessmentType == assessmentType && x.TitleLowercase == titleLowercase && x.Version == version)
                                    .AsEnumerable()
                                    .FirstOrDefault();
+            return await Task.FromResult(queryQuestionSet);
+        }
+
+        public async Task<List<QuestionSet>> GetCurrentFilteredQuestionSets()
+        {
+            var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
+            FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+            List<QuestionSet> queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
+                                   .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
+                                   .OrderByDescending(x => x.Title)
+                                   .ToList();
             return await Task.FromResult(queryQuestionSet);
         }
     }

@@ -2,6 +2,7 @@
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Azure.Documents;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Dfc.UnitTests.Fakes
@@ -9,6 +10,11 @@ namespace Dfc.UnitTests.Fakes
     public class FakeQuestionSetRepository : IQuestionSetRepository
     {
         public Task<Document> CreateQuestionSet(QuestionSet questionSet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<QuestionSet>> GetCurrentFilteredQuestionSets()
         {
             throw new NotImplementedException();
         }

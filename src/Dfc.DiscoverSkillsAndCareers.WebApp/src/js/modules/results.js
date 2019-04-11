@@ -43,10 +43,8 @@ var results = (function () {
       }
     },
     long: function () {
-
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
       resultsLists.map(resultsList => {
-
         const resultsItems = Array.prototype.slice.call(resultsList.children)
 
         const other = resultsItems.filter(result => resultsItems.indexOf(result) >= 3)
@@ -56,9 +54,7 @@ var results = (function () {
             item.style.display = 'none'
           })
 
-          const wrapperElement = resultsList.nextElementSibling.children[0].children[0];
-          console.log(wrapperElement)
-          // wrapperElement.classList.add('app-results-load-more')
+          const wrapperElement = resultsList.nextElementSibling.children[0].children[0]
 
           // "See matches" button
           const buttonElement = document.createElement('p')
@@ -66,9 +62,6 @@ var results = (function () {
           buttonElement.innerHTML = buttonText
 
           wrapperElement.appendChild(buttonElement)
-
-          // Append everything to container
-          // resultsList.parentNode.appendChild(wrapperElement)
 
           buttonElement.addEventListener('click', function (event) {
             event.preventDefault()

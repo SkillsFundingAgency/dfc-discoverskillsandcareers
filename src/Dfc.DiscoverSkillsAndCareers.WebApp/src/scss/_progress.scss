@@ -1,20 +1,21 @@
 .ncs-progress {
   float: left;
   width: 100%;
-  margin-bottom: govuk-spacing(6);
+  margin-bottom: govuk-spacing(3);
 }
 
 .ncs-progress__bar {
   display: block;
   height: 10px;
-  width: calc(100% - 100px);
+  width: calc(100% - 80px);
   float: right;
   position: relative;
   background-color: $govuk-border-colour;
   border-radius: 5px;
   overflow: hidden;
   top: 8px;
-  @include govuk-media-query($from: desktop) {
+  @include govuk-media-query($from: tablet) {
+    width: calc(100% - 100px);
     top: 16px;
   }
 
@@ -31,8 +32,12 @@
   color: $govuk-secondary-text-colour;
   display: block;
   font-family: sans-serif;
-  width: 100px;
+  width: 80px;
   float: left;
+  text-align: left;
+  @include govuk-media-query($from: tablet) {
+    width: 100px;
+  }
 
   b {
     color: govuk-colour('green');
@@ -43,10 +48,10 @@
 
 .ncs-progress--complete {
   .ncs-progress__count {
-    color: govuk-colour("white");
+    color: govuk-colour('white');
   }
 
   .ncs-progress__bar span {
-    background-color: govuk-colour("white");
+    background-color: govuk-colour('white');
   }
 }

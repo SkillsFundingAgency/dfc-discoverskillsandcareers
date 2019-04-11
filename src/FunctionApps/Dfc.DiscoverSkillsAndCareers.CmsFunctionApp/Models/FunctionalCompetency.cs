@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
@@ -18,5 +19,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         [JsonProperty("Order")]
         public int? Order { get; set; }
         public bool IsNegative { get; set; }
+        [JsonProperty("LastModified")]
+        public DateTime LastUpdated { get; set; }
     }
 }

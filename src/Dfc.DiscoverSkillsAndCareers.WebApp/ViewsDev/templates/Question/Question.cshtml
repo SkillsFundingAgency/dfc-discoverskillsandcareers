@@ -33,17 +33,7 @@
 
     {% include "_phasebanner.njk" %}
 
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home: Discover your skills and careers",
-          href: "/"
-        },
-        {
-          text: "@Model.Breadcrumb"
-        }
-      ]
-    }) }}
+    {% include "_breadcrumbpanel.njk" %}
 
 </div>
 
@@ -69,7 +59,9 @@
                 </div>
             </div>
 
-            <span class="govuk-error-message">@Model.ErrorMessage</span>
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
+                <span class="govuk-error-message">@Model.ErrorMessage</span>
+            }
 
             <fieldset class="govuk-fieldset app-question app-question--short">
 

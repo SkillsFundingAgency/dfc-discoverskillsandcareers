@@ -6,7 +6,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @Model.PageTitle;
     Layout = null;
 }
 {% endblock %}
@@ -30,29 +30,24 @@
             <div class="govuk-grid-column-two-thirds">
 
                 <div class="app-your-reference govuk-body">
-
                     <p>
-                        Your reference number
+                        @Model.ReferenceYourNumberText
                         <span class="app-your-reference__code govuk-heading-xl">@Model.Code</span>
                     </p>
-
                     <div class="app-your-reference__meta govuk-grid-row">
                         <p class="govuk-grid-column-one-third govuk-body-s">@Model.SessionDate</p>
                         <p class="govuk-grid-column-two-thirds govuk-body-s">@Model.Status</p>
                     </div>
-
                 </div>
 
                 <div class="govuk-body">
-
                     <h1 class="govuk-heading-m">What to do</h1>
-                    <p>The code above is your unique reference number. You can use this to:</p>
+                    <p>@Model.ReferenceInstructionsText</p>
                     <ul>
-                        <li>Return to the assessment and resume your progress</li>
-                        <li>Access your results after finishing the assessment</li>
+                        <li>@Model.ReferenceInstruction1Text</li>
+                        <li>@Model.ReferenceInstruction2Text</li>
                     </ul>
-
-                    <a href="/results" class="govuk-button">Return to assessment</a>
+                    <p><a href="/results" class="">@Model.ReferenceReturnText</a></p>
                 </div>
 
             </div>

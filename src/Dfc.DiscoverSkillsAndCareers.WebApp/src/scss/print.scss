@@ -14,6 +14,7 @@
 .govuk-breadcrumbs,
 .govuk-button,
 .app-save-panel,
+.app-sendresults,
 .app-results-load-more,
 .app-resume-panel,
 .app-print-panel,
@@ -70,7 +71,7 @@
     @extend %govuk-heading-s;
 
     &::before {
-      content: counter(section) ". ";
+      content: counter(section) '. ';
     }
   }
 
@@ -141,4 +142,8 @@
 
 .hidden-screen {
   display: initial;
+}
+
+.app-printcode {
+  display: block;
 }

@@ -1,4 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using DFC.Common.Standard.Logging;
@@ -6,10 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Threading.Tasks;
 using System.Linq;
-using Dfc.DiscoverSkillsAndCareers.Models;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -52,6 +51,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
                 var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
+                model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
                 model.AssessmentType = resultsResponse.AssessmentType;
                 model.JobFamilies = resultsResponse.JobFamilies;
                 model.JobFamilyCount = resultsResponse.JobFamilyCount;
@@ -134,6 +134,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var contentName = $"filteredresultpage";
                 var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
+                model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
                 model.AssessmentType = resultsForJobCategoryResponse.AssessmentType;
                 model.JobFamilies = ReOrderWithFirst(resultsForJobCategoryResponse.JobFamilies, jobCategory);
                 model.JobFamilyCount = resultsForJobCategoryResponse.JobFamilyCount;

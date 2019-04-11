@@ -67,17 +67,21 @@
 }
 
 .app-long-results {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 0;
 
-  li {
-    flex: 0 1 33%;
-    border-right: 1px solid $govuk-border-colour;
+  @include govuk-media-query($from: desktop) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-    &:nth-child(3n) {
-      border: 0;
+    li {
+      flex: 0 1 33%;
+      border-right: 1px solid $govuk-border-colour;
+      margin-bottom: 0;
+
+      &:last-child,
+      &:nth-child(3n) {
+        border: 0;
+      }
     }
   }
 
@@ -85,15 +89,26 @@
     border: 0;
     height: 100%;
     box-sizing: border-box;
+    padding: 0 govuk-spacing(4);
+    margin-bottom: govuk-spacing(6);
+    @include govuk-media-query($from: desktop) {
+      margin-bottom: govuk-spacing(3);
+    }
 
     h3 {
       margin-top: 0;
     }
 
-    .govuk-heading-s {
+    @include govuk-media-query($from: desktop) {
+      .result-description {
+        min-height: 150px;
+      }
+    }
+
+    .govuk-heading-s--alt {
       border-bottom: 1px solid $govuk-border-colour;
       font-weight: normal;
-      @include govuk-responsive-padding(1, "bottom");
+      @include govuk-responsive-padding(1, 'bottom');
     }
 
     .app-results__cta {
@@ -101,7 +116,7 @@
     }
 
     .result-detail {
-      clear: both;
+      @extend %clearfix;
     }
 
     .result-meta {
@@ -153,6 +168,7 @@
 
     .embedded-fa-icon {
       width: 24px;
+      height: 24px;
       float: left;
 
       svg {
