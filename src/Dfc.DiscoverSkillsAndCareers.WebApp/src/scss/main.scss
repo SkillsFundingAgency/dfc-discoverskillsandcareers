@@ -153,6 +153,10 @@ $app-text-light: #646C70;
   .app-sidebar {
     background: govuk-colour('grey-4');
   }
+
+  .text-light {
+    color: $govuk-text-colour;
+  }
 }
 
 .text-light {
