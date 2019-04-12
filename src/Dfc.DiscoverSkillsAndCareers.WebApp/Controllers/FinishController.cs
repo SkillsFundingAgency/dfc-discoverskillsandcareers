@@ -44,7 +44,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var contentName = "finishjobcategorypage";
                 var model = await ApiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
                 model.JobCategorySafeUrl = jobCategory;
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)
@@ -74,7 +74,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var viewName = "Finish";
                 var contentName = "finishpage";
                 var model = await ApiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)

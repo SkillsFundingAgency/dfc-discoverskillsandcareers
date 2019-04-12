@@ -97,7 +97,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var resultsResponse = await ApiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 var redirectResponse = new RedirectResult($"/qf/{1}"); //TODO: start from 1 or last if previous?
                 return redirectResponse;
 

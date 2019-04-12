@@ -64,13 +64,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (postAnswerResponse.IsComplete)
                 {
                     var finishEndpoint = postAnswerResponse.IsFilterAssessment ? $"/finish/{postAnswerResponse.JobCategorySafeUrl}" : "/finish";
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    AppendCookie(sessionId);
                     return Redirect(finishEndpoint);
                 }
                 var qroute = postAnswerResponse.IsFilterAssessment ? "qf" : "q";
                 var url = $"/{qroute}/{postAnswerResponse.NextQuestionNumber}";
                 return Redirect(url);
-                return await NextQuestion(sessionId, postAnswerResponse == null);
+               // return await NextQuestion(sessionId, postAnswerResponse == null);
             }
             catch (System.Net.Http.HttpRequestException)
             {
@@ -117,7 +117,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Failed to create session for assessment type {assessmentType} using question set {title}");
                 }
                 var sessionId = newSessionResponse.SessionId;
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 var redirectResponse = new RedirectResult($"/q/1");
                 return redirectResponse;
 
@@ -190,7 +190,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.QuestionText = nextQuestionResponse.QuestionText;
                 model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
 
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);
             }

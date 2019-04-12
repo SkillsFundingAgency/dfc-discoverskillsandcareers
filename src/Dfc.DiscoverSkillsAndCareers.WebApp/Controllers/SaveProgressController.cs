@@ -71,7 +71,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/reload";
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View("SaveProgress", model);
             }
             catch (Exception ex)
@@ -102,7 +102,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View("EmailInput", model);
             }
             catch (Exception ex)
@@ -145,7 +145,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                         throw new Exception(notifyResponse?.Message);
                     }
                     model.SentTo = sendEmailRequest.Email?.ToLower();
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    AppendCookie(sessionId);
                     return View("EmailSent", model);
 
                 }
@@ -184,7 +184,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View("SmsInput", model);
             }
             catch (Exception ex)
@@ -233,7 +233,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View("ReferenceNumber", model);
             }
             catch (Exception ex)
@@ -287,7 +287,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                         throw new Exception(notifyResponse?.Message);
                     }
                     model.SentTo = sendSmsRequest.MobileNumber;
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    AppendCookie(sessionId);
                     return View("SmsSent", model);
 
                 }

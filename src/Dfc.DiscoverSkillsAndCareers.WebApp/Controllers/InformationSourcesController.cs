@@ -28,7 +28,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-           var correlationId = Guid.NewGuid();
+            var correlationId = Guid.NewGuid();
             try
             {
                 LoggerHelper.LogMethodEnter(Log);
@@ -42,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var viewName ="InformationSources";
                 var contentName = "informationsources";
                 var model = await ApiServices.GetContentModel<InformationSourcesViewModel>(contentName, correlationId);
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)
