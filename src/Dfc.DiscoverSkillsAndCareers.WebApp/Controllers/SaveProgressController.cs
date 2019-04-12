@@ -198,57 +198,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
-        [HttpPost("sms")]
-        public async Task<IActionResult> SendSms([FromForm]SendSmsRequest sendSmsRequest)
-        {
-            var correlationId = Guid.NewGuid();
-            try
-            {
-                LoggerHelper.LogMethodEnter(Log);
-
-                var sessionId = await TryGetSessionId(Request);
-                if (string.IsNullOrEmpty(sessionId))
-                {
-                    return Redirect("/");
-                }
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
-                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()))
-                {
-                    model.ErrorMessage = $"You must enter a phone numner";
-                    return View("SmsInput", model);
-                }
-                model.BackLink = "/save-my-progress";
-                NotifyResponse notifyResponse = null;
-                try
-                {
-                    notifyResponse = await ApiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, AppSettings.NotifySmsTemplateId, sessionId, correlationId);
-                    if (!notifyResponse.IsSuccess)
-                    {
-                        throw new Exception(notifyResponse?.Message);
-                    }
-                    model.SentTo = sendSmsRequest.MobileNumber;
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
-                    return View("SmsSent", model);
-
-                }
-                catch (Exception ex)
-                {
-                    model.ErrorMessage = $"An error occured sending a text to {sendSmsRequest.MobileNumber}";
-                    return View("SmsInput", model);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                LoggerHelper.LogException(Log, correlationId, ex);
-                return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
-            }
-        }
-
         [NonAction]
         public static string GetDisplayCode(string code)
         {
@@ -283,12 +232,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
-                var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
-                model.SessionId = sessionId;
-                model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
-                model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
-                model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
-
+                await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
                 return View("ReferenceNumber", model);
             }
@@ -302,5 +246,68 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 LoggerHelper.LogMethodExit(Log);
             }
         }
+
+        [NonAction]
+        public async Task UpdateSessionVarsOnViewModel(SaveProgressViewModel model, string sessionId, Guid correlationId)
+        {
+            var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
+            model.SessionId = sessionId;
+            model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
+            model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
+            model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
+        }
+
+        [HttpPost("reference")]
+        public async Task<IActionResult> SendSms([FromForm]SendSmsRequest sendSmsRequest)
+        {
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                LoggerHelper.LogMethodEnter(Log);
+
+                var sessionId = await TryGetSessionId(Request);
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
+                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()))
+                {
+                    model.ErrorMessage = $"You must enter a phone numner";
+                    return View("ReferenceNumber", model);
+                }
+                model.BackLink = "/save-my-progress";
+                NotifyResponse notifyResponse = null;
+                try
+                {
+                    notifyResponse = await ApiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, AppSettings.NotifySmsTemplateId, sessionId, correlationId);
+                    if (!notifyResponse.IsSuccess)
+                    {
+                        throw new Exception(notifyResponse?.Message);
+                    }
+                    model.SentTo = sendSmsRequest.MobileNumber;
+                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    return View("SmsSent", model);
+
+                }
+                catch (Exception ex)
+                {
+                    model.ErrorMessage = $"An error occured sending a text to {sendSmsRequest.MobileNumber}";
+                    return View("ReferenceNumber", model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.LogException(Log, correlationId, ex);
+                return StatusCode(500);
+            }
+            finally
+            {
+                LoggerHelper.LogMethodExit(Log);
+            }
+        }
+
     }
 }
