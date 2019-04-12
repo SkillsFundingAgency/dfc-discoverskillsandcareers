@@ -34,7 +34,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       console.log(`${cap.browserName}: Checking for error when clicking next without selecting any options`);
       let errorText = '';
       await driver.get(appUrl);
-      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
       await startAssessmentButton.click();
       await driver.wait(until.urlContains(`q/1`), 20000);
       const nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
@@ -90,7 +90,7 @@ parallel('Understand Myself cross-browser tests ', function() {
 
       console.log(`${cap.browserName}: Running through assessment`);
       await driver.get(appUrl);
-      let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
       await startAssessmentButton.click();
   
       for (let i = 1; i < 41; i++) {
