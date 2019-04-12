@@ -66,7 +66,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       }
       // Wait for page to load and save session ID text
       await driver.wait(until.urlContains('save-my-progress'), 20000);
-      await driver.wait(() => selectAnswer(driver, 'SelectedOption-3'), 20000);
+      await driver.wait(() => selectAnswer(driver, 'SelectedOption-2'), 20000);
       await driver.findElement(By.className('govuk-button')).click();
       const sessionIdTextElement = await driver.wait(until.elementLocated(By.className('app-your-reference__code')), 20000);
       const sessionIdText = await sessionIdTextElement.getText();

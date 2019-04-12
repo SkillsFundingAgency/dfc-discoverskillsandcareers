@@ -246,8 +246,8 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for element .govuk-link--no-visited-state to be added',
                 'click element .govuk-link--no-visited-state',
                 'wait for path to be /save-my-progress',
-                'wait for element #SelectedOption-3 to be added',
-                'check field #SelectedOption-3',
+                'wait for element #SelectedOption-2 to be added',
+                'check field #SelectedOption-2',
                 'click element .govuk-button',
                 'wait for path to be /save-my-progress/reference'
             ],
