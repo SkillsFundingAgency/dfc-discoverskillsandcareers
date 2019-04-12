@@ -10,29 +10,26 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortTraitDataProcessor : IShortTraitDataProcessor
     {
-        readonly ILogger<ShortQuestionSetDataProcessor> Logger;
         readonly ISiteFinityHttpService HttpService;
         readonly IGetShortTraitData GetShortTraitData;
         readonly AppSettings AppSettings;
         readonly IShortTraitRepository ShortTraitRepository;
 
         public ShortTraitDataProcessor(
-            ILogger<ShortQuestionSetDataProcessor> logger,
             ISiteFinityHttpService httpService,
             IGetShortTraitData getShortTraitData,
             IOptions<AppSettings> appSettings,
             IShortTraitRepository shortTraitRepository)
         {
-            Logger = logger;
             HttpService = httpService;
             GetShortTraitData = getShortTraitData;
             AppSettings = appSettings.Value;
             ShortTraitRepository = shortTraitRepository;
         }
 
-        public async Task RunOnce()
+        public async Task RunOnce(ILogger logger)
         {
-            Logger.LogInformation("Begin poll for ShortTraits");
+            logger.LogInformation("Begin poll for ShortTraits");
 
             var data = await GetShortTraitData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService);
 
@@ -57,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 await ShortTraitRepository.CreateTrait(trait, "shorttrait-cms");
             }
 
-            Logger.LogInformation("End poll for ShortTraits");
+            logger.LogInformation("End poll for ShortTraits");
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
     {
-        readonly ILogger<ShortQuestionSetDataProcessor> Logger;
         readonly ISiteFinityHttpService HttpService;
         readonly IQuestionRepository QuestionRepository;
         readonly IQuestionSetRepository QuestionSetRepository;
@@ -21,7 +20,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         readonly AppSettings AppSettings;
 
         public ShortQuestionSetDataProcessor(
-            ILogger<ShortQuestionSetDataProcessor> logger, 
             ISiteFinityHttpService httpService, 
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
@@ -29,7 +27,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             IGetShortQuestionData getShortQuestionData,
             IOptions<AppSettings> appSettings)
         {
-            Logger = logger;
             HttpService = httpService;
             QuestionRepository = questionRepository;
             QuestionSetRepository = questionSetRepository;
@@ -38,20 +35,20 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             AppSettings = appSettings.Value;
         }
 
-        public async Task RunOnce()
+        public async Task RunOnce(ILogger logger)
         {
-            Logger.LogInformation("Begin poll for ShortQuestionSet");
+            logger.LogInformation("Begin poll for ShortQuestionSet");
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
             string siteFinityService = AppSettings.SiteFinityApiWebService;
             string assessmentType = "short";
 
             var questionSets = await GetShortQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
-            Logger.LogInformation($"Have {questionSets?.Count} question sets to review");
+            logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             foreach (var data in questionSets)
             {
-                Logger.LogInformation($"Getting cms data for questionset {data.Id} {data.Title}");
+                logger.LogInformation($"Getting cms data for questionset {data.Id} {data.Title}");
 
                 // Attempt to load the current version for this assessment type and title
                 var questionSet = await QuestionSetRepository.GetCurrentQuestionSet("short", data.Title);
@@ -62,19 +59,19 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 // Nothing to do so log and exit
                 if (!updateRequired)
                 {
-                    Logger.LogInformation($"Questionset {data.Id} {data.Title} is upto date - no changes to be done");
+                    logger.LogInformation($"Questionset {data.Id} {data.Title} is upto date - no changes to be done");
                     return;
                 }
 
                 // Attempt to get the questions for this questionset
-                Logger.LogInformation($"Getting cms questions for questionset {data.Id} {data.Title}");
+                logger.LogInformation($"Getting cms questions for questionset {data.Id} {data.Title}");
                 data.Questions = await GetShortQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, data.Id);
                 if (data.Questions.Count == 0)
                 {
-                    Logger.LogInformation($"Questionset {data.Id} doesn't have any questions");
+                    logger.LogInformation($"Questionset {data.Id} doesn't have any questions");
                     return;
                 }
-                Logger.LogInformation($"Received {data.Questions?.Count} questions for questionset {data.Id} {data.Title}");
+                logger.LogInformation($"Received {data.Questions?.Count} questions for questionset {data.Id} {data.Title}");
 
                 if (questionSet != null)
                 {
@@ -117,12 +114,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;
                     await QuestionRepository.CreateQuestion(newQuestion);
-                    Logger.LogInformation($"Created question {newQuestion.QuestionId}");
+                    logger.LogInformation($"Created question {newQuestion.QuestionId}");
                 }
                 await QuestionSetRepository.CreateQuestionSet(newQuestionSet);
-                Logger.LogInformation($"Created questionset {newQuestionSet.Version}");
+                logger.LogInformation($"Created questionset {newQuestionSet.Version}");
             }
-            Logger.LogInformation($"End poll for ShortQuestionSet");
+            logger.LogInformation($"End poll for ShortQuestionSet");
         }
     }
 }

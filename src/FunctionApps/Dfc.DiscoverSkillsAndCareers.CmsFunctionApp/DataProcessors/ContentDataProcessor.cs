@@ -14,36 +14,33 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ContentDataProcessor<T> : IContentDataProcessor<T> where T : IContentPage
     {
-        readonly ILogger<ContentDataProcessor<T>> Logger;
         readonly ISiteFinityHttpService HttpService;
         readonly IGetContentData<List<T>> GetContentData;
         readonly AppSettings AppSettings;
         readonly IContentRepository ContentRepository;
 
         public ContentDataProcessor(
-            ILogger<ContentDataProcessor<T>> logger,
             ISiteFinityHttpService httpService,
             IGetContentData<List<T>> getContentData,
             IOptions<AppSettings> appSettings,
             IContentRepository contentRepository)
         {
-            Logger = logger;
             HttpService = httpService;
             GetContentData = getContentData;
             AppSettings = appSettings.Value;
             ContentRepository = contentRepository;
         }
 
-        public async Task RunOnce(string siteFinityType, string contentType)
+        public async Task RunOnce(ILogger logger, string siteFinityType, string contentType)
         {
-            Logger.LogInformation("Begin poll for Content");
+            logger.LogInformation("Begin poll for Content");
             var data = await GetContentData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, siteFinityType);
 
             var cmsContent = data.FirstOrDefault();
 
             if (cmsContent == null)
             {
-                Logger.LogInformation($"No cms content could be found for {siteFinityType}");
+                logger.LogInformation($"No cms content could be found for {siteFinityType}");
                 return;
             }
 
@@ -56,7 +53,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             // Nothing to do so log and exit
             if (!updateRequired)
             {
-                Logger.LogInformation($"Content {existingContent.ContentType} is upto date - no changes to be done");
+                logger.LogInformation($"Content {existingContent.ContentType} is upto date - no changes to be done");
                 return;
             }
 
@@ -69,7 +66,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             existingContent.LastUpdated = cmsContent.LastUpdated;
             await ContentRepository.CreateContent(existingContent);
 
-            Logger.LogInformation("End poll for Content");
+            logger.LogInformation("End poll for Content");
         }
     }
 }

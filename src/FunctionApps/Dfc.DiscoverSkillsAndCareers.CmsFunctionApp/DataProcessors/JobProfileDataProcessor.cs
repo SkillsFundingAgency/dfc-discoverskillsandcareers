@@ -10,33 +10,30 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class JobProfileDataProcessor : IJobProfileDataProcessor
     {
-        readonly ILogger<JobProfileDataProcessor> Logger;
         readonly ISiteFinityHttpService HttpService;
         readonly IGetJobProfileData GetJobProfileData;
         readonly AppSettings AppSettings;
         readonly IJobProfileRepository JobProfileRepository;
 
         public JobProfileDataProcessor(
-            ILogger<JobProfileDataProcessor> logger,
             ISiteFinityHttpService httpService,
             IGetJobProfileData getJobProfileData,
             IOptions<AppSettings> appSettings,
             IJobProfileRepository jobProfileRepository)
         {
-            Logger = logger;
             HttpService = httpService;
             GetJobProfileData = getJobProfileData;
             AppSettings = appSettings.Value;
             JobProfileRepository = jobProfileRepository;
         }
 
-        public async Task RunOnce()
+        public async Task RunOnce(ILogger logger)
         {
-            Logger.LogInformation("Begin poll for JobProfiles");
+            logger.LogInformation("Begin poll for JobProfiles");
 
             var data = await GetJobProfileData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService);
 
-            Logger.LogInformation($"Have {data?.Count} job profiles to save");
+            logger.LogInformation($"Have {data?.Count} job profiles to save");
 
             foreach (var jobProfile in data)
             {
@@ -57,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 });
             }
 
-            Logger.LogInformation("End poll for JobProfiles");
+            logger.LogInformation("End poll for JobProfiles");
         }
     }
 }

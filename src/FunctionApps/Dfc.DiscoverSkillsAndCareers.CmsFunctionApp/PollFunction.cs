@@ -1,11 +1,8 @@
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -18,7 +15,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         [FunctionName("PollFunction")]
         public static  async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
             [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
@@ -37,33 +33,33 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             {
                 log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
 
-                await shortTraitDataProcessor.RunOnce();
+                await shortTraitDataProcessor.RunOnce(log);
 
-                await jobCategoryDataProcessor.RunOnce();
+                await jobCategoryDataProcessor.RunOnce(log);
 
-                await filteredQuestionSetDataProcessor.RunOnce();
+                await filteredQuestionSetDataProcessor.RunOnce(log);
 
-                await functionalCompetencyDataProcessor.RunOnce();
+                await functionalCompetencyDataProcessor.RunOnce(log);
 
-                await indexPageContentDataProcessor.RunOnce("indexpagecontents", "indexpage");
+                await indexPageContentDataProcessor.RunOnce(log, "indexpagecontents", "indexpage");
 
-                await questionPageContentDataProcessor.RunOnce("questionpagecontents", "questionpage");
+                await questionPageContentDataProcessor.RunOnce(log, "questionpagecontents", "questionpage");
 
-                await finishPageContentDataProcessor.RunOnce("finishpagecontents", "finishpage");
+                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishpage");
 
-                await resultPageContentDataProcessor.RunOnce("resultspagecontents", "resultspagecontents");
+                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "resultspagecontents");
 
-                await saveProgressPageContentDataProcessor.RunOnce("saveprogresscontents", "saveprogresspage");
+                await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
 
-                await shortQuestionSetDataProcessor.RunOnce();
+                await shortQuestionSetDataProcessor.RunOnce(log);
 
-                await jobProfileDataProcessor.RunOnce();
+                await jobProfileDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }
             catch (Exception ex)
             {
-                loggerHelper.LogException(log, id, ex);
+                log.LogError(ex, "Running CMS extract function failed.");
             }
         }
     }
