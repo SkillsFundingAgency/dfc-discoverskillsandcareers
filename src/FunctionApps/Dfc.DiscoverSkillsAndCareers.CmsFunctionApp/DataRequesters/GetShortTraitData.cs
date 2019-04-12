@@ -15,8 +15,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             HttpService = httpService;
         }
 
-        public async Task<List<ShortTrait>> GetData(string url)
+        public async Task<List<ShortTrait>> GetData(string siteFinityApiUrlbase, string siteFinityApiWebService)
         {
+            string url = $"{siteFinityApiUrlbase}/api/{siteFinityApiWebService}/traits";
             string json = await HttpService.GetString(url);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(json);
             return data.Value;

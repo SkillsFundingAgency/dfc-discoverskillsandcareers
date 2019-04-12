@@ -15,14 +15,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             HttpService = httpService;
         }
 
-        public async Task<List<DfcJobProfile>> GetData(string siteFinityApiUrlbase)
+        public async Task<List<DfcJobProfile>> GetData(string siteFinityApiUrlbase, string siteFinityApiWebService)
         {
-            string path = @"C:\ncs\job_profiles.json";
-            if (!System.IO.File.Exists(path))
-            {
-                return new List<DfcJobProfile>();
-            }
-            string json = await System.IO.File.ReadAllTextAsync(path);
+            string url = $"{siteFinityApiUrlbase}/api/{siteFinityApiWebService}/jobprofiles";
+            string json = await HttpService.GetString(url);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<DfcJobProfile>>>(json);
             return data.Value;
         }

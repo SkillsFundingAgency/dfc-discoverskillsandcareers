@@ -64,8 +64,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IGetContentData<List<ContentQuestionPage>>, GetContentData<List<ContentQuestionPage>>>();
             services.AddTransient<IContentDataProcessor<ContentFinishPage>, ContentDataProcessor<ContentFinishPage>>();
             services.AddTransient<IGetContentData<List<ContentFinishPage>>, GetContentData<List<ContentFinishPage>>>();
-            services.AddTransient<IContentDataProcessor<ContentShortResultsPage>, ContentDataProcessor<ContentShortResultsPage>>();
-            services.AddTransient<IGetContentData<List<ContentShortResultsPage>>, GetContentData<List<ContentShortResultsPage>>>();
+            services.AddTransient<IContentDataProcessor<ContentResultsPage>, ContentDataProcessor<ContentResultsPage>>();
+            services.AddTransient<IGetContentData<List<ContentResultsPage>>, GetContentData<List<ContentResultsPage>>>();
             services.AddTransient<IContentDataProcessor<ContentSaveProgressPage>, ContentDataProcessor<ContentSaveProgressPage>>();
             services.AddTransient<IGetContentData<List<ContentSaveProgressPage>>, GetContentData<List<ContentSaveProgressPage>>>();
             services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();

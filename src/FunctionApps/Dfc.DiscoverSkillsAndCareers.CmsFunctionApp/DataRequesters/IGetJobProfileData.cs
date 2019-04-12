@@ -6,6 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetJobProfileData
     {
-        Task<List<DfcJobProfile>> GetData(string siteFinityApiUrlbase);
+        Task<List<DfcJobProfile>> GetData(string siteFinityApiUrlbase, string siteFinityApiWebService);
     }
 }

@@ -17,6 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         public string SiteFinityPassword { get; set; }
         public string SiteFinityClientId { get; set; }
         public string SiteFinityClientSecret { get; set; }
+        public string SiteFinityJobCategoriesTaxonomyId { get; set; }
     }
 
 }

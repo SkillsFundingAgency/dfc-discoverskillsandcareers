@@ -35,13 +35,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         public async Task RunOnce()
         {
             Logger.LogInformation("Begin poll for JobCategories");
-
-            string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
-            string siteFinityService = AppSettings.SiteFinityApiWebService;
-
-            string getJobCategoriesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/hierarchy-taxa";
-            string getTraitsUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/traits";
-            var data = await GetJobCategoriesData.GetData(getJobCategoriesUrl, getTraitsUrl);
+            var data = await GetJobCategoriesData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, AppSettings.SiteFinityJobCategoriesTaxonomyId);
 
             Logger.LogInformation($"Have {data?.Count} job Categorys to save");
 
@@ -58,7 +52,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         {
                             LanguageCode = "en",
                             Text = jobCategory.Description,
-                            Url = $"https://nationalcareers.service.gov.uk/job-categories/{jobCategory.UrlName}"
+                            Url = $"{jobCategory.UrlName}"
                         }
                     },
                     TraitCodes = jobCategory.Traits.Select(x => x.ToUpper()).ToArray(),

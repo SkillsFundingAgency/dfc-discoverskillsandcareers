@@ -37,12 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         public async Task RunOnce(string siteFinityType, string contentType)
         {
             Logger.LogInformation("Begin poll for Content");
-
-            string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
-
-            string url = $"{siteFinityApiUrlbase}/api/{AppSettings.SiteFinityApiWebService}/{siteFinityType}";
-
-            var data = await GetContentData.GetData(url);
+            var data = await GetContentData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, siteFinityType);
 
             var cmsContent = data.FirstOrDefault();
 
