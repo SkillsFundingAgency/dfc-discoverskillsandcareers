@@ -9,8 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using System;
+using System.IO;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
@@ -64,6 +66,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            SessionIdHelper.Initialize(Path.Combine(env.ContentRootPath, "Data/dictionary.txt"));
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

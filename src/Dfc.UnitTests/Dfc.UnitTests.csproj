@@ -16,7 +16,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
@@ -26,6 +26,12 @@
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.csproj" />
     <ProjectReference Include="..\support\Dfc.DiscoverSkillsAndCareers.SupportApp\Dfc.DiscoverSkillsAndCareers.SupportApp.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Data\*dictionary.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

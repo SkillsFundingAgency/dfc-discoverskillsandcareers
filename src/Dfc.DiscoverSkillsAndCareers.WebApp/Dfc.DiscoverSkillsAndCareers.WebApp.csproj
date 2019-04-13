@@ -19,4 +19,17 @@
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\Data\alt_dictionary.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\Data\bigger_dictionary.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\Data\dictionary.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\Data\original_dictionary.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\dictionary.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

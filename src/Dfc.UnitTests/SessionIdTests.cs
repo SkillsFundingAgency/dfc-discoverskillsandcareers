@@ -1,7 +1,10 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using CsvHelper.Configuration.Attributes;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -15,65 +18,82 @@ namespace Dfc.UnitTests
         {
             Output = output;
         }
+        
+        
+    }
+    
+    public class ReloadCodeGenerationTests
+    {
+        private readonly ITestOutputHelper testOutput;
 
-        private const string SESSION_SALT = "ncs";
+        public ReloadCodeGenerationTests(ITestOutputHelper testOutput)
+        {
+            this.testOutput = testOutput;
+        }
 
         [Fact]
-        public void GenerateSessionId_With1000_ShouldAllBeUnique()
+        public void CanGenerate()
         {
-            int amount = 1000;
-            var codes = new List<string>();
-            for (var i = 0; i < amount; i++)
+            var idGen = new ReloadCodeGenerator(new [] { "cat", "sat", "mat" });
+            var result = idGen.Generate();
+            
+            testOutput.WriteLine(result);
+        }
+
+        [Fact]
+        public void CanGenerateUniqueSetsInASingleThread()
+        {
+            
+            var idGen = new ReloadCodeGenerator(File.OpenRead("data\\dictionary.txt"));
+            var list = new List<string>();
+            
+            for(var i = 0; i < 100000; i++)
             {
-                var index = new Random().Next(0);
-                var hash = SessionIdHelper.GenerateSessionId(SESSION_SALT);
-                if (codes.Contains(hash) == true)
-                {
-                    throw new Exception($"duplicate {i}");
-                }
-                codes.Add(hash);
+                list.Add(idGen.Generate());
             }
-            int maxLength = codes.Select(x => x.Length).OrderByDescending(x => x).First();
-            Output.WriteLine($"Code max length {maxLength}");
-            Assert.Equal(amount, codes.Count);
+
+            Assert.Equal(100000, list.Distinct().Count());
         }
 
         [Fact]
-        public void PartitionKey_WithNewSession_ShouldDecodeToCurrentMonthYear()
+        public async void CanGenerateAppropriatelyUniqueSetsInMultipleThreads()
         {
-            var expected = DateTime.Now.ToString("yyyyMM");
-            var sessionId = SessionIdHelper.GenerateSessionId(SESSION_SALT);
-            var datetimeStamp = SessionIdHelper.Decode(SESSION_SALT, sessionId);
+            
+            var idGen = new ReloadCodeGenerator(File.OpenRead("data\\dictionary.txt"));
+            var list = new System.Collections.Concurrent.ConcurrentDictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+            
+            var taskCollection = new Task[Environment.ProcessorCount];
+            var perThreadIterations = 2500000;
+            
+            var dupes = 0.0;
+            for(var t = 0; t < Environment.ProcessorCount; t++) 
+            {
+                taskCollection[t] = Task.Run(() => {    
+                    for(var i = 0; i < perThreadIterations; i++)
+                    {
+                        var x = idGen.Generate();
+                        if(!list.TryAdd(x, null))
+                        {
+                            dupes++;
+                        }
+                    }
+                });
+            }
 
-            string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
+            Task.WaitAll(taskCollection);
 
-            Assert.Equal(expected, partitionKey);
-        }
+            using(var fs = File.OpenWrite(@"D:\example3words.txt"))
+            using(var sw = new StreamWriter(fs))
+            {
+                foreach(var kvp in list)
+                {
+                    sw.WriteLine(kvp.Key);
+                }
+            }
 
-        [Theory]
-        [InlineData(2019, 1, "201901")]
-        [InlineData(2019, 2, "201902")]
-        [InlineData(2019, 6, "201906")]
-        [InlineData(2019, 12, "201912")]
-        [InlineData(2020, 1, "202001")]
-        [InlineData(2020, 6, "202006")]
-        [InlineData(2020, 12, "202012")]
-        [InlineData(2021, 1, "202101")]
-        [InlineData(2021, 6, "202106")]
-        [InlineData(2021, 12, "202112")]
-        [InlineData(2027, 1, "202701")]
-        [InlineData(2027, 6, "202706")]
-        [InlineData(2027, 12, "202712")]
+            testOutput.WriteLine($"Duplicates: {dupes} with dictionary size {idGen.DictionarySize}");
 
-        public void PartitionKey_WithVariousDates_ShouldMatchTheory(int year, int month, string expectedPartitionKey)
-        {
-            var creationDate = new DateTime(year, month, 1);
-            var sessionId = SessionIdHelper.GenerateSessionId(SESSION_SALT, creationDate);
-            var datetimeStamp = SessionIdHelper.Decode(SESSION_SALT, sessionId);
-
-            string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
-
-            Assert.Equal(expectedPartitionKey, partitionKey);
+            Assert.InRange(dupes, 0.0, 10.0);
         }
     }
 }

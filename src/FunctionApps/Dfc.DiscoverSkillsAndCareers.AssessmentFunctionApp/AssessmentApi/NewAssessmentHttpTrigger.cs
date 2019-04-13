@@ -72,11 +72,10 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
             // Create a new user session
             string partitionKey = DateTime.Now.ToString("yyyyMM");
-            string salt = appSettings.Value.SessionSalt;
+
             var userSession = new UserSession()
             {
-                UserSessionId = SessionIdHelper.GenerateSessionId(salt),
-                Salt = salt,
+                UserSessionId = SessionIdHelper.GenerateSessionId(),
                 StartedDt = DateTime.Now,
                 LanguageCode = "en",
                 PartitionKey = partitionKey,

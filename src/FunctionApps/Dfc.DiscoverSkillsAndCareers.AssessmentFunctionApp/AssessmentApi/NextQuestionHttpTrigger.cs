@@ -67,18 +67,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 return httpResponseMessageHelper.BadRequest();
             }
 
-            if (!sessionId.Contains("-"))
-            {
-                var datetimeStamp = SessionIdHelper.Decode(appSettings?.Value.SessionSalt, sessionId);
-                if (datetimeStamp == null)
-                {
-                    loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sessionId));
-                    return httpResponseMessageHelper.NoContent();
-                }
-                string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
-                sessionId = $"{partitionKey}-{sessionId}";
-            }
-
             var userSession = await userSessionRepository.GetUserSession(sessionId);
             if (userSession == null)
             {

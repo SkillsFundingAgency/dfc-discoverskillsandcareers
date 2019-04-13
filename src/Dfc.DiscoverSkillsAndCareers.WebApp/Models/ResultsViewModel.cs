@@ -6,7 +6,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
     public class ResultsViewModel
     {
         public string SessionId { get; set; }
-        public string Code { get; set; }
+//        public string Code { get; set; }
         public JobFamilyResult[] JobFamilies { get; set; }
         public string[] Traits { get; set; }
         public int JobFamilyCount { get; set; }
