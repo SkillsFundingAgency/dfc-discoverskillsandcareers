@@ -31,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveProgressOption([FromForm]SaveProgressOptionRequest saveProgressOptionRequest)
+        public async Task<IActionResult> SaveProgressOption([FromForm]SaveProgressOptionRequest saveProgressOptionRequest)
         {
             switch (saveProgressOptionRequest.SelectedOption)
             {
@@ -49,13 +49,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                 default:
                     {
-                        return RedirectToAction("Index");
+                        return await Index(true);
                     }
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool withError = false)
         {
             var correlationId = Guid.NewGuid();
             try
@@ -71,6 +71,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/reload";
+                if (withError)
+                {
+                    model.ErrorMessage = model.SaveProgressNoOptionSelectedMessage;
+                }
                 AppendCookie(sessionId);
                 return View("SaveProgress", model);
             }

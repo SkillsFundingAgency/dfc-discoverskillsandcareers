@@ -25,6 +25,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string SaveProgressOptionSms { get; set; } = "Send me a text";
         public string SaveProgressOptionReference { get; set; } = "Give me a reference number";
         public string SaveProgressReturnText { get; set; } = "Return to assessment";
+        public string SaveProgressNoOptionSelectedMessage { get; set; } = "Please select an option to continue";
         public string ReferenceYourNumberText { get; set; } = "Your reference number";
         public string ReferenceReturnText { get; set; } = "Return to assessment";
         public string ReferenceInstructionsText { get; set; } = "The code above is your unique reference number. You can use this to:";
