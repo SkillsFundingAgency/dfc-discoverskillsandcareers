@@ -29,8 +29,23 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         {
             
             services.AddOptions();
+            services.AddDistributedMemoryCache();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.Secure = CookieSecurePolicy.Always;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".dysac-session";
+                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.Cookie.IsEssential = true;
+            });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
@@ -61,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -58,7 +58,7 @@ describe('Lighthouse performance testing for Understand Myself - National Career
         await page.goto(appUrl);
         await Promise.all([page.waitForNavigation(), page.click('.govuk-button--start')]);
         await Promise.all([page.waitForNavigation(), page.click('.govuk-link--no-visited-state')]);
-        await page.click('#SelectedOption-3');
+        await page.click('#SelectedOption-2');
         const [response] = await Promise.all([page.waitForNavigation(), page.click('.govuk-button')]);
         const {lhr: {categories}} = await lighthouse(response.url(), opts, null);
         await browser.close();

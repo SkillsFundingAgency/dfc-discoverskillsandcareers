@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public interface IFunctionalCompetencyDataProcessor
     {
-        Task RunOnce();
+        Task RunOnce(ILogger logger);
     }
 }

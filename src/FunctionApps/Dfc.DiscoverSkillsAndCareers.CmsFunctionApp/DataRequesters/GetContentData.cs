@@ -1,21 +1,23 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetContentData<T> : IGetContentData<T> where T : class
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetContentData(IHttpService httpService)
+        public GetContentData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }
 
-        public async Task<T> GetData(string url)
+        public async Task<T> GetData(string siteFinityApiUrlbase, string siteFinityService, string contentType)
         {
+            var url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/{contentType}";
             string json = await HttpService.GetString(url);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<T>>(json);
             return data.Value;

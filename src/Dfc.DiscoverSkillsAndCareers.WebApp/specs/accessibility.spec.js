@@ -246,8 +246,8 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for element .govuk-link--no-visited-state to be added',
                 'click element .govuk-link--no-visited-state',
                 'wait for path to be /save-my-progress',
-                'wait for element #SelectedOption-3 to be added',
-                'check field #SelectedOption-3',
+                'wait for element #SelectedOption-2 to be added',
+                'check field #SelectedOption-2',
                 'click element .govuk-button',
                 'wait for path to be /save-my-progress/reference'
             ],
@@ -357,6 +357,21 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'click element .govuk-button',
                 'wait for element .app-masthead__title to be added'
             ],
+            log: {
+                debug: console.log,
+                error: console.error,
+                info: console.info
+            }
+        });
+
+        expect(issues).to.eql([]);
+    });
+
+    it('404 page', async () => {
+        const {issues} = await pa11y(`${appUrl}/dummy`, {
+            standard: "WCAG2AA",
+            // Rule ignored due to problem in GOV template
+            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
             log: {
                 debug: console.log,
                 error: console.error,

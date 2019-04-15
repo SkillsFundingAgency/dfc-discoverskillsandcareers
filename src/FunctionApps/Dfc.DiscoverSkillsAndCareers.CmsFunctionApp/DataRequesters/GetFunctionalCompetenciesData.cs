@@ -9,9 +9,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFunctionalCompetenciesData : IGetFunctionalCompetenciesData
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetFunctionalCompetenciesData(IHttpService httpService)
+        public GetFunctionalCompetenciesData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }

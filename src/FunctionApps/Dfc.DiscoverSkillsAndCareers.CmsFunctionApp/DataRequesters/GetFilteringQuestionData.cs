@@ -8,9 +8,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionData : IGetFilteringQuestionData
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetFilteringQuestionData(IHttpService httpService)
+        public GetFilteringQuestionData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }

@@ -12,38 +12,29 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class JobCategoryDataProcessor : IJobCategoryDataProcessor
     {
-        readonly ILogger<JobCategoryDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetJobCategoriesData GetJobCategoriesData;
         readonly AppSettings AppSettings;
         readonly IJobCategoryRepository JobCategoryRepository;
 
         public JobCategoryDataProcessor(
-            ILogger<JobCategoryDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IGetJobCategoriesData getJobCategoriesData,
             IOptions<AppSettings> appSettings,
             IJobCategoryRepository jobCategoryRepository)
         {
-            Logger = logger;
             HttpService = httpService;
             GetJobCategoriesData = getJobCategoriesData;
             AppSettings = appSettings.Value;
             JobCategoryRepository = jobCategoryRepository;
         }
 
-        public async Task RunOnce()
+        public async Task RunOnce(ILogger logger)
         {
-            Logger.LogInformation("Begin poll for JobCategories");
+            logger.LogInformation("Begin poll for JobCategories");
+            var data = await GetJobCategoriesData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, AppSettings.SiteFinityJobCategoriesTaxonomyId);
 
-            string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
-            string siteFinityService = AppSettings.SiteFinityApiWebService;
-
-            string getJobCategoriesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/hierarchy-taxa";
-            string getTraitsUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/traits";
-            var data = await GetJobCategoriesData.GetData(getJobCategoriesUrl, getTraitsUrl);
-
-            Logger.LogInformation($"Have {data?.Count} job Categorys to save");
+            logger.LogInformation($"Have {data?.Count} job Categorys to save");
 
             var codes = new List<string>();
             foreach (var jobCategory in data)
@@ -58,7 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         {
                             LanguageCode = "en",
                             Text = jobCategory.Description,
-                            Url = $"https://nationalcareers.service.gov.uk/job-categories/{jobCategory.UrlName}"
+                            Url = $"{jobCategory.UrlName}"
                         }
                     },
                     TraitCodes = jobCategory.Traits.Select(x => x.ToUpper()).ToArray(),
@@ -67,7 +58,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 codes.Add(code);
             }
 
-            Logger.LogInformation("End poll for JobCategories");
+            logger.LogInformation("End poll for JobCategories");
         }
 
         public string GetCode(string input)
