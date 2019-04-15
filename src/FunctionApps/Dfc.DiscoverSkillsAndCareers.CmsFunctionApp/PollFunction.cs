@@ -21,6 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentResultsPage> resultPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentSaveProgressPage> saveProgressPageContentDataProcessor,
+            [Inject]IContentDataProcessor<ContentInformationSourcesPage> informationSourcesContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
             [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
             [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
@@ -50,6 +51,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "resultspagecontents");
 
                 await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
+
+                await informationSourcesContentDataProcessor.RunOnce(log, "informationsourcescontents", "informationsourcespage");
 
                 await shortQuestionSetDataProcessor.RunOnce(log);
 
