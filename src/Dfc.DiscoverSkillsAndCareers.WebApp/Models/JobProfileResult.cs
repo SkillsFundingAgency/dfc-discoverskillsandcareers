@@ -26,5 +26,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string TypicalHours { get; set; }
         [JsonProperty("shiftPattern")]
         public string ShiftPattern { get; set; }
+        public bool IsVariable => SalaryStarter == SalaryExperienced;
     }
 }
