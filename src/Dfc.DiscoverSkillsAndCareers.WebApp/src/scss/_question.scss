@@ -4,7 +4,19 @@
   }
 }
 
+.app-question-progress {
+  @include govuk-media-query($from: 800px) {
+    margin-bottom: govuk-spacing(5);
+  }
+}
+
+
 .app-question--short {
+
+  .app-error + & {
+    border-left: 5px solid $govuk-error-colour;
+    padding-left: govuk-spacing(5);
+  }
 
   .app-question__answer {
     margin-bottom: govuk-spacing(3);
@@ -15,7 +27,7 @@
   }
 
   @include govuk-media-query($from: 800px) {
-    margin: govuk-spacing(8) 0;
+    margin-bottom: govuk-spacing(8);
     clear: both;
     position: relative;
     display: table;

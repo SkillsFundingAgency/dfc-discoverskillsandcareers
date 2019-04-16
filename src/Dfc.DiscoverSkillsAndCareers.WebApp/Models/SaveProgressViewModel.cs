@@ -7,6 +7,7 @@
 		public string SessionDate { get; set; }
 		public string Status { get; set; }
 		public string ErrorMessage { get; set; }
+        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 		public string SentTo { get; set; }
 		public string BackLink { get; set; }
         public string PageTitle { get; set; } = "Save progress | National Careers Service";
@@ -28,10 +29,12 @@
         public string SaveProgressOptionSms { get; set; } = "Send me a text";
         public string SaveProgressOptionReference { get; set; } = "Give me a reference number";
         public string SaveProgressReturnText { get; set; } = "Return to assessment";
+        public string SaveProgressNoOptionSelectedMessage { get; set; } = "Please select an option to continue";
         public string ReferenceYourNumberText { get; set; } = "Your reference number";
         public string ReferenceReturnText { get; set; } = "Return to assessment";
         public string ReferenceInstructionsText { get; set; } = "The code above is your unique reference number. You can use this to:";
         public string ReferenceInstruction1Text { get; set; } = "Return to the assessment and resume your progress";
         public string ReferenceInstruction2Text { get; set; } = "Access your results after finishing the assessment";
+        public string SmsInputInvalidMessage { get; set; } = "You must enter a phone number";
     }
 }

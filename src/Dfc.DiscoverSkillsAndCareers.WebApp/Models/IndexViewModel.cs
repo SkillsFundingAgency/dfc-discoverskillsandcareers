@@ -14,5 +14,6 @@
         public string ResumeFieldTitle { get; set; } = "Enter your reference";
         public string ResumeButtonText { get; set; } = "Continue";
         public string ResumeErrorMessage { get; set; } = "The code could not be found";
+        public string MissingCodeErrorMessage { get; set; } = "Please enter your reference";
     }
 }
