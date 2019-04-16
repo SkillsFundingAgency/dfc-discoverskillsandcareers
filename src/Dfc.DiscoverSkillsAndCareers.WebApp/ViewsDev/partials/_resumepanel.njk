@@ -7,7 +7,7 @@
           @if (Model.HasReloadError) {
             <span id="code-error" class="govuk-error-message">@Model.ResumeErrorMessage</span>
           }
-         <input class="govuk-input @(Model.HasReloadError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasReloadError ? "aria-describedby=code-error" : string.Empty)></input>
+         <input class="govuk-input @(Model.HasReloadError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasReloadError ? "aria-describedby=code-error" : string.Empty) />
       </div>
 
       {{ govukButton({
