@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
@@ -16,7 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("maxQuestions")]
         public int MaxQuestions { get; set; }
         [JsonProperty("suggestedJobProfiles")]
-        public string[] SuggestedJobProfiles { get; set; } = { };
+        public IDictionary<string, string> SuggestedJobProfiles { get; set; } = new Dictionary<string, string>();
 
         [JsonIgnore]
         public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");

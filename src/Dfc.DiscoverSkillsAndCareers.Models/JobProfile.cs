@@ -4,29 +4,35 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 {
     public class JobProfile
     {
-        [JsonProperty("partitionKey")]
-        public string PartitionKey { get; set; }
-        [JsonProperty("id")]
         public string SocCode { get; set; }
-        [JsonProperty("title")]
+
         public string Title { get; set; }
-        [JsonProperty("overview")]
+
         public string Overview { get; set; }
-        [JsonProperty("salaryStarter")]
+
         public decimal SalaryStarter { get; set; }
-        [JsonProperty("salaryExperienced")]
+
         public decimal SalaryExperienced { get; set; }
-        [JsonProperty("urlName")]
+
         public string UrlName { get; set; }
-        [JsonProperty("wydDayToDayTasks")]
+
         public string WYDDayToDayTasks { get; set; }
-        [JsonProperty("careerPathAndProgression")]
+
         public string CareerPathAndProgression { get; set; }
-        [JsonProperty("jobProfileCategories")]
+
         public string[] JobProfileCategories { get; set; }
-        [JsonProperty("typicalHours")]
-        public string TypicalHours { get; set; }
-        [JsonProperty("shiftPattern")]
-        public string ShiftPattern { get; set; }
+
+        public int MinimumHours { get; set; }
+
+        public int MaximumHours { get; set; }
+
+        public string TypicalHours => $"{MinimumHours} to {MaximumHours}";
+
+        public string[] WorkingHoursDetails { get; set; }
+
+        public string[] WorkingPattern { get; set; }
+
+        public string[] WorkingPatternDetails { get; set; }
     }
 }
+        

@@ -11,6 +11,7 @@
         <PackageReference Include="DFC.HTTP.Standard" Version="0.1.5" />
         <PackageReference Include="DFC.JSON.Standard" Version="0.1.2" />
         <PackageReference Include="Hashids.net" Version="1.2.2" />
+        <PackageReference Include="Microsoft.Azure.Search" Version="7.0.0-preview" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

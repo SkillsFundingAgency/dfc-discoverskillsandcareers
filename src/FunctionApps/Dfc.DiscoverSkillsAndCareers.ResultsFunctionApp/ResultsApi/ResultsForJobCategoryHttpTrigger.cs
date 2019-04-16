@@ -82,9 +82,12 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 
             // Build the list of job profiles
             var showSuggestedJobProfiles = new List<JobProfileResult>();
-            foreach (var socCode in filteredAssessment.SuggestedJobProfiles)
+
+            var jobProfiles =
+                await jobProfileRepository.JobProfileBySocCodeAndTitle(filteredAssessment.SuggestedJobProfiles);
+            
+            foreach (var jobProfile in jobProfiles)
             {
-                var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "jobprofile-cms");
                 showSuggestedJobProfiles.Add(new JobProfileResult()
                 {
                     CareerPathAndProgression = jobProfile.CareerPathAndProgression,
@@ -94,6 +97,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                     SocCode = jobProfile.SocCode,
                     Title = jobProfile.Title,
                     UrlName = jobProfile.UrlName,
+                    TypicalHours = jobProfile.TypicalHours,
+                    TypicalHoursPeriod = String.Join("/", jobProfile.WorkingHoursDetails),
+                    ShiftPattern = String.Join("/",jobProfile.WorkingPattern),
+                    ShiftPatternPeriod = String.Join("/",jobProfile.WorkingPatternDetails),
                     WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
                 });
             }

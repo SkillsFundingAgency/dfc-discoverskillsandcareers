@@ -87,7 +87,7 @@
                         @if (Model.UseFilteringQuestions)
                         {
                             <p>@Model.ResultsAnswerMoreText?.Replace("[jobcategory]", jobFamily.JobFamilyName)</p>
-                            if (jobFamily.FilterAssessment != null && jobFamily.FilterAssessment.SuggestedJobProfiles.Length > 0)
+                            if (jobFamily.FilterAssessment != null && jobFamily.FilterAssessment.SuggestedJobProfiles.Count > 0)
                             {
                                 <a href="/results/@jobFamily.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">@Model.ViewResultsButtonText</a>
                             }

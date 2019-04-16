@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using Microsoft.Azure.Search;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
@@ -42,6 +43,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
+           
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
@@ -50,7 +52,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
-            services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
             services.AddSingleton<ISiteFinityHttpService, SiteFinityHttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
@@ -75,8 +76,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredtQuestionSetDataProcessor>();
             services.AddTransient<IContentDataProcessor<ContentIndexPage>, ContentDataProcessor<ContentIndexPage>>();
             services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
-            services.AddTransient<IGetJobProfileData, GetJobProfileData>();
-            services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
             services.AddTransient<IFunctionalCompetencyDataProcessor, FunctionalCompetencyDataProcessor>();
             services.AddTransient<IGetFunctionalCompetenciesData, GetFunctionalCompetenciesData>();
             services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();

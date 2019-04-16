@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
             // All the job profiles for this job category
             var jobFamilyName = userSession.CurrentFilterAssessment.JobFamilyName;
-            var allJobProfiles = await JobProfileRepository.GetJobProfilesForJobFamily(jobFamilyName);
+            var allJobProfiles = await JobProfileRepository.JobProfilesForJobFamily(jobFamilyName);
             var suggestedJobProfiles = allJobProfiles.ToList();
 
             // All answers in order 
@@ -62,7 +62,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             // Update the filter assessment with the soc codes we are going to suggest
             // TODO: the quantity and order here is likely to change or handled on the UI?
             var filterAssessment = userSession.CurrentFilterAssessment;
-            var socCodes = suggestedJobProfiles.Select(x => x.SocCode).ToArray();
+            var socCodes = suggestedJobProfiles.ToDictionary(x => x.SocCode, x => x.Title);
             userSession.CurrentFilterAssessment.SuggestedJobProfiles = socCodes;
 
             // Update the "what you told us"

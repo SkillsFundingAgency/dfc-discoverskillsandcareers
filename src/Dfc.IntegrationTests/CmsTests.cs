@@ -90,16 +90,6 @@ namespace Dfc.IntegrationTests
         }
 
         [Fact]
-        public async Task GetJobProfileData_FromSitefinity_ShouldContainJobProfiles()
-        {
-            var requester = new GetJobProfileData(_service);
-
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
-
-            Assert.NotEmpty(data);
-        }
-
-        [Fact]
         public async Task GetQuestionPageContentData_FromSiteFinity_ShouldContainContent()
         {
             var requester = new GetContentData<ContentQuestionPage[]>(_service);

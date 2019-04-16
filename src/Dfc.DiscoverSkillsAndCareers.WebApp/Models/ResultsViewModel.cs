@@ -32,10 +32,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string AverageSalaryText { get; set; } = "Average salary (a year)";
         public string StarterText { get; set; } = "Starter";
         public string ExperiencedText { get; set; } = "Experienced";
-        public string TypicalHoursText { get; set; } = "Typical hours (a week)";
+        public string TypicalHoursText { get; set; } = "Typical hours";
+        public string HoursDetailsText { get; set; }
         public string YouCouldWorkText { get; set; } = "You could work";
         public string ResultsAnswerMoreText { get; set; } = "To find out job roles you might be suited to in [jobcategory], answer more questions.";
 
         public string ExploreCareersBaseUrl { get; set; } = "https://nationalcareers.service.gov.uk";
+        
     }
 }

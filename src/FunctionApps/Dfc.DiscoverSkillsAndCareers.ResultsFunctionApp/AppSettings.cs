@@ -7,5 +7,4 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
     {
         public string SessionSalt { get; set; }
     }
-
 }
