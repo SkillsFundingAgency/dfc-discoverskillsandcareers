@@ -32,21 +32,21 @@ parallel('Understand Myself cross-browser tests ', function() {
 
       
       console.log(`${cap.browserName}: Checking for error when clicking next without selecting any options`);
-      let errorText = '';
+      let errorTitleText = '';
       await driver.get(appUrl);
       let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
       await startAssessmentButton.click();
       await driver.wait(until.urlContains(`q/1`), 20000);
       let nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
       await nextButton.click();
-      let errorElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      const errorTitle = await driver.wait(until.elementLocated(By.id('error-summary-title')), 20000);
       try {
-        errorText = await errorElement.getText();
+        errorTitleText = await errorTitle.getText();
       }
       catch(err) {
-        if (err.name === 'StaleElementReferenceError') errorText = errorElement.getText();
+        if (err.name === 'StaleElementReferenceError') errorTitleText = errorTitle.getText();
       }
-      expect(errorText.trim()).to.equal('Please select an option below to continue');
+      expect(errorTitleText.trim()).to.equal('There is a problem');
       
       console.log(`${cap.browserName}: Start assessment, get session ID and check if it resumes assessment`);
       await driver.get(appUrl);
@@ -90,9 +90,9 @@ parallel('Understand Myself cross-browser tests ', function() {
       await driver.get(appUrl);
       const resumeButton = await driver.wait(until.elementLocated(By.className('app-button')), 20000);
       await resumeButton.click();
-      errorElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
-      errorText = await errorElement.getText();
-      expect(errorText.trim()).to.equal('The code could not be found');
+      const refCodeValidation = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      errorText = await refCodeValidation.getText();
+      expect(errorText.trim()).to.equal('Please enter your reference');
 
       console.log(`${cap.browserName}: Running through assessment`);
       await driver.get(appUrl);
