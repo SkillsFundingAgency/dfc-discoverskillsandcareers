@@ -1,5 +1,27 @@
 var results = (function () {
+  function breakArrayIntoGroups (data, maxPerGroup) {
+    var groups = []
+    for (var index = 0; index < data.length; index += maxPerGroup) {
+      groups.push(data.slice(index, index + maxPerGroup))
+    }
+    return groups
+  }
   return {
+    cardHeight: function () {
+      const cards = Array.prototype.slice.call(document.getElementsByClassName('app-long-results__item'))
+      var groups = breakArrayIntoGroups(cards, 3)
+      groups.map(group => {
+        var height = 0
+        group.map(card => {
+          var description = card.getElementsByClassName('result-description')[0]
+          height = description.offsetHeight > height ? description.offsetHeight : height
+        })
+        group.map(card => {
+          var description = card.getElementsByClassName('result-description')[0]
+          description.style.height = height + 'px'
+        })
+      })
+    },
     short: function () {
       const resultsList = document.getElementById('app-results-list')
       const resultsItems = Array.prototype.slice.call(resultsList.children)
