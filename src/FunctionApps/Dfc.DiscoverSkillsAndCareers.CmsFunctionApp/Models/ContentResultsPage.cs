@@ -28,5 +28,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string ExperiencedText { get; set; } = "Experienced";
         public string TypicalHoursText { get; set; } = "Typical hours (a week)";
         public string YouCouldWorkText { get; set; } = "You could work";
+        public string ResultsAnswerMoreText { get; set; } = "To find out job roles you might be suited to in [jobcategory], answer more questions.";
     }
 }
