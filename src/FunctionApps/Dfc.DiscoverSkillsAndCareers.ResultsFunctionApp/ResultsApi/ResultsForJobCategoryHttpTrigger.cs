@@ -94,6 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                     Overview = jobProfile.Overview,
                     SalaryExperienced = jobProfile.SalaryExperienced,
                     SalaryStarter = jobProfile.SalaryStarter,
+                    JobCategory = jobCategory,
                     SocCode = jobProfile.SocCode,
                     Title = jobProfile.Title,
                     UrlName = jobProfile.UrlName,
