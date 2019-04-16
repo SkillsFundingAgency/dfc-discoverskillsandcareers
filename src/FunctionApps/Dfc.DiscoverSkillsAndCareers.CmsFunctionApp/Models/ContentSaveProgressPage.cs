@@ -1,15 +1,11 @@
-﻿namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
+﻿using Newtonsoft.Json;
+using System;
+
+namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-	public class SaveProgressViewModel
-	{
-		public string SessionId { get; set; }
-		public string Code { get; set; }
-		public string SessionDate { get; set; }
-		public string Status { get; set; }
-		public string ErrorMessage { get; set; }
-        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
-		public string SentTo { get; set; }
-		public string BackLink { get; set; }
+    public class ContentSaveProgressPage : IContentPage
+    {
+        public string Title { get; set; } = "National Careers Service - Save Progress";
         public string PageTitle { get; set; } = "Save progress | National Careers Service";
         public string EmailPrompt { get; set; } = "What is your email?";
         public string EmailInputLabel { get; set; } = "Email";
@@ -35,5 +31,8 @@
         public string ReferenceInstructionsText { get; set; } = "The code above is your unique reference number. You can use this to:";
         public string ReferenceInstruction1Text { get; set; } = "Return to the assessment and resume your progress";
         public string ReferenceInstruction2Text { get; set; } = "Access your results after finishing the assessment";
+
+        [JsonProperty("LastModified")]
+        public DateTime LastUpdated { get; set; }
     }
 }

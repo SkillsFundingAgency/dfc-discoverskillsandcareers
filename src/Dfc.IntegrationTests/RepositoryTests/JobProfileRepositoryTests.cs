@@ -24,7 +24,7 @@ namespace Dfc.IntegrationTests.RepositoryTests
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
             Configuration = builder.Build();
-            var cosmosSettings = Configuration.Get<CosmosSettings>();
+            var cosmosSettings = Configuration.GetSection("CosmosSettings").Get<CosmosSettings>();
             _optsCosmosSettings = Options.Create(cosmosSettings);
             _logger = Substitute.For<ILogger<JobProfileRepository>>();
             var documentClient = new DocumentClient(new Uri(cosmosSettings.Endpoint), cosmosSettings.Key);

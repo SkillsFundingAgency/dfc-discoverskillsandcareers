@@ -3,7 +3,7 @@ using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class ContentShortResultsPage : IContentPage
+    public class ContentResultsPage : IContentPage
     {
         public string Title { get; set; } = "National Careers Service - Results";
         [JsonProperty("SummaryTitleText")]

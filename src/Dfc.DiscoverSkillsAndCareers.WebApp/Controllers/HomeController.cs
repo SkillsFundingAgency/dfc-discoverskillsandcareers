@@ -38,7 +38,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    AppendCookie(sessionId);
                 }
                 return View("Index", model);
             }
@@ -106,7 +106,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     model.HasReloadError = true;
                     return View("Index", model);
                 }
-                Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+
+                AppendCookie(nextQuestionResponse.SessionId);
 
                 if (nextQuestionResponse.IsComplete)
                 {

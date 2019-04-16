@@ -101,7 +101,10 @@
 
     @include govuk-media-query($from: desktop) {
       .result-description {
-        min-height: 150px;
+        p {
+          margin: 0;
+        }
+        margin-bottom: govuk-spacing(4);
       }
     }
 

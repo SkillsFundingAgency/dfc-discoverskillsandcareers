@@ -48,6 +48,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var resultsResponse = await ApiServices.Results(sessionId, correlationId);
 
+                var lastFilterResult = resultsResponse.JobFamilies
+                                                      .Where(x => x.FilterAssessment != null)
+                                                      .OrderByDescending(x => x.FilterAssessment.CreatedDt)
+                                                      .Select(x => x.FilterAssessment)
+                                                      .FirstOrDefault();
+                if (lastFilterResult != null)
+                {
+                    return await ReturnResultsView(resultsResponse, correlationId, lastFilterResult.JobFamilyNameUrlSafe, sessionId);
+                }
+
                 var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
                 var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
@@ -97,7 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var resultsResponse = await ApiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
-                Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                AppendCookie(sessionId);
                 var redirectResponse = new RedirectResult($"/qf/{1}"); //TODO: start from 1 or last if previous?
                 return redirectResponse;
 
@@ -130,20 +140,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var resultsForJobCategoryResponse = await ApiServices.Results(sessionId, correlationId);
-
-                var contentName = $"filteredresultpage";
-                var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
-                model.SessionId = sessionId;
-                model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
-                model.AssessmentType = resultsForJobCategoryResponse.AssessmentType;
-                model.JobFamilies = ReOrderWithFirst(resultsForJobCategoryResponse.JobFamilies, jobCategory);
-                model.JobFamilyCount = resultsForJobCategoryResponse.JobFamilyCount;
-                model.JobFamilyMoreCount = resultsForJobCategoryResponse.JobFamilyMoreCount;
-                model.Traits = resultsForJobCategoryResponse.Traits;
-                model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
-                model.JobProfiles = resultsForJobCategoryResponse.JobProfiles;
-                model.WhatYouToldUs = resultsForJobCategoryResponse.WhatYouToldUs;
-                return View("ResultsForJobCategory", model);
+                return await ReturnResultsView(resultsForJobCategoryResponse, correlationId, jobCategory, sessionId);
             }
             catch (System.Net.Http.HttpRequestException)
             {
@@ -158,6 +155,24 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodExit(Log);
             }
+        }
+
+        [NonAction]
+        public async Task<IActionResult> ReturnResultsView(ResultsResponse resultsResponse, Guid correlationId, string jobCategory, string sessionId)
+        {
+            var contentName = $"filteredresultpage";
+            var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
+            model.SessionId = sessionId;
+            model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
+            model.AssessmentType = resultsResponse.AssessmentType;
+            model.JobFamilies = ReOrderWithFirst(resultsResponse.JobFamilies, jobCategory);
+            model.JobFamilyCount = resultsResponse.JobFamilyCount;
+            model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
+            model.Traits = resultsResponse.Traits;
+            model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
+            model.JobProfiles = resultsResponse.JobProfiles;
+            model.WhatYouToldUs = resultsResponse.WhatYouToldUs;
+            return View("ResultsForJobCategory", model);
         }
 
         private JobFamilyResult[] ReOrderWithFirst(JobFamilyResult[] jobFamilyResults, string jobCategory)

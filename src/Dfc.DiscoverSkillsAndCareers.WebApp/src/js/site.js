@@ -11,5 +11,8 @@ if (helpers.isPage('app-page--results')) {
 }
 
 if (helpers.isPage('app-page--results-long')) {
+  if (document.body.clientWidth >= 768) {
+    results.cardHeight()
+  }
   results.long()
 }

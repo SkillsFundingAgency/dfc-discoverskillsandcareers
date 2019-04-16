@@ -29,9 +29,10 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
+                <h1 class="govuk-heading-l">@Model.ReferenceYourNumberText</h1>
+
                 <div class="app-your-reference govuk-body">
                     <p>
-                        @Model.ReferenceYourNumberText
                         <span class="app-your-reference__code govuk-heading-xl">@Model.Code</span>
                     </p>
                     <div class="app-your-reference__meta govuk-grid-row">
@@ -41,7 +42,7 @@
                 </div>
 
                 <div class="govuk-body">
-                    <h1 class="govuk-heading-m">What to do</h1>
+                    <h2 class="govuk-heading-m">What to do</h2>
                     <p>@Model.ReferenceInstructionsText</p>
                     <ul>
                         <li>@Model.ReferenceInstruction1Text</li>
@@ -49,9 +50,9 @@
                     </ul>
                 </div>
 
-                <h2 class="govuk-heading-l">Send as text</h2>
+                <h2 class="govuk-heading-m">Send as text</h2>
 
-                <form action="/save-my-progress/sms" method="post" class="govuk-grid-row">
+                <form action="/save-my-progress/reference" method="post" class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
                         {{ govukInput({
                             label: {
@@ -68,7 +69,7 @@
                     </div>
                 </form>
 
-                @Model.ErrorMessage
+                <p>@Model.ErrorMessage</p>
 
                 <p><a href="/results" class="">@Model.ReferenceReturnText</a></p>
 

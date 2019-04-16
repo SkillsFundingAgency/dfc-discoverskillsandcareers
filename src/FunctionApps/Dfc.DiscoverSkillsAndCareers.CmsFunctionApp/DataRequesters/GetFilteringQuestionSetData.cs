@@ -9,17 +9,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionSetData : IGetFilteringQuestionSetData
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetFilteringQuestionData GetFilteringQuestionData;
-        readonly IQuestionRepository QuestionRepository;
 
-        public GetFilteringQuestionSetData(IHttpService httpService,
-            IGetFilteringQuestionData getFilteringQuestionData,
-            IQuestionRepository questionRepository)
+        public GetFilteringQuestionSetData(ISiteFinityHttpService httpService,
+            IGetFilteringQuestionData getFilteringQuestionData)
         {
             HttpService = httpService;
             GetFilteringQuestionData = getFilteringQuestionData;
-            QuestionRepository = questionRepository;
         }
 
         public async Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase, string siteFinityService)

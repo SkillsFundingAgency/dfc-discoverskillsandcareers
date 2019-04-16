@@ -15,22 +15,19 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class FunctionalCompetencyDataProcessor : IFunctionalCompetencyDataProcessor
     {
-        readonly ILogger<FunctionalCompetencyDataProcessor> Logger;
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
         readonly IGetFunctionalCompetenciesData GetFunctionalCompetenciesData;
         readonly AppSettings AppSettings;
         readonly IQuestionRepository QuestionRepository;
         readonly IQuestionSetRepository QuestionSetRepository;
 
         public FunctionalCompetencyDataProcessor(
-            ILogger<FunctionalCompetencyDataProcessor> logger,
-            IHttpService httpService,
+            ISiteFinityHttpService httpService,
             IGetFunctionalCompetenciesData getFunctionalCompetenciesData,
             IOptions<AppSettings> appSettings,
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository)
         {
-            Logger = logger;
             HttpService = httpService;
             GetFunctionalCompetenciesData = getFunctionalCompetenciesData;
             AppSettings = appSettings.Value;
@@ -38,16 +35,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             QuestionSetRepository = questionSetRepository;
         }
 
-        public async Task RunOnce()
+        public async Task RunOnce(ILogger logger)
         {
-            Logger.LogInformation("Begin poll for FunctionalCompetencies");
+            logger.LogInformation("Begin poll for FunctionalCompetencies");
 
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
             string siteFinityService = AppSettings.SiteFinityApiWebService;
 
             var data = await GetFunctionalCompetenciesData.GetData(siteFinityApiUrlbase, siteFinityService);
 
-            Logger.LogInformation($"Have {data?.Count} functional competencies to process");
+            logger.LogInformation($"Have {data?.Count} functional competencies to process");
             var sets = new List<QuestionSet>();
             foreach (var functionalCompetency in data)
             {
@@ -76,13 +73,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         excludeJobProfiles.Add(jobProfile.Title);
                     }
                     question.ExcludesJobProfiles = excludeJobProfiles.ToArray();
-                    Logger.LogInformation($"Question {question.QuestionId} has {excludeJobProfiles.Count} ExcludesJobProfiles");
+                    logger.LogInformation($"Question {question.QuestionId} has {excludeJobProfiles.Count} ExcludesJobProfiles");
                 }
 
                 await QuestionRepository.CreateQuestion(question);
             }
 
-            Logger.LogInformation("End poll for FunctionalCompetencies");
+            logger.LogInformation("End poll for FunctionalCompetencies");
 
             var output = new List<FilteringQuestionSet>();
             foreach (var fqs in sets)
@@ -107,9 +104,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     }).ToList()
                 });
             }
-            var localPath = @"C:\ncs\dfc-discoverskillsandcareers-dev\src\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp"; //TODO: temp issue as no CMS
-            var saveFilename = System.IO.Path.Combine(localPath, "filtering_questions_2.json");
-            await System.IO.File.WriteAllTextAsync(saveFilename, JsonConvert.SerializeObject(output));
         }
     }
 }

@@ -4,6 +4,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetContentData<T> where T : class
     {
-        Task<T> GetData(string url);
+        Task<T> GetData(string siteFinityApiUrlbase, string siteFinityService, string contentType);
     }
 }

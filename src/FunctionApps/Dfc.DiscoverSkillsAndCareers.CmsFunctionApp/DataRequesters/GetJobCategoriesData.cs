@@ -9,16 +9,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetJobCategoriesData : IGetJobCategoriesData
     {
-        readonly IHttpService HttpService;
+        readonly ISiteFinityHttpService HttpService;
 
-        public GetJobCategoriesData(IHttpService httpService)
+        public GetJobCategoriesData(ISiteFinityHttpService httpService)
         {
             HttpService = httpService;
         }
 
-        public async Task<List<JobCategory>> GetData(string url, string traitsUrl, string taxonomyId = "3b635a67-db48-43d2-b94b-332304775d37")
+        public async Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyId = "3b635a67-db48-43d2-b94b-332304775d37")
         {
             var traits = new List<ShortTrait>();
+            var traitsUrl = $"{sitefinityBaseUrl}/api/{sitefinityWebService}/traits";
+
             string traitsJson = await HttpService.GetString(traitsUrl);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(traitsJson);
             foreach(var item in data.Value)
@@ -29,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
                 traits.Add(trait);
             }
 
-            string json = await HttpService.GetString(url);
+            string json = await HttpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/hierarchy-taxa");
             var jobCategories = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<TaxonomyHierarchy>>>(json).Value
                 .Where(x => x.TaxonomyId == taxonomyId)
                 .Select(x => new JobCategory
