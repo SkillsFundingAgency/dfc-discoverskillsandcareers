@@ -47,7 +47,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
                 await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishpage");
 
-                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "resultspagecontents");
+                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishjobcategorypage");
+
+                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "shortresultpage");
+
+                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "filteredresultpage");
 
                 await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
 
