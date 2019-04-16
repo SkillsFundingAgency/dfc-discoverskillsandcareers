@@ -277,11 +277,11 @@
                                 "value": "[parameters('AssessmentQuestionSetNames')]"
                             },
                             {
-                                "name": "NotifyEmailTemplateId",
+                                "name": "AppSettings__NotifyEmailTemplateId",
                                 "value": "[parameters('NotifyEmailTemplateId')]"
                             },
                             {
-                                "name": "NotifySmsTemplateId",
+                                "name": "AppSettings__NotifySmsTemplateId",
                                 "value": "[parameters('NotifySmsTemplateId')]"
                             }
                         ]
