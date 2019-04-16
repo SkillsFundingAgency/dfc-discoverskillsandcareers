@@ -6,6 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetJobCategoriesData
     {
-        Task<List<JobCategory>> GetData(string url, string traitsUrl, string taxonomyId = "3b635a67-db48-43d2-b94b-332304775d37");
+        Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyName = "Job Profile Categories");
     }
 }

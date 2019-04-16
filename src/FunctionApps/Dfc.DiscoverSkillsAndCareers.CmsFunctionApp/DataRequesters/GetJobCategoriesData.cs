@@ -1,4 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+﻿using System;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             HttpService = httpService;
         }
 
-        public async Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyId = "3b635a67-db48-43d2-b94b-332304775d37")
+        public async Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyName = "Job Profile Categories")
         {
             var traits = new List<ShortTrait>();
             var traitsUrl = $"{sitefinityBaseUrl}/api/{sitefinityWebService}/traits";
@@ -33,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 
             string json = await HttpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/hierarchy-taxa");
             var jobCategories = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<TaxonomyHierarchy>>>(json).Value
-                .Where(x => x.TaxonomyId == taxonomyId)
+                .Where(x => String.Equals(x.Title, taxonomyName, StringComparison.InvariantCultureIgnoreCase))
                 .Select(x => new JobCategory
                 {
                     Id = x.Id,

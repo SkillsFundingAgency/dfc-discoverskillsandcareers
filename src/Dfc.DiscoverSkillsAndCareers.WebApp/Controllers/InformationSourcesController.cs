@@ -33,16 +33,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 LoggerHelper.LogMethodEnter(Log);
 
-                var sessionId = await TryGetSessionId(Request);
-                if (string.IsNullOrEmpty(sessionId))
-                {
-                    return Redirect("/");
-                }
-
                 var viewName ="InformationSources";
                 var contentName = "informationsources";
                 var model = await ApiServices.GetContentModel<InformationSourcesViewModel>(contentName, correlationId);
-                AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)
