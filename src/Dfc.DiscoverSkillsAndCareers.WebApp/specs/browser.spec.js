@@ -37,7 +37,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
       await startAssessmentButton.click();
       await driver.wait(until.urlContains(`q/1`), 20000);
-      const nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      let nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
       await nextButton.click();
       let errorElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
       try {
@@ -66,6 +66,12 @@ parallel('Understand Myself cross-browser tests ', function() {
       }
       // Wait for page to load and save session ID text
       await driver.wait(until.urlContains('save-my-progress'), 20000);
+      nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      await nextButton.click();
+      const errorMessageElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      const errorMessageText = await errorMessageElement.getText();
+      expect(errorMessageText.trim()).to.equal('Please select an option to continue')
+
       await driver.wait(() => selectAnswer(driver, 'SelectedOption-2'), 20000);
       await driver.findElement(By.className('govuk-button')).click();
       const sessionIdTextElement = await driver.wait(until.elementLocated(By.className('app-your-reference__code')), 20000);
