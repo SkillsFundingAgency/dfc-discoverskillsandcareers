@@ -121,7 +121,8 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                             FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
                             SfId = dataQuestion.Id,
                             PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
-                            NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText
+                            NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText,
+                            LastUpdatedDt = DateTime.UtcNow
                         };
                         newQuestionSet.MaxQuestions = questionNumber;
                         questionNumber++;
