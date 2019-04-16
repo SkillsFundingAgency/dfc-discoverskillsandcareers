@@ -276,9 +276,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()))
+                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()) || !System.Text.RegularExpressions.Regex.Match(sendSmsRequest.MobileNumber, @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").Success)
                 {
-                    model.ErrorMessage = $"You must enter a phone numner";
+                    model.ErrorMessage = model.SmsInputInvalidMessage;
                     return View("ReferenceNumber", model);
                 }
                 model.BackLink = "/save-my-progress";

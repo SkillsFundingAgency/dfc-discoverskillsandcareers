@@ -35,5 +35,6 @@
         public string ReferenceInstructionsText { get; set; } = "The code above is your unique reference number. You can use this to:";
         public string ReferenceInstruction1Text { get; set; } = "Return to the assessment and resume your progress";
         public string ReferenceInstruction2Text { get; set; } = "Access your results after finishing the assessment";
+        public string SmsInputInvalidMessage { get; set; } = "You must enter a phone number";
     }
 }
