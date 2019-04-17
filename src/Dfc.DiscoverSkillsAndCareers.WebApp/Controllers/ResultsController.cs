@@ -58,11 +58,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return await ReturnResultsView(resultsResponse, correlationId, lastFilterResult.JobFamilyNameUrlSafe, sessionId);
                 }
 
-                var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
+                var contentName = $"{resultsResponse.AssessmentType?.ToLower() ?? "short"}resultpage";
                 var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
                 model.SessionId = sessionId;
                 model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
-                model.AssessmentType = resultsResponse.AssessmentType;
+                model.AssessmentType = resultsResponse.AssessmentType ?? "short";
                 model.JobFamilies = resultsResponse.JobFamilies;
                 model.JobFamilyCount = resultsResponse.JobFamilyCount;
                 model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
@@ -164,7 +164,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
             model.SessionId = sessionId;
             model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
-            model.AssessmentType = resultsResponse.AssessmentType;
+            model.AssessmentType = resultsResponse.AssessmentType ?? "short";
             model.JobFamilies = ReOrderWithFirst(resultsResponse.JobFamilies, jobCategory);
             model.JobFamilyCount = resultsResponse.JobFamilyCount;
             model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
