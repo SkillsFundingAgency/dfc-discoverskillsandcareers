@@ -164,7 +164,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var model = await ApiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
             model.SessionId = sessionId;
             model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
-            model.AssessmentType = resultsResponse.AssessmentType ?? "short";
+            model.AssessmentType = resultsResponse.AssessmentType ?? "filtered";
             model.JobFamilies = ReOrderWithFirst(resultsResponse.JobFamilies, jobCategory);
             model.JobFamilyCount = resultsResponse.JobFamilyCount;
             model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
