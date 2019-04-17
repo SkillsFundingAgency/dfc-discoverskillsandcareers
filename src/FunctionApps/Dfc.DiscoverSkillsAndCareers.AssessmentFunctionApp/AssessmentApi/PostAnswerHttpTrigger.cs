@@ -118,18 +118,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 // Calculate the result
                 if (!userSession.IsFilterAssessment)
                 {
-                    switch (userSession.AssessmentType)
-                    {
-                        case "short":
-                            {
-                                await resultsService.CalculateAssessment(userSession);
-                                break;
-                            }
-                        default:
-                            {
-                                throw new NotImplementedException();
-                            }
-                    }
+                    await resultsService.CalculateAssessment(userSession);
                 }
                 else
                 {
