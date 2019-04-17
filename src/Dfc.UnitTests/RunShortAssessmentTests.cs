@@ -1,105 +1,21 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Models;
+using System;
 using System.Collections.Generic;
+using Xunit;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
+namespace Dfc.UnitTests
 {
-    public class AssessmentCalculationService : IAssessmentCalculationService
+    public class RunShortAssessmentTests
     {
-        public AssessmentCalculationService()
+        private static List<Trait> Traits;
+        private static List<JobFamily> JobFamilies;
+        private static Dictionary<AnswerOption, int> AnswerOptions;
+
+        public RunShortAssessmentTests()
         {
-
-        }
-
-        public async Task CalculateAssessment(UserSession userSession)
-        {
-            var jobFamilies = JobFamilies; // TODO: from repo
-            var answerOptions = AnswerOptions; // TODO: from repo
-            var traits = Traits; // TODO: from repo
-
-            RunShortAssessment(userSession, jobFamilies, answerOptions, traits);
-        }
-
-        public static void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits)
-        {
-            // User traits
-            var userTraits = userSession.RecordedAnswers
-                .Select(x => new
-                {
-                    x.TraitCode,
-                    Score = !x.IsNegative ? answerOptions.Where(a => a.Key == x.SelectedOption).First().Value
-                        : answerOptions.Where(a => a.Key == x.SelectedOption).First().Value * -1
-                })
-                .GroupBy(x => x.TraitCode)
-                .Select(g => new TraitResult()
-                {
-                    TraitCode = g.First().TraitCode,
-                    TraitName = traits.Where(x => x.TraitCode == g.First().TraitCode).First().TraitName,
-                    TraitText = traits.Where(x => x.TraitCode == g.First().TraitCode).First().Texts.Where(x => x.LanguageCode.ToLower() == userSession.LanguageCode.ToLower()).FirstOrDefault()?.Text,
-                    TotalScore = g.Sum(x => x.Score)
-                })
-                .OrderByDescending(x => x.TotalScore)
-                .ToList();
-
-            var jobCategories = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray();
-
-            var resultData = new ResultData()
-            {
-                Traits = userTraits.Where(x => x.TotalScore > 0).ToArray(),
-                JobFamilies = jobCategories,
-                TraitScores = userTraits.ToArray()
-            };
-
-            userSession.ResultData = resultData;
-        }
-
-        public static List<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
-        { 
-            var userJobFamilies = jobFamilies
-              .Select(x => new JobFamilyResult()
-              {
-                  JobFamilyCode = x.JobFamilyCode,
-                  JobFamilyName = x.JobFamilyName,
-                  JobFamilyText = x.Texts.Where(t => t.LanguageCode.ToLower() == languageCode?.ToLower()).FirstOrDefault()?.Text,
-                  Url = x.Texts.Where(t => t.LanguageCode.ToLower() == languageCode?.ToLower()).FirstOrDefault()?.Url,
-                  TraitsTotal = userTraits.Where(t => x.TraitCodes.Contains(t.TraitCode)).Sum(t => t.TotalScore),
-                  TraitValues = userTraits
-                      .Where(t => x.TraitCodes.Contains(t.TraitCode))
-                      .Select(v => new TraitValue()
-                      {
-                          TraitCode = v.TraitCode,
-                          Total = v.TotalScore,
-                          NormalizedTotal = x.ResultMultiplier * v.TotalScore
-                      }).ToArray(),
-                  NormalizedTotal = x.ResultMultiplier
-              })
-              .Where(x => x.TraitValues.Any(v => v.Total > 0))
-              .ToList();
-            userJobFamilies.ForEach(x =>
-            {
-                x.Total = x.TraitValues.Where(v => v.NormalizedTotal >= 1m).Sum(v => v.NormalizedTotal);
-                x.NormalizedTotal = x.NormalizedTotal * x.TraitValues.Sum(v => v.Total);
-            });
-            var result = userJobFamilies
-                .OrderByDescending(x => x.Total)
-                .Take(10)
-                .ToList();
-            return result;
-        }
-
-
-        // TODO: store
-        private static Dictionary<AnswerOption, int> AnswerOptions = new Dictionary<AnswerOption, int>()
-            {
-                { AnswerOption.StronglyDisagree, -2 },
-                { AnswerOption.Disagree, -1 },
-                { AnswerOption.Neutral, 0 },
-                { AnswerOption.Agree, 1 },
-                { AnswerOption.StronglyAgree, 2 },
-            };
-        // TODO: store
-        private static List<Trait> Traits = new List<Trait>()
+            Traits = new List<Trait>()
             {
                 new Trait() { TraitCode = "LEADER", TraitName = "Leader", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like to lead other people and are good at taking control of situations." } } },
                 new Trait() { TraitCode = "DRIVER", TraitName = "Driver", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You enjoy setting targets and are comfortable competing with other people." } } },
@@ -110,8 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 new Trait() { TraitCode = "CREATOR", TraitName = "Creator", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You’re a creative person and enjoy coming up with new ways of doing things." } } },
                 new Trait() { TraitCode = "INFLUENCER", TraitName = "Influencer", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You are sociable and find it easy to understand people." } } }
             };
-        // TODO: store
-        public static List<JobFamily> JobFamilies = new List<JobFamily>()
+            JobFamilies = new List<JobFamily>()
             {
                 new JobFamily()
                 {
@@ -489,5 +404,177 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     }
                 },
             };
+            AnswerOptions = new Dictionary<AnswerOption, int>()
+            {
+                { AnswerOption.StronglyDisagree, -2 },
+                { AnswerOption.Disagree, -1 },
+                { AnswerOption.Neutral, 0 },
+                { AnswerOption.Agree, 1 },
+                { AnswerOption.StronglyAgree, 2 },
+            };
+        }
+
+        [Fact]
+        public void RunShortAssessment_WithAllNeutral_SHouldHaveNoTraits()
+        {
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new []
+                {
+                    new Answer() { TraitCode = "LEADER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "DRIVER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "HELPER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "ANALYST", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "CREATOR", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.Neutral }
+                }
+            };
+
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+
+            var traits = userSession.ResultData.Traits.ToList();
+
+            Assert.Equal(0, traits.Count);
+        }
+
+        [Fact]
+        public void RunShortAssessment_WithDoer_SHouldHaveDoerTrait()
+        {
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new[]
+                {
+                    new Answer() { TraitCode = "LEADER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "DRIVER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "HELPER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "ANALYST", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "CREATOR", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Neutral },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.Agree }
+                }
+            };
+
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+
+            var traits = userSession.ResultData.Traits.ToList();
+
+            Assert.Equal(1, traits.Count);
+        }
+
+        [Fact]
+        public void RunShortAssessment_WithAllAgree_ShouldHaveAllTraits()
+        {
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new[]
+                {
+                    new Answer() { TraitCode = "LEADER", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "DRIVER", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "HELPER", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "ANALYST", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "CREATOR", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Agree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.Agree }
+                }
+            };
+
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+
+            var traits = userSession.ResultData.Traits.ToList();
+
+            Assert.Equal(8, traits.Count);
+        }
+
+        [Fact]
+        public void RunShortAssessment_WithAllDisagree_ShouldHaveNoTraits()
+        {
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new[]
+                {
+                    new Answer() { TraitCode = "LEADER", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "DRIVER", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "HELPER", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "ANALYST", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "CREATOR", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Disagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.Disagree }
+                }
+            };
+
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+
+            var traits = userSession.ResultData.Traits.ToList();
+
+            Assert.Equal(0, traits.Count);
+        }
+
+        [Fact]
+        public void RunShortAssessment_WithAllStronglyDisagree_ShouldHaveNoTraits()
+        {
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new[]
+                {
+                    new Answer() { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "ANALYST", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "CREATOR", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree }
+                }
+            };
+
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+
+            var traits = userSession.ResultData.Traits.ToList();
+
+            Assert.Equal(0, traits.Count);
+        }
+
+        [Fact]
+        public void RunShortAssessment_WithAllStronglyDisagreeWithDoerNegative_ShouldHaveNoTraits()
+        {
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new[]
+                {
+                    new Answer() { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "ANALYST", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "CREATOR", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree },
+                    new Answer() { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true },
+                }
+            };
+
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+
+            var traits = userSession.ResultData.Traits.ToList();
+
+            Assert.Equal(0, traits.Count);
+            var doerScore = userSession.ResultData.TraitScores.Where(x => x.TraitCode == "DOER").Sum(x => x.TotalScore);
+            Assert.Equal(-6, doerScore);
+        }
     }
 }
+
