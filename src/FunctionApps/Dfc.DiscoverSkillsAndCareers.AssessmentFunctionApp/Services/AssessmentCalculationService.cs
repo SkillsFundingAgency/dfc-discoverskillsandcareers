@@ -42,10 +42,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .OrderByDescending(x => x.TotalScore)
                 .ToList();
 
+            var jobCategories = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray();
+
             var resultData = new ResultData()
             {
-                Traits = userTraits.ToArray(),
-                JobFamilies = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray()
+                Traits = userTraits.Where(x => x.TotalScore > 0).ToArray(),
+                JobFamilies = jobCategories
             };
 
             userSession.ResultData = resultData;

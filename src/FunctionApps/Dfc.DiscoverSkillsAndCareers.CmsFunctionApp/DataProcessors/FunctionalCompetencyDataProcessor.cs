@@ -65,18 +65,30 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     throw new Exception($"Question {functionalCompetency.Question.Id} exists in sitefinity but not locally");
                 }
+
+                bool changed = false;
                 if (functionalCompetency.ExcludeJobProfiles != null)
                 {
                     var excludeJobProfiles = new List<string>();
                     foreach (var jobProfile in functionalCompetency.ExcludeJobProfiles)
                     {
                         excludeJobProfiles.Add(jobProfile.Title);
+                        if (question.ExcludesJobProfiles.Contains(jobProfile.Title) == false )
+                        {
+                            changed = true;
+                        }
                     }
                     question.ExcludesJobProfiles = excludeJobProfiles.ToArray();
                     logger.LogInformation($"Question {question.QuestionId} has {excludeJobProfiles.Count} ExcludesJobProfiles");
                 }
-
-                await QuestionRepository.CreateQuestion(question);
+                if (changed)
+                {
+                    await QuestionRepository.CreateQuestion(question);
+                }
+                else
+                {
+                    logger.LogInformation($"No changes made to Question {question.QuestionId} ExcludesJobProfiles");
+                }
             }
 
             logger.LogInformation("End poll for FunctionalCompetencies");
