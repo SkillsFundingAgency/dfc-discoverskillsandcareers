@@ -26,6 +26,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         public static string Decode(string salt, string code)
         {
+            if (code.Contains("_"))
+            {
+                code = code.Split("_")[0];
+            }
+
             var hashids = new Hashids(salt, 4, Alphabet);
             var decode = hashids.DecodeLong(code);
             if (decode.Length > 0)
