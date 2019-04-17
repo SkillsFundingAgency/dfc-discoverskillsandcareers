@@ -68,29 +68,33 @@ var results = (function () {
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
       resultsLists.map(resultsList => {
         const resultsItems = Array.prototype.slice.call(resultsList.children)
+        const rowLength = 3
+        const cards = resultsItems.filter(result => resultsItems.indexOf(result) >= 3)
+        var numOfCards = cards.length
+        var groupIndex = 1;
+        var groups = breakArrayIntoGroups(cards, rowLength)
 
-        const other = resultsItems.filter(result => resultsItems.indexOf(result) >= 3)
+        var getRemainingCards = () => numOfCards - (groupIndex * rowLength)
 
-        if (other.length) {
-          other.map(item => {
-            item.style.display = 'none'
+        if (groups.length) {
+          groups.map(group => {
+            group.map(el => el.style.display = 'none')
           })
 
           const wrapperElement = resultsList.nextElementSibling.children[0].children[0]
 
           // "See matches" button
-          const buttonElement = document.createElement('p')
-          const buttonText = '<a class="govuk-link govuk-link--no-visited-state" href="">View ' + other.length + ' more results</a>'
-          buttonElement.innerHTML = buttonText
-
+          const getButtonText = () => 'View ' + getRemainingCards() + ' more result'
+          const buttonElement = document.createElement('button')
+          buttonElement.classList =  'govuk-link govuk-link--no-visited-state'
+          buttonElement.innerText = getButtonText()
           wrapperElement.appendChild(buttonElement)
 
           buttonElement.addEventListener('click', function (event) {
+            buttonElement.innerText = getButtonText()
             event.preventDefault()
-            other.map(item => {
-              item.style.display = 'block'
-            })
-            buttonElement.parentNode.removeChild(buttonElement)
+            groups[groupIndex].map(el => el.style.display = 'block')
+            groupIndex += 1;
             return false
           })
         }
