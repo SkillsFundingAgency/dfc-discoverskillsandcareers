@@ -155,6 +155,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
+                    LoggerHelper.LogException(Log, correlationId, ex);
                     model.ErrorMessage = $"An error occurred sending an email to {sendEmailRequest.Email}";
                     return View("EmailInput", model);
                 }
@@ -297,6 +298,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
+                    LoggerHelper.LogException(Log, correlationId, ex);
                     model.ErrorMessage = $"An error occurred sending a text to {sendSmsRequest.MobileNumber}";
                     return View("ReferenceNumber", model);
                 }

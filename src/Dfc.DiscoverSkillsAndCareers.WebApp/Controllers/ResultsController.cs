@@ -73,6 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
+                LoggerHelper.LogException(Log, correlationId, ex);
                 if (!string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/reload");
