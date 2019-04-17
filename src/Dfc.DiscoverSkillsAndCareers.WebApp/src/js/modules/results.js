@@ -103,7 +103,11 @@ var results = (function () {
               el.style.display = 'block'
             })
             groupIndex += 1
-            buttonElement.innerText = getButtonText()
+            if (getRemainingCards() > 0) {
+              buttonElement.innerText = getButtonText()
+            } else {
+              buttonElement.innerText = ''
+            }
             return false
           })
         }
