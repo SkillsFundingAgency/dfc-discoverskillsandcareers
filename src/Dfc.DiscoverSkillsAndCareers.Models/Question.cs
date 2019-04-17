@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
@@ -26,5 +27,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string PositiveResultDisplayText { get; set; }
         [JsonProperty("negativeResultDisplayText")]
         public string NegativeResultDisplayText { get; set; }
+        [JsonProperty("lastUpdatedDt")]
+        public DateTime LastUpdatedDt { get; set; }
     }
 }

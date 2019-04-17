@@ -6,6 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetShortTraitData
     {
-        Task<List<ShortTrait>> GetData(string url);
+        Task<List<ShortTrait>> GetData(string siteFinityApiUrlbase, string siteFinityApiWebServices);
     }
 }

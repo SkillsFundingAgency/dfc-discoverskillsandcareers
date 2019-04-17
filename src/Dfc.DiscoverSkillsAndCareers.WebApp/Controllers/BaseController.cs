@@ -11,11 +11,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public IFormCollection FormData { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }
 
+
+
+        protected void AppendCookie(string sessionId)
+        {
+            HttpContext.Session.SetString("session-id", sessionId);
+        }
+
         protected async Task<string> TryGetSessionId(HttpRequest request)
         {
             string sessionId = string.Empty;
-            string cookieSessionId;
-            request.Cookies.TryGetValue("ncs-session-id", out cookieSessionId);
+            string cookieSessionId = HttpContext.Session.GetString("session-id");
+
             sessionId = cookieSessionId;
 
             QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());

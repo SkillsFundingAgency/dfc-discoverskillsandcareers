@@ -14,7 +14,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             Console.WriteLine($"{Directory.GetCurrentDirectory()}");
 
@@ -23,21 +23,16 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 .AddJsonFile("appSettings.json")
                 .Build();
 
-            Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options>(args)
+            var result = Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options>(args)
                          .MapResult(
-                             (LoadQuestions.Options opts) => {
-                                 
-                                return LoadQuestions.Execute(config, opts);
-                             },
-                             (CreateValidityTestSessions.Options opts) => {
-                                return CreateValidityTestSessions.Execute(config, opts);
-                             },
+                             (LoadQuestions.Options opts) => LoadQuestions.Execute(config, opts),
+                             (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(config, opts),
                              errs => {
                                  Console.WriteLine(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
                                  return SuccessFailCode.Fail;
                              });
 
-                                     
+            return (int)result;
         }   
     }
 }

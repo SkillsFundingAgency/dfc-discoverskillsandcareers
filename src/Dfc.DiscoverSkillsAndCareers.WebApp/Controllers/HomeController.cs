@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             ApiServices = apiServices;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string e = "")
         {
             var correlationId = Guid.NewGuid();
             try
@@ -36,9 +36,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var sessionId = await TryGetSessionId(Request);
                 var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
                 model.SessionId = sessionId;
+                model.HasReloadError = !string.IsNullOrEmpty(e);
+                if (e == "1")
+                {
+                    model.ResumeErrorMessage = model.MissingCodeErrorMessage;
+                }
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
-                    Response.Cookies.Append("ncs-session-id", sessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+                    AppendCookie(sessionId);
                 }
                 return View("Index", model);
             }
@@ -82,16 +87,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (string.IsNullOrEmpty(reloadRequest?.Code))
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                    model.HasReloadError = true;
-                    return View("Index", model);
+                    return Redirect("/?e=1");
                 }
 
                 reloadRequest.Code = reloadRequest.Code.Replace(" ", "").ToLower();
                 if (reloadRequest.Code != HttpUtility.UrlEncode(reloadRequest.Code))
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                    model.HasReloadError = true;
-                    return View("Index", model);
+                    return Redirect("/?e=2");
                 }
 
                 if (reloadRequest.Code == "throw500") // TODO: for testing
@@ -103,10 +106,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (nextQuestionResponse == null)
                 {
                     var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                    model.HasReloadError = true;
-                    return View("Index", model);
+                    return Redirect("/?e=2");
                 }
-                Response.Cookies.Append("ncs-session-id", nextQuestionResponse.SessionId, new Microsoft.AspNetCore.Http.CookieOptions() { Secure = true, HttpOnly = true });
+
+                AppendCookie(nextQuestionResponse.SessionId);
 
                 if (nextQuestionResponse.IsComplete)
                 {

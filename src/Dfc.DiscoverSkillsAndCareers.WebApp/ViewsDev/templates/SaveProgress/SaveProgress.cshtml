@@ -33,6 +33,11 @@
 
           <form action="/save-my-progress" method="post">
 
+              @if (Model.HasError)
+              {
+                  <span class="govuk-error-message">@Model.ErrorMessage</span>
+              }
+
               {{ govukRadios({
               idPrefix: "SelectedOption",
               name: "SelectedOption",
@@ -47,10 +52,6 @@
                 {
                   value: "email",
                   text: "@Model.SaveProgressOptionEmail"
-                },
-                {
-                  value: "sms",
-                  text: "@Model.SaveProgressOptionSms"
                 },
                 {
                   value: "reference",
