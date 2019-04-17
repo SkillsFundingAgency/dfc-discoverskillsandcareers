@@ -9,5 +9,6 @@
         public bool UseFilteringQuestions { get; set; }
         public string NotifyEmailTemplateId { get; set; }
         public string NotifySmsTemplateId { get; set; }
+        public string APIAuthorisationCode { get; set; }
     }
 }
