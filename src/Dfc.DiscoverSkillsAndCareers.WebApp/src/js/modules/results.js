@@ -6,6 +6,24 @@ var results = (function () {
     }
     return groups
   }
+  function setCookie (name, value, days) {
+    var expires = ''
+    if (days) {
+      var date = new Date()
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+      expires = '; expires=' + date.toUTCString()
+    }
+    document.cookie = name + '=' + (value || '') + expires + '; path=/'
+  }
+  function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  function findAncestor (el, sel) {
+    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
+    return el;
+  }
   return {
     cardHeight: function () {
       const cards = Array.prototype.slice.call(document.getElementsByClassName('app-long-results__item'))
@@ -86,6 +104,14 @@ var results = (function () {
           hideButtonElement.innerText = groupIndex > 1 ? showLessText : ''
         }
 
+        var saveState = () => {
+          let cookieData = getCookie('resultsPage');
+          let data = cookieData ? JSON.parse(cookieData) : {}
+          let code = findAncestor(resultsList, '.app-results__item').dataset.jobFamilyCode
+          data[code] = groupIndex
+          setCookie('resultsPage', JSON.stringify(data))
+        }
+
         var getRemainingCards = () => {
           return numOfCards - (groupIndex * rowLength)
         }
@@ -112,6 +138,7 @@ var results = (function () {
             })
             groupIndex += 1
             updateButtons()
+            saveState()
             return false
           })
 
@@ -128,6 +155,7 @@ var results = (function () {
             })
             groupIndex -= 1
             updateButtons()
+            saveState()
             return false
           })
         }
