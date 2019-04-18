@@ -23,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
     public static class ImportTestSessionHttpTrigger
     {
-        [FunctionName("ImportJobProfilesHttpTrigger")]
+        [FunctionName("ImportTestSessionHttpTrigger")]
         [ProducesResponseType(typeof(Question), (int) HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int) HttpStatusCode.OK, Description = "Import test sessions", ShowSchema = true)]
         [Response(HttpStatusCode = (int) HttpStatusCode.BadRequest, Description = "Request was malformed",
@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             ShowSchema = false)]
         [Response(HttpStatusCode = (int) HttpStatusCode.Forbidden, Description = "Insufficient access",
             ShowSchema = false)]
-        [Display(Name = "ImportJobProfiles", Description = "Imports the job profiles")]
+        [Display(Name = "ImportTestSessionProfiles", Description = "Imports a test session")]
 
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "import/test-session")]
