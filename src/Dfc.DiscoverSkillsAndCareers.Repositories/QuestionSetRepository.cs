@@ -66,11 +66,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
             List<QuestionSet> queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
                                    .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
-                                   .GroupBy(r => r.Version)
-                                   .OrderByDescending(r => r.Key)
-                                   .First()
                                    .ToList();
-            return await Task.FromResult(queryQuestionSet);
+            return await Task.FromResult(
+                queryQuestionSet.GroupBy(r => r.Version)
+                                .OrderByDescending(r => r.Key)
+                                .First().ToList());
         }
     }
 }
