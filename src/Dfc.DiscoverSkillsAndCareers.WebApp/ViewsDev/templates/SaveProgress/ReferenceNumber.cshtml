@@ -54,10 +54,10 @@
 
                 <form action="/save-my-progress/reference" method="post" class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
-                        @if (Model.HasError) {
+                        @if (!Model.HasError) {
 
                         <div>
-                            { { govukInput({
+                            {{ govukInput({
                             label: {
                             text: "@Model.SmsInputLabel"
                             },
@@ -65,13 +65,12 @@
                             id: "mobileNumber",
                             name: "mobileNumber",
                             required: "true"
-                            }) } }
+                            }) }}
                         </div>
-
                         }
                         else {
                         <div>
-                            { { govukInput({
+                            {{ govukInput({
                             label: {
                             text: "@Model.SmsInputLabel"
                             },
@@ -82,7 +81,7 @@
                             errorMessage: {
                             text: "@Model.ErrorMessage"
                             }
-                            }) } }
+                            }) }}
                         </div>
                         }
                         {{ govukButton({
