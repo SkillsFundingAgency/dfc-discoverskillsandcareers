@@ -44,7 +44,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
                 var shortQuestion = JsonConvert.DeserializeObject<ShortQuestion>(json);
                 functionalCompetency.Question = shortQuestion;
 
-                string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/functioncompetencies({functionalCompetency.Id})/test";
+                string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/functioncompetencies({functionalCompetency.Id})/ExcludedJobProfiles";
                 json = await HttpService.GetString(getJobProfilesUrl);
                 var listJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FakeJobProfile>>>(json);
                 functionalCompetency.ExcludeJobProfiles = listJobProfiles.Value;
