@@ -56,12 +56,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<JobFamily[]> GetJobCategories()
+        public async Task<JobFamily[]> GetJobCategories(string partitionKey)
         {
             try
             {
                 var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-                FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+                FeedOptions feedOptions = new FeedOptions() { PartitionKey = new PartitionKey(partitionKey) };
                 var queryQuestions = client.CreateDocumentQuery<JobFamily>(uri, feedOptions)
                                        .AsEnumerable()
                                        .ToArray();

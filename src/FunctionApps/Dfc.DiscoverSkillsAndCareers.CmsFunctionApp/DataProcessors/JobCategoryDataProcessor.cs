@@ -42,6 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 var code = GetCode(jobCategory.Title);
                 await JobCategoryRepository.CreateJobCategory(new JobFamily()
                 {
+                    PartitionKey = "jobfamily-cms",
                     JobFamilyName = jobCategory.Title,
                     Texts = new[]
                     {

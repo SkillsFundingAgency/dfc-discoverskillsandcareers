@@ -17,6 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     {
         readonly ISiteFinityHttpService HttpService;
         readonly IGetFunctionalCompetenciesData GetFunctionalCompetenciesData;
+        readonly IGetJobCategoriesData GetJobCategoriesData;
         readonly AppSettings AppSettings;
         readonly IQuestionRepository QuestionRepository;
         readonly IQuestionSetRepository QuestionSetRepository;
@@ -24,12 +25,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         public FunctionalCompetencyDataProcessor(
             ISiteFinityHttpService httpService,
             IGetFunctionalCompetenciesData getFunctionalCompetenciesData,
+            IGetJobCategoriesData getJobCategoriesData,
             IOptions<AppSettings> appSettings,
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository)
         {
             HttpService = httpService;
             GetFunctionalCompetenciesData = getFunctionalCompetenciesData;
+            GetJobCategoriesData = getJobCategoriesData;
             AppSettings = appSettings.Value;
             QuestionRepository = questionRepository;
             QuestionSetRepository = questionSetRepository;
@@ -42,13 +45,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
             string siteFinityService = AppSettings.SiteFinityApiWebService;
 
-            var data = await GetFunctionalCompetenciesData.GetData(siteFinityApiUrlbase, siteFinityService);
+            var functionalCompetencies = await GetFunctionalCompetenciesData.GetData(siteFinityApiUrlbase, siteFinityService);
+            var jobCategories =
+                (await GetJobCategoriesData.GetData(siteFinityApiUrlbase, siteFinityService, AppSettings.SiteFinityJobCategoriesTaxonomyId))
+                    .ToDictionary(x => x.Id, x => x.Title, StringComparer.InvariantCultureIgnoreCase);
 
-            logger.LogInformation($"Have {data?.Count} functional competencies to process");
+            logger.LogInformation($"Have {functionalCompetencies?.Count} functional competencies to process");
             var sets = new List<QuestionSet>();
-            foreach (var functionalCompetency in data)
+            foreach (var functionalCompetency in functionalCompetencies)
             {
-                var questionSet = await QuestionSetRepository.GetCurrentQuestionSet("filtered", functionalCompetency.JobCategory);
+                var questionSet = await QuestionSetRepository.GetCurrentQuestionSet("filtered", jobCategories[functionalCompetency.JobCategory]);
 
                 if (questionSet == null)
                 {

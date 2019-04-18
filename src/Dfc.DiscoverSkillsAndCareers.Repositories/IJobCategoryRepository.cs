@@ -10,6 +10,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
     {
         Task<JobFamily> GetJobCategory(string socCode, string partitionKey);
         Task CreateJobCategory(JobFamily jobProfile);
-        Task<JobFamily[]> GetJobCategories();
+        Task<JobFamily[]> GetJobCategories(string partitionKey);
     }
 }

@@ -37,14 +37,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             }
             while (!exhusted);
 
-            foreach (var functionalCompetency in fulllist.Distinct())
+            foreach (var functionalCompetency in fulllist.Where(r => r.JobProfileCategories.Length > 0).Distinct())
             {
                 string getQuestionUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/functioncompetencies({functionalCompetency.Id})/Question";
                 json = await HttpService.GetString(getQuestionUrl);
                 var shortQuestion = JsonConvert.DeserializeObject<ShortQuestion>(json);
                 functionalCompetency.Question = shortQuestion;
 
-                string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/functioncompetencies({functionalCompetency.Id})/test";
+                string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/functioncompetencies({functionalCompetency.Id})/ExcludedJobProfiles";
                 json = await HttpService.GetString(getJobProfilesUrl);
                 var listJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FakeJobProfile>>>(json);
                 functionalCompetency.ExcludeJobProfiles = listJobProfiles.Value;
