@@ -11,7 +11,8 @@
       "CollectionName": "UserSessions",
       "OfferThroughput": 400,
       "StoredProcedures": [],
-      "PartitionKey": "partitionKey"
+      "PartitionKey": "partitionKey",
+      "DefaultTtl": 15552000
     },
     {
       "CollectionName": "Contents",
