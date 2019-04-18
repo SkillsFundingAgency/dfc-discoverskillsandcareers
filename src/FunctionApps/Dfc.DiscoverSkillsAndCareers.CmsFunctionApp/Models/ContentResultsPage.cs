@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string SaveProgressTitle { get; set; } = "Return to this later";
         [JsonProperty("LastModified")]
         public DateTime LastUpdated { get; set; }
-        public string StartFilterQuestionsButtonText { get; set; } = "Answer more questions";
+        public string StartFilterQuestionsButtonText { get; set; } = "Answer [questions] more questions";
         public string ViewResultsButtonText { get; set; } = "View results";
         public string WhatYouToldUsTitle { get; set; } = "What you told us";
         public string JobProfilesTitle { get; set; } = "Job roles that might suit you";

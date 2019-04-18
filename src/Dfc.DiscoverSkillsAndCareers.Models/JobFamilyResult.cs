@@ -23,6 +23,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public TraitValue[] TraitValues { get; set; } = {};
         [JsonProperty("filterAssessment")]
         public FilterAssessment FilterAssessment { get; set; }
+        [JsonProperty("totalQuestions")]
+        public int TotalQuestions { get; set; }
     }
 
     public class TraitValue

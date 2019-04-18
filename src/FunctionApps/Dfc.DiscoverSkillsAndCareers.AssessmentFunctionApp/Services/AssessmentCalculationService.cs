@@ -1,4 +1,5 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +8,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class AssessmentCalculationService : IAssessmentCalculationService
     {
-        public AssessmentCalculationService()
-        {
+        private readonly IQuestionSetRepository questionSetRepository;
 
+        public AssessmentCalculationService(IQuestionSetRepository questionSetRepository)
+        {
+            this.questionSetRepository = questionSetRepository;
         }
 
         public async Task CalculateAssessment(UserSession userSession)
@@ -17,12 +20,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             var jobFamilies = JobFamilies; // TODO: from repo
             var answerOptions = AnswerOptions; // TODO: from repo
             var traits = Traits; // TODO: from repo
+            var filteredQuestionSets = await questionSetRepository.GetCurrentFilteredQuestionSets();
 
-            RunShortAssessment(userSession, jobFamilies, answerOptions, traits);
+            RunShortAssessment(userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
         }
 
-        public static void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits)
+        public static void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
         {
+            
             // User traits
             var userTraits = userSession.RecordedAnswers
                 .Select(x => new
@@ -43,6 +48,15 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .ToList();
 
             var jobCategories = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray();
+            var filteredQuestionsLookup = filteredQuestionSet.ToDictionary(r => r.Title);
+
+            foreach(var jobCat in jobCategories)
+            {
+                if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName, out var qs))
+                    continue;
+
+                jobCat.TotalQuestions = qs.MaxQuestions;
+            }
 
             var resultData = new ResultData()
             {
@@ -489,5 +503,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     }
                 },
             };
+        
     }
 }
