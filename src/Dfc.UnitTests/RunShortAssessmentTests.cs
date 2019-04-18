@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 
 namespace Dfc.UnitTests
 {
@@ -11,6 +12,7 @@ namespace Dfc.UnitTests
     {
         private static List<Trait> Traits;
         private static List<JobFamily> JobFamilies;
+        private static List<QuestionSet> QuestionSets;
         private static Dictionary<AnswerOption, int> AnswerOptions;
 
         public RunShortAssessmentTests()
@@ -412,6 +414,10 @@ namespace Dfc.UnitTests
                 { AnswerOption.Agree, 1 },
                 { AnswerOption.StronglyAgree, 2 },
             };
+            QuestionSets = 
+                JobFamilies
+                       .Select(jf => new QuestionSet {Title = jf.JobFamilyName, MaxQuestions = 3})
+                        .ToList();
         }
 
         [Fact]
@@ -433,7 +439,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets);
 
             var traits = userSession.ResultData.Traits.ToList();
 
@@ -459,7 +465,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets);
 
             var traits = userSession.ResultData.Traits.ToList();
 
@@ -485,7 +491,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets);
 
             var traits = userSession.ResultData.Traits.ToList();
 
@@ -511,7 +517,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets);
 
             var traits = userSession.ResultData.Traits.ToList();
 
@@ -537,7 +543,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets);
 
             var traits = userSession.ResultData.Traits.ToList();
 
@@ -567,7 +573,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            AssessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets);
 
             var traits = userSession.ResultData.Traits.ToList();
 
