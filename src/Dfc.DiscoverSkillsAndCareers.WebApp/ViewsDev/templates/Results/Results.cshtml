@@ -79,7 +79,7 @@
           <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
             @foreach (var jobFamily in Model.JobFamilies)
             {
-              <li class="app-results__item">
+              <li class="app-results__item" data-job-family-code="@jobFamily.JobFamilyCode">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobFamily.Url)' role="button" draggable="false" class="">@jobFamily.JobFamilyName</a></h3>

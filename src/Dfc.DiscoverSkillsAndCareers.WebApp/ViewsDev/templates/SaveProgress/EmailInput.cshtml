@@ -31,6 +31,20 @@
 
                 <h1 class="govuk-heading-xl">@Model.EmailPrompt</h1>
 
+                @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                    <div>
+                        {{ govukErrorSummary({
+                        "titleText": "There is a problem",
+                        "errorList": [
+                            {
+                            "text": "@Model.ErrorMessage",
+                            "href": "#email"
+                            }
+                        ]
+                        }) }}
+                    </div>
+                }
+
                 <div class="govuk-body">
 
                     <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
@@ -52,14 +66,14 @@
                             <div>
                                 {{ govukInput({
                                 label: {
-                                text: "@Model.EmailInputLabel"
+                                    text: "@Model.EmailInputLabel"
                                 },
                                 type: "text",
                                 id: "email",
                                 name: "email",
                                 required: "true",
                                 errorMessage: {
-                                text: "@Model.ErrorMessage"
+                                    text: "@Model.ErrorMessage"
                                 }
                                 })
                                 }}
