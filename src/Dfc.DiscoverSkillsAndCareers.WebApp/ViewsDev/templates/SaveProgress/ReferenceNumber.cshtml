@@ -29,6 +29,20 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
+                @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                    <div>
+                        {{ govukErrorSummary({
+                        "titleText": "There is a problem",
+                        "errorList": [
+                            {
+                            "text": "@Model.ErrorMessage",
+                            "href": "#mobileNumber"
+                            }
+                        ]
+                        }) }}
+                    </div>
+                }
+
                 <h1 class="govuk-heading-l">@Model.ReferenceYourNumberText</h1>
 
                 <div class="app-your-reference govuk-body">
