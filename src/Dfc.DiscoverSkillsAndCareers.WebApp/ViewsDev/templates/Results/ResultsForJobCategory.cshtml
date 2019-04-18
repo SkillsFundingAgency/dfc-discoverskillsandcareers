@@ -82,7 +82,7 @@
       <div class="app-results">
         @foreach (var jobCategory in Model.JobFamilies)
         {
-          <div class="app-results__item">
+          <div class="app-results__item" data-job-family-code="@jobCategory.JobFamilyCode">
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
