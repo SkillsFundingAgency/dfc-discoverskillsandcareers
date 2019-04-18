@@ -67,14 +67,24 @@ var results = (function () {
     long: function () {
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
       resultsLists.map(resultsList => {
+        const showButtonElement = document.createElement('a')
+        const hideButtonElement = document.createElement('a')
+
         const resultsItems = Array.prototype.slice.call(resultsList.children)
         const rowLength = 3
         const cards = resultsItems.filter(result => {
           return resultsItems.indexOf(result) >= 3
         })
+        const showMoreText = 'Show more'
+        const showLessText = 'Show less'
         var numOfCards = cards.length
         var groupIndex = 1
         var groups = breakArrayIntoGroups(cards, rowLength)
+
+        var updateButtons = () => {
+          showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText : ''
+          hideButtonElement.innerText = groupIndex > 1 ? showLessText : ''
+        }
 
         var getRemainingCards = () => {
           return numOfCards - (groupIndex * rowLength)
@@ -89,25 +99,35 @@ var results = (function () {
 
           const wrapperElement = resultsList.nextElementSibling.children[0].children[0]
 
-          // "See matches" button
-          const getButtonText = () => 'View ' + getRemainingCards() + ' more result'
-          const buttonElement = document.createElement('a')
-          buttonElement.classList = 'govuk-link govuk-link--no-visited-state'
-          buttonElement.href = '#'
-          buttonElement.innerText = getButtonText()
-          wrapperElement.appendChild(buttonElement)
+          // More button
+          showButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
+          showButtonElement.href = '#'
+          showButtonElement.innerText = showMoreText
+          wrapperElement.appendChild(showButtonElement)
 
-          buttonElement.addEventListener('click', function (event) {
+          showButtonElement.addEventListener('click', function (event) {
             event.preventDefault()
             groups[groupIndex].map(el => {
               el.style.display = 'block'
             })
             groupIndex += 1
-            if (getRemainingCards() > 0) {
-              buttonElement.innerText = getButtonText()
-            } else {
-              buttonElement.innerText = ''
-            }
+            updateButtons()
+            return false
+          })
+
+          // Less button
+          hideButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
+          hideButtonElement.href = '#'
+          hideButtonElement.innerText = ''
+          wrapperElement.appendChild(hideButtonElement)
+
+          hideButtonElement.addEventListener('click', function (event) {
+            event.preventDefault()
+            groups[groupIndex - 1].map(el => {
+              el.style.display = 'none'
+            })
+            groupIndex -= 1
+            updateButtons()
             return false
           })
         }

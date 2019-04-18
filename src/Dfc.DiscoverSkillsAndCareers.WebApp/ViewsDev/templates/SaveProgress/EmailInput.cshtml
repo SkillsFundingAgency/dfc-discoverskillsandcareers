@@ -35,22 +35,41 @@
 
                     <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
                         <div class="govuk-grid-column-two-thirds-from-desktop">
-                            {{ govukInput({
+                            @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                            <div>
+                                {{ govukInput({
                                 label: {
-                                    text: "@Model.EmailInputLabel"
+                                text: "@Model.EmailInputLabel"
                                 },
-                                type: "email",
+                                type: "text",
                                 id: "email",
                                 name: "email",
                                 required: "true"
-                            }) }}
+                                })
+                                }}
+                            </div>
+                            } else {
+                            <div>
+                                {{ govukInput({
+                                label: {
+                                text: "@Model.EmailInputLabel"
+                                },
+                                type: "text",
+                                id: "email",
+                                name: "email",
+                                required: "true",
+                                errorMessage: {
+                                text: "@Model.ErrorMessage"
+                                }
+                                })
+                                }}
+                            </div>
+                            }
                             {{ govukButton({
                                 text: "@Model.EmailInputButtonText"
                             }) }}
                         </div>
                     </form>
-
-                    @Model.ErrorMessage
                 </div>
 
             </div>
