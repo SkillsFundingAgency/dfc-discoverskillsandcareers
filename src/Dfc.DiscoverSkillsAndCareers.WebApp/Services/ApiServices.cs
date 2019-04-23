@@ -10,7 +10,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 {
     public class ApiServices : IApiServices
     {
-        private HttpService HttpService;
+        private IHttpService HttpService;
         private IAppSettings AppSettings;
 
         public ApiServices(HttpService httpService, IOptions<AppSettings> appSettings)
@@ -24,9 +24,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             try
             {
                 string url = $"{AppSettings.ContentApiRoot}/content/{contentType}";
-                
-                HttpService.SetAuthCode(AppSettings.ContentApiAuthorisationCode);
-                
                 var json = await HttpService.GetString(url, correlationId);
                 var content = JsonConvert.DeserializeObject<Content>(json);
                 T model = Activator.CreateInstance<T>();
@@ -45,8 +42,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         public async Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType, string title)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment?assessmentType={assessmentType}&questionSetTitle={title}";
-            
-            HttpService.SetAuthCode(AppSettings.SessionApiAuthorisationCode);
             var json = await HttpService.PostData(url, "", correlationId);
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
@@ -54,8 +49,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         public async Task<NextQuestionResponse> NextQuestion(string sessionId, Guid correlationId)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/next";
-            
-            HttpService.SetAuthCode(AppSettings.SessionApiAuthorisationCode);
             var json = await HttpService.GetString(url, correlationId);
             return JsonConvert.DeserializeObject<NextQuestionResponse>(json);
         }
@@ -63,8 +56,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         public async Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest, Guid correlationId)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}";
-            
-            HttpService.SetAuthCode(AppSettings.SessionApiAuthorisationCode);
             var json = await HttpService.PostData(url, postAnswerRequest, correlationId);
             return JsonConvert.DeserializeObject<PostAnswerResponse>(json);
         }
@@ -72,8 +63,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         public async Task<ResultsResponse> Results(string sessionId, Guid correlationId)
         {
             string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}";
-            
-            HttpService.SetAuthCode(AppSettings.ResultsApiAuthorisationCode);
             var json = await HttpService.GetString(url, correlationId);
             return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }
@@ -81,8 +70,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         public async Task<NewSessionResponse> StartFilteredForJobCategory(Guid correlationId, string sessionId, string jobCategory)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment/filtered/{sessionId}/{jobCategory}";
-            
-            HttpService.SetAuthCode(AppSettings.SessionApiAuthorisationCode);
             var json = await HttpService.PostData(url, "", correlationId);
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
@@ -90,8 +77,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         public async Task<ResultsJobCategoryResult> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId)
         {
             string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/{jobCategory}";
-            
-            HttpService.SetAuthCode(AppSettings.ResultsApiAuthorisationCode);
             var json = await HttpService.GetString(url, correlationId);
             return JsonConvert.DeserializeObject<ResultsJobCategoryResult>(json);
         }
@@ -106,8 +91,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
                 templateId,
                 sessionId,
             };
-            
-            HttpService.SetAuthCode(AppSettings.SessionApiAuthorisationCode);
             var json = await HttpService.PostData(url, data, correlationId);
             return JsonConvert.DeserializeObject<NotifyResponse>(json);
         }
@@ -122,8 +105,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
                 templateId,
                 sessionId,
             };
-            
-            HttpService.SetAuthCode(AppSettings.SessionApiAuthorisationCode);
             var json = await HttpService.PostData(url, data, correlationId);
             return JsonConvert.DeserializeObject<NotifyResponse>(json);
         }

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
@@ -14,19 +13,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         HttpClient _httpClient;
         ILogger<HttpService> _logger;
 
-        public HttpService(HttpClient httpClient, ILogger<HttpService> logger)
+        public HttpService(HttpClient httpClient, ILogger<HttpService> logger, IOptions<AppSettings> settings)
         {
             _httpClient =  httpClient;
             _logger = logger;
-           
-        }
-
-        public void SetAuthCode(string code)
-        {
-            if(!String.IsNullOrWhiteSpace(code))
+            
+            if(!String.IsNullOrWhiteSpace(settings.Value.APIAuthorisationCode))
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(code);
+                _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(settings.Value.APIAuthorisationCode);
             }
+
         }
 
         public async Task<string> GetString(string url, Guid? dssCorrelationId)

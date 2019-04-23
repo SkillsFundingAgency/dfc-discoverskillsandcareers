@@ -9,8 +9,6 @@
         public bool UseFilteringQuestions { get; set; }
         public string NotifyEmailTemplateId { get; set; }
         public string NotifySmsTemplateId { get; set; }
-        public string ContentApiAuthorisationCode { get; set; }
-        public string SessionApiAuthorisationCode { get; set; }
-        public string ResultsApiAuthorisationCode { get; set; }
+        public string APIAuthorisationCode { get; set; }
     }
 }
