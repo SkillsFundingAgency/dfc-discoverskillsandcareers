@@ -111,7 +111,16 @@
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count == 0)
                     {
                         <p>@Model.ResultsAnswerMoreText?.Replace("[jobcategory]", jobCategory.JobFamilyName)</p>
-                        <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">@Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobCategory.TotalQuestions.ToString())</a>
+                      <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
+                        @if (jobCategory.TotalQuestions == 1)
+                        {
+                          @Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobCategory.TotalQuestions.ToString())
+                        }
+                        else
+                        {
+                          @(Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobCategory.TotalQuestions.ToString()) + "s")
+                        }
+                      </a>
                     }
                 </div>
             </div>

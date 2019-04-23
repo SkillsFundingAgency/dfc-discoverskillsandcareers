@@ -93,7 +93,17 @@
                             }
                             else
                             {
-                                <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">@Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString())</a>
+                              <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
+                                @if (jobFamily.TotalQuestions == 1)
+                                {
+                                  @Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString())
+                                }
+                                else
+                                {
+                                  @(Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString()) + "s")
+                                }
+                                
+                              </a>
                             }
                         }
                         <hr>
