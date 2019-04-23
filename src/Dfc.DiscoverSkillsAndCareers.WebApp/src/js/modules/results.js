@@ -15,14 +15,14 @@ var results = (function () {
     }
     document.cookie = name + '=' + (value || '') + expires + '; path=/'
   }
-  function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+  function getCookie (name) {
+    var value = '; ' + document.cookie
+    var parts = value.split('; ' + name + '=')
+    if (parts.length === 2) return parts.pop().split(';').shift()
   }
   function findAncestor (el, sel) {
-    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
-    return el;
+    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el, sel)));
+    return el
   }
   return {
     cardHeight: function () {
@@ -83,11 +83,9 @@ var results = (function () {
       }
     },
     long: function () {
-
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
       const cookieName = '.dysac-result'
-      const cookieData = getCookie(cookieName);
-      // const cookieData = null;
+      const cookieData = getCookie(cookieName)
       const data = cookieData ? JSON.parse(cookieData) : null
 
       resultsLists.map(resultsList => {
@@ -109,17 +107,13 @@ var results = (function () {
 
         let groupIndex = groupsToShow ? groupsToShow : 0
 
-        console.log('Parsing', code)
-
         var updateButtons = () => {
-          console.log('updateButtons', groupIndex)
           showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText : ''
           hideButtonElement.innerText = groupIndex > 0 ? showLessText : ''
         }
 
-
         var saveState = () => {
-          let cookieData = getCookie(cookieName);
+          let cookieData = getCookie(cookieName)
           let data = cookieData ? JSON.parse(cookieData) : {}
           let code = findAncestor(resultsList, '.app-results__item').dataset.jobFamilyCode
           data[code] = groupIndex
@@ -131,9 +125,7 @@ var results = (function () {
         }
 
         if (groups.length) {
-
           groups.map((group, index) => {
-            console.log(index, groupsToShow)
             if (!groupsToShow || (groupsToShow && index >= groupsToShow)) {
               group.map(el => {
                 el.style.display = 'none'
@@ -150,7 +142,6 @@ var results = (function () {
           wrapperElement.appendChild(showButtonElement)
 
           showButtonElement.addEventListener('click', function (event) {
-            console.log('Showing group', groupIndex)
             event.preventDefault()
             groups[groupIndex].map(el => {
               el.style.display = 'block'
@@ -168,9 +159,8 @@ var results = (function () {
           wrapperElement.appendChild(hideButtonElement)
 
           hideButtonElement.addEventListener('click', function (event) {
-            console.log(groupIndex)
             event.preventDefault()
-            groups[groupIndex-1].map(el => {
+            groups[groupIndex - 1].map(el => {
               el.style.display = 'none'
             })
             groupIndex -= 1
@@ -179,8 +169,8 @@ var results = (function () {
             return false
           })
         }
-        updateButtons();
 
+        updateButtons()
       })
     }
   }
