@@ -12,21 +12,21 @@
 {% endblock %}
 
 {% block main %}
-
-<div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% block beforeContent %}
-    {{ govukBackLink({
-        text: "Back",
-        href: "@Model.BackLink"
-      }) }}
-    {% endblock %}
-
-</div>
-
 <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {% block beforeContent %}
+        {{ govukBackLink({
+            text: "Back",
+            href: "@Model.BackLink"
+        }) }}
+        {% endblock %}
+
+    </div>
+
     <div class="govuk-main-wrapper govuk-width-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
