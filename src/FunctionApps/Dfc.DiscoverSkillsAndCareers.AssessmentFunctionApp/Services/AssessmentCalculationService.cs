@@ -3,17 +3,19 @@ using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Build.Utilities;
+using Microsoft.Extensions.Logging;
+using Task = System.Threading.Tasks.Task;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class AssessmentCalculationService : IAssessmentCalculationService
     {
-        private readonly IQuestionSetRepository questionSetRepository;
+        private readonly IQuestionSetRepository _questionSetRepository;
 
         public AssessmentCalculationService(IQuestionSetRepository questionSetRepository)
         {
-            this.questionSetRepository = questionSetRepository;
+            _questionSetRepository = questionSetRepository;
         }
 
         public async Task CalculateAssessment(UserSession userSession)
@@ -21,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             var jobFamilies = JobFamilies; // TODO: from repo
             var answerOptions = AnswerOptions; // TODO: from repo
             var traits = Traits; // TODO: from repo
-            var filteredQuestionSets = await questionSetRepository.GetCurrentFilteredQuestionSets();
+            var filteredQuestionSets = await _questionSetRepository.GetCurrentFilteredQuestionSets();
 
             RunShortAssessment(userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
         }
@@ -54,7 +56,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             foreach(var jobCat in jobCategories)
             {
                 if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName, out var qs))
-                    continue;
+                    throw new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName} available sets include {Environment.NewLine}{String.Join(Environment.NewLine, filteredQuestionsLookup.Keys)}");
+                
 
                 jobCat.TotalQuestions = qs.MaxQuestions;
             }
@@ -89,7 +92,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                       }).ToArray(),
                   NormalizedTotal = x.ResultMultiplier
               })
-              .Where(x => x.TraitValues.Any(v => v.Total > 0))
+              .Where(x => x.TraitValues.All(v => v.Total > 0))
               .ToList();
             userJobFamilies.ForEach(x =>
             {
