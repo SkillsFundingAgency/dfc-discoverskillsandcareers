@@ -70,7 +70,7 @@
                             <div class="govuk-error-summary__body">
                                 <ul class="govuk-list govuk-error-summary__list">
                                     <li>
-                                    @Model.ErrorMessage
+                                        <a href="#question">@Model.ErrorMessage</a>
                                     </li>
                                 </ul>
                             </div>
@@ -79,7 +79,7 @@
                 </div>
             }
 
-            <fieldset class="govuk-fieldset app-question app-question--short">
+            <fieldset class="govuk-fieldset app-question app-question--short" id="question">
 
                 <legend class="visually-hidden">@Model.QuestionText</legend>
 
