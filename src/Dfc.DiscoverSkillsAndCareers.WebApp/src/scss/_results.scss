@@ -139,6 +139,7 @@
       font-size: govuk-px-to-rem(16);
     }
 
+    .salary-variable,
     .salary-max,
     .salary-min {
       margin-bottom: 8px;
@@ -166,6 +167,12 @@
 
       hr {
         border: 2px solid $app-turquoise;
+      }
+
+      &--variable {
+        margin-bottom: 20px;
+        border-left: 0;
+        border-right: 0;
       }
     }
 
