@@ -9,5 +9,8 @@
         bool UseFilteringQuestions { get; set; }
         string NotifyEmailTemplateId { get; set; }
         string NotifySmsTemplateId { get; set; }
+        string APIAuthorisationCode { get; set; }
+        
+        string ExploreCareersBaseUrl { get; set; }
     }
 }
