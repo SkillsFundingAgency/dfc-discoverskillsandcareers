@@ -18,17 +18,17 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             _questionSetRepository = questionSetRepository;
         }
 
-        public async Task CalculateAssessment(UserSession userSession)
+        public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
             var jobFamilies = JobFamilies; // TODO: from repo
             var answerOptions = AnswerOptions; // TODO: from repo
             var traits = Traits; // TODO: from repo
             var filteredQuestionSets = await _questionSetRepository.GetCurrentFilteredQuestionSets();
 
-            RunShortAssessment(userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
+            RunShortAssessment(log, userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
         }
 
-        public static void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
+        public static void RunShortAssessment(ILogger log, UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
         {
             
             // User traits
@@ -56,8 +56,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             foreach(var jobCat in jobCategories)
             {
                 if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName, out var qs))
-                    throw new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName} available sets include {Environment.NewLine}{String.Join(Environment.NewLine, filteredQuestionsLookup.Keys)}");
-                
+                {
+                    log.LogError(
+                        new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName}"),
+                        $"Unable to find a question set for {jobCat.JobFamilyName} available sets include {Environment.NewLine}{String.Join(Environment.NewLine, filteredQuestionsLookup.Keys)}"
+                    );
+                    continue;
+                }
+
 
                 jobCat.TotalQuestions = qs.MaxQuestions;
             }

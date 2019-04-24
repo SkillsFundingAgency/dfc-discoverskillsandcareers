@@ -3,20 +3,24 @@ using Dfc.DiscoverSkillsAndCareers.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Microsoft.Build.Utilities;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Dfc.UnitTests
 {
     public class ResultTests
     {
         private IQuestionSetRepository questionSetRepository;
+        private ILogger logger;
 
         public ResultTests()
         {
             questionSetRepository = Substitute.For<IQuestionSetRepository>();
+            logger = Substitute.For<ILogger>();
 
             questionSetRepository.GetCurrentFilteredQuestionSets().Returns(Task.FromResult(
                 AssessmentCalculationService.JobFamilies.Select(jf => new QuestionSet
@@ -32,7 +36,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession();
 
             var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData);
         }
@@ -50,7 +54,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -72,7 +76,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -96,7 +100,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -117,7 +121,7 @@ namespace Dfc.UnitTests
             };
 
             var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
