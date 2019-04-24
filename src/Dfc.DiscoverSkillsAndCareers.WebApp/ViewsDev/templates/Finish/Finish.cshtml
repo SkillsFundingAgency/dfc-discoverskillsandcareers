@@ -20,7 +20,10 @@
 
       {% include "_phasebanner.njk" %}
 
-      {% include "_breadcrumbpanel.njk" %}
+      {{ govukBackLink({
+        text: "Back to the start",
+        href: "/"
+      }) }}
 
     </div>
 
