@@ -15,14 +15,14 @@ var results = (function () {
     }
     document.cookie = name + '=' + (value || '') + expires + '; path=/'
   }
-  function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+  function getCookie (name) {
+    var value = '; ' + document.cookie
+    var parts = value.split('; ' + name + '=')
+    if (parts.length === 2) return parts.pop().split(';').shift()
   }
   function findAncestor (el, sel) {
-    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
-    return el;
+    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el, sel)));
+    return el
   }
   return {
     cardHeight: function () {
@@ -84,32 +84,40 @@ var results = (function () {
     },
     long: function () {
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
+      const cookieName = '.dysac-result'
+      const cookieData = getCookie(cookieName)
+      const data = cookieData ? JSON.parse(cookieData) : null
+
       resultsLists.map(resultsList => {
         const showButtonElement = document.createElement('a')
         const hideButtonElement = document.createElement('a')
-
         const resultsItems = Array.prototype.slice.call(resultsList.children)
         const rowLength = 3
+        const showMoreText = 'Show more'
+        const showLessText = 'Show less'
         const cards = resultsItems.filter(result => {
           return resultsItems.indexOf(result) >= 3
         })
-        const showMoreText = 'Show more'
-        const showLessText = 'Show less'
-        var numOfCards = cards.length
-        var groupIndex = 1
-        var groups = breakArrayIntoGroups(cards, rowLength)
+        const numOfCards = cards.length
+
+        // Split cards into groups of three and use cookie to see if we should be showing any
+        const code = findAncestor(resultsList, '.app-results__item').dataset.jobFamilyCode
+        const groups = breakArrayIntoGroups(cards, rowLength)
+        const groupsToShow = data && code ? data[code] : null
+
+        let groupIndex = groupsToShow ? groupsToShow : 0
 
         var updateButtons = () => {
           showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText : ''
-          hideButtonElement.innerText = groupIndex > 1 ? showLessText : ''
+          hideButtonElement.innerText = groupIndex > 0 ? showLessText : ''
         }
 
         var saveState = () => {
-          let cookieData = getCookie('resultsPage');
+          let cookieData = getCookie(cookieName)
           let data = cookieData ? JSON.parse(cookieData) : {}
           let code = findAncestor(resultsList, '.app-results__item').dataset.jobFamilyCode
           data[code] = groupIndex
-          setCookie('resultsPage', JSON.stringify(data))
+          setCookie(cookieName, JSON.stringify(data))
         }
 
         var getRemainingCards = () => {
@@ -117,10 +125,12 @@ var results = (function () {
         }
 
         if (groups.length) {
-          groups.map(group => {
-            group.map(el => {
-              el.style.display = 'none'
-            })
+          groups.map((group, index) => {
+            if (!groupsToShow || (groupsToShow && index >= groupsToShow)) {
+              group.map(el => {
+                el.style.display = 'none'
+              })
+            }
           })
 
           const wrapperElement = resultsList.nextElementSibling.children[0].children[0]
@@ -159,6 +169,8 @@ var results = (function () {
             return false
           })
         }
+
+        updateButtons()
       })
     }
   }

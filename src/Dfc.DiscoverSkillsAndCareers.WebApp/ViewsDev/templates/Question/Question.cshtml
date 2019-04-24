@@ -29,15 +29,16 @@
 
 {% block main %}
 
-<div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-</div>
-
 <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {% include "_breadcrumbpanel.njk" %}
+
+    </div>
+
     <div class="govuk-main-wrapper govuk-width-container">
         <form action="@Model.FormRoute" method="post">
 
