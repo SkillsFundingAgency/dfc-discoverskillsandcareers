@@ -56,9 +56,10 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     MaxQuestions = 40,
                     LastUpdated = DateTime.Now,
                     PartitionKey = "ncs",
+                    IsCurrent = true,
                     QuestionSetVersion = opts.QuestionVersionKey + "-1"
                 };
-                questionSetRepository.CreateQuestionSet(questionSet).GetAwaiter().GetResult();
+                questionSetRepository.CreateOrUpdateQuestionSet(questionSet).GetAwaiter().GetResult();
 
                 var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 using(var fileStream = File.OpenRead(opts.CsvFile))

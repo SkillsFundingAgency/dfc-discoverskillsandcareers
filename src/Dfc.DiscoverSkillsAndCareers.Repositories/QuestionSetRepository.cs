@@ -4,8 +4,10 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Documents.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
@@ -22,7 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.client = client;
         }
 
-        public async Task<Document> CreateQuestionSet(QuestionSet questionSet)
+        public async Task<Document> CreateOrUpdateQuestionSet(QuestionSet questionSet)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
@@ -65,12 +67,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
             List<QuestionSet> queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-                                   .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
-                                   .ToList();
+                .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
+                .ToList();
             return await Task.FromResult(
                 queryQuestionSet.GroupBy(r => r.Version)
-                                .OrderByDescending(r => r.Key)
-                                .First().ToList());
+                    .OrderByDescending(r => r.Key)
+                    .First().ToList());
         }
     }
 }

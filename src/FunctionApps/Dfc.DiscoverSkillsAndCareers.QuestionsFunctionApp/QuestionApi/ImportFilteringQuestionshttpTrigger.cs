@@ -66,15 +66,6 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                     // Attempt to load the current version for this assessment type and title
                     var questionSet = await questionSetRepository.GetCurrentQuestionSet("filtered", data.Title);
 
-                    // Always set to true in this instance
-                    bool updateRequired = true;
-
-                    // Nothing to do so log and exit
-                    if (!updateRequired)
-                    {
-                        results.Add($"Filteringquestionset {data.Id} {data.Title} is upto date - no changes to be done");
-                    }
-
                     // Attempt to get the questions for this questionset
                     if (data.Questions.Count == 0)
                     {
@@ -129,7 +120,10 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                         await questionRepository.CreateQuestion(newQuestion);
                         log.LogInformation($"Created question {newQuestion.QuestionId}");
                     }
-                    await questionSetRepository.CreateQuestionSet(newQuestionSet);
+
+                    await questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
+                    await questionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
+                    
                     log.LogInformation($"Created filteringquestionset {newQuestionSet.Version}");
                     createdQuestionSets.Add(newQuestionSet);
                 }

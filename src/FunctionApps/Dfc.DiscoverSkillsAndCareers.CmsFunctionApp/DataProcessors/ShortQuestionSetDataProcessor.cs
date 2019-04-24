@@ -77,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     // Change the current question set to be not current
                     questionSet.IsCurrent = false;
-                    await QuestionSetRepository.CreateQuestionSet(questionSet);
+                    await QuestionSetRepository.CreateOrUpdateQuestionSet(questionSet);
                 }
 
                 // Create the new current version
@@ -116,7 +116,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     await QuestionRepository.CreateQuestion(newQuestion);
                     logger.LogInformation($"Created question {newQuestion.QuestionId}");
                 }
-                await QuestionSetRepository.CreateQuestionSet(newQuestionSet);
+                await QuestionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
                 logger.LogInformation($"Created questionset {newQuestionSet.Version}");
             }
             logger.LogInformation($"End poll for ShortQuestionSet");

@@ -9,7 +9,7 @@ namespace Dfc.UnitTests.Fakes
 {
     public class FakeQuestionSetRepository : IQuestionSetRepository
     {
-        public Task<Document> CreateQuestionSet(QuestionSet questionSet)
+        public Task<Document> CreateOrUpdateQuestionSet(QuestionSet questionSet)
         {
             throw new NotImplementedException();
         }
