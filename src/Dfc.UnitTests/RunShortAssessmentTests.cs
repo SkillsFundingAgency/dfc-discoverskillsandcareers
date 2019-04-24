@@ -448,7 +448,7 @@ namespace Dfc.UnitTests
 
             var traits = userSession.ResultData.Traits.ToList();
 
-            Assert.Equal(0, traits.Count);
+            Assert.Empty(traits);
         }
 
         [Fact]
@@ -474,7 +474,7 @@ namespace Dfc.UnitTests
 
             var traits = userSession.ResultData.Traits.ToList();
 
-            Assert.Equal(1, traits.Count);
+            Assert.Single(traits);
         }
 
         [Fact]
@@ -526,7 +526,7 @@ namespace Dfc.UnitTests
 
             var traits = userSession.ResultData.Traits.ToList();
 
-            Assert.Equal(0, traits.Count);
+            Assert.Empty(traits);
         }
 
         [Fact]
@@ -552,7 +552,7 @@ namespace Dfc.UnitTests
 
             var traits = userSession.ResultData.Traits.ToList();
 
-            Assert.Equal(0, traits.Count);
+            Assert.Empty(traits);
         }
 
         [Fact]
@@ -582,10 +582,154 @@ namespace Dfc.UnitTests
 
             var traits = userSession.ResultData.Traits.ToList();
 
-            Assert.Equal(0, traits.Count);
+            Assert.Empty(traits);
             var doerScore = userSession.ResultData.TraitScores.Where(x => x.TraitCode == "DOER").Sum(x => x.TotalScore);
             Assert.Equal(-6, doerScore);
         }
+
+        [Fact]
+        public void RunShortAssessment_UMB337_DiametricallyOpposedAnswers_StronglyAgreeToStronglyDisagree()
+        {
+           
+            var session = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new []
+                {
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Disagree, IsNegative = true},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
+                }
+                    
+            };
+
+            AssessmentCalculationService.RunShortAssessment(logger,session, JobFamilies, AnswerOptions, Traits, QuestionSets);
+
+            int? getTraitScore(string trait)
+            {
+                return session.ResultData.TraitScores.SingleOrDefault(t => t.TraitCode == trait)?.TotalScore;
+            }
+            
+            Assert.Equal(2, getTraitScore("LEADER"));
+            Assert.Equal(0, getTraitScore("DRIVER"));
+            Assert.Equal(4, getTraitScore("INFLUENCER"));
+            Assert.Equal(0, getTraitScore("HELPER"));
+            Assert.Equal(0, getTraitScore("ANALYST"));
+            Assert.Equal(0, getTraitScore("CREATOR"));
+            Assert.Equal(4, getTraitScore("ORGANISER"));
+            Assert.Equal(4, getTraitScore("DOER"));
+
+        }
+        
+        [Fact]
+        public void RunShortAssessment_UMB337_DiametricallyOpposedAnswers_StronglyDisagreeToStronglyAgree()
+        {
+           
+            var session = new UserSession()
+            {
+                LanguageCode = "en",
+                RecordedAnswers = new []
+                {
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Agree, IsNegative = true},
+                    new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "ANALYST", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "CREATOR", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Agree, IsNegative = false},
+                    new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
+                }
+                    
+            };
+
+            AssessmentCalculationService.RunShortAssessment(logger,session, JobFamilies, AnswerOptions, Traits, QuestionSets);
+
+            int? getTraitScore(string trait)
+            {
+                return session.ResultData.TraitScores.SingleOrDefault(t => t.TraitCode == trait)?.TotalScore;
+            }
+            
+            Assert.Equal(-2, getTraitScore("LEADER"));
+            Assert.Equal(0, getTraitScore("DRIVER"));
+            Assert.Equal(-4, getTraitScore("INFLUENCER"));
+            Assert.Equal(0, getTraitScore("HELPER"));
+            Assert.Equal(0, getTraitScore("ANALYST"));
+            Assert.Equal(0, getTraitScore("CREATOR"));
+            Assert.Equal(-4, getTraitScore("ORGANISER"));
+            Assert.Equal(-4, getTraitScore("DOER"));
+
+        }
+        
+        
     }
 }
 
