@@ -32,7 +32,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment")]HttpRequest req,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
@@ -40,11 +39,13 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IQuestionSetRepository questionSetRepository,
             [Inject]IOptions<AppSettings> appSettings)
         {
-            loggerHelper.LogMethodEnter(log);
+            
 
             var correlationId = httpRequestHelper.GetDssCorrelationId(req);
             if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
+                log.LogWarning("Unable to locate 'DssCorrelationId' in request header");
+
+            log.LogInformation($"CorrelationId: {correlationId} - Creating a new assessment");
 
             if (!Guid.TryParse(correlationId, out var correlationGuid))
             {
@@ -58,7 +59,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             var questionSetTitle = queryDictionary.Get("questionSetTitle");
             if (string.IsNullOrEmpty(assessmentType) || string.IsNullOrEmpty(questionSetTitle))
             {
-                log.LogInformation($"Missing assessmentType {assessmentType} or questionSetTitle {questionSetTitle}");
+                log.LogInformation($"CorrelationId: {correlationId} - Missing assessmentType {assessmentType} or questionSetTitle {questionSetTitle}");
                 return httpResponseMessageHelper.BadRequest();
             }
 
@@ -66,7 +67,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             var currentQuestionSetInfo = await questionSetRepository.GetCurrentQuestionSet(assessmentType, questionSetTitle);
             if (currentQuestionSetInfo == null)
             {
-                log.LogInformation($"Unable to load questionset {assessmentType} {questionSetTitle}");
+                log.LogInformation($"CorrelationId: {correlationId} - Unable to load questionset {assessmentType} {questionSetTitle}");
                 return httpResponseMessageHelper.NoContent();
             }
 
@@ -87,7 +88,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             };
             await userSessionRepository.CreateUserSession(userSession);
 
-            loggerHelper.LogMethodExit(log);
+            log.LogInformation($"CorrelationId: {correlationId} - Finished creating new assessment {userSession.UserSessionId}");
 
             var result = new DscSession()
             {

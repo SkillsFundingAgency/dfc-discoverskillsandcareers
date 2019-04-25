@@ -14,23 +14,26 @@
 
 {% block main %}
 
-  <div class="app-masthead">
-    <div class="govuk-width-container">
-
-      {% include "_phasebanner.njk" %}
-
-      {% include "_breadcrumbpanel.njk" %}
-
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <main id="content" role="main">
+
+    <div class="app-masthead">
+      <div class="govuk-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {{ govukBackLink({
+          text: "Back to the start",
+          href: "/"
+        }) }}
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <div class="app-grey">
       <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
@@ -42,7 +45,7 @@
             <h2 class="govuk-heading-l">@Model.TraitTitle</h2>
 
             <div class="govuk-text">
-              <ul class="govuk-list">
+              <ul class="govuk-list govuk-list--bullet">
                 @foreach (var trait in Model.Traits)
                 {
                     <li>@trait</li>
@@ -79,7 +82,7 @@
           <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
             @foreach (var jobFamily in Model.JobFamilies)
             {
-              <li class="app-results__item">
+              <li class="app-results__item" data-job-family-code="@jobFamily.JobFamilyCode">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobFamily.Url)' role="button" draggable="false" class="">@jobFamily.JobFamilyName</a></h3>
@@ -93,7 +96,17 @@
                             }
                             else
                             {
-                                <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">@Model.StartFilterQuestionsButtonText</a>
+                              <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
+                                @if (jobFamily.TotalQuestions == 1)
+                                {
+                                  @Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString())
+                                }
+                                else
+                                {
+                                  @(Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString()) + "s")
+                                }
+
+                              </a>
                             }
                         }
                         <hr>

@@ -9,7 +9,7 @@ namespace Dfc.UnitTests.Fakes
 {
     public class FakeQuestionSetRepository : IQuestionSetRepository
     {
-        public Task<Document> CreateQuestionSet(QuestionSet questionSet)
+        public Task<Document> CreateOrUpdateQuestionSet(QuestionSet questionSet)
         {
             throw new NotImplementedException();
         }
@@ -30,6 +30,11 @@ namespace Dfc.UnitTests.Fakes
         }
 
         public Task<QuestionSet> GetQuestionSetVersion(string assessmentType, string title, int version)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> ResetCurrentFilteredQuestionSets()
         {
             throw new NotImplementedException();
         }

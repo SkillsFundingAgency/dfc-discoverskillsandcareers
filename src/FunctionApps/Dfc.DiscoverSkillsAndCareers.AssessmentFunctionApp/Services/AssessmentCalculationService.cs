@@ -1,28 +1,36 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using System;
+using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Build.Utilities;
+using Microsoft.Extensions.Logging;
+using Task = System.Threading.Tasks.Task;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class AssessmentCalculationService : IAssessmentCalculationService
     {
-        public AssessmentCalculationService()
-        {
+        private readonly IQuestionSetRepository _questionSetRepository;
 
+        public AssessmentCalculationService(IQuestionSetRepository questionSetRepository)
+        {
+            _questionSetRepository = questionSetRepository;
         }
 
-        public async Task CalculateAssessment(UserSession userSession)
+        public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
             var jobFamilies = JobFamilies; // TODO: from repo
             var answerOptions = AnswerOptions; // TODO: from repo
             var traits = Traits; // TODO: from repo
+            var filteredQuestionSets = await _questionSetRepository.GetCurrentFilteredQuestionSets();
 
-            RunShortAssessment(userSession, jobFamilies, answerOptions, traits);
+            RunShortAssessment(log, userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
         }
 
-        public static void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits)
+        public static void RunShortAssessment(ILogger log, UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
         {
+            
             // User traits
             var userTraits = userSession.RecordedAnswers
                 .Select(x => new
@@ -42,10 +50,29 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .OrderByDescending(x => x.TotalScore)
                 .ToList();
 
+            var jobCategories = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray();
+            var filteredQuestionsLookup = filteredQuestionSet.ToDictionary(r => r.Title, StringComparer.InvariantCultureIgnoreCase);
+
+            foreach(var jobCat in jobCategories)
+            {
+                if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName, out var qs))
+                {
+                    log.LogError(
+                        new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName}"),
+                        $"Unable to find a question set for {jobCat.JobFamilyName} available sets include {Environment.NewLine}{String.Join(Environment.NewLine, filteredQuestionsLookup.Keys)}"
+                    );
+                    continue;
+                }
+
+
+                jobCat.TotalQuestions = qs.MaxQuestions;
+            }
+
             var resultData = new ResultData()
             {
-                Traits = userTraits.ToArray(),
-                JobFamilies = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray()
+                Traits = userTraits.Where(x => x.TotalScore > 0).ToArray(),
+                JobFamilies = jobCategories,
+                TraitScores = userTraits.ToArray()
             };
 
             userSession.ResultData = resultData;
@@ -71,7 +98,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                       }).ToArray(),
                   NormalizedTotal = x.ResultMultiplier
               })
-              .Where(x => x.TraitValues.Any(v => v.Total > 0))
+              .Where(x => x.TraitValues.All(v => v.Total > 0))
               .ToList();
             userJobFamilies.ForEach(x =>
             {
@@ -121,7 +148,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do managerial jobs, you might need leadership skills, the ability to motivate and manage staff, and the ability to monitor your own performance and that of your colleagues.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/managerial"
+                            Url = "managerial"
                         }
                     }
                 },
@@ -136,7 +163,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do beauty and wellbeing jobs, you might need customer service skills, sensitivity and understanding, or the ability to work well with your hands.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/beauty-and-wellbeing"
+                            Url = "beauty-and-wellbeing"
                         }
                     }
                 },
@@ -151,7 +178,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do science and research jobs, you might need the ability to operate and control equipment, or to be thorough and pay attention to detail, or observation and recording skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/science-and-research"
+                            Url = "science-and-research"
                         }
                     }
                 },
@@ -166,7 +193,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do manufacturing jobs, you might need to be thorough and pay attention to detail, physical skills like movement, coordination, dexterity and grace, or the ability to work well with your hands.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/manufacturing"
+                            Url = "manufacturing"
                         }
                     }
                 },
@@ -181,7 +208,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do teaching and education jobs, you might need counselling skills including active listening and a non-judgemental approach, knowledge of teaching and the ability to design courses, or sensitivity and understanding.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/teaching-and-education"
+                            Url = "teaching-and-education"
                         }
                     }
                 },
@@ -196,7 +223,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do business and finance jobs, you might need to be thorough and pay attention to detail, administration skills, or maths knowledge.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/business-and-finance"
+                            Url = "business-and-finance"
                         }
                     }
                 },
@@ -211,7 +238,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do law and legal jobs, you might need persuading and negotiating skills, active listening skills the ability to accept criticism and work well under pressure, or to be thorough and pay attention to detail.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/law-and-legal"
+                            Url = "law-and-legal"
                         }
                     }
                 },
@@ -226,7 +253,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do computing, technology and digital jobs, you might need analytical thinking skills, the ability to come up with new ways of doing things, or a thorough understanding of computer systems and applications.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/computing-technology-and-digital"
+                            Url = "computing-technology-and-digital"
                         }
                     }
                 },
@@ -241,7 +268,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do social care jobs, you might need sensitivity and understanding patience and the ability to remain calm in stressful situations, the ability to work well with others, or excellent verbal communication skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/social-care"
+                            Url = "social-care"
                         }
                     }
                 },
@@ -256,7 +283,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do healthcare jobs, you might need sensitivity and understanding, the ability to work well with others, or excellent verbal communication skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/healthcare"
+                            Url = "healthcare"
                         }
                     }
                 },
@@ -271,7 +298,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do animal care jobs, you might need the ability to use your initiative, patience and the ability to remain calm in stressful situations, or the ability to accept criticism and work well under pressure.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/animal-care"
+                            Url = "animal-care"
                         }
                     }
                 },
@@ -286,7 +313,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do emergency and uniform service jobs, you might need knowledge of public safety and security, the ability to accept criticism and work well under pressure, or patience and the ability to remain calm in stressful situations.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/emergency-and-uniform-services"
+                            Url = "emergency-and-uniform-services"
                         }
                     }
                 },
@@ -301,7 +328,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do sports and leisure jobs, you might need the ability to work well with others, to enjoy working with other people, or knowledge of teaching and the ability to design courses.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/sports-and-leisure"
+                            Url = "sports-and-leisure"
                         }
                     }
                 },
@@ -316,7 +343,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do travel and tourism jobs, you might need excellent verbal communication skills, the ability to sell products and services, or active listening skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/travel-and-tourism"
+                            Url = "travel-and-tourism"
                         }
                     }
                 },
@@ -331,7 +358,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do administration jobs, you might need administration skills, the ability to work well with others, or customer service skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/administration"
+                            Url = "administration"
                         }
                     }
                 },
@@ -346,7 +373,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do government services jobs, you might need the ability to accept criticism and work well under pressure, to be thorough and pay attention to detail, and customer service skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/government-services"
+                            Url = "government-services"
                         }
                     }
                 },
@@ -361,7 +388,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do home services jobs, you might need customer service skills, business management skills, or administration skills, or the ability to accept criticism and work well under pressure.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/home-services"
+                            Url = "home-services"
                         }
                     }
                 },
@@ -376,7 +403,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do environment and land jobs, you might need thinking and reasoning skills, to be thorough and pay attention to detail, or analytical thinking skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/environment-and-land"
+                            Url = "environment-and-land"
                         }
                     }
                 },
@@ -391,7 +418,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do construction and trades jobs, you might need knowledge of building and construction, patience and the ability to remain calm in stressful situations, and the ability to work well with your hands.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/construction-and-trades"
+                            Url = "construction-and-trades"
                         }
                     }
                 },
@@ -406,7 +433,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do creative and media jobs, you might need the ability to come up with new ways of doing things, the ability to use your initiative, or the ability to organise your time and workload.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/creative-and-media"
+                            Url = "creative-and-media"
                         }
                     }
                 },
@@ -421,7 +448,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do retail and sales jobs, you might need customer service skills, the ability to work well with others, or the ability to sell products and services.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/retail-and-sales"
+                            Url = "retail-and-sales"
                         }
                     }
                 },
@@ -436,7 +463,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do hospitality and food jobs, you might need customer service skills, the ability to sell products and services, or to enjoy working with other people.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/hospitality-and-food"
+                            Url = "hospitality-and-food"
                         }
                     }
                 },
@@ -451,7 +478,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do engineering and maintenance jobs, you might need knowledge of engineering science and technology, to be thorough and pay attention to detail, or analytical thinking skills.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/engineering-and-maintenance"
+                            Url = "engineering-and-maintenance"
                         }
                     }
                 },
@@ -466,7 +493,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do transport jobs, you might need customer service skills, knowledge of public safety and security, or the ability to operate and control equipment.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/transport"
+                            Url = "transport"
                         }
                     }
                 },
@@ -481,10 +508,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         {
                             LanguageCode = "en",
                             Text = "To do delivery and storage jobs, you might need the ability to work well with others, customer service skills, or knowledge of transport methods, costs and benefits.",
-                            Url = "https://nationalcareers.service.gov.uk/job-categories/delivery-and-storage"
+                            Url = "delivery-and-storage"
                         }
                     }
                 },
             };
+        
     }
 }

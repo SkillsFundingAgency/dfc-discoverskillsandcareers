@@ -176,7 +176,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var model = await ApiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
                 var formRoute = GetAnswerFormPostRoute(nextQuestionResponse, invalidAnswer);
-                int displayPercentComplete = nextQuestionResponse.PercentComplete - (nextQuestionResponse.PercentComplete % 10);
+                int displayPercentComplete = nextQuestionResponse.PercentComplete;
 
                 model.Code = sessionId;
                 model.ErrorMessage = !invalidAnswer ? string.Empty : model.NoAnswerErrorMessage;

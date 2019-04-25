@@ -31,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveProgressOption([FromForm]SaveProgressOptionRequest saveProgressOptionRequest)
+        public async Task<IActionResult> SaveProgressOption([FromForm]SaveProgressOptionRequest saveProgressOptionRequest)
         {
             switch (saveProgressOptionRequest.SelectedOption)
             {
@@ -49,13 +49,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                 default:
                     {
-                        return RedirectToAction("Index");
+                        return await Index(true);
                     }
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool withError = false)
         {
             var correlationId = Guid.NewGuid();
             try
@@ -71,6 +71,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/reload";
+                if (withError)
+                {
+                    model.ErrorMessage = model.SaveProgressNoOptionSelectedMessage;
+                }
                 AppendCookie(sessionId);
                 return View("SaveProgress", model);
             }
@@ -130,12 +134,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
                 {
                     model.ErrorMessage = $"You must enter an email address";
                     return View("EmailInput", model);
                 }
-                model.BackLink = "/save-my-progress";
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -151,7 +155,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    model.ErrorMessage = $"An error occured sending an email to {sendEmailRequest.Email}";
+                    LoggerHelper.LogException(Log, correlationId, ex);
+                    model.ErrorMessage = $"An error occurred sending an email to {sendEmailRequest.Email}";
                     return View("EmailInput", model);
                 }
 
@@ -272,12 +277,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()))
+                model.BackLink = "/save-my-progress";
+                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()) || !System.Text.RegularExpressions.Regex.Match(sendSmsRequest.MobileNumber, @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").Success)
                 {
-                    model.ErrorMessage = $"You must enter a phone numner";
+                    model.ErrorMessage = model.SmsInputInvalidMessage;
                     return View("ReferenceNumber", model);
                 }
-                model.BackLink = "/save-my-progress";
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -293,7 +298,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    model.ErrorMessage = $"An error occured sending a text to {sendSmsRequest.MobileNumber}";
+                    LoggerHelper.LogException(Log, correlationId, ex);
+                    model.ErrorMessage = $"An error occurred sending a text to {sendSmsRequest.MobileNumber}";
                     return View("ReferenceNumber", model);
                 }
 

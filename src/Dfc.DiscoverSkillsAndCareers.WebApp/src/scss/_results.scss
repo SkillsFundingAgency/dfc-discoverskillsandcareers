@@ -101,7 +101,10 @@
 
     @include govuk-media-query($from: desktop) {
       .result-description {
-        min-height: 150px;
+        p {
+          margin: 0;
+        }
+        margin-bottom: govuk-spacing(4);
       }
     }
 
@@ -136,6 +139,7 @@
       font-size: govuk-px-to-rem(16);
     }
 
+    .salary-variable,
     .salary-max,
     .salary-min {
       margin-bottom: 8px;
@@ -164,6 +168,12 @@
       hr {
         border: 2px solid $app-turquoise;
       }
+
+      &--variable {
+        margin-bottom: 20px;
+        border-left: 0;
+        border-right: 0;
+      }
     }
 
     .embedded-fa-icon {
@@ -184,4 +194,15 @@
     }
   }
 
+}
+
+.show-more {
+  a {
+    clear: both;
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
 }

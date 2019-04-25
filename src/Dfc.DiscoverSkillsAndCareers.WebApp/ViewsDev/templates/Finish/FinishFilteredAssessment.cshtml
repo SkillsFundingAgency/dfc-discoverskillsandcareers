@@ -14,15 +14,18 @@
 
 {% block main %}
 
-  <div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-  </div>
-
   <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+      {% include "_phasebanner.njk" %}
+
+      {{ govukBackLink({
+        text: "Back to results",
+        href: "/results/"
+      }) }}
+
+    </div>
 
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
@@ -30,11 +33,10 @@
 
           {{ govukPanel({
             titleText: "@Model.Headline",
-            html: "@Model.HeadlineStrap",
             classes: "govuk-!-margin-bottom-6"
           }) }}
 
-          <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
+          <h2 class="govuk-heading-m">@Model.ContentTitle</h2>
           <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
           {{ govukButton({

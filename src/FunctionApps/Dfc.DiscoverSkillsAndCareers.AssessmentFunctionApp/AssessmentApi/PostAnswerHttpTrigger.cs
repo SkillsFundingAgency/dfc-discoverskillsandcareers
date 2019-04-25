@@ -122,7 +122,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                     {
                         case "short":
                             {
-                                await resultsService.CalculateAssessment(userSession);
+                                await resultsService.CalculateAssessment(userSession, log);
                                 break;
                             }
                         default:
@@ -133,7 +133,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 }
                 else
                 {
-                    await filterAssessmentCalculationService.CalculateAssessment(userSession);
+                    await filterAssessmentCalculationService.CalculateAssessment(userSession, log);
                 }
             }
             else

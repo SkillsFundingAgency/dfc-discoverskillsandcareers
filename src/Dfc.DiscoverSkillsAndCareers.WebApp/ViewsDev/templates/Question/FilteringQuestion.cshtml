@@ -29,15 +29,20 @@
 
 {% block main %}
 
-<div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-</div>
-
 <main id="content" role="main">
+
+
+    <div class="govuk-width-container app-site-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {{ govukBackLink({
+          text: "Back to results",
+          href: "/results/"
+        }) }}
+
+    </div>
+
     <div class="govuk-main-wrapper govuk-width-container">
         <form action="@Model.FormRoute" method="post">
 

@@ -3,6 +3,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
@@ -19,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             JobProfileRepository = jobProfileRepository;
         }
 
-        public async Task CalculateAssessment(UserSession userSession)
+        public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
             // All questions for this set version
             var questions = await QuestionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);

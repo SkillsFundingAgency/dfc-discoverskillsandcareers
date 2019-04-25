@@ -14,23 +14,26 @@
 
 {% block main %}
 
-  <div class="app-masthead">
-    <div class="govuk-width-container">
-
-      {% include "_phasebanner.njk" %}
-
-      {% include "_breadcrumbpanel.njk" %}
-
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <main id="content" role="main">
+
+    <div class="app-masthead">
+      <div class="govuk-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {{ govukBackLink({
+          text: "Back to the start",
+          href: "/"
+        }) }}
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <div class="app-grey">
       <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
@@ -42,7 +45,7 @@
             <h2 class="govuk-heading-l">@Model.WhatYouToldUsTitle</h2>
 
             <div class="govuk-text">
-                <ul class="govuk-list">
+                <ul class="govuk-list govuk-list--bullet">
                     @foreach (var trait in Model.Traits)
                     {
                         <li>@trait</li>
@@ -82,7 +85,7 @@
       <div class="app-results">
         @foreach (var jobCategory in Model.JobFamilies)
         {
-          <div class="app-results__item">
+          <div class="app-results__item" data-job-family-code="@jobCategory.JobFamilyCode">
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -111,7 +114,16 @@
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count == 0)
                     {
                         <p>@Model.ResultsAnswerMoreText?.Replace("[jobcategory]", jobCategory.JobFamilyName)</p>
-                        <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">Answer questions</a>
+                      <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
+                        @if (jobCategory.TotalQuestions == 1)
+                        {
+                          @Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobCategory.TotalQuestions.ToString())
+                        }
+                        else
+                        {
+                          @(Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobCategory.TotalQuestions.ToString()) + "s")
+                        }
+                      </a>
                     }
                 </div>
             </div>
@@ -132,11 +144,23 @@
                           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pound-sign" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-pound-sign fa-w-10 fa-2x"><path fill="currentColor" d="M308 352h-45.495c-6.627 0-12 5.373-12 12v50.848H128V288h84c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-84v-63.556c0-32.266 24.562-57.086 61.792-57.086 23.658 0 45.878 11.505 57.652 18.849 5.151 3.213 11.888 2.051 15.688-2.685l28.493-35.513c4.233-5.276 3.279-13.005-2.119-17.081C273.124 54.56 236.576 32 187.931 32 106.026 32 48 84.742 48 157.961V224H20c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h28v128H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h296c6.627 0 12-5.373 12-12V364c0-6.627-5.373-12-12-12z" class=""></path></svg>
                         </div>
                         <div class="result-meta">
-                          <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="hidden-screen">&nbsp;(starter)&nbsp;</span></p>
-                          <p class="salary-max"><span class="hidden-screen">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="hidden-screen">&nbsp;(@Model.ExperiencedText?.ToLower())</span></p>
-                          <div class="range-bar"><hr></div>
-                          <p class="level-min">@Model.StarterText</p>
-                          <p class="level-max">@Model.ExperiencedText</p>
+                          @if (profile.IsVariable) {
+                            <div>
+                              <p class="salary-variable">
+                                Variable
+                              </p>
+                              <div class="range-bar range-bar--variable"><hr></div>
+                            </div>
+                          } else {
+                            <div>
+                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="hidden-screen">&nbsp;(starter)&nbsp;</span></p>
+                              <p class="salary-max"><span class="hidden-screen">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="hidden-screen">&nbsp;(@Model.ExperiencedText?.ToLower())</span></p>
+                              <div class="range-bar"><hr></div>
+
+                              <p class="level-min">@Model.StarterText</p>
+                              <p class="level-max">@Model.ExperiencedText</p>
+                            </div>
+                          }
                         </div>
                       </div>
                       <div class="result-detail">
@@ -165,7 +189,7 @@
 
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-two-thirds">
-                <div class="show-more"> </div>
+                <p class="show-more"> </p>
                 <hr>
               </div>
             </div>

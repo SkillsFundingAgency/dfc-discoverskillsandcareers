@@ -4,6 +4,7 @@ using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,7 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     // Change the current question set to be not current
                     questionSet.IsCurrent = false;
-                    await QuestionSetRepository.CreateQuestionSet(questionSet);
+                    
                 }
 
                 // Create the new current version
@@ -108,14 +109,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
                         SfId = dataQuestion.Id,
                         PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
-                        NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText
+                        NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText,
+                        LastUpdatedDt = dataQuestion.LastUpdated == new DateTime() ? DateTime.UtcNow : dataQuestion.LastUpdated
                     };
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;
                     await QuestionRepository.CreateQuestion(newQuestion);
                     logger.LogInformation($"Created question {newQuestion.QuestionId}");
                 }
-                await QuestionSetRepository.CreateQuestionSet(newQuestionSet);
+                await QuestionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
+                await QuestionSetRepository.CreateOrUpdateQuestionSet(questionSet);
                 logger.LogInformation($"Created filteringquestionset {newQuestionSet.Version}");
             }
 

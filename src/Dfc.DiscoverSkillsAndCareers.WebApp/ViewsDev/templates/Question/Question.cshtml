@@ -29,22 +29,26 @@
 
 {% block main %}
 
-<div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-</div>
-
 <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {{ govukBackLink({
+          text: "Back to the start",
+          href: "/"
+        }) }}
+
+    </div>
+
     <div class="govuk-main-wrapper govuk-width-container">
         <form action="@Model.FormRoute" method="post">
 
             <input type="hidden" name="sessionId" value="@Model.SessionId" />
             <input type="hidden" name="questionId" value="@Model.QuestionId" />
 
-            <div class="govuk-grid-row">
+            <div class="govuk-grid-row app-question-progress">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
 
                     <div class="ncs-progress">
@@ -60,10 +64,26 @@
             </div>
 
             @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
-                <span class="govuk-error-message">@Model.ErrorMessage</span>
+
+                <div class="govuk-grid-row app-error">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
+                        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+                            <h2 class="govuk-error-summary__title" id="error-summary-title">
+                                There is a problem
+                            </h2>
+                            <div class="govuk-error-summary__body">
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <li>
+                                        <a href="#question">@Model.ErrorMessage</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
 
-            <fieldset class="govuk-fieldset app-question app-question--short">
+            <fieldset class="govuk-fieldset app-question app-question--short" id="question">
 
                 <legend class="visually-hidden">@Model.QuestionText</legend>
 

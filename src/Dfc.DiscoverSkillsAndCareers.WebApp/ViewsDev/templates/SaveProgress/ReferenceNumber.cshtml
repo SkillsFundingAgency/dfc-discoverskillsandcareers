@@ -13,21 +13,38 @@
 
 {% block main %}
 
-<div class="govuk-width-container app-site-width-container">
-
-    {% block beforeContent %}
-    {{ govukBackLink({
-        text: "Back",
-        href: "@Model.BackLink"
-      }) }}
-    {% endblock %}
-
-</div>
-
 <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+        {% include "_phasebanner.njk" %}
+
+        {% block beforeContent %}
+        {{ govukBackLink({
+            text: "Back to previous page",
+            href: "@Model.BackLink"
+        }) }}
+        {% endblock %}
+
+    </div>
+
     <div class="govuk-main-wrapper govuk-width-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+
+                @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                    <div>
+                        {{ govukErrorSummary({
+                        "titleText": "There is a problem",
+                        "errorList": [
+                            {
+                            "text": "@Model.ErrorMessage",
+                            "href": "#mobileNumber"
+                            }
+                        ]
+                        }) }}
+                    </div>
+                }
 
                 <h1 class="govuk-heading-l">@Model.ReferenceYourNumberText</h1>
 
@@ -37,7 +54,7 @@
                     </p>
                     <div class="app-your-reference__meta govuk-grid-row">
                         <p class="govuk-grid-column-one-third govuk-body-s">@Model.SessionDate</p>
-                        <p class="govuk-grid-column-two-thirds govuk-body-s">@Model.Status</p>
+                        <p class="govuk-grid-column-two-thirds govuk-body-s"></p>
                     </div>
                 </div>
 
@@ -54,22 +71,41 @@
 
                 <form action="/save-my-progress/reference" method="post" class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
-                        {{ govukInput({
+                        @if (!Model.HasError) {
+
+                        <div>
+                            {{ govukInput({
                             label: {
-                                text: "@Model.SmsInputLabel"
+                            text: "@Model.SmsInputLabel"
                             },
                             classes: "",
                             id: "mobileNumber",
                             name: "mobileNumber",
                             required: "true"
-                        }) }}
+                            }) }}
+                        </div>
+                        }
+                        else {
+                        <div>
+                            {{ govukInput({
+                            label: {
+                            text: "@Model.SmsInputLabel"
+                            },
+                            classes: "",
+                            id: "mobileNumber",
+                            name: "mobileNumber",
+                            required: "true",
+                            errorMessage: {
+                            text: "@Model.ErrorMessage"
+                            }
+                            }) }}
+                        </div>
+                        }
                         {{ govukButton({
-                            text: "@Model.SmsInputButtonText"
+                                text: "@Model.SmsInputButtonText"
                         }) }}
                     </div>
                 </form>
-
-                <p>@Model.ErrorMessage</p>
 
                 <p><a href="/results" class="">@Model.ReferenceReturnText</a></p>
 
