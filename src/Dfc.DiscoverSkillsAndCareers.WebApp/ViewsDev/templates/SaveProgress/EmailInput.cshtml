@@ -31,62 +31,68 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
-                <h1 class="govuk-heading-xl">@Model.EmailPrompt</h1>
+                <fieldset class="govuk-fieldset" aria-describedby="passport-issued-hint" role="group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                        <h1 class="govuk-fieldset__heading">@Model.EmailPrompt</h1>
+                    </legend>
+                    <span class="govuk-hint">@Model.EmailHint</span>
 
-                @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                    <div>
-                        {{ govukErrorSummary({
-                        "titleText": "There is a problem",
-                        "errorList": [
-                            {
-                            "text": "@Model.ErrorMessage",
-                            "href": "#email"
-                            }
-                        ]
-                        }) }}
-                    </div>
-                }
-
-                <div class="govuk-body">
-
-                    <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
-                        <div class="govuk-grid-column-two-thirds-from-desktop">
-                            @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                            <div>
-                                {{ govukInput({
-                                label: {
-                                text: "@Model.EmailInputLabel"
-                                },
-                                type: "text",
-                                id: "email",
-                                name: "email",
-                                required: "true"
-                                })
-                                }}
-                            </div>
-                            } else {
-                            <div>
-                                {{ govukInput({
-                                label: {
-                                    text: "@Model.EmailInputLabel"
-                                },
-                                type: "text",
-                                id: "email",
-                                name: "email",
-                                required: "true",
-                                errorMessage: {
-                                    text: "@Model.ErrorMessage"
+                    @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                        <div>
+                            {{ govukErrorSummary({
+                            "titleText": "There is a problem",
+                            "errorList": [
+                                {
+                                "text": "@Model.ErrorMessage",
+                                "href": "#email"
                                 }
-                                })
-                                }}
-                            </div>
-                            }
-                            {{ govukButton({
-                                text: "@Model.EmailInputButtonText"
+                            ]
                             }) }}
                         </div>
-                    </form>
-                </div>
+                    }
+
+                    <div class="govuk-body">
+
+                        <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds-from-desktop">
+                                @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                                <div>
+                                    {{ govukInput({
+                                    label: {
+                                    text: "@Model.EmailInputLabel"
+                                    },
+                                    type: "text",
+                                    id: "email",
+                                    name: "email",
+                                    required: "true"
+                                    })
+                                    }}
+                                </div>
+                                } else {
+                                <div>
+                                    {{ govukInput({
+                                    label: {
+                                        text: "@Model.EmailInputLabel"
+                                    },
+                                    type: "text",
+                                    id: "email",
+                                    name: "email",
+                                    required: "true",
+                                    errorMessage: {
+                                        text: "@Model.ErrorMessage"
+                                    }
+                                    })
+                                    }}
+                                </div>
+                                }
+                                {{ govukButton({
+                                    text: "@Model.EmailInputButtonText"
+                                }) }}
+                            </div>
+                        </form>
+                    </div>
+
+                </fieldset>
 
             </div>
         </div>
