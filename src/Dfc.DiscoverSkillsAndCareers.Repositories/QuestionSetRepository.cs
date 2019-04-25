@@ -1,13 +1,11 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
@@ -69,10 +67,34 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             List<QuestionSet> queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
                 .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
                 .ToList();
-            return await Task.FromResult(
-                queryQuestionSet.GroupBy(r => r.Version)
-                    .OrderByDescending(r => r.Key)
-                    .First().ToList());
+            return await Task.FromResult(queryQuestionSet);
+        }
+
+        public async Task<int> ResetCurrentFilteredQuestionSets()
+        {
+            int changeCount = 0;
+            var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
+            FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+
+            var queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
+                .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
+                .AsDocumentQuery<QuestionSet>();
+
+            while (queryQuestionSet.HasMoreResults)
+            {
+                var results = await queryQuestionSet.ExecuteNextAsync<QuestionSet>();
+
+                foreach (var questionSet in results)
+                {
+                    if (questionSet.IsCurrent)
+                    {
+                        questionSet.IsCurrent = false;
+                        await client.UpsertDocumentAsync(uri, questionSet);
+                        changeCount++;
+                    }
+                }
+            }
+            return changeCount;
         }
     }
 }

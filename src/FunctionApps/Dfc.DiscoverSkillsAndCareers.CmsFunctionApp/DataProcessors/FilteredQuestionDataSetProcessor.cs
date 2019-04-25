@@ -4,6 +4,7 @@ using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -108,7 +109,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
                         SfId = dataQuestion.Id,
                         PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
-                        NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText
+                        NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText,
+                        LastUpdatedDt = dataQuestion.LastUpdated == new DateTime() ? DateTime.UtcNow : dataQuestion.LastUpdated
                     };
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;

@@ -54,6 +54,9 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                 req.Headers.TryGetValue("import-key", out var headerValue);
                 if (headerValue.ToString() != "Hgfy-gYh3") return httpResponseMessageHelper.BadRequest();
 
+                var resetChangeCount = await questionSetRepository.ResetCurrentFilteredQuestionSets();
+                log.LogInformation($"Reset questionset isCurrent count {resetChangeCount}");
+
                 var questionSets = JsonConvert.DeserializeObject<List<FilteringQuestionSet>>(inputJson);
 
                 string assessmentType = "filtered";
@@ -113,7 +116,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                             SfId = dataQuestion.Id,
                             PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
                             NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText,
-                            LastUpdatedDt = DateTime.UtcNow
+                            LastUpdatedDt = dataQuestion.LastUpdated == new DateTime() ? DateTime.UtcNow : dataQuestion.LastUpdated
                         };
                         newQuestionSet.MaxQuestions = questionNumber;
                         questionNumber++;
@@ -176,6 +179,8 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
             public string PositiveResultDisplayText { get; set; }
             [JsonProperty("NegativeResultDisplayText")]
             public string NegativeResultDisplayText { get; set; }
+            [JsonProperty("LastModified")]
+            public DateTime LastUpdated { get; set; }
         }
 
     }

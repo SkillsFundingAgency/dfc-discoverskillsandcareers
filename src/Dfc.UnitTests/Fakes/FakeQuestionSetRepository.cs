@@ -33,5 +33,10 @@ namespace Dfc.UnitTests.Fakes
         {
             throw new NotImplementedException();
         }
+
+        public Task<int> ResetCurrentFilteredQuestionSets()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
