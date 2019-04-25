@@ -134,6 +134,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new
                 {
                     message = "Ok",
+                    resetChangeCount,
                     results,
                     createdQuestionSets
                 }));
