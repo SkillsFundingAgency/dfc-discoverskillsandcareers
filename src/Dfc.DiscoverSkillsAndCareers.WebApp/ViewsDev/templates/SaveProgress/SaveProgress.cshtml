@@ -36,32 +36,72 @@
 
           <form action="/save-my-progress" method="post">
 
-              @if (Model.HasError)
-              {
-                  <span class="govuk-error-message">@Model.ErrorMessage</span>
+            @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                  <div>
+                      {{ govukErrorSummary({
+                      "titleText": "There is a problem",
+                      "errorList": [
+                          {
+                          "text": "@Model.ErrorMessage",
+                          "href": "#SelectedOption-error"
+                          }
+                      ]
+                      }) }}
+                  </div>
               }
 
-              {{ govukRadios({
-              idPrefix: "SelectedOption",
-              name: "SelectedOption",
-              fieldset: {
-                legend: {
-                  text: "@Model.SaveProgressLabel",
-                  isPageHeading: true,
-                  classes: "govuk-fieldset__legend--xl"
-                }
-              },
-              items: [
-                {
-                  value: "email",
-                  text: "@Model.SaveProgressOptionEmail"
-                },
-                {
-                  value: "reference",
-                  text: "@Model.SaveProgressOptionReference"
-                }
-              ]
-            }) }}
+              @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                <div>
+                  {{ govukRadios({
+                  idPrefix: "SelectedOption",
+                  name: "SelectedOption",
+                  fieldset: {
+                    legend: {
+                      text: "@Model.SaveProgressLabel",
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--xl"
+                    }
+                  },
+                  items: [
+                    {
+                      value: "email",
+                      text: "@Model.SaveProgressOptionEmail"
+                    },
+                    {
+                      value: "reference",
+                      text: "@Model.SaveProgressOptionReference"
+                    }
+                  ]
+                }) }}
+                </div>
+              } else {
+                <div>
+                  {{ govukRadios({
+                  idPrefix: "SelectedOption",
+                  name: "SelectedOption",
+                  errorMessage: {
+                      text: "@Model.ErrorMessage"
+                  },
+                  fieldset: {
+                    legend: {
+                      text: "@Model.SaveProgressLabel",
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--xl"
+                    }
+                  },
+                  items: [
+                    {
+                      value: "email",
+                      text: "@Model.SaveProgressOptionEmail"
+                    },
+                    {
+                      value: "reference",
+                      text: "@Model.SaveProgressOptionReference"
+                    }
+                  ]
+                }) }}
+                </div>
+              }
 
               {{ govukButton({
               text: "Next"
