@@ -15,6 +15,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string SmsInputButtonText { get; set; } = "Send";
         public string ReturnText { get; set; } = "Click the link in the text to return to your assessment";
         public string ContinueButtonText { get; set; } = "Continue";
+        public string EmailHint { get; set; } = "We will only use this to send you a link to return to your assessment";
+        public string SmsHint { get; set; } = "We will only use this to send you a link to return to your assessment";
         public string EmailSentHeader { get; set; } = "Check your email";
         public string SmsSentHeader { get; set; } = "Check your phone";
         public string EmailSentText { get; set; } = "An email has been sent to";
