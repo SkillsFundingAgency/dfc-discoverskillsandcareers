@@ -58,6 +58,15 @@
       text-decoration: none;
       padding-top: 6px;
 
+      &:after {
+        display: inline-block;
+        font-size: 8px;
+        height: 8px;
+        padding-left: 5px;
+        vertical-align: middle;
+        content: " \25BC";
+    }
+
       @media (min-width: 641px) {
         font-size: 16px;
         line-height: 1.25;
@@ -86,6 +95,8 @@
     clear: both;
     margin: 2px 0 0;
     padding: 0;
+    display: none;
+
     a {
       color: #fff;
       text-decoration: none;
@@ -103,6 +114,7 @@
       border-bottom: 1px solid #2e3133;
     }
     @media (min-width: 769px) {
+      display: block;
       a {
         font-size: 14px;
         line-height: 23px;
@@ -122,6 +134,4 @@
   }
 
 }
-
-
 }
