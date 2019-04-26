@@ -87,18 +87,16 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 loggerHelper.LogInformationMessage(log, correlationGuid, $"Job family {jobCategory} could not be found on session {sessionId}");
                 return httpResponseMessageHelper.NoContent();
             }
-
-            // Create the new filter assessment
-            jobFamily.FilterAssessment = new FilterAssessment()
+            
+            userSession.FilteredAssessmentState = new FilteredAssessmentState
             {
+                CurrentFilterAssessmentCode = jobFamily.JobFamilyCode,
                 JobFamilyName = jobFamily.JobFamilyName,
-                CreatedDt = DateTime.UtcNow,
                 QuestionSetVersion = questionSet.QuestionSetVersion,
-                MaxQuestions = questionSet.MaxQuestions
+                CurrentQuestion = 1,
+                MaxQuestions = questionSet.MaxQuestions,
             };
-            userSession.CurrentFilterAssessmentCode = jobFamily.JobFamilyCode;
-            userSession.CurrentQuestion = 1;
-            userSession.MaxQuestions = questionSet.MaxQuestions;
+            
             await userSessionRepository.UpdateUserSession(userSession);
 
             loggerHelper.LogMethodExit(log);

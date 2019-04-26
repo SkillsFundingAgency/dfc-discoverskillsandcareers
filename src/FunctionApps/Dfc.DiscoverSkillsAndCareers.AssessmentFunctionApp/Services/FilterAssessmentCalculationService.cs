@@ -1,4 +1,5 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using System;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
@@ -21,12 +22,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         }
 
         public async Task CalculateAssessment(UserSession userSession, ILogger log)
-        {
+        {            
             // All questions for this set version
             var questions = await QuestionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);
 
             // All the job profiles for this job category
-            var jobFamilyName = userSession.CurrentFilterAssessment.JobFamilyName;
+            var jobFamilyName = userSession.FilteredAssessmentState.JobFamilyName;
             var allJobProfiles = await JobProfileRepository.GetJobProfilesForJobFamily(jobFamilyName);
             var suggestedJobProfiles = allJobProfiles.ToList();
 
@@ -62,15 +63,25 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
             // Update the filter assessment with the soc codes we are going to suggest
             // TODO: the quantity and order here is likely to change or handled on the UI?
-            var filterAssessment = userSession.CurrentFilterAssessment;
             var socCodes = suggestedJobProfiles.Select(x => x.SocCode).ToArray();
-            userSession.CurrentFilterAssessment.SuggestedJobProfiles = socCodes;
+            var jobFamily = userSession.ResultData.JobFamilies.First(jf => String.Equals(jf.JobFamilyName, userSession.FilteredAssessmentState.JobFamilyName, StringComparison.InvariantCultureIgnoreCase));
+
+            jobFamily.FilterAssessment = new FilterAssessment
+            {
+                JobFamilyName = jobFamily.JobFamilyName,
+                CreatedDt = DateTime.UtcNow,
+                QuestionSetVersion = userSession.CurrentQuestionSetVersion,
+                MaxQuestions = userSession.MaxQuestions,
+                SuggestedJobProfiles = socCodes,
+                RecordedAnswerCount = userSession.CurrentRecordedAnswers.Length
+            };
 
             // Update the "what you told us"
             if (userSession.ResultData.WhatYouToldUs != null)
             {
                 whatYouToldUs.AddRange(userSession.ResultData.WhatYouToldUs);
             }
+            
             userSession.ResultData.WhatYouToldUs = whatYouToldUs.Distinct().ToArray();
         }
     }

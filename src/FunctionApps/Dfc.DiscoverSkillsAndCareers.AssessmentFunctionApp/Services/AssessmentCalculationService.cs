@@ -31,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         public void RunShortAssessment(ILogger log, UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
         {
             // User traits
-            var userTraits = userSession.RecordedAnswers
+            var userTraits = userSession.AssessmentState.RecordedAnswers
                 .Select(x => new
                 {
                     x.TraitCode,

@@ -56,7 +56,6 @@ namespace Dfc.UnitTests.FunctionTests
                 _request,
                 sessionId,
                 _log,
-                _loggerHelper,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _userSessionRepository,

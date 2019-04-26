@@ -96,11 +96,10 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
             await userSessionRepository.UpdateUserSession(userSession);
 
-            int answerCount = userSession.CurrentRecordedAnswers.Count();
-            int percentComplete = Convert.ToInt32(((answerCount) / Convert.ToDecimal(userSession.MaxQuestions)) * 100);
+            int percentComplete = Convert.ToInt32((((decimal)userSession.CurrentQuestion - 1M) / (decimal)userSession.MaxQuestions) * 100);
             var nextQuestionResponse = new NextQuestionResponse()
             {
-                CurrentFilterAssessmentCode = userSession.CurrentFilterAssessmentCode,
+                CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
                 IsComplete = userSession.IsComplete,
                 NextQuestionNumber = GetNextQuestionNumber(userSession.CurrentQuestion, userSession.MaxQuestions),
                 QuestionId = question.QuestionId,
@@ -111,10 +110,10 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 PercentComplete = percentComplete,
                 ReloadCode = userSession.UserSessionId,
                 MaxQuestionsCount = userSession.MaxQuestions,
-                RecordedAnswersCount = userSession.RecordedAnswers.Length,
+                RecordedAnswersCount = userSession.CurrentRecordedAnswers.Count(),
                 StartedDt = userSession.StartedDt,
                 IsFilterAssessment = userSession.IsFilterAssessment,
-                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe
+                JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe
             };
 
             loggerHelper.LogMethodExit(log);

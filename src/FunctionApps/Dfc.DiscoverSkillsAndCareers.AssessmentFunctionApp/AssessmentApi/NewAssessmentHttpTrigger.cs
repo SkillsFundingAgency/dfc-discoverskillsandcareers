@@ -81,9 +81,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 StartedDt = DateTime.Now,
                 LanguageCode = "en",
                 PartitionKey = partitionKey,
-                QuestionSetVersion = currentQuestionSetInfo.QuestionSetVersion,
-                MaxQuestions = currentQuestionSetInfo.MaxQuestions,
-                CurrentQuestion = 1,
+                AssessmentState = new AssessmentState {
+                    QuestionSetVersion = currentQuestionSetInfo.QuestionSetVersion,
+                    MaxQuestions = currentQuestionSetInfo.MaxQuestions,
+                    CurrentQuestion = 1 
+                },
                 AssessmentType = currentQuestionSetInfo.AssessmentType.ToLower()
             };
             await userSessionRepository.CreateUserSession(userSession);

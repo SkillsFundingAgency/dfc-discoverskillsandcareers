@@ -11,11 +11,13 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession()
             {
-                MaxQuestions = 5,
-                CurrentQuestion = 1
+                AssessmentState = new AssessmentState {
+                    MaxQuestions = 5,
+                    CurrentQuestion = 1
+                }
             };
 
-            PostAnswerHttpTrigger.ManageIfComplete(userSession);
+            userSession.UpdateCompletionStatus();
 
             Assert.False(userSession.IsComplete);
             Assert.Null(userSession.CompleteDt);
@@ -26,19 +28,21 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession()
             {
-                MaxQuestions = 5,
-                CurrentQuestion = 5,
-                RecordedAnswers = new []
-                {
-                    new Answer() { QuestionNumber = "1" },
-                    new Answer() { QuestionNumber = "2" },
-                    new Answer() { QuestionNumber = "3" },
-                    new Answer() { QuestionNumber = "4" },
-                    new Answer() { QuestionNumber = "5" },
+                AssessmentState = new AssessmentState {
+                    MaxQuestions = 5,
+                    CurrentQuestion = 5,
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { QuestionNumber = "1" },
+                        new Answer() { QuestionNumber = "2" },
+                        new Answer() { QuestionNumber = "3" },
+                        new Answer() { QuestionNumber = "4" },
+                        new Answer() { QuestionNumber = "5" },
+                    }
                 }
             };
 
-            PostAnswerHttpTrigger.ManageIfComplete(userSession);
+            userSession.UpdateCompletionStatus();
 
             Assert.True(userSession.IsComplete);
             Assert.NotNull(userSession.CompleteDt);
@@ -49,17 +53,19 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession()
             {
-                MaxQuestions = 5,
-                CurrentQuestion = 5,
-                RecordedAnswers = new []
-                {
-                    new Answer() { QuestionNumber = "1" },
-                    new Answer() { QuestionNumber = "2" },
-                    new Answer() { QuestionNumber = "5" },
+                AssessmentState = new AssessmentState {
+                    MaxQuestions = 5,
+                    CurrentQuestion = 5,
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { QuestionNumber = "1" },
+                        new Answer() { QuestionNumber = "2" },
+                        new Answer() { QuestionNumber = "5" },
+                    }
                 }
             };
 
-            PostAnswerHttpTrigger.ManageIfComplete(userSession);
+            userSession.UpdateCompletionStatus();
 
             Assert.False(userSession.IsComplete);
             Assert.Null(userSession.CompleteDt);
@@ -70,15 +76,17 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession()
             {
-                MaxQuestions = 5,
-                CurrentQuestion = 5,
-                IsComplete = false,
-                RecordedAnswers = {},
+                AssessmentState = new AssessmentState {
+                    MaxQuestions = 5,
+                    CurrentQuestion = 5,
+                    IsComplete = false,
+                    RecordedAnswers = {}
+                }
             };
 
-            int actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
+            userSession.MoveToNextQuestion();
 
-            Assert.Equal(1, actual);
+            Assert.Equal(1, userSession.CurrentQuestion);
         }
 
         [Fact]
@@ -86,19 +94,21 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession()
             {
-                MaxQuestions = 5,
-                CurrentQuestion = 5,
-                RecordedAnswers = new []
-                {
-                    new Answer() { QuestionNumber = "1" },
-                    new Answer() { QuestionNumber = "2" },
-                    new Answer() { QuestionNumber = "5" },
+                AssessmentState = new AssessmentState {
+                    MaxQuestions = 5,
+                    CurrentQuestion = 5,
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { QuestionNumber = "1" },
+                        new Answer() { QuestionNumber = "2" },
+                        new Answer() { QuestionNumber = "5" },
+                    }
                 }
             };
 
-            var actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
+            userSession.MoveToNextQuestion();
 
-            Assert.Equal(3, actual);
+            Assert.Equal(3, userSession.CurrentQuestion);
         }
 
         [Fact]
@@ -106,21 +116,23 @@ namespace Dfc.UnitTests
         {
             var userSession = new UserSession()
             {
-                MaxQuestions = 5,
-                CurrentQuestion = 5,
-                IsComplete = false,
-                RecordedAnswers = new []
-                {
-                    new Answer() { QuestionNumber = "1" },
-                    new Answer() { QuestionNumber = "2" },
-                    new Answer() { QuestionNumber = "3" },
-                    new Answer() { QuestionNumber = "4" }
-                },
+                AssessmentState = new AssessmentState {
+                    MaxQuestions = 5,
+                    CurrentQuestion = 5,
+                    IsComplete = false,
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { QuestionNumber = "1" },
+                        new Answer() { QuestionNumber = "2" },
+                        new Answer() { QuestionNumber = "3" },
+                        new Answer() { QuestionNumber = "4" }
+                    }
+                }
             };
 
-            int actual = PostAnswerHttpTrigger.GetNextQuestionToAnswerNumber(userSession);
+            userSession.MoveToNextQuestion();
 
-            Assert.Equal(5, actual);
+            Assert.Equal(5, userSession.CurrentQuestion);
         }
 
         [Theory]
