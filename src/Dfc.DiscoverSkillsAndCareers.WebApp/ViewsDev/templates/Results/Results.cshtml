@@ -21,10 +21,7 @@
 
         {% include "_phasebanner.njk" %}
 
-        {{ govukBackLink({
-          text: "Back to the start",
-          href: "/"
-        }) }}
+        {% include "_breadcrumbpanel.njk" %}
 
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
