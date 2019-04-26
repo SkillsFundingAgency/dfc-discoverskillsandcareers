@@ -14,6 +14,7 @@
         public string EmailPrompt { get; set; } = "What is your email?";
         public string EmailInputLabel { get; set; } = "Email";
         public string EmailInputButtonText { get; set; } = "Send";
+        public string EmailHint { get; set; } = "We will only use this to send you a link to return to your assessment";
         public string SmsPrompt { get; set; } = "What is your phone number?";
         public string SmsInputLabel { get; set; } = "Phone number";
         public string SmsInputButtonText { get; set; } = "Send";
@@ -35,6 +36,6 @@
         public string ReferenceInstructionsText { get; set; } = "The code above is your unique reference number. You can use this to:";
         public string ReferenceInstruction1Text { get; set; } = "Return to the assessment and resume your progress";
         public string ReferenceInstruction2Text { get; set; } = "Access your results after finishing the assessment";
-        public string SmsInputInvalidMessage { get; set; } = "You must enter a phone number";
+        public string SmsInputInvalidMessage { get; set; } = "Enter a phone number";
     }
 }

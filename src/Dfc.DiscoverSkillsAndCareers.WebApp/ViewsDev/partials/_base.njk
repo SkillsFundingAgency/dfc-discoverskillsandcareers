@@ -9,6 +9,7 @@
 {% from "input/macro.njk" import govukInput %}
 {% from "panel/macro.njk" import govukPanel %}
 {% from "back-link/macro.njk" import govukBackLink %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
 
 <!DOCTYPE html>
 <html lang="en" class="govuk-template no-js">
@@ -93,7 +94,34 @@
     {{ govukHeader({
       homepageUrl: "https://gov.uk/",
       serviceName: "National Careers Service",
-      serviceUrl: "https://nationalcareers.service.gov.uk/"
+      serviceUrl: "https://nationalcareers.service.gov.uk/",
+      navigation: [
+        {
+          href: "/",
+          text: "Explore careers",
+          active: true
+        },
+        {
+          href: "https://nationalcareersservice.direct.gov.uk/skills-health-check",
+          text: "Skills health check"
+        },
+        {
+          href: "https://nationalcareersservice.direct.gov.uk/course-directory",
+          text: "Find a course"
+        },
+        {
+          href: "https://nationalcareersservice.direct.gov.uk/contact-us",
+          text: "Contact us"
+        },
+        {
+          href: "https://nationalcareersservice.direct.gov.uk/about-us",
+          text: "About us"
+        },
+        {
+          href: "https://nationalcareersservice.direct.gov.uk/get-a-job",
+          text: "Help to get a job"
+        }
+    ]
     }) }}
 
     {% block main %}{% endblock %}

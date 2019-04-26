@@ -69,6 +69,9 @@
         "NotifySmsTemplateId": {
             "type": "string"
         },
+        "ApimAuthorisationCode": {
+            "type": "string"
+        },
         "SiteFinityApiKey": {
             "type": "securestring"
         },
@@ -166,7 +169,7 @@
                 },
                 "parameters": {
                     "allowAnonymousAccess": {
-                        "value": true
+                        "value": false
                     },
                     "apimServiceName": {
                         "value": "[parameters('ApimServiceName')]"
@@ -271,6 +274,10 @@
                             {
                                 "name": "AppSettings__SessionApiRoot",
                                 "value": "[concat(parameters('ApimRoot'), 'assessments-sval/api')]"
+                            },
+                            {
+                                "name": "AppSettings__APIAuthorisationCode",
+                                "value": "[parameters('ApimAuthorisationCode')]"
                             },
                             {
                                 "name": "AppSettings__AssessmentQuestionSetNames",

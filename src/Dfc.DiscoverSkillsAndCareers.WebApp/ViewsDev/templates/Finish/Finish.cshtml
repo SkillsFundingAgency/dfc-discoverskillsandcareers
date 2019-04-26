@@ -14,15 +14,18 @@
 
 {% block main %}
 
-  <div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-  </div>
-
   <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+      {% include "_phasebanner.njk" %}
+
+      {{ govukBackLink({
+        text: "Back to the start",
+        href: "/"
+      }) }}
+
+    </div>
 
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
@@ -45,7 +48,7 @@
             </h1>
           </div>
 
-          <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
+          <h2 class="govuk-heading-m">@Model.ContentTitle</h2>
           <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
 
           {{ govukButton({

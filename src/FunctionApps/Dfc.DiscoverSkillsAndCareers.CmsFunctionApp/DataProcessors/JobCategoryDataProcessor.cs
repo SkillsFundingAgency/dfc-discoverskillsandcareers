@@ -39,7 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             var codes = new List<string>();
             foreach (var jobCategory in data)
             {
-                var code = GetCode(jobCategory.Title);
+                var code = JobCategoryHelper.GetCode(jobCategory.Title);
                 await JobCategoryRepository.CreateJobCategory(new JobFamily()
                 {
                     JobFamilyName = jobCategory.Title,
@@ -61,22 +61,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             logger.LogInformation("End poll for JobCategories");
         }
 
-        public string GetCode(string input)
-        {
-            string code = "";
-            var words = input.Split(" ");
-            if (words.Count() > 1)
-            {
-                for (var i = 0; i < words.Count(); i++)
-                {
-                    code += words[i].Substring(0, 1).ToUpper();
-                }
-            }
-            else
-            {
-                code = input.Substring(0, 3).ToUpper();
-            }
-            return code;
-        }
+        
     }
 }

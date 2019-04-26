@@ -6,6 +6,24 @@ var results = (function () {
     }
     return groups
   }
+  function setCookie (name, value, days) {
+    var expires = ''
+    if (days) {
+      var date = new Date()
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+      expires = '; expires=' + date.toUTCString()
+    }
+    document.cookie = name + '=' + (value || '') + expires + '; path=/'
+  }
+  function getCookie (name) {
+    var value = '; ' + document.cookie
+    var parts = value.split('; ' + name + '=')
+    if (parts.length === 2) return parts.pop().split(';').shift()
+  }
+  function findAncestor (el, sel) {
+    while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el, sel)));
+    return el
+  }
   return {
     cardHeight: function () {
       const cards = Array.prototype.slice.call(document.getElementsByClassName('app-long-results__item'))
@@ -66,51 +84,93 @@ var results = (function () {
     },
     long: function () {
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
+      const cookieName = '.dysac-result'
+      const cookieData = getCookie(cookieName)
+      const data = cookieData ? JSON.parse(cookieData) : null
+
       resultsLists.map(resultsList => {
+        const showButtonElement = document.createElement('a')
+        const hideButtonElement = document.createElement('a')
         const resultsItems = Array.prototype.slice.call(resultsList.children)
         const rowLength = 3
+        const showMoreText = 'Show more'
+        const showLessText = 'Show less'
         const cards = resultsItems.filter(result => {
           return resultsItems.indexOf(result) >= 3
         })
-        var numOfCards = cards.length
-        var groupIndex = 1
-        var groups = breakArrayIntoGroups(cards, rowLength)
+        const numOfCards = cards.length
+
+        // Split cards into groups of three and use cookie to see if we should be showing any
+        const code = findAncestor(resultsList, '.app-results__item').dataset.jobFamilyCode
+        const groups = breakArrayIntoGroups(cards, rowLength)
+        const groupsToShow = data && code ? data[code] : null
+
+        let groupIndex = groupsToShow ? groupsToShow : 0
+
+        var updateButtons = () => {
+          showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText : ''
+          hideButtonElement.innerText = groupIndex > 0 ? showLessText : ''
+        }
+
+        var saveState = () => {
+          let cookieData = getCookie(cookieName)
+          let data = cookieData ? JSON.parse(cookieData) : {}
+          let code = findAncestor(resultsList, '.app-results__item').dataset.jobFamilyCode
+          data[code] = groupIndex
+          setCookie(cookieName, JSON.stringify(data))
+        }
 
         var getRemainingCards = () => {
           return numOfCards - (groupIndex * rowLength)
         }
 
         if (groups.length) {
-          groups.map(group => {
-            group.map(el => {
-              el.style.display = 'none'
-            })
+          groups.map((group, index) => {
+            if (!groupsToShow || (groupsToShow && index >= groupsToShow)) {
+              group.map(el => {
+                el.style.display = 'none'
+              })
+            }
           })
 
           const wrapperElement = resultsList.nextElementSibling.children[0].children[0]
 
-          // "See matches" button
-          const getButtonText = () => 'View ' + getRemainingCards() + ' more result'
-          const buttonElement = document.createElement('a')
-          buttonElement.classList = 'govuk-link govuk-link--no-visited-state'
-          buttonElement.href = '#'
-          buttonElement.innerText = getButtonText()
-          wrapperElement.appendChild(buttonElement)
+          // More button
+          showButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
+          showButtonElement.href = '#'
+          showButtonElement.innerText = showMoreText
+          wrapperElement.appendChild(showButtonElement)
 
-          buttonElement.addEventListener('click', function (event) {
+          showButtonElement.addEventListener('click', function (event) {
             event.preventDefault()
             groups[groupIndex].map(el => {
               el.style.display = 'block'
             })
             groupIndex += 1
-            if (getRemainingCards() > 0) {
-              buttonElement.innerText = getButtonText()
-            } else {
-              buttonElement.innerText = ''
-            }
+            updateButtons()
+            saveState()
+            return false
+          })
+
+          // Less button
+          hideButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
+          hideButtonElement.href = '#'
+          hideButtonElement.innerText = ''
+          wrapperElement.appendChild(hideButtonElement)
+
+          hideButtonElement.addEventListener('click', function (event) {
+            event.preventDefault()
+            groups[groupIndex - 1].map(el => {
+              el.style.display = 'none'
+            })
+            groupIndex -= 1
+            updateButtons()
+            saveState()
             return false
           })
         }
+
+        updateButtons()
       })
     }
   }

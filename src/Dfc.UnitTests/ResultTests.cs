@@ -3,20 +3,40 @@ using Dfc.DiscoverSkillsAndCareers.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Microsoft.Build.Utilities;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Dfc.UnitTests
 {
     public class ResultTests
     {
+        private IQuestionSetRepository questionSetRepository;
+        private ILogger logger;
+
+        public ResultTests()
+        {
+            questionSetRepository = Substitute.For<IQuestionSetRepository>();
+            logger = Substitute.For<ILogger>();
+
+            questionSetRepository.GetCurrentFilteredQuestionSets().Returns(Task.FromResult(
+                AssessmentCalculationService.JobFamilies.Select(jf => new QuestionSet
+                {
+                    Title = jf.JobFamilyName,
+                    MaxQuestions = 3
+                }).ToList()));
+        }
+        
         [Fact]
         public async Task CalcuateResult_WithSession_ShouldHaveResultsData()
         {
             var userSession = new UserSession();
 
-            var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData);
         }
@@ -33,8 +53,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -55,8 +75,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -79,8 +99,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -100,8 +120,8 @@ namespace Dfc.UnitTests
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService();
-            await AssessmentCalculationService.CalculateAssessment(userSession);
+            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -132,17 +152,14 @@ namespace Dfc.UnitTests
             var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "CTD");
-            Assert.True(result[1].JobFamilyCode == "RAS");
-            Assert.True(result[2].JobFamilyCode == "HAF");
-            Assert.True(result[3].JobFamilyCode == "CAT");
-            Assert.True(result[4].JobFamilyCode == "CAM");
-            Assert.True(result[5].JobFamilyCode == "SOC");
-            Assert.True(result[6].JobFamilyCode == "HEC");
-            Assert.True(result[7].JobFamilyCode == "ANC");
-            Assert.True(result[8].JobFamilyCode == "ADM");
-            Assert.True(result[9].JobFamilyCode == "TAE");
+            Assert.Equal(6, result.Count);
+            Assert.Equal("CTD", result[0].JobFamilyCode);
+            Assert.Equal("RAS", result[1].JobFamilyCode);
+            Assert.Equal("HAF", result[2].JobFamilyCode);
+            Assert.Equal("SOC", result[3].JobFamilyCode);
+            Assert.Equal("MAN", result[4].JobFamilyCode);
+            Assert.Equal("SAL", result[5].JobFamilyCode);
+    
         }
 
         [Fact]
@@ -234,17 +251,8 @@ namespace Dfc.UnitTests
             var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "MAN");
-            Assert.True(result[1].JobFamilyCode == "BAW");
-            Assert.True(result[2].JobFamilyCode == "SAL");
-            Assert.True(result[3].JobFamilyCode == "RAS");
-            Assert.True(result[4].JobFamilyCode == "HAF");
-            Assert.True(result[5].JobFamilyCode == "SAR");
-            Assert.True(result[6].JobFamilyCode == "MAU");
-            Assert.True(result[7].JobFamilyCode == "TAE");
-            Assert.True(result[8].JobFamilyCode == "BAF");
-            Assert.True(result[9].JobFamilyCode == "LAL");
+            Assert.Equal(1, result.Count);
+            Assert.Equal("MAN", result[0].JobFamilyCode);
         }
 
         private string FriendlyJobsString(IEnumerable<JobFamilyResult> result)
@@ -270,17 +278,9 @@ namespace Dfc.UnitTests
             var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "CTD");
-            Assert.True(result[1].JobFamilyCode == "SOC");
-            Assert.True(result[2].JobFamilyCode == "HEC");
-            Assert.True(result[3].JobFamilyCode == "ANC");
-            Assert.True(result[4].JobFamilyCode == "CAT");
-            Assert.True(result[5].JobFamilyCode == "CAM");
-            Assert.True(result[6].JobFamilyCode == "SAL");
-            Assert.True(result[7].JobFamilyCode == "ADM");
-            Assert.True(result[8].JobFamilyCode == "RAS");
-            Assert.True(result[9].JobFamilyCode == "HAF");
+            Assert.Equal(2, result.Count);
+            Assert.Equal("CTD",result[0].JobFamilyCode);
+            Assert.Equal("SOC",result[1].JobFamilyCode);
         }
 
         [Fact]
@@ -301,17 +301,13 @@ namespace Dfc.UnitTests
             var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "GOV");
-            Assert.True(result[1].JobFamilyCode == "HOM");
-            Assert.True(result[2].JobFamilyCode == "ENV");
-            Assert.True(result[3].JobFamilyCode == "EAM");
-            Assert.True(result[4].JobFamilyCode == "TRA");
-            Assert.True(result[5].JobFamilyCode == "DAS");
-            Assert.True(result[6].JobFamilyCode == "BAF");
-            Assert.True(result[7].JobFamilyCode == "LAL");
-            Assert.True(result[8].JobFamilyCode == "TAT");
-            Assert.True(result[9].JobFamilyCode == "BAW");
+            Assert.Equal(6,result.Count);
+            Assert.Equal("GOV",result[0].JobFamilyCode);
+            Assert.Equal("HOM",result[1].JobFamilyCode);
+            Assert.Equal("ENV",result[2].JobFamilyCode);
+            Assert.Equal("EAM",result[3].JobFamilyCode);
+            Assert.Equal("TRA",result[4].JobFamilyCode);
+            Assert.Equal("DAS",result[5].JobFamilyCode);
         }
 
         [Fact]
@@ -332,17 +328,11 @@ namespace Dfc.UnitTests
             var result = AssessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "ADM");
-            Assert.True(result[1].JobFamilyCode == "GOV");
-            Assert.True(result[2].JobFamilyCode == "SAR");
-            Assert.True(result[3].JobFamilyCode == "MAU");
-            Assert.True(result[4].JobFamilyCode == "BAF");
-            Assert.True(result[5].JobFamilyCode == "LAL");
-            Assert.True(result[6].JobFamilyCode == "MAN");
-            Assert.True(result[7].JobFamilyCode == "BAW");
-            Assert.True(result[8].JobFamilyCode == "CTD");
-            Assert.True(result[9].JobFamilyCode == "SAL");
+            Assert.Equal(4,result.Count);
+            Assert.Equal("ADM", result[0].JobFamilyCode);
+            Assert.Equal("GOV", result[1].JobFamilyCode);
+            Assert.Equal("SAR", result[2].JobFamilyCode);
+            Assert.Equal("MAU", result[3].JobFamilyCode);
         }
 
         [Fact]

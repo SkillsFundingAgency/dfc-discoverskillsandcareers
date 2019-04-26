@@ -122,7 +122,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 }
                 else
                 {
-                    await filterAssessmentCalculationService.CalculateAssessment(userSession);
+                    await filterAssessmentCalculationService.CalculateAssessment(userSession, log);
                 }
             }
             else

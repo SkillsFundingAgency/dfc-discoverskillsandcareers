@@ -69,10 +69,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.Traits = resultsResponse.Traits;
                 model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
                 model.JobProfiles = resultsResponse.JobProfiles;
+                model.ExploreCareersBaseUrl = AppSettings.ExploreCareersBaseUrl;
                 return View("Results", model);
             }
             catch (System.Net.Http.HttpRequestException ex)
             {
+                LoggerHelper.LogException(Log, correlationId, ex);
                 if (!string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/reload");
@@ -172,6 +174,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             model.UseFilteringQuestions = AppSettings.UseFilteringQuestions;
             model.JobProfiles = resultsResponse.JobProfiles;
             model.WhatYouToldUs = resultsResponse.WhatYouToldUs;
+            model.ExploreCareersBaseUrl = AppSettings.ExploreCareersBaseUrl;
             return View("ResultsForJobCategory", model);
         }
 

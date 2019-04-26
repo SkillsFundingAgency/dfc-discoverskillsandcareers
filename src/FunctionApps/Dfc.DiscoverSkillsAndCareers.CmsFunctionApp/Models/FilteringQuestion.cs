@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
@@ -21,5 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string PositiveResultDisplayText { get; set; }
         [JsonProperty("NegativeResultDisplayText")]
         public string NegativeResultDisplayText { get; set; }
+        [JsonProperty("LastModified")]
+        public DateTime LastUpdated { get; set; }
     }
 }
