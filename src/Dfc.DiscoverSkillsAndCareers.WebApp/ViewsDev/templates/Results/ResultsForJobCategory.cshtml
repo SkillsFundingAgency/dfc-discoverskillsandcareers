@@ -113,7 +113,7 @@
                     <p>@jobCategory.JobFamilyText</p>
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count == 0)
                     {
-                        <p>@Model.ResultsAnswerMoreText?.Replace("[jobcategory]", jobCategory.JobFamilyName)</p>
+                        <p class="app-noprint">@Model.ResultsAnswerMoreText?.Replace("[jobcategory]", jobCategory.JobFamilyName)</p>
                       <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
                         @if (jobCategory.TotalQuestions == 1)
                         {
