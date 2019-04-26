@@ -10,6 +10,7 @@
   margin-bottom: 20px;
 }
 
+.show-more,
 .app-noprint,
 .govuk-phase-banner,
 .govuk-breadcrumbs,
@@ -89,9 +90,11 @@
   @extend .govuk-inset-text;
   display: block;
 
+
   li {
     border: 0;
     margin: 0 !important;
+    padding-bottom: 10px;
   }
 
   .app-long-results__item {
@@ -101,6 +104,11 @@
 
     .embedded-fa-icon {
       display: none;
+    }
+
+    .result-description {
+      height: auto!important;
+      margin-bottom: 20px;
     }
 
     .result-meta,
