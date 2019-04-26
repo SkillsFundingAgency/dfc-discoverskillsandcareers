@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                        .Where(x => x.PartitionKey == $"{assessmentType.ToLower()}-{title.ToLower()}-{version}")
                                        .AsEnumerable()
                                        .ToArray();
-                return queryQuestions;
+                return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
             {
@@ -101,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                        .Where(x => x.PartitionKey == questionSetVersion)
                                        .AsEnumerable()
                                        .ToArray();
-                return queryQuestions;
+                return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
             {

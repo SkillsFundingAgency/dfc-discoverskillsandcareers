@@ -256,7 +256,7 @@ namespace Dfc.UnitTests
             var result = assessmentCalculationService.CalculateJobFamilyRelevance(AssessmentCalculationService.JobFamilies, userTraits, "en");
 
             var jobs = FriendlyJobsString(result);
-            Assert.Equal(1, result.Count);
+            Assert.Single(result);
             Assert.Equal("MAN", result[0].JobFamilyCode);
         }
 
