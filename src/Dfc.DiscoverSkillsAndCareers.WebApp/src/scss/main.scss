@@ -162,13 +162,6 @@ $app-text-light: #646C70;
   color: $govuk-secondary-text-colour;
 }
 
-.app-print-panel {
-  display: none;
-  @include govuk-media-query($from: desktop) {
-    display: block;
-  }
-}
-
 .app-advisor-panel {
   margin-top: 5px;
 }
