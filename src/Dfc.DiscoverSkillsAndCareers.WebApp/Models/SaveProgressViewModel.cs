@@ -18,6 +18,7 @@
         public string SmsPrompt { get; set; } = "What is your phone number?";
         public string SmsInputLabel { get; set; } = "Phone number";
         public string SmsInputButtonText { get; set; } = "Send";
+        public string SmsHint { get; set; } = "We will only use this to send you a link to return to your assessment";
         public string ReturnText { get; set; } = "Click the link in the text to return to your assessment";
         public string ContinueButtonText { get; set; } = "Continue";
         public string EmailSentHeader { get; set; } = "Check your email";
