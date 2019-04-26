@@ -22,6 +22,7 @@ $app-text-light: #646C70;
 @import 'payscale';
 @import 'results';
 @import 'footer';
+@import 'legacy';
 
 %clearfix {
   &:after {
