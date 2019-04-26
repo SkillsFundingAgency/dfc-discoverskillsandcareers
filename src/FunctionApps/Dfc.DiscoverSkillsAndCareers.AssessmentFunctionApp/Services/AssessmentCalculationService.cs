@@ -28,9 +28,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             RunShortAssessment(log, userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
         }
 
-        public static void RunShortAssessment(ILogger log, UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
+        public void RunShortAssessment(ILogger log, UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
         {
-            
             // User traits
             var userTraits = userSession.RecordedAnswers
                 .Select(x => new
@@ -78,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             userSession.ResultData = resultData;
         }
 
-        public static List<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
+        public List<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
         { 
             var userJobFamilies = jobFamilies
               .Select(x => new JobFamilyResult()
