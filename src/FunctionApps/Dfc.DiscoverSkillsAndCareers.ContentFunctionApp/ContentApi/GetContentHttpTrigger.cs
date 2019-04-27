@@ -32,13 +32,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "content/{contentType}")]HttpRequest req,
             string contentType,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IContentRepository contentRepository)
         {
-            loggerHelper.LogMethodEnter(log);
-
             var correlationId = httpRequestHelper.GetDssCorrelationId(req);
             if (string.IsNullOrEmpty(correlationId))
                 log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
@@ -52,13 +49,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
             var contentModel = await contentRepository.GetContent(contentType);
             if (contentModel == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Content type does not exist {0}", contentType));
+                log.LogInformation($"Correlation Id: {correlationId} - Content type does not exist {contentType}");
                 var result = httpResponseMessageHelper.NoContent();
                 return result;
             }
-
-            loggerHelper.LogMethodExit(log);
-
+            
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(contentModel));
         }
     }

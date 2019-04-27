@@ -43,7 +43,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Ioc
             });
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();

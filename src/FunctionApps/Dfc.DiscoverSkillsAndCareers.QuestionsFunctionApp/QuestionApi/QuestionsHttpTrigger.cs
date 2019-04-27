@@ -35,13 +35,10 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
             string title,
             int version,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IQuestionRepository questionRepository)
         {
-            loggerHelper.LogMethodEnter(log);
-
             var correlationId = httpRequestHelper.GetDssCorrelationId(req);
             if (string.IsNullOrEmpty(correlationId))
                 log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
@@ -55,12 +52,10 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
             var questions = await questionRepository.GetQuestions(assessmentType, title, version);
             if (questions == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("QuestionSet does not exist {0} {1}", assessmentType, version));
+                log.LogInformation($"Correlation Id: {correlationId} - QuestionSet does not exist {assessmentType} {version}");
                 return httpResponseMessageHelper.NoContent();
             }
-
-            loggerHelper.LogMethodExit(log);
-
+            
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questions));
         }
     }

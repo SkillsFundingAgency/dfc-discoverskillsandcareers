@@ -73,16 +73,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 QuestionSetVersion = userSession.CurrentQuestionSetVersion,
                 MaxQuestions = userSession.MaxQuestions,
                 SuggestedJobProfiles = socCodes,
-                RecordedAnswerCount = userSession.CurrentRecordedAnswers.Length
+                RecordedAnswerCount = userSession.CurrentRecordedAnswers.Length,
+                RecordedAnswers = userSession.CurrentRecordedAnswers.ToArray(),
+                WhatYouToldUs = whatYouToldUs.Distinct().ToArray()
+                
             };
-
-            // Update the "what you told us"
-            if (userSession.ResultData.WhatYouToldUs != null)
-            {
-                whatYouToldUs.AddRange(userSession.ResultData.WhatYouToldUs);
-            }
-            
-            userSession.ResultData.WhatYouToldUs = whatYouToldUs.Distinct().ToArray();
         }
     }
 }

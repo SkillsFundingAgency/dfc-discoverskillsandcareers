@@ -14,20 +14,28 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Dfc.UnitTests.FunctionTests
 {
-    public class NextQuestionHttpTriggerTests : IDisposable
+    public class AssessmentQuestionHttpTriggerTests : IDisposable
     {
-        public NextQuestionHttpTriggerTests()
+        private HttpRequest _request;
+        private ILogger _log;
+        private IHttpRequestHelper _httpRequestHelper;
+        private IHttpResponseMessageHelper _httpResponseMessageHelper;
+        private IUserSessionRepository _userSessionRepository;
+        private IQuestionRepository _questionRepository;
+        private IOptions<AppSettings> _optsAppSettings;
+        
+        public AssessmentQuestionHttpTriggerTests()
         {
             _request = new DefaultHttpRequest(new DefaultHttpContext());
             _log = Substitute.For<ILogger>();
-            _loggerHelper = Substitute.For<ILoggerHelper>();
             _httpRequestHelper = Substitute.For<IHttpRequestHelper>();
-            _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
             _optsAppSettings = Options.Create(new AppSettings { SessionSalt = "ncs" });
@@ -41,22 +49,14 @@ namespace Dfc.UnitTests.FunctionTests
             _userSessionRepository = null;
         }
 
-        private HttpRequest _request;
-        private ILogger _log;
-        private ILoggerHelper _loggerHelper;
-        private IHttpRequestHelper _httpRequestHelper;
-        private IHttpResponseMessageHelper _httpResponseMessageHelper;
-        private IUserSessionRepository _userSessionRepository;
-        private IQuestionRepository _questionRepository;
-        private IOptions<AppSettings> _optsAppSettings;
-
-        private async Task<HttpResponseMessage> RunFunction(string sessionId)
+        private async Task<HttpResponseMessage> RunFunction(string sessionId,string assessment, int questionNumber)
         {
-            return await NextQuestionHttpTrigger.Run(
+            return await AssessmentQuestionHttpTrigger.Run(
                 _request,
                 sessionId,
+                assessment,
+                questionNumber,
                 _log,
-                _loggerHelper,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _userSessionRepository,
@@ -66,49 +66,62 @@ namespace Dfc.UnitTests.FunctionTests
         }
 
         [Fact]
-        public async Task NextQuestionHttpTrigger_With_ShouldReturnNewSessionId()
+        public async Task ShouldReturnQuestionThatIsRequested()
         {
-            _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository = new FakeUserSessionRepository();
             _questionRepository = new FakeQuestionRepository();
 
-            var result = await RunFunction("201901-session1");
-            var content = await result.Content.ReadAsAsync<NextQuestionResponse>();
+            var result = await RunFunction("201901-session1", "short", 1);
+            var content = await result.Content.ReadAsAsync<AssessmentQuestionResponse>();
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            Assert.NotEmpty(content.QuestionId);
+            Assert.Equal(1, content.QuestionNumber);
+        }
+        
+        [Fact]
+        public async Task ShouldReturnNoContentIfQuestionOutOfSet()
+        {
+            _userSessionRepository = new FakeUserSessionRepository();
+            _questionRepository.GetQuestion(41, Arg.Any<string>()).Returns(Task.FromResult<Question>(null));
+
+            var result = await RunFunction("201901-session1", "short", 41);
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
         }
 
         [Fact]
-        public async Task NextQuestionHttpTrigger_WithMissingSessionId_ShouldReturnBadRequest()
+        public async Task AssessmentQuestionHttpTrigger_WithMissingSessionId_ShouldReturnBadRequest()
         {
+            
+            
+            
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
 
-            var result = await RunFunction(null);
+            var result = await RunFunction(null,"short",1);
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task NextQuestionHttpTrigger_WithInvalidSessionId_ShouldReturnNoContent()
+        public async Task AssessmentQuestionHttpTrigger_WithInvalidSessionId_ShouldReturnNoContent()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
 
-            var result = await RunFunction("invalid-session-id");
+            var result = await RunFunction("invalid-session-id","short",1);
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
         }
 
         [Fact]
-        public async Task NextQuestionHttpTrigger_WithMissingQuestion_ShouldReturnNoContent()
+        public async Task AssessmentQuestionHttpTrigger_WithMissingQuestion_ShouldReturnNoContent()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository = new FakeUserSessionRepository();
 
-            var result = await RunFunction("invalid-session-id");
+            var result = await RunFunction("invalid-session-id","short",1);
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);

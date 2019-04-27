@@ -8,7 +8,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("questionId")]
         public string QuestionId { get; set; }
         [JsonProperty("questionNumber")]
-        public string QuestionNumber { get; set; }
+        public int QuestionNumber { get; set; }
+        
         [JsonProperty("questionText")]
         public string QuestionText { get; set; }
         [JsonProperty("traitCode")]

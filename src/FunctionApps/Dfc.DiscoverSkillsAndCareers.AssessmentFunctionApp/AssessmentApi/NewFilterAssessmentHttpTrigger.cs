@@ -35,7 +35,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
              string sessionId,
              string jobCategory,
              ILogger log,
-             [Inject]ILoggerHelper loggerHelper,
              [Inject]IHttpRequestHelper httpRequestHelper,
              [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
              [Inject]IUserSessionRepository userSessionRepository,
@@ -43,8 +42,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
              [Inject]IQuestionSetRepository questionSetRepository,
              [Inject]IOptions<AppSettings> appSettings)
         {
-            loggerHelper.LogMethodEnter(log);
-
             var correlationId = httpRequestHelper.GetDssCorrelationId(req);
             if (string.IsNullOrEmpty(correlationId))
                 log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
@@ -57,34 +54,34 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 
             if (string.IsNullOrEmpty(sessionId))
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, "Session Id not supplied");
+                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id not supplied");
                 return httpResponseMessageHelper.BadRequest();
             }
 
             var userSession = await userSessionRepository.GetUserSession(sessionId);
             if (userSession == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sessionId));
+                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
                 return httpResponseMessageHelper.NoContent();
             }
 
             if (userSession.ResultData == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id {0} has not completed the short assessment", sessionId));
+                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
                 return httpResponseMessageHelper.BadRequest();
             }
 
             var questionSet = await questionSetRepository.GetCurrentQuestionSet("filtered", jobCategory);
             if (questionSet == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Filtered question set does not exist {0}", jobCategory));
+                log.LogInformation($"CorrelationId: {correlationGuid} - Filtered question set does not exist {jobCategory}");
                 return httpResponseMessageHelper.NoContent();
             }
 
-            var jobFamily = userSession.ResultData.JobFamilies.Where(x => x.JobFamilyName.ToLower().Replace(" ", "-") == jobCategory).FirstOrDefault();
+            var jobFamily = userSession.ResultData.JobFamilies.FirstOrDefault(x => x.JobFamilyName.ToLower().Replace(" ", "-") == jobCategory);
             if (jobFamily == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, $"Job family {jobCategory} could not be found on session {sessionId}");
+                log.LogInformation($"CorrelationId: {correlationGuid} - Job family {jobCategory} could not be found on session {sessionId}");
                 return httpResponseMessageHelper.NoContent();
             }
             
@@ -98,8 +95,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             };
             
             await userSessionRepository.UpdateUserSession(userSession);
-
-            loggerHelper.LogMethodExit(log);
 
             var result = new DscSession()
             {

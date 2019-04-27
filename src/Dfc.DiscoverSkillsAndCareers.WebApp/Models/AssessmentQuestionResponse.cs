@@ -1,8 +1,9 @@
 ﻿using System;
+using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
 {
-    public class NextQuestionResponse
+    public class AssessmentQuestionResponse
     {
         public string QuestionText { get; set; }
         public string TraitCode { get; set; }
@@ -15,6 +16,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string ReloadCode { get; set; }
         public DateTime StartedDt { get; set; }
         public int RecordedAnswersCount { get; set; }
+        
+        public AnswerOption? RecordedAnswer { get; set; }
         public int MaxQuestionsCount { get; set; }
         public string CurrentFilterAssessmentCode { get; set; }
         public bool IsFilterAssessment { get; set; }

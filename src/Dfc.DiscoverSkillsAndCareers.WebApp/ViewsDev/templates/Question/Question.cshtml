@@ -8,11 +8,12 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
-  @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
-  @{
-      ViewData["Title"] = "Question";
-      Layout = null;
-  }
+@using Dfc.DiscoverSkillsAndCareers.Models  
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
+@{
+    ViewData["Title"] = "Question";
+    Layout = null;
+}
 {% endblock %}
 
 {% block tagging %}
@@ -93,21 +94,21 @@
                 <div class="app-question__answer govuk-radios govuk-radios--inline">
 
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" value="StronglyAgree">
+                        <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.StronglyAgree)" value="StronglyAgree">
                         <label class="govuk-label govuk-radios__label" for="selected_answer-1">
                             @Model.StronglyAgree
                         </label>
                     </div>
 
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" value="Agree">
+                        <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.Agree)" value="Agree">
                         <label class="govuk-label govuk-radios__label" for="selected_answer-2">
                             @Model.Agree
                         </label>
                     </div>
 
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-5" name="selected_answer" type="radio" value="Neutral">
+                        <input class="govuk-radios__input" id="selected_answer-5" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.Neutral)" value="Neutral">
                         <label class="govuk-label govuk-radios__label" for="selected_answer-5">
                             @Model.Neutral
                         </label>
@@ -115,14 +116,14 @@
 
 
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-3" name="selected_answer" type="radio" value="Disagree">
+                        <input class="govuk-radios__input" id="selected_answer-3" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.Disagree)" value="Disagree">
                         <label class="govuk-label govuk-radios__label" for="selected_answer-3">
                             @Model.Disagree
                         </label>
                     </div>
 
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="selected_answer-4" name="selected_answer" type="radio" value="StronglyDisagree">
+                        <input class="govuk-radios__input" id="selected_answer-4" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.StronglyDisagree)" value="StronglyDisagree">
                         <label class="govuk-label govuk-radios__label" for="selected_answer-4">
                             @Model.StronglyDisagree
                         </label>

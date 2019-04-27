@@ -1,8 +1,9 @@
 ﻿using System;
+using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
 {
-    public class NextQuestionResponse
+    public class AssessmentQuestionResponse
     {
         public string QuestionText { get; set; }
         public string TraitCode { get; set; }
@@ -19,5 +20,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
         public string CurrentFilterAssessmentCode { get; set; }
         public bool IsFilterAssessment { get; set; }
         public string JobCategorySafeUrl { get; set; }
+        public AnswerOption? RecordedAnswer { get; set; }
     }
 }

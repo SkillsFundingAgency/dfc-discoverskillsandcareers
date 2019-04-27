@@ -46,11 +46,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
 
-        public async Task<NextQuestionResponse> NextQuestion(string sessionId, Guid correlationId)
+        public async Task<AssessmentQuestionResponse> Reload(string sessionId, Guid correlationId)
         {
-            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/next";
+            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/reload";
             var json = await HttpService.GetString(url, correlationId);
-            return JsonConvert.DeserializeObject<NextQuestionResponse>(json);
+            return JsonConvert.DeserializeObject<AssessmentQuestionResponse>(json);
+        }
+
+        public async Task<AssessmentQuestionResponse> Question(string sessionId, string assessment, int questionNumber, Guid correlationId)
+        {
+            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/{assessment}/q/{questionNumber}";
+            var json = await HttpService.GetString(url, correlationId);
+            return JsonConvert.DeserializeObject<AssessmentQuestionResponse>(json);
         }
 
         public async Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest, Guid correlationId)

@@ -34,7 +34,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment/notify/email")]HttpRequest req,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
@@ -42,8 +41,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         {
             try
             {
-                loggerHelper.LogMethodEnter(log);
-
                 var correlationId = httpRequestHelper.GetDssCorrelationId(req);
                 if (string.IsNullOrEmpty(correlationId))
                     log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
@@ -63,26 +60,26 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
                 if (sendSessionEmailRequest == null || string.IsNullOrEmpty(sendSessionEmailRequest.SessionId))
                 {
-                    loggerHelper.LogError(log, correlationGuid, new Exception("Session Id not supplied"));
+                    log.LogError($"CorrelationId: {correlationGuid} - Session Id not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.Domain))
                 {
-                    loggerHelper.LogError(log, correlationGuid, new Exception("Domain not supplied"));
+                    log.LogError($"CorrelationId: {correlationGuid} - Domain not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.TemplateId))
                 {
-                    loggerHelper.LogError(log, correlationGuid, new Exception("TemplateId not supplied"));
+                    log.LogError($"CorrelationId: {correlationGuid} - TemplateId not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 var userSession = await userSessionRepository.GetUserSession(sendSessionEmailRequest.SessionId);
                 if (userSession == null)
                 {
-                    loggerHelper.LogWarningMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sendSessionEmailRequest.SessionId));
+                    log.LogError($"CorrelationId: {correlationGuid} - Session Id does not exist {sendSessionEmailRequest.SessionId}");
                     return httpResponseMessageHelper.NoContent();
                 }
 
@@ -92,8 +89,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 {
                     IsSuccess = true,
                 };
-
-                loggerHelper.LogMethodExit(log);
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
             }

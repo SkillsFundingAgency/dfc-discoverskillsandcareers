@@ -15,9 +15,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         
         [JsonProperty("currentQuestion")]
         public int CurrentQuestion { get; set; }
-        
-        [JsonProperty("isComplete")]
-        public bool IsComplete { get; set; }
+
+        [JsonIgnore] public bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
         
         [JsonProperty("completeDt")]
         public DateTime? CompleteDt { get; set; }
@@ -98,37 +97,79 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         
         [JsonIgnore]
         public Answer[] CurrentRecordedAnswers => CurrentState.RecordedAnswers.Where(x => x.QuestionSetVersion == CurrentQuestionSetVersion).ToArray();
-        
+
+
+        public bool TrySetStateToExistingSession(string assessment)
+        {
+            if (String.Equals("short", assessment, StringComparison.InvariantCultureIgnoreCase))
+            {
+                FilteredAssessmentState = null;
+                return true;
+            }
+            
+            var jobFamily = ResultData?.JobFamilies.SingleOrDefault(jf =>
+                String.Equals(jf.JobFamilyNameUrlSafe, assessment, StringComparison.InvariantCultureIgnoreCase));
+
+            
+            //Check it we already have the correct filtered assessment
+            //If this is the case then there is nothing else to do except potentially 
+            //copy recorded answers forward. This helps dealing with scenarios where 
+            //the url is directly navigated to.
+            if (FilteredAssessmentState != null 
+                && String.Equals(FilteredAssessmentState.JobFamilyNameUrlSafe, assessment, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var answers = FilteredAssessmentState.RecordedAnswers?.Length;
+                if (answers.GetValueOrDefault(0) == 0)
+                {
+                    FilteredAssessmentState.RecordedAnswers = jobFamily?.FilterAssessment?.RecordedAnswers ?? new Answer[] { };
+                }
+
+                return true;
+            }
+            
+            //Otherwise hydrate the FilteredAssessment state from a previously answered job family result.
+            
+            if (jobFamily?.FilterAssessment == null) 
+                return false;
+            
+            var filterAssessment = jobFamily.FilterAssessment;
+            FilteredAssessmentState = new FilteredAssessmentState
+            {
+                MaxQuestions = filterAssessment.MaxQuestions,
+                CurrentQuestion = filterAssessment?.RecordedAnswerCount ?? 1,
+                QuestionSetVersion = filterAssessment.QuestionSetVersion,
+                JobFamilyName = jobFamily.JobFamilyName,
+                RecordedAnswers = filterAssessment.RecordedAnswers,
+            };
+
+            return true;
+
+        }
         
         /// <summary>
         /// Gets the next question number that should be answered.
         /// </summary>
-        public void MoveToNextQuestion()
+        public int FindNextUnansweredQuestion()
         {
             for (int i = 1; i <= CurrentMaxQuestions; i++)
             {
-                if (CurrentRecordedAnswers.All(x => x.QuestionNumber != i.ToString()))
+                if (CurrentRecordedAnswers.All(x => x.QuestionNumber != i))
                 {
-                    CurrentState.CurrentQuestion = i;
-                    return;
+                    return i;
                 }
             }
-            throw new Exception("All questions answered");
+
+            return CurrentMaxQuestions;
         }
         
         /// <summary>
         /// Updates the IsComplete property on the UserSession based off the current answers and max questions.
         /// </summary>
         public void UpdateCompletionStatus()
-        {
-            bool allQuestionsAnswered = CurrentRecordedAnswers.Count() == CurrentMaxQuestions;
-            var state = CurrentState;
-                
-            if(allQuestionsAnswered) {
-                state.IsComplete = true;
-                state.CompleteDt = DateTime.Now;
-            }
-            
+        {                
+            if(IsComplete) {
+                CurrentState.CompleteDt = DateTime.Now;
+            }   
         }
     }
 }

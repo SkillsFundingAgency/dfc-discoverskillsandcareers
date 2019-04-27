@@ -33,11 +33,11 @@ namespace Dfc.UnitTests
                     CurrentQuestion = 5,
                     RecordedAnswers = new []
                     {
-                        new Answer() { QuestionNumber = "1" },
-                        new Answer() { QuestionNumber = "2" },
-                        new Answer() { QuestionNumber = "3" },
-                        new Answer() { QuestionNumber = "4" },
-                        new Answer() { QuestionNumber = "5" },
+                        new Answer() { QuestionNumber = 1 },
+                        new Answer() { QuestionNumber = 2 },
+                        new Answer() { QuestionNumber = 3 },
+                        new Answer() { QuestionNumber = 4 },
+                        new Answer() { QuestionNumber = 5 },
                     }
                 }
             };
@@ -58,9 +58,9 @@ namespace Dfc.UnitTests
                     CurrentQuestion = 5,
                     RecordedAnswers = new []
                     {
-                        new Answer() { QuestionNumber = "1" },
-                        new Answer() { QuestionNumber = "2" },
-                        new Answer() { QuestionNumber = "5" },
+                        new Answer() { QuestionNumber = 1 },
+                        new Answer() { QuestionNumber = 2 },
+                        new Answer() { QuestionNumber = 5 },
                     }
                 }
             };
@@ -79,14 +79,13 @@ namespace Dfc.UnitTests
                 AssessmentState = new AssessmentState {
                     MaxQuestions = 5,
                     CurrentQuestion = 5,
-                    IsComplete = false,
                     RecordedAnswers = {}
                 }
             };
 
-            userSession.MoveToNextQuestion();
+            var question = userSession.FindNextUnansweredQuestion();
 
-            Assert.Equal(1, userSession.CurrentQuestion);
+            Assert.Equal(1, question);
         }
 
         [Fact]
@@ -99,16 +98,16 @@ namespace Dfc.UnitTests
                     CurrentQuestion = 5,
                     RecordedAnswers = new []
                     {
-                        new Answer() { QuestionNumber = "1" },
-                        new Answer() { QuestionNumber = "2" },
-                        new Answer() { QuestionNumber = "5" },
+                        new Answer() { QuestionNumber = 1 },
+                        new Answer() { QuestionNumber = 2 },
+                        new Answer() { QuestionNumber = 5 },
                     }
                 }
             };
 
-            userSession.MoveToNextQuestion();
+            var question = userSession.FindNextUnansweredQuestion();
 
-            Assert.Equal(3, userSession.CurrentQuestion);
+            Assert.Equal(3, question);
         }
 
         [Fact]
@@ -119,33 +118,19 @@ namespace Dfc.UnitTests
                 AssessmentState = new AssessmentState {
                     MaxQuestions = 5,
                     CurrentQuestion = 5,
-                    IsComplete = false,
                     RecordedAnswers = new []
                     {
-                        new Answer() { QuestionNumber = "1" },
-                        new Answer() { QuestionNumber = "2" },
-                        new Answer() { QuestionNumber = "3" },
-                        new Answer() { QuestionNumber = "4" }
+                        new Answer() { QuestionNumber = 1 },
+                        new Answer() { QuestionNumber = 2 },
+                        new Answer() { QuestionNumber = 3 },
+                        new Answer() { QuestionNumber = 4 }
                     }
                 }
             };
 
-            userSession.MoveToNextQuestion();
+            var question = userSession.FindNextUnansweredQuestion();
 
-            Assert.Equal(5, userSession.CurrentQuestion);
-        }
-
-        [Theory]
-        [InlineData(0, 40, 1)]
-        [InlineData(1, 40, 2)]
-        [InlineData(5, 40, 6)]
-        [InlineData(40, 40, null)]
-        [InlineData(42, 40, null)]
-        public void GetNextQuestionNumber_WithTheory_ShouldHaveExpected(int question, int max, int? expected)
-        {
-            int? actual = NextQuestionHttpTrigger.GetNextQuestionNumber(question, max);
-
-            Assert.Equal(expected, actual);
+            Assert.Equal(5, question);
         }
     }
 }

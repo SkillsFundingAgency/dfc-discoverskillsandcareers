@@ -13,21 +13,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("save-my-progress")]
     public class SaveProgressController : BaseController
     {
-        readonly ILogger<SaveProgressController> Log;
-        readonly ILoggerHelper LoggerHelper;
-        readonly IApiServices ApiServices;
-        readonly AppSettings AppSettings;
+        readonly ILogger<SaveProgressController> _log;
+        readonly IApiServices _apiServices;
+        readonly AppSettings _appSettings;
 
         public SaveProgressController(
             ILogger<SaveProgressController> log,
-            ILoggerHelper loggerHelper,
             IApiServices apiServices,
             IOptions<AppSettings> appSettings)
         {
-            Log = log;
-            LoggerHelper = loggerHelper;
-            ApiServices = apiServices;
-            AppSettings = appSettings.Value;
+            _log = log;
+            _apiServices = apiServices;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPost]
@@ -60,8 +57,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
 
                 if (string.IsNullOrEmpty(sessionId))
@@ -69,7 +64,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/reload";
                 if (withError)
                 {
@@ -80,12 +75,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Index)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
@@ -95,8 +86,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
 
                 if (string.IsNullOrEmpty(sessionId))
@@ -104,19 +93,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
                 AppendCookie(sessionId);
                 return View("EmailInput", model);
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(EmailInput)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
@@ -126,14 +111,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
                 }
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
                 {
@@ -143,7 +126,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 NotifyResponse notifyResponse = null;
                 try
                 {
-                    notifyResponse = await ApiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email?.ToLower(), AppSettings.NotifyEmailTemplateId, sessionId, correlationId);
+                    notifyResponse = await _apiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email?.ToLower(), _appSettings.NotifyEmailTemplateId, sessionId, correlationId);
                     if (!notifyResponse.IsSuccess)
                     {
                         throw new Exception(notifyResponse?.Message);
@@ -155,7 +138,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    LoggerHelper.LogException(Log, correlationId, ex);
+                    _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
                     model.ErrorMessage = $"An error occurred sending an email to {sendEmailRequest.Email}";
                     return View("EmailInput", model);
                 }
@@ -163,12 +146,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(SendEmail)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
@@ -178,8 +157,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
 
                 if (string.IsNullOrEmpty(sessionId))
@@ -187,19 +164,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(SmsInput)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
@@ -226,8 +199,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
 
                 if (string.IsNullOrEmpty(sessionId))
@@ -235,7 +206,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 model.BackLink = "/save-my-progress";
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 AppendCookie(sessionId);
@@ -243,19 +214,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(ReferenceNumber)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
         [NonAction]
         public async Task UpdateSessionVarsOnViewModel(SaveProgressViewModel model, string sessionId, Guid correlationId)
         {
-            var nextQuestionResponse = await ApiServices.NextQuestion(sessionId, correlationId);
+            var nextQuestionResponse = await _apiServices.Reload(sessionId, correlationId);
             model.SessionId = sessionId;
             model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
             model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
@@ -268,14 +235,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
                 }
-                var model = await ApiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()) || !System.Text.RegularExpressions.Regex.Match(sendSmsRequest.MobileNumber, @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").Success)
@@ -286,7 +251,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 NotifyResponse notifyResponse = null;
                 try
                 {
-                    notifyResponse = await ApiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, AppSettings.NotifySmsTemplateId, sessionId, correlationId);
+                    notifyResponse = await _apiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, _appSettings.NotifySmsTemplateId, sessionId, correlationId);
                     if (!notifyResponse.IsSuccess)
                     {
                         throw new Exception(notifyResponse?.Message);
@@ -298,7 +263,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    LoggerHelper.LogException(Log, correlationId, ex);
+                    _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
                     model.ErrorMessage = $"An error occurred sending a text to {sendSmsRequest.MobileNumber}";
                     return View("ReferenceNumber", model);
                 }
@@ -306,12 +271,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(SendSms)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 

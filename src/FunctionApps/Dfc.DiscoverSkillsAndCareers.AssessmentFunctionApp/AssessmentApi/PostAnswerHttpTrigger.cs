@@ -119,7 +119,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 AnsweredDt = DateTime.Now,
                 SelectedOption = answerValue,
                 QuestionId = question.QuestionId,
-                QuestionNumber = question.Order.ToString(),
+                QuestionNumber = question.Order,
                 QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                 TraitCode = question.TraitCode,
                 IsNegative = question.IsNegative,
@@ -150,7 +150,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             }
             else
             {
-                userSession.MoveToNextQuestion();
+                userSession.CurrentState.CurrentQuestion = userSession.FindNextUnansweredQuestion();
             }
         }
 

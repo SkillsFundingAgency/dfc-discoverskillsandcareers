@@ -36,14 +36,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}")]HttpRequest req,
             string sessionId,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
             [Inject]IJobProfileRepository jobProfileRepository)
         {
-            loggerHelper.LogMethodEnter(log);
-
             var correlationId = httpRequestHelper.GetDssCorrelationId(req);
             if (string.IsNullOrEmpty(correlationId))
                 log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
@@ -56,20 +53,20 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 
             if (string.IsNullOrEmpty(sessionId))
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, "Session Id not supplied");
+                log.LogInformation($"Correlation Id: {correlationId} - Session Id not supplied");
                 return httpResponseMessageHelper.BadRequest();
             }
 
             var userSession = await userSessionRepository.GetUserSession(sessionId);
             if (userSession == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sessionId));
+                log.LogInformation($"Correlation Id: {correlationId} - Session Id does not exist {sessionId}");
                 return httpResponseMessageHelper.NoContent();
             }
 
             if (userSession.ResultData == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Result data does not yet exist for session {0}", userSession.PrimaryKey));
+                log.LogInformation($"Correlation Id: {correlationId} - Result data does not yet exist for session {userSession.PrimaryKey}");
                 return httpResponseMessageHelper.BadRequest();
             }
 
@@ -112,11 +109,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                 Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
                 JobFamilies = jobFamilies,
                 JobProfiles = suggestedJobProfiles.ToArray(),
-                WhatYouToldUs = userSession.ResultData.WhatYouToldUs
+                WhatYouToldUs = userSession.ResultData?.JobFamilies.SelectMany(r => r.FilterAssessment?.WhatYouToldUs ?? new string[]{}).Distinct().ToArray() ?? new string[]{}
             };
-
-            loggerHelper.LogMethodExit(log);
-
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(model));
         }
     }

@@ -21,7 +21,6 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _request = new DefaultHttpRequest(new DefaultHttpContext());
             _log = Substitute.For<ILogger>();
-            _loggerHelper = Substitute.For<ILoggerHelper>();
             _httpRequestHelper = Substitute.For<IHttpRequestHelper>();
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _contentRepository = Substitute.For<IContentRepository>();
@@ -36,7 +35,6 @@ namespace Dfc.UnitTests.FunctionTests
 
         private HttpRequest _request;
         private ILogger _log;
-        private ILoggerHelper _loggerHelper;
         private IHttpRequestHelper _httpRequestHelper;
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IContentRepository _contentRepository;
@@ -47,7 +45,6 @@ namespace Dfc.UnitTests.FunctionTests
                 _request,
                 contentType,
                 _log,
-                _loggerHelper,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _contentRepository
