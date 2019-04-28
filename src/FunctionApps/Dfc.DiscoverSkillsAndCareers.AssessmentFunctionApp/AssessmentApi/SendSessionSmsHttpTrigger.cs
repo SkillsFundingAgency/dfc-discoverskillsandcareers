@@ -20,9 +20,9 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
-    public static class SendSessionSmsTrigger
+    public static class SendSessionSmsHttpTrigger
     {
-        [FunctionName("SendSessionSmsTrigger")]
+        [FunctionName("SendSessionSmsHttpTrigger")]
         [ProducesResponseType(typeof(PostAnswerResponse), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "The Sms has been sent", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "No such session exists", ShowSchema = false)]
@@ -73,6 +73,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 if (string.IsNullOrEmpty(sendSessionSmsRequest.TemplateId))
                 {
                     log.LogError($"CorrelationId: {correlationGuid} - TemplateId not supplied");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+                
+                if (string.IsNullOrEmpty(sendSessionSmsRequest.MobileNumber))
+                {
+                    log.LogError($"CorrelationId: {correlationGuid} - Mobile Number not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 

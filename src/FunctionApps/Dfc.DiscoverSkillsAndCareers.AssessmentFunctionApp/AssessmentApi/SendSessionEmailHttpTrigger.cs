@@ -20,9 +20,9 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 {
-    public static class SendSessionEmailTrigger
+    public static class SendSessionEmailHttpTrigger
     {
-        [FunctionName("SendSessionEmailTrigger")]
+        [FunctionName("SendSessionEmailHttpTrigger")]
         [ProducesResponseType(typeof(PostAnswerResponse), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "The email has been sent", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "No such session exists", ShowSchema = false)]
@@ -73,6 +73,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.TemplateId))
                 {
                     log.LogError($"CorrelationId: {correlationGuid} - TemplateId not supplied");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+                
+                if (string.IsNullOrEmpty(sendSessionEmailRequest.EmailAddress))
+                {
+                    log.LogError($"CorrelationId: {correlationGuid} - EmailAddress not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 

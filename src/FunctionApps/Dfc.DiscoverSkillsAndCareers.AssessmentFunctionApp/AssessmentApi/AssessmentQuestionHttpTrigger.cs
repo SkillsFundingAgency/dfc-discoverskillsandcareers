@@ -77,8 +77,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 var datetimeStamp = SessionIdHelper.Decode(appSettings?.Value.SessionSalt, sessionId);
                 if (datetimeStamp == null)
                 {
-                    log.LogError($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
-                    return httpResponseMessageHelper.NoContent();
+                    log.LogError($"CorrelationId: {correlationGuid} - Could not decode session id correctly: {sessionId}");
+                    return httpResponseMessageHelper.BadRequest();
                 }
                 string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
                 sessionId = $"{partitionKey}-{sessionId}";
