@@ -1,21 +1,19 @@
-﻿using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc;
+﻿using System;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
+using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
-namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
+namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 {
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {

@@ -1,7 +1,11 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
 using DFC.Swagger.Standard.Annotations;
@@ -12,13 +16,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 {
     public static class NewAssessmentHttpTrigger
     {

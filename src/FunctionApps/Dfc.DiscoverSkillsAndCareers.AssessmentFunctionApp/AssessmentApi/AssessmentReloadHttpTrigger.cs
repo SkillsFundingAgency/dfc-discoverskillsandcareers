@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 {
     public static class AssessmentReloadHttpTrigger
     {

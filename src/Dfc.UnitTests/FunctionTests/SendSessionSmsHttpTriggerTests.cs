@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;

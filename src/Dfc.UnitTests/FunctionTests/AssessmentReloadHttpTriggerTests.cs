@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;

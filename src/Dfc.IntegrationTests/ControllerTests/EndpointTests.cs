@@ -1,11 +1,10 @@
-using System;
-using Xunit;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net.Http;
 using Newtonsoft.Json;
+using Xunit;
 
-namespace Dfc.IntegrationTests
+namespace Dfc.IntegrationTests.ControllerTests
 {
     public class EndpointTests : IClassFixture<WebApplicationFactory<DiscoverSkillsAndCareers.WebApp.Startup>>
     {
