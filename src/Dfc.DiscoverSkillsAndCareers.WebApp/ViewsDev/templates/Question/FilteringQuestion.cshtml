@@ -8,7 +8,7 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
-@using Dfc.DiscoverSkillsAndCareers.Models  
+@using Dfc.DiscoverSkillsAndCareers.Models
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
 @{
     ViewData["Title"] = "Question";
@@ -51,38 +51,63 @@
                 <div class="govuk-grid-column-two-thirds-from-desktop">
 
                     @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
-                        <span class="govuk-error-message">@Model.ErrorMessage</span>
+
+                        <div class="govuk-grid-row app-error">
+                            <div class="govuk-grid-column-two-thirds-from-desktop">
+                                <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+                                    <h2 class="govuk-error-summary__title" id="error-summary-title">
+                                        There is a problem
+                                    </h2>
+                                    <div class="govuk-error-summary__body">
+                                        <ul class="govuk-list govuk-error-summary__list">
+                                            <li>
+                                                <a href="#question">@Model.ErrorMessage</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
 
-                    <fieldset class="govuk-fieldset app-question app-question--long">
+                    <div class='govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ?  "govuk-form-group--error" : "")'>
 
-                        <legend class="visually-hidden">@Model.QuestionText</legend>
+                        <fieldset class="govuk-fieldset app-question app-question--long">
 
-                        <div class="govuk-fieldset__legend--l app-question__question">
-                            <h1 class="govuk-fieldset__heading" aria-hidden="true">
-                                @Model.QuestionText
-                            </h1>
-                        </div>
+                            <legend class="visually-hidden">@Model.QuestionText</legend>
 
-                        <div class="app-question__answer govuk-radios govuk-radios--inline">
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.Yes)" value="Yes">
-                                <label class="govuk-label govuk-radios__label" for="selected_answer-1">
-                                    @Model.Yes
-                                </label>
+                            <div class="govuk-fieldset__legend--l app-question__question">
+                                <h1 class="govuk-fieldset__heading" aria-hidden="true">
+                                    @Model.QuestionText
+                                </h1>
                             </div>
 
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.No)" value="No">
-                                <label class="govuk-label govuk-radios__label" for="selected_answer-2">
-                                    @Model.No
-                                </label>
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
+                                <span id="changed-name-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
+                                </span>
+                            }
+
+                            <div class="app-question__answer govuk-radios govuk-radios--inline" id="question">
+
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.Yes)" value="Yes">
+                                    <label class="govuk-label govuk-radios__label" for="selected_answer-1">
+                                        @Model.Yes
+                                    </label>
+                                </div>
+
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.No)" value="No">
+                                    <label class="govuk-label govuk-radios__label" for="selected_answer-2">
+                                        @Model.No
+                                    </label>
+                                </div>
+
                             </div>
 
-                        </div>
-
-                    </fieldset>
+                        </fieldset>
+                    </div>
 
                     <div class="app-controls app-controls--left">
 
