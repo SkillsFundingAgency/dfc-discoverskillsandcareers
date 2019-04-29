@@ -21,8 +21,7 @@ namespace Dfc.IntegrationTests.ControllerTests
         [InlineData("/reload")]
         [InlineData("/results")]
         [InlineData("/save-my-progress")]
-        [InlineData("/q/1")]
-        [InlineData("/start")]
+        [InlineData("/q/short/01")]
         [InlineData("/finish")]
         [InlineData("/finish/animal-care")]
         public async Task Get_WithEndpoint_ReturnSuccess(string url)
@@ -37,8 +36,8 @@ namespace Dfc.IntegrationTests.ControllerTests
         }
 
         [Theory]
-        [InlineData("/q/1")]
-        [InlineData("/qf/1")]
+        [InlineData("/q/short/01")]
+        [InlineData("/q/animal-care/01")]
         public async Task Post_WithEndpoint_ReturnBadRequest(string url)
         {
             var client = _factory.CreateClient();
@@ -50,8 +49,8 @@ namespace Dfc.IntegrationTests.ControllerTests
         }
 
         [Theory]
-        [InlineData("/q/1?sessionId=")]
-        [InlineData("/qf/1")]
+        [InlineData("/q/01?sessionId=")]
+        [InlineData("/q/animal-care/01")]
         public async Task Post_WithAnswerData_ReturnSuccess(string url)
         {
             var client = _factory.CreateClient();

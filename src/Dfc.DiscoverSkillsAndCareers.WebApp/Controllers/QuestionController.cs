@@ -1,7 +1,6 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
-using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -28,16 +27,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpPost]
-        [Route("q/{assessment}/{questionNumber:int}")]
-        public async Task<IActionResult> AnswerQuestion(string assessment, int questionNumber)
+        [Route("q/{assessment}/{questionNumber}")]
+        public async Task<IActionResult> AnswerQuestion(string assessment, string questionNumber)
         {
             var correlationId = Guid.NewGuid();
+            var isRealQuestionNumber = int.TryParse(questionNumber, out int questionNumberValue);
             string sessionId = null;
             try
             {
                 sessionId = await TryGetSessionId(Request);
 
                 if (sessionId == null || sessionId != HttpUtility.UrlEncode(sessionId))
+                {
+                    return BadRequest();
+                }
+                if (!isRealQuestionNumber)
                 {
                     return BadRequest();
                 }
@@ -52,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 
                 if (postAnswerRequest.SelectedOption == null || postAnswerResponse == null)
                 {
-                    return await NextQuestion(sessionId, assessment, questionNumber, true);
+                    return await NextQuestion(sessionId, assessment, questionNumberValue, true);
                 }
                 if (postAnswerResponse.IsComplete)
                 {
@@ -60,12 +64,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     AppendCookie(sessionId);
                     return Redirect(finishEndpoint);
                 }
-                var url = $"/q/{assessment}/{postAnswerResponse.NextQuestionNumber}";
+                var url = $"/q/{assessment}/{GetQuestionPageNumber(postAnswerResponse.NextQuestionNumber)}";
                 return Redirect(url);
             }
             catch (System.Net.Http.HttpRequestException)
             {
-                return await NextQuestion(sessionId, assessment, questionNumber, true);
+                return await NextQuestion(sessionId, assessment, questionNumberValue, true);
             }
             catch (Exception ex)
             {
@@ -101,7 +105,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
                 
-                var redirectResponse = new RedirectResult($"/q/{assessment}/1");
+                var redirectResponse = new RedirectResult($"/q/{assessment}/01");
                 
                 return redirectResponse;
 
@@ -114,18 +118,23 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("q/{assessment}/{questionNumber:int}")]
-        public async Task<IActionResult> AtQuestionNumber(string assessment, int questionNumber)
+        [Route("q/{assessment}/{questionNumber}")]
+        public async Task<IActionResult> AtQuestionNumber(string assessment, string questionNumber)
         {
             var correlationId = Guid.NewGuid();
+            var isRealQuestionNumber = int.TryParse(questionNumber, out int questionNumberValue);
             try
             {
+                if (!isRealQuestionNumber)
+                {
+                    return BadRequest();
+                }
                 var sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
                 }
-                return await NextQuestion(sessionId, assessment, questionNumber, false);
+                return await NextQuestion(sessionId, assessment, questionNumberValue, false);
             }
             catch (Exception ex)
             {
@@ -180,8 +189,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         private string GetAnswerFormPostRoute(AssessmentQuestionResponse assessmentQuestionResponse, string assessment)
         {
-            var nextRoute = $"/q/{assessment}/{(assessmentQuestionResponse.NextQuestionNumber ?? assessmentQuestionResponse.MaxQuestionsCount).ToString()}";
+            var questionNumber = GetQuestionPageNumber(assessmentQuestionResponse.NextQuestionNumber ?? assessmentQuestionResponse.MaxQuestionsCount);
+            var nextRoute = $"/q/{assessment}/{questionNumber}";
             return nextRoute;
+        }
+
+        private string GetQuestionPageNumber(int questionNumber)
+        {
+            if (questionNumber < 10) return $"0{questionNumber.ToString()}";
+            return questionNumber.ToString();
         }
     }
 }
