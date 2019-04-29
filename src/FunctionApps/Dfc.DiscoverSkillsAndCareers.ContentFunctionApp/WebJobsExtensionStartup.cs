@@ -1,21 +1,19 @@
-﻿using Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc;
+﻿using System;
+using Dfc.DiscoverSkillsAndCareers.ContentFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
-namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
+namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
 {
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
@@ -37,7 +35,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
-            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();

@@ -1,6 +1,14 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
 using DFC.Swagger.Standard.Annotations;
@@ -10,17 +18,8 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.IO;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 {
     public static class PostAnswerHttpTrigger
     {
@@ -37,7 +36,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment/{sessionId}")]HttpRequest req,
             string sessionId,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
@@ -45,7 +43,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IAssessmentCalculationService resultsService,
             [Inject]IFilterAssessmentCalculationService filterAssessmentCalculationService)
         {
-            loggerHelper.LogMethodEnter(log);
 
             var correlationId = httpRequestHelper.GetDssCorrelationId(req);
             if (string.IsNullOrEmpty(correlationId))
@@ -59,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
             if (string.IsNullOrEmpty(sessionId))
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, "Session Id not supplied");
+                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id not supplied");
                 return httpResponseMessageHelper.BadRequest();
             }
 
@@ -73,124 +70,93 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             AnswerOption answerValue;
             if (Enum.TryParse(postAnswerRequest.SelectedOption, out answerValue) == false)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, $"Answer supplied is invalid {postAnswerRequest.SelectedOption}");
+                log.LogInformation($"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
                 return httpResponseMessageHelper.BadRequest();
             }
 
             var userSession = await userSessionRepository.GetUserSession(sessionId);
             if (userSession == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sessionId));
+                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
                 return httpResponseMessageHelper.NoContent();
             }
 
             var question = await questionRepository.GetQuestion(postAnswerRequest.QuestionId);
             if (question == null)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("Question Id does not exist {0}", postAnswerRequest.QuestionId));
+                log.LogInformation($"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
                 return httpResponseMessageHelper.NoContent();
             }
 
-            var answer = new Answer()
-            {
-                AnsweredDt = DateTime.Now,
-                SelectedOption = answerValue,
-                QuestionId = question.QuestionId,
-                QuestionNumber = question.Order.ToString(),
-                QuestionText = question.Texts.FirstOrDefault(x=> x.LanguageCode.ToLower() == "en")?.Text,
-                TraitCode = question.TraitCode,
-                IsNegative = question.IsNegative,
-                QuestionSetVersion = userSession.CurrentQuestionSetVersion
-            };
-            if (userSession.IsFilterAssessment)
-            {
-                // Update the answer count on the filter assessment 
-                userSession.CurrentFilterAssessment.RecordedAnswerCount = userSession.CurrentRecordedAnswers.Count();
-            }
-            // Add the answer to the session answers
-            var newAnswerSet = userSession.RecordedAnswers.Where(x => x.QuestionId != postAnswerRequest.QuestionId).ToList();
-            newAnswerSet.Add(answer);
-            userSession.RecordedAnswers = newAnswerSet.ToArray();
+            AddAnswer(answerValue, question, userSession, postAnswerRequest);
 
-            ManageIfComplete(userSession);
-            if (userSession.IsComplete)
-            {
-                // Calculate the result
-                if (!userSession.IsFilterAssessment)
-                {
-                    switch (userSession.AssessmentType)
-                    {
-                        case "short":
-                            {
-                                await resultsService.CalculateAssessment(userSession, log);
-                                break;
-                            }
-                        default:
-                            {
-                                throw new NotImplementedException();
-                            }
-                    }
-                }
-                else
-                {
-                    await filterAssessmentCalculationService.CalculateAssessment(userSession, log);
-                }
-            }
-            else
-            {
-                userSession.CurrentQuestion = GetNextQuestionToAnswerNumber(userSession);
-            }
+            userSession.UpdateCompletionStatus();
+            
+            await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
+
 
             var result = new PostAnswerResponse()
             {
                 IsSuccess = true,
                 IsComplete = userSession.IsComplete,
                 IsFilterAssessment = userSession.IsFilterAssessment,
-                JobCategorySafeUrl = userSession.CurrentFilterAssessment?.JobFamilyNameUrlSafe,
-                NextQuestionNumber = userSession.CurrentQuestion
+                JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
+                NextQuestionNumber =  userSession.CurrentQuestion
             };
 
             // Update the session
             await userSessionRepository.UpdateUserSession(userSession);
 
-            loggerHelper.LogMethodExit(log);
-
             return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
         }
 
-        /// <summary>
-        /// Updates the IsComplete property on the UserSession based off the current answers and max questions.
-        /// </summary>
-        public static void ManageIfComplete(UserSession userSession)
+        private static void AddAnswer(AnswerOption answerValue, Question question, UserSession userSession,
+            PostAnswerRequest postAnswerRequest)
         {
-            bool allQuestionsAnswered = userSession.CurrentRecordedAnswers.Count() == userSession.CurrentMaxQuestions;
-            if (allQuestionsAnswered)
+            var answer = new Answer()
             {
-                userSession.IsComplete = true;
-                if (!userSession.IsFilterAssessment)
+                AnsweredDt = DateTime.Now,
+                SelectedOption = answerValue,
+                QuestionId = question.QuestionId,
+                QuestionNumber = question.Order,
+                QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
+                TraitCode = question.TraitCode,
+                IsNegative = question.IsNegative,
+                QuestionSetVersion = userSession.CurrentQuestionSetVersion
+            };
+
+            // Add the answer to the session answers
+            var newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionId != postAnswerRequest.QuestionId).ToList();
+            newAnswerSet.Add(answer);
+            userSession.CurrentState.RecordedAnswers = newAnswerSet.ToArray();
+        }
+
+        private static async Task TryEvaluateSession(ILogger log, IAssessmentCalculationService resultsService,
+            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession)
+        {
+            var state = userSession.CurrentState;
+
+            if (state.IsComplete)
+            {
+                if (userSession.IsFilterAssessment)
                 {
-                    userSession.CompleteDt = DateTime.Now;
+                    await filterAssessmentCalculationService.CalculateAssessment(userSession, log);
+                }
+                else
+                {
+                    await resultsService.CalculateAssessment(userSession, log);
                 }
             }
             else
             {
-                userSession.IsComplete = false;
+                userSession.CurrentState.CurrentQuestion = userSession.FindNextUnansweredQuestion();
             }
         }
 
-        /// <summary>
-        /// Gets the next question number that should be answered.
-        /// </summary>
-        public static int GetNextQuestionToAnswerNumber(UserSession userSession)
-        {
-            for (int i = 1; i <= userSession.CurrentMaxQuestions; i++)
-            {
-                if (!userSession.CurrentRecordedAnswers.Any(x => x.QuestionNumber == i.ToString()))
-                {
-                    return i;
-                }
-            }
-            throw new Exception("All questions answered");
-        }
+
+        
+
+        
+        
     }
 }

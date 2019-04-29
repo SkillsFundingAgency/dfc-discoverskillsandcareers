@@ -93,7 +93,7 @@
                             }
                             else
                             {
-                              <a href="/results/filtered/@jobFamily.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
+                              <a href="/results/filtered/@jobFamily.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button app-button">
                                 @if (jobFamily.TotalQuestions == 1)
                                 {
                                   @Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString())

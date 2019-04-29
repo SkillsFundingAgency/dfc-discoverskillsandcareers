@@ -8,11 +8,12 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
-  @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
-  @{
-      ViewData["Title"] = "Question";
-      Layout = null;
-  }
+@using Dfc.DiscoverSkillsAndCareers.Models  
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
+@{
+    ViewData["Title"] = "Question";
+    Layout = null;
+}
 {% endblock %}
 
 {% block tagging %}
@@ -66,14 +67,14 @@
                         <div class="app-question__answer govuk-radios govuk-radios--inline">
 
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" value="Yes">
+                                <input class="govuk-radios__input" id="selected_answer-1" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.Yes)" value="Yes">
                                 <label class="govuk-label govuk-radios__label" for="selected_answer-1">
                                     @Model.Yes
                                 </label>
                             </div>
 
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" value="No">
+                                <input class="govuk-radios__input" id="selected_answer-2" name="selected_answer" type="radio" checked="@(Model.RecordedAnswer == AnswerOption.No)" value="No">
                                 <label class="govuk-label govuk-radios__label" for="selected_answer-2">
                                     @Model.No
                                 </label>

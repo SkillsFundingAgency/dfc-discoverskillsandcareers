@@ -13,6 +13,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -23,7 +24,6 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _request = new DefaultHttpRequest(new DefaultHttpContext());
             _log = Substitute.For<ILogger>();
-            _loggerHelper = Substitute.For<ILoggerHelper>();
             _httpRequestHelper = Substitute.For<IHttpRequestHelper>();
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
@@ -42,7 +42,6 @@ namespace Dfc.UnitTests.FunctionTests
 
         private HttpRequest _request;
         private ILogger _log;
-        private ILoggerHelper _loggerHelper;
         private IHttpRequestHelper _httpRequestHelper;
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
@@ -56,7 +55,6 @@ namespace Dfc.UnitTests.FunctionTests
                 _request,
                 sessionId,
                 _log,
-                _loggerHelper,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _userSessionRepository,

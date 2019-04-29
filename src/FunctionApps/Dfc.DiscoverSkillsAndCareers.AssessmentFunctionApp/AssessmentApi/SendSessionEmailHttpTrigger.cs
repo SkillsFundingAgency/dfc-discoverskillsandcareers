@@ -1,7 +1,12 @@
-﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
 using DFC.Swagger.Standard.Annotations;
@@ -11,18 +16,12 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 {
-    public static class SendSessionEmailTrigger
+    public static class SendSessionEmailHttpTrigger
     {
-        [FunctionName("SendSessionEmailTrigger")]
+        [FunctionName("SendSessionEmailHttpTrigger")]
         [ProducesResponseType(typeof(PostAnswerResponse), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "The email has been sent", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.NotFound, Description = "No such session exists", ShowSchema = false)]
@@ -34,7 +33,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "assessment/notify/email")]HttpRequest req,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
@@ -42,8 +40,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
         {
             try
             {
-                loggerHelper.LogMethodEnter(log);
-
                 var correlationId = httpRequestHelper.GetDssCorrelationId(req);
                 if (string.IsNullOrEmpty(correlationId))
                     log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
@@ -63,26 +59,32 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
 
                 if (sendSessionEmailRequest == null || string.IsNullOrEmpty(sendSessionEmailRequest.SessionId))
                 {
-                    loggerHelper.LogError(log, correlationGuid, new Exception("Session Id not supplied"));
+                    log.LogError($"CorrelationId: {correlationGuid} - Session Id not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.Domain))
                 {
-                    loggerHelper.LogError(log, correlationGuid, new Exception("Domain not supplied"));
+                    log.LogError($"CorrelationId: {correlationGuid} - Domain not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 if (string.IsNullOrEmpty(sendSessionEmailRequest.TemplateId))
                 {
-                    loggerHelper.LogError(log, correlationGuid, new Exception("TemplateId not supplied"));
+                    log.LogError($"CorrelationId: {correlationGuid} - TemplateId not supplied");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+                
+                if (string.IsNullOrEmpty(sendSessionEmailRequest.EmailAddress))
+                {
+                    log.LogError($"CorrelationId: {correlationGuid} - EmailAddress not supplied");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 var userSession = await userSessionRepository.GetUserSession(sendSessionEmailRequest.SessionId);
                 if (userSession == null)
                 {
-                    loggerHelper.LogWarningMessage(log, correlationGuid, string.Format("Session Id does not exist {0}", sendSessionEmailRequest.SessionId));
+                    log.LogError($"CorrelationId: {correlationGuid} - Session Id does not exist {sendSessionEmailRequest.SessionId}");
                     return httpResponseMessageHelper.NoContent();
                 }
 
@@ -92,8 +94,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 {
                     IsSuccess = true,
                 };
-
-                loggerHelper.LogMethodExit(log);
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
             }

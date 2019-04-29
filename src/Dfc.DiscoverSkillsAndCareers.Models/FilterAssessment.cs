@@ -15,8 +15,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public int RecordedAnswerCount { get; set; }
         [JsonProperty("maxQuestions")]
         public int MaxQuestions { get; set; }
+        
+        [JsonProperty("recordedAnswers")]
+        public Answer[] RecordedAnswers { get; set; } = {};
+        
         [JsonProperty("suggestedJobProfiles")]
         public string[] SuggestedJobProfiles { get; set; } = { };
+
+        [JsonProperty("whatYouToldUs")] 
+        public string[] WhatYouToldUs { get; set; } = { };
 
         [JsonIgnore]
         public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");

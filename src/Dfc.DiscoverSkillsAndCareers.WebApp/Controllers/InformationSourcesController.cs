@@ -12,18 +12,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("information-sources")]
     public class InformationSourcesController : BaseController
     {
-        readonly ILogger<InformationSourcesController> Log;
-        readonly ILoggerHelper LoggerHelper;
-        readonly IApiServices ApiServices;
+        readonly ILogger<InformationSourcesController> _log;
+        readonly IApiServices _apiServices;
 
         public InformationSourcesController(
             ILogger<InformationSourcesController> log,
-            ILoggerHelper loggerHelper,
             IApiServices apiServices)
         {
-            Log = log;
-            LoggerHelper = loggerHelper;
-            ApiServices = apiServices;
+            _log = log;
+            _apiServices = apiServices;
         }
 
         public async Task<IActionResult> Index()
@@ -31,8 +28,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
@@ -41,18 +36,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var viewName ="InformationSources";
                 var contentName = "informationsources";
-                var model = await ApiServices.GetContentModel<InformationSourcesViewModel>(contentName, correlationId);
+                var model = await _apiServices.GetContentModel<InformationSourcesViewModel>(contentName, correlationId);
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Index)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
     }

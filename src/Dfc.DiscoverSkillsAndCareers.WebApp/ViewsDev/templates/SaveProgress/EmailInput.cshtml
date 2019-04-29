@@ -18,12 +18,7 @@
 
         {% include "_phasebanner.njk" %}
 
-        {% block beforeContent %}
-        {{ govukBackLink({
-            text: "Back to previous page",
-            href: "@Model.BackLink"
-        }) }}
-        {% endblock %}
+        {% include "_breadcrumbpanel.njk" %}
 
     </div>
 

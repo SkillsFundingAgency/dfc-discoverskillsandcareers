@@ -1,6 +1,13 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
 using DFC.Swagger.Standard.Annotations;
@@ -10,16 +17,8 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.QuestionApi
 {
     public static class ImportFilteringQuestionsHttpTrigger
     {
@@ -35,7 +34,6 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "import/filtering-questions")]HttpRequest req,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IQuestionRepository questionRepository,

@@ -56,7 +56,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IApiServices, ApiServices>();
             services.AddTransient<IErrorController, ErrorController>();
         }

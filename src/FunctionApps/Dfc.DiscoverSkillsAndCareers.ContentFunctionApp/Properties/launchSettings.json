@@ -3,6 +3,15 @@
     "Dfc.DiscoverSkillsAndCareers.ContentFunctionApp": {
       "commandName": "Project",
       "commandLineArgs": "host start --port 7071"
+    },
+    "functions": {
+      "commandName": "Executable",
+      "executablePath": "dotnet",
+      "commandLineArgs": "%APPDATA%\\npm\\node_modules\\azure-functions-core-tools\\bin\\func.dll host start --port 7071",
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true"
+      }
     }
   }
 }

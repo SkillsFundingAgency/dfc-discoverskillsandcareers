@@ -2,7 +2,16 @@
   "profiles": {
     "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp": {
       "commandName": "Project",
-      "commandLineArgs": "host start --port 7074 "
+      "commandLineArgs": "host start --port 7074"
+    },
+    "functions": {
+      "commandName": "Executable",
+      "executablePath": "dotnet",
+      "commandLineArgs": "%APPDATA%\\npm\\node_modules\\azure-functions-core-tools\\bin\\func.dll host start --port 7074",
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true"
+      }
     }
   }
 }

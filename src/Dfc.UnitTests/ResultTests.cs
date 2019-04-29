@@ -33,10 +33,19 @@ namespace Dfc.UnitTests
         [Fact]
         public async Task CalcuateResult_WithSession_ShouldHaveResultsData()
         {
-            var userSession = new UserSession();
+            var userSession = new UserSession()
+            {
+                LanguageCode = "en",
+                AssessmentState = new AssessmentState {
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" }
+                    }
+                }
+            };
 
-            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
+            var assessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await assessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData);
         }
@@ -47,14 +56,16 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new []
-                {
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" }
+                AssessmentState = new AssessmentState {
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" }
+                    }
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
+            var assessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await assessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -67,16 +78,18 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new []
-                {
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" },
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.Agree, TraitCode = "LEADER" }
-
+                AssessmentState = new AssessmentState {
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" },
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.Agree, TraitCode = "LEADER" }
+    
+                    }
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
+            var assessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await assessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -90,12 +103,14 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new []
-                {
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" },
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.Agree, TraitCode = "LEADER" },
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyDisagree, TraitCode = "LEADER" },
-
+                AssessmentState = new AssessmentState {
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "LEADER" },
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.Agree, TraitCode = "LEADER" },
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyDisagree, TraitCode = "LEADER" },
+    
+                    }
                 }
             };
 
@@ -114,14 +129,16 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                RecordedAnswers = new []
-                {
-                    new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "ORGANISER" },
+                AssessmentState = new AssessmentState {
+                    RecordedAnswers = new []
+                    {
+                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "ORGANISER" },
+                    }
                 }
             };
 
-            var AssessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
-            await AssessmentCalculationService.CalculateAssessment(userSession, logger);
+            var assessmentCalculationService = new AssessmentCalculationService(questionSetRepository);
+            await assessmentCalculationService.CalculateAssessment(userSession, logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
