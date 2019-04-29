@@ -11,8 +11,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public IFormCollection FormData { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }
 
-
-
         protected void AppendCookie(string sessionId)
         {
             HttpContext.Session.SetString("session-id", sessionId);
