@@ -35,6 +35,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string TypicalHoursText { get; set; } = "Typical hours (a week)";
         public string YouCouldWorkText { get; set; } = "You could work";
         public string ResultsAnswerMoreText { get; set; } = "To find out job roles you might be suited to in [jobcategory], answer more questions.";
+        public string JobCategoryTextSingle { get; set; } = "job category";
+        public string JobCategoryTextPlural { get; set; } = "job categories";
+        public string GetJobCategoryForNumberText(int number)
+        {
+            if (number == 1) return $"{number} {JobCategoryTextSingle}";
+            return $"{number} {JobCategoryTextPlural}";
+        }
 
         public string ExploreCareersBaseUrl { get; set; } = "https://nationalcareers.service.gov.uk";
     }
