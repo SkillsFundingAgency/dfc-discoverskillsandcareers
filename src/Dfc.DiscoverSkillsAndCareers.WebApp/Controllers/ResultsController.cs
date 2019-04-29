@@ -50,7 +50,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                                                       .FirstOrDefault();
                 if (lastFilterResult != null)
                 {
-                    return await ReturnResultsView(resultsResponse, correlationId, lastFilterResult.JobFamilyNameUrlSafe, sessionId);
+                    AppendCookie(sessionId);
+                    return Redirect($"/results/{lastFilterResult.JobFamilyNameUrlSafe}");
                 }
 
                 var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
@@ -99,7 +100,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var _ = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
                 AppendCookie(sessionId);
-                var redirectResponse = new RedirectResult($"/q/{jobCategory}/1");
+                var redirectResponse = new RedirectResult($"/q/{jobCategory}/01");
                 return redirectResponse;
 
             }
