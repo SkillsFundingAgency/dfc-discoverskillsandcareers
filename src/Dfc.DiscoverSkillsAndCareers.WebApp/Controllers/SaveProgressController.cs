@@ -138,7 +138,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
-                    model.ErrorMessage = $"An error occurred sending an email to {sendEmailRequest.Email}";
+                    model.ErrorMessage = "Enter a valid email address";
                     return View("EmailInput", model);
                 }
 
@@ -263,7 +263,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
-                    model.ErrorMessage = $"An error occurred sending a text to {sendSmsRequest.MobileNumber}";
+                    model.ErrorMessage = "Enter a valid phone number";
                     return View("ReferenceNumber", model);
                 }
 
