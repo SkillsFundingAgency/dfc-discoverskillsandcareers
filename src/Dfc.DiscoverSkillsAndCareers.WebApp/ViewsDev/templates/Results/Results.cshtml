@@ -76,7 +76,7 @@
 
         <div class="app-results">
 
-          <h2 class="govuk-heading-l">@Model.JobFamilies.Length job categories that might suit you</h2>
+          <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobFamilies.Length) that might suit you</h2>
 
           <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
             @foreach (var jobFamily in Model.JobFamilies)
