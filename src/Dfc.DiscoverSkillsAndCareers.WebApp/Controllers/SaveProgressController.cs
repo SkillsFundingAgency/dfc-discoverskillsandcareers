@@ -1,7 +1,6 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
-using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -275,6 +274,5 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return StatusCode(500);
             }
         }
-
     }
 }
