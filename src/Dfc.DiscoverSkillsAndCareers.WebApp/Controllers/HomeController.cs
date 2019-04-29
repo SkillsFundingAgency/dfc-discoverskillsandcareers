@@ -111,6 +111,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return new RedirectResult($"/q/short/{nextQuestionResponse.QuestionNumber}");
                 }
             }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return Redirect("/?e=2");
+            }
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Reload)}");
