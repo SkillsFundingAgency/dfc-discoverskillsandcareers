@@ -43,8 +43,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".dysac-session";
-                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.IdleTimeout = TimeSpan.FromHours(24);
                 options.Cookie.IsEssential = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));

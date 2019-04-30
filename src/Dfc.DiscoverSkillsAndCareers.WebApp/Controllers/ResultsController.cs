@@ -154,6 +154,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             model.JobProfiles = resultsResponse.JobProfiles;
             model.WhatYouToldUs = resultsResponse.WhatYouToldUs;
             model.ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl;
+
+            // TODO: temp data display
+            if (model.JobProfiles != null)
+            {
+                model.JobProfiles.ToList().ForEach(x =>
+                {
+                    x.TypicalHours = "37 to 39";
+                    x.ShiftPattern = "between 8am and 6pm";
+                });
+                model.JobProfiles = model.JobProfiles.ToArray();
+            }
+
             return View("ResultsForJobCategory", model);
         }
 

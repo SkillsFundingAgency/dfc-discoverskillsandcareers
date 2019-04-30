@@ -35,25 +35,33 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.ContentApi
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IContentRepository contentRepository)
         {
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
-            }
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
 
-            var contentModel = await contentRepository.GetContent(contentType);
-            if (contentModel == null)
-            {
-                log.LogInformation($"Correlation Id: {correlationId} - Content type does not exist {contentType}");
-                var result = httpResponseMessageHelper.NoContent();
-                return result;
+                if (!Guid.TryParse(correlationId, out var correlationGuid))
+                {
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
+                }
+
+                var contentModel = await contentRepository.GetContent(contentType);
+                if (contentModel == null)
+                {
+                    log.LogInformation($"Correlation Id: {correlationId} - Content type does not exist {contentType}");
+                    var result = httpResponseMessageHelper.NoContent();
+                    return result;
+                }
+
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(contentModel));
             }
-            
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(contentModel));
+            catch (Exception ex)
+            {
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
+            }
         }
     }
 }
