@@ -1,33 +1,30 @@
 {
-    "Databases": [
-      {
-        "DatabaseName": "DiscoverMySkillsAndCareers",
-        "Collections": [
-          {
-            "CollectionName": "Questions",
-            "OfferThroughput": 400,
-            "StoredProcedures": [],
-            "PartitionKey":  "partitionKey"
-          },
-          {
-            "CollectionName": "UserSessions",
-            "OfferThroughput": 400,
-            "StoredProcedures": [],
-            "PartitionKey": "partitionKey"
-          },
-          {
-            "CollectionName": "Contents",
-            "OfferThroughput": 400,
-            "StoredProcedures": [],
-            "PartitionKey": "partitionKey"
-          },
-          {
-            "CollectionName": "QuestionSets",
-            "OfferThroughput": 400,
-            "StoredProcedures": [],
-            "PartitionKey": "partitionKey"
-          }
-        ]
-      }
-    ]
-  }
+  "DatabaseName": "DiscoverMySkillsAndCareers",
+  "Collections": [
+    {
+      "CollectionName": "Questions",
+      "OfferThroughput": 400,
+      "StoredProcedures": [],
+      "PartitionKey":  "partitionKey"
+    },
+    {
+      "CollectionName": "UserSessions",
+      "OfferThroughput": 400,
+      "StoredProcedures": [],
+      "PartitionKey": "partitionKey",
+      "DefaultTtl": 15552000
+    },
+    {
+      "CollectionName": "Contents",
+      "OfferThroughput": 400,
+      "StoredProcedures": [],
+      "PartitionKey": "partitionKey"
+    },
+    {
+      "CollectionName": "QuestionSets",
+      "OfferThroughput": 400,
+      "StoredProcedures": [],
+      "PartitionKey": "partitionKey"
+    }
+  ]
+}

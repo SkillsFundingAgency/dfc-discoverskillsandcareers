@@ -38,24 +38,32 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.QuestionApi
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IQuestionRepository questionRepository)
         {
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
-            }
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
 
-            var questions = await questionRepository.GetQuestions(assessmentType, title, version);
-            if (questions == null)
-            {
-                log.LogInformation($"Correlation Id: {correlationId} - QuestionSet does not exist {assessmentType} {version}");
-                return httpResponseMessageHelper.NoContent();
+                if (!Guid.TryParse(correlationId, out var correlationGuid))
+                {
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
+                }
+
+                var questions = await questionRepository.GetQuestions(assessmentType, title, version);
+                if (questions == null)
+                {
+                    log.LogInformation($"Correlation Id: {correlationId} - QuestionSet does not exist {assessmentType} {version}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questions));
             }
-            
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questions));
+            catch (Exception ex)
+            {
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
+            }
         }
     }
 }

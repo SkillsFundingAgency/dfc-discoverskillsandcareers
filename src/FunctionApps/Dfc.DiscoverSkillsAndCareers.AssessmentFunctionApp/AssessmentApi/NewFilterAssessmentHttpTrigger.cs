@@ -42,65 +42,73 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
              [Inject]IQuestionSetRepository questionSetRepository,
              [Inject]IOptions<AppSettings> appSettings)
         {
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
+
+                if (!Guid.TryParse(correlationId, out var correlationGuid))
+                {
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
+                }
+
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Session Id not supplied");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                var userSession = await userSessionRepository.GetUserSession(sessionId);
+                if (userSession == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                if (userSession.ResultData == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                var questionSet = await questionSetRepository.GetCurrentQuestionSet("filtered", jobCategory);
+                if (questionSet == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Filtered question set does not exist {jobCategory}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                var jobFamily = userSession.ResultData.JobFamilies.FirstOrDefault(x => x.JobFamilyName.ToLower().Replace(" ", "-") == jobCategory);
+                if (jobFamily == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Job family {jobCategory} could not be found on session {sessionId}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                userSession.FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = jobFamily.JobFamilyCode,
+                    JobFamilyName = jobFamily.JobFamilyName,
+                    QuestionSetVersion = questionSet.QuestionSetVersion,
+                    CurrentQuestion = 1,
+                    MaxQuestions = questionSet.MaxQuestions,
+                };
+
+                await userSessionRepository.UpdateUserSession(userSession);
+
+                var result = new DscSession()
+                {
+                    SessionId = userSession.PrimaryKey
+                };
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
             }
-
-            if (string.IsNullOrEmpty(sessionId))
+            catch (Exception ex)
             {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id not supplied");
-                return httpResponseMessageHelper.BadRequest();
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
-
-            var userSession = await userSessionRepository.GetUserSession(sessionId);
-            if (userSession == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
-                return httpResponseMessageHelper.NoContent();
-            }
-
-            if (userSession.ResultData == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
-                return httpResponseMessageHelper.BadRequest();
-            }
-
-            var questionSet = await questionSetRepository.GetCurrentQuestionSet("filtered", jobCategory);
-            if (questionSet == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Filtered question set does not exist {jobCategory}");
-                return httpResponseMessageHelper.NoContent();
-            }
-
-            var jobFamily = userSession.ResultData.JobFamilies.FirstOrDefault(x => x.JobFamilyName.ToLower().Replace(" ", "-") == jobCategory);
-            if (jobFamily == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Job family {jobCategory} could not be found on session {sessionId}");
-                return httpResponseMessageHelper.NoContent();
-            }
-            
-            userSession.FilteredAssessmentState = new FilteredAssessmentState
-            {
-                CurrentFilterAssessmentCode = jobFamily.JobFamilyCode,
-                JobFamilyName = jobFamily.JobFamilyName,
-                QuestionSetVersion = questionSet.QuestionSetVersion,
-                CurrentQuestion = 1,
-                MaxQuestions = questionSet.MaxQuestions,
-            };
-            
-            await userSessionRepository.UpdateUserSession(userSession);
-
-            var result = new DscSession()
-            {
-                SessionId = userSession.PrimaryKey
-            };
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
         }
     }
 }
