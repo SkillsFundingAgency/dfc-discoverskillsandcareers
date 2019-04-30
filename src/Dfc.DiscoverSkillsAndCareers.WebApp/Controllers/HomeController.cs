@@ -21,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             _apiServices = apiServices;
         }
 
-        public async Task<IActionResult> Index(string e = "")
+        public async Task<IActionResult> Index(string e = "", string v = "")
         {
             var correlationId = Guid.NewGuid();
             try
@@ -37,6 +37,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
+                }
+                if (v == "2")
+                {
+                    return View("Version2", model);
                 }
                 return View("Index", model);
             }

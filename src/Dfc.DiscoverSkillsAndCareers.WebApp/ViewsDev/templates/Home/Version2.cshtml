@@ -1,0 +1,85 @@
+{% set pageName = 'home' %}
+{% set pageTitle = '@Model.Title' %}
+{% set pageGroup = '' %}
+
+{% extends "_base.njk" %}
+
+{% block pre %}
+  @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
+  @{
+      ViewData["Title"] = Model.Title;
+      Layout = null;
+  }
+{% endblock %}
+
+{% block main %}
+
+  <main id="content" role="main">
+
+    <div class="govuk-width-container">
+      {% include "_phasebanner.njk" %}
+    </div>
+
+    <div class="app-masthead">
+      <div class="govuk-width-container">
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
+
+          <div class="govuk-grid-column-two-thirds">
+
+              <p class="govuk-body">@Model.TextBlock1</p>
+
+              <p class="govuk-body">@Model.TextBlock2</p>
+
+              <div class="govuk-inset-text">
+                  @Model.TextHighlight
+              </div>
+
+              <p class="govuk-body">@Model.TextBlock3</p>
+
+              {{ govukButton({
+                text: "Start assessment",
+                href: "/assessment/short/",
+                attributes: {
+                  "gov-analytics-data": pageName + " | click | button | Start assessment"
+                }
+              }) }}
+
+              <hr class="govuk-!-margin-bottom-7">
+
+              <h2 class="govuk-heading-l">Skills health check</h2>
+
+              <p>You can answer a longer set of questions and do some quizzes to help you understand your strengths and weaknesses. You’ll also get tips on how to improve them, which will be useful for your CVs, applications and interviews.</p>
+              <p>You can save your progress if you’re logged into your account and return to it later. You’ll get a report with your results at the end.</p>
+
+              {{ govukButton({
+                text: "Go to skills health check",
+                href: "https://nationalcareersservice.direct.gov.uk/skills-health-check/home",
+                attributes: {
+                  "gov-analytics-data": pageName + " | click | button | Go to skills health check"
+                }
+              }) }}
+
+          </div>
+
+        <div class="govuk-grid-column-one-third">
+          {% include "_resumepanel.njk" %}
+          {% include "_advisorpanel.njk" %}
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+{% endblock %}
