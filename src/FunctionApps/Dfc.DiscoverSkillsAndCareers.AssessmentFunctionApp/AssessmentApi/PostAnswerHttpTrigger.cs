@@ -43,71 +43,78 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             [Inject]IAssessmentCalculationService resultsService,
             [Inject]IFilterAssessmentCalculationService filterAssessmentCalculationService)
         {
-
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
+
+                if (!Guid.TryParse(correlationId, out var correlationGuid))
+                {
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
+                }
+
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Session Id not supplied");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                PostAnswerRequest postAnswerRequest;
+                using (var streamReader = new StreamReader(req.Body))
+                {
+                    var body = streamReader.ReadToEnd();
+                    postAnswerRequest = JsonConvert.DeserializeObject<PostAnswerRequest>(body);
+                }
+
+                AnswerOption answerValue;
+                if (Enum.TryParse(postAnswerRequest.SelectedOption, out answerValue) == false)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                var userSession = await userSessionRepository.GetUserSession(sessionId);
+                if (userSession == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                var question = await questionRepository.GetQuestion(postAnswerRequest.QuestionId);
+                if (question == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                AddAnswer(answerValue, question, userSession, postAnswerRequest);
+
+                userSession.UpdateCompletionStatus();
+
+                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
+
+
+                var result = new PostAnswerResponse()
+                {
+                    IsSuccess = true,
+                    IsComplete = userSession.IsComplete,
+                    IsFilterAssessment = userSession.IsFilterAssessment,
+                    JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
+                    NextQuestionNumber = userSession.CurrentQuestion
+                };
+
+                // Update the session
+                await userSessionRepository.UpdateUserSession(userSession);
+
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
             }
-
-            if (string.IsNullOrEmpty(sessionId))
+            catch (Exception ex)
             {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id not supplied");
-                return httpResponseMessageHelper.BadRequest();
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
-
-            PostAnswerRequest postAnswerRequest;
-            using (var streamReader = new StreamReader(req.Body))
-            {
-                var body = streamReader.ReadToEnd();
-                postAnswerRequest = JsonConvert.DeserializeObject<PostAnswerRequest>(body);
-            }
-
-            AnswerOption answerValue;
-            if (Enum.TryParse(postAnswerRequest.SelectedOption, out answerValue) == false)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
-                return httpResponseMessageHelper.BadRequest();
-            }
-
-            var userSession = await userSessionRepository.GetUserSession(sessionId);
-            if (userSession == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
-                return httpResponseMessageHelper.NoContent();
-            }
-
-            var question = await questionRepository.GetQuestion(postAnswerRequest.QuestionId);
-            if (question == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
-                return httpResponseMessageHelper.NoContent();
-            }
-
-            AddAnswer(answerValue, question, userSession, postAnswerRequest);
-
-            userSession.UpdateCompletionStatus();
-            
-            await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
-
-
-            var result = new PostAnswerResponse()
-            {
-                IsSuccess = true,
-                IsComplete = userSession.IsComplete,
-                IsFilterAssessment = userSession.IsFilterAssessment,
-                JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
-                NextQuestionNumber =  userSession.CurrentQuestion
-            };
-
-            // Update the session
-            await userSessionRepository.UpdateUserSession(userSession);
-
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
         }
 
         private static void AddAnswer(AnswerOption answerValue, Question question, UserSession userSession,
