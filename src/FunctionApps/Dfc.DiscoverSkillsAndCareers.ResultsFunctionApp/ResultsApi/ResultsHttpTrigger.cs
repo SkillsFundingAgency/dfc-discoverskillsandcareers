@@ -40,77 +40,85 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
             [Inject]IUserSessionRepository userSessionRepository,
             [Inject]IJobProfileRepository jobProfileRepository)
         {
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
-            }
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
 
-            if (string.IsNullOrEmpty(sessionId))
-            {
-                log.LogInformation($"Correlation Id: {correlationId} - Session Id not supplied");
-                return httpResponseMessageHelper.BadRequest();
-            }
-
-            var userSession = await userSessionRepository.GetUserSession(sessionId);
-            if (userSession == null)
-            {
-                log.LogInformation($"Correlation Id: {correlationId} - Session Id does not exist {sessionId}");
-                return httpResponseMessageHelper.NoContent();
-            }
-
-            if (userSession.ResultData == null)
-            {
-                log.LogInformation($"Correlation Id: {correlationId} - Result data does not yet exist for session {userSession.PrimaryKey}");
-                return httpResponseMessageHelper.BadRequest();
-            }
-
-            var traits = userSession.ResultData.Traits;
-            int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
-            var jobFamilies = userSession.ResultData.JobFamilies;
-            var suggestedJobProfiles = new List<JobProfileResult>();
-            foreach (var jobCategory in jobFamilies)
-            {
-                if (jobCategory.FilterAssessment == null)
+                if (!Guid.TryParse(correlationId, out var correlationGuid))
                 {
-                    continue;
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
                 }
 
-                // Build the list of job profiles
-                foreach (var socCode in jobCategory.FilterAssessment.SuggestedJobProfiles)
+                if (string.IsNullOrEmpty(sessionId))
                 {
-                    var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "jobprofile-cms");
-                    suggestedJobProfiles.Add(new JobProfileResult()
+                    log.LogInformation($"Correlation Id: {correlationId} - Session Id not supplied");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                var userSession = await userSessionRepository.GetUserSession(sessionId);
+                if (userSession == null)
+                {
+                    log.LogInformation($"Correlation Id: {correlationId} - Session Id does not exist {sessionId}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                if (userSession.ResultData == null)
+                {
+                    log.LogInformation($"Correlation Id: {correlationId} - Result data does not yet exist for session {userSession.PrimaryKey}");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                var traits = userSession.ResultData.Traits;
+                int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
+                var jobFamilies = userSession.ResultData.JobFamilies;
+                var suggestedJobProfiles = new List<JobProfileResult>();
+                foreach (var jobCategory in jobFamilies)
+                {
+                    if (jobCategory.FilterAssessment == null)
                     {
-                        JobCategory = jobCategory.JobFamilyName,
-                        CareerPathAndProgression = jobProfile.CareerPathAndProgression,
-                        Overview = jobProfile.Overview,
-                        SalaryExperienced = jobProfile.SalaryExperienced,
-                        SalaryStarter = jobProfile.SalaryStarter,
-                        SocCode = jobProfile.SocCode,
-                        Title = jobProfile.Title,
-                        UrlName = jobProfile.UrlName,
-                        WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
-                    });
-                }
-            }
+                        continue;
+                    }
 
-            var model = new ResultsResponse()
+                    // Build the list of job profiles
+                    foreach (var socCode in jobCategory.FilterAssessment.SuggestedJobProfiles)
+                    {
+                        var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "jobprofile-cms");
+                        suggestedJobProfiles.Add(new JobProfileResult()
+                        {
+                            JobCategory = jobCategory.JobFamilyName,
+                            CareerPathAndProgression = jobProfile.CareerPathAndProgression,
+                            Overview = jobProfile.Overview,
+                            SalaryExperienced = jobProfile.SalaryExperienced,
+                            SalaryStarter = jobProfile.SalaryStarter,
+                            SocCode = jobProfile.SocCode,
+                            Title = jobProfile.Title,
+                            UrlName = jobProfile.UrlName,
+                            WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                        });
+                    }
+                }
+
+                var model = new ResultsResponse()
+                {
+                    AssessmentType = userSession.AssessmentType,
+                    SessionId = userSession.UserSessionId,
+                    JobFamilyCount = userSession.ResultData.JobFamilies.Length,
+                    JobFamilyMoreCount = userSession.ResultData.JobFamilies.Length - 3,
+                    Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
+                    JobFamilies = jobFamilies,
+                    JobProfiles = suggestedJobProfiles.ToArray(),
+                    WhatYouToldUs = userSession.ResultData?.JobFamilies.SelectMany(r => r.FilterAssessment?.WhatYouToldUs ?? new string[] { }).Distinct().ToArray() ?? new string[] { }
+                };
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(model));
+            }
+            catch (Exception ex)
             {
-                AssessmentType = userSession.AssessmentType,
-                SessionId = userSession.UserSessionId,
-                JobFamilyCount = userSession.ResultData.JobFamilies.Length,
-                JobFamilyMoreCount = userSession.ResultData.JobFamilies.Length - 3,
-                Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
-                JobFamilies = jobFamilies,
-                JobProfiles = suggestedJobProfiles.ToArray(),
-                WhatYouToldUs = userSession.ResultData?.JobFamilies.SelectMany(r => r.FilterAssessment?.WhatYouToldUs ?? new string[]{}).Distinct().ToArray() ?? new string[]{}
-            };
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(model));
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
+            }
         }
     }
 }

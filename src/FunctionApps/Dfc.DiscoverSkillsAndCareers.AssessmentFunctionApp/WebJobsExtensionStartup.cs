@@ -1,5 +1,4 @@
-﻿using System;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Functions.DI.Standard;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Notify.Client;
 using Notify.Interfaces;
+using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
