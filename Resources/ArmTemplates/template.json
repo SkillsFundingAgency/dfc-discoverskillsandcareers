@@ -468,7 +468,7 @@
             },
             {
                 "apiVersion": "2017-05-10",
-                "name": "[variables('ContentFunctionAppName')]",
+                "name": "[concat(variables('ContentFunctionAppName'), '-deployment')]",
                 "type": "Microsoft.Resources/deployments",
                 "properties": {
                     "mode": "Incremental",
