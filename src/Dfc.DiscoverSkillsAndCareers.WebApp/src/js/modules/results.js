@@ -109,6 +109,12 @@ var results = (function () {
 
         let groupIndex = groupsToShow ? groupsToShow : 0
 
+        var updateCardHeight = () => {
+          if (document.body.clientWidth >= 768) {
+            this.cardHeight()
+          }
+        }
+
         var updateButtons = () => {
           showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText : ''
           hideButtonElement.innerText = groupIndex > 0 ? showLessText : ''
@@ -151,6 +157,7 @@ var results = (function () {
             groupIndex += 1
             updateButtons()
             saveState()
+            updateCardHeight()
             return false
           })
 
@@ -168,6 +175,7 @@ var results = (function () {
             groupIndex -= 1
             updateButtons()
             saveState()
+            updateCardHeight()
             return false
           })
         }
