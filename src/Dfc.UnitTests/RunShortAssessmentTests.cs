@@ -616,7 +616,7 @@ namespace Dfc.UnitTests
         }
 
         [Fact]
-        public void RunShortAssessment_UMB337_DiametricallyOpposedAnswers_StronglyAgreeToStronglyDisagree()
+        public void RunShortAssessment_UMB337_DiametricallyOpposedAnswers_StronglyAgreeToStronglyDisagree_ShouldEqualZero()
         {
            
             var session = new UserSession()
@@ -628,7 +628,7 @@ namespace Dfc.UnitTests
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Agree, IsNegative = false},
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
-                        new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Disagree, IsNegative = true},
+                        new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Agree, IsNegative = true},
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
                         new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
                         new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Agree, IsNegative = false},
@@ -639,7 +639,7 @@ namespace Dfc.UnitTests
                         new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Agree, IsNegative = false},
                         new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
                         new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
-                        new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
+                        new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
                         new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
                         new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Agree, IsNegative = false},
                         new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
@@ -659,12 +659,12 @@ namespace Dfc.UnitTests
                         new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Agree, IsNegative = false},
                         new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
                         new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
-                        new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
+                        new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Agree, IsNegative = false},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
-                        new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
+                        new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
                     }
                 }
                     
@@ -678,19 +678,19 @@ namespace Dfc.UnitTests
                 return session.ResultData.TraitScores.SingleOrDefault(t => t.TraitCode == trait)?.TotalScore;
             }
             
-            Assert.Equal(2, getTraitScore("LEADER"));
+            Assert.Equal(0, getTraitScore("LEADER"));
             Assert.Equal(0, getTraitScore("DRIVER"));
-            Assert.Equal(4, getTraitScore("INFLUENCER"));
+            Assert.Equal(0, getTraitScore("INFLUENCER"));
             Assert.Equal(0, getTraitScore("HELPER"));
             Assert.Equal(0, getTraitScore("ANALYST"));
             Assert.Equal(0, getTraitScore("CREATOR"));
-            Assert.Equal(4, getTraitScore("ORGANISER"));
-            Assert.Equal(4, getTraitScore("DOER"));
+            Assert.Equal(0, getTraitScore("ORGANISER"));
+            Assert.Equal(0, getTraitScore("DOER"));
 
         }
         
         [Fact]
-        public void RunShortAssessment_UMB337_DiametricallyOpposedAnswers_StronglyDisagreeToStronglyAgree()
+        public void RunShortAssessment_UMB337_DiametricallyOpposedAnswers_StronglyDisagreeToStronglyAgree_ShouldEqualZero()
         {
            
             var session = new UserSession()
@@ -702,7 +702,7 @@ namespace Dfc.UnitTests
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
-                        new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Agree, IsNegative = true},
+                        new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.Disagree, IsNegative = true},
                         new Answer { TraitCode = "LEADER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = false},
                         new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
                         new Answer { TraitCode = "DRIVER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
@@ -713,7 +713,7 @@ namespace Dfc.UnitTests
                         new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
                         new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
                         new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.Agree, IsNegative = false},
-                        new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
+                        new Answer { TraitCode = "INFLUENCER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
                         new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
                         new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
                         new Answer { TraitCode = "HELPER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
@@ -733,12 +733,12 @@ namespace Dfc.UnitTests
                         new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
                         new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
                         new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.Agree, IsNegative = false},
-                        new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
+                        new Answer { TraitCode = "ORGANISER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = false},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Disagree, IsNegative = false},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Neutral, IsNegative = false},
                         new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.Agree, IsNegative = false},
-                        new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyAgree, IsNegative = true},
+                        new Answer { TraitCode = "DOER", SelectedOption = AnswerOption.StronglyDisagree, IsNegative = true},
                     }
                 }
                     
@@ -752,16 +752,17 @@ namespace Dfc.UnitTests
                 return session.ResultData.TraitScores.SingleOrDefault(t => t.TraitCode == trait)?.TotalScore;
             }
             
-            Assert.Equal(-2, getTraitScore("LEADER"));
+            Assert.Equal(0, getTraitScore("LEADER"));
             Assert.Equal(0, getTraitScore("DRIVER"));
-            Assert.Equal(-4, getTraitScore("INFLUENCER"));
+            Assert.Equal(0, getTraitScore("INFLUENCER"));
             Assert.Equal(0, getTraitScore("HELPER"));
             Assert.Equal(0, getTraitScore("ANALYST"));
             Assert.Equal(0, getTraitScore("CREATOR"));
-            Assert.Equal(-4, getTraitScore("ORGANISER"));
-            Assert.Equal(-4, getTraitScore("DOER"));
+            Assert.Equal(0, getTraitScore("ORGANISER"));
+            Assert.Equal(0, getTraitScore("DOER"));
 
         }
+        
         
         [Fact]
         public void RunShortAssessment_UMB335_MissingOrganiserTrait()
