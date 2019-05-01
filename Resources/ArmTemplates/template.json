@@ -83,6 +83,7 @@
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
+        "ContentFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-content-fa'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
@@ -392,6 +393,7 @@
                 "apiVersion": "2017-05-10",
                 "name": "[variables('FunctionAppNames')[copyIndex()]]",
                 "type": "Microsoft.Resources/deployments",
+                "condition": "[not(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[2], 'content'))]",
                 "properties": {
                     "mode": "Incremental",
                     "templateLink": {
@@ -448,18 +450,6 @@
                                 {
                                     "name": "AppSettings__NotifyApiKey",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityApiUrlbase",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiUrlbase'), 'notrequired')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityApiWebService",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), 'dsac', 'notrequired')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityApiKey",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiKey'), 'notrequired')]"
                                 }
                             ]
                         }
@@ -468,6 +458,82 @@
                 "copy": {
                     "name": "FunctionAppCopy",
                     "count": "[length(variables('FunctionAppNames'))]"
+                },
+                "dependsOn": [
+                    "AppInsightsCopy",
+                    "[variables('AppServicePlanName')]",
+                    "[variables('CosmosDbName')]",
+                    "[variables('StorageAccountName')]"
+                ]
+            },
+            {
+                "apiVersion": "2017-05-10",
+                "name": "[variables('ContentFunctionAppName')]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "appServiceName": {
+                            "value": "[variables('ContentFunctionAppName')]"
+                        },
+                        "appServicePlanName": {
+                            "value": "[variables('AppServicePlanName')]"
+                        },
+                        "appServicePlanResourceGroup": {
+                            "value": "[resourceGroup().name]"
+                        },
+                        "appServiceType": {
+                            "value": "functionapp"
+                        },
+                        "appServiceAppSettings": {
+                            "value": [
+                                {
+                                    "name": "FUNCTIONS_EXTENSION_VERSION",
+                                    "value": "~2"
+                                },
+                                {
+                                    "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                    "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-content-ai')).outputs.InstrumentationKey.value]"
+                                },
+                                {
+                                    "name": "AzureWebJobsStorage",
+                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "CosmosSettings__Endpoint",
+                                    "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                                },
+                                {
+                                    "name": "CosmosSettings__Key",
+                                    "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                                },
+                                {
+                                    "name": "CosmosSettings__DatabaseName",
+                                    "value": "DiscoverMySkillsAndCareers"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityApiUrlbase",
+                                    "value": "[parameters('SiteFinityApiUrlbase')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityApiWebService",
+                                    "value": "dsac"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityApiKey",
+                                    "value": "[parameters('SiteFinityApiKey')]"
+                                }
+                            ]
+                        }
+                    }
                 },
                 "dependsOn": [
                     "AppInsightsCopy",
