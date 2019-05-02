@@ -70,12 +70,24 @@
             "type": "string"
         },
         "ApimAuthorisationCode": {
-            "type": "string"
-        },
-        "SiteFinityApiKey": {
             "type": "securestring"
         },
         "SiteFinityApiUrlbase": {
+            "type": "string"
+        },
+        "SiteFinityClientId": {
+            "type": "string"
+        },
+        "SiteFinityClientSecret": {
+            "type": "securestring"
+        },
+        "SiteFinityPassword": {
+            "type": "securestring"
+        },
+        "SiteFinityScope": {
+            "type": "string"
+        },
+        "SiteFinityUsername": {
             "type": "string"
         }
     },
@@ -522,6 +534,10 @@
                                     "value": "DiscoverMySkillsAndCareers"
                                 },
                                 {
+                                    "name": "AppSettings__SiteFinityApiAuthenicationEndpoint",
+                                    "value": "SiteFinity/Authenticate/openid/connect/token"
+                                },
+                                {
                                     "name": "AppSettings__SiteFinityApiUrlbase",
                                     "value": "[parameters('SiteFinityApiUrlbase')]"
                                 },
@@ -530,8 +546,32 @@
                                     "value": "dsac"
                                 },
                                 {
-                                    "name": "AppSettings__SiteFinityApiKey",
-                                    "value": "[parameters('SiteFinityApiKey')]"
+                                    "name": "AppSettings__SiteFinityClientId",
+                                    "value": "[parameters('SiteFinityClientId')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityClientSecret",
+                                    "value": "[parameters('SiteFinityClientSecret')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityJobCategoriesTaxonomyId",
+                                    "value": "Job Profile Category"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityPassword",
+                                    "value": "[parameters('SiteFinityPassword')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityRequiresAuthentication",
+                                    "value": "true"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityScope",
+                                    "value": "[parameters('SiteFinityScope')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityUsername",
+                                    "value": "[parameters('SiteFinityUsername')]"
                                 }
                             ]
                         }
