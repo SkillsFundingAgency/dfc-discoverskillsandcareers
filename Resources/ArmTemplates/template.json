@@ -42,6 +42,15 @@
         "AssessmentQuestionSetNames": {
             "type": "string"
         },
+        "AzureSearchSettingsApiKey": {
+            "type": "securestring"
+        },
+        "AzureSearchSettingsIndexName": {
+            "type": "string"
+        },
+        "AzureSearchSettingsServiceName": {
+            "type": "string"
+        },
         "CustomHostName": {
             "type": "string"
         },
@@ -464,6 +473,18 @@
                                 {
                                     "name": "AppSettings__NotifyApiKey",
                                     "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
+                                },
+                                {
+                                    "name": "AzureSearchSettings__IndexName",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'results'), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
+                                },
+                                {
+                                    "name": "AzureSearchSettings__ApiKey",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'results'), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
+                                },
+                                {
+                                    "name": "AzureSearchSettings__ServiceName",
+                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'results'), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
                                 }
                             ]
                         }
