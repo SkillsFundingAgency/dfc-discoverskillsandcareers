@@ -95,7 +95,10 @@
             },
             {
                 "name": "FunctionAppNames",
-                "count": "[length(parameters('FunctionAppNames'))]",
+                "metadata": {
+                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'content', this function app is created outside of the FunctionAppNames copy loop."
+                },
+                "count": "[if(equals(last(parameters('FunctionAppNames')), 'content'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
             }
         ]
@@ -393,7 +396,6 @@
                 "apiVersion": "2017-05-10",
                 "name": "[variables('FunctionAppNames')[copyIndex()]]",
                 "type": "Microsoft.Resources/deployments",
-                "condition": "[not(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[2], 'content'))]",
                 "properties": {
                     "mode": "Incremental",
                     "templateLink": {
