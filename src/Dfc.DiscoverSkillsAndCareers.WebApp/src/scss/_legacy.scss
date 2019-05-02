@@ -106,6 +106,9 @@
       text-transform: none;
       font-size: 12px;
       line-height: 1.25;
+      &:hover {
+        text-decoration: underline;
+      }
     }
     li {
       float: left;
