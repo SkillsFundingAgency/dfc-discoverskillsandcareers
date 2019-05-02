@@ -32,6 +32,7 @@ var results = (function () {
         var height = 0
         group.map(card => {
           var description = card.getElementsByClassName('result-description')[0]
+          description.style.height = 'auto'
           height = description.offsetHeight > height ? description.offsetHeight : height
         })
         group.map(card => {
@@ -95,7 +96,7 @@ var results = (function () {
         const hideButtonElement = document.createElement('a')
         const resultsItems = Array.prototype.slice.call(resultsList.children)
         const rowLength = 3
-        const showMoreText = 'Show more'
+        const showMoreText = 'Show _count more'
         const showLessText = 'Show less'
         const cards = resultsItems.filter(result => {
           return resultsItems.indexOf(result) >= 3
@@ -116,7 +117,7 @@ var results = (function () {
         }
 
         var updateButtons = () => {
-          showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText : ''
+          showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText.replace(/_count/g, getRemainingCards()) : ''
           hideButtonElement.innerText = groupIndex > 0 ? showLessText : ''
         }
 
