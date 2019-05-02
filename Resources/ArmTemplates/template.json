@@ -572,6 +572,14 @@
                                 {
                                     "name": "AppSettings__SiteFinityUsername",
                                     "value": "[parameters('SiteFinityUsername')]"
+                                },
+                                {
+                                    "name": "Values_AzureWebJobsStorage",
+                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "Values_PollingSchedule",
+                                    "value": "*/30 * * * *"
                                 }
                             ]
                         }
