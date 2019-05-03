@@ -1,22 +1,26 @@
-﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
+﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
+using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
-using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Notify.Client;
-using Notify.Interfaces;
 using System;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Search;
+using Microsoft.Azure.Search.Models;
+using Microsoft.Extensions.Options;
+using Notify.Interfaces;
+using Notify.Client;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 {
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
@@ -38,6 +42,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
+            services.AddSingleton<ISearchIndexClient>(srvs =>
+            {
+                var searchSettings = srvs.GetService<IOptions<AzureSearchSettings>>();
+                return new SearchIndexClient(searchSettings.Value.ServiceName, searchSettings.Value.IndexName, new SearchCredentials(searchSettings.Value.ApiKey));
+            });
+
+
+            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
@@ -46,6 +58,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             services.AddSingleton<IContentRepository, ContentRepository>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
+            services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
+            services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
@@ -69,23 +83,9 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             }
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
-            var appSettings = new AppSettings();
-            Configuration.Bind("AppSettings", appSettings);
-
-            var cosmosSettings = new CosmosSettings();
-            Configuration.Bind("CosmosSettings", cosmosSettings);
-
-            services.Configure<CosmosSettings>(env =>
-            {
-                env.DatabaseName = cosmosSettings.DatabaseName;
-                env.Endpoint = cosmosSettings.Endpoint;
-                env.Key = cosmosSettings.Key;
-            });
-            services.Configure<AppSettings>(env =>
-            {
-                env.SessionSalt = appSettings.SessionSalt;
-                env.NotifyApiKey = appSettings.NotifyApiKey;
-            });
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }

@@ -1,19 +1,21 @@
-﻿using System;
-using Dfc.DiscoverSkillsAndCareers.ContentFunctionApp;
+﻿using Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
-namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
 {
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
@@ -35,6 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
+            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
@@ -45,7 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
-            
+
         }
 
         private void ConfigureOptions(IServiceCollection services)
@@ -61,22 +64,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp
             }
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
-            var appSettings = new AppSettings();
-            Configuration.Bind("AppSettings", appSettings);
 
-            var cosmosSettings = new CosmosSettings();
-            Configuration.Bind("CosmosSettings", cosmosSettings);
-
-            services.Configure<CosmosSettings>(env =>
-            {
-                env.DatabaseName = cosmosSettings.DatabaseName;
-                env.Endpoint = cosmosSettings.Endpoint;
-                env.Key = cosmosSettings.Key;
-            });
-            services.Configure<AppSettings>(env =>
-            {
-                env.SessionSalt = appSettings.SessionSalt;
-            });
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
     }
 }

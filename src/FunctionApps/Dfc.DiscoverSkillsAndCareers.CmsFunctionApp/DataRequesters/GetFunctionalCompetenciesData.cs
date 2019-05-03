@@ -37,7 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             }
             while (!exhusted);
 
-            foreach (var functionalCompetency in fulllist.Distinct())
+            foreach (var functionalCompetency in fulllist)
             {
                 string getQuestionUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/functioncompetencies({functionalCompetency.Id})/Question";
                 json = await HttpService.GetString(getQuestionUrl);

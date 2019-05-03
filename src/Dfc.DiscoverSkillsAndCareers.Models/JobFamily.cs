@@ -6,7 +6,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 {
     public class JobFamily
     {
-        [JsonProperty("jobFamilyCode")]
+        [JsonProperty("id")]
         public string JobFamilyCode { get; set; }
         [JsonProperty("jobFamilyName")]
         public string JobFamilyName { get; set; }
@@ -16,5 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string[] TraitCodes { get; set; } = {};
         [JsonIgnore]
         public decimal ResultMultiplier {  get { return 1m / TraitCodes.Length; } }
+        [JsonProperty("partitionKey")]
+        public string PartitionKey { get; set; }
     }
 }

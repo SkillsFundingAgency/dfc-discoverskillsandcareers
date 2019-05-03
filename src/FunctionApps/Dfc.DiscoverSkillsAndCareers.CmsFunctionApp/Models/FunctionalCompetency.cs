@@ -13,9 +13,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Title { get; set; }
 
         public string JobCategory => JobProfileCategories.First();
-
+        
         public string[] JobProfileCategories { get; set; }
-
+        
         [JsonProperty("Description")]
         public string Description { get; set; }
         public ShortQuestion Question { get; set; }

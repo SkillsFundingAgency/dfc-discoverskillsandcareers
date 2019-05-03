@@ -22,6 +22,24 @@
       <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <None Update="data\ContentFinishPage.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="data\ContentIndexPage.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="data\ContentInformationSourcesPage.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="data\ContentQuestionPage.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="data\ContentResultsPage.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="data\ContentSaveProgressPage.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="extensions.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -35,5 +53,8 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="data\" />
     </ItemGroup>
 </Project>

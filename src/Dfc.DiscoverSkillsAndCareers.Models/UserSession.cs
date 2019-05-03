@@ -16,7 +16,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("currentQuestion")]
         public int CurrentQuestion { get; set; }
 
-        [JsonIgnore] public bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
+        [JsonIgnore]
+        public bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
         
         [JsonProperty("completeDt")]
         public DateTime? CompleteDt { get; set; }

@@ -40,75 +40,87 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
         public async Task RunOnce(ILogger logger)
         {
-            logger.LogInformation("Begin poll for FunctionalCompetencies");
-
-            string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
-            string siteFinityService = AppSettings.SiteFinityApiWebService;
-
-            var functionalCompetencies = await GetFunctionalCompetenciesData.GetData(siteFinityApiUrlbase, siteFinityService);
-            var jobCategories =
-                (await GetJobCategoriesData.GetData(siteFinityApiUrlbase, siteFinityService, AppSettings.SiteFinityJobCategoriesTaxonomyId))
-                    .ToDictionary(x => x.Id, x => x.Title, StringComparer.InvariantCultureIgnoreCase);
-
-            logger.LogInformation($"Have {functionalCompetencies?.Count} functional competencies to process");
-            var sets = new List<QuestionSet>();
-            foreach (var functionalCompetency in functionalCompetencies.Where(fc => jobCategories.ContainsKey(fc.JobCategory)))
+            try
             {
-                var questionSet = await QuestionSetRepository.GetCurrentQuestionSet("filtered", jobCategories[functionalCompetency.JobCategory]);
+                logger.LogInformation("Begin poll for FunctionalCompetencies");
 
-                if (questionSet == null)
-                {
-                    throw new Exception($"Questionset for {functionalCompetency.JobCategory} could not be found - maybe a typo in sitefinity?");
-                }
+                string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
+                string siteFinityService = AppSettings.SiteFinityApiWebService;
 
-                if (!sets.Any(x => x.QuestionSetVersion == questionSet.QuestionSetVersion))
+                var functionalCompetencies = await GetFunctionalCompetenciesData.GetData(siteFinityApiUrlbase, siteFinityService);
+                var jobCategories =
+                    (await GetJobCategoriesData.GetData(siteFinityApiUrlbase, siteFinityService, AppSettings.SiteFinityJobCategoriesTaxonomyId))
+                        .ToDictionary(x => x.Id, x => x.Title, StringComparer.InvariantCultureIgnoreCase);
+
+                logger.LogInformation($"Have {functionalCompetencies?.Count} functional competencies to process");
+                var sets = new List<QuestionSet>();
+                foreach (var functionalCompetency in functionalCompetencies.Where(fc => fc.JobProfileCategories != null && jobCategories.ContainsKey(fc.JobCategory)))
                 {
-                    sets.Add(questionSet);
-                }
-                var questions = await QuestionRepository.GetQuestions(questionSet.QuestionSetVersion);
-                var question = questions.ToList().FirstOrDefault(x => x.SfId == functionalCompetency.Question?.Id);
-                if (question == null)
-                {
-                    throw new Exception($"Question {functionalCompetency.Question.Id} exists in sitefinity but not locally");
-                }
-                if (functionalCompetency.ExcludeJobProfiles != null)
-                {
-                    var excludeJobProfiles = new List<string>();
-                    foreach (var jobProfile in functionalCompetency.ExcludeJobProfiles)
+                    if (functionalCompetency.JobProfileCategories == null || functionalCompetency.JobProfileCategories.Count() == 0)
                     {
-                        excludeJobProfiles.Add(jobProfile.Title);
+                        throw new Exception($"JobProfileCategories have not been determined for functionalCompetency {functionalCompetency.Id}");
                     }
-                    question.ExcludesJobProfiles = excludeJobProfiles.ToArray();
-                    logger.LogInformation($"Question {question.QuestionId} has {excludeJobProfiles.Count} ExcludesJobProfiles");
+
+                    var questionSet = await QuestionSetRepository.GetCurrentQuestionSet("filtered", jobCategories[functionalCompetency.JobCategory]);
+
+                    if (questionSet == null)
+                    {
+                        throw new Exception($"Questionset for {functionalCompetency.JobCategory} could not be found - maybe a typo in sitefinity?");
+                    }
+
+                    if (!sets.Any(x => x.QuestionSetVersion == questionSet.QuestionSetVersion))
+                    {
+                        sets.Add(questionSet);
+                    }
+                    var questions = await QuestionRepository.GetQuestions(questionSet.QuestionSetVersion);
+                    var question = questions.ToList().FirstOrDefault(x => x.SfId == functionalCompetency.Question?.Id);
+                    if (question == null)
+                    {
+                        throw new Exception($"Question {functionalCompetency.Question.Id} exists in sitefinity but not locally");
+                    }
+                    if (functionalCompetency.ExcludeJobProfiles != null)
+                    {
+                        var excludeJobProfiles = new List<string>();
+                        foreach (var jobProfile in functionalCompetency.ExcludeJobProfiles)
+                        {
+                            excludeJobProfiles.Add(jobProfile.Title);
+                        }
+                        question.ExcludesJobProfiles = excludeJobProfiles.ToArray();
+                        logger.LogInformation($"Question {question.QuestionId} has {excludeJobProfiles.Count} ExcludesJobProfiles");
+                    }
+
+                    await QuestionRepository.CreateQuestion(question);
                 }
 
-                await QuestionRepository.CreateQuestion(question);
-            }
+                logger.LogInformation("End poll for FunctionalCompetencies");
 
-            logger.LogInformation("End poll for FunctionalCompetencies");
-
-            var output = new List<FilteringQuestionSet>();
-            foreach (var fqs in sets)
-            {
-                var questions = await QuestionRepository.GetQuestions(fqs.QuestionSetVersion);
-                output.Add(new FilteringQuestionSet()
+                var output = new List<FilteringQuestionSet>();
+                foreach (var fqs in sets)
                 {
-                    Id = fqs.QuestionSetVersion,
-                    LastUpdated = fqs.LastUpdated,
-                    Description = fqs.Description,
-                    Title = fqs.Title,
-                    Questions = questions.Select(x => new Models.FilteringQuestion()
+                    var questions = await QuestionRepository.GetQuestions(fqs.QuestionSetVersion);
+                    output.Add(new FilteringQuestionSet()
                     {
-                        Id = x.SfId,
-                        Title = x.Texts.First().Text,
-                        ExcludesJobProfiles = x.ExcludesJobProfiles.OrderBy(p => p).ToList(),
-                        IsYes = x.IsNegative,
-                        NegativeResultDisplayText = x.NegativeResultDisplayText,
-                        PositiveResultDisplayText = x.PositiveResultDisplayText,
-                        Order = x.Order
+                        Id = fqs.QuestionSetVersion,
+                        LastUpdated = fqs.LastUpdated,
+                        Description = fqs.Description,
+                        Title = fqs.Title,
+                        Questions = questions.Select(x => new Models.FilteringQuestion()
+                        {
+                            Id = x.SfId,
+                            Title = x.Texts.First().Text,
+                            ExcludesJobProfiles = x.ExcludesJobProfiles.OrderBy(p => p).ToList(),
+                            IsYes = x.IsNegative,
+                            NegativeResultDisplayText = x.NegativeResultDisplayText,
+                            PositiveResultDisplayText = x.PositiveResultDisplayText,
+                            Order = x.Order
 
-                    }).ToList()
-                });
+                        }).ToList()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

@@ -60,7 +60,5 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             logger.LogInformation("End poll for JobCategories");
         }
-
-        
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
+﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
@@ -16,6 +15,8 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
@@ -40,14 +41,15 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
+           
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
+            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
-            services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
             services.AddSingleton<ISiteFinityHttpService, SiteFinityHttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
@@ -65,13 +67,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddTransient<IGetContentData<List<ContentResultsPage>>, GetContentData<List<ContentResultsPage>>>();
             services.AddTransient<IContentDataProcessor<ContentSaveProgressPage>, ContentDataProcessor<ContentSaveProgressPage>>();
             services.AddTransient<IGetContentData<List<ContentSaveProgressPage>>, GetContentData<List<ContentSaveProgressPage>>>();
+            services.AddTransient<IContentDataProcessor<ContentInformationSourcesPage>, ContentDataProcessor<ContentInformationSourcesPage>>();
+            services.AddTransient<IGetContentData<List<ContentInformationSourcesPage>>, GetContentData<List<ContentInformationSourcesPage>>>();
             services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();
             services.AddTransient<IGetFilteringQuestionSetData, GetFilteringQuestionSetData>();
             services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredtQuestionSetDataProcessor>();
             services.AddTransient<IContentDataProcessor<ContentIndexPage>, ContentDataProcessor<ContentIndexPage>>();
             services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
-            services.AddTransient<IGetJobProfileData, GetJobProfileData>();
-            services.AddTransient<IJobProfileDataProcessor, JobProfileDataProcessor>();
             services.AddTransient<IFunctionalCompetencyDataProcessor, FunctionalCompetencyDataProcessor>();
             services.AddTransient<IGetFunctionalCompetenciesData, GetFunctionalCompetenciesData>();
             services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();
