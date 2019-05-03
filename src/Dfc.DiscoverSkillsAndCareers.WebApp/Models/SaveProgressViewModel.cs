@@ -18,12 +18,10 @@
         public string SmsPrompt { get; set; } = "What is your phone number?";
         public string SmsInputLabel { get; set; } = "Phone number";
         public string SmsInputButtonText { get; set; } = "Send";
-
-        public string SmsHint { get; set; } = "We will only use this to send you a link to return to your assessment";
-        public string ReturnText { get; set; } = "Use the reference in the text message to return to your assessment.";
+		public string ReturnText { get; set; } = "Use the reference in the text message to return to your assessment.";
         public string ContinueButtonText { get; set; } = "Continue";
-        public string EmailSentHeader { get; set; } = "Check your email";
-        public string SmsSentHeader { get; set; } = "Check your phone";
+		public string EmailSentHeader { get; set; } = "Check your email";
+		public string SmsSentHeader { get; set; } = "Check your phone";
         public string EmailSentText { get; set; } = "An email has been sent to";
         public string SmsSentText { get; set; } = "A text message has been sent to";
         public string SaveProgressHeader { get; set; } = "Save your progress";
@@ -39,5 +37,9 @@
         public string ReferenceInstruction1Text { get; set; } = "return to your assessment and continue";
         public string ReferenceInstruction2Text { get; set; } = "see your results, if you have finished the assessment";
         public string SmsInputInvalidMessage { get; set; } = "Enter a phone number";
+        public string SmsInputNotifyFailMessage { get; set; } = "Enter a valid phone number";
+        public string SmsHint { get; set; } = "We will only use this to send you a link to return to your assessment";
+        public string EmailInputNotifyFailMessage { get; set; } = "Enter a valid email address";
+        public string EmailInputNotEntered { get; set; } = "You must enter an email address";
     }
 }

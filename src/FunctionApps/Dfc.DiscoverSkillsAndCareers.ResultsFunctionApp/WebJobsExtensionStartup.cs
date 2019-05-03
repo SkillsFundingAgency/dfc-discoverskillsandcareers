@@ -1,19 +1,22 @@
-﻿using System;
+﻿using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp;
+using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
-using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Search;
 using Microsoft.Extensions.Options;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
-namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
 {
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
@@ -35,6 +38,14 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
+            services.AddSingleton<ISearchIndexClient>(srvs =>
+            {
+                var searchSettings = srvs.GetService<IOptions<AzureSearchSettings>>();
+                return new SearchIndexClient(searchSettings.Value.ServiceName, searchSettings.Value.IndexName, new SearchCredentials(searchSettings.Value.ApiKey));
+            });
+
+
+            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
@@ -60,22 +71,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
             }
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
-            var appSettings = new AppSettings();
-            Configuration.Bind("AppSettings", appSettings);
-
-            var cosmosSettings = new CosmosSettings();
-            Configuration.Bind("CosmosSettings", cosmosSettings);
-
-            services.Configure<CosmosSettings>(env =>
-            {
-                env.DatabaseName = cosmosSettings.DatabaseName;
-                env.Endpoint = cosmosSettings.Endpoint;
-                env.Key = cosmosSettings.Key;
-            });
-            services.Configure<AppSettings>(env =>
-            {
-                env.SessionSalt = appSettings.SessionSalt;
-            });
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }

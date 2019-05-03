@@ -160,8 +160,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 model.JobProfiles.ToList().ForEach(x =>
                 {
-                    x.TypicalHours = "37 to 39";
-                    x.ShiftPattern = "between 8am and 6pm";
+                    if (string.IsNullOrEmpty(x.TypicalHours))
+                    {
+                        x.TypicalHours = "37 to 39";
+                        x.ShiftPattern = "between 8am and 6pm";
+                    }
                 });
                 model.JobProfiles = model.JobProfiles.ToArray();
             }

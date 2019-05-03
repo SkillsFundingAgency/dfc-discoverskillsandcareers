@@ -10,25 +10,28 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class FilterAssessmentCalculationService : IFilterAssessmentCalculationService
     {
-        readonly IQuestionRepository QuestionRepository;
-        readonly IJobProfileRepository JobProfileRepository;
+        readonly IQuestionRepository _questionRepository;
+        readonly IJobProfileRepository _jobProfileRepository;
+        readonly ILogger _log;
 
         public FilterAssessmentCalculationService(
             IQuestionRepository questionRepository,
-            IJobProfileRepository jobProfileRepository)
+            IJobProfileRepository jobProfileRepository,
+            ILogger log)
         {
-            QuestionRepository = questionRepository;
-            JobProfileRepository = jobProfileRepository;
+            _questionRepository = questionRepository;
+            _jobProfileRepository = jobProfileRepository;
+            _log = log;
         }
 
-        public async Task CalculateAssessment(UserSession userSession, ILogger log)
+        public async Task CalculateAssessment(UserSession userSession)
         {            
             // All questions for this set version
-            var questions = await QuestionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);
+            var questions = await _questionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);
 
             // All the job profiles for this job category
             var jobFamilyName = userSession.FilteredAssessmentState.JobFamilyName;
-            var allJobProfiles = await JobProfileRepository.GetJobProfilesForJobFamily(jobFamilyName);
+            var allJobProfiles = await _jobProfileRepository.JobProfilesForJobFamily(jobFamilyName);
             var suggestedJobProfiles = allJobProfiles.ToList();
 
             // All answers in order 
@@ -63,7 +66,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
             // Update the filter assessment with the soc codes we are going to suggest
             // TODO: the quantity and order here is likely to change or handled on the UI?
-            var socCodes = suggestedJobProfiles.Select(x => x.SocCode).ToArray();
+            var socCodes = suggestedJobProfiles.ToDictionary(x => x.SocCode, x => x.Title);
             var jobFamily = userSession.ResultData.JobFamilies.First(jf => String.Equals(jf.JobFamilyName, userSession.FilteredAssessmentState.JobFamilyName, StringComparison.InvariantCultureIgnoreCase));
 
             jobFamily.FilterAssessment = new FilterAssessment

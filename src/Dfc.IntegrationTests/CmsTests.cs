@@ -54,7 +54,7 @@ namespace Dfc.IntegrationTests
                 .When(g => g.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, Arg.Any<string>())
                             .Returns(Task.FromResult(new List<FilteringQuestion>()))
                      );
-                
+
 
             var requester = new GetFilteringQuestionSetData(_service, questionDataGetter);
             var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
@@ -90,16 +90,6 @@ namespace Dfc.IntegrationTests
         }
 
         [Fact]
-        public async Task GetJobProfileData_FromSitefinity_ShouldContainJobProfiles()
-        {
-            var requester = new GetJobProfileData(_service);
-
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
-
-            Assert.NotEmpty(data);
-        }
-
-        [Fact]
         public async Task GetQuestionPageContentData_FromSiteFinity_ShouldContainContent()
         {
             var requester = new GetContentData<ContentQuestionPage[]>(_service);
@@ -108,7 +98,7 @@ namespace Dfc.IntegrationTests
             Assert.NotEmpty(data.First().Title);
         }
 
-         [Fact]
+        [Fact]
         public async Task GetResultsPageContentData_FromSiteFinity_ShouldContainContent()
         {
             var requester = new GetContentData<ContentResultsPage[]>(_service);
@@ -117,7 +107,7 @@ namespace Dfc.IntegrationTests
             Assert.NotEmpty(data.First().Title);
         }
 
-         [Fact]
+        [Fact]
         public async Task GetSaveProgressContentsData_FromSiteFinity_ShouldContainContent()
         {
             var requester = new GetContentData<ContentSaveProgressPage[]>(_service);
@@ -161,13 +151,5 @@ namespace Dfc.IntegrationTests
 
             Assert.NotEmpty(data);
         }
-
-       
-
-        
-
-        
-
-
     }
 }

@@ -3,6 +3,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using DFC.Functions.DI.Standard.Attributes;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -21,9 +22,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentResultsPage> resultPageContentDataProcessor,
             [Inject]IContentDataProcessor<ContentSaveProgressPage> saveProgressPageContentDataProcessor,
+            [Inject]IContentDataProcessor<ContentInformationSourcesPage> informationSourcesContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
             [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
-            [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
             [Inject]IFunctionalCompetencyDataProcessor functionalCompetencyDataProcessor,
             [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
             )
@@ -47,19 +48,23 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
                 await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishpage");
 
-                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "resultspagecontents");
+                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishjobcategorypage");
+
+                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "shortresultpage");
+
+                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "filteredresultpage");
 
                 await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
 
-                await shortQuestionSetDataProcessor.RunOnce(log);
+                await informationSourcesContentDataProcessor.RunOnce(log, "informationsourcescontents", "informationsourcespage");
 
-                await jobProfileDataProcessor.RunOnce(log);
+                await shortQuestionSetDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Running CMS extract function failed.");
+                log.LogError(ex, $"Running CMS extract function failed. {ex.Message}");
             }
         }
     }

@@ -52,7 +52,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
                 // Determine if an update is required i.e. the last updated datetime stamp has changed
                 bool updateRequired = questionSet == null || (data.LastUpdated != questionSet.LastUpdated);
-                updateRequired = true;
+
                 // Nothing to do so log and exit
                 if (!updateRequired)
                 {
@@ -73,7 +73,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 {
                     // Change the current question set to be not current
                     questionSet.IsCurrent = false;
-                    
                 }
 
                 // Create the new current version

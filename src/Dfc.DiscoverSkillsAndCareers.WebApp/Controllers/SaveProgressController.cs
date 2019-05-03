@@ -119,7 +119,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
                 {
-                    model.ErrorMessage = $"You must enter an email address";
+                    model.ErrorMessage = model.EmailInputNotEntered;
                     return View("EmailInput", model);
                 }
                 NotifyResponse notifyResponse = null;
@@ -138,7 +138,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
-                    model.ErrorMessage = "Enter a valid email address";
+                    model.ErrorMessage = model.EmailInputNotifyFailMessage;
                     return View("EmailInput", model);
                 }
 
@@ -263,7 +263,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
-                    model.ErrorMessage = "Enter a valid phone number";
+                    model.ErrorMessage = model.SmsInputNotifyFailMessage;
                     return View("ReferenceNumber", model);
                 }
 

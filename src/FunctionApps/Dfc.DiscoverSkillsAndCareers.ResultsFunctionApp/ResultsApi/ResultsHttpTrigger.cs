@@ -81,21 +81,26 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     {
                         continue;
                     }
-
                     // Build the list of job profiles
-                    foreach (var socCode in jobCategory.FilterAssessment.SuggestedJobProfiles)
+                    var jobProfiles =
+                        await jobProfileRepository.JobProfileBySocCodeAndTitle(jobCategory.FilterAssessment.SuggestedJobProfiles);
+
+                    foreach (var jobProfile in jobProfiles)
                     {
-                        var jobProfile = await jobProfileRepository.GetJobProfile(socCode, "jobprofile-cms");
                         suggestedJobProfiles.Add(new JobProfileResult()
                         {
-                            JobCategory = jobCategory.JobFamilyName,
                             CareerPathAndProgression = jobProfile.CareerPathAndProgression,
                             Overview = jobProfile.Overview,
                             SalaryExperienced = jobProfile.SalaryExperienced,
                             SalaryStarter = jobProfile.SalaryStarter,
+                            JobCategory = jobCategory.JobFamilyName,
                             SocCode = jobProfile.SocCode,
                             Title = jobProfile.Title,
                             UrlName = jobProfile.UrlName,
+                            TypicalHours = jobProfile.TypicalHours,
+                            TypicalHoursPeriod = String.Join("/", jobProfile.WorkingHoursDetails),
+                            ShiftPattern = String.Join("/", jobProfile.WorkingPattern),
+                            ShiftPatternPeriod = String.Join("/", jobProfile.WorkingPatternDetails),
                             WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
                         });
                     }

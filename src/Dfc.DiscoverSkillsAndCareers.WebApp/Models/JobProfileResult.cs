@@ -24,8 +24,17 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string CareerPathAndProgression { get; set; }
         [JsonProperty("typicalHours")]
         public string TypicalHours { get; set; }
+        
+        [JsonProperty("typicalHoursPeriod")] 
+        public string TypicalHoursPeriod { get; set; }
+        
         [JsonProperty("shiftPattern")]
         public string ShiftPattern { get; set; }
+        
+        [JsonProperty("shiftPatternPeriod")]
+        public string ShiftPatternPeriod { get; set; }
+
+       
         public bool IsVariable => SalaryStarter == SalaryExperienced;
     }
 }

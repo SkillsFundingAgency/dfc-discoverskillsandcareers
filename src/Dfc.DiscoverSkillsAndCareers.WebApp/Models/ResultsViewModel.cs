@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string TraitTitle { get; set; } = "What you told us";
         public string TraitSummaryText { get; set; } = "Because of your answers, we have provided the following job categories. You can choose to view more results at the bottom of the page.";
         public string Headline { get; set; } = "Your results";
-        public string SaveProgressLinkText { get; set; } = "Save my progress";
+        public string SaveProgressText { get; set; } = "Save my progress";
         public string SeeLinkButtonText { get; set; } = "See job category";
         public string SaveProgressTitle { get; set; } = "Return to this later";
         public bool UseFilteringQuestions { get; set; }
@@ -33,7 +33,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string StarterText { get; set; } = "Starter";
         public string ExperiencedText { get; set; } = "Experienced";
         public string TypicalHoursText { get; set; } = "Typical hours (a week)";
-        public string YouCouldWorkText { get; set; } = "You could work";
+        public string HoursDetailsText { get; set; }
+		public string YouCouldWorkText { get; set; } = "You could work";
         public string ResultsAnswerMoreText { get; set; } = "To find out job roles you might be suited to in [jobcategory], answer more questions.";
         public string JobCategoryTextSingle { get; set; } = "job category";
         public string JobCategoryTextPlural { get; set; } = "job categories";
