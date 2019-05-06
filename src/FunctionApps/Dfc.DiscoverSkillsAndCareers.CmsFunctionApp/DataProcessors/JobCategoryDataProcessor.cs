@@ -53,7 +53,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         }
                     },
                     TraitCodes = jobCategory.Traits.Select(x => x.ToUpper()).ToArray(),
-                    JobFamilyCode = code
+                    JobFamilyCode = code,
+                    PartitionKey = "jobfamily-cms"
                 });
                 codes.Add(code);
             }

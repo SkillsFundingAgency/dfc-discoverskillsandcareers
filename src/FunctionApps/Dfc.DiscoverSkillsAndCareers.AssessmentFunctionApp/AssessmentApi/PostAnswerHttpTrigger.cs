@@ -147,11 +147,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             {
                 if (userSession.IsFilterAssessment)
                 {
-                    await filterAssessmentCalculationService.CalculateAssessment(userSession);
+                    await filterAssessmentCalculationService.CalculateAssessment(userSession, log);
                 }
                 else
                 {
-                    await resultsService.CalculateAssessment(userSession);
+                    await resultsService.CalculateAssessment(userSession, log);
                 }
             }
             else

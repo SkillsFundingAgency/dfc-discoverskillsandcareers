@@ -10,6 +10,7 @@
       "commandLineArgs": "%APPDATA%\\npm\\node_modules\\azure-functions-core-tools\\bin\\func.dll host start --port 7070",
       "environmentVariables": {
         "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
         "AzureWebJobsStorage": "UseDevelopmentStorage=true"
       }
     }
