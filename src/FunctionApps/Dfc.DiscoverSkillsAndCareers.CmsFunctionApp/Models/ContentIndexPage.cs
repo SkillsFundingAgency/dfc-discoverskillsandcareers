@@ -17,6 +17,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string ResumeErrorMessage { get; set; } = "The code could not be found";
         public string MissingCodeErrorMessage { get; set; } = "Please enter your reference";
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

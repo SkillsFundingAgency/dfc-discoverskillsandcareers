@@ -15,6 +15,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         [JsonIgnore()]
         public List<ShortQuestion> Questions { get; set; }
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

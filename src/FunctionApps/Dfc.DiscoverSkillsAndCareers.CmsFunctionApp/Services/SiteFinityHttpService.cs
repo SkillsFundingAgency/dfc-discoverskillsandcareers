@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using System;
+using System.Text;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 {
@@ -84,7 +85,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
         public async Task<string> GetString(string url)
         {
-            _logger.LogInformation(url);
+            _logger.LogInformation($"GET: {url}");
 
             await TryAuthenticate();
 
@@ -93,7 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
         public async Task<string> PostData(string url, object data)
         {
-            _logger.LogInformation(url);
+            _logger.LogInformation($"POST: {url}");
             await TryAuthenticate();
             
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new JsonContent(data)))
@@ -102,6 +103,31 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
                 {
                     return await content.ReadAsStringAsync();
                 }
+            }
+        }
+
+        public async Task<string> PostData(string url, string data)
+        {
+            _logger.LogInformation($"POST: {url}");
+            await TryAuthenticate();
+            
+            using (HttpResponseMessage res = await _httpClient.PostAsync(url, new StringContent(data, Encoding.UTF8, "application/json")))
+            {
+                using (HttpContent content = res.Content)
+                {
+                    return await content.ReadAsStringAsync();
+                }
+            }
+        }
+
+        public async Task Delete(string url)
+        {
+            _logger.LogInformation(url);
+            await TryAuthenticate();
+            
+            using (HttpResponseMessage res = await _httpClient.DeleteAsync(url))
+            {
+                res.EnsureSuccessStatusCode();
             }
         }
 

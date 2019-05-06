@@ -25,23 +25,20 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             [Inject]IContentDataProcessor<ContentInformationSourcesPage> informationSourcesContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
             [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
-            [Inject]IFunctionalCompetencyDataProcessor functionalCompetencyDataProcessor,
             [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
             )
         {
             var id = Guid.NewGuid();
             try
             {
-                log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
+                log.LogInformation($"PollFunction executed at: {myTimer.ScheduleStatus.Last:O}");
 
                 await shortTraitDataProcessor.RunOnce(log);
 
                 await jobCategoryDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
-
-                await functionalCompetencyDataProcessor.RunOnce(log);
-
+                
                 await indexPageContentDataProcessor.RunOnce(log, "indexpagecontents", "indexpage");
 
                 await questionPageContentDataProcessor.RunOnce(log, "questionpagecontents", "questionpage");

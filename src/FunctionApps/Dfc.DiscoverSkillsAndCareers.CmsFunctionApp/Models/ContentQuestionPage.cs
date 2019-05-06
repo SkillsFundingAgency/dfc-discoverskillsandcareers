@@ -20,6 +20,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string NoAnswerErrorMessage { get; set; } = "Please select an option below to continue";
 
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

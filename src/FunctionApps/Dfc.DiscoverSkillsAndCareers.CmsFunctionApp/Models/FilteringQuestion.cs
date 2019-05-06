@@ -8,21 +8,29 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
     {
         [JsonProperty("Id")]
         public string Id { get; set; }
+        
         [JsonProperty("QuestionText")]
         public string Title { get; set; }
+        
         [JsonProperty("Description")]
         public string Description { get; set; }
+        
         [JsonProperty("Order")]
         public int? Order { get; set; }
+        
         [JsonProperty("ExcludesJobProfiles")]
         public List<string> ExcludesJobProfiles { get; set; }
+        
         [JsonProperty("IsYes")]
         public bool IsYes { get; set; }
+        
         [JsonProperty("PositiveResultDisplayText")]
         public string PositiveResultDisplayText { get; set; }
+        
         [JsonProperty("NegativeResultDisplayText")]
         public string NegativeResultDisplayText { get; set; }
+        
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

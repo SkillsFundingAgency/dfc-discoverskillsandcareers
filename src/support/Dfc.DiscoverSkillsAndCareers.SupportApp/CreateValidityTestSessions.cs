@@ -10,11 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using static Dfc.DiscoverSkillsAndCareers.SupportApp.Program;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
-    
-
     public static class CreateValidityTestSessions
     {
         [Verb("create-validity-sessions", HelpText = "Creates the validity test sessions in the Cosmos DB instance.")]
@@ -59,10 +58,11 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             };
         }
 
-        public static SuccessFailCode Execute(IConfiguration configuration, Options opts)
+        public static SuccessFailCode Execute(IServiceProvider services, Options opts)
         {
             try
             {
+                var configuration = services.GetService<IConfiguration>();
                 configuration.Bind(opts);
 
                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);

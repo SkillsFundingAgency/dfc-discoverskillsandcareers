@@ -16,6 +16,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Feedback2 { get; set; } = "We're constantly working to improve our information and your feedback is important to us. Please use";
 
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

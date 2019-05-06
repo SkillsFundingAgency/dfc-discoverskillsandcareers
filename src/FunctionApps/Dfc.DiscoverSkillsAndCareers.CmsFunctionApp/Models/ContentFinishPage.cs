@@ -13,6 +13,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string ViewResultsButtonText { get; set; } = "See results";
         public string HeadlineStrap { get; set; } = "Thank you";
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }
