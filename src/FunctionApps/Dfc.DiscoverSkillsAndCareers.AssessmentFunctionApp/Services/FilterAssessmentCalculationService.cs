@@ -12,19 +12,16 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
     {
         readonly IQuestionRepository _questionRepository;
         readonly IJobProfileRepository _jobProfileRepository;
-        readonly ILogger _log;
 
         public FilterAssessmentCalculationService(
             IQuestionRepository questionRepository,
-            IJobProfileRepository jobProfileRepository,
-            ILogger log)
+            IJobProfileRepository jobProfileRepository)
         {
             _questionRepository = questionRepository;
             _jobProfileRepository = jobProfileRepository;
-            _log = log;
         }
 
-        public async Task CalculateAssessment(UserSession userSession)
+        public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {            
             // All questions for this set version
             var questions = await _questionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);

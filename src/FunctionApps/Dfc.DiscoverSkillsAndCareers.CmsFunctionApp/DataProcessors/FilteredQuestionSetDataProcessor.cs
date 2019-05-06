@@ -64,14 +64,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 if (!updateRequired)
                 {
                     logger.LogInformation($"Filtering Question Set {data.Title} is upto date - no changes to be done");
-                    return;
+                    continue;
                 }
 
                 // Attempt to get the questions for this questionset
                 if (data.Questions == null || data.Questions.Count == 0)
                 {
                     logger.LogInformation($"Filtering Question Set {data.Title} doesn't have any questions");
-                    return;
+                    continue;
                 }
 
                 logger.LogInformation($"Received {data.Questions?.Count} questions for filtering question set {data.Id} {data.Title}");
@@ -124,7 +124,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     logger.LogInformation($"Created question {newQuestion.QuestionId}");
                 }
                 await _questionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
-                await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
+                if (questionSet != null)
+                {
+                    await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
+                }
                 logger.LogInformation($"Created Filtering Question Set - {newQuestionSet.Version}");
             }
 

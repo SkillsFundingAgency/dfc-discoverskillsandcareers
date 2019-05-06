@@ -13,7 +13,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         private IJobCategoryRepository _jobCategoryRepository;
         private IShortTraitRepository _traitRepository;
         private readonly IQuestionSetRepository _questionSetRepository;
-        private ILogger _log;
 
         private static Dictionary<AnswerOption, int> AnswerOptions = new Dictionary<AnswerOption, int>()
         {
@@ -27,16 +26,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         public AssessmentCalculationService(
             IJobCategoryRepository jobCategoryRepository, 
             IShortTraitRepository traitRepository,
-            IQuestionSetRepository questionSetRepository,
-            ILogger log)
+            IQuestionSetRepository questionSetRepository)
         {
             _jobCategoryRepository = jobCategoryRepository;
             _traitRepository = traitRepository;
             _questionSetRepository = questionSetRepository;
-            _log = log;
         }
 
-        public async Task CalculateAssessment(UserSession userSession)
+        public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
             var jobFamilies = await _jobCategoryRepository.GetJobCategories("jobfamily-cms");
             var answerOptions = AnswerOptions;
@@ -61,10 +58,10 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 throw new Exception("AssessmentState is not set!");
             }
 
-            RunShortAssessment(userSession, jobFamilies, answerOptions, traits, filteredQuestionSets);
+            RunShortAssessment(userSession, jobFamilies, answerOptions, traits, filteredQuestionSets, log);
         }
 
-        public void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet)
+        public void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet, ILogger log)
         {
             // User traits
             var userTraits = userSession.AssessmentState.RecordedAnswers
@@ -92,7 +89,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             {
                 if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName, out var qs))
                 {
-                    _log.LogError(
+                    log.LogError(
                         new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName}"),
                         $"Unable to find a question set for {jobCat.JobFamilyName} available sets include {Environment.NewLine}{String.Join(Environment.NewLine, filteredQuestionsLookup.Keys)}"
                     );
