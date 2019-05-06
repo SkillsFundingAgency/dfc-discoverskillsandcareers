@@ -1,0 +1,16 @@
+{
+  "steps": [
+    { "action": "extract", "contentType":  "indexpagecontents"},
+    { "action": "extract", "contentType":  "finishpagecontents"},
+    { "action": "extract", "contentType":  "questionpagecontents"},
+    { "action": "extract", "contentType":  "resultspagecontents"},
+    { "action": "extract", "contentType":  "informationsourcescontents"},
+    { "action": "extract", "contentType":  "saveprogresscontents"},
+    { "action": "extract", "contentType":  "filteringquestionsets"},
+    { "action": "extract", "contentType":  "filteringquestions"},
+    { "action": "extract", "contentType":  "functioncompetencies"},
+    { "action": "extract", "contentType":  "shortquestionsets"},
+    { "action": "extract", "contentType":  "shortquestions"},
+    { "action": "extract", "contentType":  "traits"}
+  ]
+}

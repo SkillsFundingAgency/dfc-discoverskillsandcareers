@@ -9,24 +9,24 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionSetData : IGetFilteringQuestionSetData
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IGetFilteringQuestionData GetFilteringQuestionData;
+        private readonly ISiteFinityHttpService _httpService;
+        private readonly IGetFilteringQuestionData _getFilteringQuestionData;
 
         public GetFilteringQuestionSetData(ISiteFinityHttpService httpService,
             IGetFilteringQuestionData getFilteringQuestionData)
         {
-            HttpService = httpService;
-            GetFilteringQuestionData = getFilteringQuestionData;
+            _httpService = httpService;
+            _getFilteringQuestionData = getFilteringQuestionData;
         }
 
         public async Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase, string siteFinityService)
         {
             string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets";
-            string json = await HttpService.GetString(url);
+            string json = await _httpService.GetString(url);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json);
             foreach (var fqs in data.Value)
             {
-                fqs.Questions = await GetFilteringQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, fqs.Id);
+                fqs.Questions = await _getFilteringQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, fqs.Id);
             }
             return data.Value;
         }

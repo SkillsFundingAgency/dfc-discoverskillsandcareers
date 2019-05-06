@@ -13,7 +13,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string SeeLinkButtonText { get; set; } = "See job category";
         public string SaveProgressTitle { get; set; } = "Return to this later";
         [JsonProperty("LastModified")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
         public string StartFilterQuestionsButtonText { get; set; } = "Answer [questions] more question";
         public string ViewResultsButtonText { get; set; } = "View results";
         public string WhatYouToldUsTitle { get; set; } = "What you told us";

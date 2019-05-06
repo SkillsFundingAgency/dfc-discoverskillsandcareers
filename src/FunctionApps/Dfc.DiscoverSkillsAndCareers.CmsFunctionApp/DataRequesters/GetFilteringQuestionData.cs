@@ -2,6 +2,7 @@
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
@@ -20,9 +21,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             string getQuestionsUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets({questionSetId})/Questions";
             string json = await HttpService.GetString(getQuestionsUrl);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestion>>>(json);
+            
             foreach (var question in data.Value)
             {
-                question.ExcludesJobProfiles = new List<string>();
+                string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestions({question.Id})/ExcludedJobProfiles";
+                json = await HttpService.GetString(getJobProfilesUrl);
+                var listJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<JobProfile>>>(json);
+                question.ExcludesJobProfiles = listJobProfiles.Value.Select(jp => jp.Title).ToList();
             }
             return data.Value;
         }

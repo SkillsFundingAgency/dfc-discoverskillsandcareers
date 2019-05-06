@@ -71,11 +71,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddTransient<IGetContentData<List<ContentInformationSourcesPage>>, GetContentData<List<ContentInformationSourcesPage>>>();
             services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();
             services.AddTransient<IGetFilteringQuestionSetData, GetFilteringQuestionSetData>();
-            services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredtQuestionSetDataProcessor>();
+            services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredQuestionSetDataProcessor>();
             services.AddTransient<IContentDataProcessor<ContentIndexPage>, ContentDataProcessor<ContentIndexPage>>();
             services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
-            services.AddTransient<IFunctionalCompetencyDataProcessor, FunctionalCompetencyDataProcessor>();
-            services.AddTransient<IGetFunctionalCompetenciesData, GetFunctionalCompetenciesData>();
             services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();
             services.AddTransient<IJobCategoryDataProcessor, JobCategoryDataProcessor>();
         }

@@ -70,16 +70,7 @@ namespace Dfc.IntegrationTests
 
             Assert.NotEmpty(data.First().Headline);
         }
-
-        [Fact]
-        public async Task GetFunctionalCompetencyData_FromSiteFinity_ShouldContainValues()
-        {
-            var requester = new GetFunctionalCompetenciesData(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
-
-            Assert.NotEmpty(data);
-        }
-
+        
         [Fact]
         public async Task GetIndexPageContentData_FromSiteFinity_ShouldContainContent()
         {
