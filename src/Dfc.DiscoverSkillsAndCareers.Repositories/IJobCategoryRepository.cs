@@ -1,7 +1,4 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
@@ -11,5 +8,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         Task<JobFamily> GetJobCategory(string socCode, string partitionKey);
         Task CreateJobCategory(JobFamily jobProfile);
         Task<JobFamily[]> GetJobCategories(string partitionKey);
+        Task DeleteJobCategory(string partitionKey, JobFamily jobFamily);
+        Task<JobFamily[]> GetJobCategoriesByName(string partitionKey, string jobFamilyName);
     }
 }
