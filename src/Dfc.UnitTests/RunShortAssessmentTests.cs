@@ -21,7 +21,7 @@ namespace Dfc.UnitTests
         private IJobCategoryRepository _jobFamilyRepository;
         private IShortTraitRepository _shortTraitRepository;
         private IQuestionSetRepository _questionSetRepository;
-        private ILogger<AssessmentCalculationService> _logger;
+        private ILogger _logger;
         private AssessmentCalculationService _assessmentCalculationService;
 
         public RunShortAssessmentTests()
@@ -29,13 +29,12 @@ namespace Dfc.UnitTests
             _jobFamilyRepository = Substitute.For<IJobCategoryRepository>();
             _shortTraitRepository = Substitute.For<IShortTraitRepository>();
             _questionSetRepository = Substitute.For<IQuestionSetRepository>();
-            _logger = Substitute.For<ILogger<AssessmentCalculationService>>();
+            _logger = Substitute.For<ILogger>();
 
             _assessmentCalculationService = new AssessmentCalculationService(
                 _jobFamilyRepository,
                 _shortTraitRepository,
-                _questionSetRepository,
-                _logger);
+                _questionSetRepository);
 
             Traits = new List<Trait>()
             {
@@ -469,7 +468,7 @@ namespace Dfc.UnitTests
             };
 
             
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets, _logger);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -496,7 +495,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets, _logger);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Single(traits);
@@ -523,7 +522,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets, _logger);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Equal(8, traits.Count);
@@ -550,7 +549,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits,QuestionSets, _logger);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -577,7 +576,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets, _logger);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -608,7 +607,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits, QuestionSets, _logger);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -671,7 +670,7 @@ namespace Dfc.UnitTests
                     
             };
 
-            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits, QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits, QuestionSets, _logger);
 
             int? getTraitScore(string trait)
             {
@@ -742,7 +741,7 @@ namespace Dfc.UnitTests
                     
             };
 
-            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits, QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits, QuestionSets, _logger);
 
             int? getTraitScore(string trait)
             {
@@ -812,7 +811,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits, QuestionSets);
+            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits, QuestionSets, _logger);
 
             IDictionary<string, TraitResult> traitLookup = session.ResultData.Traits.ToDictionary(r => r.TraitCode, r => r);
             Assert.Contains("DOER", traitLookup);
