@@ -104,7 +104,8 @@
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
-        "ContentFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-content-fa'))]",
+        "AppSettings__SessionSalt": "ncs",
+        "CmsFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cms-fa'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
@@ -117,9 +118,9 @@
             {
                 "name": "FunctionAppNames",
                 "metadata": {
-                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'content', this function app is created outside of the FunctionAppNames copy loop."
+                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'cms', this function app is created outside of the FunctionAppNames copy loop."
                 },
-                "count": "[if(equals(last(parameters('FunctionAppNames')), 'content'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
+                "count": "[if(equals(last(parameters('FunctionAppNames')), 'cms'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
             }
         ]
@@ -468,7 +469,7 @@
                                 },
                                 {
                                     "name": "AppSettings__SessionSalt",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
+                                    "value": "[variables('AppSettings__SessionSalt')]"
                                 },
                                 {
                                     "name": "AppSettings__NotifyApiKey",
@@ -503,7 +504,7 @@
             },
             {
                 "apiVersion": "2017-05-10",
-                "name": "[concat(variables('ContentFunctionAppName'), '-deployment')]",
+                "name": "[concat(variables('CmsFunctionAppName'), '-deployment')]",
                 "type": "Microsoft.Resources/deployments",
                 "properties": {
                     "mode": "Incremental",
@@ -513,7 +514,7 @@
                     },
                     "parameters": {
                         "appServiceName": {
-                            "value": "[variables('ContentFunctionAppName')]"
+                            "value": "[variables('CmsFunctionAppName')]"
                         },
                         "appServicePlanName": {
                             "value": "[variables('AppServicePlanName')]"
@@ -536,7 +537,7 @@
                                 },
                                 {
                                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-content-ai')).outputs.InstrumentationKey.value]"
+                                    "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-cms-ai')).outputs.InstrumentationKey.value]"
                                 },
                                 {
                                     "name": "AzureWebJobsStorage",
@@ -553,6 +554,10 @@
                                 {
                                     "name": "CosmosSettings__DatabaseName",
                                     "value": "DiscoverMySkillsAndCareers"
+                                },
+                                {
+                                    "name": "AppSettings__SessionSalt",
+                                    "value": "[variables('AppSettings__SessionSalt')]"
                                 },
                                 {
                                     "name": "AppSettings__SiteFinityApiAuthenicationEndpoint",
