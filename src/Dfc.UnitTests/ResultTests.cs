@@ -17,7 +17,7 @@ namespace Dfc.UnitTests
         private IJobCategoryRepository _jobFamilyRepository;
         private IShortTraitRepository _shortTraitRepository;
         private IQuestionSetRepository _questionSetRepository;
-        private ILogger<AssessmentCalculationService> _logger;
+        private ILogger _logger;
         private AssessmentCalculationService _assessmentCalculationService;
 
         public ResultTests()
@@ -25,13 +25,12 @@ namespace Dfc.UnitTests
             _jobFamilyRepository = Substitute.For<IJobCategoryRepository>();
             _shortTraitRepository = Substitute.For<IShortTraitRepository>();
             _questionSetRepository = Substitute.For<IQuestionSetRepository>();
-            _logger = Substitute.For<ILogger<AssessmentCalculationService>>();
+            _logger = Substitute.For<ILogger>();
 
             _assessmentCalculationService = new AssessmentCalculationService(
                 _jobFamilyRepository,
                 _shortTraitRepository,
-                _questionSetRepository,
-                _logger);
+                _questionSetRepository);
 
             _shortTraitRepository.GetTraits("shorttrait-cms").Returns(
                 Task.FromResult(ResultTestMockData.Traits.ToArray())
@@ -58,7 +57,7 @@ namespace Dfc.UnitTests
 
             var exception = await Assert.ThrowsAsync<Exception>(async () =>
             {
-                await _assessmentCalculationService.CalculateAssessment(userSession);
+                await _assessmentCalculationService.CalculateAssessment(userSession,_logger);
             });
             Assert.Equal("AssessmentState is not set!", exception.Message);
         }
@@ -78,7 +77,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            await _assessmentCalculationService.CalculateAssessment(userSession);
+            await _assessmentCalculationService.CalculateAssessment(userSession,_logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -101,7 +100,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            await _assessmentCalculationService.CalculateAssessment(userSession);
+            await _assessmentCalculationService.CalculateAssessment(userSession,_logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -126,7 +125,7 @@ namespace Dfc.UnitTests
                 }
             };
             
-            await _assessmentCalculationService.CalculateAssessment(userSession);
+            await _assessmentCalculationService.CalculateAssessment(userSession,_logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -149,7 +148,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            await _assessmentCalculationService.CalculateAssessment(userSession);
+            await _assessmentCalculationService.CalculateAssessment(userSession,_logger);
 
             Assert.NotNull(userSession.ResultData.Traits);
             Assert.True(userSession.ResultData.Traits.Length == 1);
@@ -419,11 +418,11 @@ namespace Dfc.UnitTests
         {
             new Trait() { TraitCode = "LEADER", TraitName = "Leader", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like to lead other people and are good at taking control of situations." } } },
             new Trait() { TraitCode = "DRIVER", TraitName = "Driver", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You enjoy setting targets and are comfortable competing with other people." } } },
-            new Trait() { TraitCode = "DOER", TraitName = "Doer", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You’re a practical person and enjoy working with your hands." } } },
+            new Trait() { TraitCode = "DOER", TraitName = "Doer", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "Youâ€™re a practical person and enjoy working with your hands." } } },
             new Trait() { TraitCode = "ORGANISER", TraitName = "Organiser", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like to plan things and are well organised." } } },
             new Trait() { TraitCode = "HELPER", TraitName = "Helper", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You enjoy helping and listening to other people." } } },
             new Trait() { TraitCode = "ANALYST", TraitName = "Analyst", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You like dealing with complicated problems or working with numbers." } } },
-            new Trait() { TraitCode = "CREATOR", TraitName = "Creator", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You’re a creative person and enjoy coming up with new ways of doing things." } } },
+            new Trait() { TraitCode = "CREATOR", TraitName = "Creator", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "Youâ€™re a creative person and enjoy coming up with new ways of doing things." } } },
             new Trait() { TraitCode = "INFLUENCER", TraitName = "Influencer", Texts = new [] { new TraitText() { LanguageCode = "en", Text = "You are sociable and find it easy to understand people." } } }
         };
 
