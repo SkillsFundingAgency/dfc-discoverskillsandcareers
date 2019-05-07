@@ -604,7 +604,7 @@
                                     "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
                                 },
                                 {
-                                    "name": "Values_PollingSchedule",
+                                    "name": "PollingSchedule",
                                     "value": "*/30 * * * *"
                                 }
                             ]
