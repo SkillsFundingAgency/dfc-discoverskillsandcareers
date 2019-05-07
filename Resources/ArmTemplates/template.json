@@ -477,15 +477,15 @@
                                 },
                                 {
                                     "name": "AzureSearchSettings__IndexName",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'results'), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__ApiKey",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'results'), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__ServiceName",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'results'), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
                                 }
                             ]
                         }
