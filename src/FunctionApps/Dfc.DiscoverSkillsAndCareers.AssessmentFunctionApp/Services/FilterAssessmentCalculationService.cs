@@ -41,7 +41,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             // Iterate through removing all in a "guess-who" fashion
             foreach (var answer in answers)
             {
-                var question = questions.Where(x => x.QuestionId == answer.QuestionId).First();
+                var question = questions.First(x => x.QuestionId == answer.QuestionId);
+                
                 if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
                 {
                     suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
@@ -60,9 +61,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     whatYouToldUs.Add(question.PositiveResultDisplayText);
                 }
             }
-
-            // Update the filter assessment with the soc codes we are going to suggest
-            // TODO: the quantity and order here is likely to change or handled on the UI?
+            
             var socCodes = suggestedJobProfiles.ToDictionary(x => x.SocCode, x => x.Title);
             var jobFamily = userSession.ResultData.JobFamilies.First(jf => String.Equals(jf.JobFamilyName, userSession.FilteredAssessmentState.JobFamilyName, StringComparison.InvariantCultureIgnoreCase));
 

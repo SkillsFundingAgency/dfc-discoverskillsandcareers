@@ -10,11 +10,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class AssessmentCalculationService : IAssessmentCalculationService
     {
-        private IJobCategoryRepository _jobCategoryRepository;
-        private IShortTraitRepository _traitRepository;
+        private readonly IJobCategoryRepository _jobCategoryRepository;
+        private readonly IShortTraitRepository _traitRepository;
         private readonly IQuestionSetRepository _questionSetRepository;
 
-        private static Dictionary<AnswerOption, int> AnswerOptions = new Dictionary<AnswerOption, int>()
+        private static readonly Dictionary<AnswerOption, int> AnswerOptions = new Dictionary<AnswerOption, int>()
         {
             { AnswerOption.StronglyDisagree, -2 },
             { AnswerOption.Disagree, -1 },
@@ -68,16 +68,21 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .Select(x => new
                 {
                     x.TraitCode,
-                    Score = !x.IsNegative ? answerOptions.Where(a => a.Key == x.SelectedOption).First().Value
-                        : answerOptions.Where(a => a.Key == x.SelectedOption).First().Value * -1
+                    Score = !x.IsNegative ? answerOptions.First(a => a.Key == x.SelectedOption).Value
+                        : answerOptions.First(a => a.Key == x.SelectedOption).Value * -1
                 })
                 .GroupBy(x => x.TraitCode)
-                .Select(g => new TraitResult()
+                .Select(g =>
                 {
-                    TraitCode = g.First().TraitCode,
-                    TraitName = traits.Where(x => x.TraitCode == g.First().TraitCode).First().TraitName,
-                    TraitText = traits.Where(x => x.TraitCode == g.First().TraitCode).First().Texts.Where(x => x.LanguageCode.ToLower() == userSession.LanguageCode.ToLower()).FirstOrDefault()?.Text,
-                    TotalScore = g.Sum(x => x.Score)
+                    var trait = traits.First(x => x.TraitCode == g.First().TraitCode);
+                    return new TraitResult()
+                    {
+
+                        TraitCode = g.Key,
+                        TraitName = trait.TraitName,
+                        TraitText = trait.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == userSession.LanguageCode.ToLower())?.Text,
+                        TotalScore = g.Sum(x => x.Score)
+                    };
                 })
                 .OrderByDescending(x => x.TotalScore)
                 .ToList();
@@ -113,22 +118,26 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         public List<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
         {
             var userJobFamilies = jobFamilies
-              .Select(x => new JobFamilyResult()
+              .Select(x =>
               {
-                  JobFamilyCode = x.JobFamilyCode,
-                  JobFamilyName = x.JobFamilyName,
-                  JobFamilyText = x.Texts.Where(t => t.LanguageCode.ToLower() == languageCode?.ToLower()).FirstOrDefault()?.Text,
-                  Url = x.Texts.Where(t => t.LanguageCode.ToLower() == languageCode?.ToLower()).FirstOrDefault()?.Url,
-                  TraitsTotal = userTraits.Where(t => x.TraitCodes.Contains(t.TraitCode)).Sum(t => t.TotalScore),
-                  TraitValues = userTraits
-                      .Where(t => x.TraitCodes.Contains(t.TraitCode))
-                      .Select(v => new TraitValue()
-                      {
-                          TraitCode = v.TraitCode,
-                          Total = v.TotalScore,
-                          NormalizedTotal = x.ResultMultiplier * v.TotalScore
-                      }).ToArray(),
-                  NormalizedTotal = x.ResultMultiplier
+                  var uTraits = userTraits.Where(t => x.TraitCodes.Contains(t.TraitCode)).ToArray();
+                  var jfText = x.Texts.FirstOrDefault(t => t.LanguageCode.ToLower() == languageCode?.ToLower());
+                  return new JobFamilyResult()
+                  {
+                      JobFamilyCode = x.JobFamilyCode,
+                      JobFamilyName = x.JobFamilyName,
+                      JobFamilyText = jfText?.Text,
+                      Url = jfText?.Url,
+                      TraitsTotal = uTraits.Sum(t => t.TotalScore),
+                      TraitValues =
+                          uTraits.Select(v => new TraitValue()
+                          {
+                              TraitCode = v.TraitCode,
+                              Total = v.TotalScore,
+                              NormalizedTotal = x.ResultMultiplier * v.TotalScore
+                          }).ToArray(),
+                      NormalizedTotal = x.ResultMultiplier
+                  };
               })
               .Where(x => x.TraitValues.Any(v => v.Total > 0))
               .ToList();
