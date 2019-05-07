@@ -477,11 +477,11 @@
                                 },
                                 {
                                     "name": "AzureSearchSettings__IndexName",
-                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__ApiKey",
-                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__ServiceName",
