@@ -34,16 +34,6 @@ namespace Dfc.IntegrationTests.RepositoryTests
         public void Dispose() { }
 
         [Fact]
-        public async Task GetContent_WithValidKey_ShouldReturnContent()
-        {
-            var contentType = "startpage";
-
-            var content = await _repository.GetContent(contentType);
-
-            Assert.Equal(contentType, content.ContentType);
-        }
-
-        [Fact]
         public async Task GetContent_WithMissingKey_ShouldReturnNull()
         {
             var contentType = "notfoundkey";

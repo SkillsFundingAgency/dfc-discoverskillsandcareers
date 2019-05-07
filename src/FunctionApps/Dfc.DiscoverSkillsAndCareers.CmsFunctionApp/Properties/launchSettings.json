@@ -8,6 +8,7 @@
       "commandName": "Executable",
       "executablePath": "dotnet",
       "commandLineArgs": "%APPDATA%\\npm\\node_modules\\azure-functions-core-tools\\bin\\func.dll host start --port 7070",
+      "workingDirectory": "$(ProjectDir)/bin/Debug/netcoreapp2.1",
       "environmentVariables": {
         "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet",
@@ -15,5 +16,4 @@
       }
     }
   }
-  
 }

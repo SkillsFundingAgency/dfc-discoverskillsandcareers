@@ -36,14 +36,6 @@ namespace Dfc.IntegrationTests
 
         }
 
-        [Fact]
-        public async Task GetFilteringQuestions_FromSiteFinity_ShouldContainValues()
-        {
-            var requester = new GetFilteringQuestionData(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "1544adbe-c6d9-4123-aff2-74dcc74297bb");
-
-            Assert.NotEmpty(data);
-        }
 
         [Fact]
         public async Task GetFilteringQuestionSets_FromSiteFinity_ShouldContainValues()
