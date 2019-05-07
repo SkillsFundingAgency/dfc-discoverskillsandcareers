@@ -65,6 +65,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 var queryQuestions = client.CreateDocumentQuery<JobFamily>(uri, feedOptions)
                                        .AsEnumerable()
                                        .ToArray();
+
+                if (queryQuestions.Length == 0)
+                    return await Task.FromResult(LocalDataService.JobFamilies.ToArray()); 
+                    
                 return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
