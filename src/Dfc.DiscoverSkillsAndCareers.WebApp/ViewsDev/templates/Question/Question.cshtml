@@ -92,12 +92,12 @@
             <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
                 <fieldset class="govuk-fieldset app-question app-question--short" id="question">
 
-                    <legend class="visually-hidden">@Model.QuestionText</legend>
-
                     <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
-                        <h1 class="govuk-fieldset__heading" aria-hidden="true">
-                            @Model.QuestionText
-                        </h1>
+                        <legend>
+                            <h1 class="govuk-fieldset__heading">
+                                @Model.QuestionText
+                            </h1>
+                        </legend>
                     </div>
 
                     <div class="app-question__answer govuk-radios govuk-radios--inline">

@@ -17,159 +17,159 @@ const assessmentRunThroughIns = [
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/2',
+    'wait for path to be /q/short/02',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/3',
+    'wait for path to be /q/short/03',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/4',
+    'wait for path to be /q/short/04',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/5',
+    'wait for path to be /q/short/05',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/6',
+    'wait for path to be /q/short/06',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/7',
+    'wait for path to be /q/short/07',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/8',
+    'wait for path to be /q/short/08',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/9',
+    'wait for path to be /q/short/09',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/10',
+    'wait for path to be /q/short/10',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/11',
+    'wait for path to be /q/short/11',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/12',
+    'wait for path to be /q/short/12',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/13',
+    'wait for path to be /q/short/13',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/14',
+    'wait for path to be /q/short/14',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/15',
+    'wait for path to be /q/short/15',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/16',
+    'wait for path to be /q/short/16',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/17',
+    'wait for path to be /q/short/17',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/18',
+    'wait for path to be /q/short/18',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/19',
+    'wait for path to be /q/short/19',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/20',
+    'wait for path to be /q/short/20',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/21',
+    'wait for path to be /q/short/21',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/22',
+    'wait for path to be /q/short/22',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/23',
+    'wait for path to be /q/short/23',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/24',
+    'wait for path to be /q/short/24',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/25',
+    'wait for path to be /q/short/25',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/26',
+    'wait for path to be /q/short/26',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/27',
+    'wait for path to be /q/short/27',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/28',
+    'wait for path to be /q/short/28',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/29',
+    'wait for path to be /q/short/29',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/30',
+    'wait for path to be /q/short/30',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/31',
+    'wait for path to be /q/short/31',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/32',
+    'wait for path to be /q/short/32',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/33',
+    'wait for path to be /q/short/33',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/34',
+    'wait for path to be /q/short/34',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/35',
+    'wait for path to be /q/short/35',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/36',
+    'wait for path to be /q/short/36',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/37',
+    'wait for path to be /q/short/37',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/38',
+    'wait for path to be /q/short/38',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/39',
+    'wait for path to be /q/short/39',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button',
-    'wait for path to be /q/40',
+    'wait for path to be /q/short/40',
     `wait for element #${answerDict['Agree']} to be added`,
     `check field #${answerDict['Agree']}`,
     'click element .govuk-button'
@@ -182,12 +182,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
         const {issues} = await pa11y(appUrl, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         });
 
         expect(issues).to.eql([]);
@@ -201,13 +196,8 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
             actions: [
                 'click element .govuk-button--start',
-                'wait for path to be /q/1'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+                'wait for path to be /q/short/01'
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -224,12 +214,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for element .govuk-link--no-visited-state to be added',
                 'click element .govuk-link--no-visited-state',
                 'wait for path to be /save-my-progress'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -250,12 +235,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'check field #SelectedOption-2',
                 'click element .govuk-button',
                 'wait for path to be /save-my-progress/reference'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -270,12 +250,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
             actions: [
                 ...assessmentRunThroughIns,
                 'wait for path to be /finish'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -293,12 +268,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for element .govuk-button to be added',
                 'click element .govuk-button',
                 'wait for path to be /results'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -318,13 +288,8 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for path to be /results',
                 'wait for element .app-button to be added',
                 'click element .app-button',
-                'wait for path to be /qf/1'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+                'wait for path to be /q/social-care/01'
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -344,24 +309,19 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
                 'wait for path to be /results',
                 'wait for element .app-button to be added',
                 'click element .app-button',
-                'wait for path to be /qf/1',
+                'wait for path to be /q/social-care/01',
                 'wait for element #selected_answer-1 to be added',
                 'check field #selected_answer-1',
                 'click element .govuk-button',
-                'wait for path to be /qf/2',
+                'wait for path to be /q/social-care/02',
                 'wait for element #selected_answer-1 to be added',
                 'check field #selected_answer-1',
                 'click element .govuk-button',
-                'wait for path to not be /qf/2',
+                'wait for path to not be /q/social-care/02',
                 'wait for element .govuk-button to be added',
                 'click element .govuk-button',
                 'wait for element .app-masthead__title to be added'
-            ],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ]
         });
 
         expect(issues).to.eql([]);
@@ -371,12 +331,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
         const {issues} = await pa11y(`${appUrl}/dummy`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            }
+            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
         });
 
         expect(issues).to.eql([]);
