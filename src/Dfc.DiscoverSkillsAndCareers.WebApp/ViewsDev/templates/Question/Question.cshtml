@@ -90,13 +90,13 @@
             }
 
             <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
-                <fieldset class="govuk-fieldset app-question app-question--short" id="question">
+                <div class="govuk-fieldset app-question app-question--short" id="question" role="group" aria-labelledby="question-heading">
 
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
-                        <h1 class="govuk-fieldset__heading">
+                    <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
+                        <h1 class="govuk-fieldset__heading" id="question-heading">
                             @Model.QuestionText
                         </h1>
-                    </legend>
+                    </div>
 
                     <div class="app-question__answer govuk-radios govuk-radios--inline">
 
@@ -161,7 +161,7 @@
                         </div>
 
                     </div>
-                </fieldset>
+                </div>
             </div>
 
             <div class="app-controls">
