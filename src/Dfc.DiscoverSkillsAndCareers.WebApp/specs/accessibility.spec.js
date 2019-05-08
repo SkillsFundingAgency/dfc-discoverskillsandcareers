@@ -274,7 +274,7 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
         expect(issues).to.eql([]);
     });
 
-    it.only('Filtering statements page', async () => {
+    it('Filtering statements page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
             standard: "WCAG2AA",
             // Rule ignored due to problem in GOV template
