@@ -194,7 +194,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             return nextRoute;
         }
 
-        private string GetQuestionPageNumber(int questionNumber)
+        public static string GetQuestionPageNumber(int questionNumber)
         {
             if (questionNumber < 10) return $"0{questionNumber.ToString()}";
             return questionNumber.ToString();

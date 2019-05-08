@@ -116,12 +116,12 @@
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
             },
             {
-                "name": "FunctionAppNames",
+                "name": "HttpFunctionAppNames",
                 "metadata": {
-                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'cms', this function app is created outside of the FunctionAppNames copy loop."
+                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'cms', this function app is created outside of the FunctionAppNames copy loop as it's timer trigger rather than a http api."
                 },
                 "count": "[if(equals(last(parameters('FunctionAppNames')), 'cms'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
-                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('HttpFunctionAppNames')], '-fa'))]"
             }
         ]
     },
@@ -154,7 +154,7 @@
             },
             "copy": {
                 "name": "ApiCopy",
-                "count": "[length(parameters('FunctionAppNames'))]"
+                "count": "[length(variables('HttpFunctionAppNames'))]"
             },
             "dependsOn": [
                 "skillandcareers-apim-logger",
@@ -416,7 +416,7 @@
             },
             {
                 "apiVersion": "2017-05-10",
-                "name": "[variables('FunctionAppNames')[copyIndex()]]",
+                "name": "[variables('HttpFunctionAppNames')[copyIndex()]]",
                 "type": "Microsoft.Resources/deployments",
                 "properties": {
                     "mode": "Incremental",
@@ -426,7 +426,7 @@
                     },
                     "parameters": {
                         "appServiceName": {
-                            "value": "[variables('FunctionAppNames')[copyIndex()]]"
+                            "value": "[variables('HttpFunctionAppNames')[copyIndex()]]"
                         },
                         "appServicePlanName": {
                             "value": "[variables('AppServicePlanName')]"
@@ -473,19 +473,19 @@
                                 },
                                 {
                                     "name": "AppSettings__NotifyApiKey",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
+                                    "value": "[if(equals(split(variables('HttpFunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__IndexName",
-                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__ApiKey",
-                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
                                 },
                                 {
                                     "name": "AzureSearchSettings__ServiceName",
-                                    "value": "[if(greater(length(intersection(split(variables('FunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
+                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
                                 }
                             ]
                         }
@@ -493,7 +493,7 @@
                 },
                 "copy": {
                     "name": "FunctionAppCopy",
-                    "count": "[length(variables('FunctionAppNames'))]"
+                    "count": "[length(variables('HttpFunctionAppNames'))]"
                 },
                 "dependsOn": [
                     "AppInsightsCopy",
