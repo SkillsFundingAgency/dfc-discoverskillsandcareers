@@ -12,6 +12,7 @@ using System;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
@@ -36,6 +37,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
                 options.Secure = CookieSecurePolicy.Always;
+            });
+            
+            services.Configure<HstsOptions>(options =>
+            {
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
