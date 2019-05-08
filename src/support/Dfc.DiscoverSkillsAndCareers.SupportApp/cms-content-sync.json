@@ -1071,7 +1071,7 @@
         "NegativeResultDisplayText": "You do not like working with numbers.",
         "Description": "Administration",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1079,36 +1079,53 @@
           "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
         },
         {
-          "values": [
-            "Telephonist",
-            "Human resources assistant",
-            "Receptionist",
-            "Sports development officer",
-            "European Union official",
-            "Local government revenues officer",
-            "Health and safety adviser",
-            "MP",
-            "Car rental agent",
-            "Human resources manager",
-            "Security Service personnel",
-            "Diplomatic service officer",
-            "Assistant immigration officer",
-            "Secretary",
-            "Human resources officer",
-            "Sales administrator",
-            "Civil Service executive officer",
-            "Post Office customer service assistant",
-            "Hotel receptionist",
-            "Charity fundraiser",
-            "Supervisor",
-            "Health service manager",
-            "Recruitment consultant",
-            "School secretary",
-            "Local government officer",
-            "Financial services customer adviser",
-            "Trading standards officer",
-            "Trade union official"
-          ],
+            "values": [
+                "Admin assistant",
+                "Arts administrator",
+                "Assistant immigration officer",
+                "Bid writer",
+                "Bilingual secretary",
+                "Border Force officer",
+                "Car rental agent",
+                "Charity fundraiser",
+                "Civil Service administrative officer",
+                "Civil Service executive officer",
+                "Diplomatic service officer",
+                "Estates officer",
+                "European Union official",
+                "Farm secretary",
+                "Financial services customer adviser",
+                "GP practice manager",
+                "Health and safety adviser",
+                "Health records clerk",
+                "Health service manager",
+                "Hotel receptionist",
+                "Human resources assistant",
+                "Human resources manager",
+                "Human resources officer",
+                "Interpreter",
+                "Local government administrative assistant",
+                "Local government officer",
+                "Local government revenues officer",
+                "Medical secretary",
+                "MP",
+                "Post Office customer service assistant",
+                "Proofreader",
+                "Receptionist",
+                "Recruitment consultant",
+                "Reprographic assistant",
+                "Sales administrator",
+                "School business manager",
+                "School secretary",
+                "Secretary",
+                "Security Service personnel",
+                "Sports development officer",
+                "Supervisor",
+                "Telephonist",
+                "Trade union official",
+                "Trading standards officer",
+                "Typist"
+            ],
           "relatedType": { "property": "Title", "type": "filteringquestions", "navigationProperty":"ExcludedJobProfiles", "contentType": "jobprofiles" }
         }
       ]
@@ -1123,7 +1140,7 @@
         "NegativeResultDisplayText": "You do not like to focus on details.",
         "Description": "Administration",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1138,56 +1155,36 @@
           }
         },
         {
-          "values": [
-            "Arts administrator",
-            "Telephonist",
-            "Human resources assistant",
-            "Personal assistant",
-            "Receptionist",
-            "Registrar of births, deaths, marriages and civil partnerships",
-            "Immigration officer",
-            "Sports development officer",
-            "Farm secretary",
-            "Local government administrative assistant",
-            "Border Force officer",
-            "European Union official",
-            "Local government revenues officer",
-            "Interpreter",
-            "Bid writer",
-            "Health and safety adviser",
-            "MP",
-            "Car rental agent",
-            "Human resources manager",
-            "Health records clerk",
-            "Admin assistant",
-            "Security Service personnel",
-            "Diplomatic service officer",
-            "Assistant immigration officer",
-            "Secretary",
-            "Human resources officer",
-            "Sales administrator",
-            "Civil Service executive officer",
-            "Post Office customer service assistant",
-            "Proofreader",
-            "Hotel receptionist",
-            "Charity fundraiser",
-            "GP practice manager",
-            "Supervisor",
-            "Medical secretary",
-            "Health service manager",
-            "Recruitment consultant",
-            "Bilingual secretary",
-            "School secretary",
-            "Typist",
-            "Local government officer",
-            "Reprographic assistant",
-            "Financial services customer adviser",
-            "School business manager",
-            "Civil Service administrative officer",
-            "Trading standards officer",
-            "Trade union official",
-            "Estates officer"
-          ],
+            "values": [
+                "Assistant immigration officer",
+                "Car rental agent",
+                "Charity fundraiser",
+                "Civil Service executive officer",
+                "Diplomatic service officer",
+                "European Union official",
+                "Financial services customer adviser",
+                "Health and safety adviser",
+                "Health service manager",
+                "Hotel receptionist",
+                "Human resources assistant",
+                "Human resources manager",
+                "Human resources officer",
+                "Local government officer",
+                "Local government revenues officer",
+                "MP",
+                "Post Office customer service assistant",
+                "Receptionist",
+                "Recruitment consultant",
+                "Sales administrator",
+                "School secretary",
+                "Secretary",
+                "Security Service personnel",
+                "Sports development officer",
+                "Supervisor",
+                "Telephonist",
+                "Trade union official",
+                "Trading standards officer"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1207,7 +1204,7 @@
         "NegativeResultDisplayText": "You would prefer not to deal with members of the public.",
         "Description": "Administration",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1222,52 +1219,52 @@
           }
         },
         {
-          "values": [
-            "Arts administrator",
-            "Quality control assistant",
-            "Human resources assistant",
-            "Personal assistant",
-            "Credit controller",
-            "Bookkeeper",
-            "Town planning assistant",
-            "Sports development officer",
-            "Finance officer",
-            "Farm secretary",
-            "Local government administrative assistant",
-            "Purchasing manager",
-            "Border Force officer",
-            "European Union official",
-            "Local government revenues officer",
-            "Interpreter",
-            "Bid writer",
-            "Health and safety adviser",
-            "Human resources manager",
-            "Health records clerk",
-            "Admin assistant",
-            "Security Service personnel",
-            "Accounting technician",
-            "Diplomatic service officer",
-            "Assistant immigration officer",
-            "Secretary",
-            "Human resources officer",
-            "Civil Service executive officer",
-            "Proofreader",
-            "GP practice manager",
-            "Supervisor",
-            "Medical secretary",
-            "Health service manager",
-            "Recruitment consultant",
-            "Auditor",
-            "Typist",
-            "Payroll administrator",
-            "Local government officer",
-            "Reprographic assistant",
-            "Data entry clerk",
-            "School business manager",
-            "Civil Service administrative officer",
-            "Trading standards officer",
-            "Estates officer"
-          ],
+            "values": [
+                "Accounting technician",
+                "Admin assistant",
+                "Arts administrator",
+                "Assistant immigration officer",
+                "Auditor",
+                "Bid writer",
+                "Bookkeeper",
+                "Border Force officer",
+                "Civil Service administrative officer",
+                "Civil Service executive officer",
+                "Credit controller",
+                "Data entry clerk",
+                "Diplomatic service officer",
+                "Estates officer",
+                "European Union official",
+                "Farm secretary",
+                "Finance officer",
+                "GP practice manager",
+                "Health and safety adviser",
+                "Health records clerk",
+                "Health service manager",
+                "Human resources assistant",
+                "Human resources manager",
+                "Human resources officer",
+                "Interpreter",
+                "Local government administrative assistant",
+                "Local government officer",
+                "Local government revenues officer",
+                "Medical secretary",
+                "Payroll administrator",
+                "Personal assistant",
+                "Proofreader",
+                "Purchasing manager",
+                "Quality control assistant",
+                "Recruitment consultant",
+                "Reprographic assistant",
+                "School business manager",
+                "Secretary",
+                "Security Service personnel",
+                "Sports development officer",
+                "Supervisor",
+                "Town planning assistant",
+                "Trading standards officer",
+                "Typist"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1319,7 +1316,7 @@
         "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
         "Description": "Animal care",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1370,7 +1367,7 @@
         "NegativeResultDisplayText": "You would not be comfortable working with animals.",
         "Description": "Animal care",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1385,17 +1382,18 @@
           }
         },
         {
-          "values": [
-            "Agricultural inspector",
-            "Biologist",
-            "Countryside ranger",
-            "Ecologist",
-            "Fish farmer",
-            "Fishing boat deckhand",
-            "Ornithologist",
-            "Pet shop assistant",
-            "Zoologist"
-          ],
+            "values": [
+                "Agricultural contractor",
+                "Agricultural inspector",
+                "Biologist",
+                "Countryside ranger",
+                "Ecologist",
+                "Fish farmer",
+                "Fishing boat deckhand",
+                "Ornithologist",
+                "Pet shop assistant",
+                "Zoologist"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1415,7 +1413,7 @@
         "NegativeResultDisplayText": "You would prefer to look after animals rather than study them.",
         "Description": "Animal care",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1430,30 +1428,30 @@
           }
         },
         {
-          "values": [
-            "Agricultural contractor",
-            "Animal care worker",
-            "Animal technician",
-            "Assistance dog trainer",
-            "Beekeeper",
-            "Countryside ranger",
-            "Dog groomer",
-            "Dog handler",
-            "Farm worker",
-            "Farmer",
-            "Farrier",
-            "Fish farmer",
-            "Fishing boat deckhand",
-            "Gamekeeper",
-            "Horse groom",
-            "Horse riding instructor",
-            "Jockey",
-            "Kennel worker",
-            "Pet shop assistant",
-            "Racehorse trainer",
-            "RSPCA inspector",
-            "Zookeeper"
-          ],
+            "values": [
+                "Agricultural contractor",
+                "Animal care worker",
+                "Animal technician",
+                "Assistance dog trainer",
+                "Beekeeper",
+                "Countryside ranger",
+                "Dog groomer",
+                "Dog handler",
+                "Farm worker",
+                "Farmer",
+                "Farrier",
+                "Fish farmer",
+                "Fishing boat deckhand",
+                "Gamekeeper",
+                "Horse groom",
+                "Horse riding instructor",
+                "Jockey",
+                "Kennel worker",
+                "Pet shop assistant",
+                "Racehorse trainer",
+                "RSPCA inspector",
+                "Zookeeper"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1505,7 +1503,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Beauty and wellbeing",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1520,27 +1518,27 @@
           }
         },
         {
-          "values": [
-            "Aromatherapist",
-            "Tattooist",
-            "Acupuncturist",
-            "Nail technician",
-            "Massage therapist",
-            "Reflexologist",
-            "Medical herbalist",
-            "Body piercer",
-            "Beauty consultant",
-            "Beauty therapist",
-            "Colon hydrotherapist",
-            "Counsellor",
-            "Colour therapist",
-            "Nutritional therapist",
-            "Music therapist",
-            "Art therapist",
-            "Naturopath",
-            "Homeopath",
-            "Reiki healer"
-          ],
+            "values": [
+                "Acupuncturist",
+                "Aromatherapist",
+                "Art therapist",
+                "Beauty consultant",
+                "Beauty therapist",
+                "Body piercer",
+                "Colon hydrotherapist",
+                "Colour therapist",
+                "Counsellor",
+                "Homeopath",
+                "Massage therapist",
+                "Medical herbalist",
+                "Music therapist",
+                "Nail technician",
+                "Naturopath",
+                "Nutritional therapist",
+                "Reflexologist",
+                "Reiki healer",
+                "Tattooist"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1560,7 +1558,7 @@
         "NegativeResultDisplayText": "You would not be comfortable having physical contact with people.",
         "Description": "Beauty and wellbeing",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1575,26 +1573,26 @@
           }
         },
         {
-          "values": [
-            "Aromatherapist",
-            "Nail technician",
-            "Yoga therapist",
-            "Health play specialist",
-            "Alexander technique teacher",
-            "Dance movement psychotherapist",
-            "Dramatherapist",
-            "Medical herbalist",
-            "Beauty consultant",
-            "Pilates teacher",
-            "Counsellor",
-            "Colour therapist",
-            "Nutritional therapist",
-            "Music therapist",
-            "Art therapist",
-            "Hairdresser",
-            "Naturopath",
-            "Homeopath"
-          ],
+            "values": [
+                "Alexander Technique teacher",
+                "Aromatherapist",
+                "Art therapist",
+                "Beauty consultant",
+                "Colour therapist",
+                "Counsellor",
+                "Dance movement psychotherapist",
+                "Dramatherapist",
+                "Hairdresser",
+                "Health play specialist",
+                "Homeopath",
+                "Medical herbalist",
+                "Music therapist",
+                "Nail technician",
+                "Naturopath",
+                "Nutritional therapist",
+                "Pilates teacher",
+                "Yoga therapist"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1645,7 +1643,7 @@
         "NegativeResultDisplayText": "You do not like working with numbers.",
         "Description": "Business and finance",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1692,7 +1690,7 @@
         "NegativeResultDisplayText": "You would not be comfortable dealing with clients.",
         "Description": "Business and finance",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1792,7 +1790,7 @@
         "NegativeResultDisplayText": "You would not like to learn how to develop software.",
         "Description": "Computing, technology and digital",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1807,35 +1805,44 @@
           }
         },
         {
-          "values": [
-            "Archivist",
-            "Business analyst",
-            "Cartographer",
-            "Computer games tester",
-            "Digital delivery manager",
-            "Digital marketer",
-            "E-learning developer",
-            "Head of IT (IT director)",
-            "Indexer",
-            "IT security co-ordinator",
-            "IT support technician",
-            "IT trainer",
-            "Library assistant",
-            "Media researcher",
-            "Network manager",
-            "Operational researcher",
-            "Security Service personnel",
-            "Social media manager",
-            "Solutions architect",
-            "Systems analyst",
-            "Technical architect",
-            "Technical author",
-            "Telephonist",
-            "User experience (UX) designer",
-            "User researcher",
-            "Web content editor",
-            "Web content manager"
-          ],
+            "values": [
+                "Archivist",
+                "Business analyst",
+                "Cartographer",
+                "Computer games developer",
+                "Computer games tester",
+                "Database administrator",
+                "Digital delivery manager",
+                "Digital marketer",
+                "E-learning developer",
+                "Forensic computer analyst",
+                "Head of IT (IT director)",
+                "Indexer",
+                "IT security co-ordinator",
+                "IT service engineer",
+                "IT support technician",
+                "IT trainer",
+                "Librarian",
+                "Library assistant",
+                "Media researcher",
+                "Network engineer",
+                "Network manager",
+                "Operational researcher",
+                "Security Service personnel",
+                "Social media manager",
+                "Software developer",
+                "Solutions architect",
+                "Systems analyst",
+                "Technical architect",
+                "Technical author",
+                "Telephonist",
+                "User experience (UX) designer",
+                "User researcher",
+                "Web content editor",
+                "Web content manager",
+                "Web designer",
+                "Web developer"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -1855,7 +1862,7 @@
         "NegativeResultDisplayText": "You would not like to fix computer equipment.",
         "Description": "Computing, technology and digital",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -1895,6 +1902,7 @@
             "Network manager",
             "Operational researcher",
             "Security Service personnel",
+            "Software developer",
             "Systems analyst",
             "Technical architect",
             "Technical author",
@@ -1902,7 +1910,8 @@
             "User experience (UX) designer",
             "User researcher",
             "Web content editor",
-            "Web content manager"
+            "Web content manager",
+            "Web developer"
           ],
           "relatedType": {
             "property": "Title",
@@ -1954,7 +1963,7 @@
         "NegativeResultDisplayText": "You would not want a job using calculations to decide what to build.",
         "Description": "Construction and trades",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2011,7 +2020,7 @@
         "NegativeResultDisplayText": "You could not do tiring work.",
         "Description": "Construction and trades",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2094,7 +2103,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Creative and media",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2148,7 +2157,7 @@
         "NegativeResultDisplayText": "You are not comfortable being the centre of attention.",
         "Description": "Creative and media",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2194,7 +2203,7 @@
         "NegativeResultDisplayText": "You do not want to work with your hands.",
         "Description": "Creative and media",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2298,7 +2307,7 @@
         "NegativeResultDisplayText": "You would not want to get a specialist licence for driving.",
         "Description": "Delivery and storage",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2340,7 +2349,7 @@
         "NegativeResultDisplayText": "You could not do tiring work.",
         "Description": "Delivery and storage",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2418,7 +2427,7 @@
         "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
         "Description": "Emergency and uniform services",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2472,7 +2481,7 @@
         "NegativeResultDisplayText": "You would not be comfortable using a gun if you had to.",
         "Description": "Emergency and uniform services",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2519,7 +2528,7 @@
         "NegativeResultDisplayText": "You would not want to work in a secure facility.",
         "Description": "Emergency and uniform services",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2563,7 +2572,7 @@
         "NegativeResultDisplayText": "You could not do a job where you rescue people in an emergency.",
         "Description": "Emergency and uniform services",
         "Order": 4,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2635,7 +2644,7 @@
         "NegativeResultDisplayText": "You would not like a job where you keep equipment in good condition.",
         "Description": "Engineering and maintenance",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2716,7 +2725,7 @@
         "NegativeResultDisplayText": "You could not do tiring work.",
         "Description": "Engineering and maintenance",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2808,7 +2817,7 @@
         "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
         "Description": "Environment and land",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2874,7 +2883,7 @@
         "NegativeResultDisplayText": "You would not be comfortable working in a lab with dangerous chemicals.",
         "Description": "Environment and land",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -2921,7 +2930,7 @@
         "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
         "Description": "Environment and land",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3001,7 +3010,7 @@
         "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
         "Description": "Government services",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3049,7 +3058,7 @@
         "NegativeResultDisplayText": "You would not want to work in a secure facility.",
         "Description": "Government services",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3088,7 +3097,7 @@
         "NegativeResultDisplayText": "You could not do a job where you rescue people in an emergency.",
         "Description": "Government services",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3159,7 +3168,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Healthcare",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3217,7 +3226,7 @@
         "NegativeResultDisplayText": "You would not be comfortable dealing with bodily fluids.",
         "Description": "Healthcare",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3284,7 +3293,7 @@
         "NegativeResultDisplayText": "You would rather not work with children.",
         "Description": "Healthcare",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3356,7 +3365,7 @@
         "NegativeResultDisplayText": "You would not be comfortable having someone's life depend on you.",
         "Description": "Healthcare",
         "Order": 4,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3440,7 +3449,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Home services",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3525,7 +3534,7 @@
         "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
         "Description": "Hospitality and food",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3568,7 +3577,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Hospitality and food",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3649,7 +3658,7 @@
         "NegativeResultDisplayText": "You would not want to be strict with people.",
         "Description": "Law and legal",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3691,7 +3700,7 @@
         "NegativeResultDisplayText": "You would not want to read lots of documents every day. ",
         "Description": "Law and legal",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3772,7 +3781,7 @@
         "NegativeResultDisplayText": "You would not want to manage a team.",
         "Description": "Managerial",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3836,7 +3845,7 @@
         "NegativeResultDisplayText": "You are not interested in being considered an expert.",
         "Description": "Managerial",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3928,7 +3937,7 @@
         "NegativeResultDisplayText": "You would not like a job where you keep equipment in good condition.",
         "Description": "Manufacturing",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -3992,7 +4001,7 @@
         "NegativeResultDisplayText": "You could not do tiring work.",
         "Description": "Manufacturing",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4073,7 +4082,7 @@
         "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
         "Description": "Retail and sales",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4143,7 +4152,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Retail and sales",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4193,7 +4202,7 @@
         "NegativeResultDisplayText": "You would not be comfortable being under pressure to sell things.",
         "Description": "Retail and sales",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4272,7 +4281,7 @@
         "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
         "Description": "Science and research",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4318,7 +4327,7 @@
         "NegativeResultDisplayText": "You would not be comfortable working in a lab with dangerous chemicals.",
         "Description": "Science and research",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4382,7 +4391,7 @@
         "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
         "Description": "Science and research",
         "Order": 3,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4469,7 +4478,7 @@
         "NegativeResultDisplayText": "You would rather not work with children.",
         "Description": "Social care",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4523,7 +4532,7 @@
         "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
         "Description": "Social care",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4612,7 +4621,7 @@
         "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
         "Description": "Sports and leisure",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4664,7 +4673,7 @@
         "NegativeResultDisplayText": "You could not do hard exercise for a lot of the day.",
         "Description": "Sports and leisure",
         "Order": 2,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4746,7 +4755,7 @@
         "NegativeResultDisplayText": "You would not be able to move around all day.",
         "Description": "Teaching and education",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4761,32 +4770,32 @@
           }
         },
         {
-          "values": [
-            "Youth worker",
-            "Outdoor activities instructor",
-            "Swimming teacher",
-            "Music teacher",
-            "Secondary school teacher",
-            "Librarian",
-            "Martial arts instructor",
-            "Early years teacher",
-            "Special educational needs (SEN) teacher",
-            "Special educational needs (SEN) teaching assistant",
-            "School lunchtime supervisor",
-            "PE teacher",
-            "Montessori teacher",
-            "School crossing patrol",
-            "Cycling coach",
-            "Dance teacher",
-            "Further education lecturer",
-            "Yoga teacher",
-            "Nursery worker",
-            "Higher education lecturer",
-            "Primary school teacher",
-            "Skills for life teacher",
-            "Singing teacher",
-            "Playworker"
-          ],
+            "values": [
+                "Youth worker",
+                "Outdoor activities instructor",
+                "Swimming teacher",
+                "Music teacher",
+                "Secondary school teacher",
+                "Librarian",
+                "Martial arts instructor",
+                "Early years teacher",
+                "Special educational needs (SEN) teacher",
+                "Special educational needs (SEN) teaching assistant",
+                "School lunchtime supervisor",
+                "PE teacher",
+                "Montessori teacher",
+                "School crossing patrol",
+                "Cycling coach",
+                "Dance teacher",
+                "Further education lecturer",
+                "Yoga teacher",
+                "Nursery worker",
+                "Higher education lecturer",
+                "Primary school teacher",
+                "Skills for life teacher",
+                "Singing teacher",
+                "Playworker"
+            ],
           "relatedType": {
             "property": "Title",
             "type": "filteringquestions",
@@ -4899,7 +4908,7 @@
         "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
         "Description": "Transport",
         "Order": 1,
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
