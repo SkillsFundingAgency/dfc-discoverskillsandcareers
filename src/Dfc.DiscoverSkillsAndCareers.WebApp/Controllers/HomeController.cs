@@ -102,13 +102,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                 }
 
+                var questionUrl = QuestionController.GetQuestionPageNumber(nextQuestionResponse.QuestionNumber);
                 if (nextQuestionResponse.IsFilterAssessment)
                 {
-                    return new RedirectResult($"/q/{nextQuestionResponse.JobCategorySafeUrl}/{nextQuestionResponse.QuestionNumber}");
+                    return new RedirectResult($"/q/{nextQuestionResponse.JobCategorySafeUrl}/{questionUrl}");
                 }
                 else
                 {
-                    return new RedirectResult($"/q/short/{nextQuestionResponse.QuestionNumber}");
+                    return new RedirectResult($"/q/short/{questionUrl}");
                 }
             }
             catch (System.Net.Http.HttpRequestException)
