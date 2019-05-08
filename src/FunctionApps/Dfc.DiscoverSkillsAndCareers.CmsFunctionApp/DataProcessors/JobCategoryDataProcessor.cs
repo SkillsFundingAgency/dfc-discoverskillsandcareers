@@ -12,10 +12,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class JobCategoryDataProcessor : IJobCategoryDataProcessor
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IGetJobCategoriesData GetJobCategoriesData;
-        readonly AppSettings AppSettings;
-        readonly IJobCategoryRepository JobCategoryRepository;
+        readonly ISiteFinityHttpService _httpService;
+        readonly IGetJobCategoriesData _getJobCategoriesData;
+        readonly AppSettings _appSettings;
+        readonly IJobCategoryRepository _jobCategoryRepository;
 
         public JobCategoryDataProcessor(
             ISiteFinityHttpService httpService,
@@ -23,16 +23,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             IOptions<AppSettings> appSettings,
             IJobCategoryRepository jobCategoryRepository)
         {
-            HttpService = httpService;
-            GetJobCategoriesData = getJobCategoriesData;
-            AppSettings = appSettings.Value;
-            JobCategoryRepository = jobCategoryRepository;
+            _httpService = httpService;
+            _getJobCategoriesData = getJobCategoriesData;
+            _appSettings = appSettings.Value;
+            _jobCategoryRepository = jobCategoryRepository;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for JobCategories");
-            var data = await GetJobCategoriesData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, AppSettings.SiteFinityJobCategoriesTaxonomyId);
+            var data = await _getJobCategoriesData.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, _appSettings.SiteFinityJobCategoriesTaxonomyId);
 
             logger.LogInformation($"Have {data?.Count} job Categorys to save");
 
@@ -42,14 +42,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             {
                 var code = JobCategoryHelper.GetCode(jobCategory.Title);
                 // Remove any old job categories that have this title but will have a different code
-                var existingJobCategories = await JobCategoryRepository.GetJobCategoriesByName(partitionKey, jobCategory.Title);
+                var existingJobCategories = await _jobCategoryRepository.GetJobCategoriesByName(partitionKey, jobCategory.Title);
                 existingJobCategories = existingJobCategories.Where(x => x.JobFamilyCode != code).ToArray();
                 for (var i = 0; i < existingJobCategories.Count(); i++)
                 {
-                    await JobCategoryRepository.DeleteJobCategory(partitionKey, existingJobCategories[i]);
+                    await _jobCategoryRepository.DeleteJobCategory(partitionKey, existingJobCategories[i]);
                 }
                 // Import the new job category
-                await JobCategoryRepository.CreateJobCategory(new JobFamily()
+                await _jobCategoryRepository.CreateJobCategory(new JobFamily()
                 {
                     JobFamilyName = jobCategory.Title,
                     Texts = new[]

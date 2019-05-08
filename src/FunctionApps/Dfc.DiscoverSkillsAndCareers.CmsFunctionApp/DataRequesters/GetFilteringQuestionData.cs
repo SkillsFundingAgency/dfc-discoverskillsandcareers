@@ -9,24 +9,24 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionData : IGetFilteringQuestionData
     {
-        readonly ISiteFinityHttpService HttpService;
+        readonly ISiteFinityHttpService _httpService;
 
         public GetFilteringQuestionData(ISiteFinityHttpService httpService)
         {
-            HttpService = httpService;
+            _httpService = httpService;
         }
 
         public async Task<List<FilteringQuestion>> GetData(string siteFinityApiUrlbase, string siteFinityService, string questionSetId)
         {
             string getQuestionsUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets({questionSetId})/Questions";
-            string json = await HttpService.GetString(getQuestionsUrl);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestion>>>(json);
+            string json = await _httpService.GetString(getQuestionsUrl);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestion>>>(json, JsonSettings.Instance);
             
             foreach (var question in data.Value)
             {
                 string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestions({question.Id})/ExcludedJobProfiles";
-                json = await HttpService.GetString(getJobProfilesUrl);
-                var listJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<JobProfile>>>(json);
+                json = await _httpService.GetString(getJobProfilesUrl);
+                var listJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<JobProfile>>>(json, JsonSettings.Instance);
                 question.ExcludesJobProfiles = listJobProfiles.Value.Select(jp => jp.Title).ToList();
             }
             return data.Value;

@@ -11,11 +11,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetJobCategoriesData : IGetJobCategoriesData
     {
-        readonly ISiteFinityHttpService HttpService;
+        readonly ISiteFinityHttpService _httpService;
 
         public GetJobCategoriesData(ISiteFinityHttpService httpService)
         {
-            HttpService = httpService;
+            _httpService = httpService;
         }
 
         public async Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyName = "Job Profile Category")
@@ -25,27 +25,27 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             
            
             
-            string traitsJson = await HttpService.GetString(traitsUrl);
+            string traitsJson = await _httpService.GetString(traitsUrl);
             
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(traitsJson);
             foreach(var item in data.Value)
             {
-                var traitJson = await HttpService.GetString($"{traitsUrl}({item.Id})");
-                var trait = JsonConvert.DeserializeObject<ShortTrait>(traitJson);
+                var traitJson = await _httpService.GetString($"{traitsUrl}({item.Id})");
+                var trait = JsonConvert.DeserializeObject<ShortTrait>(traitJson, JsonSettings.Instance);
                 trait.Code = trait.Name.ToUpper();
                 traits.Add(trait);
             }
             
-            var taxonomyJson = await HttpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/taxonomies");
+            var taxonomyJson = await _httpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/taxonomies");
             var taxaId =
                 JsonConvert.DeserializeObject<SiteFinityDataFeed<List<JObject>>>(taxonomyJson)
                     .Value
                     .Single(r => String.Equals(r.Value<string>("TaxonName"), taxonomyName, StringComparison.InvariantCultureIgnoreCase))
                     .Value<string>("Id");
 
-            string json = await HttpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/hierarchy-taxa");
+            string json = await _httpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/hierarchy-taxa");
             
-            var jobCategories = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<TaxonomyHierarchy>>>(json).Value
+            var jobCategories = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<TaxonomyHierarchy>>>(json, JsonSettings.Instance).Value
                 .Where(x => String.Equals(x.TaxonomyId, taxaId, StringComparison.InvariantCultureIgnoreCase))
                 .Select(x => new JobCategory
                 {
