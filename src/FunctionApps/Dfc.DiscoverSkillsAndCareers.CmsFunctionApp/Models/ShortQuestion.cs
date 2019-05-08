@@ -20,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         [JsonProperty("IsNegative")]
         public bool IsNegative { get; set; }
         
-        [JsonProperty("LastUpdatedDt")]
+        [JsonProperty("LastModified")]
         public DateTimeOffset LastUpdatedDt { get; set; }
     }
 }
