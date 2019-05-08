@@ -14,10 +14,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ContentDataProcessor<T> : IContentDataProcessor<T> where T : IContentPage
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IGetContentData<List<T>> GetContentData;
-        readonly AppSettings AppSettings;
-        readonly IContentRepository ContentRepository;
+        readonly ISiteFinityHttpService _httpService;
+        readonly IGetContentData<List<T>> _getContentData;
+        readonly AppSettings _appSettings;
+        readonly IContentRepository _contentRepository;
 
         public ContentDataProcessor(
             ISiteFinityHttpService httpService,
@@ -25,16 +25,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             IOptions<AppSettings> appSettings,
             IContentRepository contentRepository)
         {
-            HttpService = httpService;
-            GetContentData = getContentData;
-            AppSettings = appSettings.Value;
-            ContentRepository = contentRepository;
+            _httpService = httpService;
+            _getContentData = getContentData;
+            _appSettings = appSettings.Value;
+            _contentRepository = contentRepository;
         }
 
         public async Task RunOnce(ILogger logger, string siteFinityType, string contentType)
         {
             logger.LogInformation("Begin poll for Content");
-            var data = await GetContentData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, siteFinityType);
+            var data = await _getContentData.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, siteFinityType);
 
             var cmsContent = data.FirstOrDefault();
 
@@ -45,7 +45,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             }
 
             // Get the existing content
-            var existingContent = await ContentRepository.GetContent(contentType);
+            var existingContent = await _contentRepository.GetContent(contentType);
 
             // Determine if an update is required i.e. the last updated datetime stamp has changed
             bool updateRequired = existingContent == null || (cmsContent.LastUpdated != existingContent.LastUpdated);
@@ -64,7 +64,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             }
             existingContent.ContentData = JsonConvert.SerializeObject(cmsContent);
             existingContent.LastUpdated = cmsContent.LastUpdated;
-            await ContentRepository.CreateContent(existingContent);
+            await _contentRepository.CreateContent(existingContent);
 
             logger.LogInformation("End poll for Content");
         }

@@ -8,18 +8,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetContentData<T> : IGetContentData<T> where T : class
     {
-        readonly ISiteFinityHttpService HttpService;
+        readonly ISiteFinityHttpService _httpService;
 
         public GetContentData(ISiteFinityHttpService httpService)
         {
-            HttpService = httpService;
+            _httpService = httpService;
         }
 
         public async Task<T> GetData(string siteFinityApiUrlbase, string siteFinityService, string contentType)
         {
             var url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/{contentType}";
-            string json = await HttpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<T>>(json);
+            string json = await _httpService.GetString(url);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<T>>(json, JsonSettings.Instance);
             return data.Value;
         }
     }

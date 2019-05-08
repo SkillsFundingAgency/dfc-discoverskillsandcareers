@@ -10,10 +10,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortTraitDataProcessor : IShortTraitDataProcessor
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IGetShortTraitData GetShortTraitData;
-        readonly AppSettings AppSettings;
-        readonly IShortTraitRepository ShortTraitRepository;
+        readonly ISiteFinityHttpService _httpService;
+        readonly IGetShortTraitData _getShortTraitData;
+        readonly AppSettings _appSettings;
+        readonly IShortTraitRepository _shortTraitRepository;
 
         public ShortTraitDataProcessor(
             ISiteFinityHttpService httpService,
@@ -21,17 +21,17 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             IOptions<AppSettings> appSettings,
             IShortTraitRepository shortTraitRepository)
         {
-            HttpService = httpService;
-            GetShortTraitData = getShortTraitData;
-            AppSettings = appSettings.Value;
-            ShortTraitRepository = shortTraitRepository;
+            _httpService = httpService;
+            _getShortTraitData = getShortTraitData;
+            _appSettings = appSettings.Value;
+            _shortTraitRepository = shortTraitRepository;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for ShortTraits");
 
-            var data = await GetShortTraitData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService);
+            var data = await _getShortTraitData.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
 
             foreach(var traitData in data)
             {
@@ -51,7 +51,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         }
                     }
                 };
-                await ShortTraitRepository.CreateTrait(trait, "shorttrait-cms");
+                await _shortTraitRepository.CreateTrait(trait, "shorttrait-cms");
             }
 
             logger.LogInformation("End poll for ShortTraits");

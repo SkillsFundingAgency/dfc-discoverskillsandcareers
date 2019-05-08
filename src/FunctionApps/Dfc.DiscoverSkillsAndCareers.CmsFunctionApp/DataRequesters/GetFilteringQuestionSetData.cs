@@ -23,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
         {
             string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets";
             string json = await _httpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json);
+            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json, JsonSettings.Instance);
             foreach (var fqs in data.Value)
             {
                 fqs.Questions = await _getFilteringQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, fqs.Id);
