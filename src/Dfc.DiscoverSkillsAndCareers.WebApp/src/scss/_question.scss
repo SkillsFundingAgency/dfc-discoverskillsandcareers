@@ -82,6 +82,10 @@
       margin-bottom: 0;
     }
 
+    .app-question__question {
+      float: left;
+    }
+
     .app-question__question,
     .app-question__answer {
       display: table-cell;
@@ -97,7 +101,6 @@
 
     .govuk-fieldset__heading {
       padding-right: govuk-spacing(5);
-
     }
 
     .app-question__question {

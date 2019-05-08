@@ -92,13 +92,11 @@
             <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
                 <fieldset class="govuk-fieldset app-question app-question--short" id="question">
 
-                    <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
-                        <legend>
-                            <h1 class="govuk-fieldset__heading">
-                                @Model.QuestionText
-                            </h1>
-                        </legend>
-                    </div>
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
+                        <h1 class="govuk-fieldset__heading">
+                            @Model.QuestionText
+                        </h1>
+                    </legend>
 
                     <div class="app-question__answer govuk-radios govuk-radios--inline">
 
