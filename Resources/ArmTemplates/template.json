@@ -104,7 +104,7 @@
     },
     "resources": [
         {
-            "name": "[concat(parameters('ApimServiceName'), '-', variables('HttpFunctionAppNames')[copyIndex()], '-api')]",
+            "name": "[concat(parameters('ApimServiceName'), '-', parameters('FunctionAppNames')[copyIndex()], '-api')]",
             "type": "Microsoft.Resources/deployments",
             "resourceGroup": "[parameters('ApimResourceGroup')]",
             "apiVersion": "2017-05-10",
@@ -125,7 +125,7 @@
                         "value": "[parameters('ApimServiceName')]"
                     },
                     "apiName": {
-                        "value": "[variables('HttpFunctionAppNames')[copyIndex()]]"
+                        "value": "[parameters('FunctionAppNames')[copyIndex()]]"
                     }
                 }
             },
