@@ -150,10 +150,9 @@
                             </div>
                           } else {
                             <div>
-                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="hidden-screen">&nbsp;(starter)&nbsp;</span></p>
-                              <p class="salary-max"><span class="hidden-screen">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="hidden-screen">&nbsp;(@Model.ExperiencedText?.ToLower())</span></p>
-                              <div class="range-bar"><hr></div>
-
+                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="visually-hidden">&nbsp;(starter)&nbsp;</span></p>
+                              <p class="salary-max"><span class="visually-hidden">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="visually-hidden">&nbsp;(@Model.ExperiencedText?.ToLower())</span></p>
+                              <div class="range-bar" aria-hidden="true"><hr></div>
                               <p class="level-min">@Model.StarterText</p>
                               <p class="level-max">@Model.ExperiencedText</p>
                             </div>
