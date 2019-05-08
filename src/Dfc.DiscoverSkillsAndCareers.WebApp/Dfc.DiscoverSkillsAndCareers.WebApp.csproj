@@ -18,5 +18,10 @@
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="ViewsDev\templates\InformationSources\InformationSources.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\InformationSources\InformationSources.cshtml" />
+  </ItemGroup>
   
 </Project>
