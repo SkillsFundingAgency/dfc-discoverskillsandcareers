@@ -49,43 +49,58 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             if (questionSets != null)
             {
-                foreach (var data in questionSets)
+                foreach (var data in questionSets.OrderBy(x => x.LastUpdated))
                 {
-                    logger.LogInformation($"Getting cms data for questionset {data.Id} {data.Title}");
-
+                    logger.LogInformation($"Getting cms data for question set {data.Id} {data.Title}");
+                    
+                    
                     // Attempt to load the current version for this assessment type and title
-                    var questionSet = await _questionSetRepository.GetCurrentQuestionSet("short", data.Title);
-
+                    var questionSet = await _questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", data.Title);
+                    
                     // Determine if an update is required i.e. the last updated datetime stamp has changed
                     bool updateRequired = questionSet == null || (data.LastUpdated > questionSet.LastUpdated);
 
                     // Nothing to do so log and exit
                     if (!updateRequired)
                     {
-                        logger.LogInformation(
-                            $"Questionset {data.Id} {data.Title} is upto date - no changes to be done");
-                        return;
+                        logger.LogInformation($"Question set {data.Id} {data.Title} is upto date - no changes to be done");
+                        continue;
                     }
 
-                    // Attempt to get the questions for this questionset
-                    logger.LogInformation($"Getting cms questions for questionset {data.Id} {data.Title}");
+                    
+                    // Attempt to get the questions for this question set
+                    logger.LogInformation($"Getting cms questions for question set {data.Id} {data.Title}");
                     data.Questions =
                         await _getShortQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, data.Id);
                     if (data.Questions.Count == 0)
                     {
-                        logger.LogInformation($"Questionset {data.Id} doesn't have any questions");
-                        return;
+                        logger.LogInformation($"Question set {data.Id} doesn't have any questions");
+                        continue;
                     }
 
                     logger.LogInformation(
-                        $"Received {data.Questions?.Count} questions for questionset {data.Id} {data.Title}");
+                        $"Received {data.Questions?.Count} questions for question set {data.Id} {data.Title}");
+                    
+                    var latestQuestionSet = await _questionSetRepository.GetCurrentQuestionSet("short");
 
-                    if (questionSet != null)
+                    if (latestQuestionSet != null)
                     {
                         // Change the current question set to be not current
+                        logger.LogInformation(
+                            $"Demoting question set {latestQuestionSet.QuestionSetVersion} from current");
+                        latestQuestionSet.IsCurrent = false;
+                        await _questionSetRepository.CreateOrUpdateQuestionSet(latestQuestionSet);
+                    }
+                    
+                    if (questionSet != null && questionSet.IsCurrent)
+                    {
+                        // Change the current question set to be not current
+                        logger.LogInformation(
+                            $"Demoting question set {questionSet.QuestionSetVersion} from current");
                         questionSet.IsCurrent = false;
                         await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
                     }
+
 
                     // Create the new current version
                     int newVersionNumber = questionSet == null ? 1 : questionSet.Version + 1;
@@ -93,7 +108,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     {
                         PartitionKey = "ncs",
                         Title = data.Title,
-                        TitleLowercase = data.Title.ToLower(),
+                        QuestionSetKey = data.Title.ToLower(),
                         Description = data.Description,
                         Version = newVersionNumber,
                         QuestionSetVersion = $"{assessmentType.ToLower()}-{data.Title.ToLower()}-{newVersionNumber}",

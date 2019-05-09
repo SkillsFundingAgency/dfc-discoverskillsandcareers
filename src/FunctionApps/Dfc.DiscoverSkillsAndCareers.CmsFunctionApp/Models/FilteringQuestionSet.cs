@@ -19,6 +19,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         
         public string[] JobProfileCategories { get; set; }
         
+        public TaxonomyHierarchy[] JobProfileTaxonomy { get; set; }
+        
         [JsonProperty("LastModified")]
         public DateTimeOffset LastUpdated { get; set; }
     }

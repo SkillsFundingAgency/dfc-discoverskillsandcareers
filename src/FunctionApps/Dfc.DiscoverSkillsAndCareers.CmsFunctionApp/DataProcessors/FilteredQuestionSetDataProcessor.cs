@@ -53,9 +53,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             foreach (var data in questionSets)
             {
                 logger.LogInformation($"Getting cms data for question set {data.Id} {data.Title}");
+                var jobCategory = data.JobProfileTaxonomy.SingleOrDefault()?.Title;
 
+                if (String.IsNullOrWhiteSpace(jobCategory))
+                {
+                    logger.LogWarning($"No job category assigned to filtering question set {data.Title}, skipping.");
+                    continue;
+                }
+                
                 // Attempt to load the current version for this assessment type and title
-                var questionSet = await _questionSetRepository.GetCurrentQuestionSet("filtered", data.Title);
+                var questionSet = await _questionSetRepository.GetLatestQuestionSetByTypeAndKey("filtered", jobCategory);
 
                 // Determine if an update is required i.e. the last updated datetime stamp has changed
                 bool updateRequired = questionSet == null || (data.LastUpdated > questionSet.LastUpdated);
@@ -79,20 +86,23 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 if (questionSet != null)
                 {
                     // Change the current question set to be not current
+                    logger.LogInformation(
+                        $"Demoting filtering question set {questionSet.QuestionSetVersion} from current");
                     questionSet.IsCurrent = false;
+                    await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
                 }
 
                 // Create the new current version
                 int newVersionNumber = questionSet == null ? 1 : questionSet.Version + 1;
-                var titleLowercase = data.Title.ToLower().Replace(" ", "-");
+                var titleLowercase = jobCategory.ToLower().Replace(" ", "-");
                 var newQuestionSet = new QuestionSet()
                 {
                     PartitionKey = "ncs",
                     Title = data.Title,
-                    TitleLowercase = titleLowercase,
+                    QuestionSetKey = titleLowercase,
                     Description = data.Description,
                     Version = newVersionNumber,
-                    QuestionSetVersion = $"{assessmentType.ToLower()}-{data.Title.ToLower()}-{newVersionNumber}",
+                    QuestionSetVersion = $"{assessmentType.ToLower()}-{titleLowercase}-{newVersionNumber}",
                     AssessmentType = assessmentType,
                     IsCurrent = true,
                     LastUpdated = data.LastUpdated,
@@ -126,7 +136,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 await _questionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
                 if (questionSet != null)
                 {
-                    await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
+                    
                 }
                 logger.LogInformation($"Created Filtering Question Set - {newQuestionSet.Version}");
             }

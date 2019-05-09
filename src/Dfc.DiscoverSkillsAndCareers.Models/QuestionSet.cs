@@ -30,7 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string Title { get; set; }
         
         [JsonProperty("titleLowercase")]
-        public string TitleLowercase { get; set; }
+        public string QuestionSetKey { get; set; }
         
         [JsonProperty("isCurrent")]
         public bool IsCurrent { get; set; }

@@ -73,7 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.BadRequest();
                 }
 
-                var questionSet = await questionSetRepository.GetCurrentQuestionSet("filtered", jobCategory);
+                var questionSet = await questionSetRepository.GetLatestQuestionSetByTypeAndKey("filtered", jobCategory);
                 if (questionSet == null)
                 {
                     log.LogInformation($"CorrelationId: {correlationGuid} - Filtered question set does not exist {jobCategory}");

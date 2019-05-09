@@ -39,9 +39,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             }
         }
 
-        public async Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType, string title)
+        public async Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType)
         {
-            string url = $"{AppSettings.SessionApiRoot}/assessment?assessmentType={assessmentType}&questionSetTitle={title}";
+            string url = $"{AppSettings.SessionApiRoot}/assessment?assessmentType={assessmentType}";
             var json = await HttpService.PostData(url, "", correlationId);
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }

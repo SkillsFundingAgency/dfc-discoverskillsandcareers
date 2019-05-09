@@ -21,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 
         public async Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase, string siteFinityService)
         {
-            string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets";
+            string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets?$expand=JobProfileTaxonomy";
             string json = await _httpService.GetString(url);
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json, JsonSettings.Instance);
             foreach (var fqs in data.Value)

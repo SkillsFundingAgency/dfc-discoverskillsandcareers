@@ -42,31 +42,27 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             {
                 var correlationId = httpRequestHelper.GetDssCorrelationId(req);
                 if (string.IsNullOrEmpty(correlationId))
+                {
                     log.LogWarning("Unable to locate 'DssCorrelationId' in request header");
+                    correlationId = Guid.NewGuid().ToString();
+                }
 
                 log.LogInformation($"CorrelationId: {correlationId} - Creating a new assessment");
-
-                if (!Guid.TryParse(correlationId, out var correlationGuid))
-                {
-                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                    correlationGuid = Guid.NewGuid();
-                }
 
                 // Get the assessmentType and questionSetTitle values from the query string
                 var queryDictionary = System.Web.HttpUtility.ParseQueryString(req.QueryString.ToString());
                 var assessmentType = queryDictionary.Get("assessmentType");
-                var questionSetTitle = queryDictionary.Get("questionSetTitle");
-                if (string.IsNullOrEmpty(assessmentType) || string.IsNullOrEmpty(questionSetTitle))
+                if (string.IsNullOrEmpty(assessmentType))
                 {
-                    log.LogInformation($"CorrelationId: {correlationId} - Missing assessmentType {assessmentType} or questionSetTitle {questionSetTitle}");
+                    log.LogInformation($"CorrelationId: {correlationId} - Missing assessmentType {assessmentType}");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
                 // Get the current question set version for this assesssment type and title (supplied by CMS - configured in appsettings)
-                var currentQuestionSetInfo = await questionSetRepository.GetCurrentQuestionSet(assessmentType, questionSetTitle);
+                var currentQuestionSetInfo = await questionSetRepository.GetCurrentQuestionSet(assessmentType);
                 if (currentQuestionSetInfo == null)
                 {
-                    log.LogInformation($"CorrelationId: {correlationId} - Unable to load questionset {assessmentType} {questionSetTitle}");
+                    log.LogInformation($"CorrelationId: {correlationId} - Unable to load latest question set {assessmentType}");
                     return httpResponseMessageHelper.NoContent();
                 }
 
