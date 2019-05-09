@@ -36,6 +36,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string SmsHint { get; set; } = "We will only use this to send you a link to return to your assessment";
         public string EmailInputNotifyFailMessage { get; set; } = "Enter a valid email address";
         public string EmailInputNotEntered { get; set; } = "You must enter an email address";
+        public string WhatToDoHeading { get; set; } = "What to do with your reference number";
 
         [JsonProperty("LastModified")]
         public DateTimeOffset LastUpdated { get; set; }
