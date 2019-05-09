@@ -10,7 +10,7 @@
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 		public string SentTo { get; set; }
 		public string BackLink { get; set; }
-        public string PageTitle { get; set; } = "Save progress | National Careers Service";
+        public string Title { get; set; } = "Save progress";
         public string EmailPrompt { get; set; } = "Email address";
         public string EmailInputLabel { get; set; } = "Email";
         public string EmailInputButtonText { get; set; } = "Send";

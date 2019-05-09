@@ -8,6 +8,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Title { get; set; } = "National Careers Service - Results";
         public string TraitTitle { get; set; } = "What you told us";
         public string TraitSummaryText { get; set; } = "Because of your answers, we have provided the following job categories. You can choose to view more results at the bottom of the page.";
+        public string TraitSummaryTextNoResults { get; set; } = "Because of your answers, we could not recommend any job categories. You might want to go through the assessment again to check that your responses were correct.";
         public string Headline { get; set; } = "Your results";
         public string SaveProgressText { get; set; } = "Save my progress";
         public string SeeLinkButtonText { get; set; } = "See job category";

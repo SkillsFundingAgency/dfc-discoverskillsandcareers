@@ -71,13 +71,21 @@ In addition to the the required properties above the `create` schema also adds t
     
 * `data` - Here we define the payload that will be pushed to the SiteFinity webservice endpoint. The schema that is required for this data can be found in the generated webservice documentation available through the SiteFinity frontend
 
-* `relates` - 
+* `relates` - Here we define a relationship between the parent content type defined in the `create` section and the `traits` content type. The value of the `property` field is the key that is used to resolve the Id of the instance to match for the relation relation. For example, here the `driver` Trait will be matched using the `Title` property. To do this the tool will extract the appropriate content type from the CMS and cache the results. These results are then used to try and resolve the ID of the instance where title matches. If the property is matched more than once the first will be used.  
 
 
 #### Extract 
 
+The extract content can be used directly and requires no additional attributes 
+
+    { "action": "extract", "contentType": "shortquestions" }
+    
 
 #### Delete 
+
+The delete content can be used directly and requires no additional attributes 
+
+    { "action": "delete", "contentType": "shortquestions" }
 
 ### Running an import 
 

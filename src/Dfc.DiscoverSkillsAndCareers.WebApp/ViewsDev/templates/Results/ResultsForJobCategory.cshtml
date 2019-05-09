@@ -88,7 +88,7 @@
                 <div class="govuk-grid-column-two-thirds">
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 0)
                     {
-                        <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)' role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobFamilyName</a></h2>
                         <p class="text-light">
                             <span>@Model.JobProfiles.Count(x => x.JobCategory == jobCategory.JobFamilyName).ToString()</span>
 
@@ -105,7 +105,7 @@
                     }
                     else
                     {
-                        <h2 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)' role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
+                        <h2 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobFamilyName</a></h2>
                     }
                     <p>@jobCategory.JobFamilyText</p>
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count == 0)
@@ -120,6 +120,7 @@
                         {
                           @(Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobCategory.TotalQuestions.ToString()) + "s")
                         }
+                        <span class="visually-hidden"> for @jobCategory.JobFamilyName</span>
                       </a>
                     }
                 </div>
@@ -150,10 +151,9 @@
                             </div>
                           } else {
                             <div>
-                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="hidden-screen">&nbsp;(starter)&nbsp;</span></p>
-                              <p class="salary-max"><span class="hidden-screen">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="hidden-screen">&nbsp;(@Model.ExperiencedText?.ToLower())</span></p>
-                              <div class="range-bar"><hr></div>
-
+                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="visually-hidden">&nbsp;(starter)&nbsp;</span></p>
+                              <p class="salary-max"><span class="visually-hidden">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="visually-hidden">&nbsp;(@Model.ExperiencedText?.ToLower())</span></p>
+                              <div class="range-bar" aria-hidden="true"><hr></div>
                               <p class="level-min">@Model.StarterText</p>
                               <p class="level-max">@Model.ExperiencedText</p>
                             </div>

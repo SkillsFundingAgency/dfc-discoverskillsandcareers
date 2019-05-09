@@ -132,5 +132,24 @@ namespace Dfc.UnitTests
 
             Assert.Equal(5, question);
         }
+
+        [Theory]
+        [InlineData(1, "01")]
+        [InlineData(2, "02")]
+        [InlineData(3, "03")]
+        [InlineData(4, "04")]
+        [InlineData(5, "05")]
+        [InlineData(6, "06")]
+        [InlineData(7, "07")]
+        [InlineData(8, "08")]
+        [InlineData(9, "09")]
+        [InlineData(10, "10")]
+        [InlineData(20, "20")]
+        public void GetQuestionPageNumber_WithTheory_ShouldZeroPrefixLess10(int input, string expected)
+        {
+            var actual = Dfc.DiscoverSkillsAndCareers.WebApp.Controllers.QuestionController.GetQuestionPageNumber(input);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

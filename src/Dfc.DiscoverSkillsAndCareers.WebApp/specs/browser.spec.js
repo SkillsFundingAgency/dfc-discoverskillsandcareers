@@ -36,7 +36,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       await driver.get(appUrl);
       let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
       await startAssessmentButton.click();
-      await driver.wait(until.urlContains(`q/1`), 20000);
+      await driver.wait(until.urlContains(`q/short/01`), 20000);
       let nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
       await nextButton.click();
       const errorTitle = await driver.wait(until.elementLocated(By.id('error-summary-title')), 20000);
@@ -56,8 +56,8 @@ parallel('Understand Myself cross-browser tests ', function() {
       await agreeOption.click();
       await driver.findElement(By.className('govuk-button')).click();
       // Wait for page to load and click Save my progress
-      await driver.wait(until.urlContains('q/2'), 20000);
-      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Save my progress')), 20000);
+      await driver.wait(until.urlContains('q/short/02'), 20000);
+      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Return to this later')), 20000);
       try {
         await saveProgressLink.click();
       }
@@ -68,9 +68,9 @@ parallel('Understand Myself cross-browser tests ', function() {
       await driver.wait(until.urlContains('save-my-progress'), 20000);
       nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
       await nextButton.click();
-      const errorMessageElement = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      const errorMessageElement = await driver.wait(until.elementLocated(By.className('govuk-error-summary__title')), 20000);
       const errorMessageText = await errorMessageElement.getText();
-      expect(errorMessageText.trim()).to.equal('Please select an option to continue')
+      expect(errorMessageText.trim()).to.equal('There is a problem');
 
       await driver.wait(() => selectAnswer(driver, 'SelectedOption-2'), 20000);
       await driver.findElement(By.className('govuk-button')).click();
@@ -83,7 +83,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       await resumeEntryTextBox.sendKeys(sessionIdText);
       await driver.findElement(By.className('app-button')).click();
       //Wait for Url to contain q/2
-      const urlFound = await driver.wait(until.urlContains('q/2'));
+      const urlFound = await driver.wait(until.urlContains('q/short/02'));
       expect(urlFound).to.equal(true);
       
       console.log(`${cap.browserName}: Check for error message if no session ID is entered`);
@@ -101,10 +101,10 @@ parallel('Understand Myself cross-browser tests ', function() {
   
       for (let i = 1; i < 41; i++) {
         try {
-          await driver.wait(until.urlContains(`q/${i}`), 20000);
+          await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), 20000);
         }
         catch(err) {
-          if (err.name === 'TypeError') await driver.wait(until.urlContains(`q/${i}`), 20000);
+          if (err.name === 'TypeError') await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), 20000);
           else console.log(err);
         }
         await driver.wait(() => selectAnswer(driver, optionDictionary['Agree']), 20000);
@@ -125,7 +125,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       let yesRadioButton = await driver.wait(until.elementLocated(By.id('selected_answer-1')), 20000);
       await yesRadioButton.click();
       await driver.findElement(By.className('govuk-button')).click();
-      await driver.wait(until.urlContains('qf/2'), 20000);
+      await driver.wait(until.urlContains('02'), 20000);
       yesRadioButton = await driver.wait(until.elementLocated(By.id('selected_answer-1')), 20000);
       await yesRadioButton.click();
       await driver.findElement(By.className('govuk-button')).click();

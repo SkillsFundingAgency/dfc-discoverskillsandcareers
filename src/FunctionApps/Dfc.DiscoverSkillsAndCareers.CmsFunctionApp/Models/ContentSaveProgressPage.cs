@@ -5,8 +5,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
     public class ContentSaveProgressPage : IContentPage
     {
-        public string Title { get; set; } 
-        public string PageTitle { get; set; } = "Save progress | National Careers Service";
+        public string Title { get; set; } = "Save progress | National Careers Service";
         public string EmailPrompt { get; set; } = "Email address";
         public string EmailInputLabel { get; set; } = "Email";
         public string EmailInputButtonText { get; set; } = "Send";

@@ -171,7 +171,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.TraitCode = nextQuestionResponse.TraitCode;
                 model.QuestionText = nextQuestionResponse.QuestionText;
                 model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
-
+                model.AssessmentType = assessment;
+                
                 AppendCookie(sessionId);
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);
@@ -194,7 +195,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             return nextRoute;
         }
 
-        private string GetQuestionPageNumber(int questionNumber)
+        public static string GetQuestionPageNumber(int questionNumber)
         {
             if (questionNumber < 10) return $"0{questionNumber.ToString()}";
             return questionNumber.ToString();

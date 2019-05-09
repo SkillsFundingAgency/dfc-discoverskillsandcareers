@@ -118,7 +118,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             [Option('f', "workflowFile", Required = true, HelpText = "The file containing the sitefinity workflow to be executed.")]
             public string WorkflowFile { get; set; }
             
-            [Option('o', "outputDir", Required = true, HelpText = "The output directory of any extracted data.")]
+            [Option('o', "outputDir", Required = false, HelpText = "The output directory of any extracted data.")]
             public string OutputDirectory { get; set; }
             
             public string SiteFinityApiUrl => $"{SiteFinityApiUrlbase}/api/{SiteFinityApiWebService}";
@@ -303,7 +303,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         private static async Task RunWorkflow(ISiteFinityHttpService service, ILogger logger, Options options)
         {
             var baseUrl = options.SiteFinityApiUrl;
-            var dir = Directory.CreateDirectory(Path.GetFullPath(options.OutputDirectory));
+            
             
             var workflow = ReadWorkflow(options.WorkflowFile).GetAwaiter().GetResult();
                 
@@ -328,7 +328,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     }
                     case Action.Extract:
                     {
-                        
+                        var dir = Directory.CreateDirectory(Path.GetFullPath(options.OutputDirectory));
                         await RunExtract(service, dir.FullName, baseUrl, step.ContentType);
                         logger.LogInformation($"Extracted {step.ContentType}");
                         break;

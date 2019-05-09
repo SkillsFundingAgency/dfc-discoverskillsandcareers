@@ -44,7 +44,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             if (questionSets == null)
             {
-                logger.LogWarning("No data returned from CMS while trying to extract filtering quesition sets");
+                logger.LogError("No data returned from CMS while trying to extract filtering question sets");
                 return;
             }
             
@@ -100,7 +100,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
                 string questionPartitionKey = newQuestionSet.QuestionSetVersion;
                 int questionNumber = 1;
-                foreach (var dataQuestion in data.Questions.OrderBy(x => x.Order))
+                foreach (var dataQuestion in data.Questions)
                 {
                     var newQuestion = new Question
                     {
@@ -121,7 +121,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     newQuestionSet.MaxQuestions = questionNumber;
                     questionNumber++;
                     await _questionRepository.CreateQuestion(newQuestion);
-                    logger.LogInformation($"Created question {newQuestion.QuestionId}");
+                    logger.LogInformation($"Created filtering question {newQuestion.QuestionId}");
                 }
                 await _questionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
                 if (questionSet != null)
@@ -131,7 +131,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                 logger.LogInformation($"Created Filtering Question Set - {newQuestionSet.Version}");
             }
 
-            logger.LogInformation($"End poll for Filterin gQuestion Set");
+            logger.LogInformation($"End poll for Filtering Question Set");
         }
     }
 }

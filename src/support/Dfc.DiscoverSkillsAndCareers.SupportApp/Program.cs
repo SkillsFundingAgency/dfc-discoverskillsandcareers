@@ -50,7 +50,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 .AddJsonFile("appSettings.json")
                 .Build();
 
-
+            
             services.AddLogging(l => l.AddSerilog())
                 .AddSingleton<SiteFinityHttpService>()
                 .AddSingleton<CmsRunBook>();

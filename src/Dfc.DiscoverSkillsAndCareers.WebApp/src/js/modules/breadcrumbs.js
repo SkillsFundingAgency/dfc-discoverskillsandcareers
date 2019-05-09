@@ -1,7 +1,7 @@
 var breadcrumbs = (function () {
   return {
     init: function () {
-      const container = document.getElementsByClassName('app-breadcrumb-panel')[0]
+      const container = document.getElementsByClassName('app-browser-back')[0]
       if (container) {
         const linkText = document.createTextNode('Back')
         const link = document.createElement('a')

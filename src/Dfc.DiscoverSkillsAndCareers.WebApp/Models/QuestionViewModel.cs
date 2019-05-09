@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string Code { get; set; }
         public bool IsFilterAssessment { get; set; }
         public AnswerOption? RecordedAnswer { get; set; }
-        public string Title { get; set; } = "National Careers Service - Assessment Statement";
+        public string Title { get; set; } = "Assessment Statement";
         public string Breadcrumb { get; set; } = "Assessment";
         public string SaveProgressText { get; set; } = "Save my progress";
         public string StronglyDisagreeText { get; set; } = "Strongly disagree";
@@ -29,5 +29,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string YesText { get; set; } = "Yes";
         public string NoText { get; set; } = "No";
         public string NoAnswerErrorMessage { get; set; } = "Please select an option below to continue";
+        public string AssessmentType { get; set; }
     }
 }

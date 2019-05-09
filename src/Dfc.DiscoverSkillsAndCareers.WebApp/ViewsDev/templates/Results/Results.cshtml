@@ -50,7 +50,7 @@
                     <li>@trait</li>
                 }
               </ul>
-              <p>@Model.TraitSummaryText</p>
+              <p>@Html.Raw(Model.Traits.Count() > 0 ? Model.TraitSummaryText : Model.TraitSummaryTextNoResults)</p>
             </div>
 
           </div>
@@ -84,7 +84,7 @@
               <li class="app-results__item" data-job-family-code="@jobFamily.JobFamilyCode">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
-                        <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobFamily.Url)' role="button" draggable="false" class="">@jobFamily.JobFamilyName</a></h3>
+                        <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobFamily.Url)'>@jobFamily.JobFamilyName</a></h3>
                         <p>@jobFamily.JobFamilyText</p>
                         @if (Model.UseFilteringQuestions)
                         {
@@ -104,7 +104,7 @@
                                 {
                                   @(Model.StartFilterQuestionsButtonText?.Replace("[questions]", jobFamily.TotalQuestions.ToString()) + "s")
                                 }
-
+                                <span class="visually-hidden"> for @jobFamily.JobFamilyName</span>
                               </a>
                             }
                         }

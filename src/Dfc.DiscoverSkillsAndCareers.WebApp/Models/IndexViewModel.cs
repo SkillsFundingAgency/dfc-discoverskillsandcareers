@@ -4,7 +4,7 @@
     {
         public string SessionId { get; set; }
         public bool HasReloadError { get; set; }
-        public string Title { get; set; } = "Discover your skills and careers | National Careers Service";
+        public string Title { get; set; } = "Discover your skills and careers";
         public string Headline { get; set; } = "Discover your skills and careers";
         public string TextBlock1 { get; set; } = "Take this assessment to find out what types of jobs might suit you, for example \"retail and sales\".";
         public string TextBlock2 { get; set; } = "Answer a few more questions to find out what specific job roles might suit you, for example \"florist\".";
