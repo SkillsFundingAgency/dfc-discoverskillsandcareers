@@ -88,7 +88,7 @@
                 <div class="govuk-grid-column-two-thirds">
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count > 0)
                     {
-                        <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)' role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
+                        <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobFamilyName</a></h2>
                         <p class="text-light">
                             <span>@Model.JobProfiles.Count(x => x.JobCategory == jobCategory.JobFamilyName).ToString()</span>
 
@@ -105,7 +105,7 @@
                     }
                     else
                     {
-                        <h2 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)' role="button" draggable="false" class="">@jobCategory.JobFamilyName</a></h2>
+                        <h2 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobFamilyName</a></h2>
                     }
                     <p>@jobCategory.JobFamilyText</p>
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobFamilyName).ToList().Count == 0)
