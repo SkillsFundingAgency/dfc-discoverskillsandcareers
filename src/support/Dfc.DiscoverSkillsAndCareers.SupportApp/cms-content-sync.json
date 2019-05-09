@@ -34,7 +34,6 @@
             "Headline": "Assessment complete",
             "ViewResultsButtonText": "See results",
             "HeadlineStrap": "Thank you",
-            "BreadcrumbText": "Assessment",
             "Content": "See the types of jobs that might suit you. Your results are based on your responses.",
             "Title": "Assessment complete | National Careers Service"
           }
@@ -54,8 +53,7 @@
             "DisagreeText": "Disagree",
             "NoAnswerErrorMessage": "Please select an option below to continue",
             "YesText": "Yes",
-            "Breadcrumb": "Assessment",
-            "SaveProgressText": "Return to this later"
+            "SaveProgressText": "Save my progress"
           }
         },
         {
@@ -91,7 +89,6 @@
           "contentType": "saveprogresscontents",
           "data": {
             "Title": "Save progress | National Careers Service",
-            "PageTitle": "Save progress | National Careers Service",
             "EmailPrompt": "Email address",
             "EmailInputLabel": "Email",
             "EmailInputButtonText": "Send",
@@ -121,7 +118,8 @@
             "SmsInputNotifyFailMessage": "Enter a valid phone number",
             "SmsHint": "We will only use this to send you a link to return to your assessment",
             "EmailInputNotifyFailMessage": "Enter a valid email address",
-            "EmailInputNotEntered": "You must enter an email address"
+            "EmailInputNotEntered": "You must enter an email address",
+            "WhatToDoHeading": "What to do with your reference number"
           }
         },
 
