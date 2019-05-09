@@ -50,7 +50,7 @@
                     <li>@trait</li>
                 }
               </ul>
-              <p>@Model.TraitSummaryText</p>
+              <p>@Html.Raw(Model.Traits.Count() > 0 ? Model.TraitSummaryText : Model.TraitSummaryTextNoResults)</p>
             </div>
 
           </div>
