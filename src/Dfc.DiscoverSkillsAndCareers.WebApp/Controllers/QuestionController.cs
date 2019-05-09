@@ -171,7 +171,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.TraitCode = nextQuestionResponse.TraitCode;
                 model.QuestionText = nextQuestionResponse.QuestionText;
                 model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
-
+                model.AssessmentType = assessment;
+                
                 AppendCookie(sessionId);
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);

@@ -29,5 +29,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string YesText { get; set; } = "Yes";
         public string NoText { get; set; } = "No";
         public string NoAnswerErrorMessage { get; set; } = "Please select an option below to continue";
+        public string AssessmentType { get; set; }
     }
 }
