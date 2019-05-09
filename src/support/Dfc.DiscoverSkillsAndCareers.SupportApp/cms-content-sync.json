@@ -150,7 +150,7 @@
       "data": {
         "Title": "Driver",
         "Description": "",
-        "ResultDisplayText": "You enjoy setting targets and are comfortable competing with other people."
+        "ResultDisplayText": "You are motivated, set yourself personal goals and are comfortable competing with other people."
       },
       "relates": [
         {
@@ -222,7 +222,7 @@
       "data": {
         "Title": "Creator",
         "Description": "",
-        "ResultDisplayText": "You're a creative person and enjoy coming up with new ways of doing things."
+        "ResultDisplayText": "You are a creative person and enjoy coming up with new ways of doing things."
       },
       "relates": [
         {
@@ -260,7 +260,7 @@
       "data": {
         "Title": "Doer",
         "Description": "",
-        "ResultDisplayText": "You're a practical person and enjoy working with your hands."
+        "ResultDisplayText": "You are a practical person and enjoy gettings things done."
       },
       "relates": [
         {
