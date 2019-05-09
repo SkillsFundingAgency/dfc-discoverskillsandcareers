@@ -4,7 +4,7 @@
     {
         public string SessionId { get; set; }
         public JobProfile[] JobProfiles { get; set; } = {};
-        public string Title { get; set; } = "National Careers Service - Results";
+        public string Title { get; set; } = "Results";
         public string TraitTitle { get; set; } = "What you told us";
         public string TraitSummaryText { get; set; } = "Because of your answers, we have provided the following job profiles. You can choose to view more results at the bottom of the page.";
         public string Headline { get; set; } = "Job profiles you might be suited to";
