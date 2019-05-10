@@ -47,21 +47,6 @@
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\SiteFinityHttpService.cs">
         <Link>Services\SiteFinityHttpService.cs</Link>
     </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ContentFinishPage.cs">
-      <Link>CmsModels\ContentFinishPage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ContentIndexPage.cs">
-      <Link>CmsModels\ContentIndexPage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ContentQuestionPage.cs">
-      <Link>CmsModels\ContentQuestionPage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ContentResultsPage.cs">
-      <Link>CmsModels\ContentResultsPage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ContentSaveProgressPage.cs">
-      <Link>CmsModels\ContentSaveProgressPage.cs</Link>
-    </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\DfcJobProfile.cs">
       <Link>CmsModels\DfcJobProfile.cs</Link>
     </Compile>
@@ -70,9 +55,6 @@
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\FilteringQuestionSet.cs">
       <Link>CmsModels\FilteringQuestionSet.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\IContentPage.cs">
-      <Link>CmsModels\IContentPage.cs</Link>
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategory.cs">
       <Link>CmsModels\JobCategory.cs</Link>
