@@ -35,7 +35,7 @@
     <div class="govuk-width-container app-site-width-container">
 
         {% include "_phasebanner.njk" %}
-        
+
         @if (Model.QuestionNumber == 1)
         {
             <div class="app-breadcrumb-panel">
@@ -93,17 +93,16 @@
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-            {
-                <span id="national-insurance-number-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
-                </span>
-            }
-
             <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
                 <div class="govuk-fieldset app-question app-question--short" id="question" role="group" aria-labelledby="question-heading">
 
                     <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div id="national-insurance-number-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
+                            </div>
+                        }
                         <h1 class="govuk-fieldset__heading" id="question-heading">
                             @Model.QuestionText
                         </h1>
