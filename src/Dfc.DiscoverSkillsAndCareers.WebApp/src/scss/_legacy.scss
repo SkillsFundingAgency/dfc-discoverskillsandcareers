@@ -24,7 +24,15 @@
   width: 100%;
   @extend %clearfix;
 
+  div {
+    vertical-align: baseline;
+  }
+
   .header-proposition {
+    padding-top: 10px;
+    @media (min-width: 641px) {
+      padding-top: 0;
+    }
     .content {
       margin: 0 15px;
     }
