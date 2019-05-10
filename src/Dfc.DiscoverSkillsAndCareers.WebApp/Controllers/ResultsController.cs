@@ -54,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
-                var model = await _apiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
+                var model = new ResultsViewModel();
                 model.SessionId = sessionId;
                 model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
                 model.AssessmentType = resultsResponse.AssessmentType;
@@ -142,7 +142,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public async Task<IActionResult> ReturnResultsView(ResultsResponse resultsResponse, Guid correlationId, string jobCategory, string sessionId)
         {
             var contentName = $"filteredresultpage";
-            var model = await _apiServices.GetContentModel<ResultsViewModel>(contentName, correlationId);
+            var model = new ResultsViewModel();
             model.SessionId = sessionId;
             model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
             model.AssessmentType = resultsResponse.AssessmentType;

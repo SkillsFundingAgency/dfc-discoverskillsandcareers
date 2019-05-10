@@ -6,7 +6,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = @Model.Title;
+    ViewData["Title"] = "Save progress";
     Layout = null;
 }
 {% endblock %}
@@ -41,7 +41,7 @@
                     </div>
                 }
 
-                <h1 class="govuk-heading-l">@Model.ReferenceYourNumberText</h1>
+                <h1 class="govuk-heading-l">Your reference</h1>
 
                 <div class="app-your-reference govuk-body">
                     <p>
@@ -54,11 +54,11 @@
                 </div>
 
                 <div class="govuk-body">
-                    <h2 class="govuk-heading-m">@Model.WhatToDoHeading</h2>
-                    <p>@Model.ReferenceInstructionsText</p>
+                    <h2 class="govuk-heading-m">What to do with your reference number</h2>
+                    <p>The code above is your unique reference. You can use this to:</p>
                     <ul>
-                        <li>@Model.ReferenceInstruction1Text</li>
-                        <li>@Model.ReferenceInstruction2Text</li>
+                        <li>return to your assessment and continue</li>
+                        <li>see your results, if you have finished the assessment</li>
                     </ul>
                 </div>
 
@@ -71,7 +71,7 @@
                         <div>
                             {{ govukInput({
                             label: {
-                            text: "@Model.SmsInputLabel"
+                            text: "Phone number"
                             },
                             classes: "",
                             id: "mobileNumber",
@@ -84,7 +84,7 @@
                         <div>
                             {{ govukInput({
                             label: {
-                            text: "@Model.SmsInputLabel"
+                            text: "Phone number"
                             },
                             classes: "",
                             id: "mobileNumber",
@@ -97,12 +97,12 @@
                         </div>
                         }
                         {{ govukButton({
-                                text: "@Model.SmsInputButtonText"
+                                text: "Send"
                         }) }}
                     </div>
                 </form>
 
-                <p><a href="/results" class="">@Model.ReferenceReturnText</a></p>
+                <p><a href="/results" class="">Return to assessment</a></p>
 
             </div>
         </div>

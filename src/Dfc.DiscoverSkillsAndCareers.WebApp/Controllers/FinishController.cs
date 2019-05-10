@@ -34,9 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var viewName ="FinishFilteredAssessment";
-                var contentName = "finishjobcategorypage";
-                var model = await _apiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
-                model.JobCategorySafeUrl = jobCategory;
+                var model = new FinishViewModel {JobCategorySafeUrl = jobCategory};
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }
@@ -59,8 +57,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var viewName = "Finish";
-                var contentName = "finishpage";
-                var model = await _apiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
+                var model = new FinishViewModel();
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }

@@ -18,27 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             HttpService = httpService;
             AppSettings = appSettings.Value;
         }
-
-        public async Task<T> GetContentModel<T>(string contentType, Guid correlationId) where T : class
-        {
-            try
-            {
-                string url = $"{AppSettings.ContentApiRoot}/content/{contentType}";
-                var json = await HttpService.GetString(url, correlationId);
-                var content = JsonConvert.DeserializeObject<Content>(json);
-                T model = Activator.CreateInstance<T>();
-                if (content != null)
-                {
-                    model = JsonConvert.DeserializeObject<T>(content.ContentData);
-                }
-                return model;
-            }
-            catch (System.Net.Http.HttpRequestException)
-            {
-                return Activator.CreateInstance<T>();
-            }
-        }
-
+        
         public async Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType)
         {
             string url = $"{AppSettings.SessionApiRoot}/assessment?assessmentType={assessmentType}";

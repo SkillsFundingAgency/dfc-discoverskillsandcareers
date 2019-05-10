@@ -27,9 +27,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 var sessionId = await TryGetSessionId(Request);
-                var model = await _apiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                model.SessionId = sessionId;
-                model.HasReloadError = !string.IsNullOrEmpty(e);
+                var model = new IndexViewModel
+                {
+                    SessionId = sessionId, 
+                    HasReloadError = !string.IsNullOrEmpty(e)
+                };
                 if (e == "1")
                 {
                     model.ResumeErrorMessage = model.MissingCodeErrorMessage;

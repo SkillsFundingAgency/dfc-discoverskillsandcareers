@@ -1,6 +1,6 @@
 ﻿{% set pageName = 'questions' %}
 {% set pageGroup = 'questions' %}
-{% set pageTitle = '@Model.Title @Model.QuestionNumber' %}
+{% set pageTitle = 'Assessment Statement  + @Model.QuestionNumber' %}
 {% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set traitCode= '@Model.TraitCode' %}
@@ -119,7 +119,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
                                     value="StronglyAgree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-1">
-                                @Model.StronglyAgreeText
+                                Strongly agree
                             </label>
                         </div>
 
@@ -131,7 +131,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
                                     value="Agree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-2">
-                                @Model.AgreeText
+                                Agree
                             </label>
                         </div>
 
@@ -143,7 +143,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
                                     value="Neutral">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-5">
-                                @Model.NeutralText
+                                It depends
                             </label>
                         </div>
 
@@ -156,7 +156,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
                                     value="Disagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-3">
-                                @Model.DisagreeText
+                                Disagree
                             </label>
                         </div>
 
@@ -167,7 +167,7 @@
                                     type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
                                     value="StronglyDisagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-4">
-                                @Model.StronglyDisagreeText
+                                Strongly disagree
                             </label>
                         </div>
 
@@ -178,7 +178,7 @@
             <div class="app-controls">
 
                 {{ govukButton({
-                    text: "@Model.NextButtonText",
+                    text: "Next",
                     classes: "app-button btn-next-question",
                     type: "submit",
                     attributes: {

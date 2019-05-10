@@ -53,51 +53,7 @@ namespace Dfc.IntegrationTests
 
             Assert.NotEmpty(data);
         }
-
-        [Fact]
-        public async Task GetFinishedContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentFinishPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "finishpagecontents");
-
-            Assert.NotEmpty(data.First().Headline);
-        }
         
-        [Fact]
-        public async Task GetIndexPageContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentIndexPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "indexpagecontents");
-
-            Assert.NotEmpty(data.First().Headline);
-        }
-
-        [Fact]
-        public async Task GetQuestionPageContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentQuestionPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "questionpagecontents");
-
-            Assert.NotEmpty(data.First().Title);
-        }
-
-        [Fact]
-        public async Task GetResultsPageContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentResultsPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "resultspagecontents");
-
-            Assert.NotEmpty(data.First().Title);
-        }
-
-        [Fact]
-        public async Task GetSaveProgressContentsData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentSaveProgressPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "saveprogresscontents");
-
-            Assert.NotEmpty(data.First().Title);
-        }
 
         [Fact]
         public async Task GetShortQuestions_FromSiteFinity_ShouldContainValues()

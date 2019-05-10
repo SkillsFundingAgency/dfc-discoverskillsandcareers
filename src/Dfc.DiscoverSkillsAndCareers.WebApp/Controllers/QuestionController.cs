@@ -142,10 +142,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     throw new Exception($"Question not found for session {sessionId}");
                 }
-                var model = await _apiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
+
+                
                 var formRoute = GetAnswerFormPostRoute(nextQuestionResponse, assessment);
                 int displayPercentComplete = nextQuestionResponse.PercentComplete;
 
+                var model = new QuestionViewModel();
                 model.Code = sessionId;
                 model.ErrorMessage = !invalidAnswer ? string.Empty : model.NoAnswerErrorMessage;
                 model.FormRoute = formRoute;

@@ -18,12 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             ILogger log,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentResultsPage> resultPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentSaveProgressPage> saveProgressPageContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
             [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
             )
         {
@@ -37,20 +32,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 await jobCategoryDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
-                
-                await indexPageContentDataProcessor.RunOnce(log, "indexpagecontents", "indexpage");
-
-                await questionPageContentDataProcessor.RunOnce(log, "questionpagecontents", "questionpage");
-
-                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishpage");
-
-                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishjobcategorypage");
-
-                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "shortresultpage");
-
-                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "filteredresultpage");
-
-                await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
 
                 await shortQuestionSetDataProcessor.RunOnce(log);
 
