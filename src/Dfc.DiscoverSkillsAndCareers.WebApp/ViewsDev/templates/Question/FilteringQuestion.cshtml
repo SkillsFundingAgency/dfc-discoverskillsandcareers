@@ -1,6 +1,6 @@
 ﻿{% set pageName = 'questions' %}
 {% set pageGroup = 'questions' %}
-{% set pageTitle = '@Model.Title @Model.QuestionNumber' %}
+{% set pageTitle = 'Assessment Statement @Model.QuestionNumber' %}
 {% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set traitCode= '@Model.TraitCode' %}
@@ -109,7 +109,7 @@
                                            @(Model.RecordedAnswer == AnswerOption.Yes ? "checked" : "")
                                            value="Yes">
                                     <label class="govuk-label govuk-radios__label" for="selected_answer-1">
-                                        @Model.YesText
+                                        Yes
                                     </label>
                                 </div>
 
@@ -121,7 +121,7 @@
                                            @(Model.RecordedAnswer == AnswerOption.No ? "checked" : "")
                                            value="No">
                                     <label class="govuk-label govuk-radios__label" for="selected_answer-2">
-                                        @Model.NoText
+                                        No
                                     </label>
                                 </div>
 
@@ -133,7 +133,7 @@
                     <div class="app-controls app-controls--left">
 
                         {{ govukButton({
-                        text: "@Model.NextButtonText",
+                        text: "Next",
                         classes: "app-button btn-next-question",
                         type: "submit",
                         attributes: {

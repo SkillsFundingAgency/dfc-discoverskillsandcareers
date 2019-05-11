@@ -6,7 +6,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = @Model.Title;
+    ViewData["Title"] = "Save progress";
     Layout = null;
 }
 {% endblock %}
@@ -27,7 +27,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
-                <h1 class="govuk-heading-xl">@Model.SmsPrompt</h1>
+                <h1 class="govuk-heading-xl">What is your phone number?</h1>
 
                 <div class="govuk-body">
 
@@ -35,14 +35,14 @@
                         <div class="govuk-grid-column-two-thirds-from-desktop">
                             {{ govukInput({
                                 label: {
-                                    text: "@Model.SmsInputLabel"
+                                    text: "Phone number"
                                 },
                                 classes: "",
                                 id: "mobileNumber",
                                 name: "mobileNumber"
                             }) }}
                             {{ govukButton({
-                                text: "@Model.SmsInputButtonText"
+                                text: "Send"
                             }) }}
                         </div>
                     </form>

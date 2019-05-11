@@ -33,13 +33,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 var sessionId = await TryGetSessionId(Request);
-                var model = await _apiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
                 }
-                return View("404", model);
+                return View("404", new IndexViewModel
+                {
+                    SessionId = sessionId
+                });
             }
             catch (Exception ex)
             {
@@ -55,13 +56,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 var sessionId = await TryGetSessionId(Request);
-                var model = await _apiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
                 }
-                return View("500", model);
+                return View("500", new IndexViewModel
+                {
+                    SessionId = sessionId
+                });
             }
             catch (Exception ex)
             {

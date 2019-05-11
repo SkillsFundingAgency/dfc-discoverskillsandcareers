@@ -88,11 +88,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .ToList();
 
             var jobCategories = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray();
-            var filteredQuestionsLookup = filteredQuestionSet.ToDictionary(r => r.Title, StringComparer.InvariantCultureIgnoreCase);
+            var filteredQuestionsLookup = filteredQuestionSet.ToDictionary(r => r.QuestionSetKey, StringComparer.InvariantCultureIgnoreCase);
 
             foreach (var jobCat in jobCategories)
             {
-                if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName, out var qs))
+                if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName.Replace(" ", "-").ToLower(), out var qs))
                 {
                     log.LogError(
                         new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName}"),

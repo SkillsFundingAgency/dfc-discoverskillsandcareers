@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -132,8 +133,23 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 QuestionSetVersion = userSession.CurrentQuestionSetVersion
             };
 
+            List<Answer> newAnswerSet;
+
             // Add the answer to the session answers
-            var newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionId != postAnswerRequest.QuestionId).ToList();
+            if (userSession.IsFilterAssessment)
+            {
+                newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionNumber < question.Order)
+                    .ToList();
+                
+            }
+            else
+            {
+                newAnswerSet = userSession.CurrentRecordedAnswers
+                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
+                    .ToList();
+                
+            }
+        
             newAnswerSet.Add(answer);
             userSession.CurrentState.RecordedAnswers = newAnswerSet.ToArray();
         }
@@ -148,15 +164,24 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 if (userSession.IsFilterAssessment)
                 {
                     await filterAssessmentCalculationService.CalculateAssessment(userSession, log);
+                    
                 }
                 else
                 {
                     await resultsService.CalculateAssessment(userSession, log);
+                    
                 }
             }
             else
             {
-                userSession.CurrentState.CurrentQuestion = userSession.FindNextUnansweredQuestion();
+                if (userSession.IsFilterAssessment)
+                {
+                    userSession.CurrentState.CurrentQuestion = userSession.FindNextQuestion();
+                }
+                else
+                {
+                    userSession.CurrentState.CurrentQuestion = userSession.FindNextUnansweredQuestion();
+                }
             }
         }
 

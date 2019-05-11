@@ -84,23 +84,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {                
-                var queryDictionary = HttpUtility.ParseQueryString(_appSettings.AssessmentQuestionSetNames);
-                var title = queryDictionary.Get(assessment);
-
-                if(assessment != HttpUtility.UrlEncode(assessment))
-                {
-                    return BadRequest();
-                }
-                
-                if (title != HttpUtility.UrlEncode(title))
-                {
-                    return BadRequest();
-                }
-
-                var newSessionResponse = await _apiServices.NewSession(correlationId, assessment, title);
+                var newSessionResponse = await _apiServices.NewSession(correlationId, assessment);
                 if (newSessionResponse == null)
                 {
-                    throw new Exception($"Failed to create session for assessment type {assessment} using question set {title}");
+                    throw new Exception($"Failed to create session for assessment type {assessment}");
                 }
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
@@ -155,10 +142,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     throw new Exception($"Question not found for session {sessionId}");
                 }
-                var model = await _apiServices.GetContentModel<QuestionViewModel>("questionpage", correlationId);
+
+                
                 var formRoute = GetAnswerFormPostRoute(nextQuestionResponse, assessment);
                 int displayPercentComplete = nextQuestionResponse.PercentComplete;
 
+                var model = new QuestionViewModel();
                 model.Code = sessionId;
                 model.ErrorMessage = !invalidAnswer ? string.Empty : model.NoAnswerErrorMessage;
                 model.FormRoute = formRoute;

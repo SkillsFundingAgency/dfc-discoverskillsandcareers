@@ -1,6 +1,6 @@
 ﻿{% set pageName = 'questions' %}
 {% set pageGroup = 'questions' %}
-{% set pageTitle = '@Model.Title @Model.QuestionNumber' %}
+{% set pageTitle = 'Assessment Statement @Model.QuestionNumber' %}
 {% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set traitCode= '@Model.TraitCode' %}
@@ -35,7 +35,7 @@
     <div class="govuk-width-container app-site-width-container">
 
         {% include "_phasebanner.njk" %}
-        
+
         @if (Model.QuestionNumber == 1)
         {
             <div class="app-breadcrumb-panel">
@@ -93,17 +93,16 @@
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-            {
-                <span id="national-insurance-number-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
-                </span>
-            }
-
             <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
                 <div class="govuk-fieldset app-question app-question--short" id="question" role="group" aria-labelledby="question-heading">
 
                     <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div id="national-insurance-number-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
+                            </div>
+                        }
                         <h1 class="govuk-fieldset__heading" id="question-heading">
                             @Model.QuestionText
                         </h1>
@@ -119,7 +118,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
                                     value="StronglyAgree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-1">
-                                @Model.StronglyAgreeText
+                                Strongly agree
                             </label>
                         </div>
 
@@ -131,7 +130,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
                                     value="Agree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-2">
-                                @Model.AgreeText
+                                Agree
                             </label>
                         </div>
 
@@ -143,7 +142,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
                                     value="Neutral">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-5">
-                                @Model.NeutralText
+                                It depends
                             </label>
                         </div>
 
@@ -156,7 +155,7 @@
                                     @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
                                     value="Disagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-3">
-                                @Model.DisagreeText
+                                Disagree
                             </label>
                         </div>
 
@@ -167,7 +166,7 @@
                                     type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
                                     value="StronglyDisagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-4">
-                                @Model.StronglyDisagreeText
+                                Strongly disagree
                             </label>
                         </div>
 
@@ -178,7 +177,7 @@
             <div class="app-controls">
 
                 {{ govukButton({
-                    text: "@Model.NextButtonText",
+                    text: "Next",
                     classes: "app-button btn-next-question",
                     type: "submit",
                     attributes: {

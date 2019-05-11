@@ -54,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     AssessmentType = "short",
                     Version = 1,
                     Title = title,
-                    TitleLowercase = title.ToLower(),
+                    QuestionSetKey = title.ToLower(),
                     MaxQuestions = 40,
                     LastUpdated = DateTime.Now,
                     PartitionKey = "ncs",

@@ -63,11 +63,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = new SaveProgressViewModel();
                 model.BackLink = "/reload";
                 if (withError)
                 {
-                    model.ErrorMessage = model.SaveProgressNoOptionSelectedMessage;
+                    model.ErrorMessage = "Please select an option to continue";
                 }
                 AppendCookie(sessionId);
                 return View("SaveProgress", model);
@@ -92,7 +92,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
                 AppendCookie(sessionId);
                 return View("EmailInput", model);
@@ -115,11 +115,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
                 {
-                    model.ErrorMessage = model.EmailInputNotEntered;
+                    model.ErrorMessage = "You must enter an email address";
                     return View("EmailInput", model);
                 }
                 NotifyResponse notifyResponse = null;
@@ -138,7 +138,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
-                    model.ErrorMessage = model.EmailInputNotifyFailMessage;
+                    model.ErrorMessage = "Enter a valid email address";
                     return View("EmailInput", model);
                 }
 
@@ -163,7 +163,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
@@ -205,7 +205,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 AppendCookie(sessionId);
@@ -239,12 +239,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-                var model = await _apiServices.GetContentModel<SaveProgressViewModel>("saveprogresspage", correlationId);
+                var model = new SaveProgressViewModel();
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()) || !System.Text.RegularExpressions.Regex.Match(sendSmsRequest.MobileNumber, @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").Success)
                 {
-                    model.ErrorMessage = model.SmsInputInvalidMessage;
+                    model.ErrorMessage = "Enter a phone number";
                     return View("ReferenceNumber", model);
                 }
                 NotifyResponse notifyResponse = null;
@@ -263,7 +263,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
-                    model.ErrorMessage = model.SmsInputNotifyFailMessage;
+                    model.ErrorMessage = "Enter a valid phone number";
                     return View("ReferenceNumber", model);
                 }
 

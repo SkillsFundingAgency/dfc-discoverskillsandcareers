@@ -72,7 +72,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 var questionSetRepository = new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 var sessionRepository = new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 
-                var questionSet = questionSetRepository.GetCurrentQuestionSet("short", title).GetAwaiter().GetResult();
+                var questionSet = questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", title).GetAwaiter().GetResult();
                 
                 using(var fs = File.OpenWrite(opts.CsvFile))
                 using(var sw = new StreamWriter(fs))

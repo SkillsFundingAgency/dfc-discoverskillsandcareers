@@ -435,13 +435,19 @@ namespace Dfc.UnitTests
             };
             QuestionSets = 
                 JobFamilies
-                       .Select(jf => new QuestionSet {Title = jf.JobFamilyName, MaxQuestions = 3})
+                       .Select(jf => new QuestionSet
+                       {
+                           Title = jf.JobFamilyName,
+                           MaxQuestions = 3,
+                           QuestionSetKey = jf.JobFamilyName.Replace(" ", "-").ToLower(),
+                       })
                         .ToList();
 
             _questionSetRepository.GetCurrentFilteredQuestionSets().Returns(Task.FromResult(
                 JobFamilies.Select(jf => new QuestionSet
                 {
                     Title = jf.JobFamilyName,
+                    QuestionSetKey = jf.JobFamilyName.Replace(" ", "-").ToLower(),
                     MaxQuestions = 3
                 }).ToList()));
         }

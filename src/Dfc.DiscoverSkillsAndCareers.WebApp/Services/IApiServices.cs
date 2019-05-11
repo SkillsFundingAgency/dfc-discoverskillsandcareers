@@ -6,8 +6,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 {
     public interface IApiServices
     {
-        Task<T> GetContentModel<T>(string contentType, Guid correlationId) where T : class;
-        Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType, string title);
+        Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType);
         Task<AssessmentQuestionResponse> Question(string sessionId, string assessment, int questionNumber, Guid correlationId);
         Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest, Guid correlationId);
         Task<ResultsResponse> Results(string sessionId, Guid correlationId);

@@ -163,14 +163,23 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             return CurrentMaxQuestions;
         }
         
+        public int FindNextQuestion()
+        {
+            return Math.Min(CurrentQuestion + 1, CurrentMaxQuestions);
+        }
+        
         /// <summary>
         /// Updates the IsComplete property on the UserSession based off the current answers and max questions.
         /// </summary>
         public void UpdateCompletionStatus()
         {                
             if(IsComplete) {
-                CurrentState.CompleteDt = DateTime.Now;
-            }   
+                CurrentState.CompleteDt = DateTime.UtcNow;
+            }
+            else
+            {
+                CurrentState.CompleteDt = null;
+            }  
         }
     }
 }

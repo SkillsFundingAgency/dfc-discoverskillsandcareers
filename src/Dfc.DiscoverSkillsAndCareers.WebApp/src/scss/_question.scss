@@ -87,9 +87,14 @@
       border-right: 1px solid govuk-colour('black');
       margin: 0;
       width: 40%;
+      padding-right: govuk-spacing(5);
+      flex-direction: column;
       h1 {
         align-self: center;
         margin: 0;
+      }
+      .govuk-error-message {
+        margin-bottom: .5em;
       }
     }
 
@@ -106,7 +111,8 @@
     }
 
     .govuk-fieldset__heading {
-      padding-right: govuk-spacing(5);
+
+      clear: both;
     }
 
     .govuk-form-group {

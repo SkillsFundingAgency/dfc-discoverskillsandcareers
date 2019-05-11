@@ -45,6 +45,7 @@ namespace Dfc.UnitTests
                 ResultTestMockData.JobFamilies.Select(jf => new QuestionSet
                 {
                     Title = jf.JobFamilyName,
+                    QuestionSetKey = jf.JobFamilyName.Replace(" ", "-").ToLower(),
                     MaxQuestions = 3
                 }).ToList())
             );

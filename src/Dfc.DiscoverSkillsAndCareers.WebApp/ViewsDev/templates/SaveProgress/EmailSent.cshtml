@@ -6,7 +6,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = @Model.Title;
+    ViewData["Title"] = "Save progress";
     Layout = null;
 }
 {% endblock %}
@@ -29,15 +29,15 @@
 
                 <div class="govuk-body">
 
-                    <h1 class="govuk-heading-xl">@Model.EmailSentHeader</h1>
+                    <h1 class="govuk-heading-xl">Check your email</h1>
 
-                    <p>@Model.EmailSentText @Model.SentTo</p>
+                    <p>An email has been sent to @Model.SentTo</p>
 
-                    <p>@Model.ReturnText</p>
+                    <p>Use the reference in the text message to return to your assessment.</p>
 
                     <a href="/" class="govuk-button">Return home</a>
 
-                    <p><a href="/results">@Model.ContinueButtonText</a></p>
+                    <p><a href="/results">Return to assessment</a></p>
 
                 </div>
 

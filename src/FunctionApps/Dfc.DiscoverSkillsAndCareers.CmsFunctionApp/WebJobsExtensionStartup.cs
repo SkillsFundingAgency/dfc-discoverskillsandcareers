@@ -59,19 +59,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
             services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
             services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
-            services.AddTransient<IContentDataProcessor<ContentQuestionPage>, ContentDataProcessor<ContentQuestionPage>>();
-            services.AddTransient<IGetContentData<List<ContentQuestionPage>>, GetContentData<List<ContentQuestionPage>>>();
-            services.AddTransient<IContentDataProcessor<ContentFinishPage>, ContentDataProcessor<ContentFinishPage>>();
-            services.AddTransient<IGetContentData<List<ContentFinishPage>>, GetContentData<List<ContentFinishPage>>>();
-            services.AddTransient<IContentDataProcessor<ContentResultsPage>, ContentDataProcessor<ContentResultsPage>>();
-            services.AddTransient<IGetContentData<List<ContentResultsPage>>, GetContentData<List<ContentResultsPage>>>();
-            services.AddTransient<IContentDataProcessor<ContentSaveProgressPage>, ContentDataProcessor<ContentSaveProgressPage>>();
-            services.AddTransient<IGetContentData<List<ContentSaveProgressPage>>, GetContentData<List<ContentSaveProgressPage>>>();
             services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();
             services.AddTransient<IGetFilteringQuestionSetData, GetFilteringQuestionSetData>();
             services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredQuestionSetDataProcessor>();
-            services.AddTransient<IContentDataProcessor<ContentIndexPage>, ContentDataProcessor<ContentIndexPage>>();
-            services.AddTransient<IGetContentData<List<ContentIndexPage>>, GetContentData<List<ContentIndexPage>>>();
             services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();
             services.AddTransient<IJobCategoryDataProcessor, JobCategoryDataProcessor>();
         }
