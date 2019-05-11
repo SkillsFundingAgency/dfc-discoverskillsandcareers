@@ -53,18 +53,19 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect($"/results/{lastFilterResult.JobFamilyNameUrlSafe}");
                 }
 
-                var contentName = $"{resultsResponse.AssessmentType.ToLower()}resultpage";
-                var model = new ResultsViewModel();
-                model.SessionId = sessionId;
-                model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
-                model.AssessmentType = resultsResponse.AssessmentType;
-                model.JobFamilies = resultsResponse.JobFamilies;
-                model.JobFamilyCount = resultsResponse.JobFamilyCount;
-                model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
-                model.Traits = resultsResponse.Traits;
-                model.UseFilteringQuestions = _appSettings.UseFilteringQuestions;
-                model.JobProfiles = resultsResponse.JobProfiles;
-                model.ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl;
+                var model = new ResultsViewModel
+                {
+                    SessionId = sessionId,
+                    Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]),
+                    AssessmentType = resultsResponse.AssessmentType,
+                    JobFamilies = resultsResponse.JobFamilies,
+                    JobFamilyCount = resultsResponse.JobFamilyCount,
+                    JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount,
+                    Traits = resultsResponse.Traits,
+                    UseFilteringQuestions = _appSettings.UseFilteringQuestions,
+                    JobProfiles = resultsResponse.JobProfiles,
+                    ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl
+                };
                 return View("Results", model);
             }
             catch (System.Net.Http.HttpRequestException ex)
@@ -125,7 +126,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var resultsForJobCategoryResponse = await _apiServices.Results(sessionId, correlationId);
-                return await ReturnResultsView(resultsForJobCategoryResponse, correlationId, jobCategory, sessionId);
+                return ReturnResultsView(resultsForJobCategoryResponse, jobCategory, sessionId);
             }
             catch (System.Net.Http.HttpRequestException)
             {
@@ -139,42 +140,30 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [NonAction]
-        public async Task<IActionResult> ReturnResultsView(ResultsResponse resultsResponse, Guid correlationId, string jobCategory, string sessionId)
+        private IActionResult ReturnResultsView(ResultsResponse resultsResponse, string jobCategory, string sessionId)
         {
-            var contentName = $"filteredresultpage";
-            var model = new ResultsViewModel();
-            model.SessionId = sessionId;
-            model.Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]);
-            model.AssessmentType = resultsResponse.AssessmentType;
-            model.JobFamilies = ReOrderWithFirst(resultsResponse.JobFamilies, jobCategory);
-            model.JobFamilyCount = resultsResponse.JobFamilyCount;
-            model.JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount;
-            model.Traits = resultsResponse.Traits;
-            model.UseFilteringQuestions = _appSettings.UseFilteringQuestions;
-            model.JobProfiles = resultsResponse.JobProfiles;
-            model.WhatYouToldUs = resultsResponse.WhatYouToldUs;
-            model.ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl;
-
-            // TODO: temp data display
-            if (model.JobProfiles != null)
+            var model = new ResultsViewModel
             {
-                model.JobProfiles.ToList().ForEach(x =>
-                {
-                    if (string.IsNullOrEmpty(x.TypicalHours))
-                    {
-                        x.TypicalHours = "37 to 39";
-                        x.ShiftPattern = "between 8am and 6pm";
-                    }
-                });
-                model.JobProfiles = model.JobProfiles.ToArray();
-            }
+                SessionId = sessionId,
+                Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]),
+                AssessmentType = resultsResponse.AssessmentType,
+                JobFamilies = ReOrderWithFirst(resultsResponse.JobFamilies, jobCategory),
+                JobFamilyCount = resultsResponse.JobFamilyCount,
+                JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount,
+                Traits = resultsResponse.Traits,
+                UseFilteringQuestions = _appSettings.UseFilteringQuestions,
+                JobProfiles = resultsResponse.JobProfiles,
+                WhatYouToldUs = resultsResponse.WhatYouToldUs,
+                ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl
+            };
+
 
             return View("ResultsForJobCategory", model);
         }
 
         private JobFamilyResult[] ReOrderWithFirst(JobFamilyResult[] jobFamilyResults, string jobCategory)
         {
-            var highlightCategory = jobFamilyResults.Where(x => x.FilterAssessment?.JobFamilyNameUrlSafe == jobCategory).FirstOrDefault();
+            var highlightCategory = jobFamilyResults.FirstOrDefault(x => x.FilterAssessment?.JobFamilyNameUrlSafe == jobCategory);
             var otherCategories = jobFamilyResults.Where(x => x.FilterAssessment?.JobFamilyNameUrlSafe != jobCategory).ToList();
             var newList = otherCategories.ToList();
             newList.Insert(0, highlightCategory);
