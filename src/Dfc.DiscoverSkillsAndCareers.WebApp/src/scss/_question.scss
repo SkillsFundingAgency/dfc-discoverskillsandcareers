@@ -147,22 +147,9 @@
     width: 100%;
   }
 
-  .app-button,
-  .app-button--outline {
+  .app-button {
     @include govuk-media-query($from: desktop) {
       margin-left: govuk-spacing(3);
-    }
-  }
-
-  .app-button--outline {
-    display: block;
-    text-align: center;
-    margin-bottom: govuk-spacing(3);
-    line-height: 1;
-    padding-top: 10px;
-    padding-bottom: 7px;
-    @include govuk-media-query($from: desktop) {
-      display: inline-block;
     }
   }
 }
