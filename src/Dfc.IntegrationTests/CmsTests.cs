@@ -36,14 +36,6 @@ namespace Dfc.IntegrationTests
 
         }
 
-        [Fact]
-        public async Task GetFilteringQuestions_FromSiteFinity_ShouldContainValues()
-        {
-            var requester = new GetFilteringQuestionData(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "1544adbe-c6d9-4123-aff2-74dcc74297bb");
-
-            Assert.NotEmpty(data);
-        }
 
         [Fact]
         public async Task GetFilteringQuestionSets_FromSiteFinity_ShouldContainValues()
@@ -54,77 +46,14 @@ namespace Dfc.IntegrationTests
                 .When(g => g.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, Arg.Any<string>())
                             .Returns(Task.FromResult(new List<FilteringQuestion>()))
                      );
-                
+
 
             var requester = new GetFilteringQuestionSetData(_service, questionDataGetter);
             var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
 
             Assert.NotEmpty(data);
         }
-
-        [Fact]
-        public async Task GetFinishedContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentFinishPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "finishpagecontents");
-
-            Assert.NotEmpty(data.First().Headline);
-        }
-
-        [Fact]
-        public async Task GetFunctionalCompetencyData_FromSiteFinity_ShouldContainValues()
-        {
-            var requester = new GetFunctionalCompetenciesData(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
-
-            Assert.NotEmpty(data);
-        }
-
-        [Fact]
-        public async Task GetIndexPageContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentIndexPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "indexpagecontents");
-
-            Assert.NotEmpty(data.First().Headline);
-        }
-
-        [Fact]
-        public async Task GetJobProfileData_FromSitefinity_ShouldContainJobProfiles()
-        {
-            var requester = new GetJobProfileData(_service);
-
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
-
-            Assert.NotEmpty(data);
-        }
-
-        [Fact]
-        public async Task GetQuestionPageContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentQuestionPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "questionpagecontents");
-
-            Assert.NotEmpty(data.First().Title);
-        }
-
-         [Fact]
-        public async Task GetResultsPageContentData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentResultsPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "resultspagecontents");
-
-            Assert.NotEmpty(data.First().Title);
-        }
-
-         [Fact]
-        public async Task GetSaveProgressContentsData_FromSiteFinity_ShouldContainContent()
-        {
-            var requester = new GetContentData<ContentSaveProgressPage[]>(_service);
-            var data = await requester.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, "saveprogresscontents");
-
-            Assert.NotEmpty(data.First().Title);
-        }
+        
 
         [Fact]
         public async Task GetShortQuestions_FromSiteFinity_ShouldContainValues()
@@ -161,13 +90,5 @@ namespace Dfc.IntegrationTests
 
             Assert.NotEmpty(data);
         }
-
-       
-
-        
-
-        
-
-
     }
 }

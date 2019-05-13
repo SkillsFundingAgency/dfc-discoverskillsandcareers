@@ -12,6 +12,7 @@ using System;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
@@ -37,14 +38,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
                 options.Secure = CookieSecurePolicy.Always;
             });
+            
+            services.Configure<HstsOptions>(options =>
+            {
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".dysac-session";
-                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.IdleTimeout = TimeSpan.FromHours(24);
                 options.Cookie.IsEssential = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -56,7 +64,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IApiServices, ApiServices>();
             services.AddTransient<IErrorController, ErrorController>();
         }

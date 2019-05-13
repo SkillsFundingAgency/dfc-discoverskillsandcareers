@@ -28,6 +28,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("negativeResultDisplayText")]
         public string NegativeResultDisplayText { get; set; }
         [JsonProperty("lastUpdatedDt")]
-        public DateTime LastUpdatedDt { get; set; }
+        public DateTimeOffset LastUpdatedDt { get; set; }
     }
 }

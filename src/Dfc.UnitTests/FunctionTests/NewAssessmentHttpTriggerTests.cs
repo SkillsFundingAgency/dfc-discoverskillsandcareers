@@ -12,7 +12,9 @@ using NSubstitute;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Security;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -80,7 +82,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository = new FakeUserSessionRepository();
             _questionRepository = new FakeQuestionRepository();
-            _request.QueryString = new QueryString("?assessmentType=short&questionSetTitle=test");
+            _request.QueryString = new QueryString("?assessmentType=short");
             _questionSetRepository = new FakeQuestionSetRepository();
 
             var result = await RunFunction();

@@ -25,6 +25,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public FilterAssessment FilterAssessment { get; set; }
         [JsonProperty("totalQuestions")]
         public int TotalQuestions { get; set; }
+        
+        [JsonIgnore]
+        public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");
     }
 
     public class TraitValue

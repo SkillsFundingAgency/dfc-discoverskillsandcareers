@@ -30,8 +30,8 @@
     margin-bottom: govuk-spacing(8);
     clear: both;
     position: relative;
-    display: table;
-    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 
     .govuk-radios__item {
       width: auto;
@@ -46,6 +46,7 @@
     .govuk-radios {
       text-align: center;
       position: relative;
+      margin: 0;
     }
 
     .govuk-radios__item {
@@ -82,26 +83,36 @@
       margin-bottom: 0;
     }
 
+    .app-question__question {
+      border-right: 1px solid govuk-colour('black');
+      margin: 0;
+      width: 40%;
+      padding-right: govuk-spacing(5);
+      flex-direction: column;
+      h1 {
+        align-self: center;
+        margin: 0;
+      }
+      .govuk-error-message {
+        margin-bottom: .5em;
+      }
+    }
+
     .app-question__question,
     .app-question__answer {
-      display: table-cell;
-      vertical-align: middle;
-      width: 40%;
-      position: relative;
-      height: 156px;
+      display: flex;
+      flex: 1 0 auto;
+      margin: 0;
     }
 
     .app-question__answer {
       width: 60%;
+      align-self: center;
     }
 
     .govuk-fieldset__heading {
-      padding-right: govuk-spacing(5);
 
-    }
-
-    .app-question__question {
-      border-right: 1px solid govuk-colour('black');
+      clear: both;
     }
 
     .govuk-form-group {

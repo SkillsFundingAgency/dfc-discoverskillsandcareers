@@ -9,5 +9,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Description { get; set; }
         public string UrlName { get; set; }
         public List<string> Traits { get; set; }
+        public string TaxonomyId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using DFC.Functions.DI.Standard.Attributes;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -17,21 +18,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             ILogger log,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentResultsPage> resultPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentSaveProgressPage> saveProgressPageContentDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
-            [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
-            [Inject]IFunctionalCompetencyDataProcessor functionalCompetencyDataProcessor,
             [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
             )
         {
             var id = Guid.NewGuid();
             try
             {
-                log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
+                log.LogInformation($"PollFunction executed at: {myTimer.ScheduleStatus.Last:O}");
 
                 await shortTraitDataProcessor.RunOnce(log);
 
@@ -39,27 +33,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
 
-                await functionalCompetencyDataProcessor.RunOnce(log);
-
-                await indexPageContentDataProcessor.RunOnce(log, "indexpagecontents", "indexpage");
-
-                await questionPageContentDataProcessor.RunOnce(log, "questionpagecontents", "questionpage");
-
-                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishpage");
-
-                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "resultspagecontents");
-
-                await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
-
                 await shortQuestionSetDataProcessor.RunOnce(log);
-
-                await jobProfileDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Running CMS extract function failed.");
+                log.LogError(ex, $"Running CMS extract function failed. {ex.Message}");
             }
         }
     }

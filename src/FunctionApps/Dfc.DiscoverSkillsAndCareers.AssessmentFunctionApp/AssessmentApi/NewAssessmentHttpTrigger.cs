@@ -1,7 +1,11 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
 using DFC.Swagger.Standard.Annotations;
@@ -12,13 +16,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 {
     public static class NewAssessmentHttpTrigger
     {
@@ -39,62 +38,67 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp
             [Inject]IQuestionSetRepository questionSetRepository,
             [Inject]IOptions<AppSettings> appSettings)
         {
-            
-
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogWarning("Unable to locate 'DssCorrelationId' in request header");
-
-            log.LogInformation($"CorrelationId: {correlationId} - Creating a new assessment");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                {
+                    log.LogWarning("Unable to locate 'DssCorrelationId' in request header");
+                    correlationId = Guid.NewGuid().ToString();
+                }
+
+                log.LogInformation($"CorrelationId: {correlationId} - Creating a new assessment");
+
+                // Get the assessmentType and questionSetTitle values from the query string
+                var queryDictionary = System.Web.HttpUtility.ParseQueryString(req.QueryString.ToString());
+                var assessmentType = queryDictionary.Get("assessmentType");
+                if (string.IsNullOrEmpty(assessmentType))
+                {
+                    log.LogInformation($"CorrelationId: {correlationId} - Missing assessmentType {assessmentType}");
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                // Get the current question set version for this assesssment type and title (supplied by CMS - configured in appsettings)
+                var currentQuestionSetInfo = await questionSetRepository.GetCurrentQuestionSet(assessmentType);
+                if (currentQuestionSetInfo == null)
+                {
+                    log.LogInformation($"CorrelationId: {correlationId} - Unable to load latest question set {assessmentType}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                // Create a new user session
+                string partitionKey = DateTime.Now.ToString("yyyyMM");
+                string salt = appSettings.Value.SessionSalt;
+                var userSession = new UserSession()
+                {
+                    UserSessionId = SessionIdHelper.GenerateSessionId(salt),
+                    Salt = salt,
+                    StartedDt = DateTime.Now,
+                    LanguageCode = "en",
+                    PartitionKey = partitionKey,
+                    AssessmentState = new AssessmentState
+                    {
+                        QuestionSetVersion = currentQuestionSetInfo.QuestionSetVersion,
+                        MaxQuestions = currentQuestionSetInfo.MaxQuestions,
+                        CurrentQuestion = 1
+                    },
+                    AssessmentType = currentQuestionSetInfo.AssessmentType.ToLower()
+                };
+                await userSessionRepository.CreateUserSession(userSession);
+
+                log.LogInformation($"CorrelationId: {correlationId} - Finished creating new assessment {userSession.UserSessionId}");
+
+                var result = new DscSession()
+                {
+                    SessionId = userSession.PrimaryKey
+                };
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
             }
-
-            // Get the assessmentType and questionSetTitle values from the query string
-            var queryDictionary = System.Web.HttpUtility.ParseQueryString(req.QueryString.ToString());
-            var assessmentType = queryDictionary.Get("assessmentType");
-            var questionSetTitle = queryDictionary.Get("questionSetTitle");
-            if (string.IsNullOrEmpty(assessmentType) || string.IsNullOrEmpty(questionSetTitle))
+            catch (Exception ex)
             {
-                log.LogInformation($"CorrelationId: {correlationId} - Missing assessmentType {assessmentType} or questionSetTitle {questionSetTitle}");
-                return httpResponseMessageHelper.BadRequest();
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
-
-            // Get the current question set version for this assesssment type and title (supplied by CMS - configured in appsettings)
-            var currentQuestionSetInfo = await questionSetRepository.GetCurrentQuestionSet(assessmentType, questionSetTitle);
-            if (currentQuestionSetInfo == null)
-            {
-                log.LogInformation($"CorrelationId: {correlationId} - Unable to load questionset {assessmentType} {questionSetTitle}");
-                return httpResponseMessageHelper.NoContent();
-            }
-
-            // Create a new user session
-            string partitionKey = DateTime.Now.ToString("yyyyMM");
-            string salt = appSettings.Value.SessionSalt;
-            var userSession = new UserSession()
-            {
-                UserSessionId = SessionIdHelper.GenerateSessionId(salt),
-                Salt = salt,
-                StartedDt = DateTime.Now,
-                LanguageCode = "en",
-                PartitionKey = partitionKey,
-                QuestionSetVersion = currentQuestionSetInfo.QuestionSetVersion,
-                MaxQuestions = currentQuestionSetInfo.MaxQuestions,
-                CurrentQuestion = 1,
-                AssessmentType = currentQuestionSetInfo.AssessmentType.ToLower()
-            };
-            await userSessionRepository.CreateUserSession(userSession);
-
-            log.LogInformation($"CorrelationId: {correlationId} - Finished creating new assessment {userSession.UserSessionId}");
-
-            var result = new DscSession()
-            {
-                SessionId = userSession.PrimaryKey
-            };
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
         }
     }
 }

@@ -11,6 +11,8 @@
         public string WYDDayToDayTasks { get; set; }
         public string CareerPathAndProgression { get; set; }
         public string TypicalHours { get; set; }
+        public string TypicalHoursPeriod { get; set; }
         public string ShiftPattern { get; set; }
+        public string ShiftPatternPeriod { get; set; }
     }
 }

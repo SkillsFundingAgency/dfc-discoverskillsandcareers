@@ -12,10 +12,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class JobCategoryDataProcessor : IJobCategoryDataProcessor
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IGetJobCategoriesData GetJobCategoriesData;
-        readonly AppSettings AppSettings;
-        readonly IJobCategoryRepository JobCategoryRepository;
+        readonly ISiteFinityHttpService _httpService;
+        readonly IGetJobCategoriesData _getJobCategoriesData;
+        readonly AppSettings _appSettings;
+        readonly IJobCategoryRepository _jobCategoryRepository;
 
         public JobCategoryDataProcessor(
             ISiteFinityHttpService httpService,
@@ -23,24 +23,33 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             IOptions<AppSettings> appSettings,
             IJobCategoryRepository jobCategoryRepository)
         {
-            HttpService = httpService;
-            GetJobCategoriesData = getJobCategoriesData;
-            AppSettings = appSettings.Value;
-            JobCategoryRepository = jobCategoryRepository;
+            _httpService = httpService;
+            _getJobCategoriesData = getJobCategoriesData;
+            _appSettings = appSettings.Value;
+            _jobCategoryRepository = jobCategoryRepository;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for JobCategories");
-            var data = await GetJobCategoriesData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService, AppSettings.SiteFinityJobCategoriesTaxonomyId);
+            var data = await _getJobCategoriesData.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, _appSettings.SiteFinityJobCategoriesTaxonomyId);
 
             logger.LogInformation($"Have {data?.Count} job Categorys to save");
 
+            var partitionKey = "jobfamily-cms";
             var codes = new List<string>();
             foreach (var jobCategory in data)
             {
-                var code = GetCode(jobCategory.Title);
-                await JobCategoryRepository.CreateJobCategory(new JobFamily()
+                var code = JobCategoryHelper.GetCode(jobCategory.Title);
+                // Remove any old job categories that have this title but will have a different code
+                var existingJobCategories = await _jobCategoryRepository.GetJobCategoriesByName(partitionKey, jobCategory.Title);
+                existingJobCategories = existingJobCategories.Where(x => x.JobFamilyCode != code).ToArray();
+                for (var i = 0; i < existingJobCategories.Count(); i++)
+                {
+                    await _jobCategoryRepository.DeleteJobCategory(partitionKey, existingJobCategories[i]);
+                }
+                // Import the new job category
+                await _jobCategoryRepository.CreateJobCategory(new JobFamily()
                 {
                     JobFamilyName = jobCategory.Title,
                     Texts = new[]
@@ -53,30 +62,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         }
                     },
                     TraitCodes = jobCategory.Traits.Select(x => x.ToUpper()).ToArray(),
-                    JobFamilyCode = code
+                    JobFamilyCode = code,
+                    PartitionKey = partitionKey
                 });
                 codes.Add(code);
             }
 
             logger.LogInformation("End poll for JobCategories");
-        }
-
-        public string GetCode(string input)
-        {
-            string code = "";
-            var words = input.Split(" ");
-            if (words.Count() > 1)
-            {
-                for (var i = 0; i < words.Count(); i++)
-                {
-                    code += words[i].Substring(0, 1).ToUpper();
-                }
-            }
-            else
-            {
-                code = input.Substring(0, 3).ToUpper();
-            }
-            return code;
         }
     }
 }

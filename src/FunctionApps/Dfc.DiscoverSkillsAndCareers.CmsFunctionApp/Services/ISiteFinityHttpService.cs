@@ -7,5 +7,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
     {
         Task<string> GetString(string url);
         Task<string> PostData(string url, object data);
+        
+        Task<string> PostData(string url, string data);
+        Task Delete(string url);
     }
 }

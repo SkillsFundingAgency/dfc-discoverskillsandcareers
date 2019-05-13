@@ -1,5 +1,5 @@
 ﻿{% set pageName = 'home' %}
-{% set pageTitle = '@Model.Title' %}
+{% set pageTitle = 'Discover your skills and careers' %}
 {% set pageGroup = '' %}
 
 {% extends "_base.njk" %}
@@ -7,43 +7,45 @@
 {% block pre %}
   @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
   @{
-      ViewData["Title"] = Model.Title;
+      ViewData["Title"] = "Discover your skills and careers";
       Layout = null;
   }
 {% endblock %}
 
 {% block main %}
 
-  <div class="app-masthead">
-    <div class="govuk-width-container">
-
-      {% include "_phasebanner.njk" %}
-
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <main id="content" role="main">
+
+    <div class="govuk-width-container">
+      {% include "_phasebanner.njk" %}
+    </div>
+
+    <div class="app-masthead">
+      <div class="govuk-width-container">
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
           <div class="govuk-grid-column-two-thirds">
 
-              <p class="govuk-body">@Model.TextBlock1</p>
+              <p class="govuk-body">Take this assessment to find out what types of jobs might suit you, for example "retail and sales".</p>
 
-              <p class="govuk-body">@Model.TextBlock2</p>
+              <p class="govuk-body">Answer a few more questions to find out what specific job roles might suit you, for example "florist".</p>
 
               <div class="govuk-inset-text">
-                  @Model.TextHighlight
+                  This could take 5 to 10 minutes. It will take longer if you’re using assistive technologies, for example a screen reader or screen magnifier.
               </div>
 
-              <p class="govuk-body">@Model.TextBlock3</p>
+              <p class="govuk-body">You can save your assessment if you want to complete it later, or look at your results again another time.</p>
 
               {{ govukButton({
             text: "Start assessment",

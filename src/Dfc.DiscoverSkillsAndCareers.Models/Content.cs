@@ -12,6 +12,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("contentData")]
         public string ContentData { get; set; }
         [JsonProperty("lastUpdated")]
-        public DateTime LastUpdated { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
-using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,18 +15,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
     public class ErrorController : BaseController, IErrorController
     {
-        readonly ILogger<ErrorController> Log;
-        readonly ILoggerHelper LoggerHelper;
-        readonly IApiServices ApiServices;
+        readonly ILogger<ErrorController> _log;
+        readonly IApiServices _apiServices;
 
         public ErrorController(
             ILogger<ErrorController> log,
-            ILoggerHelper loggerHelper,
             IApiServices apiServices)
         {
-            Log = log;
-            LoggerHelper = loggerHelper;
-            ApiServices = apiServices;
+            _log = log;
+            _apiServices = apiServices;
         }
 
         [HttpGet("error/404")]
@@ -36,25 +32,20 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
-                var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
                 }
-                return View("404", model);
+                return View("404", new IndexViewModel
+                {
+                    SessionId = sessionId
+                });
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Error404)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
@@ -64,25 +55,20 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
-                var model = await ApiServices.GetContentModel<IndexViewModel>("indexpage", correlationId);
-                model.SessionId = sessionId;
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
                 }
-                return View("500", model);
+                return View("500", new IndexViewModel
+                {
+                    SessionId = sessionId
+                });
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Error500)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
     }

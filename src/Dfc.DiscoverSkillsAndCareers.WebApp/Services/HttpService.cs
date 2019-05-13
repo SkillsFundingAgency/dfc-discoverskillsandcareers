@@ -20,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             
             if(!String.IsNullOrWhiteSpace(settings.Value.APIAuthorisationCode))
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(settings.Value.APIAuthorisationCode);
+                _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", settings.Value.APIAuthorisationCode);
             }
 
         }

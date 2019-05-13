@@ -5,10 +5,45 @@ using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
+    public class AssessmentState
+    {
+        [JsonProperty("questionSetVersion")]
+        public string QuestionSetVersion { get; set; }
+        
+        [JsonProperty("maxQuestions")]
+        public int MaxQuestions { get; set; }
+        
+        [JsonProperty("currentQuestion")]
+        public int CurrentQuestion { get; set; }
+
+        [JsonIgnore]
+        public bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
+        
+        [JsonProperty("completeDt")]
+        public DateTime? CompleteDt { get; set; }
+        
+        [JsonProperty("recordedAnswers")]
+        public Answer[] RecordedAnswers { get; set; } = {};
+    }
+    
+    public class FilteredAssessmentState : AssessmentState
+    {
+        [JsonProperty("currentFilterAssessmentCode")]
+        public string CurrentFilterAssessmentCode { get; set; }
+        
+        [JsonProperty("jobFamilyName")]
+        public string JobFamilyName { get; set; }
+        
+        [JsonIgnore]
+        public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");
+
+    }
+    
     public class UserSession
     {
         [JsonIgnore]
-        public string PrimaryKey {  get { return $"{PartitionKey}-{UserSessionId}"; } }
+        public string PrimaryKey => $"{PartitionKey}-{UserSessionId}";
+
         [JsonProperty("partitionKey")]
         public string PartitionKey { get; set; }
         [JsonProperty("id")]
@@ -17,72 +52,134 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string LanguageCode { get; set; }
         [JsonProperty("salt")]
         public string Salt { get; set; }
-        [JsonProperty("questionSetVersion")]
-        public string QuestionSetVersion { get; set; }
-        [JsonProperty("maxQuestions")]
-        public int MaxQuestions { get; set; }
-        [JsonProperty("currentQuestion")]
-        public int CurrentQuestion { get; set; }
-        [JsonProperty("recordedAnswers")]
-        public Answer[] RecordedAnswers { get; set; } = {};
+        
+        [JsonProperty("assessmentState")]
+        public AssessmentState AssessmentState { get; set; }
+        
+        [JsonProperty("filteredAssessmentState")]
+        public FilteredAssessmentState FilteredAssessmentState { get; set; }
+        
         [JsonProperty("resultData")]
         public ResultData ResultData { get; set; } 
-        [JsonProperty("isComplete")]
-        public bool IsComplete { get; set; }
+
         [JsonProperty("startedDt")]
         public DateTime StartedDt { get; set; }
-        [JsonProperty("completeDt")]
-        public DateTime? CompleteDt { get; set; }
+        
         [JsonProperty("assessmentType")]
         public string AssessmentType { get; set; }
-        [JsonProperty("currentFilterAssessmentCode")]
-        public string CurrentFilterAssessmentCode { get; set; }
+        
         [JsonProperty("lastUpdatedDt")]
         public DateTime LastUpdatedDt { get; set; }
 
-        // Extention getters
         [JsonIgnore]
-        public bool IsFilterAssessment => !string.IsNullOrEmpty(CurrentFilterAssessmentCode);
+        public AssessmentState CurrentState => IsFilterAssessment ? FilteredAssessmentState : AssessmentState;
+
+        // Extension getters
         [JsonIgnore]
-        public int CurrentMaxQuestions
+        public bool IsFilterAssessment => FilteredAssessmentState != null;
+
+        [JsonIgnore] 
+        public int CurrentMaxQuestions => CurrentState.MaxQuestions;
+
+        [JsonIgnore] 
+        public string CurrentQuestionSetVersion => CurrentState.QuestionSetVersion;
+
+        [JsonIgnore] 
+        public int CurrentQuestion => CurrentState.CurrentQuestion;
+        
+        [JsonIgnore] 
+        public int MaxQuestions => CurrentState.MaxQuestions;
+
+        [JsonIgnore] 
+        public bool IsComplete => CurrentState.IsComplete;
+
+        [JsonIgnore] 
+        public DateTime? CompleteDt => CurrentState.CompleteDt;
+        
+        [JsonIgnore]
+        public Answer[] CurrentRecordedAnswers => CurrentState.RecordedAnswers.Where(x => x.QuestionSetVersion == CurrentQuestionSetVersion).ToArray();
+
+
+        public bool TrySetStateToExistingSession(string assessment)
         {
-            get
+            if (String.Equals("short", assessment, StringComparison.InvariantCultureIgnoreCase))
             {
-                if (IsFilterAssessment)
+                FilteredAssessmentState = null;
+                return true;
+            }
+            
+            var jobFamily = ResultData?.JobFamilies.SingleOrDefault(jf =>
+                String.Equals(jf.JobFamilyNameUrlSafe, assessment, StringComparison.InvariantCultureIgnoreCase));
+
+            
+            //Check it we already have the correct filtered assessment
+            //If this is the case then there is nothing else to do except potentially 
+            //copy recorded answers forward. This helps dealing with scenarios where 
+            //the url is directly navigated to.
+            if (FilteredAssessmentState != null 
+                && String.Equals(FilteredAssessmentState.JobFamilyNameUrlSafe, assessment, StringComparison.InvariantCultureIgnoreCase))
+            {
+                var answers = FilteredAssessmentState.RecordedAnswers?.Length;
+                if (answers.GetValueOrDefault(0) == 0)
                 {
-                    return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment.MaxQuestions;
+                    FilteredAssessmentState.RecordedAnswers = jobFamily?.FilterAssessment?.RecordedAnswers ?? new Answer[] { };
                 }
-                return MaxQuestions;
+
+                return true;
             }
-        }
-        [JsonIgnore]
-        public string CurrentQuestionSetVersion
-        {
-            get
+            
+            //Otherwise hydrate the FilteredAssessment state from a previously answered job family result.
+            
+            if (jobFamily?.FilterAssessment == null) 
+                return false;
+            
+            var filterAssessment = jobFamily.FilterAssessment;
+            FilteredAssessmentState = new FilteredAssessmentState
             {
-                if (!IsFilterAssessment)
+                MaxQuestions = filterAssessment.MaxQuestions,
+                CurrentQuestion = filterAssessment?.RecordedAnswerCount ?? 1,
+                QuestionSetVersion = filterAssessment.QuestionSetVersion,
+                JobFamilyName = jobFamily.JobFamilyName,
+                RecordedAnswers = filterAssessment.RecordedAnswers,
+            };
+
+            return true;
+
+        }
+        
+        /// <summary>
+        /// Gets the next question number that should be answered.
+        /// </summary>
+        public int FindNextUnansweredQuestion()
+        {
+            for (int i = 1; i <= CurrentMaxQuestions; i++)
+            {
+                if (CurrentRecordedAnswers.All(x => x.QuestionNumber != i))
                 {
-                    return QuestionSetVersion;
+                    return i;
                 }
-                return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment.QuestionSetVersion;
             }
+
+            return CurrentMaxQuestions;
         }
-        [JsonIgnore]
-        public IEnumerable<Answer> CurrentRecordedAnswers
+        
+        public int FindNextQuestion()
         {
-            get
-            {
-                return RecordedAnswers.Where(x => x.QuestionSetVersion == CurrentQuestionSetVersion);
-            }
+            return Math.Min(CurrentQuestion + 1, CurrentMaxQuestions);
         }
-        [JsonIgnore]
-        public FilterAssessment CurrentFilterAssessment
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(CurrentFilterAssessmentCode)) return null;
-                return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment;
+        
+        /// <summary>
+        /// Updates the IsComplete property on the UserSession based off the current answers and max questions.
+        /// </summary>
+        public void UpdateCompletionStatus()
+        {                
+            if(IsComplete) {
+                CurrentState.CompleteDt = DateTime.UtcNow;
             }
+            else
+            {
+                CurrentState.CompleteDt = null;
+            }  
         }
     }
 }

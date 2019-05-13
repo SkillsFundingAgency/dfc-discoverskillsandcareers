@@ -22,6 +22,7 @@ $app-text-light: #646C70;
 @import 'payscale';
 @import 'results';
 @import 'footer';
+@import 'legacy';
 
 %clearfix {
   &:after {
@@ -52,7 +53,9 @@ $app-text-light: #646C70;
 .govuk-header__container {
   border-bottom-color: $app-turquoise;
 }
-
+.govuk-phase-banner {
+  border-top: 10px solid #207e77;
+}
 .govuk-phase-bannertag {  // legacy version support
   margin-right: 10px;
 }
@@ -160,13 +163,6 @@ $app-text-light: #646C70;
 
 .text-light {
   color: $govuk-secondary-text-colour;
-}
-
-.app-print-panel {
-  display: none;
-  @include govuk-media-query($from: desktop) {
-    display: block;
-  }
 }
 
 .app-advisor-panel {

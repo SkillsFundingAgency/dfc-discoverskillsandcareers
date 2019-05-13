@@ -42,6 +42,15 @@
         "AssessmentQuestionSetNames": {
             "type": "string"
         },
+        "AzureSearchSettingsApiKey": {
+            "type": "securestring"
+        },
+        "AzureSearchSettingsIndexName": {
+            "type": "string"
+        },
+        "AzureSearchSettingsServiceName": {
+            "type": "string"
+        },
         "CustomHostName": {
             "type": "string"
         },
@@ -69,10 +78,25 @@
         "NotifySmsTemplateId": {
             "type": "string"
         },
-        "SiteFinityApiKey": {
+        "ApimAuthorisationCode": {
             "type": "securestring"
         },
         "SiteFinityApiUrlbase": {
+            "type": "string"
+        },
+        "SiteFinityClientId": {
+            "type": "string"
+        },
+        "SiteFinityClientSecret": {
+            "type": "securestring"
+        },
+        "SiteFinityPassword": {
+            "type": "securestring"
+        },
+        "SiteFinityScope": {
+            "type": "string"
+        },
+        "SiteFinityUsername": {
             "type": "string"
         }
     },
@@ -80,6 +104,8 @@
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
+        "AppSettings__SessionSalt": "ncs",
+        "CmsFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cms-fa'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
@@ -90,9 +116,12 @@
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
             },
             {
-                "name": "FunctionAppNames",
-                "count": "[length(parameters('FunctionAppNames'))]",
-                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('FunctionAppNames')], '-fa'))]"
+                "name": "HttpFunctionAppNames",
+                "metadata": {
+                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'cms', this function app is created outside of the FunctionAppNames copy loop as it's timer trigger rather than a http api."
+                },
+                "count": "[if(equals(last(parameters('FunctionAppNames')), 'cms'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('HttpFunctionAppNames')], '-fa'))]"
             }
         ]
     },
@@ -125,7 +154,7 @@
             },
             "copy": {
                 "name": "ApiCopy",
-                "count": "[length(parameters('FunctionAppNames'))]"
+                "count": "[length(variables('HttpFunctionAppNames'))]"
             },
             "dependsOn": [
                 "skillandcareers-apim-logger",
@@ -166,7 +195,7 @@
                 },
                 "parameters": {
                     "allowAnonymousAccess": {
-                        "value": true
+                        "value": false
                     },
                     "apimServiceName": {
                         "value": "[parameters('ApimServiceName')]"
@@ -271,6 +300,10 @@
                             {
                                 "name": "AppSettings__SessionApiRoot",
                                 "value": "[concat(parameters('ApimRoot'), 'assessments/api')]"
+                            },
+                            {
+                                "name": "AppSettings__APIAuthorisationCode",
+                                "value": "[parameters('ApimAuthorisationCode')]"
                             },
                             {
                                 "name": "AppSettings__AssessmentQuestionSetNames",
@@ -383,7 +416,7 @@
             },
             {
                 "apiVersion": "2017-05-10",
-                "name": "[variables('FunctionAppNames')[copyIndex()]]",
+                "name": "[variables('HttpFunctionAppNames')[copyIndex()]]",
                 "type": "Microsoft.Resources/deployments",
                 "properties": {
                     "mode": "Incremental",
@@ -393,7 +426,7 @@
                     },
                     "parameters": {
                         "appServiceName": {
-                            "value": "[variables('FunctionAppNames')[copyIndex()]]"
+                            "value": "[variables('HttpFunctionAppNames')[copyIndex()]]"
                         },
                         "appServicePlanName": {
                             "value": "[variables('AppServicePlanName')]"
@@ -436,23 +469,23 @@
                                 },
                                 {
                                     "name": "AppSettings__SessionSalt",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), 'ncs', 'notrequired')]"
+                                    "value": "[variables('AppSettings__SessionSalt')]"
                                 },
                                 {
                                     "name": "AppSettings__NotifyApiKey",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
+                                    "value": "[if(equals(split(variables('HttpFunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
                                 },
                                 {
-                                    "name": "AppSettings__SiteFinityApiUrlbase",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiUrlbase'), 'notrequired')]"
+                                    "name": "AzureSearchSettings__IndexName",
+                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
                                 },
                                 {
-                                    "name": "AppSettings__SiteFinityApiWebService",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), 'dsac', 'notrequired')]"
+                                    "name": "AzureSearchSettings__ApiKey",
+                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
                                 },
                                 {
-                                    "name": "AppSettings__SiteFinityApiKey",
-                                    "value": "[if(equals(split(variables('FunctionAppNames')[copyIndex()], '-')[3], 'content'), parameters('SiteFinityApiKey'), 'notrequired')]"
+                                    "name": "AzureSearchSettings__ServiceName",
+                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
                                 }
                             ]
                         }
@@ -460,7 +493,123 @@
                 },
                 "copy": {
                     "name": "FunctionAppCopy",
-                    "count": "[length(variables('FunctionAppNames'))]"
+                    "count": "[length(variables('HttpFunctionAppNames'))]"
+                },
+                "dependsOn": [
+                    "AppInsightsCopy",
+                    "[variables('AppServicePlanName')]",
+                    "[variables('CosmosDbName')]",
+                    "[variables('StorageAccountName')]"
+                ]
+            },
+            {
+                "apiVersion": "2017-05-10",
+                "name": "[concat(variables('CmsFunctionAppName'), '-deployment')]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "appServiceName": {
+                            "value": "[variables('CmsFunctionAppName')]"
+                        },
+                        "appServicePlanName": {
+                            "value": "[variables('AppServicePlanName')]"
+                        },
+                        "appServicePlanResourceGroup": {
+                            "value": "[resourceGroup().name]"
+                        },
+                        "appServiceType": {
+                            "value": "functionapp"
+                        },
+                        "appServiceAppSettings": {
+                            "value": [
+                                {
+                                    "name": "FUNCTIONS_EXTENSION_VERSION",
+                                    "value": "~2"
+                                },
+                                {
+                                    "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                    "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-cms-ai')).outputs.InstrumentationKey.value]"
+                                },
+                                {
+                                    "name": "AzureWebJobsStorage",
+                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "CosmosSettings__Endpoint",
+                                    "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                                },
+                                {
+                                    "name": "CosmosSettings__Key",
+                                    "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                                },
+                                {
+                                    "name": "CosmosSettings__DatabaseName",
+                                    "value": "DiscoverMySkillsAndCareers"
+                                },
+                                {
+                                    "name": "AppSettings__SessionSalt",
+                                    "value": "[variables('AppSettings__SessionSalt')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityApiAuthenicationEndpoint",
+                                    "value": "SiteFinity/Authenticate/openid/connect/token"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityApiUrlbase",
+                                    "value": "[parameters('SiteFinityApiUrlbase')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityApiWebService",
+                                    "value": "dsac"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityClientId",
+                                    "value": "[parameters('SiteFinityClientId')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityClientSecret",
+                                    "value": "[parameters('SiteFinityClientSecret')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityJobCategoriesTaxonomyId",
+                                    "value": "Job Profile Category"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityPassword",
+                                    "value": "[parameters('SiteFinityPassword')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityRequiresAuthentication",
+                                    "value": "true"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityScope",
+                                    "value": "[parameters('SiteFinityScope')]"
+                                },
+                                {
+                                    "name": "AppSettings__SiteFinityUsername",
+                                    "value": "[parameters('SiteFinityUsername')]"
+                                },
+                                {
+                                    "name": "Values_AzureWebJobsStorage",
+                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                                },
+                                {
+                                    "name": "PollingSchedule",
+                                    "value": "*/30 * * * *"
+                                }
+                            ]
+                        }
+                    }
                 },
                 "dependsOn": [
                     "AppInsightsCopy",

@@ -6,69 +6,107 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = @Model.PageTitle;
+    ViewData["Title"] = "Save progress";
     Layout = null;
 }
 {% endblock %}
 
 {% block main %}
 
-<div class="govuk-width-container app-site-width-container">
-
-    {% block beforeContent %}
-    {{ govukBackLink({
-        text: "Back",
-        href: "@Model.BackLink"
-      }) }}
-    {% endblock %}
-
-</div>
-
   <main id="content" role="main">
+
+  <div class="govuk-width-container app-site-width-container">
+
+      {% include "_phasebanner.njk" %}
+
+      {% include "_breadcrumbpanel.njk" %}
+
+  </div>
+
     <div class="govuk-main-wrapper govuk-width-container">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
 
-          <h1 class="govuk-heading-xl visually-hidden">@Model.SaveProgressHeader</h1>
+          <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
 
           <form action="/save-my-progress" method="post">
 
-              @if (Model.HasError)
-              {
-                  <span class="govuk-error-message">@Model.ErrorMessage</span>
+            @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                  <div>
+                      {{ govukErrorSummary({
+                      "titleText": "There is a problem",
+                      "errorList": [
+                          {
+                          "text": "@Model.ErrorMessage",
+                          "href": "#SelectedOption-error"
+                          }
+                      ]
+                      }) }}
+                  </div>
               }
 
-              {{ govukRadios({
-              idPrefix: "SelectedOption",
-              name: "SelectedOption",
-              fieldset: {
-                legend: {
-                  text: "@Model.SaveProgressLabel",
-                  isPageHeading: true,
-                  classes: "govuk-fieldset__legend--xl"
-                }
-              },
-              items: [
-                {
-                  value: "email",
-                  text: "@Model.SaveProgressOptionEmail"
-                },
-                {
-                  value: "reference",
-                  text: "@Model.SaveProgressOptionReference"
-                }
-              ]
-            }) }}
+              @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                <div>
+                  {{ govukRadios({
+                  idPrefix: "SelectedOption",
+                  name: "SelectedOption",
+                  fieldset: {
+                    legend: {
+                      text: "How would you like to return to your assessment?",
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--xl"
+                    }
+                  },
+                  items: [
+                    {
+                      value: "email",
+                      text: "Send me an email with a link"
+                    },
+                    {
+                      value: "reference",
+                      text: "Get a reference"
+                    }
+                  ]
+                }) }}
+                </div>
+              } else {
+                <div>
+                  {{ govukRadios({
+                  idPrefix: "SelectedOption",
+                  name: "SelectedOption",
+                  errorMessage: {
+                      text: "@Model.ErrorMessage"
+                  },
+                  fieldset: {
+                    legend: {
+                      text: "How would you like to return to your assessment?",
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--xl"
+                    }
+                  },
+                  items: [
+                    {
+                      value: "email",
+                      text: "Send me an email with a link"
+                    },
+                    {
+                      value: "reference",
+                      text: "Get a reference"
+                    }
+                  ]
+                }) }}
+                </div>
+              }
 
               {{ govukButton({
-              text: "Next"
+              text: "Continue"
             }) }}
 
           </form>
 
           <div class="govuk-body">
 
-            <p><a href="@Model.BackLink">@Model.SaveProgressReturnText</a></p>
+            <p><a href="@Model.BackLink">Return to assessment</a></p>
 
           </div>
 

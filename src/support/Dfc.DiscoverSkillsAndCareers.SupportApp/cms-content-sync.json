@@ -1,0 +1,5124 @@
+{
+  "steps": [
+        { "action": "delete", "contentType":  "shortquestionsets"},
+        { "action": "delete", "contentType":  "indexpagecontents"},
+        { "action": "delete", "contentType":  "finishpagecontents"},
+        { "action": "delete", "contentType":  "questionpagecontents"},
+        { "action": "delete", "contentType":  "resultspagecontents"},
+        { "action": "delete", "contentType":  "saveprogresscontents"},
+        { "action": "delete", "contentType":  "filteringquestionsets"},
+        { "action": "delete", "contentType":  "filteringquestions"},
+        { "action": "delete", "contentType":  "shortquestionsets"},
+        { "action": "delete", "contentType":  "shortquestions"},
+        { "action": "delete", "contentType":  "traits"},
+        { "action": "create", 
+          "contentType": "indexpagecontents", 
+          "data": {
+            "ResumeErrorMessage": "The code could not be found",
+            "MissingCodeErrorMessage": "Please enter your reference",
+            "TextBlock1": "Take this assessment to find out what types of jobs might suit you, for example \"retail and sales\".",
+            "ResumeTitle": "Return to an assessment",
+            "Title": "Discover your skills and careers | National Careers Service",
+            "Headline": "Discover your skills and careers",
+            "TextBlock2": "Answer a few more questions to find out what specific job roles might suit you, for example \"florist\".",
+            "ResumeFieldTitle": "Enter your reference",
+            "TextHighlight": "This could take 5 to 10 minutes. It will take longer if you’re using assistive technologies, for example a screen reader or screen magnifier.",
+            "TextBlock3": "You can save your assessment if you want to complete it later, or look at your results again another time.",
+            "ResumeButtonText": "Continue"
+          }
+        },
+        { "action": "create",
+          "contentType": "finishpagecontents",
+          "data": {
+            "ContentTitle": "What to do next",
+            "Headline": "Assessment complete",
+            "ViewResultsButtonText": "See results",
+            "HeadlineStrap": "Thank you",
+            "Content": "See the types of jobs that might suit you. Your results are based on your responses.",
+            "Title": "Assessment complete | National Careers Service"
+          }
+        },
+        {
+          "action": "create",
+          "contentType": "questionpagecontents",
+          "data": {
+            "Title": "National Careers Service - Assessment Statement",
+            "AgreeText": "Agree",
+            "NoText": "No",
+            "NeutralText": "It depends",
+            "StronglyAgreeText": "Strongly agree",
+            "StronglyDisagreeText": "Strongly disagree",
+            "NextButtonText": "Next",
+            "SaveProgressTitle": "Return to this later",
+            "DisagreeText": "Disagree",
+            "NoAnswerErrorMessage": "Please select an option below to continue",
+            "YesText": "Yes",
+            "SaveProgressText": "Save my progress"
+          }
+        },
+        {
+          "action": "create",
+          "contentType": "resultspagecontents",
+          "data": {
+            "Title": "National Careers Service - Results",
+            "TraitTitle": "What you told us",
+            "TraitSummaryText": "Because of your answers, we have provided the following job categories. You can choose to view more results at the bottom of the page.",
+            "Headline": "Your results",
+            "SaveProgressText": "Save my progress",
+            "SeeLinkButtonText": "See job category",
+            "SaveProgressTitle": "Return to this later",
+            "StartFilterQuestionsButtonText": "Answer [questions] more question",
+            "ViewResultsButtonText": "View results",
+            "WhatYouToldUsTitle": "What you told us",
+            "JobProfilesTitle": "Job roles that might suit you",
+            "JobProfileTextSingle": "role",
+            "JobProfileTextPlural": "roles",
+            "ThatMightSuitText": "that might suit you",
+            "AverageSalaryText": "Average salary (a year)",
+            "StarterText": "Starter",
+            "ExperiencedText": "Experienced",
+            "TypicalHoursText": "Typical hours (a week)",
+            "YouCouldWorkText": "You could work",
+            "ResultsAnswerMoreText": "To find out job roles you might be suited to in [jobcategory], answer more questions.",
+            "JobCategoryTextSingle": "job category",
+            "JobCategoryTextPlural": "job categories"
+          }
+        },
+        {
+          "action": "create",
+          "contentType": "saveprogresscontents",
+          "data": {
+            "Title": "Save progress | National Careers Service",
+            "EmailPrompt": "Email address",
+            "EmailInputLabel": "Email",
+            "EmailInputButtonText": "Send",
+            "EmailHint": "We will only use this to send you a link to return to your assessment",
+            "SmsPrompt": "What is your phone number?",
+            "SmsInputLabel": "What is your phone number?",
+            "SmsInputButtonText": "Send",
+            "ReturnText": "Use the reference in the text message to return to your assessment.",
+            "ContinueButtonText": "Continue",
+            "EmailSentHeader": "Check your email",
+            "SmsSentHeader": "Check your phone",
+            "EmailSentText": "An email has been sent to",
+            "SmsSentText": "A text message has been sent to",
+            "SaveProgressHeader": "Save your progress",
+            "SaveProgressLabel": "How would you like to return to your assessment?",
+            "SaveProgressOptionEmail": "Send me an email with a link",
+            "SaveProgressOptionSms": "Send me a text",
+            "SaveProgressOptionReference": "Get a reference",
+            "SaveProgressReturnText": "Return to assessment",
+            "SaveProgressNoOptionSelectedMessage": "Please select an option to continue",
+            "ReferenceYourNumberText": "Your reference",
+            "ReferenceReturnText": "Return to assessment",
+            "ReferenceInstructionsText": "The code above is your unique reference. You can use this to:",
+            "ReferenceInstruction1Text": "return to your assessment and continue",
+            "ReferenceInstruction2Text": "see your results, if you have finished the assessment",
+            "SmsInputInvalidMessage": "Enter a phone number",
+            "SmsInputNotifyFailMessage": "Enter a valid phone number",
+            "SmsHint": "We will only use this to send you a link to return to your assessment",
+            "EmailInputNotifyFailMessage": "Enter a valid email address",
+            "EmailInputNotEntered": "You must enter an email address",
+            "WhatToDoHeading": "What to do with your reference number"
+          }
+        },
+
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Leader",
+        "Description": "",
+        "ResultDisplayText": "You like to lead other people and are good at taking control of situations."
+      },
+      "relates": [
+        { 
+          "values": [
+            "Managerial",
+            "Teaching and education",
+            "Emergency and uniform services" 
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Driver",
+        "Description": "",
+        "ResultDisplayText": "You are motivated, set yourself personal goals and are comfortable competing with other people."
+      },
+      "relates": [
+        {
+          "values": [
+            "Managerial",
+            "Beauty and wellbeing",
+            "Science and research",
+            "Manufacturing",
+            "Business and finance",
+            "Law and legal",
+            "Sports and leisure"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Organiser",
+        "Description": "",
+        "ResultDisplayText": "You like to plan things and are well organised."
+      },
+      "relates": [
+        { 
+          "values": [
+            "Science and research", 
+            "Manufacturing",        
+            "Teaching and education",
+            "Business and finance", 
+            "Law and legal", 
+            "Travel and tourism", 
+            "Administration",
+            "Government services", 
+            "Home services", 
+            "Transport", 
+            "Delivery and storage"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Analyst",
+        "Description": "",
+        "ResultDisplayText": "You like dealing with complicated problems or working with numbers."
+      },
+      "relates": [
+        {
+          "values": [
+            "Science and research",
+            "Manufacturing",
+            "Computing, technology and digital",
+            "Sports and leisure",
+            "Construction and trades",
+            "Creative and media"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Creator",
+        "Description": "",
+        "ResultDisplayText": "You are a creative person and enjoy coming up with new ways of doing things."
+      },
+      "relates": [
+        {
+          "values": [
+            "Computing, technology and digital",
+            "Sports and leisure",
+            "Construction and trades",
+            "Creative and media"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Influencer",
+        "Description": "",
+        "ResultDisplayText": "You are sociable and find it easy to understand people."
+      },
+      "relates": [
+        {
+          "values": [
+            "Retail and sales",
+            "Hospitality and food"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Doer",
+        "Description": "",
+        "ResultDisplayText": "You are a practical person and enjoy gettings things done."
+      },
+      "relates": [
+        {
+          "values": [
+            "Beauty and wellbeing",
+            "Business and finance",
+            "Law and legal",
+            "Healthcare",
+            "Animal care",
+            "Emergency and uniform services",
+            "Travel and tourism", 
+            "Home services",
+            "Environment and land",
+            "Construction and trades",
+            "Creative and media",
+            "Engineering and maintenance",
+            "Transport",
+            "Delivery and storage"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Helper",
+        "Description": "",
+        "ResultDisplayText": "You enjoy helping and listening to other people."
+      },
+      "relates": [
+        {
+          "values": [
+            "Teaching and education",
+            "Social care",
+            "Healthcare",
+            "Animal care",
+            "Emergency and uniform services",
+            "Travel and tourism",
+            "Retail and sales",
+            "Hospitality and food"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable telling people what they need to do",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I make decisions quickly",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to take control of situations",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I prefer to follow what other people are doing",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like taking responsibility for other people",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I set myself targets when I have things to do, and usually meet them",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to see things through to the end",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I think I am a competitive person",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "Doing well in a career motivates me",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I set myself goals in life",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable talking people around to my way of thinking",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am good at coming to an agreement with other people",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable talking in front of a group of people",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like meeting new people",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I find it hard to understand other people's point of view",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to help other people",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy working with other people around me",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I want to make things better for people",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I will get involved if I think I can help",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable hearing other people's problems",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to work out complicated things",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to get to the centre of the issue",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like working with facts",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like working with numbers",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy learning new things",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy coming up with new ways of doing things",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I try to think differently to others",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to use my imagination to create new things",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to try new things",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy creative activities",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to focus on details",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I plan my day so I can use my time best",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like doing things in a careful order",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to follow rules and processes",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I feel restricted when I have to follow a routine",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to see the results of the work I do",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to get involved in making things",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy getting involved in practical tasks",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like working with my hands or tools",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I enjoy planning a task more than actually doing it",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestionsets",
+      "data": {
+        "Title": "201901",
+        "Description": ""
+      },
+      "relates": [
+        {
+          "values": [
+            "I am comfortable telling people what they need to do",
+            "I make decisions quickly",
+            "I like to take control of situations",
+            "I prefer to follow what other people are doing",
+            "I like taking responsibility for other people",
+            "I set myself targets when I have things to do, and usually meet them",
+            "I like to see things through to the end",
+            "I think I am a competitive person",
+            "Doing well in a career motivates me",
+            "I set myself goals in life",
+            "I am comfortable talking people around to my way of thinking",
+            "I am good at coming to an agreement with other people",
+            "I am comfortable talking in front of a group of people",
+            "I like meeting new people",
+            "I find it hard to understand other people's point of view",
+            "I like to help other people",
+            "I enjoy working with other people around me",
+            "I want to make things better for people",
+            "I will get involved if I think I can help",
+            "I am comfortable hearing other people's problems",
+            "I like to work out complicated things",
+            "I like to get to the centre of the issue",
+            "I like working with facts",
+            "I like working with numbers",
+            "I enjoy learning new things",
+            "I enjoy coming up with new ways of doing things",
+            "I try to think differently to others",
+            "I like to use my imagination to create new things",
+            "I like to try new things",
+            "I enjoy creative activities",
+            "I like to focus on details",
+            "I plan my day so I can use my time best",
+            "I like doing things in a careful order",
+            "I like to follow rules and processes",
+            "I feel restricted when I have to follow a routine",
+            "I like to see the results of the work I do",
+            "I like to get involved in making things",
+            "I enjoy getting involved in practical tasks",
+            "I like working with my hands or tools",
+            "I enjoy planning a task more than actually doing it"
+          ],
+          "relatedType": { "property": "QuestionText", "type": "Questions", "contentType": "shortquestions" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you like to work with numbers for most of the day?",
+        "PositiveResultDisplayText": "You like working with numbers.",
+        "NegativeResultDisplayText": "You do not like working with numbers.",
+        "Description": "Administration",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": ["Administration"],          
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        },
+        {
+            "values": [
+                "Admin assistant",
+                "Arts administrator",
+                "Assistant immigration officer",
+                "Bid writer",
+                "Bilingual secretary",
+                "Border Force officer",
+                "Car rental agent",
+                "Charity fundraiser",
+                "Civil Service administrative officer",
+                "Civil Service executive officer",
+                "Diplomatic service officer",
+                "Estates officer",
+                "European Union official",
+                "Farm secretary",
+                "Financial services customer adviser",
+                "GP practice manager",
+                "Health and safety adviser",
+                "Health records clerk",
+                "Health service manager",
+                "Hotel receptionist",
+                "Human resources assistant",
+                "Human resources manager",
+                "Human resources officer",
+                "Interpreter",
+                "Local government administrative assistant",
+                "Local government officer",
+                "Local government revenues officer",
+                "Medical secretary",
+                "MP",
+                "Post Office customer service assistant",
+                "Proofreader",
+                "Receptionist",
+                "Recruitment consultant",
+                "Reprographic assistant",
+                "Sales administrator",
+                "School business manager",
+                "School secretary",
+                "Secretary",
+                "Security Service personnel",
+                "Sports development officer",
+                "Supervisor",
+                "Telephonist",
+                "Trade union official",
+                "Trading standards officer",
+                "Typist"
+            ],
+          "relatedType": { "property": "Title", "type": "filteringquestions", "navigationProperty":"ExcludedJobProfiles", "contentType": "jobprofiles" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you like a job where you would need to focus on details?",
+        "PositiveResultDisplayText": "You like to focus on details.",
+        "NegativeResultDisplayText": "You do not like to focus on details.",
+        "Description": "Administration",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Administration"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Assistant immigration officer",
+                "Car rental agent",
+                "Charity fundraiser",
+                "Civil Service executive officer",
+                "Diplomatic service officer",
+                "European Union official",
+                "Financial services customer adviser",
+                "Health and safety adviser",
+                "Health service manager",
+                "Hotel receptionist",
+                "Human resources assistant",
+                "Human resources manager",
+                "Human resources officer",
+                "Local government officer",
+                "Local government revenues officer",
+                "MP",
+                "Post Office customer service assistant",
+                "Receptionist",
+                "Recruitment consultant",
+                "Sales administrator",
+                "School secretary",
+                "Secretary",
+                "Security Service personnel",
+                "Sports development officer",
+                "Supervisor",
+                "Telephonist",
+                "Trade union official",
+                "Trading standards officer"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you be comfortable helping members of the public?",
+        "PositiveResultDisplayText": "You are comfortable helping members of the public.",
+        "NegativeResultDisplayText": "You would prefer not to deal with members of the public.",
+        "Description": "Administration",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Administration"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Accounting technician",
+                "Admin assistant",
+                "Arts administrator",
+                "Assistant immigration officer",
+                "Auditor",
+                "Bid writer",
+                "Bookkeeper",
+                "Border Force officer",
+                "Civil Service administrative officer",
+                "Civil Service executive officer",
+                "Credit controller",
+                "Data entry clerk",
+                "Diplomatic service officer",
+                "Estates officer",
+                "European Union official",
+                "Farm secretary",
+                "Finance officer",
+                "GP practice manager",
+                "Health and safety adviser",
+                "Health records clerk",
+                "Health service manager",
+                "Human resources assistant",
+                "Human resources manager",
+                "Human resources officer",
+                "Interpreter",
+                "Local government administrative assistant",
+                "Local government officer",
+                "Local government revenues officer",
+                "Medical secretary",
+                "Payroll administrator",
+                "Personal assistant",
+                "Proofreader",
+                "Purchasing manager",
+                "Quality control assistant",
+                "Recruitment consultant",
+                "Reprographic assistant",
+                "School business manager",
+                "Secretary",
+                "Security Service personnel",
+                "Sports development officer",
+                "Supervisor",
+                "Town planning assistant",
+                "Trading standards officer",
+                "Typist"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Administration"
+      },
+      "relates": [
+        {
+          "values": [
+            "Administration-1",
+            "Administration-2",
+            "Administration-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Administration"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Could you work outside in all weathers?",
+        "PositiveResultDisplayText": "You could work outside in all weathers.",
+        "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
+        "Description": "Animal care",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Animal care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Animal care worker",
+            "Animal technician",
+            "Assistance dog trainer",
+            "Biologist",
+            "Dog groomer",
+            "Dog handler",
+            "Farrier",
+            "Kennel worker",
+            "Pet behaviour counsellor",
+            "Pet shop assistant",
+            "RSPCA inspector",
+            "Vet",
+            "Veterinary nurse",
+            "Veterinary physiotherapist",
+            "Zoologist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable working with animals?",
+        "PositiveResultDisplayText": "You are comfortable working with animals.",
+        "NegativeResultDisplayText": "You would not be comfortable working with animals.",
+        "Description": "Animal care",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Animal care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Agricultural contractor",
+                "Agricultural inspector",
+                "Biologist",
+                "Countryside ranger",
+                "Ecologist",
+                "Fish farmer",
+                "Fishing boat deckhand",
+                "Ornithologist",
+                "Pet shop assistant",
+                "Zoologist"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you prefer to study animal behaviour rather than looking after them?",
+        "PositiveResultDisplayText": "You would prefer to study animals rather than look after them.",
+        "NegativeResultDisplayText": "You would prefer to look after animals rather than study them.",
+        "Description": "Animal care",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Animal care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Agricultural contractor",
+                "Animal care worker",
+                "Animal technician",
+                "Assistance dog trainer",
+                "Beekeeper",
+                "Countryside ranger",
+                "Dog groomer",
+                "Dog handler",
+                "Farm worker",
+                "Farmer",
+                "Farrier",
+                "Fish farmer",
+                "Fishing boat deckhand",
+                "Gamekeeper",
+                "Horse groom",
+                "Horse riding instructor",
+                "Jockey",
+                "Kennel worker",
+                "Pet shop assistant",
+                "Racehorse trainer",
+                "RSPCA inspector",
+                "Zookeeper"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Animal care"
+      },
+      "relates": [
+        {
+          "values": [
+            "Animal care-1",
+            "Animal care-2",
+            "Animal care-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Animal care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Beauty and wellbeing",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Beauty and wellbeing"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Acupuncturist",
+                "Aromatherapist",
+                "Art therapist",
+                "Beauty consultant",
+                "Beauty therapist",
+                "Body piercer",
+                "Colon hydrotherapist",
+                "Colour therapist",
+                "Counsellor",
+                "Homeopath",
+                "Massage therapist",
+                "Medical herbalist",
+                "Music therapist",
+                "Nail technician",
+                "Naturopath",
+                "Nutritional therapist",
+                "Reflexologist",
+                "Reiki healer",
+                "Tattooist"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable in a job where you would have physical contact with people?",
+        "PositiveResultDisplayText": "You would be comfortable in a job where you would have physical contact with people.",
+        "NegativeResultDisplayText": "You would not be comfortable having physical contact with people.",
+        "Description": "Beauty and wellbeing",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Beauty and wellbeing"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Alexander Technique teacher",
+                "Aromatherapist",
+                "Art therapist",
+                "Beauty consultant",
+                "Colour therapist",
+                "Counsellor",
+                "Dance movement psychotherapist",
+                "Dramatherapist",
+                "Hairdresser",
+                "Health play specialist",
+                "Homeopath",
+                "Medical herbalist",
+                "Music therapist",
+                "Nail technician",
+                "Naturopath",
+                "Nutritional therapist",
+                "Pilates teacher",
+                "Yoga therapist"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Beauty and wellbeing"
+      },
+      "relates": [
+        {
+          "values": [
+            "Beauty and wellbeing-1",
+            "Beauty and wellbeing-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Beauty and wellbeing"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you like to work with numbers for most of the day?",
+        "PositiveResultDisplayText": "You like working with numbers.",
+        "NegativeResultDisplayText": "You do not like working with numbers.",
+        "Description": "Business and finance",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Business and finance"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Marketing manager",
+            "Insurance account manager",
+            "Banking customer service adviser",
+            "Business development manager",
+            "Business project manager",
+            "Chief executive",
+            "Digital marketer",
+            "Company secretary",
+            "Business adviser",
+            "Financial services customer adviser",
+            "Insurance claims handler"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable dealing with clients?",
+        "PositiveResultDisplayText": "You would be comfortable dealing with clients.",
+        "NegativeResultDisplayText": "You would not be comfortable dealing with clients.",
+        "Description": "Business and finance",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Business and finance"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Management accountant",
+            "Mortgage adviser",
+            "Tax inspector",
+            "Stockbroker",
+            "Credit controller",
+            "Bookkeeper",
+            "Marketing manager",
+            "Insurance account manager",
+            "Insurance loss adjuster",
+            "Credit manager",
+            "Banking customer service adviser",
+            "Finance officer",
+            "Business development manager",
+            "Pensions administrator",
+            "Local government revenues officer",
+            "Insurance underwriter",
+            "Money adviser",
+            "Bank manager",
+            "Accounting technician",
+            "Payroll manager",
+            "Digital marketer",
+            "Public finance accountant",
+            "Economist",
+            "Company secretary",
+            "Auditor",
+            "Pensions adviser",
+            "Payroll administrator",
+            "Business adviser",
+            "Financial services customer adviser",
+            "School business manager",
+            "Financial adviser",
+            "Insurance broker",
+            "Insurance claims handler"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Business and finance"
+      },
+      "relates": [
+        {
+          "values": [
+            "Business and finance-1",
+            "Business and finance-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Business and finance"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you like to learn to develop software?",
+        "PositiveResultDisplayText": "You would like to learn how to develop software.",
+        "NegativeResultDisplayText": "You would not like to learn how to develop software.",
+        "Description": "Computing, technology and digital",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Computing, technology and digital"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Archivist",
+                "Business analyst",
+                "Cartographer",
+                "Computer games developer",
+                "Computer games tester",
+                "Database administrator",
+                "Digital delivery manager",
+                "Digital marketer",
+                "E-learning developer",
+                "Forensic computer analyst",
+                "Head of IT (IT director)",
+                "Indexer",
+                "IT security co-ordinator",
+                "IT service engineer",
+                "IT support technician",
+                "IT trainer",
+                "Librarian",
+                "Library assistant",
+                "Media researcher",
+                "Network engineer",
+                "Network manager",
+                "Operational researcher",
+                "Security Service personnel",
+                "Social media manager",
+                "Software developer",
+                "Solutions architect",
+                "Systems analyst",
+                "Technical architect",
+                "Technical author",
+                "Telephonist",
+                "User experience (UX) designer",
+                "User researcher",
+                "Web content editor",
+                "Web content manager",
+                "Web designer",
+                "Web developer"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you like to fix computer equipment?",
+        "PositiveResultDisplayText": "You would like to fix computer equipment.",
+        "NegativeResultDisplayText": "You would not like to fix computer equipment.",
+        "Description": "Computing, technology and digital",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Computing, technology and digital"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Archivist",
+            "Cartographer",
+            "Cyber intelligence officer",
+            "Data entry clerk",
+            "Database administrator",
+            "Digital delivery manager",
+            "Digital marketer",
+            "Digital product owner",
+            "E-learning developer",
+            "Forensic computer analyst",
+            "Head of IT (IT director)",
+            "Indexer",
+            "Information scientist",
+            "IT project manager",
+            "IT security co-ordinator",
+            "IT service engineer",
+            "IT support technician",
+            "IT trainer",
+            "Librarian",
+            "Library assistant",
+            "Network engineer",
+            "Network manager",
+            "Operational researcher",
+            "Security Service personnel",
+            "Software developer",
+            "Systems analyst",
+            "Technical architect",
+            "Technical author",
+            "Telephonist",
+            "User experience (UX) designer",
+            "User researcher",
+            "Web content editor",
+            "Web content manager",
+            "Web developer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Computing, technology and digital"
+      },
+      "relates": [
+        {
+          "values": [
+            "Computing, technology and digital-1",
+            "Computing, technology and digital-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Computing, technology and digital"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be happy to use calculations to decide what needs to be built?",
+        "PositiveResultDisplayText": "You would be happy to use calculations to decide what needs to be built.",
+        "NegativeResultDisplayText": "You would not want a job using calculations to decide what to build.",
+        "Description": "Construction and trades",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Construction and trades"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Electrician",
+            "Construction plant mechanic",
+            "Road worker",
+            "Construction labourer",
+            "Gas mains layer",
+            "Carpenter",
+            "Steel erector",
+            "Land and property valuer and auctioneer",
+            "Building site inspector",
+            "Stonemason",
+            "Plumber",
+            "Building control officer",
+            "Construction contracts manager",
+            "Quarry worker",
+            "Shopfitter",
+            "Thatcher",
+            "Tiler",
+            "Glazier",
+            "Window fitter",
+            "Construction plant operator",
+            "Steel fixer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable doing tiring work, like lifting, climbing and moving around?",
+        "PositiveResultDisplayText": "You could do tiring work.",
+        "NegativeResultDisplayText": "You could not do tiring work.",
+        "Description": "Construction and trades",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Construction and trades"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Quarry engineer",
+            "Architectural technologist",
+            "Acoustics consultant",
+            "Rural surveyor",
+            "General practice surveyor",
+            "Land and property valuer and auctioneer",
+            "Building site inspector",
+            "Building technician",
+            "Planning and development surveyor",
+            "Building surveyor",
+            "Building control officer",
+            "Construction contracts manager",
+            "Quantity surveyor",
+            "Architectural technician",
+            "Technical surveyor",
+            "Construction plant operator"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Construction and trades"
+      },
+      "relates": [
+        {
+          "values": [
+            "Construction and trades-1",
+            "Construction and trades-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Construction and trades"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Creative and media",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creative and media"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Stunt performer",
+            "TV or film production runner",
+            "Entertainer",
+            "Music teacher",
+            "TV or film camera operator",
+            "TV or film assistant director",
+            "Make-up artist",
+            "Fashion model",
+            "Stagehand",
+            "TV or film production assistant",
+            "Pop musician",
+            "Actor",
+            "DJ",
+            "Bookseller",
+            "Lighting technician",
+            "Choreographer",
+            "Tailor",
+            "Wardrobe assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable being the centre of attention in a social situation?",
+        "PositiveResultDisplayText": "You are comfortable being the centre of attention in social situations.",
+        "NegativeResultDisplayText": "You are not comfortable being the centre of attention.",
+        "Description": "Creative and media",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creative and media"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Stunt performer",
+            "Entertainer",
+            "Music teacher",
+            "Tattooist",
+            "Fashion model",
+            "TV presenter",
+            "Pop musician",
+            "Actor",
+            "DJ",
+            "Choreographer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Are you able to work with your hands?",
+        "PositiveResultDisplayText": "You are happy to work with your hands.",
+        "NegativeResultDisplayText": "You do not want to work with your hands.",
+        "Description": "Creative and media",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creative and media"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Bookbinder",
+            "Tattooist",
+            "Make-up artist",
+            "Florist",
+            "Computer games tester",
+            "Drone pilot",
+            "Jewellery designer-maker",
+            "Medical illustrator",
+            "Dressmaker",
+            "Architect",
+            "Ceramics designer-maker",
+            "Writer",
+            "Costume designer",
+            "Textile designer",
+            "Blacksmith",
+            "Fine artist",
+            "Screenwriter",
+            "Fashion designer",
+            "Classical musician",
+            "Signwriter",
+            "Furniture designer",
+            "Knitter",
+            "Upholsterer",
+            "Picture framer",
+            "Stonemason",
+            "Studio sound engineer",
+            "Pattern cutter",
+            "DJ",
+            "Prop maker",
+            "Sewing machinist",
+            "Set designer",
+            "Lighting technician",
+            "Tailor",
+            "Model maker",
+            "Glassmaker",
+            "Furniture maker"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Creative and media"
+      },
+      "relates": [
+        {
+          "values": [
+            "Creative and media-1",
+            "Creative and media-2",
+            "Creative and media-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Creative and media"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be happy to get specialist licences for driving?",
+        "PositiveResultDisplayText": "You would be happy to get a specialist licence for driving.",
+        "NegativeResultDisplayText": "You would not want to get a specialist licence for driving.",
+        "Description": "Delivery and storage",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Delivery and storage"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Postman or postwoman",
+            "Tanker driver",
+            "Delivery van driver",
+            "Large goods vehicle driver",
+            "Forklift driver",
+            "Courier"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable doing tiring work, like lifting, climbing and moving around?",
+        "PositiveResultDisplayText": "You could do tiring work.",
+        "NegativeResultDisplayText": "You could not do tiring work.",
+        "Description": "Delivery and storage",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Delivery and storage"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Warehouse worker",
+            "Postman or postwoman",
+            "Food packaging operative",
+            "Airport baggage handler",
+            "Order picker",
+            "Builders' merchant",
+            "Yard person",
+            "Roadie",
+            "Packer",
+            "Shelf filler",
+            "Removals worker"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Delivery and storage"
+      },
+      "relates": [
+        {
+          "values": [
+            "Delivery and storage-1",
+            "Delivery and storage-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Delivery and storage"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable working with people who are injured?",
+        "PositiveResultDisplayText": "You could work with people who are injured.",
+        "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
+        "Description": "Emergency and uniform services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Emergency and uniform services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Soldier",
+            "Prison instructor",
+            "Prison governor",
+            "Royal Marines officer",
+            "Police officer",
+            "RAF officer",
+            "RAF airman or airwoman",
+            "Royal Marines commando",
+            "Coastguard",
+            "Diver",
+            "RAF non-commissioned aircrew",
+            "Prison officer",
+            "Paramedic",
+            "Scenes of crime officer",
+            "Road traffic accident investigator",
+            "Royal Navy officer",
+            "Royal Navy rating",
+            "Firefighter"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable using a gun if you had to?",
+        "PositiveResultDisplayText": "You would be comfortable using a gun if you had to.",
+        "NegativeResultDisplayText": "You would not be comfortable using a gun if you had to.",
+        "Description": "Emergency and uniform services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Emergency and uniform services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Soldier",
+            "Royal Marines officer",
+            "Police officer",
+            "RAF officer",
+            "RAF airman or airwoman",
+            "Royal Marines commando",
+            "RAF non-commissioned aircrew",
+            "Army officer",
+            "Royal Navy officer",
+            "Royal Navy rating",
+            "Bomb disposal technician"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you be comfortable working in a secure facility like a prison?",
+        "PositiveResultDisplayText": "You would be comfortable working in a secure facility.",
+        "NegativeResultDisplayText": "You would not want to work in a secure facility.",
+        "Description": "Emergency and uniform services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Emergency and uniform services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Prison instructor",
+            "Prison governor",
+            "Police officer",
+            "Immigration officer",
+            "Border Force officer",
+            "Prison officer",
+            "Security Service personnel",
+            "Security officer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-4",
+        "QuestionText": "Would you like a job where you rescue people in an emergency?",
+        "PositiveResultDisplayText": "You could do a job where you rescue people in an emergency.",
+        "NegativeResultDisplayText": "You could not do a job where you rescue people in an emergency.",
+        "Description": "Emergency and uniform services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Emergency and uniform services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Coastguard",
+            "Paramedic",
+            "Firefighter"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Emergency and uniform services"
+      },
+      "relates": [
+        {
+          "values": [
+            "Emergency and uniform services-1",
+            "Emergency and uniform services-2",
+            "Emergency and uniform services-3",
+            "Emergency and uniform services-4"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Emergency and uniform services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you like a job where you keep equipment in good condition?",
+        "PositiveResultDisplayText": "You would like a job where you keep equipment in good condition.",
+        "NegativeResultDisplayText": "You would not like a job where you keep equipment in good condition.",
+        "Description": "Engineering and maintenance",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Engineering and maintenance"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Domestic appliance service engineer",
+            "Handyperson",
+            "Shoe repairer",
+            "Audio-visual technician",
+            "Farrier",
+            "Telecoms engineer",
+            "Refrigeration and air-conditioning installer",
+            "Nuclear engineer",
+            "Gas service technician",
+            "Boat builder",
+            "Chimney sweep",
+            "Offshore drilling worker",
+            "Locksmith",
+            "Engineering construction craftworker",
+            "Watch or clock repairer",
+            "Motor vehicle breakdown engineer",
+            "Maintenance fitter",
+            "Electrician",
+            "Construction plant mechanic",
+            "Road worker",
+            "Caretaker",
+            "Gas mains layer",
+            "Motor mechanic",
+            "Recycling operative",
+            "Steel erector",
+            "Chemical engineering technician",
+            "Electrical engineering technician",
+            "Upholsterer",
+            "Plumber",
+            "Rail track maintenance worker",
+            "Security systems installer",
+            "Lift engineer",
+            "Engineering maintenance technician",
+            "Quarry worker",
+            "Thatcher",
+            "Lighting technician",
+            "Smart meter installer",
+            "Rail engineering technician",
+            "Aerospace engineering technician",
+            "Glazier",
+            "Window fitter",
+            "Live sound engineer",
+            "Furniture maker",
+            "Roustabout",
+            "Steel fixer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable doing tiring work, like lifting, climbing and moving around?",
+        "PositiveResultDisplayText": "You could do tiring work.",
+        "NegativeResultDisplayText": "You could not do tiring work.",
+        "Description": "Engineering and maintenance",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Engineering and maintenance"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Manufacturing systems engineer",
+            "Automotive engineer",
+            "Nuclear engineer",
+            "Civil engineer",
+            "Clinical engineer",
+            "Marine engineer",
+            "Marine engineering technician",
+            "Structural engineer",
+            "Civil engineering technician",
+            "Mechanical engineering technician",
+            "Materials engineer",
+            "Electronics engineering technician",
+            "Quarry engineer",
+            "Acoustics consultant",
+            "Aerospace engineer",
+            "Electronics engineer",
+            "Product designer",
+            "Physicist",
+            "Agricultural engineer",
+            "Energy engineer",
+            "Quantity surveyor",
+            "Broadcast engineer",
+            "CAD technician",
+            "Chemical engineer",
+            "Technical surveyor"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Engineering and maintenance"
+      },
+      "relates": [
+        {
+          "values": [
+            "Engineering and maintenance-1",
+            "Engineering and maintenance-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Engineering and maintenance"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Could you work outside in all weathers?",
+        "PositiveResultDisplayText": "You could work outside in all weathers.",
+        "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
+        "Description": "Environment and land",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Environment and land"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Agricultural contractor",
+            "Gardener",
+            "Ornithologist",
+            "Landscaper",
+            "Tree surgeon",
+            "Drone pilot",
+            "Geoscientist",
+            "Farm worker",
+            "Forest officer",
+            "Oceanographer",
+            "Forestry worker",
+            "Biologist",
+            "Ecologist",
+            "Farmer",
+            "Horticultural worker",
+            "Landscape architect",
+            "Bin worker",
+            "Countryside ranger",
+            "Quarry engineer",
+            "Archaeologist",
+            "Gamekeeper",
+            "Rural surveyor",
+            "Groundsperson",
+            "Agricultural engineer",
+            "Palaeontologist",
+            "Meteorologist",
+            "Geotechnician",
+            "Environmental consultant",
+            "Zoologist",
+            "Botanist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable working in a lab with dangerous equipment or chemicals?",
+        "PositiveResultDisplayText": "You would be comfortable working in a lab with dangerous chemicals.",
+        "NegativeResultDisplayText": "You would not be comfortable working in a lab with dangerous chemicals.",
+        "Description": "Environment and land",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Environment and land"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Nuclear engineer",
+            "Geoscientist",
+            "Biologist",
+            "Ecologist",
+            "Research scientist",
+            "Agricultural engineer",
+            "Meteorologist",
+            "Chemical engineer",
+            "Geotechnician",
+            "Zoologist",
+            "Botanist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you mind travelling to different places to work every day?",
+        "PositiveResultDisplayText": "You would not mind travelling to different places to work every day.",
+        "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
+        "Description": "Environment and land",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Environment and land"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Agricultural contractor",
+            "Commercial energy assessor",
+            "Cartographer",
+            "Pest control technician",
+            "Oceanographer",
+            "Biologist",
+            "Agricultural inspector",
+            "Land surveyor",
+            "Meat hygiene inspector",
+            "Agricultural engineer",
+            "Geotechnician",
+            "Botanist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Environment and land"
+      },
+      "relates": [
+        {
+          "values": [
+            "Environment and land-1",
+            "Environment and land-2",
+            "Environment and land-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Environment and land"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable working with people who are injured?",
+        "PositiveResultDisplayText": "You could work with people who are injured.",
+        "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
+        "Description": "Government services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Government services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Soldier",
+            "Royal Marines officer",
+            "Police officer",
+            "RAF officer",
+            "RAF airman or airwoman",
+            "Royal Marines commando",
+            "Police community support officer",
+            "Coastguard",
+            "Scenes of crime officer",
+            "Road traffic accident investigator",
+            "Bodyguard",
+            "Royal Navy officer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable working in a secure facility like a prison?",
+        "PositiveResultDisplayText": "You would be comfortable working in a secure facility.",
+        "NegativeResultDisplayText": "You would not want to work in a secure facility.",
+        "Description": "Government services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Government services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Probation services officer",
+            "Prison instructor",
+            "Prison governor"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you like a job where you rescue people in an emergency?",
+        "PositiveResultDisplayText": "You could do a job where you rescue people in an emergency.",
+        "NegativeResultDisplayText": "You could not do a job where you rescue people in an emergency.",
+        "Description": "Government services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Government services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Coastguard",
+            "Army officer",
+            "Bodyguard"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Government services"
+      },
+      "relates": [
+        {
+          "values": [
+            "Government services-1",
+            "Government services-2",
+            "Government services-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Government services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Healthcare",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Healthcare"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Nurse",
+            "Community matron",
+            "Children's nurse",
+            "Hospital doctor",
+            "Care worker",
+            "Midwife",
+            "Alexander technique teacher",
+            "Dramatherapist",
+            "Anaesthetist",
+            "District nurse",
+            "Hospital porter",
+            "Emergency care assistant",
+            "Surgeon",
+            "Maternity support worker",
+            "Paramedic",
+            "Pilates teacher",
+            "Health visitor",
+            "Pharmacist",
+            "Chiropractor",
+            "Physiotherapist",
+            "Practice nurse",
+            "Ambulance care assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable dealing with blood and other bodily fluids like sick?",
+        "PositiveResultDisplayText": "You could deal with bodily fluids if necessary.",
+        "NegativeResultDisplayText": "You would not be comfortable dealing with bodily fluids.",
+        "Description": "Healthcare",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Healthcare"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Nurse",
+            "Community matron",
+            "Dental hygienist",
+            "Children's nurse",
+            "Hospital doctor",
+            "School nurse",
+            "Midwife",
+            "Dentist",
+            "Phlebotomist",
+            "Palliative care assistant",
+            "Anaesthetist",
+            "District nurse",
+            "GP",
+            "Emergency care assistant",
+            "Surgeon",
+            "Orthoptist",
+            "Maternity support worker",
+            "Paramedic",
+            "Healthcare assistant",
+            "Dental nurse",
+            "Anatomical pathology technician",
+            "Optometrist",
+            "Colon hydrotherapist",
+            "Pathologist",
+            "Sterile services technician",
+            "Practice nurse",
+            "Dental technician",
+            "Geneticist",
+            "Biomedical scientist",
+            "Dental therapist",
+            "Ambulance care assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Could you work with children?",
+        "PositiveResultDisplayText": "You could work with children.",
+        "NegativeResultDisplayText": "You would rather not work with children.",
+        "Description": "Healthcare",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Healthcare"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Nurse",
+            "Community matron",
+            "Dental hygienist",
+            "Children's nurse",
+            "Hospital doctor",
+            "Care worker",
+            "Sports physiotherapist",
+            "Speech and language therapy assistant",
+            "Psychiatrist",
+            "Podiatrist",
+            "School nurse",
+            "Midwife",
+            "Dentist",
+            "Psychologist",
+            "Health play specialist",
+            "Anaesthetist",
+            "District nurse",
+            "GP",
+            "Emergency care assistant",
+            "Surgeon",
+            "Speech and language therapist",
+            "Maternity support worker",
+            "Paramedic",
+            "Mental health nurse",
+            "Primary care graduate mental health worker",
+            "Health visitor",
+            "Healthcare assistant",
+            "Dental nurse",
+            "Counsellor",
+            "Colour therapist",
+            "Learning disability nurse",
+            "Practice nurse",
+            "Music therapist",
+            "Art therapist",
+            "Physiotherapy assistant",
+            "Ambulance care assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-4",
+        "QuestionText": "Would you be comfortable in a job where someone's life could depend on you?",
+        "PositiveResultDisplayText": "You would be comfortable in a job where someone's life depended on you.",
+        "NegativeResultDisplayText": "You would not be comfortable having someone's life depend on you.",
+        "Description": "Healthcare",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Healthcare"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Nurse",
+            "Children's nurse",
+            "Hospital doctor",
+            "Psychiatrist",
+            "Midwife",
+            "Anaesthetist",
+            "District nurse",
+            "GP",
+            "Emergency care assistant",
+            "Surgeon",
+            "Paramedic",
+            "Counsellor",
+            "Practice nurse",
+            "Emergency medical dispatcher",
+            "Ambulance care assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Healthcare"
+      },
+      "relates": [
+        {
+          "values": [
+            "Healthcare-1",
+            "Healthcare-2",
+            "Healthcare-3",
+            "Healthcare-4"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Healthcare"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Home services",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Home services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Care escort",
+            "Handyperson",
+            "Postman or postwoman",
+            "Laundry worker",
+            "Care worker",
+            "Cleaner",
+            "Chimney sweep",
+            "Highways cleaner",
+            "Personal shopper",
+            "Embalmer",
+            "Bin worker",
+            "Butler",
+            "Recycling operative",
+            "Bodyguard",
+            "Industrial cleaner",
+            "Car valet",
+            "Window cleaner",
+            "Tailor",
+            "Cruise ship steward"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Home services"
+      },
+      "relates": [
+        {
+          "values": [
+            "Home services-1"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Home services"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable dealing with difficult customers?",
+        "PositiveResultDisplayText": "You would be comfortable dealing with difficult customers.",
+        "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
+        "Description": "Hospitality and food",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Hospitality and food"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Barista",
+            "Counter service assistant",
+            "Bar person",
+            "Waiter",
+            "School lunchtime supervisor",
+            "Restaurant manager",
+            "Butler"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Hospitality and food",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Hospitality and food"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Barista",
+            "Baker",
+            "Counter service assistant",
+            "Fish frier",
+            "Bar person",
+            "Waiter",
+            "School lunchtime supervisor",
+            "Butler",
+            "Food factory worker",
+            "Chef",
+            "Butcher",
+            "Kitchen porter",
+            "Head chef",
+            "Kitchen assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Hospitality and food"
+      },
+      "relates": [
+        {
+          "values": [
+            "Hospitality and food-1",
+            "Hospitality and food-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Hospitality and food"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable being strict with people?",
+        "PositiveResultDisplayText": "You would be comfortable being strict with people.",
+        "NegativeResultDisplayText": "You would not want to be strict with people.",
+        "Description": "Law and legal",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Law and legal"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Probation services officer",
+            "Crown prosecutor",
+            "Coroner",
+            "Bailiff",
+            "Family mediator",
+            "Barrister"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you like to read lots of documents every day?",
+        "PositiveResultDisplayText": "You would be happy to read lots of documents every day.",
+        "NegativeResultDisplayText": "You would not want to read lots of documents every day. ",
+        "Description": "Law and legal",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Law and legal"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Trade mark attorney",
+            "Tax inspector",
+            "Legal executive",
+            "Legal secretary",
+            "Solicitor",
+            "Barristers' clerk",
+            "Proofreader",
+            "Paralegal",
+            "Licensed conveyancer",
+            "Welfare rights officer",
+            "Company secretary",
+            "Patent attorney",
+            "Barrister",
+            "Private investigator"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Law and legal"
+      },
+      "relates": [
+        {
+          "values": [
+            "Law and legal-1",
+            "Law and legal-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Law and legal"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you like to manage a team of people?",
+        "PositiveResultDisplayText": "You would like to manage a team.",
+        "NegativeResultDisplayText": "You would not want to manage a team.",
+        "Description": "Managerial",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Managerial"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Events manager",
+            "Facilities manager",
+            "Supply chain manager",
+            "Sales manager",
+            "Production manager (manufacturing)",
+            "Training manager",
+            "Visitor attraction general manager",
+            "Marketing manager",
+            "Headteacher",
+            "Manufacturing supervisor",
+            "Construction manager",
+            "Purchasing manager",
+            "Social services manager",
+            "Business development manager",
+            "Human resources manager",
+            "Chief executive",
+            "Warehouse manager",
+            "Bank manager",
+            "Human resources officer",
+            "Payroll manager",
+            "GP practice manager",
+            "Economic development officer",
+            "Head of IT (IT director)",
+            "Customer services manager",
+            "Retail manager",
+            "Care home manager",
+            "Hotel manager",
+            "Leisure centre manager"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you like to be considered an expert in work?",
+        "PositiveResultDisplayText": "You would like to be considered an expert.",
+        "NegativeResultDisplayText": "You are not interested in being considered an expert.",
+        "Description": "Managerial",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Managerial"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Management accountant",
+            "Estimator",
+            "Tax inspector",
+            "Town planner",
+            "Marketing director",
+            "Technical architect",
+            "Credit manager",
+            "Art gallery curator",
+            "Headteacher",
+            "Chief inspector",
+            "Consumer scientist",
+            "Management consultant",
+            "Bid writer",
+            "Health and safety adviser",
+            "Chief executive",
+            "Security Service personnel",
+            "Diplomatic service officer",
+            "Operational researcher",
+            "Museum curator",
+            "Economist",
+            "Economic development officer",
+            "Head of IT (IT director)",
+            "Quantity surveyor",
+            "Business adviser",
+            "Franchise owner"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Managerial"
+      },
+      "relates": [
+        {
+          "values": [
+            "Managerial-1",
+            "Managerial-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Managerial"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you like a job where you keep equipment in good condition?",
+        "PositiveResultDisplayText": "You would like a job where you keep equipment in good condition.",
+        "NegativeResultDisplayText": "You would not like a job where you keep equipment in good condition.",
+        "Description": "Manufacturing",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Manufacturing"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Aerospace engineering technician",
+            "Agricultural engineering technician",
+            "Blacksmith",
+            "Bottler",
+            "Car manufacturing worker",
+            "CNC machinist",
+            "Crane driver",
+            "Dressmaker",
+            "Glassmaker",
+            "Knitter",
+            "Maintenance fitter",
+            "Mechanical engineering technician",
+            "Motor mechanic",
+            "Musical instrument maker and repairer",
+            "Non-destructive testing technician",
+            "Packer",
+            "Paint sprayer",
+            "Pattern cutter",
+            "Quarry worker",
+            "Rail engineering technician",
+            "Recycling operative",
+            "Roustabout",
+            "Sewing machinist",
+            "Signmaker",
+            "Technical brewer",
+            "Vehicle body repairer",
+            "Welder",
+            "Wood machinist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable doing tiring work, like lifting, climbing and moving around?",
+        "PositiveResultDisplayText": "You could do tiring work.",
+        "NegativeResultDisplayText": "You could not do tiring work.",
+        "Description": "Manufacturing",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Manufacturing"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Aerospace engineer",
+            "Agricultural engineer",
+            "Agricultural engineering technician",
+            "Automotive engineer",
+            "Building services engineer",
+            "Chemical engineer",
+            "Design and development engineer",
+            "Electronics engineer",
+            "Energy engineer",
+            "Engineering maintenance technician",
+            "Manufacturing systems engineer",
+            "Marine engineer",
+            "Materials engineer",
+            "Motorsport engineer"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Manufacturing"
+      },
+      "relates": [
+        {
+          "values": [
+            "Manufacturing-1",
+            "Manufacturing-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Manufacturing"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable dealing with difficult customers?",
+        "PositiveResultDisplayText": "You would be comfortable dealing with difficult customers.",
+        "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
+        "Description": "Retail and sales",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Retail and sales"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cabin crew",
+            "Train station worker",
+            "Telephonist",
+            "Airline customer service agent",
+            "Barista",
+            "Shopkeeper",
+            "Sales representative",
+            "Bar person",
+            "Banking customer service adviser",
+            "Betting shop cashier",
+            "Cinema or theatre attendant",
+            "Florist",
+            "Estate agent",
+            "Travel agent",
+            "Pharmacy assistant",
+            "Call centre operator",
+            "Customer service assistant",
+            "Museum assistant",
+            "Personal shopper",
+            "Petrol station sales assistant",
+            "Car rental agent",
+            "Sales administrator",
+            "Post Office customer service assistant",
+            "Leisure centre assistant",
+            "Tourist information centre assistant",
+            "Pharmacist",
+            "Sales assistant",
+            "Pet shop assistant",
+            "Butcher",
+            "Hotel porter",
+            "Checkout operator",
+            "Bookseller",
+            "Airport information assistant",
+            "Customer services manager"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Retail and sales",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Retail and sales"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cabin crew",
+            "Train station worker",
+            "Barista",
+            "Shopkeeper",
+            "Bar person",
+            "Betting shop cashier",
+            "Cinema or theatre attendant",
+            "Florist",
+            "Personal shopper",
+            "Garden nursery assistant",
+            "Pet shop assistant",
+            "Butcher",
+            "Hotel porter",
+            "Shelf filler"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you be comfortable working under pressure in a job where you had sell things?",
+        "PositiveResultDisplayText": "You would be comfortable being under pressure to selling things.",
+        "NegativeResultDisplayText": "You would not be comfortable being under pressure to sell things.",
+        "Description": "Retail and sales",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Retail and sales"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Sales representative",
+            "Sales manager",
+            "Market trader",
+            "Insurance account manager",
+            "Banking customer service adviser",
+            "Estate agent",
+            "Travel agent",
+            "Business development manager",
+            "Medical sales representative",
+            "Sales assistant",
+            "Advertising account executive"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Retail and sales"
+      },
+      "relates": [
+        {
+          "values": [
+            "Retail and sales-1",
+            "Retail and sales-2",
+            "Retail and sales-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Retail and sales"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Could you work outside in all weathers?",
+        "PositiveResultDisplayText": "You could work outside in all weathers.",
+        "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
+        "Description": "Science and research",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Science and research"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Marine engineer",
+            "Oceanographer",
+            "Biologist",
+            "Ecologist",
+            "Archaeologist",
+            "Arboricultural officer",
+            "Palaeontologist",
+            "Environmental consultant",
+            "Zoologist",
+            "Botanist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable working in a lab with dangerous equipment or chemicals?",
+        "PositiveResultDisplayText": "You would be comfortable working in a lab with dangerous chemicals.",
+        "NegativeResultDisplayText": "You would not be comfortable working in a lab with dangerous chemicals.",
+        "Description": "Science and research",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Science and research"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Analytical textile technologist",
+            "Laboratory technician",
+            "Nuclear engineer",
+            "Healthcare science assistant",
+            "Clinical engineer",
+            "Consumer scientist",
+            "Nanotechnologist",
+            "Biochemist",
+            "Forensic scientist",
+            "Pharmacologist",
+            "Materials engineer",
+            "Clinical scientist",
+            "Research scientist",
+            "Operational researcher",
+            "Chemist",
+            "Electronics engineer",
+            "Microbiologist",
+            "Chemical engineering technician",
+            "Biotechnologist",
+            "Medical physicist",
+            "Pathologist",
+            "Physicist",
+            "Energy engineer",
+            "Meteorologist",
+            "Chemical engineer",
+            "Geneticist",
+            "Biomedical scientist",
+            "Geotechnician"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you mind travelling to different places to work every day?",
+        "PositiveResultDisplayText": "You would not mind travelling to different places to work every day.",
+        "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
+        "Description": "Science and research",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Science and research"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cartographer",
+            "Geoscientist",
+            "Marine engineer",
+            "Oceanographer",
+            "Biologist",
+            "Ecologist",
+            "Astronomer",
+            "Fingerprint officer",
+            "Land surveyor",
+            "Countryside officer",
+            "Quarry engineer",
+            "Criminal intelligence analyst",
+            "Scenes of crime officer",
+            "Archaeologist",
+            "Arboricultural officer",
+            "Palaeontologist",
+            "Meteorologist",
+            "Zoologist",
+            "Botanist"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Science and research"
+      },
+      "relates": [
+        {
+          "values": [
+            "Science and research-1",
+            "Science and research-2",
+            "Science and research-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Science and research"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Could you work with children?",
+        "PositiveResultDisplayText": "You could work with children.",
+        "NegativeResultDisplayText": "You would rather not work with children.",
+        "Description": "Social care",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Social care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Foster carer",
+            "Youth worker",
+            "Learning mentor",
+            "Play therapist",
+            "Youth offending team officer",
+            "Careers adviser",
+            "Childminder",
+            "Social work assistant",
+            "Patient advice and liaison service officer",
+            "School crossing patrol",
+            "Family support worker",
+            "School matron",
+            "Nursery manager",
+            "Nursery worker",
+            "Nanny",
+            "Family mediator",
+            "Care home manager",
+            "Playworker"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable working with people who are injured?",
+        "PositiveResultDisplayText": "You could work with people who are injured.",
+        "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
+        "Description": "Social care",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Social care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Foster carer",
+            "Drug and alcohol worker",
+            "Youth worker",
+            "Play therapist",
+            "Care worker",
+            "Psychologist",
+            "Funeral director",
+            "Psychotherapist",
+            "Palliative care assistant",
+            "Patient advice and liaison service officer",
+            "Senior care worker",
+            "Family support worker",
+            "Cognitive behavioural therapist",
+            "Social worker",
+            "Primary care graduate mental health worker",
+            "Clinical psychologist",
+            "Victim care officer",
+            "Counsellor",
+            "Substance misuse outreach worker",
+            "Art therapist",
+            "Family mediator",
+            "Care home manager"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Social care"
+      },
+      "relates": [
+        {
+          "values": [
+            "Social care-1",
+            "Social care-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Social care"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Could you work outside in all weathers?",
+        "PositiveResultDisplayText": "You could work outside in all weathers.",
+        "NegativeResultDisplayText": "You would not want to work outside in all weathers.",
+        "Description": "Sports and leisure",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Sports and leisure"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Lifeguard",
+            "Stunt performer",
+            "Outdoor activities instructor",
+            "Fairground worker",
+            "Football coach",
+            "Jockey",
+            "PE teacher",
+            "Sports professional",
+            "Sports coach",
+            "Cycling coach",
+            "Health trainer",
+            "Horse riding instructor",
+            "Racehorse trainer",
+            "Hotel porter",
+            "Footballer",
+            "Football referee"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be able to do hard exercise for a lot of the day?",
+        "PositiveResultDisplayText": "You could do hard exercise for a lot of the day.",
+        "NegativeResultDisplayText": "You could not do hard exercise for a lot of the day.",
+        "Description": "Sports and leisure",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Sports and leisure"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Lifeguard",
+            "Stunt performer",
+            "Outdoor activities instructor",
+            "Fitness instructor",
+            "Personal trainer",
+            "Jockey",
+            "Sports professional",
+            "Diver",
+            "Yoga teacher",
+            "Pilates teacher",
+            "Horse riding instructor",
+            "Racehorse trainer",
+            "Hotel porter",
+            "Footballer",
+            "Football referee"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Sports and leisure"
+      },
+      "relates": [
+        {
+          "values": [
+            "Sports and leisure-1",
+            "Sports and leisure-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Sports and leisure"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be able to move around all day?",
+        "PositiveResultDisplayText": "You could move around all day.",
+        "NegativeResultDisplayText": "You would not be able to move around all day.",
+        "Description": "Teaching and education",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Teaching and education"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+            "values": [
+                "Youth worker",
+                "Outdoor activities instructor",
+                "Swimming teacher",
+                "Music teacher",
+                "Secondary school teacher",
+                "Librarian",
+                "Martial arts instructor",
+                "Early years teacher",
+                "Special educational needs (SEN) teacher",
+                "Special educational needs (SEN) teaching assistant",
+                "School lunchtime supervisor",
+                "PE teacher",
+                "Montessori teacher",
+                "School crossing patrol",
+                "Cycling coach",
+                "Dance teacher",
+                "Further education lecturer",
+                "Yoga teacher",
+                "Nursery worker",
+                "Higher education lecturer",
+                "Primary school teacher",
+                "Skills for life teacher",
+                "Singing teacher",
+                "Playworker"
+            ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you be comfortable being strict with people?",
+        "PositiveResultDisplayText": "You would be comfortable being strict with people.",
+        "NegativeResultDisplayText": "You would not want to be strict with people.",
+        "Description": "Teaching and education",
+        "IsYes": true
+      },
+      "relates": [
+        {
+          "values": [
+            "Teaching and education"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Online tutor",
+            "Youth worker",
+            "English as a foreign language (EFL) teacher",
+            "Outdoor activities instructor",
+            "Swimming teacher",
+            "Music teacher",
+            "Secondary school teacher",
+            "Martial arts instructor",
+            "Headteacher",
+            "Early years teacher",
+            "Special educational needs (SEN) teacher",
+            "School lunchtime supervisor",
+            "PE teacher",
+            "Montessori teacher",
+            "School crossing patrol",
+            "School matron",
+            "Cycling coach",
+            "Dance teacher",
+            "Further education lecturer",
+            "Yoga teacher",
+            "Nursery worker",
+            "Higher education lecturer",
+            "Primary school teacher",
+            "Skills for life teacher",
+            "Singing teacher",
+            "Playworker"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Teaching and education"
+      },
+      "relates": [
+        {
+          "values": [
+            "Teaching and education-1",
+            "Teaching and education-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Teaching and education"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable dealing with difficult customers?",
+        "PositiveResultDisplayText": "You would be comfortable dealing with difficult customers.",
+        "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
+        "Description": "Transport",
+        "IsYes": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Transport"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cabin crew",
+            "Train station worker",
+            "Airline customer service agent",
+            "Taxi driver",
+            "Driving instructor",
+            "Train conductor",
+            "Car rental agent",
+            "Community transport driver",
+            "Bus or coach driver",
+            "Rail track maintenance worker",
+            "Chauffeur",
+            "Airport information assistant"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you like to operate a vehicle for most of the day?",
+        "PositiveResultDisplayText": "You would like to operate a vehicle.",
+        "NegativeResultDisplayText": "You would not want to operate a vehicle.",
+        "Description": "Transport",
+        "IsYes": true
+      },
+      "relates": [
+        {
+          "values": [
+            "Transport"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Fishing vessel skipper",
+            "Taxi driver",
+            "Train driver",
+            "Tanker driver",
+            "Delivery van driver",
+            "Helicopter pilot",
+            "Driving instructor",
+            "Train conductor",
+            "Community transport driver",
+            "Bus or coach driver",
+            "Large goods vehicle driver",
+            "Tram driver",
+            "Airline pilot",
+            "Chauffeur",
+            "Forklift driver",
+            "Tractor driver"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-3",
+        "QuestionText": "Would you mind travelling to different places to work every day?",
+        "PositiveResultDisplayText": "You would not mind travelling to different places to work every day.",
+        "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
+        "Description": "Transport",
+        "IsYes": true
+      },
+      "relates": [
+        {
+          "values": [
+            "Transport"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cabin crew",
+            "Fishing vessel skipper",
+            "Taxi driver",
+            "Train driver",
+            "Tanker driver",
+            "Delivery van driver",
+            "Helicopter pilot",
+            "Driving instructor",
+            "Train conductor",
+            "Community transport driver",
+            "Bus or coach driver",
+            "Large goods vehicle driver",
+            "Tram driver",
+            "Airline pilot",
+            "Chauffeur",
+            "Forklift driver",
+            "Tractor driver"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Transport"
+      },
+      "relates": [
+        {
+          "values": [
+            "Transport-1",
+            "Transport-2",
+            "Transport-3"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Transport"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-1",
+        "QuestionText": "Would you be comfortable dealing with difficult customers?",
+        "PositiveResultDisplayText": "You would be comfortable dealing with difficult customers.",
+        "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
+        "Description": "Travel and tourism",
+        "IsYes": true
+      },
+      "relates": [
+        {
+          "values": [
+            "Travel and tourism"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cabin crew",
+            "Airline customer service agent",
+            "Fairground worker",
+            "Tourist guide",
+            "Resort representative",
+            "Interpreter",
+            "Hotel receptionist",
+            "Tourist information centre assistant",
+            "Hotel porter",
+            "Airport information assistant",
+            "Cruise ship steward"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestions",
+      "data": {
+        "Title": "{prop:Description}-2",
+        "QuestionText": "Would you mind travelling long distances for work?",
+        "PositiveResultDisplayText": "You would be comfortable travelling long distances for work.",
+        "NegativeResultDisplayText": "You would not be comfortable travelling long distances for work.",
+        "Description": "Travel and tourism",
+        "IsYes": true
+      },
+      "relates": [
+        {
+          "values": [
+            "Travel and tourism"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        },
+        {
+          "values": [
+            "Cabin crew",
+            "Tour manager",
+            "Airline pilot",
+            "Cruise ship steward"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "filteringquestions",
+            "navigationProperty": "ExcludedJobProfiles",
+            "contentType": "jobprofiles"
+          }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "filteringquestionsets",
+      "data": {
+        "Title": "Travel and tourism"
+      },
+      "relates": [
+        {
+          "values": [
+            "Travel and tourism-1",
+            "Travel and tourism-2"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "Questions",
+            "contentType": "filteringquestions"
+          }
+        },
+        {
+          "values": [
+            "Travel and tourism"
+          ],
+          "relatedType": {
+            "property": "Title",
+            "type": "taxonomies",
+            "navigationProperty": "JobProfileTaxonomy",
+            "contentType": "Job Profile Category"
+          }
+        }
+      ]
+    }
+  ]
+}

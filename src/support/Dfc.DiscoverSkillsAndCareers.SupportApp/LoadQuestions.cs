@@ -9,6 +9,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -37,10 +38,11 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         }
 
 
-        public static SuccessFailCode Execute(IConfiguration configuration, Options opts)
+        public static SuccessFailCode Execute(IServiceProvider services, Options opts)
         {
             try
             {
+                var configuration = services.GetService<IConfiguration>();
                 configuration.Bind(opts);
 
                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
@@ -52,13 +54,14 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     AssessmentType = "short",
                     Version = 1,
                     Title = title,
-                    TitleLowercase = title.ToLower(),
+                    QuestionSetKey = title.ToLower(),
                     MaxQuestions = 40,
                     LastUpdated = DateTime.Now,
                     PartitionKey = "ncs",
+                    IsCurrent = true,
                     QuestionSetVersion = opts.QuestionVersionKey + "-1"
                 };
-                questionSetRepository.CreateQuestionSet(questionSet).GetAwaiter().GetResult();
+                questionSetRepository.CreateOrUpdateQuestionSet(questionSet).GetAwaiter().GetResult();
 
                 var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 using(var fileStream = File.OpenRead(opts.CsvFile))

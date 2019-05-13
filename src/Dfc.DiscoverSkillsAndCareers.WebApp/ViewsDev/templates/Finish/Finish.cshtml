@@ -1,28 +1,28 @@
 ﻿{% set pageName = 'finish' %}
 {% set pageGroup = '' %}
-{% set pageTitle = '@Model.Title' %}
+{% set pageTitle = 'Assessment complete' %}
 
 {% extends "_base.njk" %}
 
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
-    ViewData["Title"] = "@Model.Title";
+    ViewData["Title"] = "Assessment complete";
     Layout = null;
 }
 {% endblock %}
 
 {% block main %}
 
-  <div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-  </div>
-
   <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+      {% include "_phasebanner.njk" %}
+
+      {% include "_breadcrumbpanel.njk" %}
+
+    </div>
 
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
@@ -31,7 +31,7 @@
           <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
             <div class="govuk-panel__body">
              <div class="ncs-progress ncs-progress--complete status-100">
-                <div class="ncs-progress__count">
+                <div class="ncs-progress__count govuk-body">
                   <span class="govuk-!-font-size-36">100%</span>
                   <span class="visually-hidden">Complete</span>
                 </div>
@@ -41,15 +41,15 @@
               </div>
             </div>
             <h1 class="govuk-panel__title">
-              @Model.Headline
+                Assessment complete
             </h1>
           </div>
 
-          <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
-          <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
+          <h2 class="govuk-heading-m">What to do next</h2>
+          <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
 
           {{ govukButton({
-          text: "@Model.ViewResultsButtonText",
+          text: "See results",
           href: "/results",
           classes: "app-button",
           attributes: {

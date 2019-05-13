@@ -8,11 +8,18 @@
 
   <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.4.3" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
       <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
       <PackageReference Include="Microsoft.Azure.DocumentDB" Version="2.2.1" />
       <PackageReference Include="CsvHelper" Version="12.1.1" />
+      <PackageReference Include="Serilog.AspNetCore" Version="2.1.2-dev-00028" />
+      <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
+      <PackageReference Include="Serilog.Sinks.File" Version="4.1.0-dev-00838" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +32,48 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
     <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\AppSettings.cs">
+      <Link>Services\AppSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobProfile.cs">
+      <Link>CmsModels\JobProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\ISiteFinityHttpService.cs">
+        <Link>Services\ISiteFinityHttpService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\SiteFinityHttpService.cs">
+        <Link>Services\SiteFinityHttpService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\DfcJobProfile.cs">
+      <Link>CmsModels\DfcJobProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\FilteringQuestion.cs">
+      <Link>CmsModels\FilteringQuestion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\FilteringQuestionSet.cs">
+      <Link>CmsModels\FilteringQuestionSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategory.cs">
+      <Link>CmsModels\JobCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ShortQuestion.cs">
+      <Link>CmsModels\ShortQuestion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ShortQuestionSet.cs">
+      <Link>CmsModels\ShortQuestionSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ShortTrait.cs">
+      <Link>CmsModels\ShortTrait.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityDataFeed.cs">
+      <Link>CmsModels\SiteFinityDataFeed.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\TaxonomyHierarchy.cs">
+      <Link>CmsModels\TaxonomyHierarchy.cs</Link>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -68,7 +68,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                        .Where(x => x.PartitionKey == partitionKey)
                                        .AsEnumerable()
                                        .ToArray();
-                return queryQuestions;
+
+                if (queryQuestions.Length == 0)
+                    return await Task.FromResult(LocalDataService.Traits.ToArray());
+                
+                return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
             {

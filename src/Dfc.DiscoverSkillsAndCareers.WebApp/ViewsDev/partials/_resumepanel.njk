@@ -1,9 +1,29 @@
 <div class="app-sidebar app-resume-panel">
-    <h3 class="govuk-heading-m">@Model.ResumeTitle</h3>
+  {% if pageName == 'home' %}
+    <h2 class="govuk-heading-m">Return to an assessment</h2>
+  {% else %}
+    <h3 class="govuk-heading-m">Return to an assessment</h3>
+  {% endif %}
     <form method="post" action="/reload">
 
+    @if (Model.HasReloadError) {
+      <div>
+
+        {{ govukErrorSummary({
+          "titleText": "There is a problem",
+          "errorList": [
+              {
+              "text": "@Model.ResumeErrorMessage",
+              "href": "#code"
+              }
+          ]
+          }) }}
+
+        </div>
+      }
+
       <div class="app-resume-panel__input govuk-form-group @(Model.HasReloadError ? "govuk-form-group--error" : string.Empty)">
-        <label class="govuk-label" for="code">@Model.ResumeFieldTitle</label>
+        <label class="govuk-label" for="code">Enter your reference</label>
           @if (Model.HasReloadError) {
             <span id="code-error" class="govuk-error-message">@Model.ResumeErrorMessage</span>
           }
@@ -11,7 +31,7 @@
       </div>
 
       {{ govukButton({
-        text: "@Model.ResumeButtonText",
+        text: "Continue",
         classes: "app-button",
         attributes: {
           "gov-analytics-data": pageName + " | click | button | Resume progress"

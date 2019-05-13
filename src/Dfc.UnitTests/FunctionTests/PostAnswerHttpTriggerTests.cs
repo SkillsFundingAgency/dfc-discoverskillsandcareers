@@ -13,6 +13,8 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -23,7 +25,6 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _request = new DefaultHttpRequest(new DefaultHttpContext());
             _log = Substitute.For<ILogger>();
-            _loggerHelper = Substitute.For<ILoggerHelper>();
             _httpRequestHelper = Substitute.For<IHttpRequestHelper>();
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
@@ -42,7 +43,6 @@ namespace Dfc.UnitTests.FunctionTests
 
         private HttpRequest _request;
         private ILogger _log;
-        private ILoggerHelper _loggerHelper;
         private IHttpRequestHelper _httpRequestHelper;
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
@@ -56,7 +56,6 @@ namespace Dfc.UnitTests.FunctionTests
                 _request,
                 sessionId,
                 _log,
-                _loggerHelper,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _userSessionRepository,
@@ -134,6 +133,66 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.True(content.IsSuccess);
+        }
+        
+        [Fact]
+        public async Task PostAnswerHttpTrigger_WithValidAnswerValue_ShouldReturnNextQuestionEvenIfComplete()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+            var postAnswerRequest = new PostAnswerRequest()
+            {
+                QuestionId = "filtered-social-care-1-1",
+                SelectedOption = "Agree"
+            };
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(postAnswerRequest);
+            _request.Body = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(
+                new UserSession
+                {
+                    AssessmentType = "filtered",
+                    AssessmentState = null,
+                    FilteredAssessmentState = new FilteredAssessmentState
+                    {
+                        CurrentFilterAssessmentCode = "filtered-social-care-1",
+                        CurrentQuestion = 2,
+                        CompleteDt = new DateTime(2019,1,1),
+                        JobFamilyName = "Social Care",
+                        MaxQuestions = 2,
+                        QuestionSetVersion = "filtered-social-care-1",
+                        RecordedAnswers = new []
+                        {
+                            new Answer { 
+                                AnsweredDt = new DateTime(2019,1,1), 
+                                QuestionSetVersion = "filtered-social-care-1",
+                                IsNegative = false,
+                                QuestionId = "filtered-social-care-1-1",
+                                QuestionNumber = 1,
+                                QuestionText = "Question 1",
+                                SelectedOption = AnswerOption.Yes
+                            },
+                            new Answer { 
+                                AnsweredDt = new DateTime(2019,1,1), 
+                                QuestionSetVersion = "filtered-social-care-1",
+                                IsNegative = false,
+                                QuestionId = "filtered-social-care-1-2",
+                                QuestionNumber = 2,
+                                QuestionText = "Question 2",
+                                SelectedOption = AnswerOption.No
+                            }
+                        }
+                    }
+                }
+            ));
+            
+            _questionRepository = new FakeQuestionRepository();
+
+            var result = await RunFunction("session1");
+            var content = await result.Content.ReadAsAsync<PostAnswerResponse>();
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.True(content.IsSuccess);
+            Assert.Equal(2,content.NextQuestionNumber);
         }
     }
 }

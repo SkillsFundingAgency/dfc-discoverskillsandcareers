@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Search;
 using Microsoft.Extensions.Options;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
@@ -35,6 +36,12 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
             services.AddSingleton<DocumentClient>(srvs => {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
+            });
+
+            services.AddSingleton<ISearchIndexClient>(srvs =>
+            {
+                var searchSettings = srvs.GetService<IOptions<AzureSearchSettings>>();
+                return new SearchIndexClient(searchSettings.Value.ServiceName, searchSettings.Value.IndexName, new SearchCredentials(searchSettings.Value.ApiKey));
             });
 
 
@@ -64,22 +71,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
             }
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
-            var appSettings = new AppSettings();
-            Configuration.Bind("AppSettings", appSettings);
-
-            var cosmosSettings = new CosmosSettings();
-            Configuration.Bind("CosmosSettings", cosmosSettings);
-
-            services.Configure<CosmosSettings>(env =>
-            {
-                env.DatabaseName = cosmosSettings.DatabaseName;
-                env.Endpoint = cosmosSettings.Endpoint;
-                env.Key = cosmosSettings.Key;
-            });
-            services.Configure<AppSettings>(env =>
-            {
-                env.SessionSalt = appSettings.SessionSalt;
-            });
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }

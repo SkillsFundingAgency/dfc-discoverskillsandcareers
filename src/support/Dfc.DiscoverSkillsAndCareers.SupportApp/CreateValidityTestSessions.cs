@@ -10,11 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using static Dfc.DiscoverSkillsAndCareers.SupportApp.Program;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
-    
-
     public static class CreateValidityTestSessions
     {
         [Verb("create-validity-sessions", HelpText = "Creates the validity test sessions in the Cosmos DB instance.")]
@@ -51,16 +50,19 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 StartedDt = DateTime.Now,
                 LanguageCode = languageCode,
                 PartitionKey = partitionKey,
-                QuestionSetVersion = questionSetVersion,
-                MaxQuestions = maxQuestions,
-                CurrentQuestion = 1
+                AssessmentState = new AssessmentState {
+                    QuestionSetVersion = questionSetVersion,
+                    MaxQuestions = maxQuestions,
+                    CurrentQuestion = 1
+                }
             };
         }
 
-        public static SuccessFailCode Execute(IConfiguration configuration, Options opts)
+        public static SuccessFailCode Execute(IServiceProvider services, Options opts)
         {
             try
             {
+                var configuration = services.GetService<IConfiguration>();
                 configuration.Bind(opts);
 
                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
@@ -70,7 +72,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 var questionSetRepository = new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 var sessionRepository = new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
                 
-                var questionSet = questionSetRepository.GetCurrentQuestionSet("short", title).GetAwaiter().GetResult();
+                var questionSet = questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", title).GetAwaiter().GetResult();
                 
                 using(var fs = File.OpenWrite(opts.CsvFile))
                 using(var sw = new StreamWriter(fs))

@@ -1,44 +1,43 @@
 ﻿{% set pageName = 'finish' %}
 {% set pageGroup = '' %}
-{% set pageTitle = '@Model.Title' %}
+{% set pageTitle = 'Assessment complete' %}
 
 {% extends "_base.njk" %}
 
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
-    ViewData["Title"] = "@Model.Title";
+    ViewData["Title"] = "Assessment complete";
     Layout = null;
 }
 {% endblock %}
 
 {% block main %}
 
-  <div class="govuk-width-container app-site-width-container">
-
-    {% include "_phasebanner.njk" %}
-
-    {% include "_breadcrumbpanel.njk" %}
-
-  </div>
-
   <main id="content" role="main">
+
+    <div class="govuk-width-container app-site-width-container">
+
+      {% include "_phasebanner.njk" %}
+
+      {% include "_breadcrumbpanel.njk" %}
+
+    </div>
 
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
         <div class="govuk-grid-column-two-thirds">
 
           {{ govukPanel({
-            titleText: "@Model.Headline",
-            html: "@Model.HeadlineStrap",
+            titleText: "Assessment complete",
             classes: "govuk-!-margin-bottom-6"
           }) }}
 
-          <h1 class="govuk-heading-m">@Model.ContentTitle</h1>
-          <p class="govuk-body govuk-!-margin-bottom-5">@Model.Content</p>
+          <h2 class="govuk-heading-m">What to do next</h2>
+          <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
 
           {{ govukButton({
-          text: "@Model.ViewResultsButtonText",
+          text: "See results",
           classes: "app-button",
           href: "/results/@Model.JobCategorySafeUrl",
           attributes: {
