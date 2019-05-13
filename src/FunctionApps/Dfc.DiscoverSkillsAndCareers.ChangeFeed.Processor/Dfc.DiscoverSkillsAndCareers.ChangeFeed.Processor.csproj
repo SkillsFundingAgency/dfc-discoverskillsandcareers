@@ -18,9 +18,9 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
-      <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common.csproj" />
-      <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.csproj" />
+      <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
+      <ProjectReference Include="..\changefeed\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common.csproj" />
+      <ProjectReference Include="..\changefeed\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.csproj" />
     </ItemGroup>
     <ItemGroup>
       <None Update="extensions.json">
