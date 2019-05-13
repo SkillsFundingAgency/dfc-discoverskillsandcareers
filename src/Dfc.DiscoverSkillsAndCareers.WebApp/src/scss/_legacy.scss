@@ -1,7 +1,9 @@
+// sass-lint:disable-all
 #global-header.with-proposition {
   .header-wrapper {
     .header-proposition {
       width: 100% !important;
+
       #proposition-links {
         .active {
           a {
@@ -9,6 +11,7 @@
           }
         }
       }
+
       .phase-tag {
         margin: 0 0 0 4px;
         top: -6px;
@@ -33,6 +36,7 @@
     @media (min-width: 641px) {
       padding-top: 0;
     }
+
     .content {
       margin: 0 15px;
     }
@@ -55,8 +59,8 @@
       margin-top: 5px;
     }
 
-  a.menu {
-      font-family: nta,Arial,sans-serif;
+    a.menu {
+      font-family: nta, Arial, sans-serif;
       font-weight: 400;
       text-transform: none;
       font-size: 14px;
@@ -99,6 +103,7 @@
       padding-right: 15px;
     }
   }
+
   .header-proposition #proposition-links {
     @extend %clearfix;
     clear: both;
@@ -109,27 +114,32 @@
     a {
       color: #fff;
       text-decoration: none;
-      font-family: nta,Arial,sans-serif;
+      font-family: nta, Arial, sans-serif;
       font-weight: 700;
       text-transform: none;
       font-size: 12px;
       line-height: 1.25;
+
       &:hover {
         text-decoration: underline;
       }
     }
+
     li {
       float: left;
       width: 50%;
       padding: 3px 0;
       border-bottom: 1px solid #2e3133;
     }
+
     @media (min-width: 769px) {
       display: block;
+
       a {
         font-size: 14px;
         line-height: 23px;
       }
+
       li {
         display: block;
         width: auto;
@@ -138,11 +148,12 @@
       }
     }
     @media (min-width: 641px) and (min-width: 769px) {
-    a {
-      font-size: 16px;
-      line-height: 1.25;
+      a {
+        font-size: 16px;
+        line-height: 1.25;
+      }
     }
-  }
 
+  }
 }
-}
+// sass-lint:enable-all

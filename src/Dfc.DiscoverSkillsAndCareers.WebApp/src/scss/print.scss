@@ -87,7 +87,9 @@
 }
 
 .app-long-results {
+  // sass-lint:disable-all
   @extend .govuk-inset-text;
+  // sass-lint:enable-all
   display: block;
 
 
@@ -107,7 +109,7 @@
     }
 
     .result-description {
-      height: auto!important;
+      height: auto !important;
       margin-bottom: 20px;
     }
 

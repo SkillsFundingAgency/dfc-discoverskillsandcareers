@@ -48,9 +48,11 @@ $app-text-light: #646C70;
 .govuk-header__container {
   border-bottom-color: $app-turquoise;
 }
+
 .govuk-phase-banner {
-  border-top: 10px solid #207e77;
+  border-top: 10px solid $app-turquoise;
 }
+
 .govuk-phase-bannertag {  // legacy version support
   margin-right: 10px;
 }
