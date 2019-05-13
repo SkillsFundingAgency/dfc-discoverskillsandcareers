@@ -6,7 +6,6 @@ $app-purple: #8c0052;
 $app-purple-hover: #A73C7B;
 $app-turquoise: #207E77;
 $app-turquoise-hover: #48948E;
-$app-dark-border: #7b0048;
 $app-text-light: #646C70;
 
 @import 'progress';
@@ -44,10 +43,6 @@ $app-text-light: #646C70;
 
 .visually-hidden {
   @extend %visually-hidden;
-}
-
-.hidden-screen {
-  display: none;
 }
 
 .govuk-header__container {
