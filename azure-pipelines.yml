@@ -19,7 +19,12 @@ jobs:
      pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
      artifactName: tests
      publishLocation: container
-     
+
+  - task: MSBuild@1
+    displayName: 'Build Change feed dacpac'
+    inputs:
+      solution: 'src/changefeed/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db.sqlproj' 
+
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.2.102'
     inputs:
