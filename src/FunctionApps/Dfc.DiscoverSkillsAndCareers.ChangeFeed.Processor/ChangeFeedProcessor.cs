@@ -150,11 +150,12 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
 
                 var toremoveAnswers = DbContext.Answers.Where(x => x.UserSessionId == userSession.UserSessionId).ToList();
                 DbContext.Answers.RemoveRange(toremoveAnswers);
-                foreach (var answer in userSession?.RecordedAnswers)
+
+                foreach (var answer in userSession.AssessmentState?.RecordedAnswers)
                 {
                     DbContext.Answers.Add(new Data.Entities.UmAnswer()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = userSession.UserSessionId + "-" + answer.QuestionId,
                         UserSessionId = userSession.UserSessionId,
                         AnsweredDt = answer.AnsweredDt,
                         IsNegative = answer.IsNegative,
@@ -163,7 +164,26 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                         QuestionSetVersion = answer.QuestionSetVersion,
                         QuestionText = answer.QuestionText,
                         SelectedOption = answer.SelectedOption.ToString(),
-                        TraitCode = answer.TraitCode
+                        TraitCode = answer.TraitCode,
+                        IsFiltered = false
+                    });
+                }
+
+                foreach (var answer in (userSession.FilteredAssessmentState?.RecordedAnswers) ?? new Models.Answer[]{ })
+                {
+                    DbContext.Answers.Add(new Data.Entities.UmAnswer()
+                    {
+                        Id = userSession.UserSessionId + "-" + answer.QuestionId,
+                        UserSessionId = userSession.UserSessionId,
+                        AnsweredDt = answer.AnsweredDt,
+                        IsNegative = answer.IsNegative,
+                        QuestionId = answer.QuestionId,
+                        QuestionNumber = answer.QuestionNumber,
+                        QuestionSetVersion = answer.QuestionSetVersion,
+                        QuestionText = answer.QuestionText,
+                        SelectedOption = answer.SelectedOption.ToString(),
+                        TraitCode = answer.TraitCode,
+                        IsFiltered = true
                     });
                 }
 
@@ -182,17 +202,22 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                         });
                     }
                 }
-                if (userSession?.ResultData?.WhatYouToldUs != null)
+                if (userSession?.ResultData != null)
                 {
-                    foreach (var whatYouToldUs in userSession.ResultData.WhatYouToldUs)
+                    foreach (var jobFamily in userSession.ResultData.JobFamilies)
                     {
-                        DbContext.ResultStatements.Add(new Data.Entities.UmResultStatement()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            UserSessionId = userSession.UserSessionId,
-                            TextDisplayed = whatYouToldUs,
-                            IsFilter = true
-                        });
+                        if (jobFamily.FilterAssessment != null) {
+                            foreach (var whatYouToldUs in jobFamily.FilterAssessment.WhatYouToldUs)
+                            {
+                                DbContext.ResultStatements.Add(new Data.Entities.UmResultStatement()
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    UserSessionId = userSession.UserSessionId,
+                                    TextDisplayed = whatYouToldUs,
+                                    IsFilter = true
+                                });
+                            }
+                        }
                     }
                 }
 
@@ -204,7 +229,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                     {
                         DbContext.TraitScores.Add(new Data.Entities.UmTraitScore()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = userSession.UserSessionId + "-" + trait.TraitName,
                             UserSessionId = userSession.UserSessionId,
                             Trait = trait.TraitName,
                             Score = trait.TotalScore
@@ -220,7 +245,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                     {
                         DbContext.SuggestedJobCategories.Add(new Data.Entities.UmSuggestedJobCategory()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = userSession.UserSessionId + "-" + jobCategory.JobFamilyCode,
                             UserSessionId = userSession.UserSessionId,
                             JobCategoryCode = jobCategory.JobFamilyCode,
                             JobCategory = jobCategory.JobFamilyName,
@@ -237,10 +262,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                                 DbContext.SuggestedJobProfiles.RemoveRange(toremoveSuggestedJobProfiles);
                                 DbContext.SuggestedJobProfiles.Add(new Data.Entities.UmSuggestedJobProfile()
                                 {
-                                    Id = Guid.NewGuid().ToString(),
+                                    Id = userSession.UserSessionId + "-" + soccode.Key,
                                     UserSessionId = userSession.UserSessionId,
                                     JobCategoryCode = jobCategory.JobFamilyCode,
-                                    SocCode = soccode
+                                    SocCode = soccode.Key
                                 });
                             }
                         }
@@ -271,8 +296,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             entity.LanguageCode = dto.LanguageCode;
             entity.LastUpdatedDt = dto.LastUpdatedDt;
             entity.MaxQuestions = dto.MaxQuestions;
-            entity.QuestionSetVersion = dto.QuestionSetVersion;
+            entity.QuestionSetVersion = dto.CurrentQuestionSetVersion;
             entity.StartedDt = dto.StartedDt;
+
             if (entity.LastUpdatedDt == new DateTime())
             {
                 entity.LastUpdatedDt = DateTime.UtcNow;

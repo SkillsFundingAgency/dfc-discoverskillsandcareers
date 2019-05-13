@@ -13,12 +13,14 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
 {
-    public static class UserSessionChangeFeedTrigger
+    public static class QuestionChangeFeedTrigger
     {
-        [FunctionName("UserSessionChangeFeedTrigger")]
+        public const string DatabaseName = "%DatabaseName%";
+
+        [FunctionName("QuestionChangeFeedTrigger")]
         public static async Task RunAsync([CosmosDBTrigger(
-            databaseName: "TestDatabase",
-            collectionName: "UserSessions",
+            databaseName: DatabaseName,
+            collectionName: "Questions",
             ConnectionStringSetting = "AzureCosmosDBConnection",
             LeaseCollectionName = "leases",
             CreateLeaseCollectionIfNotExists = true)]IReadOnlyList<Document> input,
@@ -29,20 +31,20 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
             var serviceBusSettings = serviceBusSettingsOptions.Value;
             foreach (var doc in input)
             {
-                var userSession = (Dfc.DiscoverSkillsAndCareers.Models.UserSession)(dynamic)doc;
-                log.LogInformation($"Handling usersession update id={userSession.UserSessionId}");
+                var question = (Dfc.DiscoverSkillsAndCareers.Models.Question)(dynamic)doc;
+                log.LogInformation($"Handling question update id={question.QuestionId}");
 
                 // Create a blob
                 var blobName = Guid.NewGuid().ToString();
-                var blobContent = JsonConvert.SerializeObject(userSession);
+                var blobContent = JsonConvert.SerializeObject(question);
                 var blockBlob = await blobStorageService.CreateBlob(blobName, blobContent);
-                log.LogInformation($"Added {userSession.UserSessionId} to blob {blobName}");
+                log.LogInformation($"Added {question.QuestionId} to blob {blobName}");
 
 
                 // Add message to queue
                 var messageContent = new ChangeFeedQueueItem()
                 {
-                    Type = "UserSession",
+                    Type = "Question",
                     BlobName = blockBlob.Name
                 };
 
@@ -51,7 +53,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
                 var json = JsonConvert.SerializeObject(messageContent);
                 Message message = new Message(System.Text.Encoding.ASCII.GetBytes(json));
                 await queueClient.SendAsync(message);
-                log.LogInformation($"Added {userSession.UserSessionId} to queue {serviceBusSettings.QueueName}");
+                log.LogInformation($"Added {question.QuestionId} to queue {serviceBusSettings.QueueName}");
             }
         }
     }

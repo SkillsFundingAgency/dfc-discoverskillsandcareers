@@ -15,9 +15,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
 {
     public static class QuestionSetChangeFeedTrigger
     {
+        public const string DatabaseName = "%DatabaseName%";
+
         [FunctionName("QuestionSetChangeFeedTrigger")]
         public static async Task RunAsync([CosmosDBTrigger(
-            databaseName: "TestDatabase",
+            databaseName: DatabaseName,
             collectionName: "QuestionSets",
             ConnectionStringSetting = "AzureCosmosDBConnection",
             LeaseCollectionName = "leases",

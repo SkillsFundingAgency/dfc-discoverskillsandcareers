@@ -9,12 +9,13 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.Entities
         public string Id { get; set; }
         public string UserSessionId { get; set; }
         public string QuestionId { get; set; }
-        public string QuestionNumber { get; set; }
+        public int QuestionNumber { get; set; }
         public string QuestionText { get; set; }
         public string TraitCode { get; set; }
         public string SelectedOption { get; set; }
         public DateTime AnsweredDt { get; set; }
         public bool IsNegative { get; set; }
         public string QuestionSetVersion { get; set; }
+        public bool IsFiltered { get; set; }
     }
 }

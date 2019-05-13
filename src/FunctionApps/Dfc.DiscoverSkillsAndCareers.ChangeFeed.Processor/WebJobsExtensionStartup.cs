@@ -9,7 +9,6 @@ using Microsoft.Extensions.Options;
 using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common.Blob;
 using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data;
 using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor;
-using Dfc.DiscoverSkillsAndCareers.ChangeFeed.DbDeploy;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 
@@ -30,7 +29,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
         {
             ConfigureOptions(services);
 
-            services.AddSingleton<IUnderstandMyselfDbContext>(srvs =>
+            services.AddScoped<IUnderstandMyselfDbContext>(srvs =>
             {
                 var connectionString = System.Environment.GetEnvironmentVariable("SqlConnectionString");
                 return new UnderstandMyselfDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<UnderstandMyselfDbContext>(), connectionString);
@@ -64,10 +63,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                 env.StorageConnectionString = blobStorageSettings.StorageConnectionString;
                 env.ContainerName = blobStorageSettings.ContainerName;
             });
-
-            var dbDeploySettings = new DbDeploySettings();
-            Configuration.Bind("DbDeploySettings", dbDeploySettings);
-            MigrateDatabaseHelper.Deploy(dbDeploySettings.ConnectionString, dbDeploySettings.ScriptPath);
         }
     }
 }

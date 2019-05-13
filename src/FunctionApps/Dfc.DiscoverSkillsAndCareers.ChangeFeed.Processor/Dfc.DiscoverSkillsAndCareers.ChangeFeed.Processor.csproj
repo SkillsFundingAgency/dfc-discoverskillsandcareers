@@ -21,7 +21,6 @@
       <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
       <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common.csproj" />
       <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data\Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.csproj" />
-      <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.ChangeFeed.DbDeploy\Dfc.DiscoverSkillsAndCareers.ChangeFeed.DbDeploy.csproj" />
     </ItemGroup>
     <ItemGroup>
       <None Update="extensions.json">
