@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
+    [DebuggerDisplay("JobFamily = {JobFamilyCode}")]
     public class JobFamilyResult
     {
         [JsonProperty("jobFamilyCode")]
@@ -35,7 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("traitCode")]
         public string TraitCode { get; set; }
         [JsonProperty("total")]
-        public decimal Total { get; set; }
+        public int Total { get; set; }
         [JsonProperty("normalizedTotal")]
         public decimal NormalizedTotal { get; set; }
     }
