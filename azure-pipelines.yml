@@ -30,7 +30,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: Changefeed DB'
     inputs:
-        pathtoPublish: src/changefeed/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db/bin/Release
+        pathtoPublish: src/changefeed/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db/bin/Output
         artifactName: changefeeddb
         publishLocation: container
 
