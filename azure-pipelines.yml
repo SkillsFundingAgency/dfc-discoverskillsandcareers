@@ -19,7 +19,21 @@ jobs:
      pathtoPublish: src/Dfc.DiscoverSkillsAndCareers.WebApp/
      artifactName: tests
      publishLocation: container
-     
+
+  - task: MSBuild@1
+    displayName: 'Build Change feed dacpac'
+    inputs:
+      solution: 'src/changefeed/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db.sqlproj' 
+      configuration: 'Release'
+      platform: 'x86'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: Changefeed DB'
+    inputs:
+        pathtoPublish: src/changefeed/Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db/bin/Output
+        artifactName: changefeeddb
+        publishLocation: container
+
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.2.102'
     inputs:
