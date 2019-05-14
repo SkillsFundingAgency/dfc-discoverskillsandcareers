@@ -85,6 +85,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     var jobProfiles =
                         await jobProfileRepository.JobProfileBySocCodeAndTitle(jobCategory.FilterAssessment.SuggestedJobProfiles);
 
+                    
+                    log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
+                    
                     foreach (var jobProfile in jobProfiles)
                     {
                         suggestedJobProfiles.Add(new JobProfileResult()

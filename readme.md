@@ -29,9 +29,12 @@
 * .NET Core 2.1 or higher
 * [Azure Functions Tools](https://www.npmjs.com/package/azure-functions-core-tools)
 * [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
+* [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator)
 
 ### Solution Structure
 
+* **Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers** - Subscriptions for the change feed to the underlying Cosmos DB and publishes onto a service bus for consumption by the change feed processor.
+* **Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor** - Subscribes the an azure service bus and processes messages published by the Change feed trigger then stores the data in the given reporting database.
 * **Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp** - Assessment apis for new, move, answer, reload
 * **Dfc.DiscoverSkillsAndCareers.CmsFunctionApp** - CMS timer function
 * **Dfc.DiscoverSkillsAndCareers.ContentFunctionApp** - Content apis to supply CMS content to pages
@@ -180,7 +183,7 @@ Performance testing is carried out using [Lighthouse](https://github.com/GoogleC
 
 ## Deployment Structure
 
-There are 6 deployment artifacts
+There are 9 deployment artifacts
 
 1. **Assessment Api Function** - To be deployed to the api function environment.
 2. **CMS Api Function** - To be deployed to the api function environment.
@@ -188,6 +191,9 @@ There are 6 deployment artifacts
 4. **Questions Api Function** - To be deployed to the api function environment.
 5. **Resukts Api Function** - To be deployed to the api function environment.
 6. **MVC Web App** - To be deployed to the web environment.
+7. **Change Feed Database** - To be deployed to the DFC Shared databsae currently used by DSS
+8. **Change Feed Trigger** - To be deployed to the api function environment
+9. **Change Feed Processor** - To be deployed to the api function environment. 
 
 The support app can be run in order to create the relevant Statement and Content data.
 

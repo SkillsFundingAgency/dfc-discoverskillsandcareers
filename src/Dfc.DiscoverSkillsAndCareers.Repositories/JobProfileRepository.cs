@@ -22,22 +22,23 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             _client = client;
         }
 
-        public async Task<JobProfile[]> JobProfileBySocCodeAndTitle(IDictionary<string, string> socCodeTitleMap)
+        private async Task<IList<SearchResult<T>>> RunAzureSearchQuery<T>(string query, params string[] fields)
+            where T : class
         {
-            var queryString = String.Join("||", socCodeTitleMap.Values.Select(s => $"({s})"));
             var searchParameters = new SearchParameters
             {
+                ScoringProfile = "jp",
                 SearchMode = SearchMode.All,
-                SearchFields = new[] { "Title" },
+                SearchFields = fields,
                 QueryType = QueryType.Full
             };
 
-            var results = await _client.Documents.SearchAsync<JobProfile>(queryString, searchParameters);
+            var results = await _client.Documents.SearchAsync<T>(query, searchParameters);
             var contToken = results.ContinuationToken;
 
             while (contToken != null)
             {
-                var nextResults = await _client.Documents.ContinueSearchAsync<JobProfile>(contToken);
+                var nextResults = await _client.Documents.ContinueSearchAsync<T>(contToken);
                 foreach (var result in nextResults.Results)
                 {
                     results.Results.Add(result);
@@ -48,18 +49,21 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
 
 
-            return results.Results.Select(jp => jp.Document).Where(x => socCodeTitleMap.ContainsKey(x.SocCode)).ToArray();
+            return results.Results;
+        }
+
+        public async Task<JobProfile[]> JobProfileBySocCodeAndTitle(IDictionary<string, string> socCodeTitleMap)
+        {
+            var queryString = String.Join("||", socCodeTitleMap.Values.Select(s => $"({s})"));
+
+            var results = await RunAzureSearchQuery<JobProfile>(queryString, "Title");
+            return results.Select(jp => jp.Document).Where(x => socCodeTitleMap.ContainsKey(x.SocCode)).ToArray();
         }
 
         public async Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily)
         {
-            var searchResults = await _client.Documents.SearchAsync<JobProfile>(jobFamily, new SearchParameters
-            {
-                SearchMode = SearchMode.Any,
-                SearchFields = new[] { "JobProfileCategories" },
-            });
-
-            return searchResults.Results.Select(r => r.Document).ToArray();
+            var results = await RunAzureSearchQuery<JobProfile>($"({jobFamily})", "JobProfileCategories");
+            return results.Select(r => r.Document).ToArray();
         }
     }
 }

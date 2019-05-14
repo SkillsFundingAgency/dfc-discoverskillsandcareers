@@ -89,10 +89,11 @@
       width: 40%;
       padding-right: govuk-spacing(5);
       flex-direction: column;
+
       h1 {
-        align-self: center;
-        margin: 0;
+        margin: auto 0;
       }
+
       .govuk-error-message {
         margin-bottom: .5em;
       }
@@ -123,8 +124,6 @@
 }
 
 .app-question--long {
-  // margin-top: -20px;
-
   .app-question__answer {
     @include govuk-responsive-margin(6, "bottom");
     @include govuk-responsive-margin(6, "top");
@@ -147,22 +146,9 @@
     width: 100%;
   }
 
-  .app-button,
-  .app-button--outline {
+  .app-button {
     @include govuk-media-query($from: desktop) {
       margin-left: govuk-spacing(3);
-    }
-  }
-
-  .app-button--outline {
-    display: block;
-    text-align: center;
-    margin-bottom: govuk-spacing(3);
-    line-height: 1;
-    padding-top: 10px;
-    padding-bottom: 7px;
-    @include govuk-media-query($from: desktop) {
-      display: inline-block;
     }
   }
 }

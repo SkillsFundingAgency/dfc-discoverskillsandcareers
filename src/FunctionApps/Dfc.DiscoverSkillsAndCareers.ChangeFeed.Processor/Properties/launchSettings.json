@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --port 7082"
+    }
+  }
+}

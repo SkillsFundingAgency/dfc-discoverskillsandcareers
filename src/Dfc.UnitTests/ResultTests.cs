@@ -176,20 +176,14 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 0 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "CTD");
-            Assert.True(result[1].JobFamilyCode == "RAS");
-            Assert.True(result[2].JobFamilyCode == "HAF");
-            Assert.True(result[3].JobFamilyCode == "CAT");
-            Assert.True(result[4].JobFamilyCode == "CAM");
-            Assert.True(result[5].JobFamilyCode == "SOC");
-            Assert.True(result[6].JobFamilyCode == "HEC");
-            Assert.True(result[7].JobFamilyCode == "ANC");
-            Assert.True(result[8].JobFamilyCode == "ADM");
-            Assert.True(result[9].JobFamilyCode == "TAE");
+            Assert.Equal(6,result.Count);
+            Assert.Equal("CTD",result[0].JobFamilyCode);
+            Assert.Equal("RAS",result[1].JobFamilyCode);
+            Assert.Equal("HAF",result[2].JobFamilyCode);
+            Assert.Equal("MAN",result[3].JobFamilyCode);
+            Assert.Equal("SAL",result[4].JobFamilyCode);
         }
 
         [Fact]
@@ -207,20 +201,19 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 6 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "CTD");
-            Assert.True(result[1].JobFamilyCode == "HEC");
-            Assert.True(result[2].JobFamilyCode == "ANC");
-            Assert.True(result[3].JobFamilyCode == "CAT");
-            Assert.True(result[4].JobFamilyCode == "CAM");
-            Assert.True(result[5].JobFamilyCode == "ENV");
-            Assert.True(result[6].JobFamilyCode == "EAM");
-            Assert.True(result[7].JobFamilyCode == "EUS");
-            Assert.True(result[8].JobFamilyCode == "ADM");
-            Assert.True(result[9].JobFamilyCode == "RAS");
+            Assert.Equal(10,result.Count);
+            Assert.Equal("HEC",result[0].JobFamilyCode);
+            Assert.Equal("ANC",result[1].JobFamilyCode);
+            Assert.Equal("CAT",result[2].JobFamilyCode);
+            Assert.Equal("CAM",result[3].JobFamilyCode);
+            Assert.Equal("EUS",result[4].JobFamilyCode);
+            Assert.Equal("CTD",result[5].JobFamilyCode);
+            Assert.Equal("TAE",result[6].JobFamilyCode);
+            Assert.Equal("TAT",result[7].JobFamilyCode);
+            Assert.Equal("ADM",result[8].JobFamilyCode);
+            Assert.Equal("RAS",result[9].JobFamilyCode);
         }
 
         [Fact]
@@ -238,9 +231,9 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -8 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            Assert.True(result.Count == 0);
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -258,9 +251,9 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 0 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            Assert.True(result.Count == 0);
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -278,27 +271,12 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "MAN");
-            Assert.True(result[1].JobFamilyCode == "BAW");
-            Assert.True(result[2].JobFamilyCode == "SAL");
-            Assert.True(result[3].JobFamilyCode == "RAS");
-            Assert.True(result[4].JobFamilyCode == "HAF");
-            Assert.True(result[5].JobFamilyCode == "SAR");
-            Assert.True(result[6].JobFamilyCode == "MAU");
-            Assert.True(result[7].JobFamilyCode == "TAE");
-            Assert.True(result[8].JobFamilyCode == "BAF");
-            Assert.True(result[9].JobFamilyCode == "LAL");
+            Assert.Single(result);
+            Assert.Equal("MAN",result[0].JobFamilyCode);
         }
-
-        private string FriendlyJobsString(IEnumerable<JobFamilyResult> result)
-        {
-            return string.Join(Environment.NewLine, result.Select(x => $"{x.JobFamilyName} {x.Total.ToString("N2")} {x.JobFamilyCode} {x.TraitsTotal.ToString()}").ToArray());
-        }
-
+        
         [Fact]
         public void CalculateJobFamilyRelevance_WithHelperAnalystCreator_Should()
         {
@@ -314,20 +292,11 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
-
-            var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "CTD");
-            Assert.True(result[1].JobFamilyCode == "SOC");
-            Assert.True(result[2].JobFamilyCode == "HEC");
-            Assert.True(result[3].JobFamilyCode == "ANC");
-            Assert.True(result[4].JobFamilyCode == "CAT");
-            Assert.True(result[5].JobFamilyCode == "CAM");
-            Assert.True(result[6].JobFamilyCode == "SAL");
-            Assert.True(result[7].JobFamilyCode == "ADM");
-            Assert.True(result[8].JobFamilyCode == "RAS");
-            Assert.True(result[9].JobFamilyCode == "HAF");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
+            
+            Assert.Equal(2, result.Count);
+            Assert.Equal("CTD",result[0].JobFamilyCode);
+            Assert.Equal("SOC",result[1].JobFamilyCode);
         }
 
         [Fact]
@@ -345,20 +314,16 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 6 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "GOV");
-            Assert.True(result[1].JobFamilyCode == "HOM");
-            Assert.True(result[2].JobFamilyCode == "ENV");
-            Assert.True(result[3].JobFamilyCode == "EAM");
-            Assert.True(result[4].JobFamilyCode == "TRA");
-            Assert.True(result[5].JobFamilyCode == "DAS");
-            Assert.True(result[6].JobFamilyCode == "BAF");
-            Assert.True(result[7].JobFamilyCode == "LAL");
-            Assert.True(result[8].JobFamilyCode == "TAT");
-            Assert.True(result[9].JobFamilyCode == "BAW");
+            Assert.Equal(6,result.Count);
+            Assert.Equal("HOM",result[0].JobFamilyCode);
+            Assert.Equal("TRA",result[1].JobFamilyCode);
+            Assert.Equal("DAS",result[2].JobFamilyCode);
+            Assert.Equal("GOV",result[3].JobFamilyCode);
+            Assert.Equal("ENV",result[4].JobFamilyCode);
+            Assert.Equal("EAM",result[5].JobFamilyCode);
+
         }
 
         [Fact]
@@ -376,20 +341,13 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = -6 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
-
-            var jobs = FriendlyJobsString(result);
-            Assert.True(result.Count == 10);
-            Assert.True(result[0].JobFamilyCode == "ADM");
-            Assert.True(result[1].JobFamilyCode == "GOV");
-            Assert.True(result[2].JobFamilyCode == "SAR");
-            Assert.True(result[3].JobFamilyCode == "MAU");
-            Assert.True(result[4].JobFamilyCode == "BAF");
-            Assert.True(result[5].JobFamilyCode == "LAL");
-            Assert.True(result[6].JobFamilyCode == "MAN");
-            Assert.True(result[7].JobFamilyCode == "BAW");
-            Assert.True(result[8].JobFamilyCode == "CTD");
-            Assert.True(result[9].JobFamilyCode == "SAL");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
+            
+            Assert.Equal(4, result.Count);
+            Assert.Equal("SAR",result[0].JobFamilyCode);
+            Assert.Equal("MAU",result[1].JobFamilyCode);
+            Assert.Equal("ADM",result[2].JobFamilyCode);
+            Assert.Equal("GOV",result[3].JobFamilyCode);
         }
 
         [Fact]
@@ -407,9 +365,9 @@ namespace Dfc.UnitTests
                 new TraitResult() { TraitCode = "DOER", TotalScore = 3 }
             };
 
-            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en");
+            var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
-            Assert.True(result.Count == 10);
+            Assert.Equal(10, result.Count);
         }
     }
 

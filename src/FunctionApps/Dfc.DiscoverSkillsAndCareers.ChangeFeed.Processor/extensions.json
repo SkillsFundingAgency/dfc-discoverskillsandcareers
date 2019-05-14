@@ -1,0 +1,16 @@
+﻿{
+    "extensions": [
+        {
+            "name": "AzureStorage",
+            "typeName": "Microsoft.Azure.WebJobs.Extensions.Storage.AzureStorageWebJobsStartup, Microsoft.Azure.WebJobs.Extensions.Storage, Version=3.0.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+        },
+        {
+            "name": "ServiceBus",
+            "typeName": "Microsoft.Azure.WebJobs.ServiceBus.ServiceBusWebJobsStartup, Microsoft.Azure.WebJobs.ServiceBus, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+        },
+        {
+            "name": "IoC",
+            "typeName": "Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor.WebJobsExtensionStartup, Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor"
+        }
+    ]
+}

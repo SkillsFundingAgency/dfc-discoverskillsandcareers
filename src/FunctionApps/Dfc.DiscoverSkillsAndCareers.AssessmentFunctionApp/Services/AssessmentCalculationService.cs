@@ -87,7 +87,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .OrderByDescending(x => x.TotalScore)
                 .ToList();
 
-            var jobCategories = CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode).ToArray();
+            var jobCategories = 
+                    CalculateJobFamilyRelevance(jobFamilies, userTraits, userSession.LanguageCode)
+                        .OrderByDescending(x => x.Total)
+                        .Take(10)
+                        .ToArray();
             var filteredQuestionsLookup = filteredQuestionSet.ToDictionary(r => r.QuestionSetKey, StringComparer.InvariantCultureIgnoreCase);
 
             foreach (var jobCat in jobCategories)
@@ -115,42 +119,47 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             userSession.ResultData = resultData;
         }
 
-        public List<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
+        public IEnumerable<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
         {
-            var userJobFamilies = jobFamilies
-              .Select(x =>
-              {
-                  var uTraits = userTraits.Where(t => x.TraitCodes.Contains(t.TraitCode)).ToArray();
-                  var jfText = x.Texts.FirstOrDefault(t => t.LanguageCode.ToLower() == languageCode?.ToLower());
-                  return new JobFamilyResult()
-                  {
-                      JobFamilyCode = x.JobFamilyCode,
-                      JobFamilyName = x.JobFamilyName,
-                      JobFamilyText = jfText?.Text,
-                      Url = jfText?.Url,
-                      TraitsTotal = uTraits.Sum(t => t.TotalScore),
-                      TraitValues =
-                          uTraits.Select(v => new TraitValue()
-                          {
-                              TraitCode = v.TraitCode,
-                              Total = v.TotalScore,
-                              NormalizedTotal = x.ResultMultiplier * v.TotalScore
-                          }).ToArray(),
-                      NormalizedTotal = x.ResultMultiplier
-                  };
-              })
-              .Where(x => x.TraitValues.Any(v => v.Total > 0))
-              .ToList();
-            userJobFamilies.ForEach(x =>
+            var traitLookup = userTraits.Where(r => r.TotalScore > 0)
+                                        .ToDictionary(r => r.TraitCode, StringComparer.InvariantCultureIgnoreCase);
+
+            var results = new List<JobFamilyResult>();
+            foreach (var jobFamily in jobFamilies)
             {
-                x.Total = x.TraitValues.Where(v => v.NormalizedTotal >= 1m).Sum(v => v.NormalizedTotal);
-                x.NormalizedTotal = x.NormalizedTotal * x.TraitValues.Sum(v => v.Total);
-            });
-            var result = userJobFamilies
-                .OrderByDescending(x => x.Total)
-                .Take(10)
-                .ToList();
-            return result;
+                
+                if (jobFamily.TraitCodes.All(tc => traitLookup.ContainsKey(tc)))
+                {
+                    var jfText = jobFamily.Texts.FirstOrDefault(t => t.LanguageCode.ToLower() == languageCode?.ToLower());
+
+                    var uTraits = 
+                        jobFamily.TraitCodes.Select(tc =>
+                        {
+                            var trait = traitLookup[tc];
+                            return new TraitValue()
+                            {
+                                TraitCode = trait.TraitCode,
+                                Total = trait.TotalScore,
+                                NormalizedTotal = jobFamily.ResultMultiplier * Convert.ToDecimal(trait.TotalScore)
+                            };
+
+                        }).ToArray();
+                    var traitsTotal = uTraits.Sum(r => r.Total);
+                    results.Add(new JobFamilyResult()
+                    {
+                        JobFamilyCode = jobFamily.JobFamilyCode,
+                        JobFamilyName = jobFamily.JobFamilyName,
+                        JobFamilyText = jfText?.Text,
+                        Url = jfText?.Url,
+                        TraitsTotal = traitsTotal,
+                        TraitValues = uTraits,
+                        NormalizedTotal = uTraits.Sum(r => r.NormalizedTotal),
+                        Total = traitsTotal
+                    });
+                }
+            }
+
+            return results.OrderByDescending(t => t.Total).Take(10);
         }
     }
 }
