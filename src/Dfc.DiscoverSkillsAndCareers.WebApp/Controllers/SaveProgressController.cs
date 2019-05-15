@@ -99,6 +99,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     model.ErrorMessage = "You must enter an email address";
                 }
+                else if (e == "2")
+                {
+                    model.ErrorMessage = "Unable able to send email at this time";
+                }
                 return View("EmailInput", model);
             }
             catch (Exception ex)
@@ -141,8 +145,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
-                    model.ErrorMessage = "Enter a valid email address";
-                    return View("EmailInput", model);
+                    return Redirect("/save-my-progress/email?e=2");
                 }
 
             }
@@ -171,6 +174,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter a phone number";
+                }
+                else if (e == "2")
+                {
+                    model.ErrorMessage = "Unable able to send sms at this time";
                 }
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
@@ -217,6 +224,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter a phone number";
+                }
+                else if (e == "2")
+                {
+                    model.ErrorMessage = "Unable able to send sms at this time";
                 }
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 AppendCookie(sessionId);
@@ -273,8 +284,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
-                    model.ErrorMessage = "Enter a valid phone number";
-                    return View("ReferenceNumber", model);
+                    return Redirect("/save-my-progress/reference?e=2");
                 }
 
             }
