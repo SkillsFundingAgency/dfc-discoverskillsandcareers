@@ -80,7 +80,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpGet("email", Name = "SaveProgressEmailInput")]
-        public async Task<IActionResult> EmailInput()
+        public async Task<IActionResult> EmailInput(string e = "")
         {
             var correlationId = Guid.NewGuid();
             try
@@ -95,6 +95,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
                 AppendCookie(sessionId);
+                if (e == "1")
+                {
+                    model.ErrorMessage = "You must enter an email address";
+                }
                 return View("EmailInput", model);
             }
             catch (Exception ex)
@@ -119,8 +123,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
                 {
-                    model.ErrorMessage = "You must enter an email address";
-                    return View("EmailInput", model);
+                    return Redirect("/save-my-progress/email?e=1");
                 }
                 NotifyResponse notifyResponse = null;
                 try
@@ -151,7 +154,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpGet("sms", Name = "SaveProgressSmsInput")]
-        public async Task<IActionResult> SmsInput()
+        public async Task<IActionResult> SmsInput(string e = "")
         {
             var correlationId = Guid.NewGuid();
             try
@@ -165,6 +168,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
+                if (e == "1")
+                {
+                    model.ErrorMessage = "Enter a phone number";
+                }
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
             }
@@ -193,7 +200,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpGet("reference", Name = "SaveProgressReference")]
-        public async Task<IActionResult> ReferenceNumber()
+        public async Task<IActionResult> ReferenceNumber(string e = "")
         {
             var correlationId = Guid.NewGuid();
             try
@@ -207,6 +214,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var model = new SaveProgressViewModel();
                 model.BackLink = "/save-my-progress";
+                if (e == "1")
+                {
+                    model.ErrorMessage = "Enter a phone number";
+                }
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 AppendCookie(sessionId);
                 return View("ReferenceNumber", model);
@@ -244,8 +255,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.BackLink = "/save-my-progress";
                 if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()) || !System.Text.RegularExpressions.Regex.Match(sendSmsRequest.MobileNumber, @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").Success)
                 {
-                    model.ErrorMessage = "Enter a phone number";
-                    return View("ReferenceNumber", model);
+                    return Redirect("/save-my-progress/reference?e=1");
                 }
                 NotifyResponse notifyResponse = null;
                 try
