@@ -104,8 +104,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     );
                     continue;
                 }
-
-
+                
                 jobCat.TotalQuestions = qs.MaxQuestions;
             }
 
