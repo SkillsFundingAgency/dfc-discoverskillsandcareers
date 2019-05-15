@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -97,12 +98,17 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 AppendCookie(sessionId);
                 if (e == "1")
                 {
-                    model.ErrorMessage = "You must enter an email address";
+                    model.ErrorMessage = "Enter an email address";
                 }
                 else if (e == "2")
                 {
+                    model.ErrorMessage = "Enter a valid email address";
+                }
+                else if (e == "3")
+                {
                     model.ErrorMessage = "Unable able to send email at this time";
                 }
+                
                 return View("EmailInput", model);
             }
             catch (Exception ex)
@@ -123,12 +129,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-                var model = new SaveProgressViewModel();
-                model.BackLink = "/save-my-progress";
-                if (string.IsNullOrEmpty(sendEmailRequest.Email?.Trim()))
+
+                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
+
+                if (!sendEmailRequest.ValidEmail)
                 {
-                    return Redirect("/save-my-progress/email?e=1");
+                    if (string.IsNullOrWhiteSpace(sendEmailRequest.Email))
+                    {
+                        return Redirect("/save-my-progress/email?e=1");
+                    }
+
+                    return Redirect("/save-my-progress/email?e=2");
                 }
+
+
+
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -145,7 +160,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
-                    return Redirect("/save-my-progress/email?e=2");
+                    return Redirect("/save-my-progress/email?e=3");
                 }
 
             }
@@ -169,13 +184,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = new SaveProgressViewModel();
-                model.BackLink = "/save-my-progress";
+                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter a phone number";
                 }
                 else if (e == "2")
+                {
+                    model.ErrorMessage = "Enter a valid phone number";
+                }
+                else if (e == "3")
                 {
                     model.ErrorMessage = "Unable able to send sms at this time";
                 }
@@ -227,8 +245,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
+                    model.ErrorMessage = "Enter a valid phone number";
+                }
+                else if (e == "3")
+                {
                     model.ErrorMessage = "Unable able to send sms at this time";
                 }
+                
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 AppendCookie(sessionId);
                 return View("ReferenceNumber", model);
@@ -261,13 +284,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-                var model = new SaveProgressViewModel();
+
+                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                model.BackLink = "/save-my-progress";
-                if (string.IsNullOrEmpty(sendSmsRequest.MobileNumber?.Trim()) || !System.Text.RegularExpressions.Regex.Match(sendSmsRequest.MobileNumber, @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").Success)
+                
+                    
+                if (!sendSmsRequest.ValidMobileNumber)
                 {
-                    return Redirect("/save-my-progress/reference?e=1");
+                    if (String.IsNullOrWhiteSpace(sendSmsRequest.MobileNumber))
+                    {
+                        return Redirect("/save-my-progress/reference?e=1");
+                    }
+                    
+                    return Redirect("/save-my-progress/reference?e=2");
                 }
+                
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -284,7 +315,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
-                    return Redirect("/save-my-progress/reference?e=2");
+                    return Redirect("/save-my-progress/reference?e=3");
                 }
 
             }
