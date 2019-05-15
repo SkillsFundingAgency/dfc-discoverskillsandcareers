@@ -133,24 +133,22 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 QuestionSetVersion = userSession.CurrentQuestionSetVersion
             };
 
-            List<Answer> newAnswerSet;
-
             // Add the answer to the session answers
             if (userSession.IsFilterAssessment)
             {
-                newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionNumber < question.Order)
-                    .ToList();
-                
+//                newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionNumber < question.Order)
+//                    .ToList();
+                userSession.FilteredAssessmentState.CurrentQuestion = question.Order;
+
             }
-            else
-            {
-                newAnswerSet = userSession.CurrentRecordedAnswers
-                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                    .ToList();
-                
-            }
-        
+            
+            
+            var newAnswerSet = userSession.CurrentRecordedAnswers
+                .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
+                .ToList();
+
             newAnswerSet.Add(answer);
+            
             userSession.CurrentState.RecordedAnswers = newAnswerSet.ToArray();
         }
 

@@ -124,7 +124,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     ReloadCode = userSession.UserSessionId,
                     MaxQuestionsCount = userSession.MaxQuestions,
                     RecordedAnswersCount = userSession.CurrentRecordedAnswers.Count(),
-                    RecordedAnswer = userSession.CurrentRecordedAnswers.SingleOrDefault(r => r.QuestionNumber == questionNumber)?.SelectedOption,
+                    RecordedAnswer = userSession.CurrentRecordedAnswers.DefaultIfEmpty().SingleOrDefault(r => r?.QuestionNumber == questionNumber)?.SelectedOption,
                     StartedDt = userSession.StartedDt,
                     IsFilterAssessment = userSession.IsFilterAssessment,
                     JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe
