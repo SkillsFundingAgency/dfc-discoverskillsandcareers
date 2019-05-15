@@ -117,8 +117,18 @@ var results = (function () {
         }
 
         var updateButtons = () => {
-          showButtonElement.innerText = getRemainingCards() > 0 ? showMoreText.replace(/_count/g, getRemainingCards()) : ''
-          hideButtonElement.innerText = groupIndex > 0 ? showLessText : ''
+          if (getRemainingCards() > 0) {
+            showButtonElement.style.display = 'initial';
+            showButtonElement.innerText = showMoreText.replace(/_count/g, getRemainingCards())
+          } else {
+            showButtonElement.style.display = 'none';
+            showButtonElement.innerText = showMoreText
+          }
+          if (groupIndex > 0) {
+            hideButtonElement.style.display = 'initial';
+          } else {
+            hideButtonElement.style.display = 'none';
+          }
         }
 
         var saveState = () => {
@@ -165,7 +175,7 @@ var results = (function () {
           // Less button
           hideButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
           hideButtonElement.href = '#'
-          hideButtonElement.innerText = ''
+          hideButtonElement.innerText = showLessText
           wrapperElement.appendChild(hideButtonElement)
 
           hideButtonElement.addEventListener('click', function (event) {
