@@ -1,4 +1,7 @@
 var results = (function () {
+  const cookieName = '.dysac-result'
+  const cookieData = getCookie(cookieName)
+  const data = cookieData ? JSON.parse(cookieData) : null
   function breakArrayIntoGroups (data, maxPerGroup) {
     var groups = []
     for (var index = 0; index < data.length; index += maxPerGroup) {
@@ -53,8 +56,14 @@ var results = (function () {
     short: function () {
       const resultsList = document.getElementById('app-results-list')
       const resultsItems = Array.prototype.slice.call(resultsList.children)
-
       const other = resultsItems.filter(result => resultsItems.indexOf(result) >= 3)
+
+      var saveState = (state) => {
+        let cookieData = getCookie(cookieName)
+        let data = cookieData ? JSON.parse(cookieData) : {}
+        data['general'] = state
+        setCookie(cookieName, JSON.stringify(data))
+      }
 
       if (other.length) {
         other.map(item => {
@@ -66,9 +75,7 @@ var results = (function () {
 
         // "See x other job…" title
         const titleElement = document.createElement('h2')
-        const titleText = other.length === 1 ?
-              'See ' + other.length + ' other job category you are suited to'
-              : 'See ' + other.length + ' other job categories you are suited to';
+        const titleText = other.length === 1 ? 'See ' + other.length + ' other job category you are suited to' : 'See ' + other.length + ' other job categories you are suited to'
         titleElement.innerHTML = titleText
 
         wrapperElement.appendChild(titleElement)
@@ -83,22 +90,28 @@ var results = (function () {
         // Append everything to container
         resultsList.parentNode.appendChild(wrapperElement)
 
-        buttonElement.addEventListener('click', function (event) {
-          event.preventDefault()
+        function showItems() {
           other.map(item => {
             item.style.display = 'block'
           })
           titleElement.parentNode.removeChild(titleElement)
           buttonElement.parentNode.removeChild(buttonElement)
+        }
+
+        if (data['general']) {
+          showItems();
+        }
+
+        buttonElement.addEventListener('click', function (event) {
+          event.preventDefault()
+          showItems();
+          saveState(true)
           return false
         })
       }
     },
     long: function () {
       const resultsLists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
-      const cookieName = '.dysac-result'
-      const cookieData = getCookie(cookieName)
-      const data = cookieData ? JSON.parse(cookieData) : null
 
       resultsLists.map(resultsList => {
         const showButtonElement = document.createElement('a')
@@ -117,7 +130,7 @@ var results = (function () {
         const groups = breakArrayIntoGroups(cards, rowLength)
         const groupsToShow = data && code ? data[code] : null
 
-        let groupIndex = groupsToShow ? groupsToShow : 0
+        let groupIndex = groupsToShow || 0
 
         var updateCardHeight = () => {
           if (document.body.clientWidth >= 768) {
@@ -127,16 +140,16 @@ var results = (function () {
 
         var updateButtons = () => {
           if (getRemainingCards() > 0) {
-            showButtonElement.style.display = 'initial';
+            showButtonElement.style.display = 'initial'
             showButtonElement.innerText = showMoreText.replace(/_count/g, getRemainingCards())
           } else {
-            showButtonElement.style.display = 'none';
+            showButtonElement.style.display = 'none'
             showButtonElement.innerText = showMoreText
           }
           if (groupIndex > 0) {
-            hideButtonElement.style.display = 'initial';
+            hideButtonElement.style.display = 'initial'
           } else {
-            hideButtonElement.style.display = 'none';
+            hideButtonElement.style.display = 'none'
           }
         }
 
