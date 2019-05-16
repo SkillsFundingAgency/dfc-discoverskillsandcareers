@@ -3,7 +3,7 @@ using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
 {
-    public class ResultsViewModel
+    public class ResultsViewModel : BaseViewModel
     {
         public string SessionId { get; set; }
         public string Code { get; set; }
