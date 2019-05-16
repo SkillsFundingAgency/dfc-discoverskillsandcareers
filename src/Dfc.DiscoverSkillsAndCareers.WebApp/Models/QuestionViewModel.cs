@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string Code { get; set; }
         public bool IsFilterAssessment { get; set; }
         public AnswerOption? RecordedAnswer { get; set; }
-        public string NoAnswerErrorMessage { get; set; } = "Select an option below to continue";
+        public string NoAnswerErrorMessage { get; set; } = "Choose an answer to the statement";
         public string AssessmentType { get; set; }
     }
 }
