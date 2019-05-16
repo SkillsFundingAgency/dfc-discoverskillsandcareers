@@ -17,7 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public int CurrentQuestion { get; set; }
 
         [JsonIgnore]
-        public bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
+        public virtual bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
         
         [JsonProperty("completeDt")]
         public DateTime? CompleteDt { get; set; }
@@ -37,6 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonIgnore]
         public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");
 
+        public override bool IsComplete => RecordedAnswers?.DefaultIfEmpty()?.Last()?.QuestionNumber == MaxQuestions;
     }
     
     public class UserSession

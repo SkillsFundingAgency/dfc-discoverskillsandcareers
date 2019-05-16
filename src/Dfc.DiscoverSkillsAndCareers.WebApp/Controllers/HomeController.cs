@@ -34,8 +34,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 };
                 if (e == "1")
                 {
-                    model.ResumeErrorMessage = model.MissingCodeErrorMessage;
+                    model.ErrorMessage = "Enter your reference";
+                } else if (e == "2")
+                {
+                    model.ErrorMessage = "The reference could not be found";
                 }
+                
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
