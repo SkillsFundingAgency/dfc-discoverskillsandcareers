@@ -31,16 +31,21 @@ var results = (function () {
         const cards = Array.prototype.slice.call(list.getElementsByClassName('app-long-results__item'))
         var groups = breakArrayIntoGroups(cards, 3)
         groups.map(group => {
-          var height = 0
+          var descriptionHeight = 0
+          var salaryHeight = 0
           group.map(card => {
             var description = card.getElementsByClassName('result-description')[0]
+            var salary = card.getElementsByClassName('result-detail--salary')[0]
             description.style.height = 'auto'
-            height = description.offsetHeight > height ? description.offsetHeight : height
+            salary.style.height = 'auto'
+            descriptionHeight = description.offsetHeight > descriptionHeight ? description.offsetHeight : descriptionHeight
+            salaryHeight = salary.offsetHeight > salaryHeight ? salary.offsetHeight : salaryHeight
           })
-          console.log(group, height)
           group.map(card => {
             var description = card.getElementsByClassName('result-description')[0]
-            description.style.height = height + 'px'
+            var salary = card.getElementsByClassName('result-detail--salary')[0]
+            description.style.height = descriptionHeight + 'px'
+            salary.style.height = salaryHeight + 'px'
           })
         })
       })
