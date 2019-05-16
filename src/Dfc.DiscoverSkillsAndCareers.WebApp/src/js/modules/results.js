@@ -26,18 +26,22 @@ var results = (function () {
   }
   return {
     cardHeight: function () {
-      const cards = Array.prototype.slice.call(document.getElementsByClassName('app-long-results__item'))
-      var groups = breakArrayIntoGroups(cards, 3)
-      groups.map(group => {
-        var height = 0
-        group.map(card => {
-          var description = card.getElementsByClassName('result-description')[0]
-          description.style.height = 'auto'
-          height = description.offsetHeight > height ? description.offsetHeight : height
-        })
-        group.map(card => {
-          var description = card.getElementsByClassName('result-description')[0]
-          description.style.height = height + 'px'
+      const lists = Array.prototype.slice.call(document.getElementsByClassName('app-long-results'))
+      lists.map(list => {
+        const cards = Array.prototype.slice.call(list.getElementsByClassName('app-long-results__item'))
+        var groups = breakArrayIntoGroups(cards, 3)
+        groups.map(group => {
+          var height = 0
+          group.map(card => {
+            var description = card.getElementsByClassName('result-description')[0]
+            description.style.height = 'auto'
+            height = description.offsetHeight > height ? description.offsetHeight : height
+          })
+          console.log(group, height)
+          group.map(card => {
+            var description = card.getElementsByClassName('result-description')[0]
+            description.style.height = height + 'px'
+          })
         })
       })
     },
