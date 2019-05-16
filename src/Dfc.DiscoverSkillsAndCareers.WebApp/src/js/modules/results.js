@@ -65,6 +65,14 @@ var results = (function () {
         setCookie(cookieName, JSON.stringify(data))
       }
 
+      function showItems (items, titleElement, buttonElement) {
+        items.map(item => {
+          item.style.display = 'block'
+        })
+        titleElement.parentNode.removeChild(titleElement)
+        buttonElement.parentNode.removeChild(buttonElement)
+      }
+
       if (other.length) {
         other.map(item => {
           item.style.display = 'none'
@@ -90,21 +98,13 @@ var results = (function () {
         // Append everything to container
         resultsList.parentNode.appendChild(wrapperElement)
 
-        function showItems() {
-          other.map(item => {
-            item.style.display = 'block'
-          })
-          titleElement.parentNode.removeChild(titleElement)
-          buttonElement.parentNode.removeChild(buttonElement)
-        }
-
-        if (data['general']) {
-          showItems();
+        if (data && data['general']) {
+          showItems(other, titleElement, buttonElement)
         }
 
         buttonElement.addEventListener('click', function (event) {
           event.preventDefault()
-          showItems();
+          showItems(other, titleElement, buttonElement)
           saveState(true)
           return false
         })
