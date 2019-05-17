@@ -107,6 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
+                userSession.CurrentState.CurrentQuestion = question.Order;
                 await userSessionRepository.UpdateUserSession(userSession);
 
                 int percentComplete = Convert.ToInt32((((decimal)questionNumber - 1M) / (decimal)userSession.MaxQuestions) * 100);
@@ -114,7 +115,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 {
                     CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
                     IsComplete = userSession.IsComplete,
-                    NextQuestionNumber = userSession.FindNextUnansweredQuestion(),
+                    NextQuestionNumber = userSession.FindNextQuestionToAnswer(),
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,
