@@ -108,6 +108,7 @@
       display: none;
     }
 
+    .result-detail,
     .result-description {
       height: auto !important;
       margin-bottom: 20px;
@@ -130,6 +131,14 @@
       display: inline;
       margin: 0;
       float: none;
+      .visually-hidden {
+        display: inline !important;
+        position: relative !important;
+        height: auto;
+        width: auto;
+        clip: unset;
+        overflow: auto;
+      }
     }
 
     .result-meta {
