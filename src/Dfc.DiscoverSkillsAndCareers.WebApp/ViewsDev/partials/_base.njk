@@ -16,6 +16,8 @@
   <head>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/print.css" media="print">
+    <link rel="preload" href="/assets/fonts/light-f38ad40456-v1.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/bold-a2452cb66f-v1.woff2" as="font" type="font/woff2" crossorigin>
     <script>
 
       var patterns = {
@@ -75,8 +77,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0b0c0c" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{{ pageTitle }} - National Careers Service - GOV.UK</title>
-    
+    <title>@(!String.IsNullOrEmpty(Model.ErrorMessage) ? "Error - " : ""){{ pageTitle }} - National Careers Service - GOV.UK</title>
 
   </head>
   <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
@@ -118,7 +119,7 @@
       meta: {
         items: [
           {
-            href: "mailto:discover.skillscareers@education.gov.uk",
+            href: "https://nationalcareers.service.gov.uk/help",
             text: "Help"
           },
           {

@@ -94,13 +94,15 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 
                 userSession.UpdateCompletionStatus();
 
-                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
+                var isLastQuestion = question.Order == userSession.CurrentMaxQuestions;
+                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession, isLastQuestion);
 
+                var displayFinish = isLastQuestion && userSession.IsComplete;
 
                 var result = new PostAnswerResponse()
                 {
                     IsSuccess = true,
-                    IsComplete = userSession.IsComplete,
+                    IsComplete = displayFinish,
                     IsFilterAssessment = userSession.IsFilterAssessment,
                     JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
                     NextQuestionNumber = userSession.CurrentQuestion
@@ -153,11 +155,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
         }
 
         private static async Task TryEvaluateSession(ILogger log, IAssessmentCalculationService resultsService,
-            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession)
+            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession, bool isLastQuestion)
         {
             var state = userSession.CurrentState;
 
-            if (state.IsComplete)
+            if (state.IsComplete && isLastQuestion)
             {
                 if (userSession.IsFilterAssessment)
                 {
@@ -178,7 +180,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 }
                 else
                 {
-                    userSession.CurrentState.CurrentQuestion = userSession.FindNextUnansweredQuestion();
+                    userSession.CurrentState.CurrentQuestion = userSession.FindNextQuestionToAnswer();
                 }
             }
         }
