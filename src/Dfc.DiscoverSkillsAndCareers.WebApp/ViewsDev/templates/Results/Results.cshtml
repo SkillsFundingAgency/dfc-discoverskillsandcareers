@@ -57,7 +57,7 @@
               }
               else
               {
-                  <p>Because of your answers, we could not recommend any job categories. You might want to go through the assessment again to check that your responses were correct.</p> 
+                  <p>Because of your answers, we could not recommend any job categories. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were correct.</p> 
               }
             </div>
 
@@ -74,67 +74,69 @@
 
     <div class="govuk-main-wrapper govuk-width-container @(Model.AssessmentType == "short" ? string.Empty : "govuk-!-padding-top-7")">
 
-      <div class="govuk-body">
+        <div class="govuk-body">
 
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            {% include "_sendresults.njk" %}
-          </div>
-        </div>
-
-        <div class="app-results">
-
-          <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobFamilies.Length) that might suit you</h2>
-
-          <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
-            @foreach (var jobCategory in Model.JobFamilies)
+            @if (Model.Traits.Any())
             {
-              <li class="app-results__item" data-job-family-code="@jobCategory.JobFamilyCode">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
-                        <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobFamilyName</a></h3>
-                        <p>@jobCategory.JobFamilyText</p>
-                        @if (Model.UseFilteringQuestions)
-                        {
-                            <p class="app-noprint">To find out job roles you might be suited to in @(jobCategory.JobFamilyName), answer more questions.</p>
-                            if (jobCategory.FilterAssessment != null && jobCategory.FilterAssessment.SuggestedJobProfiles.Count > 0)
-                            {
-                                <a href="/results/@jobCategory.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
-                            }
-                            else
-                            {
-                              <a href="/results/filtered/@jobCategory.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button app-button">
-                                @if (jobCategory.TotalQuestions == 1)
-                                {
-                                    @("Answer 1 more question")  
-                                }
-                                else
-                                {
-                                  @("Answer " + jobCategory.TotalQuestions.ToString() + " more questions")
-                                }
-                                <span class="visually-hidden"> for @jobCategory.JobFamilyName</span>
-                              </a>
-                            }
-                        }
-                        <hr>
+                        {% include "_sendresults.njk" %}
                     </div>
                 </div>
-              </li>
+
+                <div class="app-results">
+
+                    <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobFamilies.Length) that might suit you</h2>
+
+                    <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
+                        @foreach (var jobCategory in Model.JobFamilies)
+                        {
+                            <li class="app-results__item" data-job-family-code="@jobCategory.JobFamilyCode">
+                                <div class="govuk-grid-row">
+                                    <div class="govuk-grid-column-two-thirds">
+                                        <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobFamilyName</a></h3>
+                                        <p>@jobCategory.JobFamilyText</p>
+                                        @if (Model.UseFilteringQuestions)
+                                        {
+                                            <p class="app-noprint">To find out job roles you might be suited to in @(jobCategory.JobFamilyName), answer more questions.</p>
+                                            if (jobCategory.FilterAssessment != null && jobCategory.FilterAssessment.SuggestedJobProfiles.Count > 0)
+                                            {
+                                                <a href="/results/@jobCategory.FilterAssessment.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/results/filtered/@jobCategory.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button app-button">
+                                                    @if (jobCategory.TotalQuestions == 1)
+                                                    {
+                                                        @("Answer 1 more question")
+                                                    }
+                                                    else
+                                                    {
+                                                        @("Answer " + jobCategory.TotalQuestions.ToString() + " more questions")
+                                                    }
+                                                    <span class="visually-hidden"> for @jobCategory.JobFamilyName</span>
+                                                </a>
+                                            }
+                                        }
+                                        <hr>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ol>
+
+                </div>
+
+                <div class="app-back-to-top" data-module="app-back-to-top">
+                    <a class="govuk-link govuk-link--no-visited-state" href="#top">
+                        <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">
+                            <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+                        </svg>Back to top
+                    </a>
+                </div>
             }
-          </ol>
-
         </div>
-
-        <div class="app-back-to-top" data-module="app-back-to-top">
-          <a class="govuk-link govuk-link--no-visited-state" href="#top">
-            <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">
-              <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
-            </svg>Back to top
-          </a>
-        </div>
-
-      </div>
-
+            
     </div>
 
   </main>

@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.BackLink = "/reload";
                 if (withError)
                 {
-                    model.ErrorMessage = "Choose how you would like to return to your assessment";
+                    model.ErrorMessage = "Choose how you would like to return to your assessment to continue";
                 }
                 AppendCookie(sessionId);
                 return View("SaveProgress", model);
@@ -102,7 +102,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a valid email address";
+                    model.ErrorMessage = "Enter an email address in the correct format, like name@example.com";
                 }
                 else if (e == "3")
                 {
@@ -191,7 +191,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a valid phone number";
+                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982 .";
                 }
                 else if (e == "3")
                 {
@@ -245,7 +245,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a valid phone number";
+                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982 .";
                 }
                 else if (e == "3")
                 {

@@ -114,7 +114,7 @@
                       <a href="/results/filtered/@jobCategory.JobFamilyName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
                         @if (jobCategory.TotalQuestions == 1)
                         {
-                            @("Answer 1 more question")  
+                            @("Answer 1 more question")
                         }
                         else
                         {
@@ -151,8 +151,8 @@
                             </div>
                           } else {
                             <div>
-                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="visually-hidden">starter</span></p>
-                                <p class="salary-max"><span class="visually-hidden">&nbsp;up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="visually-hidden">experienced</span></p>
+                              <p class="salary-min">£@profile.SalaryStarter.ToString("N0")<span class="visually-hidden">&nbsp;(starter)</span></p>
+                              <p class="salary-max"><span class="visually-hidden">up to&nbsp;</span>£@profile.SalaryExperienced.ToString("N0")<span class="visually-hidden">&nbsp;(experienced)</span></p>
                               <div class="range-bar" aria-hidden="true"><hr></div>
                               <p class="level-min">Starter</p>
                               <p class="level-max">Experienced</p>

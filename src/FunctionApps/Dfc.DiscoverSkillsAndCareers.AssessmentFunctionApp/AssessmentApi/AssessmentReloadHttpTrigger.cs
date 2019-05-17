@@ -98,7 +98,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 {
                     CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
                     IsComplete = userSession.IsComplete,
-                    NextQuestionNumber = userSession.FindNextUnansweredQuestion(),
+                    NextQuestionNumber = userSession.FindNextQuestionToAnswer(),
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,

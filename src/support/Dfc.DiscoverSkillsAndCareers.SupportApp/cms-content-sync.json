@@ -1090,7 +1090,6 @@
                 "Civil Service administrative officer",
                 "Civil Service executive officer",
                 "Credit controller",
-                "Data entry clerk",
                 "Diplomatic service officer",
                 "Estates officer",
                 "European Union official",
@@ -1199,7 +1198,6 @@
             "Farrier",
             "Kennel worker",
             "Pet behaviour counsellor",
-            "Pet shop assistant",
             "RSPCA inspector",
             "Vet",
             "Veterinary nurse",
@@ -1239,7 +1237,7 @@
           }
         },
         {
-            "values": [
+          "values": [
                 "Agricultural contractor",
                 "Agricultural inspector",
                 "Biologist",
@@ -1249,7 +1247,22 @@
                 "Fishing boat deckhand",
                 "Ornithologist",
                 "Pet shop assistant",
-                "Zoologist"
+                "Zoologist",
+                "Pet behaviour counsellor",
+                "Animal technician",
+                "Animal care worker",
+                "Veterinary physiotherapist",
+                "Pet shop assistant",
+                "Farrier",
+                "Assistance dog trainer",
+                "Veterinary nurse",
+                "Dog handler",
+                "Kennel worker",
+                "Dog groomer",
+                "RSPCA inspector",
+                "Zoologist",
+                "Biologist",
+                "Vet"
             ],
           "relatedType": {
             "property": "Title",
@@ -1522,7 +1535,37 @@
             "Company secretary",
             "Business adviser",
             "Financial services customer adviser",
-            "Insurance claims handler"
+            "Insurance claims handler",
+            "Auditor",
+            "Local government revenues officer",
+            "Tax inspector",
+            "Accounting technician",
+            "Management accountant",
+            "School business manager",
+            "Bank manager",
+            "Credit manager",
+            "Company secretary",
+            "Insurance account manager",
+            "Marketing manager",
+            "Insurance broker",
+            "Payroll manager",
+            "Digital marketer",
+            "Economist",
+            "Finance officer",
+            "Stockbroker",
+            "Mortgage adviser",
+            "Business adviser",
+            "Credit controller",
+            "Money adviser",
+            "Insurance claims handler",
+            "Public finance accountant",
+            "Banking customer service adviser",
+            "Business development manager",
+            "Financial services customer adviser",
+            "Financial adviser",
+            "Pensions administrator",
+            "Bookkeeper",
+            "Insurance underwriter"
           ],
           "relatedType": {
             "property": "Title",
@@ -1590,7 +1633,8 @@
             "School business manager",
             "Financial adviser",
             "Insurance broker",
-            "Insurance claims handler"
+            "Insurance claims handler",
+            "Chief executive"
           ],
           "relatedType": {
             "property": "Title",
@@ -1668,7 +1712,6 @@
                 "E-learning developer",
                 "Forensic computer analyst",
                 "Head of IT (IT director)",
-                "Indexer",
                 "IT security co-ordinator",
                 "IT service engineer",
                 "IT support technician",
@@ -1739,7 +1782,6 @@
             "E-learning developer",
             "Forensic computer analyst",
             "Head of IT (IT director)",
-            "Indexer",
             "Information scientist",
             "IT project manager",
             "IT security co-ordinator",
@@ -1978,7 +2020,6 @@
             "TV or film production assistant",
             "Pop musician",
             "Actor",
-            "DJ",
             "Bookseller",
             "Lighting technician",
             "Choreographer",
@@ -2167,7 +2208,6 @@
         },
         {
           "values": [
-            "Postman or postwoman",
             "Tanker driver",
             "Delivery van driver",
             "Large goods vehicle driver",
@@ -2294,7 +2334,6 @@
             "RAF airman or airwoman",
             "Royal Marines commando",
             "Coastguard",
-            "Diver",
             "RAF non-commissioned aircrew",
             "Prison officer",
             "Paramedic",
@@ -2478,9 +2517,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-1",
-        "QuestionText": "Would you like a job where you keep equipment in good condition?",
-        "PositiveResultDisplayText": "You would like a job where you keep equipment in good condition.",
-        "NegativeResultDisplayText": "You would not like a job where you keep equipment in good condition.",
+        "QuestionText": "Would you like a job where you maintain or repair things?",
+        "PositiveResultDisplayText": "You would like a job where you maintain or repair things.",
+        "NegativeResultDisplayText": "You would not like a job where you maintain or repair things.",
         "Description": "Engineering and maintenance",
         "IsYes": false
       },
@@ -2600,7 +2639,6 @@
             "Energy engineer",
             "Quantity surveyor",
             "Broadcast engineer",
-            "CAD technician",
             "Chemical engineer",
             "Technical surveyor"
           ],
@@ -2680,7 +2718,6 @@
             "Forest officer",
             "Oceanographer",
             "Forestry worker",
-            "Biologist",
             "Ecologist",
             "Farmer",
             "Horticultural worker",
@@ -2714,9 +2751,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-2",
-        "QuestionText": "Would you be comfortable working in a lab with dangerous equipment or chemicals?",
-        "PositiveResultDisplayText": "You would be comfortable working in a lab with dangerous chemicals.",
-        "NegativeResultDisplayText": "You would not be comfortable working in a lab with dangerous chemicals.",
+        "QuestionText": "Would you be comfortable working with dangerous equipment or chemicals?",
+        "PositiveResultDisplayText": "You would be comfortable working with dangerous chemicals.",
+        "NegativeResultDisplayText": "You would not be comfortable working with dangerous chemicals.",
         "Description": "Environment and land",
         "IsYes": false
       },
@@ -2761,8 +2798,8 @@
       "data": {
         "Title": "{prop:Description}-3",
         "QuestionText": "Would you mind travelling to different places to work every day?",
-        "PositiveResultDisplayText": "You would not mind travelling to different places to work every day.",
-        "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
+        "PositiveResultDisplayText": "You would not want to travel to different places to work every day.",
+        "NegativeResultDisplayText": "You would not mind travelling to different places to work every day.",
         "Description": "Environment and land",
         "IsYes": false
       },
@@ -2785,7 +2822,6 @@
             "Cartographer",
             "Pest control technician",
             "Oceanographer",
-            "Biologist",
             "Agricultural inspector",
             "Land surveyor",
             "Meat hygiene inspector",
@@ -2866,11 +2902,7 @@
             "RAF airman or airwoman",
             "Royal Marines commando",
             "Police community support officer",
-            "Coastguard",
-            "Scenes of crime officer",
-            "Road traffic accident investigator",
-            "Bodyguard",
-            "Royal Navy officer"
+            "Coastguard"
           ],
           "relatedType": {
             "property": "Title",
@@ -2945,8 +2977,8 @@
         {
           "values": [
             "Coastguard",
-            "Army officer",
-            "Bodyguard"
+            "Firefighter",
+            "Paramedic"
           ],
           "relatedType": {
             "property": "Title",
@@ -3141,37 +3173,23 @@
             "Community matron",
             "Dental hygienist",
             "Children's nurse",
-            "Hospital doctor",
             "Care worker",
-            "Sports physiotherapist",
             "Speech and language therapy assistant",
-            "Psychiatrist",
-            "Podiatrist",
             "School nurse",
             "Midwife",
             "Dentist",
-            "Psychologist",
             "Health play specialist",
-            "Anaesthetist",
-            "District nurse",
             "GP",
             "Emergency care assistant",
-            "Surgeon",
             "Speech and language therapist",
             "Maternity support worker",
             "Paramedic",
-            "Mental health nurse",
-            "Primary care graduate mental health worker",
             "Health visitor",
             "Healthcare assistant",
             "Dental nurse",
             "Counsellor",
-            "Colour therapist",
             "Learning disability nurse",
             "Practice nurse",
-            "Music therapist",
-            "Art therapist",
-            "Physiotherapy assistant",
             "Ambulance care assistant"
           ],
           "relatedType": {
@@ -3211,7 +3229,6 @@
             "Nurse",
             "Children's nurse",
             "Hospital doctor",
-            "Psychiatrist",
             "Midwife",
             "Anaesthetist",
             "District nurse",
@@ -3477,9 +3494,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-1",
-        "QuestionText": "Would you be comfortable being strict with people?",
-        "PositiveResultDisplayText": "You would be comfortable being strict with people.",
-        "NegativeResultDisplayText": "You would not want to be strict with people.",
+        "QuestionText": "Would you be comfortable being firm with people?",
+        "PositiveResultDisplayText": "You would be comfortable being firm with people.",
+        "NegativeResultDisplayText": "You would not want to be firm with people.",
         "Description": "Law and legal",
         "IsYes": false
       },
@@ -3752,9 +3769,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-1",
-        "QuestionText": "Would you like a job where you keep equipment in good condition?",
-        "PositiveResultDisplayText": "You would like a job where you keep equipment in good condition.",
-        "NegativeResultDisplayText": "You would not like a job where you keep equipment in good condition.",
+        "QuestionText": "Would you like a job where you maintain or repair things?",
+        "PositiveResultDisplayText": "You would like a job where you maintain or repair things.",
+        "NegativeResultDisplayText": "You would not like a job where you maintain or repair things.",
         "Description": "Manufacturing",
         "IsYes": false
       },
@@ -3835,17 +3852,11 @@
         },
         {
           "values": [
-            "Aerospace engineer",
             "Agricultural engineer",
             "Agricultural engineering technician",
             "Automotive engineer",
             "Building services engineer",
-            "Chemical engineer",
-            "Design and development engineer",
-            "Electronics engineer",
-            "Energy engineer",
             "Engineering maintenance technician",
-            "Manufacturing systems engineer",
             "Marine engineer",
             "Materials engineer",
             "Motorsport engineer"
@@ -4136,9 +4147,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-2",
-        "QuestionText": "Would you be comfortable working in a lab with dangerous equipment or chemicals?",
-        "PositiveResultDisplayText": "You would be comfortable working in a lab with dangerous chemicals.",
-        "NegativeResultDisplayText": "You would not be comfortable working in a lab with dangerous chemicals.",
+        "QuestionText": "Would you be comfortable working with dangerous equipment or chemicals?",
+        "PositiveResultDisplayText": "You would be comfortable working with dangerous chemicals.",
+        "NegativeResultDisplayText": "You would not be comfortable working with dangerous chemicals.",
         "Description": "Science and research",
         "IsYes": false
       },
@@ -4200,8 +4211,8 @@
       "data": {
         "Title": "{prop:Description}-3",
         "QuestionText": "Would you mind travelling to different places to work every day?",
-        "PositiveResultDisplayText": "You would not mind travelling to different places to work every day.",
-        "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
+        "PositiveResultDisplayText": "You would not want to travel to different places to work every day.",
+        "NegativeResultDisplayText": "You would not mind travelling to different places to work every day.",
         "Description": "Science and research",
         "IsYes": false
       },
@@ -4321,7 +4332,6 @@
             "Nursery worker",
             "Nanny",
             "Family mediator",
-            "Care home manager",
             "Playworker"
           ],
           "relatedType": {
@@ -4338,9 +4348,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-2",
-        "QuestionText": "Would you be comfortable working with people who are injured?",
-        "PositiveResultDisplayText": "You could work with people who are injured.",
-        "NegativeResultDisplayText": "You would not be comfortable working with people who are injured.",
+        "QuestionText": "Would you be comfortable working with people who have physical or psychological trauma?",
+        "PositiveResultDisplayText": "You could work with people who have physical or psychological trauma.",
+        "NegativeResultDisplayText": "You would not be comfortable working with people who who have physical or psychological trauma.",
         "Description": "Social care",
         "IsYes": false
       },
@@ -4453,7 +4463,6 @@
             "Football coach",
             "Jockey",
             "PE teacher",
-            "Sports professional",
             "Sports coach",
             "Cycling coach",
             "Health trainer",
@@ -4617,9 +4626,9 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-2",
-        "QuestionText": "Would you be comfortable being strict with people?",
-        "PositiveResultDisplayText": "You would be comfortable being strict with people.",
-        "NegativeResultDisplayText": "You would not want to be strict with people.",
+        "QuestionText": "Would you be comfortable being firm with people?",
+        "PositiveResultDisplayText": "You would be comfortable being firm with people.",
+        "NegativeResultDisplayText": "You would not want to be firm with people.",
         "Description": "Teaching and education",
         "IsYes": true
       },
@@ -4738,7 +4747,6 @@
             "Car rental agent",
             "Community transport driver",
             "Bus or coach driver",
-            "Rail track maintenance worker",
             "Chauffeur",
             "Airport information assistant"
           ],
@@ -4760,7 +4768,7 @@
         "PositiveResultDisplayText": "You would like to operate a vehicle.",
         "NegativeResultDisplayText": "You would not want to operate a vehicle.",
         "Description": "Transport",
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4807,11 +4815,11 @@
       "contentType": "filteringquestions",
       "data": {
         "Title": "{prop:Description}-3",
-        "QuestionText": "Would you mind travelling to different places to work every day?",
-        "PositiveResultDisplayText": "You would not mind travelling to different places to work every day.",
-        "NegativeResultDisplayText": "You would not want to travel to different places to work every day.",
+        "QuestionText": "Would you mind travelling to different places every day?",
+        "PositiveResultDisplayText": "You would not want to travel to different places every day.",
+        "NegativeResultDisplayText": "You would not mind travelling to different places every day.",
         "Description": "Transport",
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4895,7 +4903,7 @@
         "PositiveResultDisplayText": "You would be comfortable dealing with difficult customers.",
         "NegativeResultDisplayText": "You would not be comfortable dealing with difficult customers.",
         "Description": "Travel and tourism",
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4938,10 +4946,10 @@
       "data": {
         "Title": "{prop:Description}-2",
         "QuestionText": "Would you mind travelling long distances for work?",
-        "PositiveResultDisplayText": "You would be comfortable travelling long distances for work.",
-        "NegativeResultDisplayText": "You would not be comfortable travelling long distances for work.",
+        "PositiveResultDisplayText": "You would not be comfortable travelling long distances for work.",
+        "NegativeResultDisplayText": "You would be comfortable travelling long distances for work.",
         "Description": "Travel and tourism",
-        "IsYes": true
+        "IsYes": false
       },
       "relates": [
         {
@@ -4961,6 +4969,7 @@
             "Tour manager",
             "Airline pilot",
             "Cruise ship steward"
+
           ],
           "relatedType": {
             "property": "Title",

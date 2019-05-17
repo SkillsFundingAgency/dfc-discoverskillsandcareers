@@ -147,9 +147,21 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             return true;
 
         }
-        
+
         /// <summary>
         /// Gets the next question number that should be answered.
+        /// </summary>
+        public int FindNextQuestionToAnswer()
+        {
+            if (CurrentRecordedAnswers.Count() == CurrentMaxQuestions)
+            {
+                return FindNextQuestion();
+            }
+            return FindNextUnansweredQuestion();
+        }
+
+        /// <summary>
+        /// Gets the first answered question number.
         /// </summary>
         public int FindNextUnansweredQuestion()
         {
