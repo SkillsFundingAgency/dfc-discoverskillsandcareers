@@ -34,8 +34,13 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             };
         
             var results = await _client.Documents.SearchAsync<T>(query, searchParameters);
-            var data = results.Results.ToList();
-        
+            var data = new List<SearchResult<T>>();
+
+            foreach (var result in results.Results)
+            {
+                data.Add(result);
+            }
+            
             var contToken = results.ContinuationToken;
             
             while (contToken != null)
