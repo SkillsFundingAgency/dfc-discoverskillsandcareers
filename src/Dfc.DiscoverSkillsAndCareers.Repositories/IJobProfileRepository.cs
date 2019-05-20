@@ -7,7 +7,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface IJobProfileRepository
     {
-        Task<JobProfile[]> JobProfileBySocCodeAndTitle(IDictionary<string, string> socCodeTitleMap);
+        Task<JobProfile[]> JobProfilesTitle(IDictionary<string, string> socCodeTitleMap);
         Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily);
     }
 }

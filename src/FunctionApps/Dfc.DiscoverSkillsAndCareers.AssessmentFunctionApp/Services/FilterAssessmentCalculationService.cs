@@ -4,6 +4,7 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
@@ -61,9 +62,38 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     whatYouToldUs.Add(question.PositiveResultDisplayText);
                 }
             }
+
+            IDictionary<string, string> socCodes = new Dictionary<string, string>();
+            IDictionary<string, int> dup = new Dictionary<string, int>();
             
-            var socCodes = suggestedJobProfiles.ToDictionary(x => x.SocCode, x => x.Title);
-            var jobFamily = userSession.ResultData.JobFamilies.First(jf => String.Equals(jf.JobFamilyName, userSession.FilteredAssessmentState.JobFamilyName, StringComparison.InvariantCultureIgnoreCase));
+            foreach (var jp in suggestedJobProfiles)
+            {
+                if (socCodes.ContainsKey(jp.SocCode))
+                {
+                    if (String.Equals(jp.Title, socCodes[jp.SocCode], StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        log.LogInformation($"Duplicate job profile soc-code found {jp.SocCode}:{jp.Title} matches {jp.SocCode}:{socCodes[jp.SocCode]} augmenting SOC-CODE");
+
+                        if (!dup.TryGetValue(jp.SocCode, out var count))
+                        {
+                            count = 0;
+                        }
+                        
+                        count++;
+                        dup[jp.SocCode] = count;
+                        socCodes.Add($"{jp.SocCode}-{count}", jp.Title);
+
+                    }
+                }
+                else
+                {
+                    socCodes.Add(jp.SocCode, jp.Title);
+                }
+            }
+            
+            
+            var jobFamily = userSession.ResultData.JobFamilies.First(jf => String.Equals(jf.JobFamilyName,
+                userSession.FilteredAssessmentState.JobFamilyName, StringComparison.InvariantCultureIgnoreCase));
 
             jobFamily.FilterAssessment = new FilterAssessment
             {
@@ -75,8 +105,9 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 RecordedAnswerCount = userSession.CurrentRecordedAnswers.Length,
                 RecordedAnswers = userSession.CurrentRecordedAnswers.ToArray(),
                 WhatYouToldUs = whatYouToldUs.Distinct().ToArray()
-                
+
             };
+            
         }
     }
 }
