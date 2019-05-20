@@ -57,7 +57,8 @@ paths.nunjucks = paths.templatesSrc + "partials/**/*.njk";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.images = paths.src + "images/**/*";
 paths.js = paths.src + "js/**/*.js";
-paths.favicon = paths.src + "favicon.ico"
+paths.favicon = paths.src + "favicon.ico";
+paths.robots = paths.src + "robots.txt";
 
 // paths - output
 
@@ -161,9 +162,9 @@ gulp.task('html', function() {
         .pipe(connect.reload());
 });
 
-gulp.task('favicon', function() {
-    return gulp.src(paths.favicon).pipe(gulp.dest(paths.dist))
-})
+gulp.task('staticAssets', function() {
+    return gulp.src([paths.favicon, paths.robots]).pipe(gulp.dest(paths.dist))
+});
 
 gulp.task('rev', () => {
     const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot', '!**/*.ico'], { restore: true });
@@ -244,7 +245,7 @@ gulp.task("dev",
         "html",
         "min:css",
         'headers',
-        'favicon',
+        'staticAssets',
         gulp.parallel(
             "html:watch",
             "css:watch",
@@ -263,7 +264,7 @@ gulp.task("prod",
         "min",
         'rev',
         'headers',
-        'favicon')
+        'staticAssets')
 );
 
 gulp.task("default", gulp.series("prod"));
