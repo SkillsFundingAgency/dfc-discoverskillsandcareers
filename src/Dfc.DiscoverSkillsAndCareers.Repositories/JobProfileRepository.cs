@@ -32,24 +32,24 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 SearchFields = fields,
                 QueryType = QueryType.Full
             };
-
+        
             var results = await _client.Documents.SearchAsync<T>(query, searchParameters);
+            var data = results.Results.ToList();
+        
             var contToken = results.ContinuationToken;
-
+            
             while (contToken != null)
             {
                 var nextResults = await _client.Documents.ContinueSearchAsync<T>(contToken);
                 foreach (var result in nextResults.Results)
                 {
-                    results.Results.Add(result);
+                    data.Add(result);
                 }
-
+                
                 contToken = nextResults.ContinuationToken;
-
             }
-
-
-            return results.Results;
+            
+            return data;
         }
 
         public async Task<JobProfile[]> JobProfilesTitle(IDictionary<string, string> socCodeTitleMap)
