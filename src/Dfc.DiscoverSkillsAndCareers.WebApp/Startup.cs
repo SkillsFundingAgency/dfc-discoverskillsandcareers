@@ -73,14 +73,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();   
             }
             else
-            {
-                app.UseStatusCodePagesWithReExecute("/error/{0}");
+            {    
                 app.UseHsts();
             }
-
+            
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();

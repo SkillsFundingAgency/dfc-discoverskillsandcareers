@@ -106,7 +106,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "3")
                 {
-                    model.ErrorMessage = "Unable able to send email at this time";
+                    _log.LogError($"Correlation Id: {correlationId} - Unable to send email");
+                    return StatusCode(500);
                 }
                 
                 return View("EmailInput", model);
@@ -195,7 +196,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "3")
                 {
-                    model.ErrorMessage = "Unable able to send sms at this time";
+                    _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
+                    return StatusCode(500);
                 }
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
@@ -245,11 +247,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982 .";
+                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982.";
                 }
                 else if (e == "3")
                 {
-                    model.ErrorMessage = "Unable able to send sms at this time";
+                    _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
+                    return StatusCode(500);
                 }
                 
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
