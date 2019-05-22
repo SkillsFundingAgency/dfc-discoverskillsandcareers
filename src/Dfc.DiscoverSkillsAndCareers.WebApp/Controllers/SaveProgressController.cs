@@ -80,6 +80,20 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
+        [HttpGet("EmailSent")]
+        public async Task<IActionResult> EmailSent()
+        {
+            var email = (string)TempData["SentEmail"];
+            return View("EmailSent", new SaveProgressViewModel() {SentTo = email});
+        }
+        
+        [HttpGet("SmsSent")]
+        public async Task<IActionResult> SmsSent()
+        {
+            var sms = (string)TempData["SentSms"];
+            return View("SmsSent", new SaveProgressViewModel() {SentTo = sms});
+        }
+
         [HttpGet("email", Name = "SaveProgressEmailInput")]
         public async Task<IActionResult> EmailInput(string e = "")
         {
@@ -155,8 +169,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                     model.SentTo = sendEmailRequest.Email?.ToLower();
                     AppendCookie(sessionId);
-                    return View("EmailSent", model);
 
+                    TempData["SentEmail"] = model.SentTo;
+                    return RedirectToAction("EmailSent");
                 }
                 catch (Exception ex)
                 {
@@ -312,7 +327,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                     model.SentTo = sendSmsRequest.MobileNumber;
                     AppendCookie(sessionId);
-                    return View("SmsSent", model);
+
+                    TempData["SentSms"] = model.SentTo;
+                    return RedirectToAction("SmsSent");
 
                 }
                 catch (Exception ex)
