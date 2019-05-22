@@ -192,7 +192,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982 .";
+                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982.";
                 }
                 else if (e == "3")
                 {
