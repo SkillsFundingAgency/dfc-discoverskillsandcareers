@@ -30,11 +30,11 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var logger = serviceProvider.GetService<ILogger>();
-            var result = Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options, CmsRunBook.Options>(args)
+            var result = Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options, Cms.Options>(args)
                          .MapResult(
                              (LoadQuestions.Options opts) => LoadQuestions.Execute(serviceProvider, opts),
                              (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(serviceProvider, opts),
-                             (CmsRunBook.Options opts) => CmsRunBook.Execute(serviceProvider, opts),
+                             (Cms.Options opts) => Cms.Execute(serviceProvider, opts),
                              errs => {
                                  logger.LogError(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
                                  return SuccessFailCode.Fail;
@@ -53,7 +53,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             
             services.AddLogging(l => l.AddSerilog())
                 .AddSingleton<SiteFinityHttpService>()
-                .AddSingleton<CmsRunBook>();
+                .AddSingleton<Cms>();
                 
 
             services.AddSingleton<IConfiguration>(config);

@@ -2,17 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Transactions;
-using CommandLine;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -20,50 +12,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
-    public static class JsonExtensions
-    {
-        static Regex ReplaceRegex = new Regex(@"\{prop:(\w*)\}");
-        
-        public static async Task<T> FromJson<T>(this Task<string> source)
-        {
-            var data = await source;
-            return JsonConvert.DeserializeObject<T>(data);
-        }
-        
-        public static T FromJson<T>(this string source)
-        {
-            var data = source;
-            return JsonConvert.DeserializeObject<T>(data);
-        }
-
-        public static void InterpolateProperties(this JObject source)
-        {
-            foreach (var property in source.Properties())
-            {
-                
-                if (property.Value.Type == JTokenType.String)
-                {
-                    var propValue = property.Value.Value<string>();
-                    var hasReplacements = false;
-                    foreach (Match match in ReplaceRegex.Matches(propValue))
-                    {
-                        var group = match.Groups[1];
-                        if (source.ContainsKey(group.Value))
-                        {
-                            var newValue = source.Value<string>(group.Value);
-                            propValue = propValue.Replace(match.Value, newValue);
-                            hasReplacements = true;
-                        }
-                    }
-
-                    if(hasReplacements) {
-                        source.SelectToken(property.Name).Replace(propValue);
-                    }
-                }
-            }
-        }
-    }
-
     public class Workflow
     {
         public WorkflowStep[] Steps { get; set; }
@@ -109,22 +57,8 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
     }
     
-    public class CmsRunBook
+    public static class SiteFinityWorkflowRunner
     {
-        
-        [Verb("run-cms", HelpText = "Pushes the content to site finity.")]
-        public class Options : AppSettings
-        {
-            [Option('f', "workflowFile", Required = true, HelpText = "The file containing the sitefinity workflow to be executed.")]
-            public string WorkflowFile { get; set; }
-            
-            [Option('o', "outputDir", Required = false, HelpText = "The output directory of any extracted data.")]
-            public string OutputDirectory { get; set; }
-            
-            public string SiteFinityApiUrl => $"{SiteFinityApiUrlbase}/api/{SiteFinityApiWebService}";
-
-        }
-
         private static async Task RunDelete(ISiteFinityHttpService service, string baseUrl, string contentType)
         {
             var contentTypeUrl = $"{baseUrl}/{contentType}"; 
@@ -290,57 +224,12 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                             }
     
                         }
-                        else
-                        {
-                            
-                        }
                     }
                     
                 }
             }
         }
-
-        private static async Task RunWorkflow(ISiteFinityHttpService service, ILogger logger, Options options)
-        {
-            var baseUrl = options.SiteFinityApiUrl;
-            
-            
-            var workflow = ReadWorkflow(options.WorkflowFile).GetAwaiter().GetResult();
-                
-            logger.LogInformation($"Read workflow file {options.WorkflowFile}");
-            
-            foreach (var step in workflow.Steps)
-            {
-                logger.LogInformation($"Running step {step.Action} {step.ContentType}");
-
-                switch (step.Action)
-                {
-                    case Action.Create:
-                    {
-                        var created = await RunCreate(service, logger, baseUrl, step.ContentType, step.Data, step.Relates);
-                        logger.LogInformation($"Created {step.ContentType}{Environment.NewLine}{created.ToString(Formatting.Indented)}");
-                        break;
-                    }
-                    case Action.Delete:
-                    {
-                        await RunDelete(service, baseUrl, step.ContentType);
-                        break;
-                    }
-                    case Action.Extract:
-                    {
-                        var dir = Directory.CreateDirectory(Path.GetFullPath(options.OutputDirectory));
-                        await RunExtract(service, dir.FullName, baseUrl, step.ContentType);
-                        logger.LogInformation($"Extracted {step.ContentType}");
-                        break;
-                    }
-                    default:
-                        throw new ArgumentOutOfRangeException($"Unknown action: {step.Action}");
-                }
-                
-                logger.LogInformation($"Completed step {step.Action} {step.ContentType}");
-            }
-        }
-
+        
         private static async Task<Workflow> ReadWorkflow(string path)
         {
             var fullPath = Path.GetFullPath(path);
@@ -350,27 +239,53 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return JsonConvert.DeserializeObject<Workflow>(data);
         }
 
-        public static SuccessFailCode Execute(IServiceProvider services, Options opts)
+        public static async Task RunWorkflow(ISiteFinityHttpService service, ILogger logger, string baseUrl,
+            Workflow workflow, string outputDirectory)
         {
-            var logger = services.GetService<ILogger<CmsRunBook>>();
-            
-            try
+            foreach (var step in workflow.Steps)
             {
-                var configuration = services.GetService<IConfiguration>();
-                configuration.GetSection("AppSettings").Bind(opts);
-                
-                var siteFinityService = services.GetService<ISiteFinityHttpService>();
+                logger.LogInformation($"Running step {step.Action} {step.ContentType}");
 
-                RunWorkflow(siteFinityService, logger, opts).GetAwaiter().GetResult();
-                
-                return SuccessFailCode.Succeed;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "An error occured loading cms content");
-                return SuccessFailCode.Fail;
+                switch (step.Action)
+                {
+                    case Action.Create:
+                    {
+                        var created = await RunCreate(service, logger, baseUrl, step.ContentType, step.Data,
+                            step.Relates);
+                        logger.LogInformation(
+                            $"Created {step.ContentType}{Environment.NewLine}{created.ToString(Formatting.Indented)}");
+                        break;
+                    }
+
+                    case Action.Delete:
+                    {
+                        await RunDelete(service, baseUrl, step.ContentType);
+                        break;
+                    }
+
+                    case Action.Extract:
+                    {
+                        var dir = Directory.CreateDirectory(Path.GetFullPath(outputDirectory));
+                        await RunExtract(service, dir.FullName, baseUrl, step.ContentType);
+                        logger.LogInformation($"Extracted {step.ContentType}");
+                        break;
+                    }
+
+                    default:
+                        throw new ArgumentOutOfRangeException($"Unknown action: {step.Action}");
+                }
+
+                logger.LogInformation($"Completed step {step.Action} {step.ContentType}");
             }
         }
+        
+        public static async Task RunWorkflowFromFile(ISiteFinityHttpService service, ILogger logger, string siteFinityBaseUrl, string workflowFile, string outputDirectory)
+        {
+            var workflow = ReadWorkflow(workflowFile).GetAwaiter().GetResult();
 
+            logger.LogInformation($"Read workflow file {workflowFile}");
+
+            await RunWorkflow(service, logger, siteFinityBaseUrl, workflow, outputDirectory);
+        }
     }
 }
