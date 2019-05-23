@@ -8,14 +8,11 @@
 
 ### DEV
 
-- Web: https://dfcdevskillscareersstr.z6.web.core.windows.net
-- Questions: https://dfc-dev-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
+- Web: https://discover-skills-careers-dev.nationalcareersservice.org.uk/
 
 ### SIT
 
-- Web: https://dfcsitskillscareersstr.z6.web.core.windows.net
-- Questons: https://dfc-sit-skillscareers-fa.azurewebsites.net/q/1?assessmentType=short
-
+- Web: https://discover-skills-careers-sit.nationalcareersservice.org.uk/
 
 ## Technical documentation
 
