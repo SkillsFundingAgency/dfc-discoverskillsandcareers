@@ -83,15 +83,30 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [HttpGet("EmailSent")]
         public async Task<IActionResult> EmailSent()
         {
+            
             var email = (string)TempData["SentEmail"];
-            return View("EmailSent", new SaveProgressViewModel() {SentTo = email});
+
+            if (!String.IsNullOrWhiteSpace(email))
+            {
+                TempData["SentEmail"] = null;
+                return View("EmailSent", new SaveProgressViewModel() {SentTo = email});
+            }
+            
+            return RedirectToAction("Index");
         }
         
         [HttpGet("SmsSent")]
         public async Task<IActionResult> SmsSent()
         {
             var sms = (string)TempData["SentSms"];
-            return View("SmsSent", new SaveProgressViewModel() {SentTo = sms});
+
+            if (!String.IsNullOrWhiteSpace(sms))
+            {
+                TempData["SentSms"] = null;
+                return View("SmsSent", new SaveProgressViewModel() {SentTo = sms});
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet("email", Name = "SaveProgressEmailInput")]
