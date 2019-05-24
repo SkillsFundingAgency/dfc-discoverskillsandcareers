@@ -14,10 +14,18 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template no-js">
   <head>
-    <link rel="preload" href="/assets/fonts/light-f38ad40456-v1.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/bold-a2452cb66f-v1.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/print.css" media="print">
+
+    <title>@(!String.IsNullOrEmpty(Model.ErrorMessage) ? "Error - " : ""){{ pageTitle }} - National Careers Service - GOV.UK</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0c0c" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="preload" href="/assets/fonts/light-f38ad40456-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/bold-a2452cb66f-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+
     <script>
 
       var patterns = {
@@ -73,11 +81,6 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
     <!-- End Google Tag Manager -->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0b0c0c" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>@(!String.IsNullOrEmpty(Model.ErrorMessage) ? "Error - " : ""){{ pageTitle }} - National Careers Service - GOV.UK</title>
 
   </head>
   <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
