@@ -57,7 +57,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       await driver.findElement(By.className('govuk-button')).click();
       // Wait for page to load and click Save my progress
       await driver.wait(until.urlContains('q/short/02'), timeout);
-      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Return to this later')), timeout);
+      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Save my progress')), timeout);
       try {
         await saveProgressLink.click();
       }
