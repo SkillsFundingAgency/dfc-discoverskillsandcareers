@@ -14,7 +14,7 @@ const buildDriver = (caps) => {
     resolve(driver);
   })
 }
-
+const timeout = 20000;
 const appUrl = `https://${customHostName}`;
 const optionDictionary = {
   'Strongly Agree': 'selected_answer-1',
@@ -30,16 +30,16 @@ parallel('Understand Myself cross-browser tests ', function() {
     it(`${cap.browserName}, ${cap.os? cap.os: cap.device}: Run through assessment, negative tests and check resume functionality`, async (done) => {
       const driver = await buildDriver(cap);
 
-      
+
       console.log(`${cap.browserName}: Checking for error when clicking next without selecting any options`);
       let errorTitleText = '';
       await driver.get(appUrl);
-      let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      let startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), timeout);
       await startAssessmentButton.click();
-      await driver.wait(until.urlContains(`q/short/01`), 20000);
-      let nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      await driver.wait(until.urlContains(`q/short/01`), timeout);
+      let nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), timeout);
       await nextButton.click();
-      const errorTitle = await driver.wait(until.elementLocated(By.id('error-summary-title')), 20000);
+      const errorTitle = await driver.wait(until.elementLocated(By.id('error-summary-title')), timeout);
       try {
         errorTitleText = await errorTitle.getText();
       }
@@ -47,17 +47,17 @@ parallel('Understand Myself cross-browser tests ', function() {
         if (err.name === 'StaleElementReferenceError') errorTitleText = errorTitle.getText();
       }
       expect(errorTitleText.trim()).to.equal('There is a problem');
-      
+
       console.log(`${cap.browserName}: Start assessment, get session ID and check if it resumes assessment`);
       await driver.get(appUrl);
-      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), timeout);
       await startAssessmentButton.click();
-      const agreeOption = await driver.wait(until.elementLocated(By.id(optionDictionary['Agree'])), 20000);
+      const agreeOption = await driver.wait(until.elementLocated(By.id(optionDictionary['Agree'])), timeout);
       await agreeOption.click();
       await driver.findElement(By.className('govuk-button')).click();
       // Wait for page to load and click Save my progress
-      await driver.wait(until.urlContains('q/short/02'), 20000);
-      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Return to this later')), 20000);
+      await driver.wait(until.urlContains('q/short/02'), timeout);
+      const saveProgressLink = await driver.wait(until.elementLocated(By.linkText('Return to this later')), timeout);
       try {
         await saveProgressLink.click();
       }
@@ -65,74 +65,78 @@ parallel('Understand Myself cross-browser tests ', function() {
         if (err.name === 'StaleElementReferenceError') await saveProgressLink.click();
       }
       // Wait for page to load and save session ID text
-      await driver.wait(until.urlContains('save-my-progress'), 20000);
-      nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      await driver.wait(until.urlContains('save-my-progress'), timeout);
+      nextButton = await driver.wait(until.elementLocated(By.className('govuk-button')), timeout);
       await nextButton.click();
-      const errorMessageElement = await driver.wait(until.elementLocated(By.className('govuk-error-summary__title')), 20000);
+      const errorMessageElement = await driver.wait(until.elementLocated(By.className('govuk-error-summary__title')), timeout);
       const errorMessageText = await errorMessageElement.getText();
       expect(errorMessageText.trim()).to.equal('There is a problem');
 
-      await driver.wait(() => selectAnswer(driver, 'SelectedOption-2'), 20000);
+      await driver.wait(() => selectAnswer(driver, 'SelectedOption-2'), timeout);
       await driver.findElement(By.className('govuk-button')).click();
-      const sessionIdTextElement = await driver.wait(until.elementLocated(By.className('app-your-reference__code')), 20000);
+      const sessionIdTextElement = await driver.wait(until.elementLocated(By.className('app-your-reference__code')), timeout);
       const sessionIdText = await sessionIdTextElement.getText();
-      
+
       // Go to landing page, wait for page to load, enter session ID and click resume progress
       await driver.get(appUrl);
-      const resumeEntryTextBox = await driver.wait(until.elementLocated(By.id('code')), 20000);
+      const resumeEntryTextBox = await driver.wait(until.elementLocated(By.id('code')), timeout);
       await resumeEntryTextBox.sendKeys(sessionIdText);
       await driver.findElement(By.className('app-button')).click();
       //Wait for Url to contain q/2
       const urlFound = await driver.wait(until.urlContains('q/short/02'));
       expect(urlFound).to.equal(true);
-      
+
       console.log(`${cap.browserName}: Check for error message if no session ID is entered`);
       await driver.get(appUrl);
-      const resumeButton = await driver.wait(until.elementLocated(By.className('app-button')), 20000);
+      const resumeButton = await driver.wait(until.elementLocated(By.className('app-button')), timeout);
       await resumeButton.click();
-      const refCodeValidation = await driver.wait(until.elementLocated(By.className('govuk-error-message')), 20000);
+      const refCodeValidation = await driver.wait(until.elementLocated(By.className('govuk-error-message')), timeout);
       errorText = await refCodeValidation.getText();
       expect(errorText.trim()).to.equal('Please enter your reference');
 
       console.log(`${cap.browserName}: Running through assessment`);
       await driver.get(appUrl);
-      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), 20000);
+      startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), timeout);
       await startAssessmentButton.click();
-  
-      for (let i = 1; i < 41; i++) {
+
+      while (true) {
         try {
-          await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), 20000);
+          await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), timeout);
         }
         catch(err) {
-          if (err.name === 'TypeError') await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), 20000);
-          else console.log(err);
+          if (err.name === 'TypeError') {
+            await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), timeout);
+          } else {
+            console.log(err);
+            break
+          }
         }
-        await driver.wait(() => selectAnswer(driver, optionDictionary['Agree']), 20000);
+        await driver.wait(() => selectAnswer(driver, optionDictionary['Agree']), timeout);
         await driver.findElement(By.className('govuk-button')).click();
       }
-  
-      await driver.wait(until.urlContains('finish'), 20000);
-      let seeResultsButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+
+      await driver.wait(until.urlContains('finish'), timeout);
+      let seeResultsButton = await driver.wait(until.elementLocated(By.className('govuk-button')), timeout);
       await seeResultsButton.click();
-      await driver.wait(until.urlContains('results'), 20000);
-      const [firstElement, secondElement] = await driver.wait(until.elementsLocated(By.className('govuk-heading-l')), 20000);
+      await driver.wait(until.urlContains('results'), timeout);
+      const [firstElement, secondElement] = await driver.wait(until.elementsLocated(By.className('govuk-heading-l')), timeout);
       const resultText = await secondElement.getText();
       const numberOfResults = parseInt(resultText.split(' ')[0]);
       expect(numberOfResults).to.be.greaterThan(0);
 
       console.log(`${cap.browserName}: Run through filtering questions`);
       await driver.findElement(By.className('app-button')).click();
-      let yesRadioButton = await driver.wait(until.elementLocated(By.id('selected_answer-1')), 20000);
+      let yesRadioButton = await driver.wait(until.elementLocated(By.id('selected_answer-1')), timeout);
       await yesRadioButton.click();
       await driver.findElement(By.className('govuk-button')).click();
-      await driver.wait(until.urlContains('02'), 20000);
-      yesRadioButton = await driver.wait(until.elementLocated(By.id('selected_answer-1')), 20000);
+      await driver.wait(until.urlContains('02'), timeout);
+      yesRadioButton = await driver.wait(until.elementLocated(By.id('selected_answer-1')), timeout);
       await yesRadioButton.click();
       await driver.findElement(By.className('govuk-button')).click();
-      await driver.wait(until.urlContains('finish'), 20000);
-      seeResultsButton = await driver.wait(until.elementLocated(By.className('govuk-button')), 20000);
+      await driver.wait(until.urlContains('finish'), timeout);
+      seeResultsButton = await driver.wait(until.elementLocated(By.className('govuk-button')), timeout);
       await seeResultsButton.click();
-      const lightText = await driver.wait(until.elementsLocated(By.className('text-light')), 20000);
+      const lightText = await driver.wait(until.elementsLocated(By.className('text-light')), timeout);
       const filteredNumOfRolesText = await lightText[1].getText();
       const filteredNumOfRoles = parseInt(filteredNumOfRolesText.split(' ')[0]);
       expect(filteredNumOfRoles).to.be.greaterThan(0);
