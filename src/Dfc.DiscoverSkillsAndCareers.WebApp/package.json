@@ -3,7 +3,7 @@
   "name": "dfc-discoverskillsandcareers",
   "private": true,
   "scripts": {
-    "test": "mocha ./spec/*.spec.js"
+    "test": "mocha ./specs/*.spec.js"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
