@@ -1,7 +1,9 @@
 const pa11y = require('pa11y');
 const {expect} = require('chai');
 const customHostName = process.env.CustomHostName? process.env.CustomHostName : require('../Config/config').CustomHostName;
-
+const ignore = ['WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4'];
+const standard = 'WCAG2AA';
+const timeout = 180000;
 const answerDict = {
     'Strongly agree': 'selected_answer-1',
     'Agree': 'selected_answer-2',
@@ -180,9 +182,9 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Home page', async () => {
         const {issues} = await pa11y(appUrl, {
-            standard: "WCAG2AA",
+            standard: standard,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
+            ignore: ignore
         });
 
         expect(issues).to.eql([]);
@@ -190,10 +192,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Statement page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             timeout: 900000,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
+            ignore: ignore,
             actions: [
                 'click element .govuk-button--start',
                 'wait for path to be /q/short/01'
@@ -205,10 +207,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Save Progress page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             timeout: 120000,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
+            ignore: ignore,
             actions: [
                 'click element .govuk-button--start',
                 'wait for element .govuk-link--no-visited-state to be added',
@@ -222,10 +224,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Save Progress Reference page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             timeout: 120000,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
+            ignore: ignore,
             actions: [
                 'click element .govuk-button--start',
                 'wait for element .govuk-link--no-visited-state to be added',
@@ -243,10 +245,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Finish page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            timeout: 180000,
+            ignore: ignore,
+            timeout: timeout,
             actions: [
                 ...assessmentRunThroughIns,
                 'wait for path to be /finish'
@@ -258,10 +260,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Results page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            timeout: 180000,
+            ignore: ignore,
+            timeout: timeout,
             actions: [
                 ...assessmentRunThroughIns,
                 'wait for path to be /finish',
@@ -276,10 +278,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Filtering statements page', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            timeout: 180000,
+            ignore: ignore,
+            timeout: timeout,
             actions: [
                 ...assessmentRunThroughIns,
                 'wait for path to be /finish',
@@ -297,10 +299,10 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('Result page with infographics', async () => {
         const {issues} = await pa11y(`${appUrl}`, {
-            standard: "WCAG2AA",
+            standard: standard,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"],
-            timeout: 180000,
+            ignore: ignore,
+            timeout: timeout,
             actions: [
                 ...assessmentRunThroughIns,
                 'wait for path to be /finish',
@@ -329,9 +331,9 @@ describe('Pa11y accessibility testing for Understand Myself - National Careers S
 
     it('404 page', async () => {
         const {issues} = await pa11y(`${appUrl}/dummy`, {
-            standard: "WCAG2AA",
+            standard: standard,
             // Rule ignored due to problem in GOV template
-            ignore: ["WCAG2AA.Principle1.Guideline1_3.1_3_1.F92,ARIA4"]
+            ignore: ignore
         });
 
         expect(issues).to.eql([]);
