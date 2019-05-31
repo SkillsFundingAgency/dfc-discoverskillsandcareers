@@ -1,4 +1,5 @@
 const {expect} = require('chai');
+const axios = require('axios');
 const {Builder, By, until} = require('selenium-webdriver');
 const capabilities = require('../conf/conf').capabilities;
 const parallel = require('mocha.parallel');
@@ -25,7 +26,7 @@ const optionDictionary = {
 };
 
 parallel('Understand Myself cross-browser tests ', function() {
-  this.timeout(600000);
+  this.timeout(1200000); // 20 mins
   for (let cap of capabilities) {
     it(`${cap.browserName}, ${cap.os? cap.os: cap.device}: Run through assessment, negative tests and check resume functionality`, async (done) => {
       const driver = await buildDriver(cap);
@@ -99,20 +100,41 @@ parallel('Understand Myself cross-browser tests ', function() {
       startAssessmentButton = await driver.wait(until.elementLocated(By.className('govuk-button--start')), timeout);
       await startAssessmentButton.click();
 
-      while (true) {
-        try {
-          await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), timeout);
-        }
-        catch(err) {
-          if (err.name === 'TypeError') {
-            await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), timeout);
-          } else {
-            console.log(err);
-            break
+      var i = 1;
+      var foundLastPage = false;
+      var headers = {};
+
+      // Get session ID, used for the axios request
+      await driver.manage().getCookie('.dysac-session')
+        .then(function(cookies){
+          headers = {
+            headers: {
+              'Cookie': '.dysac-session='+cookies.value
+            }
           }
+          done()
+        })
+
+      while (!foundLastPage) {
+
+        var url = `${appUrl}/q/short/${i < 10? 0: ''}${i}`;
+
+        // Do a quick http request and check for 200 response,
+        // set flag if we have reached the last page
+        await axios.get(url, headers)
+          .catch(() => {
+            foundLastPage = true
+            done()
+          })
+
+        // Load question page, click option and submit
+        if (!foundLastPage) {
+          await driver.wait(until.urlContains(`q/short/${i < 10? 0: ''}${i}`), timeout);
+          await driver.wait(() => selectAnswer(driver, optionDictionary['Agree']), timeout);
+          await driver.findElement(By.className('govuk-button')).click();
+          i += 1;
         }
-        await driver.wait(() => selectAnswer(driver, optionDictionary['Agree']), timeout);
-        await driver.findElement(By.className('govuk-button')).click();
+
       }
 
       await driver.wait(until.urlContains('finish'), timeout);
