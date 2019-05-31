@@ -93,7 +93,7 @@ parallel('Understand Myself cross-browser tests ', function() {
       await resumeButton.click();
       const refCodeValidation = await driver.wait(until.elementLocated(By.className('govuk-error-message')), timeout);
       errorText = await refCodeValidation.getText();
-      expect(errorText.trim()).to.equal('Please enter your reference');
+      expect(errorText.trim()).to.equal('Enter your reference');
 
       console.log(`${cap.browserName}: Running through assessment`);
       await driver.get(appUrl);
