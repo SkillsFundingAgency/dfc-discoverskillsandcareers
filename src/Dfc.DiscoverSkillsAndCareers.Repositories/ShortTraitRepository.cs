@@ -28,8 +28,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, name);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (Trait)(dynamic)document;
+                var document = await client.ReadDocumentAsync<Trait>(uri, requestOptions);
+                return document;
             }
             catch (DocumentClientException ex)
             {

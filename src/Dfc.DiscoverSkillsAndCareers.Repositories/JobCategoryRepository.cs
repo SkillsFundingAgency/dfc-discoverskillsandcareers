@@ -27,8 +27,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, socCode);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (JobFamily)(dynamic)document;
+                var document = await client.ReadDocumentAsync<JobFamily>(uri, requestOptions);
+                return document;
             }
             catch (DocumentClientException ex)
             {

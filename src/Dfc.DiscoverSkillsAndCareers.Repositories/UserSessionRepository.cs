@@ -40,8 +40,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, userSessionId);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (UserSession)(dynamic)document;
+                var document = await client.ReadDocumentAsync<UserSession>(uri, requestOptions);
+                return document;
             }
             catch (DocumentClientException ex)
             {
@@ -62,14 +62,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             await client.CreateDocumentAsync(uri, userSession);
         }
 
-        public async Task<UserSession> UpdateUserSession(UserSession userSession)
+        public async Task UpdateUserSession(UserSession userSession)
         {
             userSession.LastUpdatedDt = DateTime.UtcNow;
             var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, userSession.UserSessionId);
             var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(userSession.PartitionKey) };
-            var response = await client.ReplaceDocumentAsync(uri, userSession, requestOptions);
-            var updated = response.Resource;
-            return (UserSession)(dynamic)updated;
+            await client.ReplaceDocumentAsync(uri, userSession, requestOptions);
         }
     }
 }

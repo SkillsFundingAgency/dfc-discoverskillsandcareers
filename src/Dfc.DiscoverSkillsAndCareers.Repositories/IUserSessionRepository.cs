@@ -9,6 +9,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         Task<UserSession> GetUserSession(string primaryKey);
         Task<UserSession> GetUserSession(string userSessionId, string partitionKey);
         Task CreateUserSession(UserSession userSession);
-        Task<UserSession> UpdateUserSession(UserSession userSession);
+        Task UpdateUserSession(UserSession userSession);
     }
 }

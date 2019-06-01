@@ -37,8 +37,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 int pos = questionId.LastIndexOf('-');
                 string partitionKey = questionId.Substring(0, pos);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (Question)(dynamic)document;
+                var document = await client.ReadDocumentAsync<Question>(uri, requestOptions);
+                return document;
             }
             catch (DocumentClientException ex)
             {

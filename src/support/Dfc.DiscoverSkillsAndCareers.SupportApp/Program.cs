@@ -30,11 +30,13 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var logger = serviceProvider.GetService<ILogger>();
-            var result = Parser.Default.ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options, Cms.Options>(args)
-                         .MapResult(
-                             (LoadQuestions.Options opts) => LoadQuestions.Execute(serviceProvider, opts),
-                             (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(serviceProvider, opts),
-                             (Cms.Options opts) => Cms.Execute(serviceProvider, opts),
+            var result = Parser.Default
+                .ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options, Cms.Options, CmsValidator.Options>(args)
+                .MapResult(
+                    (LoadQuestions.Options opts) => LoadQuestions.Execute(serviceProvider, opts),
+                    (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(serviceProvider, opts),
+                    (Cms.Options opts) => Cms.Execute(serviceProvider, opts),
+                    (CmsValidator.Options opts) => CmsValidator.Execute(serviceProvider, opts),
                              errs => {
                                  logger.LogError(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
                                  return SuccessFailCode.Fail;

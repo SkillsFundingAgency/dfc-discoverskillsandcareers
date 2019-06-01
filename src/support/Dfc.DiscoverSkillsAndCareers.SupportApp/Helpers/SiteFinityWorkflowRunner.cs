@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Microsoft.Extensions.Logging;
@@ -59,7 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
     
     public static class SiteFinityWorkflowRunner
     {
-        private static async Task RunDelete(ISiteFinityHttpService service, string baseUrl, string contentType)
+        public static async Task RunDelete(ISiteFinityHttpService service, string baseUrl, string contentType)
         {
             var contentTypeUrl = $"{baseUrl}/{contentType}"; 
             var instances = await service.GetString(contentTypeUrl).FromJson<SiteFinityDataFeed<JObject[]>>();
@@ -70,17 +71,27 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             }
         }
 
-        private static async Task<SiteFinityDataFeed<List<T>>> GetAll<T>(ISiteFinityHttpService service, string baseUrl,
+        public static async Task<SiteFinityDataFeed<List<T>>> GetAll<T>(ISiteFinityHttpService service, string baseUrl,
             string contentType) where T : class
         {
-            var contentTypeUrl = $"{baseUrl}/{contentType}";
+            var contentTypeUrl = new Uri($"{baseUrl}/{contentType}");
+
             var isExhusted = false;
             var data = new List<T>();
             var page = 0;
             do
             {
-                var results = await service.GetString($"{contentTypeUrl}?$top=50&$skip={50 * page}")
-                    .FromJson<SiteFinityDataFeed<T[]>>();
+                String url;
+                if (String.IsNullOrWhiteSpace(contentTypeUrl.Query))
+                {
+                    url = $"{contentTypeUrl}?$top=50&$skip={50 * page}";
+                }
+                else
+                {
+                    url = $"{contentTypeUrl}&$top=50&$skip={50 * page}";
+                }
+
+                var results = await service.GetString(url).FromJson<SiteFinityDataFeed<T[]>>();
                 if (results == null || results.Value.Length == 0)
                 {
                     isExhusted = true;
@@ -97,14 +108,14 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return new SiteFinityDataFeed<List<T>> {Value = data.ToList()};
         }
         
-        private static async Task<SiteFinityDataFeed<List<JObject>>> GetContentTypeInstances(ISiteFinityHttpService service, string baseUrl,
+        public static async Task<SiteFinityDataFeed<List<JObject>>> GetContentTypeInstances(ISiteFinityHttpService service, string baseUrl,
             string contentType)
         {
             return await GetAll<JObject>(service, baseUrl, contentType);
 
         }
         
-        private static async Task<SiteFinityDataFeed<List<JObject>>> GetTaxonomyInstances(ISiteFinityHttpService service, string baseUrl,
+        public static async Task<SiteFinityDataFeed<List<JObject>>> GetTaxonomyInstances(ISiteFinityHttpService service, string baseUrl,
             string contentType)
         {
             var taxonomies = await GetAll<JObject>(service, baseUrl, "taxonomies");
@@ -135,7 +146,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         private static async Task RunExtract(ISiteFinityHttpService service, string outputDir, string baseUrl, string contentType)
         {
             var instances = await GetContentTypeInstances(service, baseUrl, contentType);
-            File.WriteAllText(Path.Combine(outputDir, $"{contentType}.json"), JsonConvert.SerializeObject(instances, Formatting.Indented));
+            File.WriteAllText(Path.Combine(outputDir, $"{contentType.Split('?')[0]}.json"), JsonConvert.SerializeObject(instances, Formatting.Indented));
         }
         
      
@@ -230,11 +241,11 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             }
         }
         
-        private static async Task<Workflow> ReadWorkflow(string path)
+        private static Workflow ReadWorkflow(string path)
         {
             var fullPath = Path.GetFullPath(path);
 
-            var data = await File.ReadAllTextAsync(fullPath);
+            var data = File.ReadAllText(fullPath);
 
             return JsonConvert.DeserializeObject<Workflow>(data);
         }
@@ -281,7 +292,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         
         public static async Task RunWorkflowFromFile(ISiteFinityHttpService service, ILogger logger, string siteFinityBaseUrl, string workflowFile, string outputDirectory)
         {
-            var workflow = ReadWorkflow(workflowFile).GetAwaiter().GetResult();
+            var workflow = ReadWorkflow(workflowFile);
 
             logger.LogInformation($"Read workflow file {workflowFile}");
 

@@ -1,9 +1,10 @@
 {
   "steps": [
-    { "action": "extract", "contentType":  "filteringquestionsets"},
-    { "action": "extract", "contentType":  "filteringquestions"},
-    { "action": "extract", "contentType":  "shortquestionsets"},
-    { "action": "extract", "contentType":  "shortquestions"},
-    { "action": "extract", "contentType":  "traits"}
+//    { "action": "extract", "contentType":  "filteringquestionsets"},
+    { "action": "extract", "contentType":  "filteringquestions?$expand=ExcludedJobProfiles"},
+//    { "action": "extract", "contentType":  "shortquestionsets"},
+//    { "action": "extract", "contentType":  "shortquestions"},
+//    { "action": "extract", "contentType":  "traits"},
+    { "action": "extract", "contentType":  "jobprofiles?$select=Title,JobProfileCategories"}
   ]
 }
