@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using com.sun.corba.se.impl.encoding;
+using com.sun.xml.@internal.bind.v2.model.core;
 using edu.stanford.nlp.ling;
 using edu.stanford.nlp.pipeline;
 using java.util;
@@ -123,13 +124,13 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             public Vocabulary(IEnumerable<Term> vocab, double percentageCutOff = 20)
             {
                 PercentageCutOff = percentageCutOff;
-                var termArray = vocab as Term[] ?? vocab.ToArray();
+                var termArray = (vocab as Term[] ?? vocab).OrderByDescending(r => r.Score).ToArray();
                 Terms = termArray.ToArray();
                 var max = Terms.Max(t => t.Score);
                 var min = Terms.Min(t => t.Score);
                 var percent = (max - min) / 100.0;
                 var threshold = (percentageCutOff * percent) + min;
-                TopTerms = termArray.Where(p => p.Score >= threshold).OrderByDescending(r => r.Score).ToArray();
+                TopTerms = termArray.Where(p => p.Score >= threshold).ToArray();
             }
 
             public bool IsMatch(Vocabulary other)
@@ -217,7 +218,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return result; 
         }
 
-        private static Document ProcessText(string key, string text, PartOfSpeech? partOfSpeech = PartOfSpeech.None)
+        private static Document BuildDocument(string key, string text, PartOfSpeech? partOfSpeech = PartOfSpeech.None)
         {
             PartOfSpeech? toPartOfSpeech(string tag)
             {
@@ -256,9 +257,74 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return result;
         }
 
+        public class SentenceDocument
+        {
+            public string Key { get; }
+            public IList<string> Sentences { get; }
+
+            public SentenceDocument(string key, IList<string> sentences)
+            {
+                Key = key;
+                Sentences = sentences;
+            }
+            
+        }
+        
+        public static SentenceDocument GetSentences(string key, string text)
+        {
+            var doc = new CoreDocument(text);
+            Pipeline.annotate(doc);
+
+            var sentences = doc.sentences().toArray();
+            var ss = new List<string>();
+            foreach (var s in sentences)
+            {
+                ss.Add(((CoreSentence) s).text());    
+            }
+
+            return new SentenceDocument(key, ss);
+            
+        }
+
+        public static IDictionary<string, IDictionary<string, IDictionary<string, double>>> GetSentenceSimilarities(
+            SentenceDocument[] questions, SentenceDocument[] jobProfiles)
+        {
+            var result = new Dictionary<string,IDictionary<string, IDictionary<string, double>>>();
+
+            foreach (var question in questions.Take(1))
+            {
+                if (!result.TryGetValue(question.Key, out var jp))
+                {
+                    jp = new Dictionary<string, IDictionary<string, double>>();
+                    result[question.Key] = jp;
+                }
+                    
+                
+                foreach (var jobProfile in jobProfiles.Take(1))
+                {
+                    if (!jp.TryGetValue(jobProfile.Key, out var statements))
+                    {
+                        statements = new Dictionary<string, double>();
+                        jp[jobProfile.Key] = statements;
+                    }
+
+                    foreach (var statement in jobProfile.Sentences)
+                    {
+                        Console.Write($"Similarity between:{Environment.NewLine}\t{question.Key}{Environment.NewLine}\t{statement} ");
+                        var sim = WordNetEngine.GetSentenceSimilarity(question.Key, statement);
+                        Console.WriteLine($"= {sim}");
+                        
+                        statements.Add(statement, sim);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static IDictionary<string,Vocabulary> Analyse(PartOfSpeech? partOfSpeech = PartOfSpeech.None, double topTermPercentage = 20, params (string,string)[] texts)
         {
-            var tfidf = new TfIdf(texts.Select(t => ProcessText(t.Item1, t.Item2, partOfSpeech)));
+            var tfidf = new TfIdf(texts.Select(t => BuildDocument(t.Item1, t.Item2, partOfSpeech)));
             var result = new Dictionary<string, Vocabulary>();
             foreach (var x in tfidf.Values)
             {

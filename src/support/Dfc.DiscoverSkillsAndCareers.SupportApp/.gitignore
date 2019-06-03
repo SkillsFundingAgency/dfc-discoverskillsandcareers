@@ -263,3 +263,5 @@ paket-files/
 __pycache__/
 *.pyc
 userSessions.csv
+log.txt
+token.json/
