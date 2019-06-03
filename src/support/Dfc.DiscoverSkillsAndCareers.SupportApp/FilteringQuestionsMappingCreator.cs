@@ -48,7 +48,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
     
     public class FilteringQuestionsMappingCreator
     {
-        [Verb("create-filtering-questions-mapping", HelpText = "Validates the DYSAC content and relationships in Sitefinity.")]
+        [Verb("create-filtering-questions-mapping", HelpText = "Creates the filtering question mappings for DYSAC.")]
         public class Options : AppSettings
         {
             public class JobProfileMappingSheet
