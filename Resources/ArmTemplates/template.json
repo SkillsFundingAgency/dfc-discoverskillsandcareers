@@ -113,6 +113,7 @@
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
+        "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
@@ -638,6 +639,23 @@
                         },
                         "storageKind": {
                             "value": "StorageV2"
+                        }
+                    }
+                }
+            },
+            {
+                "apiVersion": "2017-05-10",
+                "name": "[variables('ServiceBusNamespaceName')]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'ServiceBus/service-bus.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "serviceBusNamespaceName": {
+                            "value": "[variables('ServiceBusNamespaceName')]"
                         }
                     }
                 }
