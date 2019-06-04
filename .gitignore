@@ -275,3 +275,5 @@ __pycache__/
 *.pyc
 
 TEST-*.xml
+coverage.json
+coverage.*.xml
