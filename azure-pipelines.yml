@@ -55,7 +55,7 @@ jobs:
     displayName: dotnet test
     inputs:
       command: test
-      arguments: '--configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Exclude=\"[xunit.*]*,[Dfc.DiscoverSkillsAndCareers.SupportApp]*,[Dfc.DiscoverSkillsAndCareers.Repositories]*,[Dfc.DiscoverSkillsAndCareers.WebApp.Views]*,[microsoft.*]*,[system.*]*\"'
+      arguments: '--configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Exclude="[xunit.*]*,[Dfc.DiscoverSkillsAndCareers.SupportApp]*,[Dfc.DiscoverSkillsAndCareers.Repositories]*,[Dfc.DiscoverSkillsAndCareers.WebApp.Views]*,[microsoft.*]*,[system.*]*"'
       projects: 'src\Dfc.UnitTests\Dfc.UnitTests.csproj'
 
   # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
