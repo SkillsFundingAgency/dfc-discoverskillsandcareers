@@ -4,111 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Transactions;
 using CommandLine;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
-    public static class JsonExtensions
-    {
-        static Regex ReplaceRegex = new Regex(@"\{prop:(\w*)\}");
-        
-        public static async Task<T> FromJson<T>(this Task<string> source)
-        {
-            var data = await source;
-            return JsonConvert.DeserializeObject<T>(data);
-        }
-        
-        public static T FromJson<T>(this string source)
-        {
-            var data = source;
-            return JsonConvert.DeserializeObject<T>(data);
-        }
-
-        public static void InterpolateProperties(this JObject source)
-        {
-            foreach (var property in source.Properties())
-            {
-                
-                if (property.Value.Type == JTokenType.String)
-                {
-                    var propValue = property.Value.Value<string>();
-                    var hasReplacements = false;
-                    foreach (Match match in ReplaceRegex.Matches(propValue))
-                    {
-                        var group = match.Groups[1];
-                        if (source.ContainsKey(group.Value))
-                        {
-                            var newValue = source.Value<string>(group.Value);
-                            propValue = propValue.Replace(match.Value, newValue);
-                            hasReplacements = true;
-                        }
-                    }
-
-                    if(hasReplacements) {
-                        source.SelectToken(property.Name).Replace(propValue);
-                    }
-                }
-            }
-        }
-    }
-
-    public class Workflow
-    {
-        public WorkflowStep[] Steps { get; set; }
-    }
-
-    public enum Action
-    {
-        Create, Delete, Extract
-    }
-    
-    public class WorkflowStep
-    {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Action Action { get; set; }
-        public string ContentType { get; set; }
-        public JObject Data { get; set; }
-        
-        public Relation[] Relates { get; set; }
-    }
-
-    public class RelationType
-    {
-        public string Type { get; set; }
-        public string NavigationProperty { get; set; }
-        public string ContentType { get; set; }
-        
-        public string Property { get; set; }
-        
-    }
-
-    public class Relation
-    {
-        public RelationType RelatedType { get; set; }
-        
-        
-        public string[] Values { get; set; }
-
-        public string Property => RelatedType.Property;
-        
-        public string ContentType => RelatedType.ContentType;
-        public bool IsTaxonomy => RelatedType.Type.Equals("taxonomies", StringComparison.InvariantCultureIgnoreCase);
-        
-
-    }
-    
     public class CmsRunBook
     {
         
