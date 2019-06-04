@@ -6,7 +6,7 @@
   {% endif %}
     <form method="post" action="/reload">
 
-    @if (Model.HasReloadError) {
+    @if (Model.HasError) {
       <div>
 
         {{ govukErrorSummary({
@@ -22,12 +22,12 @@
         </div>
       }
 
-      <div class="app-resume-panel__input govuk-form-group @(Model.HasReloadError ? "govuk-form-group--error" : string.Empty)">
+      <div class="app-resume-panel__input govuk-form-group @(Model.HasError ? "govuk-form-group--error" : string.Empty)">
         <label class="govuk-label" for="code">Enter your reference</label>
-          @if (Model.HasReloadError) {
+          @if (Model.HasError) {
             <span id="code-error" class="govuk-error-message">@Model.ErrorMessage</span>
           }
-         <input class="govuk-input @(Model.HasReloadError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasReloadError ? "aria-describedby=code-error" : string.Empty) />
+         <input class="govuk-input @(Model.HasError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasError ? "aria-describedby=code-error" : string.Empty) />
       </div>
 
       {{ govukButton({
