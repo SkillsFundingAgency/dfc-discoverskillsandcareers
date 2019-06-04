@@ -27,11 +27,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 var sessionId = await TryGetSessionId(Request);
-                var model = new IndexViewModel
-                {
-                    SessionId = sessionId, 
-                    HasReloadError = !string.IsNullOrEmpty(e)
-                };
+                var model = new IndexViewModel { SessionId = sessionId };
+                
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter your reference";
@@ -44,6 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     AppendCookie(sessionId);
                 }
+                
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -102,21 +100,17 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     {
                         return new RedirectResult($"/results/{nextQuestionResponse.JobCategorySafeUrl}");
                     }
-                    else
-                    {
-                        return new RedirectResult($"/results");
-                    }
+
+                    return new RedirectResult($"/results");
                 }
 
-                var questionUrl = QuestionController.GetQuestionPageNumber(nextQuestionResponse.QuestionNumber);
+                var questionUrl = nextQuestionResponse.GetQuestionPageNumber();
                 if (nextQuestionResponse.IsFilterAssessment)
                 {
                     return new RedirectResult($"/q/{nextQuestionResponse.JobCategorySafeUrl}/{questionUrl}");
                 }
-                else
-                {
-                    return new RedirectResult($"/q/short/{questionUrl}");
-                }
+
+                return new RedirectResult($"/q/short/{questionUrl}");
             }
             catch (System.Net.Http.HttpRequestException)
             {

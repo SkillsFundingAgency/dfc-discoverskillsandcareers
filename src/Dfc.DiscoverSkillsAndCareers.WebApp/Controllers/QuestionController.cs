@@ -45,7 +45,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return BadRequest();
                 }
-
+                
                 var postAnswerRequest = new PostAnswerRequest()
                 {
                     QuestionId = GetFormValue("questionId"),
@@ -64,7 +64,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     AppendCookie(sessionId);
                     return Redirect(finishEndpoint);
                 }
-                var url = $"/q/{assessment}/{GetQuestionPageNumber(postAnswerResponse.NextQuestionNumber)}";
+                var url = $"/q/{assessment}/{postAnswerResponse.NextQuestionNumber.ToQuestionPageNumber()}";
                 return Redirect(url);
             }
             catch (System.Net.Http.HttpRequestException)
@@ -179,15 +179,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         private string GetAnswerFormPostRoute(AssessmentQuestionResponse assessmentQuestionResponse, string assessment)
         {
-            var questionNumber = GetQuestionPageNumber(assessmentQuestionResponse.NextQuestionNumber ?? assessmentQuestionResponse.MaxQuestionsCount);
+            var questionNumber = assessmentQuestionResponse.GetQuestionPageNumber();
             var nextRoute = $"/q/{assessment}/{questionNumber}";
             return nextRoute;
         }
 
-        public static string GetQuestionPageNumber(int questionNumber)
-        {
-            if (questionNumber < 10) return $"0{questionNumber.ToString()}";
-            return questionNumber.ToString();
-        }
+        
     }
 }
