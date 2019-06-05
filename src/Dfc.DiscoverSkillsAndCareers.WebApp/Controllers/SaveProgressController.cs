@@ -317,10 +317,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-
-                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
-                await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                
                     
                 if (!sendSmsRequest.ValidMobileNumber)
                 {
@@ -331,6 +327,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     
                     return Redirect("/save-my-progress/reference?e=2");
                 }
+                
+                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
+                await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 
                 NotifyResponse notifyResponse = null;
                 try
