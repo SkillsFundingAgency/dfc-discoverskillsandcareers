@@ -22,5 +22,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string CurrentFilterAssessmentCode { get; set; }
         public bool IsFilterAssessment { get; set; }
         public string JobCategorySafeUrl { get; set; }
+        
+        public string GetQuestionPageNumber()
+        {
+            return (NextQuestionNumber ?? MaxQuestionsCount).ToQuestionPageNumber();
+
+        }
     }
 }

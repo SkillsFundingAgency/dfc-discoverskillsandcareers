@@ -75,6 +75,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobFamilies;
                 var suggestedJobProfiles = new List<JobProfileResult>();
+                var rnd = new Random();
                 foreach (var jobCategory in jobFamilies)
                 {
                     if (jobCategory.FilterAssessment == null)
@@ -83,12 +84,13 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     }
                     // Build the list of job profiles
                     var jobProfiles =
-                        await jobProfileRepository.JobProfilesTitle(jobCategory.FilterAssessment.SuggestedJobProfiles);
+                        await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
+                        //await jobProfileRepository.JobProfilesTitle(jobCategory.FilterAssessment.SuggestedJobProfiles);
 
                     
-                    log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
+                    //log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
                     
-                    foreach (var jobProfile in jobProfiles)
+                    foreach (var jobProfile in jobProfiles.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
                     {
                         suggestedJobProfiles.Add(new JobProfileResult()
                         {

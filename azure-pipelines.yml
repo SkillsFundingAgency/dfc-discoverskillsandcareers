@@ -52,10 +52,28 @@ jobs:
      targets: prod
 
   - task: DotNetCoreCLI@2
-    displayName: 'Run Unit tests'
+    displayName: dotnet test
     inputs:
       command: test
+      arguments: '--configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Exclude="[*]*NotifyClient%2c[*]*Settings%2c[xunit.*]*%2c[Dfc.DiscoverSkillsAndCareers.SupportApp]*%2c[*.Repositories]*%2c[*.Views*]*%2c[*]*.Models*%2c[*]*AppSettings*%2c[*]*Program*%2c[*]*Startup*%2c[*]*WebJobsExtensionStartup%2c[*]*HttpService%2c[*]*ApiDefinition%2c[*]*ApiService%2c[microsoft.*]*%2c[system.*]*"'
       projects: 'src\Dfc.UnitTests\Dfc.UnitTests.csproj'
+
+  # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+  # First install the tool on the machine, then run it
+  - script: |
+      dotnet tool install -g dotnet-reportgenerator-globaltool
+      reportgenerator -reports:$(Build.SourcesDirectory)/src/Dfc.UnitTests/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
+    displayName: Create Code coverage report
+
+  # Publish the code coverage result (summary and web site)
+  # The summary allows to view the coverage percentage in the summary tab
+  # The web site allows to view which lines are covered directly in Azure Pipeline
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+      reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet publish web app'

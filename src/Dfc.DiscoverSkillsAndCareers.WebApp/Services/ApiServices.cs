@@ -13,7 +13,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         private IHttpService HttpService;
         private IAppSettings AppSettings;
 
-        public ApiServices(HttpService httpService, IOptions<AppSettings> appSettings)
+        public ApiServices(IHttpService httpService, IOptions<AppSettings> appSettings)
         {
             HttpService = httpService;
             AppSettings = appSettings.Value;

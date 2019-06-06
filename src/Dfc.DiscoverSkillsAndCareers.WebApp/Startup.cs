@@ -58,9 +58,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
 
-            services.AddHttpClient<HttpService>()
-                    .AddTransientHttpErrorPolicy(p => p.RetryAsync(3, (e,i) => TimeSpan.FromMilliseconds(600 * i)))
-                    .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));;
+            services.AddHttpClient<IHttpService, HttpService>()
+                .AddTransientHttpErrorPolicy(p => p.RetryAsync(3, (e, i) => TimeSpan.FromMilliseconds(600 * i)))
+                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();

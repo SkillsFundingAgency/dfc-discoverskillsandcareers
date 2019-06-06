@@ -22,9 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
         {
             var traits = new List<ShortTrait>();
             var traitsUrl = $"{sitefinityBaseUrl}/api/{sitefinityWebService}/traits";
-            
-           
-            
+
             string traitsJson = await _httpService.GetString(traitsUrl);
             
             var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(traitsJson);
@@ -61,7 +59,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             {
                 foreach (var trait in traits)
                 {
-                    if (trait.JobProfileCategories.Contains(new System.Guid(jobCategory.Id)))
+                    if (trait.JobProfileCategories.Contains(new Guid(jobCategory.Id)))
                     {
                         jobCategory.Traits.Add(trait.Code);
                     }

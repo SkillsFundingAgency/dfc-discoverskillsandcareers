@@ -6,58 +6,13 @@ using System.Threading.Tasks;
 using System.Web;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
-    public class Workflow
-    {
-        public WorkflowStep[] Steps { get; set; }
-    }
-
-    public enum Action
-    {
-        Create, Delete, Extract
-    }
-    
-    public class WorkflowStep
-    {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Action Action { get; set; }
-        public string ContentType { get; set; }
-        public JObject Data { get; set; }
-        
-        public Relation[] Relates { get; set; }
-    }
-
-    public class RelationType
-    {
-        public string Type { get; set; }
-        public string NavigationProperty { get; set; }
-        public string ContentType { get; set; }
-        
-        public string Property { get; set; }
-        
-    }
-
-    public class Relation
-    {
-        public RelationType RelatedType { get; set; }
-        
-        
-        public string[] Values { get; set; }
-
-        public string Property => RelatedType.Property;
-        
-        public string ContentType => RelatedType.ContentType;
-        public bool IsTaxonomy => RelatedType.Type.Equals("taxonomies", StringComparison.InvariantCultureIgnoreCase);
-        
-
-    }
-    
     public static class SiteFinityWorkflowRunner
     {
         public static async Task RunDelete(ISiteFinityHttpService service, string baseUrl, string contentType)
