@@ -106,8 +106,17 @@
         "SqlServerName": {
             "type": "string"
         },
+        "DatabaseTier": {
+            "type": "string",
+            "defaultValue": "ElasticPool"
+        },
+        "DatabaseSize": {
+            "type": "string",
+            "defaultValue": "1"
+        },
         "ElasticPoolName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -680,6 +689,12 @@
                     "parameters": {
                         "DatabseName": {
                             "value": "[variables('DatabaseName')]"
+                        },
+                        "DatabaseTier": {
+                            "value": "[parameters('DatabaseTier')]"
+                        },
+                        "DatabaseSize": {
+                            "value": "[parameters('DatabaseSize')]"
                         },
                         "SqlServerName": {
                             "value": "[parameters('SqlServerName')]"
