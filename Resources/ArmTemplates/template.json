@@ -102,6 +102,21 @@
         },
         "SiteFinityUsername": {
             "type": "string"
+        },
+        "SqlServerName": {
+            "type": "string"
+        },
+        "DatabaseTier": {
+            "type": "string",
+            "defaultValue": "ElasticPool"
+        },
+        "DatabaseSize": {
+            "type": "string",
+            "defaultValue": "1"
+        },
+        "ElasticPoolName": {
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -114,6 +129,7 @@
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
+        "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-db'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
@@ -656,6 +672,35 @@
                     "parameters": {
                         "serviceBusNamespaceName": {
                             "value": "[variables('ServiceBusNamespaceName')]"
+                        }
+                    }
+                }
+            },
+            {
+                "apiVersion": "2017-05-10",
+                "name": "[variables('DatabaseName')]",
+                "type": "Microsoft.Resources/deployments",
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'SqlServer/sql-database.json')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "DatabseName": {
+                            "value": "[variables('DatabaseName')]"
+                        },
+                        "DatabaseTier": {
+                            "value": "[parameters('DatabaseTier')]"
+                        },
+                        "DatabaseSize": {
+                            "value": "[parameters('DatabaseSize')]"
+                        },
+                        "SqlServerName": {
+                            "value": "[parameters('SqlServerName')]"
+                        },
+                        "ElasticPoolName": {
+                            "value": "[parameters('ElasticPoolName')]"
                         }
                     }
                 }
