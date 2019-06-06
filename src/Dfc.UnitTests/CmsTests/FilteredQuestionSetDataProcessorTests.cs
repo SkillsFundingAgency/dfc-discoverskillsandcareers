@@ -71,7 +71,7 @@ namespace Dfc.UnitTests.CmsTests
         }
 
         [Fact]
-        public async Task IfNoJobCategoryAssignedToQuestionSet_ShouldContinue_ButLog()
+        public async Task IfNoJobCategoryAssignedToQuestionSet_ShouldLog()
         {
             var qsId = Guid.NewGuid().ToString();
             var title = "QS-1";
@@ -90,6 +90,43 @@ namespace Dfc.UnitTests.CmsTests
             await _sut.RunOnce(_logger);
             
             _logger.WasCalledOnce(LogLevel.Warning, $"No job category assigned to filtering question set {title}, skipping.");
+        }
+
+        [Fact]
+        public async Task IfQuestionSetDoesNotRequireUpdate_ShouldLog()
+        {
+            var qsId = Guid.NewGuid().ToString();
+            var jobCategory = "Animal care";
+            var localLastUpdated = new DateTimeOffset(2019, 6, 1, 0, 0, 0, TimeSpan.Zero);
+            var sitefinityLastUpdated = localLastUpdated.AddDays(-1);
+            
+            _getFilteringQuestionSetData.GetData(SiteFinityUrl, SiteFinityBase)
+                .Returns(Task.FromResult(new List<FilteringQuestionSet>
+                {
+                    new FilteringQuestionSet
+                    {
+                        Id = qsId,
+                        Title = "Animal care",
+                        JobProfileTaxonomy = new[] {new TaxonomyHierarchy {Title = jobCategory}},
+                        LastUpdated = sitefinityLastUpdated
+                    }
+                }));
+
+            _questionSetRepository.GetLatestQuestionSetByTypeAndKey("filtered", jobCategory).Returns(Task.FromResult(
+                new QuestionSet
+                {
+                    AssessmentType = "filtered",
+                    QuestionSetVersion = "filtered-animal care-1",
+                    Title = jobCategory,
+                    MaxQuestions = 3,
+                    Version = 1,
+                    LastUpdated = localLastUpdated,
+                    IsCurrent = true
+                }));
+            
+            await _sut.RunOnce(_logger);
+            
+            _logger.WasCalledOnce(LogLevel.Information, $"Filtering Question Set {jobCategory} is upto date - no changes to be done");
         }
     }
 }
