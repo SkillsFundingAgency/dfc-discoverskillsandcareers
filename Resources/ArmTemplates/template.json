@@ -687,7 +687,7 @@
                         "contentVersion": "1.0.0.0"
                     },
                     "parameters": {
-                        "DatabseName": {
+                        "DatabaseName": {
                             "value": "[variables('DatabaseName')]"
                         },
                         "DatabaseTier": {
