@@ -746,7 +746,7 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-ai')).outputs.InstrumentationKey.value]"
+                                "value": "[reference(variables('ChangeFeedAppInsightsName')).outputs.InstrumentationKey.value]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
