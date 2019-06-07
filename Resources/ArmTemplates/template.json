@@ -746,7 +746,7 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(variables('ChangeFeedAppInsightsName')).outputs.InstrumentationKey.value]"
+                                "value": "[reference(concat(variables('ChangeFeedAppInsightsName'),'-deployment')).outputs.InstrumentationKey.value]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
