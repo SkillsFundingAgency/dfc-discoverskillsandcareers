@@ -266,3 +266,5 @@ userSessions.csv
 log.txt
 token.json/
 credentials.json
+corenlp/
+wordnet/
