@@ -132,7 +132,7 @@
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
-        "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-db'))]",
+        "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-db'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
