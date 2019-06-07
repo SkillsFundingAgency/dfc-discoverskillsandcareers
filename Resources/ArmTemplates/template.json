@@ -133,6 +133,8 @@
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
         "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-db'))]",
+        "ChangeFeedFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-fa'))]",
+        "ChangeFeedAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-ai'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
@@ -705,6 +707,76 @@
                     },
                     "ElasticPoolName": {
                         "value": "[parameters('ElasticPoolName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('ChangeFeedFunctionAppName'), '-deployment')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('ChangeFeedFunctionAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-ai')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            }
+
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('ChangeFeedAppInsightsName'),'-deployment')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('ChangeFeedAppInsightsName'),'-deployment')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('ChangeFeedAppInsightsName')]"
+                    },
+                    "attachedService": {
+                        "value": "[variables('ChangeFeedFunctionAppName')]"
                     }
                 }
             }
