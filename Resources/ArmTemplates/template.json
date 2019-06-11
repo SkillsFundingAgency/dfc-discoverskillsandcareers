@@ -718,7 +718,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(variables('ChangeFeedProcessorFunctionAppName'), '-deployment')]",
+            "name": "[variables('ChangeFeedProcessorFunctionAppName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -801,7 +801,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(variables('ChangeFeedProcessorAppInsightsName'),'-deployment')]",
+            "name": "[variables('ChangeFeedProcessorAppInsightsName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -821,7 +821,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(variables('ChangeFeedTriggerFunctionAppName'), '-deployment')]",
+            "name": "[variables('ChangeFeedTriggerFunctionAppName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -904,7 +904,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(variables('ChangeFeedTriggerAppInsightsName'),'-deployment')]",
+            "name": "[variables('ChangeFeedTriggerAppInsightsName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
