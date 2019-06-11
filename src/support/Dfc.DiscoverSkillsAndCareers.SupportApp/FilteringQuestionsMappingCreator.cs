@@ -5,13 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using CommandLine;
+using CsvHelper.Configuration;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -66,14 +69,13 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         public ONetSkill[] RelatedSkills { get; set; }
 
         public IEnumerable<ONetSkill> Skills =>
-            RelatedSkills.Where(o =>
+            RelatedSkills.Take(8).Where(o =>
                 o.Skill != "Critical Thinking"
                 && o.Skill != "Active Listening"
                 && o.Skill != "Reading Comprehension"
                 && o.Skill != "Idea Generation and Reasoning Abilities"
                 && o.Skill != "Attentiveness"
-                && o.Skill != "Attention to Detail"
-                && o.ONetAttributeType != "Combination");
+                && o.Skill != "Attention to Detail");
     }
     
     public class JobProfileCategory
@@ -142,72 +144,33 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
             try
             {
-
                 var configuration = services.GetService<IConfiguration>();
                 configuration.GetSection("AppSettings").Bind(opts);
                 var sitefinityService = services.GetService<ISiteFinityHttpService>();
 
-//                var jobProfileCategories = SiteFinityWorkflowRunner
-//                    .GetTaxonomyInstances(sitefinityService, opts.SiteFinityApiUrl, "Job Profile Category")
-//                    .GetAwaiter()
-//                    .GetResult()
-//                    .Value
-//                    .Select(c => c.ToObject<JobProfileCategory>()).ToDictionary(r => r.Id);
+                var jobProfileCategories = SiteFinityWorkflowRunner
+                    .GetTaxonomyInstances(sitefinityService, opts.SiteFinityApiUrl, "Job Profile Category")
+                    .GetAwaiter()
+                    .GetResult()
+                    .Value
+                    .Select(c => c.ToObject<JobProfileCategory>()).ToDictionary(r => r.Id);
                 
-                //File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_categories.json"), JsonConvert.SerializeObject(jobProfileCategories, Formatting.Indented));
+                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_categories.json"), JsonConvert.SerializeObject(jobProfileCategories, Formatting.Indented));
 
-//                var jobProfiles = SiteFinityWorkflowRunner.GetAll<SiteFinityJobProfile>(sitefinityService,
-//                        opts.SiteFinityApiUrl,
-//                        "jobprofiles?$select=Title,Overview,WhatYouWillDo,WYDDayToDayTasks,Skills,JobProfileCategories,WorkingHoursPatternsAndEnvironment&$expand=RelatedSkills&$orderby=Title")
-//                    .GetAwaiter()
-//                    .GetResult()
-//                    .Value;
+                var jobProfiles = SiteFinityWorkflowRunner.GetAll<SiteFinityJobProfile>(sitefinityService,
+                        opts.SiteFinityApiUrl,
+                        "jobprofiles?$select=Title,Overview,WhatYouWillDo,WYDDayToDayTasks,Skills,JobProfileCategories,WorkingHoursPatternsAndEnvironment&$expand=RelatedSkills&$orderby=Title")
+                    .GetAwaiter()
+                    .GetResult()
+                    .Value;
 
-//                
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profiles.json"),
-//                    JsonConvert.SerializeObject(jobProfiles, Formatting.Indented));
-//                
-
-                var jobProfileCategories =
-                    JsonConvert.DeserializeObject<Dictionary<Guid, JobProfileCategory>>(
-                        File.ReadAllText(Path.Combine(opts.OutputDirectory, "job_categories.json")));
-
-                var jobProfiles =
-                    JsonConvert.DeserializeObject<List<SiteFinityJobProfile>>(
-                        File.ReadAllText(Path.Combine(opts.OutputDirectory, "job_profiles.json")));
+                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profiles.json"),
+                    JsonConvert.SerializeObject(jobProfiles, Formatting.Indented));
                 
                 var jobProfileCategoriesLookup =
                     jobProfiles.ToDictionary(p => p.Title,
                         p => p.JobProfileCategories.Select(c => jobProfileCategories[c]).ToArray(),
                         StringComparer.InvariantCultureIgnoreCase);
-
-//                var jobProfileVocab = CreateJobProfileVocabulary(jobProfiles, opts);
-//                
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profile_vocab.json"),
-//                    JsonConvert.SerializeObject(jobProfileVocab, Formatting.Indented));
-//                
-//                logger.LogInformation("Output: Job Profile Vocabulary");
-//                
-//                var questionVocab = ReadQuestionVocabulary(opts);
-//                
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "question_vocab.json"),
-//                    JsonConvert.SerializeObject(questionVocab, Formatting.Indented));
-//                
-//                logger.LogInformation("Output: Question Vocabulary");
-//                
-//                var termCounts = CalculateGlobalTermCounts(jobProfileVocab);
-//                
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profile_term_counts.json"),
-//                    JsonConvert.SerializeObject(termCounts, Formatting.Indented));
-//                
-//                logger.LogInformation("Output: Job Profile Term Counts");
-//                
-//                var categoryTermCounts = CalculateCategoryTermCounts(jobProfileVocab, jobProfileCategoriesLookup);
-//                
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profile_category_term_counts.json"),
-//                    JsonConvert.SerializeObject(categoryTermCounts, Formatting.Indented));
-                
-//                logger.LogInformation("Output: Job Profile -> Job Category term counts");
 
 
                 var jobProfileSkills = CreateJobProfileSkillGrouping(jobProfiles);
@@ -231,7 +194,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 {
                     JobCategoryProfileCount = r.Value.JobCategoryProfileCount,
                     Attributes = r.Value.Attributes.Take(4).ToArray()
-
                 });
                 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, $"job_category_onet.json"),
@@ -239,11 +201,83 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 
                 var onetAttributes =
                     jobCategorySkills.Values.SelectMany(v => v.Attributes.Select(r => (r.ONetAttribute, r.ONetAttributeType)))
-                        .Select(r => new { ONetAttribute = r.Item1, ONetAttributeType = r.Item2 })
+                        .Select(r => new { ONetAttribute = r.Item1, ONetAttributeType = r.Item2, Question = $"" })
                         .Distinct();
                 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, $"active_onet_attributes.json"),
                     JsonConvert.SerializeObject(onetAttributes, Formatting.Indented));
+                
+                
+                var workflow = new Workflow();
+                var steps = new List<WorkflowStep>();
+                var questions = new List<string>();
+                
+                var onetQuestionLookup = ReadQuestions(Path.Combine(opts.OutputDirectory, "onet_questions.csv"));
+
+                foreach (var attribute in onetAttributes)
+                {
+                    var question = onetQuestionLookup[attribute.ONetAttribute];
+                    steps.Add(new WorkflowStep
+                    {
+                        Action = Action.Create,
+                        ContentType = "filteringquestions",
+                        Data = new JObject(new object[]
+                        {
+                            new JProperty("Title", attribute.ONetAttribute),
+                            new JProperty("QuestionText", question),
+                            new JProperty("Description", ""),
+                            new JProperty("IncludeInSitemap", false)
+                        }),
+                        Relates = new[]
+                        {
+                            new Relation
+                            {
+                                RelatedType = new RelationType
+                                {
+                                    ContentType = "skills", Property = "Title",
+                                    Type = "RelatedSkill"
+                                },
+                                Values = new[] {attribute.ONetAttribute}
+                            },
+                        }
+
+                    });
+                    
+                    questions.Add(question);
+                }
+                
+                steps.Add(new WorkflowStep
+                {
+                    Action = Action.Create,
+                    ContentType = "filteringquestionsets",
+                    Data = new JObject(new object []
+                    {
+                        new JProperty("Title", "Default"),
+                        new JProperty("IncludeInSitemap", false)
+                    }),
+                    Relates = new []
+                    {
+                        new Relation
+                        {
+                            RelatedType = new RelationType
+                            {
+                                ContentType = "filteringquestions",
+                                Type = "Questions",
+                                Property = "QuestionText"
+                            },
+                            Values = questions.ToArray()
+                        }
+                        
+                    }
+                });
+
+                workflow.Steps = steps.ToArray();
+                
+                File.WriteAllText(Path.Combine(opts.OutputDirectory, "cms-filtering-question.json"), JsonConvert.SerializeObject(workflow, new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    NullValueHandling = NullValueHandling.Ignore
+                }));
                 
                 logger.LogInformation("Done");
                 
@@ -260,7 +294,25 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 return SuccessFailCode.Fail;
             }
         }
-        
+
+        private static IDictionary<string,string> ReadQuestions(string csvQuestions)
+        {    
+            var result = new Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase);
+            using(var fs = File.OpenRead(csvQuestions))
+            using(var sw = new StreamReader(fs))
+            using (var csv = new CsvHelper.CsvParser(sw))
+            {
+                var row = csv.Read();
+                while (row != null)
+                {
+                    result.Add(row[0], row[2]);
+                    row = csv.Read();
+                }
+            }
+
+            return result;
+        }
+
         private static IDictionary<string,JobCategoryAttributes> CreateJobCategorySkillGrouping(List<SiteFinityJobProfile> jobProfiles, 
             IDictionary<string,JobProfileCategory[]> categoryLookup)
         {
@@ -349,163 +401,10 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return result;
         }
 
-        private static Dictionary<string, Dictionary<string, int>> CalculateCategoryTermCounts(
-            IDictionary<string, NLP.Vocabulary> jobProfileVocab,
-            Dictionary<string, JobProfileCategory[]> jobProfileCategoriesLookup)
-        {
-            var categoryTermCounts = new Dictionary<string, Dictionary<string, int>>();
-
-            foreach (var profile in jobProfileVocab)
-            {
-                var categories = jobProfileCategoriesLookup[profile.Key].Select(c => c.Title);
-
-                foreach (var cat in categories)
-                {
-                    if (!categoryTermCounts.TryGetValue(cat, out var category))
-                    {
-                        category = new Dictionary<string, int>();
-                        categoryTermCounts[cat] = category;
-                    }
-
-                    foreach (var term in profile.Value.Terms)
-                    {
-                        if (!category.TryGetValue(term.Text, out var count))
-                        {
-                            category[term.Text] = 1;
-                        }
-
-                        category[term.Text] = count + 1;
-                    }
-                }
-            }
-
-            return categoryTermCounts;
-        }
-
-        private static Dictionary<string, int> CalculateGlobalTermCounts(
-            IDictionary<string, NLP.Vocabulary> jobProfileVocab)
-        {
-            var termCounts = new Dictionary<String, int>();
-
-            foreach (var profile in jobProfileVocab)
-            {
-                foreach (var term in profile.Value.Terms)
-                {
-                    if (!termCounts.TryGetValue(term.Text, out var count))
-                    {
-                        termCounts[term.Text] = 1;
-                        continue;
-                    }
-
-                    termCounts[term.Text] = count + 1;
-                }
-            }
-
-            return termCounts;
-        }
-
-        private static IDictionary<string, NLP.Vocabulary> CreateJobProfileVocabulary(List<SiteFinityJobProfile> data,
-            Options opts)
-        {
-            var jobProfiles =
-                data
-                    .Select(p =>
-                    {
-                        var text = String.Join(Environment.NewLine, p.Title, p.Overview, p.WhatyouWillDo, p.Skills,
-                            p.WorkingHoursPatternsAndEnvironment);
-                        return (p.Title, HttpUtility.HtmlDecode(text));
-                    }).ToList();
-
-            return NLP.Analyse(topTermPercentage: opts.RemoveBottomPercentage, texts: jobProfiles.ToArray());
-        }
-
-        private static NLP.SentenceDocument[] CreateJobProfileSentenceDocument(ISiteFinityHttpService service,
-            Options opts)
-        {
-            return
-                SiteFinityWorkflowRunner.GetAll<SiteFinityJobProfile>(service, opts.SiteFinityApiUrl, "jobprofiles")
-                    .GetAwaiter()
-                    .GetResult()
-                    .Value
-                    .Select(p =>
-                    {
-                        var text = $"{p.WhatyouWillDo}";
-                        return NLP.GetSentences(p.Title, HttpUtility.HtmlDecode(text));
-                    }).ToArray();
-        }
-
-        private static NLP.SentenceDocument[] CreateQuestionSentenceDocuments(Options opts)
-        {
-            return GoogleSheetsReader.ReadRange(opts.JobProfileSheet.Id,
-                opts.JobProfileSheet.FilteringQuestionsRange,
-                row =>
-                {
-                    if (row.Count < 2)
-                        return null;
-
-                    var question = (string) row[0];
-                    var vocab = (string) row[1];
-
-                    return NLP.GetSentences(question, question);
-                }).ToArray();
-        }
-
-        private static IDictionary<string, NLP.Vocabulary> ReadQuestionVocabulary(Options opts)
-        {
-            var qs = GoogleSheetsReader.ReadRange(opts.JobProfileSheet.Id,
-                opts.JobProfileSheet.FilteringQuestionsRange,
-                row =>
-                {
-                    var question = (string) row[0];
-                    var vocab = "";
-
-                    if (row.Count() >= 2)
-                        vocab = (string) row[1];
-
-                    return Tuple.Create(question,
-                        $"{question}{Environment.NewLine}{vocab.Replace(",", Environment.NewLine)}");
-                }).Select(s => (s.Item1, s.Item2)).Distinct();
-
-            return NLP.Analyse(null, topTermPercentage: 0, texts: qs.ToArray());
-        }
+        
 
 
-        private static void GenerateProfileMappingMatrix(IDictionary<string, NLP.Vocabulary> questionVocabulary,
-            IDictionary<string, NLP.Vocabulary> jobProfileVocabulary,
-            IDictionary<string, JobProfileCategory[]> jobProfileCategoriesLookup, Options opts)
-        {
-            using (var fs = File.Open(Path.Combine(opts.OutputDirectory, "functional_competency_mapping.csv"),
-                FileMode.Truncate, FileAccess.ReadWrite))
-            {
-                using (var sw = new StreamWriter(fs))
-                {
-                    sw.WriteLine($"JobProfile,JobProfileCategories,{String.Join(",", questionVocabulary.Keys)}");
 
-                    foreach (var jobProfileVocab in jobProfileVocabulary)
-                    {
-                        var values = new List<string>
-                        {
-                            $"\"{jobProfileVocab.Key}\"",
-                            $"\"{String.Join("|", jobProfileCategoriesLookup[jobProfileVocab.Key].Select(c => c.Title))}\""
-                        };
-                        foreach (var questionVocab in questionVocabulary)
-                        {
-                            if (questionVocab.Value.IsMatch(jobProfileVocab.Value))
-                            {
-                                values.Add("y");
-                            }
-                            else
-                            {
-                                values.Add("n");
-                            }
-                        }
-
-                        sw.WriteLine(String.Join(",", values));
-                    }
-
-                }
-            }
-
-        }
+        
     }
 }
