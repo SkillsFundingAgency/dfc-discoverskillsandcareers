@@ -109,6 +109,9 @@
         "SqlServerName": {
             "type": "string"
         },
+        "SqlDatabaseConnectionString": {
+            "type": "securestring"
+        },
         "DatabaseTier": {
             "type": "string",
             "defaultValue": "ElasticPool"
@@ -133,8 +136,10 @@
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
         "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-db'))]",
-        "ChangeFeedFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-fa'))]",
-        "ChangeFeedAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-ai'))]",
+        "ChangeFeedProcessorFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-fa'))]",
+        "ChangeFeedProcessorAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-ai'))]",
+        "ChangeFeedTriggerFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-fa'))]",
+        "ChangeFeedTriggerAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-ai'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
@@ -713,7 +718,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(variables('ChangeFeedFunctionAppName'), '-deployment')]",
+            "name": "[concat(variables('ChangeFeedProcessorFunctionAppName'), '-deployment')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -723,7 +728,7 @@
                 },
                 "parameters": {
                     "appServiceName": {
-                        "value": "[variables('ChangeFeedFunctionAppName')]"
+                        "value": "[variables('ChangeFeedProcessorFunctionAppName')]"
                     },
                     "appServicePlanName": {
                         "value": "[variables('AppServicePlanName')]"
@@ -745,25 +750,58 @@
                                 "value": "1"
                             },
                             {
+                                "name": "FUNCTIONS_WORKER_RUNTIME",
+                                "value": "dotnet"
+                            },
+                            {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-ai')).outputs.InstrumentationKey.value]"
+                                "value": "[reference(variables('ChangeFeedProcessorAppInsightsName')).outputs.InstrumentationKey.value]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
                                 "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "ServiceBusConnectionString",
+                                "value": "[reference(variables('ServiceBusNamespaceName')).outputs.ServiceBusEndpoint.value]"
+                            },
+                            {
+                                "name": "QueueName",
+                                "value": "data-updates"
+                            },
+                            {
+                                "name": "SqlConnectionString",
+                                "value": "[parameters('SqlDatabaseConnectionString')]"
+                            },
+                            {
+                                "name": "BlobStorageSettings__StorageConnectionString",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "BlobStorageSettings__ContainerName",
+                                "value": "data-inbound"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
                             }
-
                         ]
                     }
                 }
             },
-            "dependsOn": [
-                "[concat(variables('ChangeFeedAppInsightsName'),'-deployment')]"
-            ]
+            "dependsOn": []
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[concat(variables('ChangeFeedAppInsightsName'),'-deployment')]",
+            "name": "[concat(variables('ChangeFeedProcessorAppInsightsName'),'-deployment')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -773,10 +811,113 @@
                 },
                 "parameters": {
                     "appInsightsName": {
-                        "value": "[variables('ChangeFeedAppInsightsName')]"
+                        "value": "[variables('ChangeFeedProcessorAppInsightsName')]"
                     },
                     "attachedService": {
-                        "value": "[variables('ChangeFeedFunctionAppName')]"
+                        "value": "[variables('ChangeFeedProcessorAppInsightsName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('ChangeFeedTriggerFunctionAppName'), '-deployment')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('ChangeFeedTriggerFunctionAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "FUNCTIONS_WORKER_RUNTIME",
+                                "value": "dotnet"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(variables('ChangeFeedTriggerAppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "ServiceBusSettings__ServiceBusConnectionString",
+                                "value": "[reference(variables('ServiceBusNamespaceName')).outputs.ServiceBusEndpoint.value]"
+                            },
+                            {
+                                "name": "ServiceBusSettings__QueueName",
+                                "value": "data-updates"
+                            },
+                            {
+                                "name": "SqlConnectionString",
+                                "value": "[parameters('SqlDatabaseConnectionString')]"
+                            },
+                            {
+                                "name": "BlobStorageSettings__StorageConnectionString",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "BlobStorageSettings__ContainerName",
+                                "value": "data-inbound"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('ChangeFeedTriggerAppInsightsName'),'-deployment')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('ChangeFeedTriggerAppInsightsName')]"
+                    },
+                    "attachedService": {
+                        "value": "[variables('ChangeFeedTriggerAppInsightsName')]"
                     }
                 }
             }
