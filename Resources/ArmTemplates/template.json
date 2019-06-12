@@ -780,18 +780,6 @@
                             {
                                 "name": "BlobStorageSettings__ContainerName",
                                 "value": "data-inbound"
-                            },
-                            {
-                                "name": "CosmosSettings__Endpoint",
-                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
-                            },
-                            {
-                                "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
-                            },
-                            {
-                                "name": "CosmosSettings__DatabaseName",
-                                "value": "DiscoverMySkillsAndCareers"
                             }
                         ]
                     }
@@ -885,16 +873,12 @@
                                 "value": "data-inbound"
                             },
                             {
-                                "name": "CosmosSettings__Endpoint",
-                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                                "name": "AzureCosmosDBConnection",
+                                "value": "[concat('AccountEndpoint=https://',  variables('CosmosDbName') ,'.documents.azure.com:443/;AccountKey=', reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value,';')]"
                             },
                             {
-                                "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
-                            },
-                            {
-                                "name": "CosmosSettings__DatabaseName",
-                                "value": "DiscoverMySkillsAndCareers"
+                                "name": "DatabaseName",
+                                "value": "DiscoverSkillsAndCareers"
                             }
                         ]
                     }
