@@ -27,20 +27,15 @@ namespace Dfc.UnitTests.CmsTests
         public async Task GetData_ShouldHave_CorrectData()
         {
             var trait = "LEADER";
-            var shortQuestionSetsUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/traits";
             
-            var shortTraitResponse = new SiteFinityDataFeed<List<ShortTrait>>
-            {
-                Value = new List<ShortTrait>
+            var shortTraitResponse = new List<ShortTrait>
                 {
                     new ShortTrait { Name = trait }
-                }
-            };
+                };
 
-            _siteFinityHttpService.GetString(shortQuestionSetsUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(shortTraitResponse)));
+            _siteFinityHttpService.GetAll<ShortTrait>("traits").Returns(Task.FromResult(shortTraitResponse));
             
-            var result = await _sut.GetData(SitefinityUrl, SitefinityService);
+            var result = await _sut.GetData();
             
             Assert.Collection(result, fq => Assert.Equal(trait, fq.Name));
         }

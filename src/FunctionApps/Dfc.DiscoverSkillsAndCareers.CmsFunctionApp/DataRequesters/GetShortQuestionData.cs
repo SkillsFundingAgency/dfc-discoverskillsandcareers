@@ -15,19 +15,15 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _httpService = httpService;
         }
 
-        public async Task<List<ShortQuestion>> GetData(string siteFinityApiUrlbase, string siteFinityService, string questionSetId)
+        public async Task<List<ShortQuestion>> GetData(string questionSetId)
         {
-            string getQuestionsUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/shortquestionsets({questionSetId})/Questions";
-            string json = await _httpService.GetString(getQuestionsUrl);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortQuestion>>>(json, JsonSettings.Instance);
-            foreach (var question in data.Value)
+            var data = await _httpService.GetAll<ShortQuestion>($"shortquestionsets({questionSetId})/Questions");
+            foreach (var question in data)
             {
-                string getShortTraitUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/shortquestions({question.Id})/Trait";
-                json = await _httpService.GetString(getShortTraitUrl);
-                var trait = JsonConvert.DeserializeObject<ShortTrait>(json, JsonSettings.Instance);
+                var trait = await _httpService.Get<ShortTrait>($"shortquestions({question.Id})/Trait");
                 question.Trait = trait.Name;
             }
-            return data.Value;
+            return data;
         }
     }
 }

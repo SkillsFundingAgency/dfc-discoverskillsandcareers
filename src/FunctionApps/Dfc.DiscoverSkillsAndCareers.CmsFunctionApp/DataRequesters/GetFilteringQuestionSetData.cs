@@ -9,26 +9,24 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionSetData : IGetFilteringQuestionSetData
     {
-        private readonly ISiteFinityHttpService _httpService;
+        private readonly ISiteFinityHttpService _sitefinity;
         private readonly IGetFilteringQuestionData _getFilteringQuestionData;
 
-        public GetFilteringQuestionSetData(ISiteFinityHttpService httpService,
+        public GetFilteringQuestionSetData(ISiteFinityHttpService sitefinity,
             IGetFilteringQuestionData getFilteringQuestionData)
         {
-            _httpService = httpService;
+            _sitefinity = sitefinity;
             _getFilteringQuestionData = getFilteringQuestionData;
         }
 
-        public async Task<List<FilteringQuestionSet>> GetData(string siteFinityApiUrlbase, string siteFinityService)
+        public async Task<List<FilteringQuestionSet>> GetData()
         {
-            string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets?$expand=JobProfileTaxonomy";
-            string json = await _httpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestionSet>>>(json, JsonSettings.Instance);
-            foreach (var fqs in data.Value)
+            var data = await _sitefinity.GetAll<FilteringQuestionSet>("filteringquestionsets?$expand=JobProfileTaxonomy");
+            foreach (var fqs in data)
             {
-                fqs.Questions = await _getFilteringQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, fqs.Id);
+                fqs.Questions = await _getFilteringQuestionData.GetData(fqs.Id);
             }
-            return data.Value;
+            return data;
         }
     }
 }

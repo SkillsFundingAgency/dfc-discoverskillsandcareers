@@ -13,38 +13,30 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
     {
-        readonly ISiteFinityHttpService _httpService;
         readonly IQuestionRepository _questionRepository;
         readonly IQuestionSetRepository _questionSetRepository;
         readonly IGetShortQuestionSetData _getShortQuestionSetData;
         readonly IGetShortQuestionData _getShortQuestionData;
-        readonly AppSettings _appSettings;
 
         public ShortQuestionSetDataProcessor(
-            ISiteFinityHttpService httpService, 
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
             IGetShortQuestionSetData getShortQuestionSetData,
-            IGetShortQuestionData getShortQuestionData,
-            IOptions<AppSettings> appSettings)
+            IGetShortQuestionData getShortQuestionData)
         {
-            _httpService = httpService;
             _questionRepository = questionRepository;
             _questionSetRepository = questionSetRepository;
             _getShortQuestionSetData = getShortQuestionSetData;
             _getShortQuestionData = getShortQuestionData;
-            _appSettings = appSettings.Value;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for ShortQuestionSet");
 
-            string siteFinityApiUrlbase = _appSettings.SiteFinityApiUrlbase;
-            string siteFinityService = _appSettings.SiteFinityApiWebService;
             string assessmentType = "short";
 
-            var questionSets = await _getShortQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
+            var questionSets = await _getShortQuestionSetData.GetData();
             logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             if (questionSets != null)
@@ -71,7 +63,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     // Attempt to get the questions for this question set
                     logger.LogInformation($"Getting cms questions for question set {data.Id} {data.Title}");
                     data.Questions =
-                        await _getShortQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, data.Id);
+                        await _getShortQuestionData.GetData(data.Id);
                     if (data.Questions.Count == 0)
                     {
                         logger.LogInformation($"Question set {data.Id} doesn't have any questions");

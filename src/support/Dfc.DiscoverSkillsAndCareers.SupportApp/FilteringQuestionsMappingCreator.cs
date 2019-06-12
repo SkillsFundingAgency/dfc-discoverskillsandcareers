@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Web;
 using CommandLine;
-using CsvHelper.Configuration;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
-using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -69,13 +65,16 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         public ONetSkill[] RelatedSkills { get; set; }
 
         public IEnumerable<ONetSkill> Skills =>
-            RelatedSkills.Take(8).Where(o =>
-                o.Skill != "Critical Thinking"
-                && o.Skill != "Active Listening"
-                && o.Skill != "Reading Comprehension"
-                && o.Skill != "Idea Generation and Reasoning Abilities"
-                && o.Skill != "Attentiveness"
-                && o.Skill != "Attention to Detail");
+            RelatedSkills
+                .Where(o =>
+                    !o.ONetAttributeType.Equals("knowledge", StringComparison.InvariantCultureIgnoreCase)
+                    && o.Skill != "Critical Thinking"
+                    && o.Skill != "Active Listening"
+                    && o.Skill != "Reading Comprehension"
+                    && o.Skill != "Idea Generation and Reasoning Abilities"
+                    && o.Skill != "Attentiveness"
+                    && o.Skill != "Attention to Detail")
+                .Take(8);
     }
     
     public class JobProfileCategory
@@ -128,7 +127,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             [Option('o', "outputDir", Required = false, HelpText = "The output directory of any extracted data.")]
             public string OutputDirectory { get; set; }
 
-            public string SiteFinityApiUrl => $"{SiteFinityApiUrlbase}/api/{SiteFinityApiWebService}";
+            public string SiteFinityApiUrl => $"{SiteFinityApiUrlBase}/api/{SiteFinityApiWebService}";
             public double RemoveBottomPercentage { get; set; } = 0.0;
 
             public JobProfileMappingSheet JobProfileSheet = new JobProfileMappingSheet();
@@ -148,21 +147,29 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 configuration.GetSection("AppSettings").Bind(opts);
                 var sitefinityService = services.GetService<ISiteFinityHttpService>();
 
-                var jobProfileCategories = SiteFinityWorkflowRunner
-                    .GetTaxonomyInstances(sitefinityService, opts.SiteFinityApiUrl, "Job Profile Category")
+//                var skillsMatrix = SiteFinityWorkflowRunner
+//                    .GetAll<ONetSkill>(sitefinityService, opts.SiteFinityApiUrl, "socskillsmatrixes")
+//                    .GetAwaiter()
+//                    .GetResult()
+//                    .Value
+//                    .Distinct()
+//                    .Select(s => new {ONetAttribute = s.Skill, ONetAttributeType = s.ONetAttributeType});
+//                
+//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "skills.json"), JsonConvert.SerializeObject(skillsMatrix, Formatting.Indented));
+//                
+                var jobProfileCategories = sitefinityService
+                    .GetTaxonomyInstances("Job Profile Category")
                     .GetAwaiter()
                     .GetResult()
-                    .Value
-                    .Select(c => c.ToObject<JobProfileCategory>()).ToDictionary(r => r.Id);
+                    .Select(c => new JobProfileCategory { Id = Guid.Parse(c.Id), Name = c.Title, Title = c.Title})
+                    .ToDictionary(r => r.Id);
                 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_categories.json"), JsonConvert.SerializeObject(jobProfileCategories, Formatting.Indented));
 
-                var jobProfiles = SiteFinityWorkflowRunner.GetAll<SiteFinityJobProfile>(sitefinityService,
-                        opts.SiteFinityApiUrl,
+                var jobProfiles = sitefinityService.GetAll<SiteFinityJobProfile>(
                         "jobprofiles?$select=Title,Overview,WhatYouWillDo,WYDDayToDayTasks,Skills,JobProfileCategories,WorkingHoursPatternsAndEnvironment&$expand=RelatedSkills&$orderby=Title")
                     .GetAwaiter()
-                    .GetResult()
-                    .Value;
+                    .GetResult();
 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profiles.json"),
                     JsonConvert.SerializeObject(jobProfiles, Formatting.Indented));
@@ -193,7 +200,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 var candidateQuestions = jobCategorySkills.ToDictionary(r => r.Key, r => new JobCategoryAttributes
                 {
                     JobCategoryProfileCount = r.Value.JobCategoryProfileCount,
-                    Attributes = r.Value.Attributes.Take(4).ToArray()
+                    Attributes = r.Value.Attributes.Take(6).ToArray()
                 });
                 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, $"job_category_onet.json"),
@@ -206,7 +213,12 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, $"active_onet_attributes.json"),
                     JsonConvert.SerializeObject(onetAttributes, Formatting.Indented));
+
+                var jobCategoryIdLookup =
+                    jobProfileCategories.Values.ToDictionary(r => r.Title, r => r.Id,
+                        StringComparer.InvariantCultureIgnoreCase);
                 
+                GenerateProfileMappingMatrix(jobProfiles, candidateQuestions, jobCategoryIdLookup, opts);
                 
                 var workflow = new Workflow();
                 var steps = new List<WorkflowStep>();
@@ -282,10 +294,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 logger.LogInformation("Done");
                 
                 
-//                GenerateProfileMappingMatrix(questionVocab, jobProfileVocab, jobProfileCategoriesLookup, opts);
-//                
-//                logger.LogInformation("Output: Job Profile Mapping Matrix");
-                
                 return SuccessFailCode.Succeed;
             }
             catch (Exception ex)
@@ -346,8 +354,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                                         {
                                             ONetAttribute = s.Key.Skill,
                                             ONetAttributeType = s.Key.ONetAttributeType,
-                                            CompositeRank =
-                                                s.Average(r => ncsRank + (profilePercentage / 5.0)),
+                                            CompositeRank = (onetRank + (profilePercentage / 20.0)),
                                             ONetRank = onetRank,
                                             NcsRank = ncsRank,
                                             TotalProfilesWithSkill = (int) profileCount,
@@ -401,7 +408,52 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return result;
         }
 
-        
+        private static void GenerateProfileMappingMatrix(IList<SiteFinityJobProfile> allJobProfiles, 
+            IDictionary<string, JobCategoryAttributes> jobCategories, 
+            IDictionary<string, Guid> jobCategoryIdLookup, Options opts)
+        {
+            
+            foreach (var jobCategory in jobCategories)
+            {
+                var categoryId =
+                    jobCategoryIdLookup[jobCategory.Key];
+                
+                using (var fs = File.OpenWrite(Path.Combine(opts.OutputDirectory, $"{jobCategory.Key.Replace(" ", "_")}-questions.csv")))
+                {
+                    using (var sw = new StreamWriter(fs))
+                    {
+                        sw.WriteLine($"JobProfile,{String.Join(",", jobCategory.Value.Attributes.Select(r => $"\"{r.ONetAttribute}\""))}");
+
+                        var allProfilesInCategory =
+                            new HashSet<string>(allJobProfiles.Where(jp => jp.JobProfileCategories.Any(jpc => jpc == categoryId)).Select(r => r.Title));
+
+                        foreach (var jobProfile in allProfilesInCategory)
+                        {
+                            var values = new List<string>
+                            {
+                                $"\"{jobProfile}\""
+                            };
+                            
+                            foreach (var attribute in jobCategory.Value.Attributes)
+                            {
+                                if (attribute.ProfilesWithoutSkill.Contains(jobProfile))
+                                {
+                                    values.Add("n");
+                                }
+                                else
+                                {
+                                    values.Add("y");
+                                }
+                            }
+                            
+                            sw.WriteLine(String.Join(",", values));
+                        }
+                    }
+                }
+            }
+            
+
+        }
 
 
 

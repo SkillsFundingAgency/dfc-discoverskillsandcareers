@@ -14,9 +14,7 @@ namespace Dfc.UnitTests.CmsTests
         private ISiteFinityHttpService _siteFinityHttpService;
         private GetFilteringQuestionSetData _sut;
         private IGetFilteringQuestionData _getFilteringQuestionData;
-        
-        private const string SitefinityUrl = "https://localhost:8080";
-        private const string SitefinityService = "dsac";
+
         
         public GetFilteringQuestionSetDataTests()
         {
@@ -32,26 +30,20 @@ namespace Dfc.UnitTests.CmsTests
         {
             var questionSetId = "QS-1-1";
 
-            _getFilteringQuestionData.GetData(SitefinityUrl, SitefinityService, questionSetId).Returns(Task.FromResult(
+            _getFilteringQuestionData.GetData(questionSetId).Returns(Task.FromResult(
                 new List<FilteringQuestion>
                 {
                     new FilteringQuestion {Id = "question1"}
                 }));
-
-            var filteringQuestionSetUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/filteringquestionsets?$expand=JobProfileTaxonomy";
             
-            var jobProfileResponse = new SiteFinityDataFeed<List<FilteringQuestionSet>>
-            {
-                Value = new List<FilteringQuestionSet>
+            var jobProfileResponse = new List<FilteringQuestionSet>
                 {
                     new FilteringQuestionSet { Id = questionSetId, Title = "fq-set-1" }
-                }
-            };
+                };
             
-            _siteFinityHttpService.GetString(filteringQuestionSetUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(jobProfileResponse)));
+            _siteFinityHttpService.GetAll<FilteringQuestionSet>("filteringquestionsets?$expand=JobProfileTaxonomy").Returns(Task.FromResult(jobProfileResponse));
 
-            var result = await _sut.GetData(SitefinityUrl, SitefinityService);
+            var result = await _sut.GetData();
             
             Assert.Collection(result, fq => Assert.Single(fq.Questions, j => j.Id == "question1"));
         }

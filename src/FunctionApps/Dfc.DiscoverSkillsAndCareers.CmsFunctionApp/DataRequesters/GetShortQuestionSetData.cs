@@ -15,12 +15,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _httpService = httpService;
         }
 
-        public async Task<List<ShortQuestionSet>> GetData(string siteFinityApiUrlbase, string siteFinityService)
+        public async Task<List<ShortQuestionSet>> GetData()
         {
-            string url = $"{siteFinityApiUrlbase}/api/{siteFinityService}/shortquestionsets";
-            string json = await _httpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortQuestionSet>>>(json, JsonSettings.Instance);
-            return data.Value;
+            return await _httpService.GetAll<ShortQuestionSet>("shortquestionsets");
         }
     }
 }

@@ -13,8 +13,6 @@ namespace Dfc.UnitTests.CmsTests
     {
         private ISiteFinityHttpService _siteFinityHttpService;
         private GetShortQuestionSetData _sut;
-        private const string SitefinityUrl = "https://localhost:8080";
-        private const string SitefinityService = "dsac";
         
         public GetShortQuestionSetDataTests()
         {
@@ -27,20 +25,15 @@ namespace Dfc.UnitTests.CmsTests
         public async Task GetData_ShouldHave_CorrectData()
         {
             var questionSetId = "QS-1-1";
-            var shortQuestionSetsUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/shortquestionsets";
-            
-            var shortQuestionResponse = new SiteFinityDataFeed<List<ShortQuestionSet>>
+
+            var shortQuestionResponse = new List<ShortQuestionSet>
             {
-                Value = new List<ShortQuestionSet>
-                {
-                    new ShortQuestionSet { Id = questionSetId }
-                }
+                new ShortQuestionSet {Id = questionSetId}
             };
 
-            _siteFinityHttpService.GetString(shortQuestionSetsUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(shortQuestionResponse)));
+            _siteFinityHttpService.GetAll<ShortQuestionSet>("shortquestionsets").Returns(Task.FromResult(shortQuestionResponse));
             
-            var result = await _sut.GetData(SitefinityUrl, SitefinityService);
+            var result = await _sut.GetData();
             
             Assert.Collection(result, fq => Assert.Equal(questionSetId, fq.Id));
         }

@@ -10,20 +10,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortTraitDataProcessor : IShortTraitDataProcessor
     {
-        readonly ISiteFinityHttpService _httpService;
         readonly IGetShortTraitData _getShortTraitData;
-        readonly AppSettings _appSettings;
         readonly IShortTraitRepository _shortTraitRepository;
 
         public ShortTraitDataProcessor(
-            ISiteFinityHttpService httpService,
             IGetShortTraitData getShortTraitData,
-            IOptions<AppSettings> appSettings,
             IShortTraitRepository shortTraitRepository)
         {
-            _httpService = httpService;
             _getShortTraitData = getShortTraitData;
-            _appSettings = appSettings.Value;
             _shortTraitRepository = shortTraitRepository;
         }
 
@@ -31,7 +25,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         {
             logger.LogInformation("Begin poll for ShortTraits");
 
-            var data = await _getShortTraitData.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService);
+            var data = await _getShortTraitData.GetData();
 
             foreach(var traitData in data)
             {

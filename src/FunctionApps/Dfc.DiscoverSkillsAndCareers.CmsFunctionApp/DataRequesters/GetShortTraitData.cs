@@ -8,19 +8,16 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetShortTraitData : IGetShortTraitData
     {
-        readonly ISiteFinityHttpService _httpService;
+        readonly ISiteFinityHttpService _sitefinity;
 
-        public GetShortTraitData(ISiteFinityHttpService httpService)
+        public GetShortTraitData(ISiteFinityHttpService sitefinity)
         {
-            _httpService = httpService;
+            _sitefinity = sitefinity;
         }
 
-        public async Task<List<ShortTrait>> GetData(string siteFinityApiUrlbase, string siteFinityApiWebService)
+        public async Task<List<ShortTrait>> GetData()
         {
-            string url = $"{siteFinityApiUrlbase}/api/{siteFinityApiWebService}/traits";
-            string json = await _httpService.GetString(url);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(json, JsonSettings.Instance);
-            return data.Value;
+            return await _sitefinity.GetAll<ShortTrait>("traits");
         }
     }
 }

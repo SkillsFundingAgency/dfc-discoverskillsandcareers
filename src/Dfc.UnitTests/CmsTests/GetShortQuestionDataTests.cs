@@ -13,8 +13,6 @@ namespace Dfc.UnitTests.CmsTests
     {
         private ISiteFinityHttpService _siteFinityHttpService;
         private GetShortQuestionData _sut;
-        private const string SitefinityUrl = "https://localhost:8080";
-        private const string SitefinityService = "dsac";
         
         public GetShortQuestionDataTests()
         {
@@ -27,27 +25,22 @@ namespace Dfc.UnitTests.CmsTests
         public async Task GetData_ShouldHave_CorrectData()
         {
             var questionSetId = "QS-1-1";
-            var shortQuestionUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/shortquestionsets({questionSetId})/Questions";
             
-            var shortQuestionResponse = new SiteFinityDataFeed<List<ShortQuestion>>
-            {
-                Value = new List<ShortQuestion>
+            var shortQuestionResponse =  new List<ShortQuestion>
                 {
                     new ShortQuestion { Id = "question1" }
-                }
-            };
+                };
 
-            _siteFinityHttpService.GetString(shortQuestionUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(shortQuestionResponse)));
+            _siteFinityHttpService.GetAll<ShortQuestion>($"shortquestionsets({questionSetId})/Questions").Returns(Task.FromResult(shortQuestionResponse));
             
             var questionTraitUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/shortquestions(question1)/Trait";
+                $"shortquestions(question1)/Trait";
 
             var traitsResponse = new ShortTrait {Name = "Leader"};
             
-            _siteFinityHttpService.GetString(questionTraitUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(traitsResponse)));
+            _siteFinityHttpService.Get<ShortTrait>(questionTraitUrl).Returns(Task.FromResult(traitsResponse));
 
-            var result = await _sut.GetData(SitefinityUrl, SitefinityService, questionSetId);
+            var result = await _sut.GetData(questionSetId);
             
             Assert.Collection(result, fq => Assert.Equal("Leader", fq.Trait));
         }

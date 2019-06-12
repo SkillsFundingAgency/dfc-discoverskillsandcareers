@@ -12,18 +12,15 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class JobCategoryDataProcessor : IJobCategoryDataProcessor
     {
-        readonly ISiteFinityHttpService _httpService;
         readonly IGetJobCategoriesData _getJobCategoriesData;
         readonly AppSettings _appSettings;
         readonly IJobCategoryRepository _jobCategoryRepository;
 
         public JobCategoryDataProcessor(
-            ISiteFinityHttpService httpService,
             IGetJobCategoriesData getJobCategoriesData,
             IOptions<AppSettings> appSettings,
             IJobCategoryRepository jobCategoryRepository)
         {
-            _httpService = httpService;
             _getJobCategoriesData = getJobCategoriesData;
             _appSettings = appSettings.Value;
             _jobCategoryRepository = jobCategoryRepository;
@@ -32,7 +29,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for JobCategories");
-            var data = await _getJobCategoriesData.GetData(_appSettings.SiteFinityApiUrlbase, _appSettings.SiteFinityApiWebService, _appSettings.SiteFinityJobCategoriesTaxonomyId);
+            var data = await _getJobCategoriesData.GetData(_appSettings.SiteFinityJobCategoriesTaxonomyId);
 
             logger.LogInformation($"Have {data?.Count} job Categorys to save");
 

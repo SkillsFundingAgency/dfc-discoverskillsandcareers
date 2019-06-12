@@ -12,35 +12,27 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class FilteredQuestionSetDataProcessor : IFilteredQuestionSetDataProcessor
     {
-        private readonly ISiteFinityHttpService _httpService;
         private readonly IQuestionRepository _questionRepository;
         private readonly IQuestionSetRepository _questionSetRepository;
         private readonly IGetFilteringQuestionSetData _getFilteringQuestionSetData;
-        private readonly AppSettings _appSettings;
 
         public FilteredQuestionSetDataProcessor(
-            ISiteFinityHttpService httpService,
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
-            IGetFilteringQuestionSetData getFilteringQuestionSetData,
-            IOptions<AppSettings> appSettings)
+            IGetFilteringQuestionSetData getFilteringQuestionSetData)
         {
-            _httpService = httpService;
             _questionRepository = questionRepository;
             _questionSetRepository = questionSetRepository;
             _getFilteringQuestionSetData = getFilteringQuestionSetData;
-            _appSettings = appSettings.Value;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for FilteredQuestionSet");
-
-            string siteFinityApiUrlbase = _appSettings.SiteFinityApiUrlbase;
-            string siteFinityService = _appSettings.SiteFinityApiWebService;
+            
             string assessmentType = "filtered";
 
-            var questionSets = await _getFilteringQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
+            var questionSets = await _getFilteringQuestionSetData.GetData();
 
             if (questionSets == null)
             {

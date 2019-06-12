@@ -9,27 +9,23 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetFilteringQuestionData : IGetFilteringQuestionData
     {
-        readonly ISiteFinityHttpService _httpService;
+        readonly ISiteFinityHttpService _sitefinity;
 
-        public GetFilteringQuestionData(ISiteFinityHttpService httpService)
+        public GetFilteringQuestionData(ISiteFinityHttpService sitefinity)
         {
-            _httpService = httpService;
+            _sitefinity = sitefinity;
         }
 
-        public async Task<List<FilteringQuestion>> GetData(string siteFinityApiUrlbase, string siteFinityService, string questionSetId)
+        public async Task<List<FilteringQuestion>> GetData(string questionSetId)
         {
-            string getQuestionsUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestionsets({questionSetId})/Questions";
-            string json = await _httpService.GetString(getQuestionsUrl);
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<FilteringQuestion>>>(json, JsonSettings.Instance);
+            var questions = await _sitefinity.GetAll<FilteringQuestion>($"filteringquestionsets({questionSetId})/Questions");
             
-            foreach (var question in data.Value)
+            foreach (var question in questions)
             {
-                string getJobProfilesUrl = $"{siteFinityApiUrlbase}/api/{siteFinityService}/filteringquestions({question.Id})/ExcludedJobProfiles";
-                json = await _httpService.GetString(getJobProfilesUrl);
-                var listJobProfiles = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<JobProfile>>>(json, JsonSettings.Instance);
-                question.ExcludesJobProfiles = listJobProfiles.Value.Select(jp => jp.Title).ToList();
+                var profiles = await _sitefinity.GetAll<JobProfile>($"filteringquestions({question.Id})/ExcludedJobProfiles");
+                question.ExcludesJobProfiles = profiles.Select(jp => jp.Title).ToList();
             }
-            return data.Value;
+            return questions;
         }
     }
 }

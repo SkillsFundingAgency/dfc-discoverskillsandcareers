@@ -18,33 +18,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _httpService = httpService;
         }
 
-        public async Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyName = "Job Profile Category")
+        public async Task<List<JobCategory>> GetData(string taxonomyName = "Job Profile Category")
         {
-            var traits = new List<ShortTrait>();
-            var traitsUrl = $"{sitefinityBaseUrl}/api/{sitefinityWebService}/traits";
+            var traits = await _httpService.GetAll<ShortTrait>("traits");
 
-            string traitsJson = await _httpService.GetString(traitsUrl);
+            var taxonomies = await _httpService.GetTaxonomyInstances(taxonomyName);
             
-            var data = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<ShortTrait>>>(traitsJson);
-            foreach(var item in data.Value)
-            {
-                var traitJson = await _httpService.GetString($"{traitsUrl}({item.Id})");
-                var trait = JsonConvert.DeserializeObject<ShortTrait>(traitJson, JsonSettings.Instance);
-                trait.Code = trait.Name.ToUpper();
-                traits.Add(trait);
-            }
-            
-            var taxonomyJson = await _httpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/taxonomies");
-            var taxaId =
-                JsonConvert.DeserializeObject<SiteFinityDataFeed<List<JObject>>>(taxonomyJson)
-                    .Value
-                    .Single(r => String.Equals(r.Value<string>("TaxonName"), taxonomyName, StringComparison.InvariantCultureIgnoreCase))
-                    .Value<string>("Id");
-
-            string json = await _httpService.GetString($"{sitefinityBaseUrl}/api/{sitefinityWebService}/hierarchy-taxa");
-            
-            var jobCategories = JsonConvert.DeserializeObject<SiteFinityDataFeed<List<TaxonomyHierarchy>>>(json, JsonSettings.Instance).Value
-                .Where(x => String.Equals(x.TaxonomyId, taxaId, StringComparison.InvariantCultureIgnoreCase))
+            var jobCategories = taxonomies
                 .Select(x => new JobCategory
                 {
                     Id = x.Id,

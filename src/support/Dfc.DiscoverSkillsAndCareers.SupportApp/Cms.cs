@@ -27,7 +27,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             [Option('o', "outputDir", Required = false, HelpText = "The output directory of any extracted data.")]
             public string OutputDirectory { get; set; }
             
-            public string SiteFinityApiUrl => $"{SiteFinityApiUrlbase}/api/{SiteFinityApiWebService}";
+            public string SiteFinityApiUrl => $"{SiteFinityApiUrlBase}/api/{SiteFinityApiWebService}";
 
         }
         
@@ -43,7 +43,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 
                 var siteFinityService = services.GetService<ISiteFinityHttpService>();
 
-                SiteFinityWorkflowRunner.RunWorkflowFromFile(siteFinityService, logger, opts.SiteFinityApiUrl, opts.WorkflowFile, opts.OutputDirectory).GetAwaiter().GetResult();
+                SiteFinityWorkflowRunner.RunWorkflowFromFile(siteFinityService, logger, opts.WorkflowFile, opts.OutputDirectory).GetAwaiter().GetResult();
                 
                 return SuccessFailCode.Succeed;
             }

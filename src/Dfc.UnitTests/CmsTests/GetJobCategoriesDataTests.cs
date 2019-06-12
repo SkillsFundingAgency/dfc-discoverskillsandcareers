@@ -15,9 +15,6 @@ namespace Dfc.UnitTests.CmsTests
         private ISiteFinityHttpService _siteFinityHttpService;
         private GetJobCategoriesData _sut;
         
-        private const string SitefinityUrl = "https://localhost:8080";
-        private const string SitefinityService = "dsac";
-        
         public GetJobCategoriesDataTests()
         {
             _siteFinityHttpService = Substitute.For<ISiteFinityHttpService>();
@@ -30,39 +27,24 @@ namespace Dfc.UnitTests.CmsTests
             var jobCategoryGuid = Guid.NewGuid();
             var jcTaxonId = Guid.NewGuid();
             
-            _siteFinityHttpService.GetString($"{SitefinityUrl}/api/{SitefinityService}/traits").Returns(Task.FromResult(JsonConvert.SerializeObject(new SiteFinityDataFeed<List<ShortTrait>>
-            {
-                Value = new List<ShortTrait>
+            _siteFinityHttpService.GetAll<ShortTrait>($"traits").Returns(Task.FromResult(new List<ShortTrait>
                 {
                     new ShortTrait { Id = "trait1", Code = "Leader", Name = "Leader", JobProfileCategories = new List<Guid> { jobCategoryGuid }}
-                }
-            })));
+                }));
             
-            _siteFinityHttpService.GetString($"{SitefinityUrl}/api/{SitefinityService}/traits(trait1)").Returns(Task.FromResult(JsonConvert.SerializeObject(new ShortTrait
+            _siteFinityHttpService.Get<ShortTrait>($"traits(trait1)").Returns(Task.FromResult(new ShortTrait
             {
                 Code = "Leader", Name = "Leader", JobProfileCategories = new List<Guid> { jobCategoryGuid }
                 
-            })));
+            }));
 
-            _siteFinityHttpService.GetString($"{SitefinityUrl}/api/{SitefinityService}/taxonomies").Returns(
-                Task.FromResult(
-                    JsonConvert.SerializeObject(new SiteFinityDataFeed<List<object>> { 
-                        Value = new List<object>
-                        {
-                            new { TaxonName = "Job Profile Category", Id = jcTaxonId.ToString() }
-                        }
-                    })));
-
-            _siteFinityHttpService.GetString($"{SitefinityUrl}/api/{SitefinityService}/hierarchy-taxa").Returns(
-                Task.FromResult(JsonConvert.SerializeObject(new SiteFinityDataFeed<List<TaxonomyHierarchy>>
-                {
-                    Value = new List<TaxonomyHierarchy>
+            _siteFinityHttpService.GetTaxonomyInstances("Job Profile Category").Returns(
+                Task.FromResult( new List<TaxonomyHierarchy>
                     {
                         new TaxonomyHierarchy { Id = jobCategoryGuid.ToString(), TaxonomyId = jcTaxonId.ToString() }
-                    }
-                })));
+                    }));
             
-            var result = await _sut.GetData(SitefinityUrl, SitefinityService, "Job Profile Category");
+            var result = await _sut.GetData("Job Profile Category");
             
             Assert.Collection(result, fq => Assert.Single(fq.Traits, j => j == "LEADER"));
         }

@@ -6,6 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetJobCategoriesData
     {
-        Task<List<JobCategory>> GetData(string sitefinityBaseUrl, string sitefinityWebService, string taxonomyName = "Job Profile Categories");
+        Task<List<JobCategory>> GetData(string taxonomyName = "Job Profile Categories");
     }
 }

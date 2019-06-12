@@ -7,6 +7,7 @@ using System.Web;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
+using jdk.nashorn.@internal.scripts;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,99 +16,27 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
     public static class SiteFinityWorkflowRunner
     {
-        public static async Task RunDelete(ISiteFinityHttpService service, string baseUrl, string contentType)
-        {
-            var contentTypeUrl = $"{baseUrl}/{contentType}"; 
-            var instances = await service.GetString(contentTypeUrl).FromJson<SiteFinityDataFeed<JObject[]>>();
+        public static async Task RunDelete(ISiteFinityHttpService service, string contentType)
+        {  
+            var instances = await service.GetAll<JObject>(contentType);
 
-            foreach (var instance in instances.Value)
+            foreach (var instance in instances)
             {
-                await service.Delete($"{contentTypeUrl}({instance.Value<string>("Id")})");
+                await service.Delete($"{contentType}({instance.Value<string>("Id")})");
             }
         }
 
-        public static async Task<SiteFinityDataFeed<List<T>>> GetAll<T>(ISiteFinityHttpService service, string baseUrl,
-            string contentType) where T : class
-        {
-            var contentTypeUrl = new Uri($"{baseUrl}/{contentType}");
-
-            var isExhusted = false;
-            var data = new List<T>();
-            var page = 0;
-            do
-            {
-                String url;
-                if (String.IsNullOrWhiteSpace(contentTypeUrl.Query))
-                {
-                    url = $"{contentTypeUrl}?$top=50&$skip={50 * page}";
-                }
-                else
-                {
-                    url = $"{contentTypeUrl}&$top=50&$skip={50 * page}";
-                }
-
-                var results = await service.GetString(url).FromJson<SiteFinityDataFeed<T[]>>();
-                if (results == null || results.Value.Length == 0)
-                {
-                    isExhusted = true;
-                }
-                else
-                {
-
-                    data.AddRange(results.Value);
-                    page++;
-                }
-
-            } while (!isExhusted);
-
-            return new SiteFinityDataFeed<List<T>> {Value = data.ToList()};
-        }
         
-        public static async Task<SiteFinityDataFeed<List<JObject>>> GetContentTypeInstances(ISiteFinityHttpService service, string baseUrl,
-            string contentType)
+        private static async Task RunExtract(ISiteFinityHttpService service, string outputDir, string contentType)
         {
-            return await GetAll<JObject>(service, baseUrl, contentType);
-
-        }
-        
-        public static async Task<SiteFinityDataFeed<List<JObject>>> GetTaxonomyInstances(ISiteFinityHttpService service, string baseUrl,
-            string contentType)
-        {
-            var taxonomies = await GetAll<JObject>(service, baseUrl, "taxonomies");
-            
-            var taxaId =
-                taxonomies.Value
-                    .Single(r => String.Equals(r.Value<string>("TaxonName"), contentType, StringComparison.InvariantCultureIgnoreCase))
-                    .Value<string>("Id");
-            
-            var taxonHierarcy = await GetAll<TaxonomyHierarchy>(service, baseUrl, "hierarchy-taxa");
-            
-            var data = new List<JObject>();
-            foreach (var hierarchy in taxonHierarcy.Value.Where(x => String.Equals(x.TaxonomyId, taxaId, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                data.Add(new JObject(
-                        new JProperty("Id", hierarchy.Id),
-                        new JProperty("Title", hierarchy.Title)
-                    )
-                );
-            }
-            
-            return new SiteFinityDataFeed<List<JObject>>
-            {
-                Value = data
-            };
-        }
-        
-        private static async Task RunExtract(ISiteFinityHttpService service, string outputDir, string baseUrl, string contentType)
-        {
-            var instances = await GetContentTypeInstances(service, baseUrl, contentType);
+            var instances = await service.GetAll<JObject>(contentType);
             File.WriteAllText(Path.Combine(outputDir, $"{contentType.Split('?')[0]}.json"), JsonConvert.SerializeObject(instances, Formatting.Indented));
         }
         
      
-        private static async Task<JObject> RunCreate(ISiteFinityHttpService service, ILogger logger, string baseUrl, string contentType, JObject source, Relation[] relations)
+        private static async Task<JObject> RunCreate(ISiteFinityHttpService service, ILogger logger, string contentType, JObject source, Relation[] relations)
         {
-            var contentTypeUrl = $"{baseUrl}/{contentType}";
+            var contentTypeUrl = $"{contentType}";
             
             source["PublicationDate"] = DateTime.Now.ToString("O");
             source.InterpolateProperties();
@@ -127,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             
             if (relations != null && relations.Length > 0)
             {
-                await CreateRelations(service, logger, baseUrl, contentType, result.Value<String>("Id"), relations);
+                await CreateRelations(service, logger, contentType, result.Value<String>("Id"), relations);
             }
             
             return result;
@@ -135,23 +64,24 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         
         private static IDictionary<string,List<JObject>> _relatedTypesCache = new Dictionary<string, List<JObject>>();
         
-        private static async Task CreateRelations(ISiteFinityHttpService service, ILogger logger, string baseUrl, string sourceContentType, string sourceId, Relation[] relations)
+        private static async Task CreateRelations(ISiteFinityHttpService service, ILogger logger, string sourceContentType, string sourceId, Relation[] relations)
         {
             foreach (var relation in relations)
             {
                 if (!_relatedTypesCache.TryGetValue(relation.ContentType.ToLower(), out var relatedData))
                 {
-                    SiteFinityDataFeed<List<JObject>> response;
+                    List<JObject> response;
                     if (!relation.IsTaxonomy)
                     {
-                        response = await GetContentTypeInstances(service, baseUrl, relation.RelatedType.ContentType);
+                        response = await service.GetAll<JObject>(relation.RelatedType.ContentType);
                     }
                     else
                     {
-                        response = await GetTaxonomyInstances(service, baseUrl, relation.ContentType);
+                        var data = await service.GetTaxonomyInstances(relation.ContentType);
+                        response = data.Select(JObject.FromObject).ToList();
                     }
                     
-                    relatedData = response.Value;
+                    relatedData = response;
                     _relatedTypesCache[relation.ContentType.ToLower()] = relatedData;
                 }
 
@@ -172,9 +102,9 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                                 ? relation.RelatedType.NavigationProperty
                                 : relation.RelatedType.Type;
                             
-                            var refUrl = $"{baseUrl}/{sourceContentType}({sourceId})/{navProp}/$ref";
+                            var refUrl = $"{sourceContentType}({sourceId})/{navProp}/$ref";
                             var relatedType = relation.IsTaxonomy ? "taxonomies" : relation.RelatedType.ContentType;
-                            var oDataId = $"{baseUrl}/{relatedType}({id})";
+                            var oDataId = $"{relatedType}({id})";
                             var response = await service.PostData(refUrl,$"{{ \"@odata.id\": \"{oDataId}\"  }}");
 
                             try
@@ -205,7 +135,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             return JsonConvert.DeserializeObject<Workflow>(data);
         }
 
-        public static async Task RunWorkflow(ISiteFinityHttpService service, ILogger logger, string baseUrl,
+        public static async Task RunWorkflow(ISiteFinityHttpService service, ILogger logger,
             Workflow workflow, string outputDirectory)
         {
             foreach (var step in workflow.Steps)
@@ -216,23 +146,21 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 {
                     case Action.Create:
                     {
-                        var created = await RunCreate(service, logger, baseUrl, step.ContentType, step.Data,
-                            step.Relates);
-                        logger.LogInformation(
-                            $"Created {step.ContentType}{Environment.NewLine}{created.ToString(Formatting.Indented)}");
+                        var created = await RunCreate(service, logger, step.ContentType, step.Data, step.Relates);
+                        logger.LogInformation($"Created {step.ContentType}{Environment.NewLine}{created.ToString(Formatting.Indented)}");
                         break;
                     }
 
                     case Action.Delete:
                     {
-                        await RunDelete(service, baseUrl, step.ContentType);
+                        await RunDelete(service, step.ContentType);
                         break;
                     }
 
                     case Action.Extract:
                     {
                         var dir = Directory.CreateDirectory(Path.GetFullPath(outputDirectory));
-                        await RunExtract(service, dir.FullName, baseUrl, step.ContentType);
+                        await RunExtract(service, dir.FullName, step.ContentType);
                         logger.LogInformation($"Extracted {step.ContentType}");
                         break;
                     }
@@ -245,13 +173,13 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             }
         }
         
-        public static async Task RunWorkflowFromFile(ISiteFinityHttpService service, ILogger logger, string siteFinityBaseUrl, string workflowFile, string outputDirectory)
+        public static async Task RunWorkflowFromFile(ISiteFinityHttpService service, ILogger logger, string workflowFile, string outputDirectory)
         {
             var workflow = ReadWorkflow(workflowFile);
 
             logger.LogInformation($"Read workflow file {workflowFile}");
 
-            await RunWorkflow(service, logger, siteFinityBaseUrl, workflow, outputDirectory);
+            await RunWorkflow(service, logger, workflow, outputDirectory);
         }
     }
 }

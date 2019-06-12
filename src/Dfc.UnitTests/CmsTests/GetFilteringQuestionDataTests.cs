@@ -14,9 +14,6 @@ namespace Dfc.UnitTests.CmsTests
     {
         private ISiteFinityHttpService _siteFinityHttpService;
         private GetFilteringQuestionData _sut;
-        private const string SitefinityUrl = "https://localhost:8080";
-        private const string SitefinityService = "dsac";
-        
         public GetFilteringQuestionDataTests()
         {
             _siteFinityHttpService = Substitute.For<ISiteFinityHttpService>();
@@ -28,32 +25,25 @@ namespace Dfc.UnitTests.CmsTests
         public async Task GetData_ShouldHave_CorrectData()
         {
             var questionSetId = "QS-1-1";
-            var filteringQuestionUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/filteringquestionsets({questionSetId})/Questions";
-            var filteringQuestionResponse = new SiteFinityDataFeed<List<FilteringQuestion>>
+            var filteringQuestionUrl = $"filteringquestionsets({questionSetId})/Questions";
+            var filteringQuestionResponse = new List<FilteringQuestion>
             {
-                Value = new List<FilteringQuestion>
-                {
-                    new FilteringQuestion { Id = "question1" }
-                }
+                new FilteringQuestion {Id = "question1"}
             };
 
-            _siteFinityHttpService.GetString(filteringQuestionUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(filteringQuestionResponse)));
+            _siteFinityHttpService.GetAll<FilteringQuestion>(filteringQuestionUrl).Returns(Task.FromResult(filteringQuestionResponse));
             
             var jobProfileUrl =
-                $"{SitefinityUrl}/api/{SitefinityService}/filteringquestions(question1)/ExcludedJobProfiles";
+                $"filteringquestions(question1)/ExcludedJobProfiles";
             
-            var jobProfileResponse = new SiteFinityDataFeed<List<JobProfile>>
-            {
-                Value = new List<JobProfile>
+            var jobProfileResponse = new List<JobProfile>
                 {
                     new JobProfile() { Id = "Jobprofile1", Title = "Jobprofile1" }
-                }
-            };
+                };
             
-            _siteFinityHttpService.GetString(jobProfileUrl).Returns(Task.FromResult(JsonConvert.SerializeObject(jobProfileResponse)));
+            _siteFinityHttpService.GetAll<JobProfile>(jobProfileUrl).Returns(Task.FromResult(jobProfileResponse));
 
-            var result = await _sut.GetData(SitefinityUrl, SitefinityService, questionSetId);
+            var result = await _sut.GetData(questionSetId);
             
             Assert.Collection(result, fq => Assert.Single(fq.ExcludesJobProfiles, j => j == "Jobprofile1"));
         }
