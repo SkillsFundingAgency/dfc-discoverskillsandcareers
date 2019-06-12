@@ -8,12 +8,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
     {
         [JsonProperty("jobFamilyName")]
         public string JobFamilyName { get; set; }
+        
         [JsonProperty("createdDt")]
         public DateTime CreatedDt { get; set; }
+        
         [JsonProperty("questionSetVersion")]    
         public string QuestionSetVersion { get; set; }
         [JsonProperty("recordedAnswerCount")]
         public int RecordedAnswerCount { get; set; }
+        
         [JsonProperty("maxQuestions")]
         public int MaxQuestions { get; set; }
 

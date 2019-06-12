@@ -2,35 +2,42 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Web.SessionState;
 using CommandLine;
 using CsvHelper;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
+using Microsoft.Azure.Documents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using static Dfc.DiscoverSkillsAndCareers.SupportApp.Program;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
     public static class CreateValidityTestSessions
     {
-        [Verb("create-validity-sessions", HelpText = "Creates the validity test sessions in the Cosmos DB instance.")]
+        [Verb("validity-sessions", HelpText = "Creates the validity test sessions in the Cosmos DB instance.")]
         public class Options 
         {
             public CosmosSettings Cosmos { get; set; } = new CosmosSettings();
 
             [Option('f', "csvFile", Required = false, HelpText = "The output CSV file")]
-            public string CsvFile { get; set; } = "userSessions.csv";
+            public string FileName { get; set; } = "userSessions";
             
 
-            [Option('n', "sessionCount", Required = true, HelpText = "Number of Sessions to create")]
+            [Option('n', "sessionCount", Required = false, HelpText = "Number of Sessions to create")]
             public int NumberOfSessions { get; set; } = 300;
 
-            [Option('v', "version", Required = true, HelpText = "Question Version Key typically of the format {type}-{YYYYMM}")]
+            [Option('v', "version", Required = false, HelpText = "Question Version Key typically of the format {type}-{YYYYMM}")]
             public string QuestionVersionKey { get; set; }
+            
+            [Option('r', "read", Default = true, HelpText = "Output the completed sessions")]
+            public bool ShouldRead { get; set; }
         
         }
 
@@ -66,37 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 var configuration = services.GetService<IConfiguration>();
                 configuration.Bind(opts);
 
-                var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
-
-                var title = opts.QuestionVersionKey.Split('-').Last();
-                var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
-                var questionSetRepository = new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
-                var sessionRepository = new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
-                
-                var questionSet = questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", title).GetAwaiter().GetResult();
-                
-                using(var fs = File.OpenWrite(opts.CsvFile))
-                using(var sw = new StreamWriter(fs))
-                using(var csv = new CsvWriter(sw))
-                {
-                    csv.WriteHeader<UserSessionEnty>();
-                    csv.NextRecord();
-
-                    for(var i = 0; i < opts.NumberOfSessions; i++)
-                    {
-                        
-                        var session = CreateSession(questionSet.QuestionSetVersion, questionSet.MaxQuestions);
-                        Console.WriteLine($"Creating User Session: {i} {session.UserSessionId}");
-                        
-                        sessionRepository.CreateUserSession(session).GetAwaiter().GetResult();
-
-                        csv.WriteRecord(new UserSessionEnty { SessionId = session.UserSessionId, UserName = "" });
-                        csv.NextRecord();
-                    }
-                }
-
-
-                return SuccessFailCode.Succeed;
+                return !opts.ShouldRead ? WriteSessions(opts) : ReadSessions(opts);
             }
             catch(Exception ex)
             {
@@ -105,6 +82,68 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                  Console.ForegroundColor = ConsoleColor.White;
                  return SuccessFailCode.Fail;
             }
+        }
+
+        private static SuccessFailCode ReadSessions(Options opts)
+        {
+            var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
+            var uri = UriFactory.CreateDocumentCollectionUri(opts.Cosmos.DatabaseName, "UserSessions");
+            FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true, MaxItemCount = 100 };
+
+            var result = new List<dynamic>();
+            using (var query = client.CreateDocumentQuery(uri, feedOptions, new SqlQuerySpec
+                {
+                    QueryText = "select * from c where CONTAINS(c.id, \"_shl\") and c.isComplete",
+                    Parameters = new SqlParameterCollection()
+                }).AsDocumentQuery())
+            {
+                while (query.HasMoreResults)
+                {
+                    var results = query.ExecuteNextAsync().GetAwaiter().GetResult();
+                    result.AddRange(results.ToList());
+                }
+            }
+            
+            File.WriteAllText(opts.FileName + ".json", JsonConvert.SerializeObject(result, Formatting.Indented));
+
+            return SuccessFailCode.Succeed;
+        }
+
+        private static SuccessFailCode WriteSessions(Options opts)
+        {
+            var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
+
+            var title = opts.QuestionVersionKey.Split('-').Last();
+            var questionRepository =
+                new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+            var questionSetRepository =
+                new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+            var sessionRepository =
+                new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+
+            var questionSet = questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", title)
+                .GetAwaiter().GetResult();
+
+            using (var fs = File.OpenWrite(opts.FileName + ".csv"))
+            using (var sw = new StreamWriter(fs))
+            using (var csv = new CsvWriter(sw))
+            {
+                csv.WriteHeader<UserSessionEnty>();
+                csv.NextRecord();
+
+                for (var i = 0; i < opts.NumberOfSessions; i++)
+                {
+                    var session = CreateSession(questionSet.QuestionSetVersion, questionSet.MaxQuestions);
+                    Console.WriteLine($"Creating User Session: {i} {session.UserSessionId}");
+
+                    sessionRepository.CreateUserSession(session).GetAwaiter().GetResult();
+
+                    csv.WriteRecord(new UserSessionEnty {SessionId = session.UserSessionId, UserName = ""});
+                    csv.NextRecord();
+                }
+            }
+
+            return SuccessFailCode.Succeed;
         }
     }
 }
