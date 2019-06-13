@@ -15,9 +15,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _sitefinity = sitefinity;
         }
 
-        public async Task<List<ShortTrait>> GetData()
+        public async Task<List<SiteFinityTrait>> GetData()
         {
-            return await _sitefinity.GetAll<ShortTrait>("traits");
+            return await _sitefinity.GetAll<SiteFinityTrait>("traits");
         }
     }
 }

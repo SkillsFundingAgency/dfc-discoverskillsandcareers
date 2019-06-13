@@ -31,17 +31,17 @@ namespace Dfc.UnitTests.CmsTests
             var questionSetId = "QS-1-1";
 
             _getFilteringQuestionData.GetData(questionSetId).Returns(Task.FromResult(
-                new List<FilteringQuestion>
+                new List<SiteFinityFilteringQuestion>
                 {
-                    new FilteringQuestion {Id = "question1"}
+                    new SiteFinityFilteringQuestion {Id = "question1"}
                 }));
             
-            var jobProfileResponse = new List<FilteringQuestionSet>
+            var jobProfileResponse = new List<SiteFinityFilteringQuestionSet>
                 {
-                    new FilteringQuestionSet { Id = questionSetId, Title = "fq-set-1" }
+                    new SiteFinityFilteringQuestionSet { Id = questionSetId, Title = "fq-set-1" }
                 };
             
-            _siteFinityHttpService.GetAll<FilteringQuestionSet>("filteringquestionsets?$expand=JobProfileTaxonomy").Returns(Task.FromResult(jobProfileResponse));
+            _siteFinityHttpService.GetAll<SiteFinityFilteringQuestionSet>("filteringquestionsets?$expand=JobProfileTaxonomy").Returns(Task.FromResult(jobProfileResponse));
 
             var result = await _sut.GetData();
             

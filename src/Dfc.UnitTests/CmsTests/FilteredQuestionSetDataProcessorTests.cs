@@ -51,9 +51,9 @@ namespace Dfc.UnitTests.CmsTests
             var title = "QS-1";
             
             _getFilteringQuestionSetData.GetData()
-                .Returns(Task.FromResult(new List<FilteringQuestionSet>
+                .Returns(Task.FromResult(new List<SiteFinityFilteringQuestionSet>
                 {
-                    new FilteringQuestionSet
+                    new SiteFinityFilteringQuestionSet
                     {
                         Id = qsId,
                         Title = title,
@@ -75,9 +75,9 @@ namespace Dfc.UnitTests.CmsTests
             var sitefinityLastUpdated = localLastUpdated.AddDays(-1);
             
             _getFilteringQuestionSetData.GetData()
-                .Returns(Task.FromResult(new List<FilteringQuestionSet>
+                .Returns(Task.FromResult(new List<SiteFinityFilteringQuestionSet>
                 {
-                    new FilteringQuestionSet
+                    new SiteFinityFilteringQuestionSet
                     {
                         Id = qsId,
                         Title = "Animal care",

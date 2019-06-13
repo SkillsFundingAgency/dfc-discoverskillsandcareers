@@ -4,7 +4,13 @@ using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class FilteringQuestion
+    public class SiteFinityFilteringQuestionJobProfileMapping
+    {
+        public string JobProfile { get; set; }
+        public bool Included { get; set; }
+    }
+    
+    public class SiteFinityFilteringQuestion
     {
         [JsonProperty("Id")]
         public string Id { get; set; }
@@ -15,17 +21,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         [JsonProperty("Description")]
         public string Description { get; set; }
         
-        [JsonProperty("ExcludesJobProfiles")]
-        public List<string> ExcludesJobProfiles { get; set; }
+        [JsonProperty]
+        public SiteFinityONetSkill Skill { get; set; }
         
-        [JsonProperty("IsYes")]
-        public bool IsYes { get; set; }
+        public List<SiteFinityFilteringQuestionJobProfileMapping> JobProfiles { get; set; }
         
-        [JsonProperty("PositiveResultDisplayText")]
-        public string PositiveResultDisplayText { get; set; }
-        
-        [JsonProperty("NegativeResultDisplayText")]
-        public string NegativeResultDisplayText { get; set; }
         
         [JsonProperty("LastModified")]
         public DateTimeOffset LastUpdated { get; set; }

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class FilteringQuestionSet
+    public class SiteFinityShortQuestionSet
     {
         [JsonProperty("Id")]
         public string Id { get; set; }
@@ -13,14 +12,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Title { get; set; }
         [JsonProperty("Description")]
         public string Description { get; set; }
-        public List<FilteringQuestion> Questions { get; set; }
-        
-        public string JobCategory => JobProfileCategories?.First();
-        
-        public string[] JobProfileCategories { get; set; }
-        
-        public TaxonomyHierarchy[] JobProfileTaxonomy { get; set; }
-        
+        [JsonIgnore()]
+        public List<SiteFinityShortQuestion> Questions { get; set; }
         [JsonProperty("LastModified")]
         public DateTimeOffset LastUpdated { get; set; }
     }

@@ -161,7 +161,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     .GetTaxonomyInstances("Job Profile Category")
                     .GetAwaiter()
                     .GetResult()
-                    .Select(c => new JobProfileCategory { Id = Guid.Parse(c.Id), Name = c.Title, Title = c.Title})
+                    .Select(c => new JobProfileCategory { Id = c.Id, Name = c.Title, Title = c.Title})
                     .ToDictionary(r => r.Id);
                 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_categories.json"), JsonConvert.SerializeObject(jobProfileCategories, Formatting.Indented));

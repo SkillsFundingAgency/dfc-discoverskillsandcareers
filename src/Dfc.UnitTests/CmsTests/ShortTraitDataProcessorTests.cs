@@ -34,9 +34,9 @@ namespace Dfc.UnitTests.CmsTests
         [Fact]
         public async Task IfTraitNameIsEmpty_Should_Skip()
         {
-            _getShortTraitData.GetData().Returns(Task.FromResult(new List<ShortTrait>
+            _getShortTraitData.GetData().Returns(Task.FromResult(new List<SiteFinityTrait>
             {
-                new ShortTrait { Id = "trait-1" }
+                new SiteFinityTrait { Id = "trait-1" }
             }));
 
             await _shortTraitRepository.DidNotReceive().CreateTrait(Arg.Any<Trait>(), "shorttrait-cms");

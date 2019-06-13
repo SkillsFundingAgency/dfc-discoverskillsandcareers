@@ -26,19 +26,19 @@ namespace Dfc.UnitTests.CmsTests
         {
             var questionSetId = "QS-1-1";
             
-            var shortQuestionResponse =  new List<ShortQuestion>
+            var shortQuestionResponse =  new List<SiteFinityShortQuestion>
                 {
-                    new ShortQuestion { Id = "question1" }
+                    new SiteFinityShortQuestion { Id = "question1" }
                 };
 
-            _siteFinityHttpService.GetAll<ShortQuestion>($"shortquestionsets({questionSetId})/Questions").Returns(Task.FromResult(shortQuestionResponse));
+            _siteFinityHttpService.GetAll<SiteFinityShortQuestion>($"shortquestionsets({questionSetId})/Questions").Returns(Task.FromResult(shortQuestionResponse));
             
             var questionTraitUrl =
                 $"shortquestions(question1)/Trait";
 
-            var traitsResponse = new ShortTrait {Name = "Leader"};
+            var traitsResponse = new SiteFinityTrait {Name = "Leader"};
             
-            _siteFinityHttpService.Get<ShortTrait>(questionTraitUrl).Returns(Task.FromResult(traitsResponse));
+            _siteFinityHttpService.Get<SiteFinityTrait>(questionTraitUrl).Returns(Task.FromResult(traitsResponse));
 
             var result = await _sut.GetData(questionSetId);
             

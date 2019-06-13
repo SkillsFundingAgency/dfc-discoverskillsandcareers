@@ -3112,9 +3112,7 @@
             "Skill - Persuasion",
             "Combination - Systems Analysis, Systems Evaluation",
             "Skill - Negotiation"
-          ],
-          "Property": "QuestionText",
-          "ContentType": "filteringquestions"
+          ]
         }
       ]
     }

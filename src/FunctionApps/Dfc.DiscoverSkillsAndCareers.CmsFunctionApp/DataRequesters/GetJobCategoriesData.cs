@@ -11,21 +11,21 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public class GetJobCategoriesData : IGetJobCategoriesData
     {
-        readonly ISiteFinityHttpService _httpService;
+        readonly ISiteFinityHttpService _siteFinityService;
 
-        public GetJobCategoriesData(ISiteFinityHttpService httpService)
+        public GetJobCategoriesData(ISiteFinityHttpService siteFinityService)
         {
-            _httpService = httpService;
+            _siteFinityService = siteFinityService;
         }
 
-        public async Task<List<JobCategory>> GetData(string taxonomyName = "Job Profile Category")
+        public async Task<List<SiteFinityJobCategory>> GetData(string taxonomyName = "Job Profile Category")
         {
-            var traits = await _httpService.GetAll<ShortTrait>("traits");
+            var traits = await _siteFinityService.GetAll<SiteFinityTrait>("traits");
 
-            var taxonomies = await _httpService.GetTaxonomyInstances(taxonomyName);
+            var taxonomies = await _siteFinityService.GetTaxonomyInstances(taxonomyName);
             
             var jobCategories = taxonomies
-                .Select(x => new JobCategory
+                .Select(x => new SiteFinityJobCategory
                 {
                     Id = x.Id,
                     TaxonomyId = x.TaxonomyId,
@@ -39,7 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             {
                 foreach (var trait in traits)
                 {
-                    if (trait.JobProfileCategories.Contains(new Guid(jobCategory.Id)))
+                    if (trait.JobProfileCategories.Contains(jobCategory.Id))
                     {
                         jobCategory.Traits.Add(trait.Code);
                     }

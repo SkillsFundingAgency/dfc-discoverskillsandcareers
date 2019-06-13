@@ -27,12 +27,12 @@ namespace Dfc.UnitTests.CmsTests
             var jobCategoryGuid = Guid.NewGuid();
             var jcTaxonId = Guid.NewGuid();
             
-            _siteFinityHttpService.GetAll<ShortTrait>($"traits").Returns(Task.FromResult(new List<ShortTrait>
+            _siteFinityHttpService.GetAll<SiteFinityTrait>($"traits").Returns(Task.FromResult(new List<SiteFinityTrait>
                 {
-                    new ShortTrait { Id = "trait1", Code = "Leader", Name = "Leader", JobProfileCategories = new List<Guid> { jobCategoryGuid }}
+                    new SiteFinityTrait { Id = "trait1", Code = "Leader", Name = "Leader", JobProfileCategories = new List<Guid> { jobCategoryGuid }}
                 }));
             
-            _siteFinityHttpService.Get<ShortTrait>($"traits(trait1)").Returns(Task.FromResult(new ShortTrait
+            _siteFinityHttpService.Get<SiteFinityTrait>($"traits(trait1)").Returns(Task.FromResult(new SiteFinityTrait
             {
                 Code = "Leader", Name = "Leader", JobProfileCategories = new List<Guid> { jobCategoryGuid }
                 
@@ -41,7 +41,7 @@ namespace Dfc.UnitTests.CmsTests
             _siteFinityHttpService.GetTaxonomyInstances("Job Profile Category").Returns(
                 Task.FromResult( new List<TaxonomyHierarchy>
                     {
-                        new TaxonomyHierarchy { Id = jobCategoryGuid.ToString(), TaxonomyId = jcTaxonId.ToString() }
+                        new TaxonomyHierarchy { Id = jobCategoryGuid, TaxonomyId = jcTaxonId }
                     }));
             
             var result = await _sut.GetData("Job Profile Category");

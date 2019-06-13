@@ -19,9 +19,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _getFilteringQuestionData = getFilteringQuestionData;
         }
 
-        public async Task<List<FilteringQuestionSet>> GetData()
+        public async Task<List<SiteFinityFilteringQuestionSet>> GetData()
         {
-            var data = await _sitefinity.GetAll<FilteringQuestionSet>("filteringquestionsets?$expand=JobProfileTaxonomy");
+            var data = await _sitefinity.GetAll<SiteFinityFilteringQuestionSet>("filteringquestionsets?$expand=JobProfileTaxonomy");
             foreach (var fqs in data)
             {
                 fqs.Questions = await _getFilteringQuestionData.GetData(fqs.Id);

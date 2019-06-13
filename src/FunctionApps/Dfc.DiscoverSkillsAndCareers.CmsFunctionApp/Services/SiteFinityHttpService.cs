@@ -87,10 +87,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
             }
         }
         
-        private async Task<List<JObject>> GetContentTypeInstances(string contentType)
-        {
-            return await GetAll<JObject>(contentType);
-        }
 
         private async Task<string> GetString(string url)
         {
@@ -140,7 +136,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
             
             using (HttpResponseMessage res = await _httpClient.DeleteAsync(url))
             {
-                res.EnsureSuccessStatusCode();
+                if (!res.IsSuccessStatusCode)
+                {
+                    var body = await res.Content.ReadAsStringAsync();
+                    throw new Exception($"Delete {contentType} failed: {body}");
+                }
             }
         }
 
@@ -152,7 +152,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
         
         public async Task<List<T>> GetAll<T>(string contentType) where T : class
         {
-            var contentTypeUrl = new Uri($"{_appSettings.Value.SiteFinityApiUrlBase}/{contentType}");
+            var contentTypeUrl = new Uri($"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{contentType}");
 
             var isExhusted = false;
             var data = new List<T>();
@@ -200,7 +200,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
             var data =
                 taxonHierarcy
-                    .Where(x => String.Equals(x.TaxonomyId, taxaId, StringComparison.InvariantCultureIgnoreCase))
+                    .Where(x => x.TaxonomyId.ToString() == taxaId)
                     .ToList();
 
             return data;

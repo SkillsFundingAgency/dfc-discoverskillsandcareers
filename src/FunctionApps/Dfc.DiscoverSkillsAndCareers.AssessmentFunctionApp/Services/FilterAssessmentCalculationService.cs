@@ -43,24 +43,24 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             foreach (var answer in answers)
             {
                 var question = questions.First(x => x.QuestionId == answer.QuestionId);
-                
-                if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
-                {
-                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-                }
-                else if (question.FilterTrigger == "Yes" && answer.SelectedOption == AnswerOption.Yes)
-                {
-                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-                }
-
-                if (answer.SelectedOption == AnswerOption.No)
-                {
-                    whatYouToldUs.Add(question.NegativeResultDisplayText);
-                }
-                else if (answer.SelectedOption == AnswerOption.Yes)
-                {
-                    whatYouToldUs.Add(question.PositiveResultDisplayText);
-                }
+                //TODO: Fix this up
+//                if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
+//                {
+//                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
+//                }
+//                else if (question.FilterTrigger == "Yes" && answer.SelectedOption == AnswerOption.Yes)
+//                {
+//                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
+//                }
+//
+//                if (answer.SelectedOption == AnswerOption.No)
+//                {
+//                    whatYouToldUs.Add(question.NegativeResultDisplayText);
+//                }
+//                else if (answer.SelectedOption == AnswerOption.Yes)
+//                {
+//                    whatYouToldUs.Add(question.PositiveResultDisplayText);
+//                }
             }
 
             IDictionary<string, string> socCodes = new Dictionary<string, string>();

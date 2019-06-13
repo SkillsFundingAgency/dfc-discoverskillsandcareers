@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class ShortTrait
+    public class SiteFinityTrait
     {
         [JsonProperty("Id")]
         public string Id { get; set; }

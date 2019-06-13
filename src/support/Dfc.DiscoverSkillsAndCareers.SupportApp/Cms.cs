@@ -27,8 +27,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             [Option('o', "outputDir", Required = false, HelpText = "The output directory of any extracted data.")]
             public string OutputDirectory { get; set; }
             
-            public string SiteFinityApiUrl => $"{SiteFinityApiUrlBase}/api/{SiteFinityApiWebService}";
-
         }
         
 

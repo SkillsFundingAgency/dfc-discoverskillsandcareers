@@ -15,12 +15,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _httpService = httpService;
         }
 
-        public async Task<List<ShortQuestion>> GetData(string questionSetId)
+        public async Task<List<SiteFinityShortQuestion>> GetData(string questionSetId)
         {
-            var data = await _httpService.GetAll<ShortQuestion>($"shortquestionsets({questionSetId})/Questions");
+            var data = await _httpService.GetAll<SiteFinityShortQuestion>($"shortquestionsets({questionSetId})/Questions");
             foreach (var question in data)
             {
-                var trait = await _httpService.Get<ShortTrait>($"shortquestions({question.Id})/Trait");
+                var trait = await _httpService.Get<SiteFinityTrait>($"shortquestions({question.Id})/Trait");
                 question.Trait = trait.Name;
             }
             return data;

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common;
 
 namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
 {
@@ -20,7 +21,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
         [FunctionName("ChangeFeedProcessor")]
         public static async Task RunAsync([ServiceBusTrigger("data-updates", Connection = "AzureServiceBusConnection")]string myQueueItem,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IBlobStorageService blobStorageService,
             [Inject]IUnderstandMyselfDbContext understandMyselfDbContext)
         {
@@ -52,7 +52,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                         }
                     case "Question":
                         {
-                            var question = JsonConvert.DeserializeObject<Dfc.DiscoverSkillsAndCareers.Models.Question>(blob);
+                            var question = JsonConvert.DeserializeObject<Question>(blob);
                             await UpdateQuestion(question);
                             await blobStorageService.DeleteBlob(changeFeedQueueItem.BlobName);
                             break;
@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             }
         }
 
-        private static async Task UpdateQuestion(Dfc.DiscoverSkillsAndCareers.Models.Question question)
+        private static async Task UpdateQuestion(Question question)
         {
             try
             {
@@ -93,21 +93,22 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                     DbContext.Questions.Update(entity);
                 }
 
-                var toremoveExcludeJobProfiles = DbContext.QuestionExcludeJobProfiles.Where(x => x.QuestionId == question.QuestionId).ToList();
-                DbContext.QuestionExcludeJobProfiles.RemoveRange(toremoveExcludeJobProfiles);
-                if (question.ExcludesJobProfiles != null)
+                var toremoveExcludeJobProfiles = DbContext.QuestionJobProfiles.Where(x => x.QuestionId == question.QuestionId).ToList();
+                DbContext.QuestionJobProfiles.RemoveRange(toremoveExcludeJobProfiles);
+                if (question.JobProfiles != null)
                 {
-                    foreach (var exclude in question.ExcludesJobProfiles)
+                    foreach (var jp in question.JobProfiles)
                     {
-                        DbContext.QuestionExcludeJobProfiles.Add(new Data.Entities.UmQuestionExcludeJobProfile()
+                        DbContext.QuestionJobProfiles.Add(new Data.Entities.UmQuestionJobProfile
                         {
                             Id = Guid.NewGuid().ToString(),
-                            JobProfile = exclude,
-                            QuestionId = question.QuestionId
+                            JobProfile = jp.JobProfile,
+                            QuestionId = question.QuestionId,
+                            Included = jp.Included
                         });
                     }
                 }
-
+   
                 int changes = await DbContext.SaveChanges();
                 Console.WriteLine($"Changes updated {changes}");
             }
@@ -118,9 +119,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             }
         }
 
-        private static void UpdateQuestionEntityFromDto(Data.Entities.UmQuestion entity, Dfc.DiscoverSkillsAndCareers.Models.Question dto)
+        private static void UpdateQuestionEntityFromDto(Data.Entities.UmQuestion entity, Question dto)
         {
-            entity.FilterTrigger = dto.FilterTrigger;
             entity.IsNegative = dto.IsNegative;
             entity.NegativeResultDisplayText = dto.NegativeResultDisplayText;
             entity.Order = dto.Order;
@@ -128,7 +128,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             entity.SfId = dto.SfId;
             entity.TraitCode = dto.TraitCode;
             entity.Text = dto.Texts.FirstOrDefault()?.Text;
-            entity.LastUpdatedDt = DateTime.Now; //TODO: dto.LastUpdatedDt;
+            entity.LastUpdatedDt = dto.LastUpdatedDt.UtcDateTime;
         }
 
         private static async Task UpdateUserSession(Dfc.DiscoverSkillsAndCareers.Models.UserSession userSession)

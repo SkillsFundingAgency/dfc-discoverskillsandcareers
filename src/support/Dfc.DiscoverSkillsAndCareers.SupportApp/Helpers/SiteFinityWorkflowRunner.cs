@@ -93,7 +93,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     {
                         if (String.Equals(key, value, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var id = jObject.Value<string>("Id");
+                            var id = jObject.Value<Guid>("Id");
                             
                             var navProp = !String.IsNullOrWhiteSpace(relation.RelatedType.NavigationProperty)
                                 ? relation.RelatedType.NavigationProperty

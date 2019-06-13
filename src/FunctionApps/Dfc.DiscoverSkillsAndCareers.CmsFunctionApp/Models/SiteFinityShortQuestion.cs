@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class ShortQuestion
+    public class SiteFinityShortQuestion
     {
         [JsonProperty("Id")]
         public string Id { get; set; }

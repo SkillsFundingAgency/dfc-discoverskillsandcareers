@@ -6,6 +6,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
 {
     public interface IGetShortQuestionData
     {
-        Task<List<ShortQuestion>> GetData(string questionSetId);
+        Task<List<SiteFinityShortQuestion>> GetData(string questionSetId);
     }
 }

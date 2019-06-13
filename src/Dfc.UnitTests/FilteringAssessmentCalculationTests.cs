@@ -178,27 +178,25 @@ namespace Dfc.UnitTests
                 new Question
                 {
                     QuestionId = "q1",
-                    FilterTrigger = "No",
                     NegativeResultDisplayText = "q1_negative",
                     PositiveResultDisplayText = "q1_positive",
-                    ExcludesJobProfiles = new[]
+                    JobProfiles = new[]
                     {
-                        "profile1",
-                        "profile2",
-                        "profile3"
+                        new QuestionJobProfile { JobProfile = "profile1", Included = true },
+                        new QuestionJobProfile { JobProfile = "profile2", Included = true },
+                        new QuestionJobProfile { JobProfile = "profile3", Included = true }
                     }
                 },
                 new Question
                 {
                     QuestionId = "q2",
-                    FilterTrigger = "No",
                     NegativeResultDisplayText = "q2_negative",
                     PositiveResultDisplayText = "q2_positive",
-                    ExcludesJobProfiles = new[]
+                    JobProfiles = new[]
                     {
-                        "profile1",
-                        "profile4",
-                        "profile7"
+                        new QuestionJobProfile { JobProfile = "profile1", Included = false },
+                        new QuestionJobProfile { JobProfile = "profile4", Included = false },
+                        new QuestionJobProfile { JobProfile = "profile7", Included = false }
                     }
                 }
             };

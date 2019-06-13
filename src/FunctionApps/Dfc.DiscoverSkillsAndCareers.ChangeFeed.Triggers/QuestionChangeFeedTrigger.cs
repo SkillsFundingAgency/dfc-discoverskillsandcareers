@@ -31,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
             var serviceBusSettings = serviceBusSettingsOptions.Value;
             foreach (var doc in input)
             {
-                var question = (Dfc.DiscoverSkillsAndCareers.Models.Question)(dynamic)doc;
+                var question = (dynamic)doc;
                 log.LogInformation($"Handling question update id={question.QuestionId}");
 
                 // Create a blob

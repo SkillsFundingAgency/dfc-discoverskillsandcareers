@@ -26,12 +26,12 @@ namespace Dfc.UnitTests.CmsTests
         {
             var questionSetId = "QS-1-1";
 
-            var shortQuestionResponse = new List<ShortQuestionSet>
+            var shortQuestionResponse = new List<SiteFinityShortQuestionSet>
             {
-                new ShortQuestionSet {Id = questionSetId}
+                new SiteFinityShortQuestionSet {Id = questionSetId}
             };
 
-            _siteFinityHttpService.GetAll<ShortQuestionSet>("shortquestionsets").Returns(Task.FromResult(shortQuestionResponse));
+            _siteFinityHttpService.GetAll<SiteFinityShortQuestionSet>("shortquestionsets").Returns(Task.FromResult(shortQuestionResponse));
             
             var result = await _sut.GetData();
             

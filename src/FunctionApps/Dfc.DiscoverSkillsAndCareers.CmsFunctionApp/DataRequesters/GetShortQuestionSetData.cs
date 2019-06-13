@@ -15,9 +15,9 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters
             _httpService = httpService;
         }
 
-        public async Task<List<ShortQuestionSet>> GetData()
+        public async Task<List<SiteFinityShortQuestionSet>> GetData()
         {
-            return await _httpService.GetAll<ShortQuestionSet>("shortquestionsets");
+            return await _httpService.GetAll<SiteFinityShortQuestionSet>("shortquestionsets");
         }
     }
 }

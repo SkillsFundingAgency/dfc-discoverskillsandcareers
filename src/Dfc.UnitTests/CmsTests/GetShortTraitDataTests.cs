@@ -28,12 +28,12 @@ namespace Dfc.UnitTests.CmsTests
         {
             var trait = "LEADER";
             
-            var shortTraitResponse = new List<ShortTrait>
+            var shortTraitResponse = new List<SiteFinityTrait>
                 {
-                    new ShortTrait { Name = trait }
+                    new SiteFinityTrait { Name = trait }
                 };
 
-            _siteFinityHttpService.GetAll<ShortTrait>("traits").Returns(Task.FromResult(shortTraitResponse));
+            _siteFinityHttpService.GetAll<SiteFinityTrait>("traits").Returns(Task.FromResult(shortTraitResponse));
             
             var result = await _sut.GetData();
             

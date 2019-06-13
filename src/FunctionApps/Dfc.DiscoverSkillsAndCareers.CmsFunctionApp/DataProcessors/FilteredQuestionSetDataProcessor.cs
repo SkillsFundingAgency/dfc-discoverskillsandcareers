@@ -113,11 +113,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         {
                             new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
                         },
-                        ExcludesJobProfiles = dataQuestion.ExcludesJobProfiles.ToArray(),
-                        FilterTrigger = dataQuestion.IsYes ? "Yes" : "No",
+                        JobProfiles = dataQuestion.JobProfiles.Select(j => new QuestionJobProfile
+                        {
+                            JobProfile = j.JobProfile,
+                            Included = j.Included
+                        }).ToArray(),
                         SfId = dataQuestion.Id,
-                        PositiveResultDisplayText = dataQuestion.PositiveResultDisplayText,
-                        NegativeResultDisplayText = dataQuestion.NegativeResultDisplayText,
                         LastUpdatedDt = dataQuestion.LastUpdated == new DateTimeOffset() ? DateTimeOffset.UtcNow : dataQuestion.LastUpdated
                     };
                     newQuestionSet.MaxQuestions = questionNumber;

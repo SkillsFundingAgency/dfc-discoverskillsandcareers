@@ -114,8 +114,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
 
             var title = opts.QuestionVersionKey.Split('-').Last();
-            var questionRepository =
-                new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
             var questionSetRepository =
                 new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
             var sessionRepository =
