@@ -15,7 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Description { get; set; }
         
         [JsonProperty("Trait")]
-        public string Trait { get; set; }
+        public SiteFinityTrait Trait { get; set; }
         
         [JsonProperty("IsNegative")]
         public bool IsNegative { get; set; }

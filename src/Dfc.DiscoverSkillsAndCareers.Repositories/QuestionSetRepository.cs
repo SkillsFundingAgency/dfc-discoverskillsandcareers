@@ -64,7 +64,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         {
             var titleLowercase = title.ToLower().Replace(" ", "-");
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
+            
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+            
             QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
                                    .Where(x => x.AssessmentType == assessmentType && x.QuestionSetKey == titleLowercase && x.Version == version)
                                    .AsEnumerable()

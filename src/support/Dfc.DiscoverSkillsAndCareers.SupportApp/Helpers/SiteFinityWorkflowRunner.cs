@@ -75,7 +75,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     else
                     {
                         var data = await service.GetTaxonomyInstances(relation.ContentType);
-                        response = data.Select(JObject.FromObject).ToList();
+                        response = data.Select(s => JObject.FromObject(s)).ToList();
                     }
                     
                     relatedData = response;
@@ -93,7 +93,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     {
                         if (String.Equals(key, value, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var id = jObject.Value<Guid>("Id");
+                            var id = (string)jObject["Id"];
                             
                             var navProp = !String.IsNullOrWhiteSpace(relation.RelatedType.NavigationProperty)
                                 ? relation.RelatedType.NavigationProperty
@@ -101,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                             
                             var refUrl = $"{sourceContentType}({sourceId})/{navProp}/$ref";
                             var relatedType = relation.IsTaxonomy ? "taxonomies" : relation.RelatedType.ContentType;
-                            var oDataId = $"{relatedType}({id})";
+                            var oDataId = service.MakeAbsoluteUri($"{relatedType}({id})");
                             var response = await service.PostData(refUrl,$"{{ \"@odata.id\": \"{oDataId}\"  }}");
 
                             try

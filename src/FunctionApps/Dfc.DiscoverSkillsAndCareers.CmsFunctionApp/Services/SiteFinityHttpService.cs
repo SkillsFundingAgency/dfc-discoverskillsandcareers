@@ -38,17 +38,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
         private HttpClient _httpClient;
         private AuthToken _currentAuthToken;
         private object _syncObject = new object();
-        ILogger<SiteFinityHttpService> _logger;
+        public ILogger Logger { get; set; }
 
         IOptions<AppSettings> _appSettings;
-
-        public SiteFinityHttpService(ILogger<SiteFinityHttpService> logger, IOptions<AppSettings> appSettings)
+        
+        public SiteFinityHttpService(ILoggerFactory logger, IOptions<AppSettings> appSettings)
         {
             _httpClient = new HttpClient();
-            _logger = logger;
+            Logger = logger.CreateLogger(typeof(SiteFinityHttpService));
             _appSettings = appSettings;
         }
-
+        
+        
         private async Task Authenticate()
         {
             
@@ -65,7 +66,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
             var tokenResponse = await _httpClient.PostAsync(url, formData);
             tokenResponse.EnsureSuccessStatusCode();
 
-            _logger.LogInformation($"Trying to acquire SiteFinity Auth Token: {url}");
+            Logger.LogInformation($"Trying to acquire SiteFinity Auth Token: {url}");
 
             var body = await tokenResponse.Content.ReadAsStringAsync();
 
@@ -76,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
                 
             }
 
-            _logger.LogInformation($"Auth token acquired: expires @ {_currentAuthToken.Expiry.ToString("dd/MM/yyyy HH:mm:ss")}");
+            Logger.LogInformation($"Auth token acquired: expires @ {_currentAuthToken.Expiry.ToString("dd/MM/yyyy HH:mm:ss")}");
             
         }
 
@@ -90,7 +91,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
         private async Task<string> GetString(string url)
         {
-            _logger.LogInformation($"GET: {url}");
+            Logger.LogInformation($"GET: {url}");
 
             await TryAuthenticate();
 
@@ -99,8 +100,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
         public async Task<string> PostData(string contentType, object data)
         {
-            var url = $"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{contentType}";
-            _logger.LogInformation($"POST: {url}");
+            var url = MakeAbsoluteUri(contentType);
+            Logger.LogInformation($"POST: {url}");
             await TryAuthenticate();
             
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new JsonContent(data)))
@@ -114,8 +115,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
         public async Task<string> PostData(string contentType, string data)
         {
-            var url = $"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{contentType}";
-            _logger.LogInformation($"POST: {url}");
+            var url = MakeAbsoluteUri(contentType);
+            Logger.LogInformation($"POST: {url}");
             await TryAuthenticate();
             
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new StringContent(data, Encoding.UTF8, "application/json")))
@@ -129,9 +130,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 
         public async Task Delete(string contentType)
         {
-            var url =
-                $"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{contentType}";
-            _logger.LogInformation(url);
+            var url = MakeAbsoluteUri(contentType);
+            Logger.LogInformation(url);
             await TryAuthenticate();
             
             using (HttpResponseMessage res = await _httpClient.DeleteAsync(url))
@@ -144,10 +144,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
             }
         }
 
+        public string MakeAbsoluteUri(string relativePortion)
+        {
+            return
+                $"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{relativePortion}";
+        }
+
         public async Task<T> Get<T>(string contentType) where T : class
         {
-            var data = await GetAll<T>(contentType);
-            return data.Single();
+            var url = $"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{contentType}";
+
+            var data = await GetString(url).FromJson<SiteFinityDataFeed<T>>();
+            return data.Value;
         }
         
         public async Task<List<T>> GetAll<T>(string contentType) where T : class
@@ -166,7 +174,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
                 }
                 else
                 {
-                    url = $"{contentTypeUrl}&$top=50&$skip={50 * page}";
+                    url = $"{contentTypeUrl.GetLeftPart(UriPartial.Path)}?$top=50&$skip={50 * page}&{contentTypeUrl.Query.TrimStart('?')}";
                 }
 
                 var results = await GetString(url).FromJson<SiteFinityDataFeed<T[]>>();

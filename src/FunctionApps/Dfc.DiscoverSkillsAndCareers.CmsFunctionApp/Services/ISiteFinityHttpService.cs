@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
@@ -16,5 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
         Task<string> PostData(string contentType, object data);
         Task<string> PostData(string contentType, string data);
         Task Delete(string contentType);
+        string MakeAbsoluteUri(string relativePortion);
+        ILogger Logger { get; set; }
     }
 }

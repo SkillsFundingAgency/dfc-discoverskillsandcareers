@@ -50,6 +50,15 @@
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\AppSettings.cs">
       <Link>Services\AppSettings.cs</Link>
     </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategoryQuestionBuilder.cs">
+      <Link>CmsModels\JobCategoryQuestionBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategoryQuestionsResult.cs">
+      <Link>CmsModels\JobCategoryQuestionsResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkills.cs">
+      <Link>CmsModels\JobCategorySkills.cs</Link>
+    </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityFilteringQuestion.cs">
       <Link>CmsModels\SiteFinityFilteringQuestion.cs</Link>
     </Compile>
@@ -73,6 +82,9 @@
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityTrait.cs">
       <Link>CmsModels\SiteFinityTrait.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SkillAttribute.cs">
+      <Link>CmsModels\SkillAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\TaxonomyHierarchy.cs">
       <Link>CmsModels\TaxonomyHierarchy.cs</Link>

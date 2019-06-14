@@ -1,23 +1,20 @@
-﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortTraitDataProcessor : IShortTraitDataProcessor
     {
-        readonly IGetShortTraitData _getShortTraitData;
-        readonly IShortTraitRepository _shortTraitRepository;
+        private readonly ISiteFinityHttpService _sitefinity;
+        private readonly IShortTraitRepository _shortTraitRepository;
 
-        public ShortTraitDataProcessor(
-            IGetShortTraitData getShortTraitData,
-            IShortTraitRepository shortTraitRepository)
+        public ShortTraitDataProcessor(ISiteFinityHttpService sitefinity, IShortTraitRepository shortTraitRepository)
         {
-            _getShortTraitData = getShortTraitData;
+            _sitefinity = sitefinity;
             _shortTraitRepository = shortTraitRepository;
         }
 
@@ -25,7 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         {
             logger.LogInformation("Begin poll for ShortTraits");
 
-            var data = await _getShortTraitData.GetData();
+            var data = await _sitefinity.GetAll<SiteFinityTrait>("traits");
 
             foreach(var traitData in data)
             {

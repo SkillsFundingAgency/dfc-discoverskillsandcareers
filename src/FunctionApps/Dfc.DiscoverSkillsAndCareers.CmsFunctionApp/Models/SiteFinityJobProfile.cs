@@ -22,5 +22,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
                     && !skillsToRemove.Contains(o.Skill))
                 .Take(8).ToArray();
         }
+
+        public bool HasSkill(HashSet<string> skillsToRemove, string skill)
+        {
+            return Skills(skillsToRemove).Any(s => s.Skill.Equals(skill, StringComparison.InvariantCultureIgnoreCase));
+        }
     }
 }

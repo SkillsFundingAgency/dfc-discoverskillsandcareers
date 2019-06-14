@@ -38,29 +38,32 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 .ToList();
 
             var whatYouToldUs = new List<string>();
-
-            // Iterate through removing all in a "guess-who" fashion
+            
             foreach (var answer in answers)
             {
                 var question = questions.First(x => x.QuestionId == answer.QuestionId);
-                //TODO: Fix this up
-//                if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
-//                {
-//                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-//                }
-//                else if (question.FilterTrigger == "Yes" && answer.SelectedOption == AnswerOption.Yes)
-//                {
-//                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-//                }
-//
-//                if (answer.SelectedOption == AnswerOption.No)
-//                {
-//                    whatYouToldUs.Add(question.NegativeResultDisplayText);
-//                }
-//                else if (answer.SelectedOption == AnswerOption.Yes)
-//                {
-//                    whatYouToldUs.Add(question.PositiveResultDisplayText);
-//                }
+
+                switch(answer.SelectedOption)
+                {
+                    case AnswerOption.No:
+                    {
+                        var profiles = question.JobProfiles.Where(p => p.Included).Select(j => j.JobProfile.ToLower()).ToHashSet();
+                        suggestedJobProfiles.RemoveAll(p => profiles.Contains(p.Title.ToLower()));
+
+                        whatYouToldUs.Add(question.NegativeResultDisplayText);
+                        break;
+                    }
+
+                    case AnswerOption.Yes:
+                    {
+                        var profiles = question.JobProfiles.Where(p => !p.Included).Select(j => j.JobProfile.ToLower()).ToHashSet();
+                        suggestedJobProfiles.RemoveAll(p => profiles.Contains(p.Title.ToLower()));
+
+                        whatYouToldUs.Add(question.PositiveResultDisplayText);
+                        break;
+                    }
+                        
+                }
             }
 
             IDictionary<string, string> socCodes = new Dictionary<string, string>();

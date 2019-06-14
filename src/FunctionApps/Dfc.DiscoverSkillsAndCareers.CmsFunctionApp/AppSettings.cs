@@ -18,8 +18,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         public string SiteFinityClientId { get; set; }
         public string SiteFinityClientSecret { get; set; }
         public string SiteFinityJobCategoriesTaxonomyId { get; set; }
-        public int MaxQuestionsPerCategory { get; set; } = 4;
         public double MaxPercentageOfProfileOccurenceForSkill { get; set; } = 0.75;
+        public double MaxPercentageDistributionOfJobProfiles { get; set; } = 0.75;
     }
 
 }

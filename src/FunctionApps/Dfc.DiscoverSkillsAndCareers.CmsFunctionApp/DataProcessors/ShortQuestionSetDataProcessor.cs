@@ -1,33 +1,28 @@
-﻿using System;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
+﻿using System.Collections.Generic;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
     {
+        private readonly ISiteFinityHttpService _sitefinity;
         readonly IQuestionRepository _questionRepository;
         readonly IQuestionSetRepository _questionSetRepository;
-        readonly IGetShortQuestionSetData _getShortQuestionSetData;
-        readonly IGetShortQuestionData _getShortQuestionData;
 
         public ShortQuestionSetDataProcessor(
+            ISiteFinityHttpService sitefinity,
             IQuestionRepository questionRepository,
-            IQuestionSetRepository questionSetRepository,
-            IGetShortQuestionSetData getShortQuestionSetData,
-            IGetShortQuestionData getShortQuestionData)
+            IQuestionSetRepository questionSetRepository)
         {
+            _sitefinity = sitefinity;
             _questionRepository = questionRepository;
             _questionSetRepository = questionSetRepository;
-            _getShortQuestionSetData = getShortQuestionSetData;
-            _getShortQuestionData = getShortQuestionData;
         }
 
         public async Task RunOnce(ILogger logger)
@@ -36,7 +31,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             string assessmentType = "short";
 
-            var questionSets = await _getShortQuestionSetData.GetData();
+            var questionSets = await _sitefinity.GetAll<SiteFinityShortQuestionSet>("shortquestionsets");
             logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             if (questionSets != null)
@@ -59,11 +54,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         continue;
                     }
 
-                    
                     // Attempt to get the questions for this question set
                     logger.LogInformation($"Getting cms questions for question set {data.Id} {data.Title}");
-                    data.Questions =
-                        await _getShortQuestionData.GetData(data.Id);
+                    
+                    data.Questions = await _sitefinity.Get<List<SiteFinityShortQuestion>>($"shortquestionsets({data.Id})/Questions?$expand=Trait");
+                    
                     if (data.Questions.Count == 0)
                     {
                         logger.LogInformation($"Question set {data.Id} doesn't have any questions");
@@ -118,7 +113,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                             IsNegative = dataQuestion.IsNegative,
                             Order = questionNumber,
                             QuestionId = questionPartitionKey + "-" + questionNumber,
-                            TraitCode = dataQuestion.Trait.ToUpper(),
+                            TraitCode = dataQuestion.Trait.Name.ToUpper(),
                             PartitionKey = questionPartitionKey,
                             LastUpdatedDt = dataQuestion.LastUpdatedDt,
                             Texts = new[]

@@ -3,15 +3,6 @@ using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
-    public class QuestionJobProfile
-    {
-        [JsonProperty("jobProfile")]
-        public string JobProfile { get; set; }
-        
-        [JsonProperty("included")]
-        public bool Included { get; set; }
-    }
-    
     public class Question
     {
         [JsonProperty("partitionKey")]
@@ -36,7 +27,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public QuestionJobProfile[] JobProfiles { get; set; } = {};
 
         [JsonProperty("sfid")]
-        public string SfId { get; set; }
+        public Guid SfId { get; set; }
         
         [JsonProperty("positiveResultDisplayText")]
         public string PositiveResultDisplayText { get; set; }

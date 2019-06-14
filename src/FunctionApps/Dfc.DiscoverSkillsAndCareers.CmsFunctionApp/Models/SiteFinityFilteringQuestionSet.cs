@@ -9,17 +9,15 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
     {
         [JsonProperty("Id")]
         public string Id { get; set; }
+        
         [JsonProperty("Title")]
         public string Title { get; set; }
+        
         [JsonProperty("Description")]
         public string Description { get; set; }
+        
+        [JsonProperty("Questions")]
         public List<SiteFinityFilteringQuestion> Questions { get; set; }
-        
-        public string JobCategory => JobProfileCategories?.First();
-        
-        public string[] JobProfileCategories { get; set; }
-        
-        public TaxonomyHierarchy[] JobProfileTaxonomy { get; set; }
         
         [JsonProperty("LastModified")]
         public DateTimeOffset LastUpdated { get; set; }
