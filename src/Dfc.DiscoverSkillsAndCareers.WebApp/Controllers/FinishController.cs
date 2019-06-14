@@ -34,7 +34,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var viewName ="FinishFilteredAssessment";
-                var model = new FinishViewModel {JobCategorySafeUrl = jobCategory};
+                var model = new FinishViewModel
+                {
+                    IsFilterAssessment = true,
+                    JobCategorySafeUrl = jobCategory
+                };
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }

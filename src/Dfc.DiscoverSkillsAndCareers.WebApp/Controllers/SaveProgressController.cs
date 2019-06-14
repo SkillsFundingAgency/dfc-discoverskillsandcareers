@@ -80,6 +80,35 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
         }
 
+        [HttpGet("EmailSent")]
+        public async Task<IActionResult> EmailSent()
+        {
+            
+            var email = (string)TempData["SentEmail"];
+
+            if (!String.IsNullOrWhiteSpace(email))
+            {
+                TempData["SentEmail"] = null;
+                return View("EmailSent", new SaveProgressViewModel() {SentTo = email});
+            }
+            
+            return RedirectToAction("Index");
+        }
+        
+        [HttpGet("SmsSent")]
+        public async Task<IActionResult> SmsSent()
+        {
+            var sms = (string)TempData["SentSms"];
+
+            if (!String.IsNullOrWhiteSpace(sms))
+            {
+                TempData["SentSms"] = null;
+                return View("SmsSent", new SaveProgressViewModel() {SentTo = sms});
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpGet("email", Name = "SaveProgressEmailInput")]
         public async Task<IActionResult> EmailInput(string e = "")
         {
@@ -106,7 +135,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "3")
                 {
-                    model.ErrorMessage = "Unable able to send email at this time";
+                    _log.LogError($"Correlation Id: {correlationId} - Unable to send email");
+                    return StatusCode(500);
                 }
                 
                 return View("EmailInput", model);
@@ -154,8 +184,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                     model.SentTo = sendEmailRequest.Email?.ToLower();
                     AppendCookie(sessionId);
-                    return View("EmailSent", model);
 
+                    TempData["SentEmail"] = model.SentTo;
+                    return RedirectToAction("EmailSent");
                 }
                 catch (Exception ex)
                 {
@@ -191,11 +222,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982 .";
+                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982.";
                 }
                 else if (e == "3")
                 {
-                    model.ErrorMessage = "Unable able to send sms at this time";
+                    _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
+                    return StatusCode(500);
                 }
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
@@ -245,11 +277,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 else if (e == "2")
                 {
-                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982 .";
+                    model.ErrorMessage = "Enter a mobile phone number, like 07700 900 982.";
                 }
                 else if (e == "3")
                 {
-                    model.ErrorMessage = "Unable able to send sms at this time";
+                    _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
+                    return StatusCode(500);
                 }
                 
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
@@ -284,10 +317,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-
-                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
-                await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                
                     
                 if (!sendSmsRequest.ValidMobileNumber)
                 {
@@ -299,6 +328,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/save-my-progress/reference?e=2");
                 }
                 
+                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
+                await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
+                
                 NotifyResponse notifyResponse = null;
                 try
                 {
@@ -309,7 +341,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     }
                     model.SentTo = sendSmsRequest.MobileNumber;
                     AppendCookie(sessionId);
-                    return View("SmsSent", model);
+
+                    TempData["SentSms"] = model.SentTo;
+                    return RedirectToAction("SmsSent");
 
                 }
                 catch (Exception ex)

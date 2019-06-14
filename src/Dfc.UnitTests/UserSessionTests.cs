@@ -1,10 +1,11 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Xunit;
 
 namespace Dfc.UnitTests
 {
-    public class QuestionRouterTests
+    public class UserSessionTests
     {
         [Fact]
         public void ManageIfComplete_WithNotCompleteState_ShouldNotBeComplete()
@@ -147,8 +148,7 @@ namespace Dfc.UnitTests
         [InlineData(20, "20")]
         public void GetQuestionPageNumber_WithTheory_ShouldZeroPrefixLess10(int input, string expected)
         {
-            var actual = Dfc.DiscoverSkillsAndCareers.WebApp.Controllers.QuestionController.GetQuestionPageNumber(input);
-
+            var actual = input.ToQuestionPageNumber();
             Assert.Equal(expected, actual);
         }
     }

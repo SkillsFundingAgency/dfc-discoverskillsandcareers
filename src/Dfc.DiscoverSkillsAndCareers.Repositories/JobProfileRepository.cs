@@ -32,32 +32,37 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 SearchFields = fields,
                 QueryType = QueryType.Full
             };
-
+        
             var results = await _client.Documents.SearchAsync<T>(query, searchParameters);
-            var contToken = results.ContinuationToken;
+            var data = new List<SearchResult<T>>();
 
+            foreach (var result in results.Results)
+            {
+                data.Add(result);
+            }
+            
+            var contToken = results.ContinuationToken;
+            
             while (contToken != null)
             {
                 var nextResults = await _client.Documents.ContinueSearchAsync<T>(contToken);
                 foreach (var result in nextResults.Results)
                 {
-                    results.Results.Add(result);
+                    data.Add(result);
                 }
-
+                
                 contToken = nextResults.ContinuationToken;
-
             }
-
-
-            return results.Results;
+            
+            return data;
         }
 
-        public async Task<JobProfile[]> JobProfileBySocCodeAndTitle(IDictionary<string, string> socCodeTitleMap)
+        public async Task<JobProfile[]> JobProfilesTitle(IDictionary<string, string> socCodeTitleMap)
         {
             var queryString = String.Join("||", socCodeTitleMap.Values.Select(s => $"({s})"));
 
             var results = await RunAzureSearchQuery<JobProfile>(queryString, "Title");
-            return results.Select(jp => jp.Document).Where(x => socCodeTitleMap.ContainsKey(x.SocCode)).ToArray();
+            return results.Select(jp => jp.Document).ToArray();
         }
 
         public async Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily)

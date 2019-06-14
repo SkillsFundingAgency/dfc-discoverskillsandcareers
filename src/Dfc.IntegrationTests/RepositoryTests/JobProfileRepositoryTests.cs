@@ -55,7 +55,7 @@ namespace Dfc.IntegrationTests.RepositoryTests
                 {"4121A", "Credit controller"}
             };
 
-            var profiles = await _repository.JobProfileBySocCodeAndTitle(map);
+            var profiles = await _repository.JobProfilesTitle(map);
 
             Assert.NotEmpty(profiles);
             Assert.Equal(2, profiles.Length);
