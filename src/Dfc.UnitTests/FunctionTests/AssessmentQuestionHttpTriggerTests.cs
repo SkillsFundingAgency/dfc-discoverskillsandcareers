@@ -154,7 +154,8 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
             {
-                AssessmentState = new AssessmentState("qs-1",5)
+                AssessmentState = new AssessmentState("qs-1",5),
+                FilteredAssessmentState = new FilteredAssessmentState()
             }));
 
             var result = await RunFunction("201901-session1","job-category",1);

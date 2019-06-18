@@ -100,7 +100,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var response = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
                 AppendCookie(sessionId);
-                var redirectResponse = new RedirectResult($"/q/{jobCategory}/{response.QuestionNumber}");
+                var redirectResponse = new RedirectResult($"/q/{jobCategory}/{response.QuestionNumber.ToQuestionPageNumber()}");
                 return redirectResponse;
 
             }

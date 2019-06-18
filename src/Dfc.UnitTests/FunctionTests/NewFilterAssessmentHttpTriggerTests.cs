@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -62,12 +63,18 @@ namespace Dfc.UnitTests.FunctionTests
             _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(new UserSession
             {
                 PartitionKey = "201901",
+                FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = "SC",
+                    JobCategoryStates = new List<JobCategoryState> {new JobCategoryState { JobCategoryCode = "SC" }}
+                },
                 ResultData = new ResultData
                 {
                     JobCategories = new []
                     {
                         new JobCategoryResult
                         {
+                            
                             JobCategoryName = "Social Care",
                             
                         }
@@ -75,7 +82,7 @@ namespace Dfc.UnitTests.FunctionTests
                 }
             })); 
             
-            var result = await RunFunction("session1", "social-care");
+            var result = await RunFunction("session1", "animal-care");
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -90,6 +97,11 @@ namespace Dfc.UnitTests.FunctionTests
             {
                 PartitionKey = "201901",
                 UserSessionId = "session1",
+                FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = "SC",
+                    JobCategoryStates = new List<JobCategoryState> {new JobCategoryState { JobCategoryCode = "SC" }}
+                },
                 ResultData = new ResultData
                 {
                     JobCategories = new []

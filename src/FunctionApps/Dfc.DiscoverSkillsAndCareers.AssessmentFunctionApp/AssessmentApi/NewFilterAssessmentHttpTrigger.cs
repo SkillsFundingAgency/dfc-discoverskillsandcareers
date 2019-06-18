@@ -72,8 +72,15 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                         $"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
                     return httpResponseMessageHelper.BadRequest();
                 }
-
+                
                 var code = JobCategoryHelper.GetCode(jobCategory);
+
+                if (!userSession.FilteredAssessmentState.JobCategoryStates.Any(j => j.JobCategoryCode.EqualsIgnoreCase(code)))
+                {
+                    return httpResponseMessageHelper.BadRequest();
+                }
+
+                
                 userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = code;
 
                 if (userSession.FilteredAssessmentState.IsComplete)

@@ -201,6 +201,12 @@ namespace Dfc.UnitTests.ControllerTests
             
             _appSettings.Value.UseFilteringQuestions = true;
 
+            _apiServices.StartFilteredForJobCategory(Arg.Any<Guid>(), "201905-Abc123", "animal-care")
+                .Returns(Task.FromResult(new NewSessionResponse
+                {
+                    SessionId = "201905-Abc123",
+                    QuestionNumber = 1
+                }));
             var result = await _controller.StartFilteredForJobCategory("animal-care");
 
             var viewResult = Assert.IsType<RedirectResult>(result);

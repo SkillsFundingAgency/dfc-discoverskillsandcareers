@@ -9,9 +9,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
     {
         [JsonProperty("questionSetVersion")]
         public string QuestionSetVersion { get; set; }
-        
-        [JsonProperty("questions")]
-        public JobCategorySkill[] Skills { get; set; }
+
+        [JsonProperty("questions")] 
+        public JobCategorySkill[] Skills { get; set; } = { };
         
         [JsonProperty("jobCategoryName")]
         public string JobCategoryName { get; set; }
