@@ -124,7 +124,7 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.Results("201904-Abc123", Arg.Any<Guid>())
                 .Returns(Task.FromResult(new ResultsResponse
                 {
-                    JobFamilies = new JobFamilyResult[]{}
+                    JobCategories = new JobCategoryResult[]{}
                 }));
 
             
@@ -153,11 +153,11 @@ namespace Dfc.UnitTests.ControllerTests
                 .Returns(Task.FromResult(new ResultsResponse
                 {
                     
-                    JobFamilies = new []
+                    JobCategories = new []
                     {
-                        new JobFamilyResult
+                        new JobCategoryResult
                         {
-                            FilterAssessment = new FilterAssessment { JobFamilyName = "Animal Care" }
+                            FilterAssessmentResult = new FilterAssessmentResult { JobFamilyName = "Animal Care" }
                         }, 
                     }
                 }));
@@ -294,7 +294,7 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.Results("201905-Abc123", Arg.Any<Guid>()).Returns(new ResultsResponse
             {
                 SessionId = "201905-Abc123",
-                JobFamilies = new JobFamilyResult[]{}
+                JobCategories = new JobCategoryResult[]{}
             });
             
             var result = await _controller.ResultsFilteredForJobCategory("animal-care");

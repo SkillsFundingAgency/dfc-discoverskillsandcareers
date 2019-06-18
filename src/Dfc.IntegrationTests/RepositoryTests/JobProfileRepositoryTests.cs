@@ -37,22 +37,14 @@ namespace Dfc.IntegrationTests.RepositoryTests
 
         public void Dispose() { }
 
-        [Fact]
-        public async Task GetJobProfilesForJobFamily_WithValidKey_ShouldNotBeEmpty()
-        {
-
-            var profiles = await _repository.JobProfilesForJobFamily("Social Care");
-
-            Assert.NotEmpty(profiles);
-        }
 
         [Fact]
         public async Task GetJobProfilesBySocCodeAndTitle_WithValidKey_ShouldNotBeEmpty()
         {
-            var map = new Dictionary<string, string>()
+            var map = new List<string>()
             {
-                {"6132A", "Pest control technician"},
-                {"4121A", "Credit controller"}
+                {"Pest control technician"},
+                {"Credit controller"}
             };
 
             var profiles = await _repository.JobProfilesTitle(map);

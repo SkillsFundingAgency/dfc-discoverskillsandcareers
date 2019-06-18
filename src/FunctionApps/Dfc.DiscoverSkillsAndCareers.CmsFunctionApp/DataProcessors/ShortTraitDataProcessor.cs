@@ -42,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         }
                     }
                 };
-                await _shortTraitRepository.CreateTrait(trait, "shorttrait-cms");
+                await _shortTraitRepository.CreateTrait(trait);
             }
 
             logger.LogInformation("End poll for ShortTraits");

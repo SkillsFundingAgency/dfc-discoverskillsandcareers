@@ -12,9 +12,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class JobCategoryDataProcessor : IJobCategoryDataProcessor
     {
-        readonly AppSettings _appSettings;
+        private readonly AppSettings _appSettings;
         private readonly ISiteFinityHttpService _sitefinity;
-        readonly IJobCategoryRepository _jobCategoryRepository;
+        private readonly IJobCategoryRepository _jobCategoryRepository;
+        private readonly string partitionKey = "job-categories";
 
         public JobCategoryDataProcessor(
             ISiteFinityHttpService sitefinity,
@@ -63,36 +64,47 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             logger.LogInformation($"Have {data?.Count} job Categorys to save");
 
-            var partitionKey = "jobfamily-cms";
-            var codes = new List<string>();
             foreach (var jobCategory in data)
             {
                 var code = JobCategoryHelper.GetCode(jobCategory.Title);
                 // Remove any old job categories that have this title but will have a different code
-                var existingJobCategories = await _jobCategoryRepository.GetJobCategoriesByName(partitionKey, jobCategory.Title);
-                existingJobCategories = existingJobCategories.Where(x => x.JobFamilyCode != code).ToArray();
-                for (var i = 0; i < existingJobCategories.Count(); i++)
+                var category = await _jobCategoryRepository.GetJobCategory(code);
+
+                if (category == null)
                 {
-                    await _jobCategoryRepository.DeleteJobCategory(partitionKey, existingJobCategories[i]);
-                }
-                // Import the new job category
-                await _jobCategoryRepository.CreateJobCategory(new JobFamily()
-                {
-                    JobFamilyName = jobCategory.Title,
-                    Texts = new[]
+                    category = new JobCategory()
                     {
-                        new JobFamilyText()
+                        Name = jobCategory.Title,
+                        Texts = new[]
+                        {
+                            new JobCategoryText()
+                            {
+                                LanguageCode = "en",
+                                Text = jobCategory.Description,
+                                Url = $"{jobCategory.UrlName}"
+                            }
+                        },
+                        Traits = jobCategory.Traits.Select(x => x.ToUpper()).ToArray(),
+                        PartitionKey = partitionKey
+                    };
+                }
+                else
+                {
+                    category.Name = jobCategory.Title;
+                    category.Texts = new[]
+                    {
+                        new JobCategoryText()
                         {
                             LanguageCode = "en",
                             Text = jobCategory.Description,
                             Url = $"{jobCategory.UrlName}"
                         }
-                    },
-                    TraitCodes = jobCategory.Traits.Select(x => x.ToUpper()).ToArray(),
-                    JobFamilyCode = code,
-                    PartitionKey = partitionKey
-                });
-                codes.Add(code);
+                    };
+                    category.Traits = jobCategory.Traits.Select(x => x.ToUpper()).ToArray();
+                    category.PartitionKey = partitionKey;
+                }
+
+                await _jobCategoryRepository.CreateOrUpdateJobCategory(category);
             }
 
             logger.LogInformation("End poll for JobCategories");

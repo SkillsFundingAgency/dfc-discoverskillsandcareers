@@ -58,11 +58,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 StartedDt = DateTime.Now,
                 LanguageCode = languageCode,
                 PartitionKey = partitionKey,
-                AssessmentState = new AssessmentState {
-                    QuestionSetVersion = questionSetVersion,
-                    MaxQuestions = maxQuestions,
-                    CurrentQuestion = 1
-                }
+                AssessmentState = new AssessmentState(questionSetVersion, maxQuestions)
             };
         }
 

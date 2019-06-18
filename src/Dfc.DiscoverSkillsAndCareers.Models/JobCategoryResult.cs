@@ -5,40 +5,39 @@ using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
-    [DebuggerDisplay("JobFamily = {JobFamilyCode}")]
-    public class JobFamilyResult
+    [DebuggerDisplay("JobFamily = {JobCategoryCode}")]
+    public class JobCategoryResult
     {
-        [JsonProperty("jobFamilyCode")]
-        public string JobFamilyCode { get; set; }
+        [JsonProperty("jobFamilyCode")] 
+        public string JobCategoryCode => JobCategoryHelper.GetCode(JobCategoryName);
+        
         [JsonProperty("jobFamilyName")]
-        public string JobFamilyName { get; set; }
+        public string JobCategoryName { get; set; }
+        
         [JsonProperty("jobFamilyText")]
-        public string JobFamilyText { get; set; }
+        public string JobCategoryText { get; set; }
+        
         [JsonProperty("jobFamilyUrl")]
         public string Url { get; set; }
+        
         [JsonProperty("traitsTotal")]
         public int TraitsTotal { get; set; }
+        
         [JsonProperty("total")]
         public decimal Total { get; set; }
+        
         [JsonProperty("normalizedTotal")]
         public decimal NormalizedTotal { get; set; }
+        
         public TraitValue[] TraitValues { get; set; } = {};
+        
         [JsonProperty("filterAssessment")]
-        public FilterAssessment FilterAssessment { get; set; }
+        public FilterAssessmentResult FilterAssessmentResult { get; set; }
+        
         [JsonProperty("totalQuestions")]
         public int TotalQuestions { get; set; }
         
         [JsonIgnore]
-        public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");
-    }
-
-    public class TraitValue
-    {
-        [JsonProperty("traitCode")]
-        public string TraitCode { get; set; }
-        [JsonProperty("total")]
-        public int Total { get; set; }
-        [JsonProperty("normalizedTotal")]
-        public decimal NormalizedTotal { get; set; }
+        public string JobCategoryNameUrl => JobCategoryName?.ToLower()?.Replace(" ", "-");
     }
 }

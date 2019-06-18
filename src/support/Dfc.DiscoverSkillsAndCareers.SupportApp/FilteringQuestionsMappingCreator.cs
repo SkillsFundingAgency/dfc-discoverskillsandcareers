@@ -5,6 +5,7 @@ using CommandLine;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +63,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     var questions = 
                         sitefinity.Get<List<SiteFinityFilteringQuestion>>($"filteringquestionsets({questionSet.Id})/Questions?$expand=RelatedSkill").GetAwaiter().GetResult();
 
-                    var categoryQuestions = JobCategoryQuestionBuilder.Build(questions, jobProfiles, jobCategories,
+                    var categoryQuestions = JobCategorySkillMapper.Map(jobProfiles, jobCategories,
                         0.75,
                         0.75);
                     

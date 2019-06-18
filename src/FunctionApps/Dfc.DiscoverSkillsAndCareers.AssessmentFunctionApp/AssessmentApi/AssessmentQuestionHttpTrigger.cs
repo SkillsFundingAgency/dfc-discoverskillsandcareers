@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
@@ -91,12 +92,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     log.LogError($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
                     return httpResponseMessageHelper.NoContent();
                 }
-
-                if (!userSession.TrySetStateToExistingSession(assessment))
-                {
-                    log.LogError($"CorrelationId: {correlationGuid} - Unable to set assessment - {assessment} on session {sessionId}");
-                    return httpResponseMessageHelper.NoContent();
-                }
+                
 
                 var questionSetVersion = userSession.CurrentQuestionSetVersion;
 
@@ -107,28 +103,27 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                userSession.CurrentState.CurrentQuestion = question.Order;
+                var nextQuestion = userSession.MoveToNextQuestion();
                 await userSessionRepository.UpdateUserSession(userSession);
 
-                int percentComplete = Convert.ToInt32((((decimal)questionNumber - 1M) / (decimal)userSession.MaxQuestions) * 100);
                 var response = new AssessmentQuestionResponse()
                 {
                     CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
                     IsComplete = userSession.IsComplete,
-                    NextQuestionNumber = userSession.FindNextQuestionToAnswer(),
+                    NextQuestionNumber = nextQuestion,
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,
                     QuestionNumber = question.Order,
                     SessionId = userSession.PrimaryKey,
-                    PercentComplete = percentComplete,
+                    PercentComplete = userSession.AssessmentState.PercentageComplete,
                     ReloadCode = userSession.UserSessionId,
                     MaxQuestionsCount = userSession.MaxQuestions,
-                    RecordedAnswersCount = userSession.CurrentRecordedAnswers.Count(),
-                    RecordedAnswer = userSession.CurrentRecordedAnswers.DefaultIfEmpty().SingleOrDefault(r => r?.QuestionNumber == questionNumber)?.SelectedOption,
+                    RecordedAnswersCount = userSession.RecordedAnswers.Length,
+                    RecordedAnswer = userSession.RecordedAnswers.SingleOrDefault(r => r?.QuestionNumber == questionNumber)?.SelectedOption,
                     StartedDt = userSession.StartedDt,
-                    IsFilterAssessment = userSession.IsFilterAssessment,
-                    JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe
+                    IsFilterAssessment = !assessment.EqualsIgnoreCase("short"),
+                    JobCategorySafeUrl = userSession.FilteredAssessmentState?.JobFamilyNameUrlSafe
                 };
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(response));

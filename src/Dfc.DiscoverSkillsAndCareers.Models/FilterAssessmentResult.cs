@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
-    public class FilterAssessment
+    public class FilterAssessmentResult
     {
         [JsonProperty("jobFamilyName")]
         public string JobFamilyName { get; set; }
@@ -24,7 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public Answer[] RecordedAnswers { get; set; } = { };
 
         [JsonProperty("suggestedJobProfiles")]
-        public IDictionary<string, string> SuggestedJobProfiles { get; set; } = new Dictionary<string, string>();
+        public List<string> SuggestedJobProfiles { get; set; } = new List<string>();
 
         [JsonProperty("whatYouToldUs")]
         public string[] WhatYouToldUs { get; set; } = { };

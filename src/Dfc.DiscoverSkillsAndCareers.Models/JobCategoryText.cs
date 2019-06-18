@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
-    public class JobFamilyText
+    public class JobCategoryText
     {
         [JsonProperty("languageCode")]
         public string LanguageCode { get; set; }

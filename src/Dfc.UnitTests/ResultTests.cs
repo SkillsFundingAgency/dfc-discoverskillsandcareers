@@ -32,7 +32,7 @@ namespace Dfc.UnitTests
                 _shortTraitRepository,
                 _questionSetRepository);
 
-            _shortTraitRepository.GetTraits("shorttrait-cms").Returns(
+            _shortTraitRepository.GetTraits().Returns(
                 Task.FromResult(ResultTestMockData.Traits.ToArray())
             );
 
@@ -44,8 +44,8 @@ namespace Dfc.UnitTests
                 Task.FromResult(
                 ResultTestMockData.JobFamilies.Select(jf => new QuestionSet
                 {
-                    Title = jf.JobFamilyName,
-                    QuestionSetKey = jf.JobFamilyName.Replace(" ", "-").ToLower(),
+                    Title = jf.Name,
+                    QuestionSetKey = jf.Name.Replace(" ", "-").ToLower(),
                     MaxQuestions = 3
                 }).ToList())
             );
@@ -69,7 +69,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                AssessmentState = new AssessmentState()
+                AssessmentState = new AssessmentState("qs-1",1)
                 {
                     RecordedAnswers = new[]
                     {
@@ -91,7 +91,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                AssessmentState = new AssessmentState()
+                AssessmentState = new AssessmentState("qs-1",2)
                 {
                     RecordedAnswers = new[]
                     {
@@ -115,7 +115,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                AssessmentState = new AssessmentState()
+                AssessmentState = new AssessmentState("qs-1",3)
                 {
                     RecordedAnswers = new[]
                     {
@@ -140,7 +140,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                AssessmentState = new AssessmentState()
+                AssessmentState = new AssessmentState("qs-1",1)
                 {
                     RecordedAnswers = new[]
                     {
@@ -155,9 +155,9 @@ namespace Dfc.UnitTests
             Assert.True(userSession.ResultData.Traits.Length == 1);
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 2);
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "ORGANISER");
-            var govServices = userSession.ResultData.JobFamilies.Where(x => x.Total > 0).FirstOrDefault();
+            var govServices = userSession.ResultData.JobCategories.Where(x => x.Total > 0).FirstOrDefault();
             Assert.NotNull(govServices);
-            Assert.True(govServices.JobFamilyCode == "GOV");
+            Assert.True(govServices.JobCategoryCode == "GS");
             Assert.True(govServices.Total == 2m);
         }
 
@@ -179,11 +179,11 @@ namespace Dfc.UnitTests
             var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
             Assert.Equal(6,result.Count);
-            Assert.Equal("CTD",result[0].JobFamilyCode);
-            Assert.Equal("RAS",result[1].JobFamilyCode);
-            Assert.Equal("HAF",result[2].JobFamilyCode);
-            Assert.Equal("MAN",result[3].JobFamilyCode);
-            Assert.Equal("SAL",result[4].JobFamilyCode);
+            Assert.Equal("CTAD",result[0].JobCategoryCode);
+            Assert.Equal("RAS",result[1].JobCategoryCode);
+            Assert.Equal("HAF",result[2].JobCategoryCode);
+            Assert.Equal("MANAG",result[3].JobCategoryCode);
+            Assert.Equal("SAL",result[4].JobCategoryCode);
         }
 
         [Fact]
@@ -204,16 +204,16 @@ namespace Dfc.UnitTests
             var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
             Assert.Equal(10,result.Count);
-            Assert.Equal("HEC",result[0].JobFamilyCode);
-            Assert.Equal("ANC",result[1].JobFamilyCode);
-            Assert.Equal("CAT",result[2].JobFamilyCode);
-            Assert.Equal("CAM",result[3].JobFamilyCode);
-            Assert.Equal("EUS",result[4].JobFamilyCode);
-            Assert.Equal("CTD",result[5].JobFamilyCode);
-            Assert.Equal("TAE",result[6].JobFamilyCode);
-            Assert.Equal("TAT",result[7].JobFamilyCode);
-            Assert.Equal("ADM",result[8].JobFamilyCode);
-            Assert.Equal("RAS",result[9].JobFamilyCode);
+            Assert.Equal("HEALT",result[0].JobCategoryCode);
+            Assert.Equal("AC",result[1].JobCategoryCode);
+            Assert.Equal("CAT",result[2].JobCategoryCode);
+            Assert.Equal("CAM",result[3].JobCategoryCode);
+            Assert.Equal("EAUS",result[4].JobCategoryCode);
+            Assert.Equal("CTAD",result[5].JobCategoryCode);
+            Assert.Equal("TAE",result[6].JobCategoryCode);
+            Assert.Equal("TAT",result[7].JobCategoryCode);
+            Assert.Equal("ADMIN",result[8].JobCategoryCode);
+            Assert.Equal("RAS",result[9].JobCategoryCode);
         }
 
         [Fact]
@@ -274,7 +274,7 @@ namespace Dfc.UnitTests
             var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
             Assert.Single(result);
-            Assert.Equal("MAN",result[0].JobFamilyCode);
+            Assert.Equal("MANAG",result[0].JobCategoryCode);
         }
         
         [Fact]
@@ -295,8 +295,8 @@ namespace Dfc.UnitTests
             var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
             
             Assert.Equal(2, result.Count);
-            Assert.Equal("CTD",result[0].JobFamilyCode);
-            Assert.Equal("SOC",result[1].JobFamilyCode);
+            Assert.Equal("CTAD",result[0].JobCategoryCode);
+            Assert.Equal("SC",result[1].JobCategoryCode);
         }
 
         [Fact]
@@ -317,12 +317,12 @@ namespace Dfc.UnitTests
             var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
 
             Assert.Equal(6,result.Count);
-            Assert.Equal("HOM",result[0].JobFamilyCode);
-            Assert.Equal("TRA",result[1].JobFamilyCode);
-            Assert.Equal("DAS",result[2].JobFamilyCode);
-            Assert.Equal("GOV",result[3].JobFamilyCode);
-            Assert.Equal("ENV",result[4].JobFamilyCode);
-            Assert.Equal("EAM",result[5].JobFamilyCode);
+            Assert.Equal("HS",result[0].JobCategoryCode);
+            Assert.Equal("TRANS",result[1].JobCategoryCode);
+            Assert.Equal("DAS",result[2].JobCategoryCode);
+            Assert.Equal("GS",result[3].JobCategoryCode);
+            Assert.Equal("EAL",result[4].JobCategoryCode);
+            Assert.Equal("EAM",result[5].JobCategoryCode);
 
         }
 
@@ -344,10 +344,10 @@ namespace Dfc.UnitTests
             var result = _assessmentCalculationService.CalculateJobFamilyRelevance(ResultTestMockData.JobFamilies, userTraits, "en").ToList();
             
             Assert.Equal(4, result.Count);
-            Assert.Equal("SAR",result[0].JobFamilyCode);
-            Assert.Equal("MAU",result[1].JobFamilyCode);
-            Assert.Equal("ADM",result[2].JobFamilyCode);
-            Assert.Equal("GOV",result[3].JobFamilyCode);
+            Assert.Equal("SAR",result[0].JobCategoryCode);
+            Assert.Equal("MANUF",result[1].JobCategoryCode);
+            Assert.Equal("ADMIN",result[2].JobCategoryCode);
+            Assert.Equal("GS",result[3].JobCategoryCode);
         }
 
         [Fact]
@@ -386,16 +386,16 @@ namespace Dfc.UnitTests
         };
 
 
-        public static List<JobFamily> JobFamilies = new List<JobFamily>()
+        public static List<JobCategory> JobFamilies = new List<JobCategory>()
         {
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "MAN",
-                JobFamilyName = "Managerial",
-                TraitCodes = new [] { "LEADER", "DRIVER" },
+               
+                Name = "Managerial",
+                Traits = new [] { "LEADER", "DRIVER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do managerial jobs, you might need leadership skills, the ability to motivate and manage staff, and the ability to monitor your own performance and that of your colleagues.",
@@ -403,14 +403,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "BAW",
-                JobFamilyName = "Beauty and wellbeing",
-                TraitCodes = new []{ "DRIVER", "DOER" },
+               
+                Name = "Beauty and wellbeing",
+                Traits = new []{ "DRIVER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do beauty and wellbeing jobs, you might need customer service skills, sensitivity and understanding, or the ability to work well with your hands.",
@@ -418,14 +418,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "SAR",
-                JobFamilyName = "Science and research",
-                TraitCodes = new [] { "DRIVER", "ANALYST", "ORGANISER" },
+               
+                Name = "Science and research",
+                Traits = new [] { "DRIVER", "ANALYST", "ORGANISER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do science and research jobs, you might need the ability to operate and control equipment, or to be thorough and pay attention to detail, or observation and recording skills.",
@@ -433,14 +433,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "MAU",
-                JobFamilyName = "Manufacturing",
-                TraitCodes = new [] { "DRIVER", "ANALYST", "ORGANISER" },
+               
+                Name = "Manufacturing",
+                Traits = new [] { "DRIVER", "ANALYST", "ORGANISER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do manufacturing jobs, you might need to be thorough and pay attention to detail, physical skills like movement, coordination, dexterity and grace, or the ability to work well with your hands.",
@@ -448,14 +448,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "TAE",
-                JobFamilyName = "Teaching and education",
-                TraitCodes = new [] { "LEADER", "HELPER", "ORGANISER" },
+               
+                Name = "Teaching and education",
+                Traits = new [] { "LEADER", "HELPER", "ORGANISER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do teaching and education jobs, you might need counselling skills including active listening and a non-judgemental approach, knowledge of teaching and the ability to design courses, or sensitivity and understanding.",
@@ -463,14 +463,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "BAF",
-                JobFamilyName = "Business and finance",
-                TraitCodes = new [] { "DRIVER", "ORGANISER", "DOER" },
+               
+                Name = "Business and finance",
+                Traits = new [] { "DRIVER", "ORGANISER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do business and finance jobs, you might need to be thorough and pay attention to detail, administration skills, or maths knowledge.",
@@ -478,14 +478,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "LAL",
-                JobFamilyName = "Law and legal",
-                TraitCodes = new [] { "DRIVER", "ORGANISER", "DOER" },
+               
+                Name = "Law and legal",
+                Traits = new [] { "DRIVER", "ORGANISER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do law and legal jobs, you might need persuading and negotiating skills, active listening skills the ability to accept criticism and work well under pressure, or to be thorough and pay attention to detail.",
@@ -493,14 +493,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "CTD",
-                JobFamilyName = "Computing, technology and digital",
-                TraitCodes = new [] { "ANALYST", "CREATOR" },
+               
+                Name = "Computing, technology and digital",
+                Traits = new [] { "ANALYST", "CREATOR" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do computing, technology and digital jobs, you might need analytical thinking skills, the ability to come up with new ways of doing things, or a thorough understanding of computer systems and applications.",
@@ -508,14 +508,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "SOC",
-                JobFamilyName = "Social care",
-                TraitCodes = new [] { "HELPER" },
+               
+                Name = "Social care",
+                Traits = new [] { "HELPER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do social care jobs, you might need sensitivity and understanding patience and the ability to remain calm in stressful situations, the ability to work well with others, or excellent verbal communication skills.",
@@ -523,14 +523,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "HEC",
-                JobFamilyName = "Healthcare",
-                TraitCodes = new [] { "HELPER", "ANALYST", "DOER" },
+               
+                Name = "Healthcare",
+                Traits = new [] { "HELPER", "ANALYST", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do healthcare jobs, you might need sensitivity and understanding, the ability to work well with others, or excellent verbal communication skills.",
@@ -538,14 +538,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "ANC",
-                JobFamilyName = "Animal care",
-                TraitCodes = new [] { "HELPER", "ANALYST", "DOER" },
+               
+                Name = "Animal care",
+                Traits = new [] { "HELPER", "ANALYST", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do animal care jobs, you might need the ability to use your initiative, patience and the ability to remain calm in stressful situations, or the ability to accept criticism and work well under pressure.",
@@ -553,14 +553,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "EUS",
-                JobFamilyName = "Emergency and uniform services",
-                TraitCodes = new [] { "LEADER", "HELPER", "DOER" },
+               
+                Name = "Emergency and uniform services",
+                Traits = new [] { "LEADER", "HELPER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do emergency and uniform service jobs, you might need knowledge of public safety and security, the ability to accept criticism and work well under pressure, or patience and the ability to remain calm in stressful situations.",
@@ -568,14 +568,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "SAL",
-                JobFamilyName = "Sports and leisure",
-                TraitCodes = new [] { "DRIVER", "CREATOR" },
+               
+                Name = "Sports and leisure",
+                Traits = new [] { "DRIVER", "CREATOR" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do sports and leisure jobs, you might need the ability to work well with others, to enjoy working with other people, or knowledge of teaching and the ability to design courses.",
@@ -583,14 +583,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "TAT",
-                JobFamilyName = "Travel and tourism",
-                TraitCodes = new [] { "HELPER", "ORGANISER", "DOER" },
+               
+                Name = "Travel and tourism",
+                Traits = new [] { "HELPER", "ORGANISER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do travel and tourism jobs, you might need excellent verbal communication skills, the ability to sell products and services, or active listening skills.",
@@ -598,14 +598,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "ADM",
-                JobFamilyName = "Administration",
-                TraitCodes = new [] { "ANALYST", "ORGANISER" },
+               
+                Name = "Administration",
+                Traits = new [] { "ANALYST", "ORGANISER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do administration jobs, you might need administration skills, the ability to work well with others, or customer service skills.",
@@ -613,14 +613,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "GOV",
-                JobFamilyName = "Government services",
-                TraitCodes = new [] { "ORGANISER" },
+               
+                Name = "Government services",
+                Traits = new [] { "ORGANISER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do government services jobs, you might need the ability to accept criticism and work well under pressure, to be thorough and pay attention to detail, and customer service skills.",
@@ -628,14 +628,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "HOM",
-                JobFamilyName = "Home services",
-                TraitCodes = new [] { "ORGANISER", "DOER" },
+               
+                Name = "Home services",
+                Traits = new [] { "ORGANISER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do home services jobs, you might need customer service skills, business management skills, or administration skills, or the ability to accept criticism and work well under pressure.",
@@ -643,14 +643,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "ENV",
-                JobFamilyName = "Environment and land",
-                TraitCodes = new [] { "DOER" },
+               
+                Name = "Environment and land",
+                Traits = new [] { "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do environment and land jobs, you might need thinking and reasoning skills, to be thorough and pay attention to detail, or analytical thinking skills.",
@@ -658,14 +658,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "CAT",
-                JobFamilyName = "Construction and trades",
-                TraitCodes = new [] { "ANALYST", "CREATOR", "DOER" },
+               
+                Name = "Construction and trades",
+                Traits = new [] { "ANALYST", "CREATOR", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do construction and trades jobs, you might need knowledge of building and construction, patience and the ability to remain calm in stressful situations, and the ability to work well with your hands.",
@@ -673,14 +673,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "CAM",
-                JobFamilyName = "Creative and media",
-                TraitCodes = new [] { "ANALYST", "CREATOR", "DOER" },
+               
+                Name = "Creative and media",
+                Traits = new [] { "ANALYST", "CREATOR", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do creative and media jobs, you might need the ability to come up with new ways of doing things, the ability to use your initiative, or the ability to organise your time and workload.",
@@ -688,14 +688,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "RAS",
-                JobFamilyName = "Retail and sales",
-                TraitCodes = new [] { "INFLUENCER", "HELPER" },
+               
+                Name = "Retail and sales",
+                Traits = new [] { "INFLUENCER", "HELPER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do retail and sales jobs, you might need customer service skills, the ability to work well with others, or the ability to sell products and services.",
@@ -703,14 +703,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "HAF",
-                JobFamilyName = "Hospitality and food",
-                TraitCodes = new [] { "INFLUENCER", "HELPER" },
+               
+                Name = "Hospitality and food",
+                Traits = new [] { "INFLUENCER", "HELPER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do hospitality and food jobs, you might need customer service skills, the ability to sell products and services, or to enjoy working with other people.",
@@ -718,14 +718,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "EAM",
-                JobFamilyName = "Engineering and maintenance",
-                TraitCodes = new [] { "DOER" },
+               
+                Name = "Engineering and maintenance",
+                Traits = new [] { "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do engineering and maintenance jobs, you might need knowledge of engineering science and technology, to be thorough and pay attention to detail, or analytical thinking skills.",
@@ -733,14 +733,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "TRA",
-                JobFamilyName = "Transport",
-                TraitCodes = new [] { "ORGANISER", "DOER" },
+               
+                Name = "Transport",
+                Traits = new [] { "ORGANISER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do transport jobs, you might need customer service skills, knowledge of public safety and security, or the ability to operate and control equipment.",
@@ -748,14 +748,14 @@ namespace Dfc.UnitTests
                     }
                 }
             },
-            new JobFamily()
+            new JobCategory()
             {
-                JobFamilyCode = "DAS",
-                JobFamilyName = "Delivery and storage",
-                TraitCodes = new [] { "ORGANISER", "DOER" },
+               
+                Name = "Delivery and storage",
+                Traits = new [] { "ORGANISER", "DOER" },
                 Texts = new []
                 {
-                    new JobFamilyText()
+                    new JobCategoryText()
                     {
                         LanguageCode = "en",
                         Text = "To do delivery and storage jobs, you might need the ability to work well with others, customer service skills, or knowledge of transport methods, costs and benefits.",

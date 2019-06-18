@@ -50,11 +50,11 @@
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\AppSettings.cs">
       <Link>Services\AppSettings.cs</Link>
     </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategoryQuestionBuilder.cs">
-      <Link>CmsModels\JobCategoryQuestionBuilder.cs</Link>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkillMapper.cs">
+      <Link>CmsModels\JobCategorySkillMapper.cs</Link>
     </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategoryQuestionsResult.cs">
-      <Link>CmsModels\JobCategoryQuestionsResult.cs</Link>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkillMappingResult.cs">
+      <Link>CmsModels\JobCategorySkillMappingResult.cs</Link>
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkills.cs">
       <Link>CmsModels\JobCategorySkills.cs</Link>

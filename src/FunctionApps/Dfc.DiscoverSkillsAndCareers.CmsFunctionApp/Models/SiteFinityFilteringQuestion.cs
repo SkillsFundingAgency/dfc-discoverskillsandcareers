@@ -5,11 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public class SiteFinityFilteringQuestionJobProfileMapping
-    {
-        public string JobProfile { get; set; }
-        public bool Included { get; set; }
-    }
+    
 
     public class SiteFinityFilteringQuestionSkill
     {

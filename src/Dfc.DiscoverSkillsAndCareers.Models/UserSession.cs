@@ -1,45 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
-    public class AssessmentState
-    {
-        [JsonProperty("questionSetVersion")]
-        public string QuestionSetVersion { get; set; }
-        
-        [JsonProperty("maxQuestions")]
-        public int MaxQuestions { get; set; }
-        
-        [JsonProperty("currentQuestion")]
-        public int CurrentQuestion { get; set; }
-
-        [JsonIgnore]
-        public virtual bool IsComplete => MaxQuestions == RecordedAnswers?.Length;
-        
-        [JsonProperty("completeDt")]
-        public DateTime? CompleteDt { get; set; }
-        
-        [JsonProperty("recordedAnswers")]
-        public Answer[] RecordedAnswers { get; set; } = {};
-    }
-    
-    public class FilteredAssessmentState : AssessmentState
-    {
-        [JsonProperty("currentFilterAssessmentCode")]
-        public string CurrentFilterAssessmentCode { get; set; }
-        
-        [JsonProperty("jobFamilyName")]
-        public string JobFamilyName { get; set; }
-        
-        [JsonIgnore]
-        public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");
-
-        public override bool IsComplete => RecordedAnswers?.DefaultIfEmpty()?.Last()?.QuestionNumber == MaxQuestions;
-    }
-    
     public class UserSession
     {
         [JsonIgnore]
@@ -72,127 +37,72 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("lastUpdatedDt")]
         public DateTime LastUpdatedDt { get; set; }
 
-        [JsonIgnore]
-        public AssessmentState CurrentState => IsFilterAssessment ? FilteredAssessmentState : AssessmentState;
-
-        // Extension getters
-        [JsonIgnore]
-        public bool IsFilterAssessment => FilteredAssessmentState != null;
-
-        [JsonIgnore] 
-        public int CurrentMaxQuestions => CurrentState.MaxQuestions;
-
-        [JsonIgnore] 
-        public string CurrentQuestionSetVersion => CurrentState.QuestionSetVersion;
-
-        [JsonIgnore] 
-        public int CurrentQuestion => CurrentState.CurrentQuestion;
-        
-        [JsonIgnore] 
-        public int MaxQuestions => CurrentState.MaxQuestions;
+        [JsonProperty("completeDt")] 
+        public DateTime? CompleteDt => CurrentState.CompleteDt;
 
         [JsonIgnore] 
         public bool IsComplete => CurrentState.IsComplete;
 
-        [JsonIgnore] 
-        public DateTime? CompleteDt => CurrentState.CompleteDt;
+        [JsonIgnore]
+        public int MaxQuestions => CurrentState.MaxQuestions;
+
+        [JsonIgnore]
+        public AssessmentStateBase CurrentState =>
+            FilteredAssessmentState == null || !AssessmentState.IsComplete
+                ? (AssessmentStateBase)AssessmentState
+                : (AssessmentStateBase)FilteredAssessmentState;
+
+        [JsonIgnore]
+        public int CurrentQuestion => CurrentState.CurrentQuestion;
+
+        [JsonIgnore]
+        public string CurrentQuestionSetVersion => CurrentState.QuestionSetVersion;
         
         [JsonIgnore]
-        public Answer[] CurrentRecordedAnswers => CurrentState.RecordedAnswers.Where(x => x.QuestionSetVersion == CurrentQuestionSetVersion).ToArray();
-
-
-        public bool TrySetStateToExistingSession(string assessment)
+        public bool IsFilterAssessment => (CurrentState is FilteredAssessmentState);
+        
+        [JsonIgnore]
+        public Answer[] RecordedAnswers
         {
-            if (String.Equals("short", assessment, StringComparison.InvariantCultureIgnoreCase))
+            get
             {
-                FilteredAssessmentState = null;
-                return true;
-            }
-            
-            var jobFamily = ResultData?.JobFamilies.SingleOrDefault(jf =>
-                String.Equals(jf.JobFamilyNameUrlSafe, assessment, StringComparison.InvariantCultureIgnoreCase));
-
-            
-            //Check it we already have the correct filtered assessment
-            //If this is the case then there is nothing else to do except potentially 
-            //copy recorded answers forward. This helps dealing with scenarios where 
-            //the url is directly navigated to.
-            if (FilteredAssessmentState != null 
-                && String.Equals(FilteredAssessmentState.JobFamilyNameUrlSafe, assessment, StringComparison.InvariantCultureIgnoreCase))
-            {
-                var answers = FilteredAssessmentState.RecordedAnswers?.Length;
-                if (answers.GetValueOrDefault(0) == 0)
+                switch (CurrentState)
                 {
-                    FilteredAssessmentState.RecordedAnswers = jobFamily?.FilterAssessment?.RecordedAnswers ?? new Answer[] { };
+                    case AssessmentState a:
+                        return a.RecordedAnswers;
+
+                    case FilteredAssessmentState f:
+                        return f.RecordedAnswers;
+
+                    default:
+                        throw new ArgumentException($"Unable to get recorded answers for assessmentType {CurrentState?.GetType().Name}");
                 }
-
-                return true;
             }
-            
-            //Otherwise hydrate the FilteredAssessment state from a previously answered job family result.
-            
-            if (jobFamily?.FilterAssessment == null) 
-                return false;
-            
-            var filterAssessment = jobFamily.FilterAssessment;
-            FilteredAssessmentState = new FilteredAssessmentState
-            {
-                MaxQuestions = filterAssessment.MaxQuestions,
-                CurrentQuestion = filterAssessment?.RecordedAnswerCount ?? 1,
-                QuestionSetVersion = filterAssessment.QuestionSetVersion,
-                JobFamilyName = jobFamily.JobFamilyName,
-                RecordedAnswers = filterAssessment.RecordedAnswers,
-            };
-
-            return true;
-
         }
-
+        
         /// <summary>
         /// Gets the next question number that should be answered.
         /// </summary>
-        public int FindNextQuestionToAnswer()
-        {
-            if (CurrentRecordedAnswers.Count() == CurrentMaxQuestions)
-            {
-                return FindNextQuestion();
-            }
-            return FindNextUnansweredQuestion();
-        }
+        public int MoveToNextQuestion() => 
+            CurrentState.MoveToNextQuestion();
 
-        /// <summary>
-        /// Gets the first answered question number.
-        /// </summary>
-        public int FindNextUnansweredQuestion()
+        public void UpdateJobCategoryQuestionCount()
         {
-            for (int i = 1; i <= CurrentMaxQuestions; i++)
+            if (FilteredAssessmentState != null)
             {
-                if (CurrentRecordedAnswers.All(x => x.QuestionNumber != i))
+                foreach (var jobCategory in ResultData.JobCategories)
                 {
-                    return i;
+                    var state = FilteredAssessmentState
+                        .JobCategoryStates
+                        .FirstOrDefault(jc => jc.JobCategoryCode.EqualsIgnoreCase(jobCategory.JobCategoryCode));
+
+                    if (state != null)
+                    {
+                        jobCategory.TotalQuestions = state.UnansweredQuestions(FilteredAssessmentState.RecordedAnswers);
+                    }
                 }
             }
+        }
 
-            return CurrentMaxQuestions;
-        }
-        
-        public int FindNextQuestion()
-        {
-            return Math.Min(CurrentQuestion + 1, CurrentMaxQuestions);
-        }
-        
-        /// <summary>
-        /// Updates the IsComplete property on the UserSession based off the current answers and max questions.
-        /// </summary>
-        public void UpdateCompletionStatus()
-        {                
-            if(IsComplete) {
-                CurrentState.CompleteDt = DateTime.UtcNow;
-            }
-            else
-            {
-                CurrentState.CompleteDt = null;
-            }  
-        }
     }
 }

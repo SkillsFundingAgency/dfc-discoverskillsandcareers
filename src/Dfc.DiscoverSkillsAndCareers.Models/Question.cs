@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Data.SqlTypes;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
 {
@@ -23,9 +24,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("order")]
         public int Order { get; set; }
         
-        [JsonProperty("jobProfiles")]
-        public QuestionJobProfile[] JobProfiles { get; set; } = {};
-
         [JsonProperty("sfid")]
         public Guid SfId { get; set; }
         
@@ -37,5 +35,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         
         [JsonProperty("lastUpdatedDt")]
         public DateTimeOffset LastUpdatedDt { get; set; }
+
+        [JsonProperty("isFilterQuestion")]
+        public bool IsFilterQuestion { get; set; }
     }
 }

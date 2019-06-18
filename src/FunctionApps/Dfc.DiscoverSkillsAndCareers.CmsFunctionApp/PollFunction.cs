@@ -34,10 +34,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 await shortTraitDataProcessor.RunOnce(log);
 
                 await jobCategoryDataProcessor.RunOnce(log);
+                
+                await shortQuestionSetDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
-
-                await shortQuestionSetDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }

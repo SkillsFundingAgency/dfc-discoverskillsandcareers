@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    public static class JobCategoryQuestionBuilder
+    public static class JobCategorySkillMapper
     {
         public static HashSet<string> CalculateCommonSkillsToRemoveByPercentage(IList<SiteFinityJobProfile> jobProfiles, double percentage = 0.75)
         {
@@ -104,19 +104,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 
         }
         
-        public static List<SiteFinityFilteringQuestionJobProfileMapping> GetJobProfileMapping(IList<SiteFinityJobProfile> profiles, SkillAttribute skillAttribute)
+        public static List<JobProfileMapping> GetJobProfileMapping(IList<SiteFinityJobProfile> profiles, SkillAttribute skillAttribute)
         {
             return 
                 profiles
-                    .Select(p => new SiteFinityFilteringQuestionJobProfileMapping
+                    .Select(p => new JobProfileMapping
                     {
                         JobProfile = p.Title, 
                         Included = skillAttribute.ProfilesWithSkill.Contains(p.Title)
                     }).ToList();
         }
         
-        public static IList<JobCategoryQuestionsResult> Build(
-            List<SiteFinityFilteringQuestion> questions,
+        public static IList<JobCategorySkillMappingResult> Map(
             List<SiteFinityJobProfile> jobProfiles,
             List<TaxonomyHierarchy> jobCategories,
             double maxPercentageOfSkillOccurence,
@@ -137,36 +136,23 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
             
             var skillsByJobCategory =
                 CalculateSkillsForJobCategory(jobProfiles, jobCategoryIdMap, prominentSkills, maxPercentageOfJobProfileDistribution);
-
-            var questionLookup =
-                questions.ToDictionary(r => r.RelatedSkill.Title, r => r, StringComparer.InvariantCultureIgnoreCase);
-
-            var results = new List<JobCategoryQuestionsResult>();
+                
+            var results = new List<JobCategorySkillMappingResult>();
             foreach (var categorySkills in skillsByJobCategory)
             {
-                var result = new JobCategoryQuestionsResult { JobCategory = categorySkills.Value.CategoryName };
+                var result = new JobCategorySkillMappingResult
+                {
+                    JobCategory = categorySkills.Value.CategoryName,
+                };
+                
                 var jobCategoryProfiles = jobProfilesByCategory[categorySkills.Key];
                 foreach (var attribute in categorySkills.Value.SkillAttributes)
                 {
-                    if (!questionLookup.TryGetValue(attribute.ONetAttribute, out var question))
+                    result.SkillMappings.Add(new JobProfileSkillMapping
                     {
-                        result.AddMessage(LogLevel.Warning, $"No question found for ONetAttribute ({attribute.ONetAttribute})");
-                        continue;
-                    }
-
-                    var q = new JobCategoryQuestion
-                    {
-                        Id = question.Id, 
-                        Description = question.Description,
-                        QuestionText = question.QuestionText,
-                        RelatedSkill = question.RelatedSkill,
-                        LastUpdated = question.LastUpdated,
-                        Title = question.Title,
-                        JobProfiles  = GetJobProfileMapping(jobCategoryProfiles, attribute)
-                    };
-                    
-                    result.Questions.Add(q);
-                    
+                        ONetAttribute = attribute.ONetAttribute,
+                        JobProfiles = GetJobProfileMapping(jobCategoryProfiles, attribute)
+                    });
                 }
                 
                 results.Add(result);

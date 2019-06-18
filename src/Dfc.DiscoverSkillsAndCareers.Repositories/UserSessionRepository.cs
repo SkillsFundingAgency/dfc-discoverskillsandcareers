@@ -34,7 +34,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             return await GetUserSession(userSessionId, partitionKey);
         }
 
-        public async Task<UserSession> GetUserSession(string userSessionId, string partitionKey)
+        private async Task<UserSession> GetUserSession(string userSessionId, string partitionKey)
         {
             try
             {

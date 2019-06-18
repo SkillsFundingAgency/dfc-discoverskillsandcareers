@@ -204,10 +204,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                 }
                 if (userSession?.ResultData != null)
                 {
-                    foreach (var jobFamily in userSession.ResultData.JobFamilies)
+                    foreach (var jobFamily in userSession.ResultData.JobCategories)
                     {
-                        if (jobFamily.FilterAssessment != null) {
-                            foreach (var whatYouToldUs in jobFamily.FilterAssessment.WhatYouToldUs)
+                        if (jobFamily.FilterAssessmentResult != null) {
+                            foreach (var whatYouToldUs in jobFamily.FilterAssessmentResult.WhatYouToldUs)
                             {
                                 DbContext.ResultStatements.Add(new Data.Entities.UmResultStatement()
                                 {
@@ -239,33 +239,33 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
 
                 var toremoveSuggestedJobCategories = DbContext.SuggestedJobCategories.Where(x => x.UserSessionId == userSession.UserSessionId).ToList();
                 DbContext.SuggestedJobCategories.RemoveRange(toremoveSuggestedJobCategories);
-                if (userSession.ResultData?.JobFamilies != null)
+                if (userSession.ResultData?.JobCategories != null)
                 {
-                    foreach (var jobCategory in userSession?.ResultData?.JobFamilies)
+                    foreach (var jobCategory in userSession?.ResultData?.JobCategories)
                     {
                         DbContext.SuggestedJobCategories.Add(new Data.Entities.UmSuggestedJobCategory()
                         {
-                            Id = userSession.UserSessionId + "-" + jobCategory.JobFamilyCode,
+                            Id = userSession.UserSessionId + "-" + jobCategory.JobCategoryCode,
                             UserSessionId = userSession.UserSessionId,
-                            JobCategoryCode = jobCategory.JobFamilyCode,
-                            JobCategory = jobCategory.JobFamilyName,
+                            JobCategoryCode = jobCategory.JobCategoryCode,
+                            JobCategory = jobCategory.JobCategoryName,
                             TraitTotal = jobCategory.TraitsTotal,
                             JobCategoryScore = jobCategory.NormalizedTotal,
-                            HasCompletedFilterAssessment = jobCategory.FilterAssessment != null
+                            HasCompletedFilterAssessment = jobCategory.FilterAssessmentResult != null
                         });
 
-                        if (jobCategory.FilterAssessment != null)
+                        if (jobCategory.FilterAssessmentResult != null)
                         {
-                            foreach (var soccode in jobCategory.FilterAssessment?.SuggestedJobProfiles)
+                            foreach (var jobProfile in jobCategory.FilterAssessmentResult?.SuggestedJobProfiles)
                             {
-                                var toremoveSuggestedJobProfiles = DbContext.SuggestedJobProfiles.Where(x => x.UserSessionId == userSession.UserSessionId && x.JobCategoryCode == jobCategory.JobFamilyCode).ToList();
+                                var toremoveSuggestedJobProfiles = DbContext.SuggestedJobProfiles.Where(x => x.UserSessionId == userSession.UserSessionId && x.JobCategoryCode == jobCategory.JobCategoryCode).ToList();
                                 DbContext.SuggestedJobProfiles.RemoveRange(toremoveSuggestedJobProfiles);
                                 DbContext.SuggestedJobProfiles.Add(new Data.Entities.UmSuggestedJobProfile()
                                 {
-                                    Id = userSession.UserSessionId + "-" + soccode.Key,
+                                    Id = userSession.UserSessionId + "-" + jobProfile,
                                     UserSessionId = userSession.UserSessionId,
-                                    JobCategoryCode = jobCategory.JobFamilyCode,
-                                    SocCode = soccode.Key
+                                    JobCategoryCode = jobCategory.JobCategoryCode,
+                                    JobProfile = jobProfile
                                 });
                             }
                         }

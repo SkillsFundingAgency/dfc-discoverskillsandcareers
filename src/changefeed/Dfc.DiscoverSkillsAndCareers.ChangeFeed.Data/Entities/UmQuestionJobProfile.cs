@@ -10,7 +10,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.Entities
         public string Id { get; set; }
         public string QuestionId { get; set; }
         public string JobProfile { get; set; }
-        
         public bool Included { get; set; }
     }
 }

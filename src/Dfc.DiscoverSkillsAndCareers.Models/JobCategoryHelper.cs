@@ -5,7 +5,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public static string GetCode(string input)
         {
             string code = "";
-            var words = input.Split(' ');
+            var words = input.Split(' ','-');
             if (words.Length > 1)
             {
                 for (var i = 0; i < words.Length; i++)

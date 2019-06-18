@@ -73,8 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     if (latestQuestionSet != null)
                     {
                         // Change the current question set to be not current
-                        logger.LogInformation(
-                            $"Demoting question set {latestQuestionSet.QuestionSetVersion} from current");
+                        logger.LogInformation($"Demoting question set {latestQuestionSet.QuestionSetVersion} from current");
                         latestQuestionSet.IsCurrent = false;
                         await _questionSetRepository.CreateOrUpdateQuestionSet(latestQuestionSet);
                     }
@@ -82,8 +81,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     if (questionSet != null && questionSet.IsCurrent)
                     {
                         // Change the current question set to be not current
-                        logger.LogInformation(
-                            $"Demoting question set {questionSet.QuestionSetVersion} from current");
+                        logger.LogInformation($"Demoting question set {questionSet.QuestionSetVersion} from current");
                         questionSet.IsCurrent = false;
                         await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
                     }
@@ -116,6 +114,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                             TraitCode = dataQuestion.Trait.Name.ToUpper(),
                             PartitionKey = questionPartitionKey,
                             LastUpdatedDt = dataQuestion.LastUpdatedDt,
+                            IsFilterQuestion = false,
                             Texts = new[]
                             {
                                 new QuestionText {LanguageCode = "EN", Text = dataQuestion.Title}
