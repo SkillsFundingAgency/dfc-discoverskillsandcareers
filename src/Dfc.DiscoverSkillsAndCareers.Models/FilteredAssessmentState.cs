@@ -118,7 +118,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             }
             else
             {
-                CurrentQuestion = CurrentState?.Skills[0].QuestionNumber ?? 0;
+                CurrentQuestion = CurrentState?.Skills.FirstOrDefault()?.QuestionNumber ?? 0;
             }
 
             return CurrentQuestion;
