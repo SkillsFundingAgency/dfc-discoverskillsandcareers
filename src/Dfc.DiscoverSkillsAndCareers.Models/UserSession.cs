@@ -80,12 +80,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             }
         }
         
-        /// <summary>
-        /// Gets the next question number that should be answered.
-        /// </summary>
-        public int MoveToNextQuestion() => 
-            CurrentState.MoveToNextQuestion();
-
         public void UpdateJobCategoryQuestionCount()
         {
             if (FilteredAssessmentState != null)

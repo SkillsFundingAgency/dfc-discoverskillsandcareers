@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models;
 using DFC.Functions.DI.Standard.Attributes;
@@ -89,45 +90,49 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobCategories;
                 
+                
                 var suggestedJobProfiles = new List<JobProfileResult>();
              //   var rnd = new Random();
                 foreach (var jobCategory in jobFamilies)
                 {
                     if (jobCategory.FilterAssessmentResult == null)
                     {
-                        var category = await jobCategoryRepository.GetJobCategory(jobCategory.JobCategoryCode);
-                        userSession.FilteredAssessmentState = userSession.FilteredAssessmentState ?? new FilteredAssessmentState();
-                        userSession.FilteredAssessmentState.CreateOrResetCategoryState(questionSet.QuestionSetVersion, questions, category);
-                        userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = jobCategory.JobCategoryCode;
                         continue;
-                        
                     }
-                    // Build the list of job profiles
-                    var jobProfiles =
-                        //await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
-                        await jobProfileRepository.JobProfilesTitle(jobCategory.FilterAssessmentResult.SuggestedJobProfiles);
 
-                    
-                    //log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
-                    
-                    foreach (var jobProfile in jobProfiles)//.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
+                    if (jobCategory.JobCategoryCode.EqualsIgnoreCase(userSession.FilteredAssessmentState.CurrentFilterAssessmentCode) || jobCategory.ResultsShown)
                     {
-                        suggestedJobProfiles.Add(new JobProfileResult()
+                        
+                        // Build the list of job profiles
+                        var jobProfiles =
+                            //await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
+                            await jobProfileRepository.JobProfilesTitle(jobCategory.FilterAssessmentResult
+                                .SuggestedJobProfiles);
+
+
+                        //log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
+                        
+                        foreach (var jobProfile in jobProfiles) //.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
                         {
-                            CareerPathAndProgression = jobProfile.CareerPathAndProgression,
-                            Overview = jobProfile.Overview,
-                            SalaryExperienced = jobProfile.SalaryExperienced,
-                            SalaryStarter = jobProfile.SalaryStarter,
-                            JobCategory = jobCategory.JobCategoryName,
-                            SocCode = jobProfile.SocCode,
-                            Title = jobProfile.Title,
-                            UrlName = jobProfile.UrlName,
-                            TypicalHours = jobProfile.TypicalHours,
-                            TypicalHoursPeriod = String.Join("/", jobProfile.WorkingHoursDetails),
-                            ShiftPattern = String.Join("/", jobProfile.WorkingPattern),
-                            ShiftPatternPeriod = String.Join("/", jobProfile.WorkingPatternDetails),
-                            WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
-                        });
+                            suggestedJobProfiles.Add(new JobProfileResult()
+                            {
+                                CareerPathAndProgression = jobProfile.CareerPathAndProgression,
+                                Overview = jobProfile.Overview,
+                                SalaryExperienced = jobProfile.SalaryExperienced,
+                                SalaryStarter = jobProfile.SalaryStarter,
+                                JobCategory = jobCategory.JobCategoryName,
+                                SocCode = jobProfile.SocCode,
+                                Title = jobProfile.Title,
+                                UrlName = jobProfile.UrlName,
+                                TypicalHours = jobProfile.TypicalHours,
+                                TypicalHoursPeriod = String.Join("/", jobProfile.WorkingHoursDetails),
+                                ShiftPattern = String.Join("/", jobProfile.WorkingPattern),
+                                ShiftPatternPeriod = String.Join("/", jobProfile.WorkingPatternDetails),
+                                WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                            });
+                        }
+                        
+                        jobCategory.ResultsShown = true;
                     }
                 }
 

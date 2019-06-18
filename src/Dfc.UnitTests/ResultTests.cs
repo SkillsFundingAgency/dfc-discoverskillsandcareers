@@ -19,17 +19,21 @@ namespace Dfc.UnitTests
         private IQuestionSetRepository _questionSetRepository;
         private ILogger _logger;
         private AssessmentCalculationService _assessmentCalculationService;
+        private IQuestionRepository _questionRepository;
 
         public ResultTests()
         {
             _jobFamilyRepository = Substitute.For<IJobCategoryRepository>();
             _shortTraitRepository = Substitute.For<IShortTraitRepository>();
             _questionSetRepository = Substitute.For<IQuestionSetRepository>();
+            _questionRepository = Substitute.For<IQuestionRepository>();
+            
             _logger = Substitute.For<ILogger>();
 
             _assessmentCalculationService = new AssessmentCalculationService(
                 _jobFamilyRepository,
                 _shortTraitRepository,
+                _questionRepository,
                 _questionSetRepository);
 
             _shortTraitRepository.GetTraits().Returns(

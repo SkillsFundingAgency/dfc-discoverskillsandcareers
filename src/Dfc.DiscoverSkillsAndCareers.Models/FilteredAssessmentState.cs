@@ -12,7 +12,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("jobCategories")]
         public List<JobCategoryState> JobCategoryStates { get; set; } = new List<JobCategoryState>();
 
-        [JsonProperty("maxQuestions")] 
+        [JsonIgnore] 
         public override int MaxQuestions => CurrentState.Skills.Length;
         
         [JsonProperty("recordedAnswers")]
@@ -21,19 +21,25 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("currentFilterAssessmentCode")]
         public string CurrentFilterAssessmentCode { get; set; }
 
-        [JsonProperty("questionSetVersion")]
+        [JsonIgnore]
         public override string QuestionSetVersion => CurrentState.QuestionSetVersion;
 
         [JsonIgnore]
         public override int CurrentQuestion
         {
-            get => CurrentState.CurrentQuestion;
-            protected set => CurrentState.CurrentQuestion = value;
-        }  
-        
+            get => CurrentState?.CurrentQuestion ?? 0;
+            protected set
+            {
+                if (CurrentState != null)
+                {
+                    CurrentState.CurrentQuestion = value;
+                }
+            }
+        }
+
         [JsonIgnore]
         private JobCategoryState CurrentState =>
-            JobCategoryStates.Single(jc => StringExtensions.EqualsIgnoreCase(jc.JobCategoryCode, CurrentFilterAssessmentCode));
+            JobCategoryStates.Single(jc => jc.JobCategoryCode.EqualsIgnoreCase(CurrentFilterAssessmentCode));
 
         [JsonIgnore]
         public override bool IsComplete
@@ -91,7 +97,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public override int MoveToNextQuestion()
         {
             var number =  
-                CurrentState.Skills
+                CurrentState?.Skills
                     .FirstOrDefault(q => !RecordedAnswers.Any(a => a.TraitCode.EqualsIgnoreCase(q.Skill)))
                     ?.QuestionNumber;
 
@@ -101,7 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             }
             else
             {
-                CurrentQuestion = CurrentState.Skills[0].QuestionNumber;
+                CurrentQuestion = CurrentState?.Skills[0].QuestionNumber ?? 0;
             }
 
             return CurrentQuestion;

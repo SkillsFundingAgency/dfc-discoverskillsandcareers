@@ -94,15 +94,15 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 
                 await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
 
-                var displayFinish = userSession.CurrentState.IsComplete;
+                var displayFinish = question.IsFilterQuestion ? userSession.FilteredAssessmentState.IsComplete : userSession.AssessmentState.IsComplete;
 
                 var result = new PostAnswerResponse()
                 {
                     IsSuccess = true,
                     IsComplete = displayFinish,
-                    IsFilterAssessment = userSession.IsFilterAssessment,
-                    JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
-                    NextQuestionNumber = userSession.MoveToNextQuestion()
+                    IsFilterAssessment = question.IsFilterQuestion,
+                    JobCategorySafeUrl = question.IsFilterQuestion ? userSession.FilteredAssessmentState.JobFamilyNameUrlSafe : null,
+                    NextQuestionNumber = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion()
                 };
 
                 // Update the session

@@ -28,8 +28,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         [JsonProperty("whatYouToldUs")]
         public string[] WhatYouToldUs { get; set; } = { };
-
+        
         [JsonIgnore]
         public string JobFamilyNameUrlSafe => JobFamilyName?.ToLower()?.Replace(" ", "-");
+
+        
     }
 }

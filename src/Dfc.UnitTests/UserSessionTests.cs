@@ -33,7 +33,7 @@ namespace Dfc.UnitTests
 
             for(var i = 0; i < 5; i++)
             {
-                userSession.MoveToNextQuestion();
+                userSession.AssessmentState.MoveToNextQuestion();
             }
             
             Assert.True(userSession.IsComplete);

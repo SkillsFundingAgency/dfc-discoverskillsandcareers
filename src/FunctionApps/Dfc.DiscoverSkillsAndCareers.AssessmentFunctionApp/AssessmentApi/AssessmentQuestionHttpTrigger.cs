@@ -92,8 +92,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     log.LogError($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
                     return httpResponseMessageHelper.NoContent();
                 }
-                
 
+                if (!assessment.EqualsIgnoreCase("short"))
+                {
+                    userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = JobCategoryHelper.GetCode(assessment);
+                }
+                
                 var questionSetVersion = userSession.CurrentQuestionSetVersion;
 
                 var question = await questionRepository.GetQuestion(questionNumber, questionSetVersion);
@@ -103,13 +107,13 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                var nextQuestion = userSession.MoveToNextQuestion();
+                var nextQuestion = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion();
                 await userSessionRepository.UpdateUserSession(userSession);
 
                 var response = new AssessmentQuestionResponse()
                 {
                     CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
-                    IsComplete = userSession.IsComplete,
+                    IsComplete = question.IsFilterQuestion ? (userSession.FilteredAssessmentState?.IsComplete ?? false) : userSession.AssessmentState.IsComplete,
                     NextQuestionNumber = nextQuestion,
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,

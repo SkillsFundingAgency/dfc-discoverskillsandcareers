@@ -105,17 +105,26 @@
                     @if (@Model.JobProfiles.Where(x => x.JobCategory == jobCategory.JobCategoryName).ToList().Count == 0)
                     {
                         <p class="app-noprint">To find out job roles you might be suited to in @(jobCategory.JobCategoryName), answer more questions.</p>
-                      <a href="/results/filtered/@jobCategory.JobCategoryName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
-                        @if (jobCategory.TotalQuestions == 1)
+                      
+                        @if (jobCategory.TotalQuestions == 0)
                         {
-                            @("Answer 1 more question")
+                            <a href="/results/filtered/@jobCategory.JobCategoryName.ToLower().Replace(" ", "-")/show" role="button" draggable="false" class="govuk-button app-button">
+                                @("See results")
+                            </a>
                         }
-                        else
+                        else 
                         {
-                          @("Answer " + jobCategory.TotalQuestions.ToString() + " more questions")
+                            <a href="/results/filtered/@jobCategory.JobCategoryName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
+                                @if (jobCategory.TotalQuestions == 1) {
+                                    @("Answer 1 more question")
+                                } 
+                                else
+                                {
+                                    @("Answer " + jobCategory.TotalQuestions.ToString() + " more questions")
+                                }
+                            </a>
                         }
                         <span class="visually-hidden"> for @jobCategory.JobCategoryName</span>
-                      </a>
                     }
                 </div>
             </div>

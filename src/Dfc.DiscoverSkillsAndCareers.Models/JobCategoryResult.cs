@@ -37,7 +37,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("totalQuestions")]
         public int TotalQuestions { get; set; }
         
+        [JsonProperty("resultsShown")]
+        public bool ResultsShown { get; set; }
+        
         [JsonIgnore]
         public string JobCategoryNameUrl => JobCategoryName?.ToLower()?.Replace(" ", "-");
+
+        
     }
 }

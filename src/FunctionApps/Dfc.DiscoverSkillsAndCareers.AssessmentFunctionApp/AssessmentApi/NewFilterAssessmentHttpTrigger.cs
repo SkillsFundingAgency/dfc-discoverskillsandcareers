@@ -74,7 +74,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 }
                 
                 userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = JobCategoryHelper.GetCode(jobCategory);
-
                 await userSessionRepository.UpdateUserSession(userSession);
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new DscSession()
