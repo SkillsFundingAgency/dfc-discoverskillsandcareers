@@ -77,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                         var questionId = $"{questionPartitionKey}-{questionNumber}";
                         Console.WriteLine($"Creating question id: {questionId}");    
 
-                        var doc = questionRepository.CreateQuestion(new Question { 
+                        questionRepository.CreateQuestion(new Question { 
                             IsNegative = question.IsFlipped == 1,  
                             Order = questionNumber,
                             QuestionId = questionId,

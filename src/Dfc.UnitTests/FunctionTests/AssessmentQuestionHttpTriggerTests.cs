@@ -2,8 +2,6 @@
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using Dfc.UnitTests.Fakes;
-using DFC.Common.Standard.Logging;
 using DFC.HTTP.Standard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
@@ -15,9 +13,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
-using NSubstitute.ReturnsExtensions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Dfc.UnitTests.FunctionTests
 {
@@ -71,10 +67,7 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
             {
-                AssessmentState = new AssessmentState
-                {
-                    MaxQuestions = 5
-                }
+                AssessmentState = new AssessmentState("qs-1", 5)
             }));
             
             _questionRepository.GetQuestion(1, Arg.Any<string>())
@@ -103,10 +96,7 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
             {
-                AssessmentState = new AssessmentState
-                {
-                    MaxQuestions = 5
-                }
+                AssessmentState = new AssessmentState("qs-1",5)
             }));
             
             _questionRepository.GetQuestion(41, Arg.Any<string>()).Returns(Task.FromResult<Question>(null));
@@ -135,10 +125,7 @@ namespace Dfc.UnitTests.FunctionTests
             {
                 PartitionKey = "201904",
                 UserSessionId = "282gk265gzmzyz",
-                AssessmentState = new AssessmentState
-                {
-                    MaxQuestions = 5
-                }
+                AssessmentState = new AssessmentState("qs-1",5)
             }));
             
             _questionRepository.GetQuestion(1, Arg.Any<string>())
@@ -167,10 +154,8 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
             {
-                AssessmentState = new AssessmentState
-                {
-                    MaxQuestions = 5
-                }
+                AssessmentState = new AssessmentState("qs-1",5),
+                FilteredAssessmentState = new FilteredAssessmentState()
             }));
 
             var result = await RunFunction("201901-session1","job-category",1);
@@ -231,10 +216,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
             {
-                AssessmentState = new AssessmentState
-                {
-                    MaxQuestions = 5
-                }
+                AssessmentState = new AssessmentState("qs-1",5)
             }));
 
             var result = await RunFunction("invalid-session-id","short",1);

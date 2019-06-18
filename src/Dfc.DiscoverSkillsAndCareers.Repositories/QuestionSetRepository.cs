@@ -64,7 +64,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         {
             var titleLowercase = title.ToLower().Replace(" ", "-");
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
+            
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
+            
             QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
                                    .Where(x => x.AssessmentType == assessmentType && x.QuestionSetKey == titleLowercase && x.Version == version)
                                    .AsEnumerable()
@@ -81,32 +83,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 .ToList();
             return await Task.FromResult(queryQuestionSet);
         }
-
-        public async Task<int> ResetCurrentFilteredQuestionSets()
-        {
-            int changeCount = 0;
-            var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-
-            var queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-                .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
-                .AsDocumentQuery<QuestionSet>();
-
-            while (queryQuestionSet.HasMoreResults)
-            {
-                var results = await queryQuestionSet.ExecuteNextAsync<QuestionSet>();
-
-                foreach (var questionSet in results)
-                {
-                    if (questionSet.IsCurrent)
-                    {
-                        questionSet.IsCurrent = false;
-                        await client.UpsertDocumentAsync(uri, questionSet);
-                        changeCount++;
-                    }
-                }
-            }
-            return changeCount;
-        }
+        
     }
 }

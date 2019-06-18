@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     var body = streamReader.ReadToEnd();
                     postAnswerRequest = JsonConvert.DeserializeObject<PostAnswerRequest>(body);
                 }
-
+                
                 AnswerOption answerValue;
                 if (Enum.TryParse(postAnswerRequest.SelectedOption, out answerValue) == false)
                 {
@@ -91,21 +91,18 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 }
 
                 AddAnswer(answerValue, question, userSession, postAnswerRequest);
+                
+                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
 
-                userSession.UpdateCompletionStatus();
-
-                var isLastQuestion = question.Order == userSession.CurrentMaxQuestions;
-                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession, isLastQuestion);
-
-                var displayFinish = isLastQuestion && userSession.IsComplete;
+                var displayFinish = question.IsFilterQuestion ? userSession.FilteredAssessmentState.IsComplete : userSession.AssessmentState.IsComplete;
 
                 var result = new PostAnswerResponse()
                 {
                     IsSuccess = true,
                     IsComplete = displayFinish,
-                    IsFilterAssessment = userSession.IsFilterAssessment,
-                    JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
-                    NextQuestionNumber = userSession.CurrentQuestion
+                    IsFilterAssessment = question.IsFilterQuestion,
+                    JobCategorySafeUrl = question.IsFilterQuestion ? userSession.FilteredAssessmentState.JobFamilyNameUrlSafe : null,
+                    NextQuestionNumber = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion()
                 };
 
                 // Update the session
@@ -135,31 +132,32 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 QuestionSetVersion = userSession.CurrentQuestionSetVersion
             };
 
-            // Add the answer to the session answers
-            if (userSession.IsFilterAssessment)
+            if (question.IsFilterQuestion)
             {
-//                newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionNumber < question.Order)
-//                    .ToList();
-                userSession.FilteredAssessmentState.CurrentQuestion = question.Order;
-
+                var newAnswerSet = userSession.FilteredAssessmentState.RecordedAnswers
+                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
+                    .ToList();
+                
+                newAnswerSet.Add(answer);
+                userSession.FilteredAssessmentState.RecordedAnswers = newAnswerSet.ToArray();
             }
-            
-            
-            var newAnswerSet = userSession.CurrentRecordedAnswers
-                .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                .ToList();
-
-            newAnswerSet.Add(answer);
-            
-            userSession.CurrentState.RecordedAnswers = newAnswerSet.ToArray();
+            else
+            {
+                var newAnswerSet = userSession.AssessmentState.RecordedAnswers
+                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
+                    .ToList();
+                
+                newAnswerSet.Add(answer);
+                userSession.AssessmentState.RecordedAnswers = newAnswerSet.ToArray();
+            }
         }
 
         private static async Task TryEvaluateSession(ILogger log, IAssessmentCalculationService resultsService,
-            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession, bool isLastQuestion)
+            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession)
         {
             var state = userSession.CurrentState;
 
-            if (state.IsComplete && isLastQuestion)
+            if (state.IsComplete)
             {
                 if (userSession.IsFilterAssessment)
                 {
@@ -174,14 +172,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
             else
             {
-                if (userSession.IsFilterAssessment)
-                {
-                    userSession.CurrentState.CurrentQuestion = userSession.FindNextQuestion();
-                }
-                else
-                {
-                    userSession.CurrentState.CurrentQuestion = userSession.FindNextQuestionToAnswer();
-                }
+                userSession.CurrentState.MoveToNextQuestion();
             }
         }
 

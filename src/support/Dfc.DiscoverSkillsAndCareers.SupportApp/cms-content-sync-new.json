@@ -1,0 +1,3120 @@
+{
+  "steps": [
+    { "action": "delete", "contentType":  "filteringquestionsets"},
+    { "action": "delete", "contentType":  "filteringquestions"},
+    { "action": "delete", "contentType":  "shortquestionsets"},
+    { "action": "delete", "contentType":  "shortquestions"},
+    { "action": "delete", "contentType":  "traits"},
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Leader",
+        "Description": "",
+        "ResultDisplayText": "You like to lead other people and are good at taking control of situations.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        { 
+          "values": [
+            "Managerial",
+            "Teaching and education",
+            "Emergency and uniform services" 
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Driver",
+        "Description": "",
+        "ResultDisplayText": "You are motivated, set yourself personal goals and are comfortable competing with other people.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Managerial",
+            "Beauty and wellbeing",
+            "Science and research",
+            "Manufacturing",
+            "Business and finance",
+            "Law and legal",
+            "Sports and leisure"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Organiser",
+        "Description": "",
+        "ResultDisplayText": "You like to plan things and are well organised.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        { 
+          "values": [
+            "Science and research", 
+            "Manufacturing",        
+            "Teaching and education",
+            "Business and finance", 
+            "Law and legal", 
+            "Travel and tourism", 
+            "Administration",
+            "Government services", 
+            "Home services", 
+            "Transport", 
+            "Delivery and storage"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Analyst",
+        "Description": "",
+        "ResultDisplayText": "You like dealing with complicated problems or working with numbers.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Science and research",
+            "Manufacturing",
+            "Computing, technology and digital",
+            "Sports and leisure",
+            "Construction and trades",
+            "Creative and media"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Creator",
+        "Description": "",
+        "ResultDisplayText": "You are a creative person and enjoy coming up with new ways of doing things.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Computing, technology and digital",
+            "Sports and leisure",
+            "Construction and trades",
+            "Creative and media"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Influencer",
+        "Description": "",
+        "ResultDisplayText": "You are sociable and find it easy to understand people.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Retail and sales",
+            "Hospitality and food"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Doer",
+        "Description": "",
+        "ResultDisplayText": "You are a practical person and enjoy gettings things done.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Beauty and wellbeing",
+            "Business and finance",
+            "Law and legal",
+            "Healthcare",
+            "Animal care",
+            "Emergency and uniform services",
+            "Travel and tourism", 
+            "Home services",
+            "Environment and land",
+            "Construction and trades",
+            "Creative and media",
+            "Engineering and maintenance",
+            "Transport",
+            "Delivery and storage"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "traits",
+      "data": {
+        "Title": "Helper",
+        "Description": "",
+        "ResultDisplayText": "You enjoy helping and listening to other people.",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Teaching and education",
+            "Social care",
+            "Healthcare",
+            "Animal care",
+            "Emergency and uniform services",
+            "Travel and tourism",
+            "Retail and sales",
+            "Hospitality and food"
+          ],
+          "relatedType": { "property": "Title", "type": "taxonomies", "navigationProperty":"JobProfileTaxonomy", "contentType": "Job Profile Category" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable telling people what they need to do",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I make decisions quickly",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to take control of situations",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I prefer to follow what other people are doing",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like taking responsibility for other people",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "leader"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I set myself targets when I have things to do, and usually meet them",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to see things through to the end",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I think I am a competitive person",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "Doing well in a career motivates me",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I set myself goals in life",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "driver"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable talking people around to my way of thinking",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am good at coming to an agreement with other people",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable talking in front of a group of people",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like meeting new people",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I find it hard to understand other people's point of view",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Influencer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to help other people",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy working with other people around me",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I want to make things better for people",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I will get involved if I think I can help",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I am comfortable hearing other people's problems",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Helper"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to work out complicated things",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to get to the centre of the issue",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like working with facts",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like working with numbers",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy learning new things",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Analyst"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy coming up with new ways of doing things",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I try to think differently to others",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to use my imagination to create new things",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to try new things",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy creative activities",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Creator"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to focus on details",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I plan my day so I can use my time best",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like doing things in a careful order",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to follow rules and processes",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I feel restricted when I have to follow a routine",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Organiser"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to see the results of the work I do",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like to get involved in making things",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I enjoy getting involved in practical tasks",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": false,
+        "QuestionText": "I like working with my hands or tools",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestions",
+      "data": {
+        "IsNegative": true,
+        "QuestionText": "I enjoy planning a task more than actually doing it",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "Doer"
+          ],
+          "relatedType": { "property": "Title", "type": "Trait", "contentType": "traits" }
+        }
+      ]
+    },
+    {
+      "action": "create",
+      "contentType": "shortquestionsets",
+      "data": {
+        "Title": "201901",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "relates": [
+        {
+          "values": [
+            "I am comfortable telling people what they need to do",
+            "I make decisions quickly",
+            "I like to take control of situations",
+            "I prefer to follow what other people are doing",
+            "I like taking responsibility for other people",
+            "I set myself targets when I have things to do, and usually meet them",
+            "I like to see things through to the end",
+            "I think I am a competitive person",
+            "Doing well in a career motivates me",
+            "I set myself goals in life",
+            "I am comfortable talking people around to my way of thinking",
+            "I am good at coming to an agreement with other people",
+            "I am comfortable talking in front of a group of people",
+            "I like meeting new people",
+            "I find it hard to understand other people's point of view",
+            "I like to help other people",
+            "I enjoy working with other people around me",
+            "I want to make things better for people",
+            "I will get involved if I think I can help",
+            "I am comfortable hearing other people's problems",
+            "I like to work out complicated things",
+            "I like to get to the centre of the issue",
+            "I like working with facts",
+            "I like working with numbers",
+            "I enjoy learning new things",
+            "I enjoy coming up with new ways of doing things",
+            "I try to think differently to others",
+            "I like to use my imagination to create new things",
+            "I like to try new things",
+            "I enjoy creative activities",
+            "I like to focus on details",
+            "I plan my day so I can use my time best",
+            "I like doing things in a careful order",
+            "I like to follow rules and processes",
+            "I feel restricted when I have to follow a routine",
+            "I like to see the results of the work I do",
+            "I like to get involved in making things",
+            "I enjoy getting involved in practical tasks",
+            "I like working with my hands or tools",
+            "I enjoy planning a task more than actually doing it"
+          ],
+          "relatedType": { "property": "QuestionText", "type": "Questions", "contentType": "shortquestions" }
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Cooperation",
+        "QuestionText": "WorkStyle - Cooperation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Cooperation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Engineering and Technology",
+        "QuestionText": "Knowledge - Engineering and Technology",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Engineering and Technology"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Quantitative Abilities, Mathematics Knowledge",
+        "QuestionText": "Combination - Quantitative Abilities, Mathematics Knowledge",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Quantitative Abilities, Mathematics Knowledge"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Self Control",
+        "QuestionText": "WorkStyle - Self Control",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Self Control"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Mechanical",
+        "QuestionText": "Knowledge - Mechanical",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Mechanical"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Design",
+        "QuestionText": "Knowledge - Design",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Design"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Analytical Thinking",
+        "QuestionText": "WorkStyle - Analytical Thinking",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Analytical Thinking"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Production and Processing",
+        "QuestionText": "Knowledge - Production and Processing",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Production and Processing"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Stress Tolerance",
+        "QuestionText": "WorkStyle - Stress Tolerance",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Stress Tolerance"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Independence",
+        "QuestionText": "WorkStyle - Independence",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Independence"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Fine Manipulative Abilities",
+        "QuestionText": "Ability - Fine Manipulative Abilities",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Fine Manipulative Abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Law and Government",
+        "QuestionText": "Knowledge - Law and Government",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Law and Government"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Transportation",
+        "QuestionText": "Knowledge - Transportation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Transportation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Persistence",
+        "QuestionText": "WorkStyle - Persistence",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Persistence"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Leadership, Coordination,",
+        "QuestionText": "Combination - Leadership, Coordination,",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Leadership, Coordination,"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Initiative",
+        "QuestionText": "WorkStyle - Initiative",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Initiative"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Innovation",
+        "QuestionText": "WorkStyle - Innovation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Innovation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Verbal Abilities",
+        "QuestionText": "Ability - Verbal Abilities",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Verbal Abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Administration and Management",
+        "QuestionText": "Knowledge - Administration and Management",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Administration and Management"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Independence, Initiative",
+        "QuestionText": "Combination - Independence, Initiative",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Independence, Initiative"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Equipment Maintenance",
+        "QuestionText": "Skill - Equipment Maintenance",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Equipment Maintenance"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Control Movement Abilities",
+        "QuestionText": "Ability - Control Movement Abilities",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Control Movement Abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Chemistry",
+        "QuestionText": "Knowledge - Chemistry",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Chemistry"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Adaptability/Flexibility",
+        "QuestionText": "WorkStyle - Adaptability/Flexibility",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Adaptability/Flexibility"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Achievement/Effort",
+        "QuestionText": "WorkStyle - Achievement/Effort",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Achievement/Effort"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Social Orientation",
+        "QuestionText": "WorkStyle - Social Orientation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Social Orientation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Computers and Electronics",
+        "QuestionText": "Knowledge - Computers and Electronics",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Computers and Electronics"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Physics",
+        "QuestionText": "Knowledge - Physics",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Physics"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Speaking, Verbal Abilities",
+        "QuestionText": "Combination - Speaking, Verbal Abilities",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Speaking, Verbal Abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Concern for Others",
+        "QuestionText": "WorkStyle - Concern for Others",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Concern for Others"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Biology",
+        "QuestionText": "Knowledge - Biology",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Biology"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Mathematics",
+        "QuestionText": "Knowledge - Mathematics",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Mathematics"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "English Language",
+        "QuestionText": "Knowledge - English Language",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "English Language"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Leadership",
+        "QuestionText": "WorkStyle - Leadership",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Leadership"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Operation Monitoring",
+        "QuestionText": "Skill - Operation Monitoring",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Operation Monitoring"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Repairing",
+        "QuestionText": "Skill - Repairing",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Repairing"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Science",
+        "QuestionText": "Skill - Science",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Science"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Building and Construction",
+        "QuestionText": "Knowledge - Building and Construction",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Building and Construction"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Programming",
+        "QuestionText": "Skill - Programming",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Programming"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Food Production",
+        "QuestionText": "Knowledge - Food Production",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Food Production"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Customer and Personal Service",
+        "QuestionText": "Knowledge - Customer and Personal Service",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Customer and Personal Service"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Endurance",
+        "QuestionText": "Ability - Endurance",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Endurance"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Education and Training",
+        "QuestionText": "Knowledge - Education and Training",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Education and Training"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Operation and Control",
+        "QuestionText": "Skill - Operation and Control",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Operation and Control"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Troubleshooting",
+        "QuestionText": "Skill - Troubleshooting",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Troubleshooting"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Quality Control Analysis",
+        "QuestionText": "Skill - Quality Control Analysis",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Quality Control Analysis"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Monitoring",
+        "QuestionText": "Skill - Monitoring",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Monitoring"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Judgment and Decision Making",
+        "QuestionText": "Skill - Judgment and Decision Making",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Judgment and Decision Making"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Complex Problem Solving",
+        "QuestionText": "Skill - Complex Problem Solving",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Complex Problem Solving"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Time Management",
+        "QuestionText": "Skill - Time Management",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Time Management"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Quantitative Abilities",
+        "QuestionText": "Ability - Quantitative Abilities",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Quantitative Abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Foreign Language",
+        "QuestionText": "Knowledge - Foreign Language",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Foreign Language"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Therapy and Counseling",
+        "QuestionText": "Knowledge - Therapy and Counseling",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Therapy and Counseling"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Philosophy and Theology",
+        "QuestionText": "Knowledge - Philosophy and Theology",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Philosophy and Theology"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Public Safety and Security",
+        "QuestionText": "Knowledge - Public Safety and Security",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Public Safety and Security"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Clerical",
+        "QuestionText": "Knowledge - Clerical",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Clerical"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Psychology",
+        "QuestionText": "Knowledge - Psychology",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Psychology"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Economics and Accounting",
+        "QuestionText": "Knowledge - Economics and Accounting",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Economics and Accounting"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Service Orientation",
+        "QuestionText": "Skill - Service Orientation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Service Orientation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Social Perceptiveness",
+        "QuestionText": "Skill - Social Perceptiveness",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Social Perceptiveness"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Sales and Marketing",
+        "QuestionText": "Knowledge - Sales and Marketing",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Sales and Marketing"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Telecommunications",
+        "QuestionText": "Knowledge - Telecommunications",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Telecommunications"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Coordination",
+        "QuestionText": "Skill - Coordination",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Coordination"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Persuasion, Negotiation",
+        "QuestionText": "Combination - Persuasion, Negotiation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Persuasion, Negotiation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Fine Arts",
+        "QuestionText": "Knowledge - Fine Arts",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Fine Arts"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Medicine and Dentistry",
+        "QuestionText": "Knowledge - Medicine and Dentistry",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Medicine and Dentistry"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Personnel and Human Resources",
+        "QuestionText": "Knowledge - Personnel and Human Resources",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Personnel and Human Resources"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "History and Archeology",
+        "QuestionText": "Knowledge - History and Archeology",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "History and Archeology"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Geography",
+        "QuestionText": "Knowledge - Geography",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Geography"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Management of Financial Resources",
+        "QuestionText": "Skill - Management of Financial Resources",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Management of Financial Resources"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Management of Personnel Resources",
+        "QuestionText": "Skill - Management of Personnel Resources",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Management of Personnel Resources"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Writing",
+        "QuestionText": "Skill - Writing",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Writing"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Communications and Media",
+        "QuestionText": "Knowledge - Communications and Media",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Communications and Media"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Quantitative Abilities, Mathematics Skills",
+        "QuestionText": "Combination - Quantitative Abilities, Mathematics Skills",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Quantitative Abilities, Mathematics Skills"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Verbal Abilities, Speaking",
+        "QuestionText": "Combination - Verbal Abilities, Speaking",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Verbal Abilities, Speaking"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Sociology and Anthropology",
+        "QuestionText": "Knowledge - Sociology and Anthropology",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Sociology and Anthropology"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Active Learning",
+        "QuestionText": "Skill - Active Learning",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Active Learning"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Systems Analysis",
+        "QuestionText": "Skill - Systems Analysis",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Systems Analysis"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Instructing",
+        "QuestionText": "Skill - Instructing",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Instructing"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Memory",
+        "QuestionText": "Ability - Memory",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Memory"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Learning Strategies",
+        "QuestionText": "Skill - Learning Strategies",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Learning Strategies"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Operations Analysis",
+        "QuestionText": "Skill - Operations Analysis",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Operations Analysis"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Persuasion",
+        "QuestionText": "Skill - Persuasion",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Persuasion"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Systems Analysis, Systems Evaluation",
+        "QuestionText": "Combination - Systems Analysis, Systems Evaluation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Systems Analysis, Systems Evaluation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "Negotiation",
+        "QuestionText": "Skill - Negotiation",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "Negotiation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestionsets",
+      "Data": {
+        "Title": "Default",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "Questions",
+            "ContentType": "filteringquestions",
+            "Property": "QuestionText"
+          },
+          "Values": [
+            "WorkStyle - Cooperation",
+            "Knowledge - Engineering and Technology",
+            "Combination - Quantitative Abilities, Mathematics Knowledge",
+            "WorkStyle - Self Control",
+            "Knowledge - Mechanical",
+            "Knowledge - Design",
+            "WorkStyle - Analytical Thinking",
+            "Knowledge - Production and Processing",
+            "WorkStyle - Stress Tolerance",
+            "WorkStyle - Independence",
+            "Ability - Fine Manipulative Abilities",
+            "Knowledge - Law and Government",
+            "Knowledge - Transportation",
+            "WorkStyle - Persistence",
+            "Combination - Leadership, Coordination,",
+            "WorkStyle - Initiative",
+            "WorkStyle - Innovation",
+            "Ability - Verbal Abilities",
+            "Knowledge - Administration and Management",
+            "Combination - Independence, Initiative",
+            "Skill - Equipment Maintenance",
+            "Ability - Control Movement Abilities",
+            "Knowledge - Chemistry",
+            "WorkStyle - Adaptability/Flexibility",
+            "WorkStyle - Achievement/Effort",
+            "WorkStyle - Social Orientation",
+            "Knowledge - Computers and Electronics",
+            "Knowledge - Physics",
+            "Combination - Speaking, Verbal Abilities",
+            "WorkStyle - Concern for Others",
+            "Knowledge - Biology",
+            "Knowledge - Mathematics",
+            "Knowledge - English Language",
+            "WorkStyle - Leadership",
+            "Skill - Operation Monitoring",
+            "Skill - Repairing",
+            "Skill - Science",
+            "Knowledge - Building and Construction",
+            "Skill - Programming",
+            "Knowledge - Food Production",
+            "Knowledge - Customer and Personal Service",
+            "Ability - Endurance",
+            "Knowledge - Education and Training",
+            "Skill - Operation and Control",
+            "Skill - Troubleshooting",
+            "Skill - Quality Control Analysis",
+            "Skill - Monitoring",
+            "Skill - Judgment and Decision Making",
+            "Skill - Complex Problem Solving",
+            "Skill - Time Management",
+            "Ability - Quantitative Abilities",
+            "Knowledge - Foreign Language",
+            "Knowledge - Therapy and Counseling",
+            "Knowledge - Philosophy and Theology",
+            "Knowledge - Public Safety and Security",
+            "Knowledge - Clerical",
+            "Knowledge - Psychology",
+            "Knowledge - Economics and Accounting",
+            "Skill - Service Orientation",
+            "Skill - Social Perceptiveness",
+            "Knowledge - Sales and Marketing",
+            "Knowledge - Telecommunications",
+            "Skill - Coordination",
+            "Combination - Persuasion, Negotiation",
+            "Knowledge - Fine Arts",
+            "Knowledge - Medicine and Dentistry",
+            "Knowledge - Personnel and Human Resources",
+            "Knowledge - History and Archeology",
+            "Knowledge - Geography",
+            "Skill - Management of Financial Resources",
+            "Skill - Management of Personnel Resources",
+            "Skill - Writing",
+            "Knowledge - Communications and Media",
+            "Combination - Quantitative Abilities, Mathematics Skills",
+            "Combination - Verbal Abilities, Speaking",
+            "Knowledge - Sociology and Anthropology",
+            "Skill - Active Learning",
+            "Skill - Systems Analysis",
+            "Skill - Instructing",
+            "Ability - Memory",
+            "Skill - Learning Strategies",
+            "Skill - Operations Analysis",
+            "Skill - Persuasion",
+            "Combination - Systems Analysis, Systems Evaluation",
+            "Skill - Negotiation"
+          ]
+        }
+      ]
+    }
+  ]
+}

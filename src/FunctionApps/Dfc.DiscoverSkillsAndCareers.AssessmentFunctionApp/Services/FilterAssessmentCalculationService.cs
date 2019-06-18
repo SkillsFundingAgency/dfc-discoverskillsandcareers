@@ -4,6 +4,8 @@ using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
 using Microsoft.Extensions.Logging;
 
@@ -11,103 +13,99 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class FilterAssessmentCalculationService : IFilterAssessmentCalculationService
     {
-        readonly IQuestionRepository _questionRepository;
-        readonly IJobProfileRepository _jobProfileRepository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IJobCategoryRepository _jobCategoryRepository;
 
-        public FilterAssessmentCalculationService(
-            IQuestionRepository questionRepository,
-            IJobProfileRepository jobProfileRepository)
+        public FilterAssessmentCalculationService(IQuestionRepository questionRepository, IJobCategoryRepository jobCategoryRepository)
         {
             _questionRepository = questionRepository;
-            _jobProfileRepository = jobProfileRepository;
+            _jobCategoryRepository = jobCategoryRepository;
         }
 
         public async Task CalculateAssessment(UserSession userSession, ILogger log)
-        {            
-            // All questions for this set version
-            var questions = await _questionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);
-
-            // All the job profiles for this job category
-            var jobFamilyName = userSession.FilteredAssessmentState.JobFamilyName;
-            var allJobProfiles = await _jobProfileRepository.JobProfilesForJobFamily(jobFamilyName);
-            var suggestedJobProfiles = allJobProfiles.ToList();
-
-            // All answers in order 
-            var answers = userSession.CurrentRecordedAnswers
-                .OrderBy(x => x.QuestionNumber)
-                .ToList();
-
-            var whatYouToldUs = new List<string>();
-
-            // Iterate through removing all in a "guess-who" fashion
-            foreach (var answer in answers)
+        {
+            foreach (var jobCategoryState in userSession.FilteredAssessmentState.JobCategoryStates.Where(j => j.IsComplete(userSession.FilteredAssessmentState.RecordedAnswers)))
             {
-                var question = questions.First(x => x.QuestionId == answer.QuestionId);
-                
-                if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
-                {
-                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-                }
-                else if (question.FilterTrigger == "Yes" && answer.SelectedOption == AnswerOption.Yes)
-                {
-                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-                }
+                var questions = await _questionRepository.GetQuestions(jobCategoryState.QuestionSetVersion);
+                var category = await _jobCategoryRepository.GetJobCategory(jobCategoryState.JobCategoryCode);
 
-                if (answer.SelectedOption == AnswerOption.No)
-                {
-                    whatYouToldUs.Add(question.NegativeResultDisplayText);
-                }
-                else if (answer.SelectedOption == AnswerOption.Yes)
-                {
-                    whatYouToldUs.Add(question.PositiveResultDisplayText);
-                }
-            }
-
-            IDictionary<string, string> socCodes = new Dictionary<string, string>();
-            IDictionary<string, int> dup = new Dictionary<string, int>();
-            
-            foreach (var jp in suggestedJobProfiles)
-            {
-                if (socCodes.ContainsKey(jp.SocCode))
-                {
-                    if (String.Equals(jp.Title, socCodes[jp.SocCode], StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        log.LogInformation($"Duplicate job profile soc-code found {jp.SocCode}:{jp.Title} matches {jp.SocCode}:{socCodes[jp.SocCode]} augmenting SOC-CODE");
-
-                        if (!dup.TryGetValue(jp.SocCode, out var count))
+                var jobProfiles =
+                    jobCategoryState.Skills.SelectMany((s, i) =>
                         {
-                            count = 0;
-                        }
-                        
-                        count++;
-                        dup[jp.SocCode] = count;
-                        socCodes.Add($"{jp.SocCode}-{count}", jp.Title);
+                            var c = category.Skills.First(cs => cs.ONetAttribute.EqualsIgnoreCase(s.Skill));
+                            return c.JobProfiles.Select(p => new
+                            {
+                                QuestionNumber = s.QuestionNumber,
+                                Profile = p.JobProfile,
+                                Answer = p.Included ? AnswerOption.Yes : AnswerOption.No
+                            });
+                        })
+                        .GroupBy(p => p.Profile)
+                        .Select(g => new {Profile = g.Key, Answers = g.OrderBy(q => q.QuestionNumber).Select(q => q.Answer)});
+                
+                
+                var categoryAnswers =
+                    userSession.FilteredAssessmentState.GetAnswersForCategory(jobCategoryState.JobCategoryCode);
+                
+                var answers =
+                        categoryAnswers
+                            .OrderBy(a => a.QuestionNumber)
+                            .Select(a => a.SelectedOption)
+                            .ToArray();
 
+                var suggestedProfiles = new List<string>();
+                
+                foreach (var jobProfile in jobProfiles)
+                {
+                    if (jobProfile.Answers.SequenceEqual(answers, EqualityComparer<AnswerOption>.Default))
+                    {
+                        suggestedProfiles.Add(jobProfile.Profile);
                     }
                 }
-                else
+                
+                var jobCategoryResult =
+                    userSession.ResultData.JobCategories.Single(jf => jf.JobCategoryCode.EqualsIgnoreCase(jobCategoryState.JobCategoryCode));
+                
+                jobCategoryResult.FilterAssessmentResult = new FilterAssessmentResult
                 {
-                    socCodes.Add(jp.SocCode, jp.Title);
-                }
+                    JobFamilyName = jobCategoryState.JobCategoryName,
+                    CreatedDt = DateTime.UtcNow,
+                    QuestionSetVersion = userSession.CurrentQuestionSetVersion,
+                    MaxQuestions = userSession.MaxQuestions,
+                    SuggestedJobProfiles = suggestedProfiles,
+                    RecordedAnswerCount = userSession.RecordedAnswers.Length,
+                    RecordedAnswers = userSession.RecordedAnswers.ToArray(),
+                    WhatYouToldUs = ComputeWhatYouToldUs(categoryAnswers, questions).Distinct().ToArray()
+                }; 
             }
             
             
-            var jobFamily = userSession.ResultData.JobFamilies.First(jf => String.Equals(jf.JobFamilyName,
-                userSession.FilteredAssessmentState.JobFamilyName, StringComparison.InvariantCultureIgnoreCase));
+            userSession.UpdateJobCategoryQuestionCount();
+        }
 
-            jobFamily.FilterAssessment = new FilterAssessment
+        private static List<string> ComputeWhatYouToldUs(Answer[] categoryAnswers, Question[] questions)
+        {
+            var whatYouToldUs = new List<string>();
+
+            foreach (var answer in categoryAnswers)
             {
-                JobFamilyName = jobFamily.JobFamilyName,
-                CreatedDt = DateTime.UtcNow,
-                QuestionSetVersion = userSession.CurrentQuestionSetVersion,
-                MaxQuestions = userSession.MaxQuestions,
-                SuggestedJobProfiles = socCodes,
-                RecordedAnswerCount = userSession.CurrentRecordedAnswers.Length,
-                RecordedAnswers = userSession.CurrentRecordedAnswers.ToArray(),
-                WhatYouToldUs = whatYouToldUs.Distinct().ToArray()
+                String text = null;
+                if (answer.SelectedOption == AnswerOption.No)
+                {
+                    text = questions
+                        .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))?.NegativeResultDisplayText;
+                }
 
-            };
-            
+                text = questions
+                    .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))?.PositiveResultDisplayText;
+
+                if (!String.IsNullOrWhiteSpace(text))
+                {
+                    whatYouToldUs.Add(text);
+                }
+            }
+
+            return whatYouToldUs;
         }
     }
 }

@@ -1,50 +1,37 @@
-﻿using System;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
+﻿using System.Collections.Generic;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
     public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
     {
-        readonly ISiteFinityHttpService _httpService;
+        private readonly ISiteFinityHttpService _sitefinity;
         readonly IQuestionRepository _questionRepository;
         readonly IQuestionSetRepository _questionSetRepository;
-        readonly IGetShortQuestionSetData _getShortQuestionSetData;
-        readonly IGetShortQuestionData _getShortQuestionData;
-        readonly AppSettings _appSettings;
 
         public ShortQuestionSetDataProcessor(
-            ISiteFinityHttpService httpService, 
+            ISiteFinityHttpService sitefinity,
             IQuestionRepository questionRepository,
-            IQuestionSetRepository questionSetRepository,
-            IGetShortQuestionSetData getShortQuestionSetData,
-            IGetShortQuestionData getShortQuestionData,
-            IOptions<AppSettings> appSettings)
+            IQuestionSetRepository questionSetRepository)
         {
-            _httpService = httpService;
+            _sitefinity = sitefinity;
             _questionRepository = questionRepository;
             _questionSetRepository = questionSetRepository;
-            _getShortQuestionSetData = getShortQuestionSetData;
-            _getShortQuestionData = getShortQuestionData;
-            _appSettings = appSettings.Value;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for ShortQuestionSet");
 
-            string siteFinityApiUrlbase = _appSettings.SiteFinityApiUrlbase;
-            string siteFinityService = _appSettings.SiteFinityApiWebService;
             string assessmentType = "short";
 
-            var questionSets = await _getShortQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
+            var questionSets = await _sitefinity.GetAll<SiteFinityShortQuestionSet>("shortquestionsets");
             logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
             if (questionSets != null)
@@ -67,11 +54,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         continue;
                     }
 
-                    
                     // Attempt to get the questions for this question set
                     logger.LogInformation($"Getting cms questions for question set {data.Id} {data.Title}");
-                    data.Questions =
-                        await _getShortQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, data.Id);
+                    
+                    data.Questions = await _sitefinity.Get<List<SiteFinityShortQuestion>>($"shortquestionsets({data.Id})/Questions?$expand=Trait");
+                    
                     if (data.Questions.Count == 0)
                     {
                         logger.LogInformation($"Question set {data.Id} doesn't have any questions");
@@ -86,8 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     if (latestQuestionSet != null)
                     {
                         // Change the current question set to be not current
-                        logger.LogInformation(
-                            $"Demoting question set {latestQuestionSet.QuestionSetVersion} from current");
+                        logger.LogInformation($"Demoting question set {latestQuestionSet.QuestionSetVersion} from current");
                         latestQuestionSet.IsCurrent = false;
                         await _questionSetRepository.CreateOrUpdateQuestionSet(latestQuestionSet);
                     }
@@ -95,8 +81,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     if (questionSet != null && questionSet.IsCurrent)
                     {
                         // Change the current question set to be not current
-                        logger.LogInformation(
-                            $"Demoting question set {questionSet.QuestionSetVersion} from current");
+                        logger.LogInformation($"Demoting question set {questionSet.QuestionSetVersion} from current");
                         questionSet.IsCurrent = false;
                         await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
                     }
@@ -126,9 +111,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                             IsNegative = dataQuestion.IsNegative,
                             Order = questionNumber,
                             QuestionId = questionPartitionKey + "-" + questionNumber,
-                            TraitCode = dataQuestion.Trait.ToUpper(),
+                            TraitCode = dataQuestion.Trait.Name.ToUpper(),
                             PartitionKey = questionPartitionKey,
                             LastUpdatedDt = dataQuestion.LastUpdatedDt,
+                            IsFilterQuestion = false,
                             Texts = new[]
                             {
                                 new QuestionText {LanguageCode = "EN", Text = dataQuestion.Title}

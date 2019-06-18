@@ -9,6 +9,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.Entities
         public string Id { get; set; }
         public string UserSessionId { get; set; }
         public string JobCategoryCode { get; set; }
-        public string SocCode { get; set; }
+        public string JobProfile { get; set; }
     }
 }

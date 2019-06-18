@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 {
@@ -16,6 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         [FunctionName("PollFunction")]
         public static  async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
             ILogger log,
+            [Inject]ISiteFinityHttpService siteFinityHttpService,
             [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
             [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
             [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
@@ -25,15 +27,17 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             var id = Guid.NewGuid();
             try
             {
+                siteFinityHttpService.Logger = log;
+                
                 log.LogInformation($"PollFunction executed at: {myTimer.ScheduleStatus.Last:O}");
 
                 await shortTraitDataProcessor.RunOnce(log);
 
                 await jobCategoryDataProcessor.RunOnce(log);
+                
+                await shortQuestionSetDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
-
-                await shortQuestionSetDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }

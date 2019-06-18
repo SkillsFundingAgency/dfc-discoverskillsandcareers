@@ -1,7 +1,5 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
@@ -43,7 +41,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
            
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
@@ -54,15 +51,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddSingleton<ISiteFinityHttpService, SiteFinityHttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
-            services.AddTransient<IGetShortTraitData, GetShortTraitData>();
             services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
-            services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
             services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
-            services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
-            services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();
-            services.AddTransient<IGetFilteringQuestionSetData, GetFilteringQuestionSetData>();
+
             services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredQuestionSetDataProcessor>();
-            services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();
             services.AddTransient<IJobCategoryDataProcessor, JobCategoryDataProcessor>();
         }
         
