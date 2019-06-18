@@ -142,8 +142,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     JobProfiles = suggestedJobProfiles.ToArray(),
                     WhatYouToldUs = userSession.ResultData?.JobCategories.SelectMany(r => r.FilterAssessmentResult?.WhatYouToldUs ?? new string[] { }).Distinct().ToArray() ?? new string[] { }
                 };
-                
-                userSession.UpdateJobCategoryQuestionCount();
+
                 await userSessionRepository.UpdateUserSession(userSession);
                 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(model));

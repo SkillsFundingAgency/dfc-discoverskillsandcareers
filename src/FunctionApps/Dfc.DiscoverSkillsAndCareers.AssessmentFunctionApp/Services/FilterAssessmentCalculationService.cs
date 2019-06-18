@@ -24,7 +24,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
         public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
-            foreach (var jobCategoryState in userSession.FilteredAssessmentState.JobCategoryStates)
+            foreach (var jobCategoryState in userSession.FilteredAssessmentState.JobCategoryStates.Where(j => j.IsComplete(userSession.FilteredAssessmentState.RecordedAnswers)))
             {
                 var questions = await _questionRepository.GetQuestions(jobCategoryState.QuestionSetVersion);
                 var category = await _jobCategoryRepository.GetJobCategory(jobCategoryState.JobCategoryCode);
@@ -80,7 +80,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             }
             
             
-            
+            userSession.UpdateJobCategoryQuestionCount();
         }
 
         private static List<string> ComputeWhatYouToldUs(Answer[] categoryAnswers, Question[] questions)
