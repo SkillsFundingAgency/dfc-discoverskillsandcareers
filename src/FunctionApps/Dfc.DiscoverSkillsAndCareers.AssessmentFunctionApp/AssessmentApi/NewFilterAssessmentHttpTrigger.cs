@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
     public class NewFilterAssessmentHttpTrigger
     {
         [FunctionName("NewFilterAssessmentHttpTrigger")]
-        [ProducesResponseType(typeof(DscSession), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FilterSessionResponse), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new filter assessment with the session provided", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
@@ -72,13 +72,23 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                         $"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
                     return httpResponseMessageHelper.BadRequest();
                 }
+
+                var code = JobCategoryHelper.GetCode(jobCategory);
+                userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = code;
+
+                if (userSession.FilteredAssessmentState.IsComplete)
+                {
+                    userSession.FilteredAssessmentState.RemoveAnswersForCategory(code);
+                }
+
+                var questionNumber = userSession.FilteredAssessmentState.MoveToNextQuestion();
                 
-                userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = JobCategoryHelper.GetCode(jobCategory);
                 await userSessionRepository.UpdateUserSession(userSession);
 
-                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new DscSession()
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new FilterSessionResponse()
                 {
-                    SessionId = userSession.PrimaryKey
+                    SessionId = userSession.PrimaryKey,
+                    QuestionNumber = questionNumber
                 }));
             }
             catch (Exception ex)

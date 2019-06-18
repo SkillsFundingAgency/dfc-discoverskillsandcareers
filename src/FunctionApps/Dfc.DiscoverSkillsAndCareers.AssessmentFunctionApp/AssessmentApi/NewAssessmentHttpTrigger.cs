@@ -22,7 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
     public static class NewAssessmentHttpTrigger
     {
         [FunctionName("NewAssessmentHttpTrigger")]
-        [ProducesResponseType(typeof(DscSession), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FilterSessionResponse), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new assessment session", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
@@ -82,7 +82,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 
                 log.LogInformation($"CorrelationId: {correlationId} - Finished creating new assessment {userSession.UserSessionId}");
 
-                var result = new DscSession()
+                var result = new FilterSessionResponse()
                 {
                     SessionId = userSession.PrimaryKey
                 };

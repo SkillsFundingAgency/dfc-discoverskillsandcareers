@@ -57,12 +57,18 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             return data;
         }
 
-        public async Task<JobProfile[]> JobProfilesTitle(IEnumerable<string> socCodeTitleMap)
+        public async Task<JobProfile[]> JobProfilesTitle(IEnumerable<string> profiles)
         {
-            var queryString = String.Join("||", socCodeTitleMap.Select(s => $"({s})"));
+            var ps = profiles as string[] ?? profiles.ToArray();
+            if (ps.Any())
+            {
+                var queryString = String.Join("||", ps.Select(s => $"({s})"));
 
-            var results = await RunAzureSearchQuery<JobProfile>(queryString, "Title");
-            return results.Select(jp => jp.Document).ToArray();
+                var results = await RunAzureSearchQuery<JobProfile>(queryString, "Title");
+                return results.Select(jp => jp.Document).ToArray();
+            }
+            
+            return new JobProfile[]{};
         }
         
     }

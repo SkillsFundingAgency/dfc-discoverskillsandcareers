@@ -98,9 +98,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var _ = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
+                var response = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
                 AppendCookie(sessionId);
-                var redirectResponse = new RedirectResult($"/q/{jobCategory}/01");
+                var redirectResponse = new RedirectResult($"/q/{jobCategory}/{response.QuestionNumber}");
                 return redirectResponse;
 
             }
@@ -198,7 +198,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var otherCategories = 
                 jobCategoryResults
                     .Where(x => x.FilterAssessmentResult?.JobFamilyNameUrlSafe != jobCategory)
-                    .OrderByDescending(x => x.FilterAssessmentResult?.SuggestedJobProfiles.Count())
+                    .OrderByDescending(x => x.ResultsShown ? 100 : 0 + x.FilterAssessmentResult?.SuggestedJobProfiles.Count())
                     .ToList();
             otherCategories.Insert(0, highlightCategory);
             return otherCategories.ToArray();

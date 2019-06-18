@@ -93,6 +93,17 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             cat.QuestionSetVersion = questionSetVersion;
             cat.CurrentQuestion = cat.Skills[0].QuestionNumber;
         }
+
+        public void RemoveAnswersForCategory(string jobCategoryCode)
+        {
+            var category = JobCategoryStates.FirstOrDefault(jc => jc.JobCategoryCode.EqualsIgnoreCase(jobCategoryCode));
+            if (category != null)
+            {
+                RecordedAnswers = 
+                    RecordedAnswers
+                        .Where(a => !category.Skills.Any(s => s.Skill.EqualsIgnoreCase(a.TraitCode))).ToArray();
+            }
+        }
         
         public override int MoveToNextQuestion()
         {

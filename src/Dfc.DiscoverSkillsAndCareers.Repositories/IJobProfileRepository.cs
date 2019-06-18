@@ -7,6 +7,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface IJobProfileRepository
     {
-        Task<JobProfile[]> JobProfilesTitle(IEnumerable<string> jobProfiles);
+        Task<JobProfile[]> JobProfilesTitle(IEnumerable<string> profiles);
     }
 }

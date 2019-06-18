@@ -104,7 +104,7 @@ namespace Dfc.UnitTests.FunctionTests
             })); 
 
             var result = await RunFunction("session1", "social-care");
-            var content = await result.Content.ReadAsAsync<DscSession>();
+            var content = await result.Content.ReadAsAsync<FilterSessionResponse>();
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);

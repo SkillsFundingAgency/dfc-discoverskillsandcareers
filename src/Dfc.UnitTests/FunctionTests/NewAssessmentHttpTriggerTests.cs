@@ -86,7 +86,7 @@ namespace Dfc.UnitTests.FunctionTests
             _request.QueryString = new QueryString("?assessmentType=short");
 
             var result = await RunFunction();
-            var content = await result.Content.ReadAsAsync<DscSession>();
+            var content = await result.Content.ReadAsAsync<FilterSessionResponse>();
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
