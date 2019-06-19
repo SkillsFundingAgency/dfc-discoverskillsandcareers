@@ -162,7 +162,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                             IsFilterQuestion = true,
                             Texts = new[]
                             {
-                                new QuestionText {LanguageCode = "EN", Text = dataQuestion.Title}
+                                new QuestionText {LanguageCode = "EN", Text = dataQuestion.QuestionText}
                             }
                         };
                         newQuestionSet.MaxQuestions = questionNumber;
