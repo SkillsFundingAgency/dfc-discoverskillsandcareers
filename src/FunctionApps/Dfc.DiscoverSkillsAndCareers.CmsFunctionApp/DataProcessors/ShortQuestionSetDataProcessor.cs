@@ -9,7 +9,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
+    public class ShortQuestionSetDataProcessor : IContentTypeProcessor<ShortQuestionSetDataProcessor>
     {
         private readonly ISiteFinityHttpService _sitefinity;
         readonly IQuestionRepository _questionRepository;

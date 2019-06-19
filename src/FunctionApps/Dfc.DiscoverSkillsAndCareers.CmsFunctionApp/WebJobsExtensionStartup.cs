@@ -44,6 +44,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
+            
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
@@ -51,11 +52,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddSingleton<ISiteFinityHttpService, SiteFinityHttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
-            services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
-            services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
-
-            services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredQuestionSetDataProcessor>();
-            services.AddTransient<IJobCategoryDataProcessor, JobCategoryDataProcessor>();
+            
+            services.AddTransient<IContentTypeProcessor<ShortTraitDataProcessor>, ShortTraitDataProcessor>();
+            services.AddTransient<IContentTypeProcessor<ShortQuestionSetDataProcessor>, ShortQuestionSetDataProcessor>();
+            services.AddTransient<IContentTypeProcessor<JobProfileSkillsProcessor>, JobProfileSkillsProcessor>();
+            services.AddTransient<IContentTypeProcessor<FilteredQuestionSetDataProcessor>, FilteredQuestionSetDataProcessor>();
+            services.AddTransient<IContentTypeProcessor<JobCategoryDataProcessor>, JobCategoryDataProcessor>();
         }
         
         private void ConfigureOptions(IServiceCollection services)

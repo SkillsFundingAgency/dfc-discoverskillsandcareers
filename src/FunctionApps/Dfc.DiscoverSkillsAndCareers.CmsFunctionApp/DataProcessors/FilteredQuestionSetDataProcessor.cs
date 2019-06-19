@@ -11,7 +11,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class FilteredQuestionSetDataProcessor : IFilteredQuestionSetDataProcessor
+    public class FilteredQuestionSetDataProcessor : IContentTypeProcessor<FilteredQuestionSetDataProcessor>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IQuestionSetRepository _questionSetRepository;
@@ -43,40 +43,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             if (questionSet != null)
             {
-                var jobProfiles = 
-                    await _sitefinity.GetAll<SiteFinityJobProfile>("jobprofiles?$select=Id,Title,JobProfileCategories&$expand=RelatedSkills&$orderby=Title");
-            
-                var jobCategories = 
-                    await _sitefinity.GetTaxonomyInstances("Job Profile Category");
                 
-                var categorySkillMappings = JobCategorySkillMapper.Map(jobProfiles, jobCategories,
-                    _appSettings.Value.MaxPercentageOfProfileOccurenceForSkill,
-                    _appSettings.Value.MaxPercentageDistributionOfJobProfiles);
-
-                foreach (var categorySkill in categorySkillMappings)
-                {
-                    await CreateJobCategoryQuestionSet(categorySkill);
-                }
             }
         }
 
-        private async Task CreateJobCategoryQuestionSet(JobCategorySkillMappingResult skillsMapping)
-        {
-            // Remove any old job categories that have this title but will have a different code
-            var category = await _jobCategoryRepository.GetJobCategory(JobCategoryHelper.GetCode(skillsMapping.JobCategory));
-
-            if (category != null)
-            {
-                category.Skills.Clear();
-                category.Skills.AddRange(skillsMapping.SkillMappings);
-            }
-            else
-            {
-                _logger.LogError($"Unable to add skills to category {skillsMapping.JobCategory} - the category does not exist");
-            }
-
-            await _jobCategoryRepository.CreateOrUpdateJobCategory(category);
-        }
+        
 
         private async Task<QuestionSet> UpdateFilteredQuestionSets()
         {

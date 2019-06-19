@@ -18,10 +18,11 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         public static  async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
             ILogger log,
             [Inject]ISiteFinityHttpService siteFinityHttpService,
-            [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
-            [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
-            [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
+            [Inject]IContentTypeProcessor<ShortTraitDataProcessor> shortTraitDataProcessor,
+            [Inject]IContentTypeProcessor<ShortQuestionSetDataProcessor> shortQuestionSetDataProcessor,
+            [Inject]IContentTypeProcessor<FilteredQuestionSetDataProcessor> filteredQuestionSetDataProcessor,
+            [Inject]IContentTypeProcessor<JobCategoryDataProcessor> jobCategoryDataProcessor,
+            [Inject]IContentTypeProcessor<JobProfileSkillsProcessor> jobProfileSkillDataProcessor
             )
         {
             var id = Guid.NewGuid();
@@ -38,6 +39,8 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 await shortQuestionSetDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
+
+                await jobProfileSkillDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }

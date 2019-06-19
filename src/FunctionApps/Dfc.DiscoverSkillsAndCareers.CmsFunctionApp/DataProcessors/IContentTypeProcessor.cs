@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public interface IShortTraitDataProcessor
+    public interface IContentTypeProcessor<T>
     {
-        Task RunOnce(ILogger log);
+        Task RunOnce(ILogger logger);
     }
 }

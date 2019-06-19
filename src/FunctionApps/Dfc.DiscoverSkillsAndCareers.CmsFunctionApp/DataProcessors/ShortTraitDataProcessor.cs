@@ -7,7 +7,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class ShortTraitDataProcessor : IShortTraitDataProcessor
+    public class ShortTraitDataProcessor : IContentTypeProcessor<ShortTraitDataProcessor>
     {
         private readonly ISiteFinityHttpService _sitefinity;
         private readonly IShortTraitRepository _shortTraitRepository;

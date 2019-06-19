@@ -10,7 +10,7 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class JobCategoryDataProcessor : IJobCategoryDataProcessor
+    public class JobCategoryDataProcessor : IContentTypeProcessor<JobCategoryDataProcessor>
     {
         private readonly AppSettings _appSettings;
         private readonly ISiteFinityHttpService _sitefinity;
