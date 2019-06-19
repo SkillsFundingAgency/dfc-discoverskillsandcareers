@@ -972,12 +972,13 @@
         }
       ]
     },
+
     {
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Cooperation",
-        "QuestionText": "WorkStyle - Cooperation",
+        "Title": "achievement/effort",
+        "QuestionText": "Would you feel comfortable working in a job where you have to put a lot of effort in to achieve things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -989,7 +990,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Cooperation"
+            "achievement/effort"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1000,8 +1001,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Engineering and Technology",
-        "QuestionText": "Knowledge - Engineering and Technology",
+        "Title": "active learning",
+        "QuestionText": "Do you enjoy learning new things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1013,7 +1014,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Engineering and Technology"
+            "active learning"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1024,8 +1025,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Quantitative Abilities, Mathematics Knowledge",
-        "QuestionText": "Combination - Quantitative Abilities, Mathematics Knowledge",
+        "Title": "adaptability/flexibility",
+        "QuestionText": "Are you comfortable with things changing? ",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1037,7 +1038,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Quantitative Abilities, Mathematics Knowledge"
+            "adaptability/flexibility"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1048,8 +1049,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Self Control",
-        "QuestionText": "WorkStyle - Self Control",
+        "Title": "analytical thinking",
+        "QuestionText": "Are you comfortable analysing information to solve problems? ",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1061,7 +1062,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Self Control"
+            "analytical thinking"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1072,8 +1073,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Mechanical",
-        "QuestionText": "Knowledge - Mechanical",
+        "Title": "complex problem solving",
+        "QuestionText": "Do you enjoy solving complicated problems?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1085,7 +1086,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Mechanical"
+            "complex problem solving"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1096,8 +1097,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Design",
-        "QuestionText": "Knowledge - Design",
+        "Title": "concern for others",
+        "QuestionText": "Would you be comfortable in a job where you would need to be sensitive to other people's needs and feelings?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1109,7 +1110,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Design"
+            "concern for others"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1120,8 +1121,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Analytical Thinking",
-        "QuestionText": "WorkStyle - Analytical Thinking",
+        "Title": "control movement abilities",
+        "QuestionText": "Are you able to control your body movements, for example moving both your arms or legs at the same time?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1133,7 +1134,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Analytical Thinking"
+            "control movement abilities"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1144,8 +1145,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Production and Processing",
-        "QuestionText": "Knowledge - Production and Processing",
+        "Title": "cooperation",
+        "QuestionText": "Are you comfortable with working together as a team with other people? ",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1157,7 +1158,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Production and Processing"
+            "cooperation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1168,8 +1169,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Stress Tolerance",
-        "QuestionText": "WorkStyle - Stress Tolerance",
+        "Title": "coordination",
+        "QuestionText": "Are you comfortable coordinating things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1181,7 +1182,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Stress Tolerance"
+            "coordination"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1192,8 +1193,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Independence",
-        "QuestionText": "WorkStyle - Independence",
+        "Title": "endurance",
+        "QuestionText": "Do you feel fit enough to do physical exercise for most of the day?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1205,7 +1206,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Independence"
+            "endurance"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1216,8 +1217,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Fine Manipulative Abilities",
-        "QuestionText": "Ability - Fine Manipulative Abilities",
+        "Title": "equipment maintenance",
+        "QuestionText": "Would you like a job maintaining equipment?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1229,7 +1230,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Fine Manipulative Abilities"
+            "equipment maintenance"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1240,8 +1241,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Law and Government",
-        "QuestionText": "Knowledge - Law and Government",
+        "Title": "fine manipulative abilities",
+        "QuestionText": "Can you work with your hands to do something fiddly like threading a needle?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1253,7 +1254,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Law and Government"
+            "fine manipulative abilities"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1264,8 +1265,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Transportation",
-        "QuestionText": "Knowledge - Transportation",
+        "Title": "independence",
+        "QuestionText": "Could you stay motivated if you were working by yourself with no other people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1277,7 +1278,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Transportation"
+            "independence"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1288,8 +1289,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Persistence",
-        "QuestionText": "WorkStyle - Persistence",
+        "Title": "independence, initiative",
+        "QuestionText": "Do you find it easy to stay motivated to get things done if you're working by yourself?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1301,7 +1302,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Persistence"
+            "independence, initiative"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1312,8 +1313,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Leadership, Coordination,",
-        "QuestionText": "Combination - Leadership, Coordination,",
+        "Title": "initiative",
+        "QuestionText": "Would you be comfortable taking responsibility for things that you didn't expect to happen?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1325,7 +1326,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Leadership, Coordination,"
+            "initiative"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1336,8 +1337,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Initiative",
-        "QuestionText": "WorkStyle - Initiative",
+        "Title": "innovation",
+        "QuestionText": "Do you think you are good at coming up with new ways of doing things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1349,7 +1350,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Initiative"
+            "innovation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1360,8 +1361,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Innovation",
-        "QuestionText": "WorkStyle - Innovation",
+        "Title": "installation",
+        "QuestionText": "Would you like a job where you would install equipment, machines, wiring or computer programmes?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1373,7 +1374,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Innovation"
+            "installation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1384,8 +1385,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Verbal Abilities",
-        "QuestionText": "Ability - Verbal Abilities",
+        "Title": "instructing",
+        "QuestionText": "Would you like to teach other people how to do things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1397,7 +1398,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Verbal Abilities"
+            "instructing"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1408,8 +1409,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Administration and Management",
-        "QuestionText": "Knowledge - Administration and Management",
+        "Title": "judgment and decision making",
+        "QuestionText": "Are you comfortable weighing up options to make the best decision?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1421,7 +1422,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Administration and Management"
+            "judgment and decision making"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1432,8 +1433,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Independence, Initiative",
-        "QuestionText": "Combination - Independence, Initiative",
+        "Title": "leadership",
+        "QuestionText": "Would you like to work in a leadership role?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1445,7 +1446,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Independence, Initiative"
+            "leadership"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1456,8 +1457,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Equipment Maintenance",
-        "QuestionText": "Skill - Equipment Maintenance",
+        "Title": "leadership, coordination,",
+        "QuestionText": "Are you comfortable taking charge of teams?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1469,7 +1470,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Equipment Maintenance"
+            "leadership, coordination,"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1480,8 +1481,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Control Movement Abilities",
-        "QuestionText": "Ability - Control Movement Abilities",
+        "Title": "learning strategies",
+        "QuestionText": "Would you like to put together training for people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1493,7 +1494,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Control Movement Abilities"
+            "learning strategies"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1504,8 +1505,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Chemistry",
-        "QuestionText": "Knowledge - Chemistry",
+        "Title": "management of financial resources",
+        "QuestionText": "Would you like a job managing budgets? ",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1517,7 +1518,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Chemistry"
+            "management of financial resources"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1528,8 +1529,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Adaptability/Flexibility",
-        "QuestionText": "WorkStyle - Adaptability/Flexibility",
+        "Title": "management of personnel resources",
+        "QuestionText": "Would you like to manage people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1541,7 +1542,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Adaptability/Flexibility"
+            "management of personnel resources"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1552,8 +1553,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Achievement/Effort",
-        "QuestionText": "WorkStyle - Achievement/Effort",
+        "Title": "mathematics",
+        "QuestionText": "Are you confident using maths to solve problems?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1565,7 +1566,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Achievement/Effort"
+            "mathematics"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1576,8 +1577,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Social Orientation",
-        "QuestionText": "WorkStyle - Social Orientation",
+        "Title": "memory",
+        "QuestionText": "Do you think you have are good at remembering things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1589,7 +1590,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Social Orientation"
+            "memory"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1600,8 +1601,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Computers and Electronics",
-        "QuestionText": "Knowledge - Computers and Electronics",
+        "Title": "monitoring",
+        "QuestionText": "Are you interested in assessing how well things are working in order to make improvements?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1613,7 +1614,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Computers and Electronics"
+            "monitoring"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1624,8 +1625,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Physics",
-        "QuestionText": "Knowledge - Physics",
+        "Title": "negotiation",
+        "QuestionText": "Are you comfortable helping other people to overcome their differences?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1637,7 +1638,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Physics"
+            "negotiation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1648,8 +1649,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Speaking, Verbal Abilities",
-        "QuestionText": "Combination - Speaking, Verbal Abilities",
+        "Title": "operation and control",
+        "QuestionText": "Would you be comfortable operating equipment?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1661,7 +1662,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Speaking, Verbal Abilities"
+            "operation and control"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1672,8 +1673,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Concern for Others",
-        "QuestionText": "WorkStyle - Concern for Others",
+        "Title": "operation monitoring",
+        "QuestionText": "Would you like a job watching gauges and dials to make sure a machine is working properly?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1685,7 +1686,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Concern for Others"
+            "operation monitoring"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1696,8 +1697,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Biology",
-        "QuestionText": "Knowledge - Biology",
+        "Title": "operations analysis",
+        "QuestionText": "Would you like a job where you would need to create a design based on what is needed?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1709,7 +1710,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Biology"
+            "operations analysis"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1720,8 +1721,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Mathematics",
-        "QuestionText": "Knowledge - Mathematics",
+        "Title": "persistence",
+        "QuestionText": "Are you able to carry on with a task even if it starts to get difficult?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1733,7 +1734,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Mathematics"
+            "persistence"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1744,8 +1745,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "English Language",
-        "QuestionText": "Knowledge - English Language",
+        "Title": "persuasion",
+        "QuestionText": "Are you comfortable getting other people to do things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1757,7 +1758,7 @@
             "Property": "Title"
           },
           "Values": [
-            "English Language"
+            "persuasion"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1768,8 +1769,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Leadership",
-        "QuestionText": "WorkStyle - Leadership",
+        "Title": "persuasion, negotiation",
+        "QuestionText": "Are you comfortable getting other people to reach an agreement with each other?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1781,7 +1782,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Leadership"
+            "persuasion, negotiation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1792,8 +1793,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Operation Monitoring",
-        "QuestionText": "Skill - Operation Monitoring",
+        "Title": "programming",
+        "QuestionText": "Would you like to write computer programmes?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1805,7 +1806,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Operation Monitoring"
+            "programming"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1816,8 +1817,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Repairing",
-        "QuestionText": "Skill - Repairing",
+        "Title": "quality control analysis",
+        "QuestionText": "Are you interested in doing tests and inspections to check how well things are working?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1829,7 +1830,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Repairing"
+            "quality control analysis"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1840,8 +1841,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Science",
-        "QuestionText": "Skill - Science",
+        "Title": "quantitative abilities",
+        "QuestionText": "Are you able to solve maths problems such as multiplication and division quickly and correctly?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1853,7 +1854,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Science"
+            "quantitative abilities"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1864,8 +1865,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Building and Construction",
-        "QuestionText": "Knowledge - Building and Construction",
+        "Title": "quantitative abilities, mathematics knowledge",
+        "QuestionText": "Are you confident solving maths problems with statistics, algebra and arithmatic?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1877,7 +1878,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Building and Construction"
+            "quantitative abilities, mathematics knowledge"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1888,8 +1889,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Programming",
-        "QuestionText": "Skill - Programming",
+        "Title": "quantitative abilities, mathematics skills",
+        "QuestionText": "Could you choose the right mathematical model to solve a problem and be confident that it is correct?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1901,7 +1902,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Programming"
+            "quantitative abilities, mathematics skills"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1912,8 +1913,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Food Production",
-        "QuestionText": "Knowledge - Food Production",
+        "Title": "repairing",
+        "QuestionText": "Would you like a job repairing machines using tools?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1925,7 +1926,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Food Production"
+            "repairing"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1936,8 +1937,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Customer and Personal Service",
-        "QuestionText": "Knowledge - Customer and Personal Service",
+        "Title": "science",
+        "QuestionText": "Would you be comfortable using science to solve problems?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1949,7 +1950,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Customer and Personal Service"
+            "science"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1960,8 +1961,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Endurance",
-        "QuestionText": "Ability - Endurance",
+        "Title": "self control",
+        "QuestionText": "In work, do you think you can control your emotions under in front of others?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1973,7 +1974,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Endurance"
+            "self control"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -1984,8 +1985,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Education and Training",
-        "QuestionText": "Knowledge - Education and Training",
+        "Title": "service orientation",
+        "QuestionText": "Do you think you go out of your way to help people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1997,7 +1998,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Education and Training"
+            "service orientation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2008,8 +2009,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Operation and Control",
-        "QuestionText": "Skill - Operation and Control",
+        "Title": "social orientation",
+        "QuestionText": "Do you prefer working closely with others in a group rather than working on your own?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2021,7 +2022,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Operation and Control"
+            "social orientation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2032,8 +2033,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Troubleshooting",
-        "QuestionText": "Skill - Troubleshooting",
+        "Title": "social perceptiveness",
+        "QuestionText": "Do you think you are good at seeing why other people do things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2045,7 +2046,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Troubleshooting"
+            "social perceptiveness"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2056,8 +2057,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Quality Control Analysis",
-        "QuestionText": "Skill - Quality Control Analysis",
+        "Title": "speaking, verbal abilities",
+        "QuestionText": "Are you comfortable talking through things with other people so that they understand?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2069,7 +2070,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Quality Control Analysis"
+            "speaking, verbal abilities"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2080,8 +2081,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Monitoring",
-        "QuestionText": "Skill - Monitoring",
+        "Title": "stress tolerance",
+        "QuestionText": "Do you think you are good at staying calm under pressure?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2093,7 +2094,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Monitoring"
+            "stress tolerance"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2104,8 +2105,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Judgment and Decision Making",
-        "QuestionText": "Skill - Judgment and Decision Making",
+        "Title": "systems analysis",
+        "QuestionText": "Would you like a job where you would need to evaluate how things work for people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2117,7 +2118,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Judgment and Decision Making"
+            "systems analysis"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2128,8 +2129,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Complex Problem Solving",
-        "QuestionText": "Skill - Complex Problem Solving",
+        "Title": "systems analysis, systems evaluation",
+        "QuestionText": "Would you like a job where you analyse how things work and then recommend how it could be improved ?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2141,7 +2142,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Complex Problem Solving"
+            "systems analysis, systems evaluation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2152,8 +2153,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Time Management",
-        "QuestionText": "Skill - Time Management",
+        "Title": "systems evaluation",
+        "QuestionText": "Would you like a job that involved measuring how something was working and suggesting improvements?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2165,7 +2166,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Time Management"
+            "systems evaluation"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2176,8 +2177,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Quantitative Abilities",
-        "QuestionText": "Ability - Quantitative Abilities",
+        "Title": "time management",
+        "QuestionText": "Do you think you are good at managing your time?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2189,7 +2190,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Quantitative Abilities"
+            "time management"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2200,8 +2201,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Foreign Language",
-        "QuestionText": "Knowledge - Foreign Language",
+        "Title": "troubleshooting",
+        "QuestionText": "Would you like to find out what is wrong with machinery as part of your job?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2213,7 +2214,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Foreign Language"
+            "troubleshooting"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2224,8 +2225,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Therapy and Counseling",
-        "QuestionText": "Knowledge - Therapy and Counseling",
+        "Title": "verbal abilities",
+        "QuestionText": "Do you think you are good at using words to describe ideas?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2237,7 +2238,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Therapy and Counseling"
+            "verbal abilities"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2248,8 +2249,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Philosophy and Theology",
-        "QuestionText": "Knowledge - Philosophy and Theology",
+        "Title": "verbal abilities, speaking",
+        "QuestionText": "Do you think you are good at explaining things, either by talking or writing it down?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2261,7 +2262,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Philosophy and Theology"
+            "verbal abilities, speaking"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2272,8 +2273,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Public Safety and Security",
-        "QuestionText": "Knowledge - Public Safety and Security",
+        "Title": "writing",
+        "QuestionText": "Would you like to write as a main part of your job?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2285,7 +2286,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Public Safety and Security"
+            "writing"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -2296,8 +2297,8 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
-        "Title": "Clerical",
-        "QuestionText": "Knowledge - Clerical",
+        "Title": "reading comprehension",
+        "QuestionText": "Do you think that you are good at understanding written text?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2309,703 +2310,7 @@
             "Property": "Title"
           },
           "Values": [
-            "Clerical"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Psychology",
-        "QuestionText": "Knowledge - Psychology",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Psychology"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Economics and Accounting",
-        "QuestionText": "Knowledge - Economics and Accounting",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Economics and Accounting"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Service Orientation",
-        "QuestionText": "Skill - Service Orientation",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Service Orientation"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Social Perceptiveness",
-        "QuestionText": "Skill - Social Perceptiveness",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Social Perceptiveness"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Sales and Marketing",
-        "QuestionText": "Knowledge - Sales and Marketing",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Sales and Marketing"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Telecommunications",
-        "QuestionText": "Knowledge - Telecommunications",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Telecommunications"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Coordination",
-        "QuestionText": "Skill - Coordination",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Coordination"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Persuasion, Negotiation",
-        "QuestionText": "Combination - Persuasion, Negotiation",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Persuasion, Negotiation"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Fine Arts",
-        "QuestionText": "Knowledge - Fine Arts",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Fine Arts"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Medicine and Dentistry",
-        "QuestionText": "Knowledge - Medicine and Dentistry",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Medicine and Dentistry"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Personnel and Human Resources",
-        "QuestionText": "Knowledge - Personnel and Human Resources",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Personnel and Human Resources"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "History and Archeology",
-        "QuestionText": "Knowledge - History and Archeology",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "History and Archeology"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Geography",
-        "QuestionText": "Knowledge - Geography",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Geography"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Management of Financial Resources",
-        "QuestionText": "Skill - Management of Financial Resources",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Management of Financial Resources"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Management of Personnel Resources",
-        "QuestionText": "Skill - Management of Personnel Resources",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Management of Personnel Resources"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Writing",
-        "QuestionText": "Skill - Writing",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Writing"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Communications and Media",
-        "QuestionText": "Knowledge - Communications and Media",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Communications and Media"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Quantitative Abilities, Mathematics Skills",
-        "QuestionText": "Combination - Quantitative Abilities, Mathematics Skills",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Quantitative Abilities, Mathematics Skills"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Verbal Abilities, Speaking",
-        "QuestionText": "Combination - Verbal Abilities, Speaking",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Verbal Abilities, Speaking"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Sociology and Anthropology",
-        "QuestionText": "Knowledge - Sociology and Anthropology",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Sociology and Anthropology"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Active Learning",
-        "QuestionText": "Skill - Active Learning",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Active Learning"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Systems Analysis",
-        "QuestionText": "Skill - Systems Analysis",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Systems Analysis"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Instructing",
-        "QuestionText": "Skill - Instructing",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Instructing"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Memory",
-        "QuestionText": "Ability - Memory",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Memory"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Learning Strategies",
-        "QuestionText": "Skill - Learning Strategies",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Learning Strategies"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Operations Analysis",
-        "QuestionText": "Skill - Operations Analysis",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Operations Analysis"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Persuasion",
-        "QuestionText": "Skill - Persuasion",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Persuasion"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Systems Analysis, Systems Evaluation",
-        "QuestionText": "Combination - Systems Analysis, Systems Evaluation",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Systems Analysis, Systems Evaluation"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "Negotiation",
-        "QuestionText": "Skill - Negotiation",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "Negotiation"
+            "reading comprehension"
           ],
           "Property": "Title",
           "ContentType": "skills"
@@ -3027,94 +2332,69 @@
             "Property": "QuestionText"
           },
           "Values": [
-            "WorkStyle - Cooperation",
-            "Knowledge - Engineering and Technology",
-            "Combination - Quantitative Abilities, Mathematics Knowledge",
-            "WorkStyle - Self Control",
-            "Knowledge - Mechanical",
-            "Knowledge - Design",
-            "WorkStyle - Analytical Thinking",
-            "Knowledge - Production and Processing",
-            "WorkStyle - Stress Tolerance",
-            "WorkStyle - Independence",
-            "Ability - Fine Manipulative Abilities",
-            "Knowledge - Law and Government",
-            "Knowledge - Transportation",
-            "WorkStyle - Persistence",
-            "Combination - Leadership, Coordination,",
-            "WorkStyle - Initiative",
-            "WorkStyle - Innovation",
-            "Ability - Verbal Abilities",
-            "Knowledge - Administration and Management",
-            "Combination - Independence, Initiative",
-            "Skill - Equipment Maintenance",
-            "Ability - Control Movement Abilities",
-            "Knowledge - Chemistry",
-            "WorkStyle - Adaptability/Flexibility",
-            "WorkStyle - Achievement/Effort",
-            "WorkStyle - Social Orientation",
-            "Knowledge - Computers and Electronics",
-            "Knowledge - Physics",
-            "Combination - Speaking, Verbal Abilities",
-            "WorkStyle - Concern for Others",
-            "Knowledge - Biology",
-            "Knowledge - Mathematics",
-            "Knowledge - English Language",
-            "WorkStyle - Leadership",
-            "Skill - Operation Monitoring",
-            "Skill - Repairing",
-            "Skill - Science",
-            "Knowledge - Building and Construction",
-            "Skill - Programming",
-            "Knowledge - Food Production",
-            "Knowledge - Customer and Personal Service",
-            "Ability - Endurance",
-            "Knowledge - Education and Training",
-            "Skill - Operation and Control",
-            "Skill - Troubleshooting",
-            "Skill - Quality Control Analysis",
-            "Skill - Monitoring",
-            "Skill - Judgment and Decision Making",
-            "Skill - Complex Problem Solving",
-            "Skill - Time Management",
-            "Ability - Quantitative Abilities",
-            "Knowledge - Foreign Language",
-            "Knowledge - Therapy and Counseling",
-            "Knowledge - Philosophy and Theology",
-            "Knowledge - Public Safety and Security",
-            "Knowledge - Clerical",
-            "Knowledge - Psychology",
-            "Knowledge - Economics and Accounting",
-            "Skill - Service Orientation",
-            "Skill - Social Perceptiveness",
-            "Knowledge - Sales and Marketing",
-            "Knowledge - Telecommunications",
-            "Skill - Coordination",
-            "Combination - Persuasion, Negotiation",
-            "Knowledge - Fine Arts",
-            "Knowledge - Medicine and Dentistry",
-            "Knowledge - Personnel and Human Resources",
-            "Knowledge - History and Archeology",
-            "Knowledge - Geography",
-            "Skill - Management of Financial Resources",
-            "Skill - Management of Personnel Resources",
-            "Skill - Writing",
-            "Knowledge - Communications and Media",
-            "Combination - Quantitative Abilities, Mathematics Skills",
-            "Combination - Verbal Abilities, Speaking",
-            "Knowledge - Sociology and Anthropology",
-            "Skill - Active Learning",
-            "Skill - Systems Analysis",
-            "Skill - Instructing",
-            "Ability - Memory",
-            "Skill - Learning Strategies",
-            "Skill - Operations Analysis",
-            "Skill - Persuasion",
-            "Combination - Systems Analysis, Systems Evaluation",
-            "Skill - Negotiation"
-          ]
+            "Question",
+            "Would you feel comfortable working in a job where you have to put a lot of effort in to achieve things?",
+            "Do you enjoy learning new things?",
+            "Are you comfortable with things changing? ",
+            "Are you comfortable analysing information to solve problems? ",
+            "Do you enjoy solving complicated problems?",
+            "Would you be comfortable in a job where you would need to be sensitive to other people's needs and feelings?",
+            "Are you able to control your body movements, for example moving both your arms or legs at the same time?",
+            "Are you comfortable with working together as a team with other people? ",
+            "Are you comfortable coordinating things?",
+            "Do you feel fit enough to do physical exercise for most of the day?",
+            "Would you like a job maintaining equipment?",
+            "Can you work with your hands to do something fiddly like threading a needle?",
+            "Could you stay motivated if you were working by yourself with no other people?",
+            "Do you find it easy to stay motivated to get things done if you're working by yourself?",
+            "Would you be comfortable taking responsibility for things that you didn't expect to happen?",
+            "Do you think you are good at coming up with new ways of doing things?",
+            "Would you like a job where you would install equipment, machines, wiring or computer programmes?",
+            "Would you like to teach other people how to do things?",
+            "Are you comfortable weighing up options to make the best decision?",
+            "Would you like to work in a leadership role?",
+            "Are you comfortable taking charge of teams?",
+            "Would you like to put together training for people?",
+            "Would you like a job managing budgets? ",
+            "Would you like to manage people?",
+            "Are you confident using maths to solve problems?",
+            "Do you think you have are good at remembering things?",
+            "Are you interested in assessing how well things are working in order to make improvements?",
+            "Are you comfortable helping other people to overcome their differences?",
+            "Would you be comfortable operating equipment?",
+            "Would you like a job watching gauges and dials to make sure a machine is working properly?",
+            "Would you like a job where you would need to create a design based on what is needed?",
+            "Are you able to carry on with a task even if it starts to get difficult?",
+            "Are you comfortable getting other people to do things?",
+            "Are you comfortable getting other people to reach an agreement with each other?",
+            "Would you like to write computer programmes?",
+            "Are you interested in doing tests and inspections to check how well things are working?",
+            "Are you able to solve maths problems such as multiplication and division quickly and correctly?",
+            "Are you confident solving maths problems with statistics, algebra and arithmatic?",
+            "Could you choose the right mathematical model to solve a problem and be confident that it is correct?",
+            "Would you like a job repairing machines using tools?",
+            "Would you be comfortable using science to solve problems?",
+            "In work, do you think you can control your emotions under in front of others?",
+            "Do you think you go out of your way to help people?",
+            "Do you prefer working closely with others in a group rather than working on your own?",
+            "Do you think you are good at seeing why other people do things?",
+            "Are you comfortable talking through things with other people so that they understand?",
+            "Do you think you are good at staying calm under pressure?",
+            "Would you like a job where you would need to evaluate how things work for people?",
+            "Would you like a job where you analyse how things work and then recommend how it could be improved ?",
+            "Would you like a job that involved measuring how something was working and suggesting improvements?",
+            "Do you think you are good at managing your time?",
+            "Would you like to find out what is wrong with machinery as part of your job?",
+            "Do you think you are good at using words to describe ideas?",
+            "Do you think you are good at explaining things, either by talking or writing it down?",
+            "Would you like to write as a main part of your job?",
+            "Do you think that you are good at understanding written text?"
+          ],
+          "Property": "QuestionText",
+          "ContentType": "filteringquestions"
         }
       ]
     }
+
   ]
 }

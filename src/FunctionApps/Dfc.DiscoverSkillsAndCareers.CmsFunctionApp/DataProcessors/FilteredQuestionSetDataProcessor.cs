@@ -103,6 +103,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     if (!updateRequired)
                     {
                         _logger.LogInformation($"Filtered Question set {data.Id} {data.Title} is upto date - no changes to be done");
+                        questionSet = null;
                         continue;
                     }
 
@@ -115,6 +116,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     if (data.Questions.Count == 0)
                     {
                         _logger.LogInformation($"Question set {data.Id} doesn't have any questions");
+                        questionSet = null;
                         continue;
                     }
 
