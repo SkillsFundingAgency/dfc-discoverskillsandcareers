@@ -33,15 +33,13 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
         [Display(Name = "GetResults", Description = "Gets the results for the user session.")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}/{jobCategory?}")]HttpRequest req,
             string sessionId,
+            string jobCategory,
             ILogger log,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IUserSessionRepository userSessionRepository,
-            [Inject]IJobCategoryRepository jobCategoryRepository,
-            [Inject]IQuestionSetRepository questionSetRepository,
-            [Inject]IQuestionRepository questionRepository,
             [Inject]IJobProfileRepository jobProfileRepository)
         {
             try
@@ -74,44 +72,33 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     log.LogInformation($"Correlation Id: {correlationId} - Result data does not yet exist for session {userSession.PrimaryKey}");
                     return httpResponseMessageHelper.BadRequest();
                 }
-
-                var questionSet = await questionSetRepository.GetCurrentQuestionSet("filtered");
-                if (questionSet == null)
-                {
-                    log.LogInformation(
-                        $"CorrelationId: {correlationGuid} - Unable to find latest filtered question set");
-                    return httpResponseMessageHelper.NoContent();
-                }
-
-
-                var questions = await questionRepository.GetQuestions(questionSet.QuestionSetVersion);
                 
                 var traits = userSession.ResultData.Traits;
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobCategories;
-                
+
+                jobCategory = String.IsNullOrWhiteSpace(jobCategory)
+                    ? userSession.FilteredAssessmentState.CurrentFilterAssessmentCode
+                    : JobCategoryHelper.GetCode(jobCategory);
                 
                 var suggestedJobProfiles = new List<JobProfileResult>();
              //   var rnd = new Random();
-                foreach (var jobCategory in jobFamilies)
+                foreach (var category in jobFamilies)
                 {
-                    if (jobCategory.FilterAssessmentResult == null)
+                    if (category.FilterAssessmentResult == null)
                     {
                         continue;
                     }
 
-                    if (jobCategory.JobCategoryCode.EqualsIgnoreCase(userSession.FilteredAssessmentState.CurrentFilterAssessmentCode) || jobCategory.ResultsShown)
+                    if (category.JobCategoryCode.EqualsIgnoreCase(jobCategory) || category.ResultsShown)
                     {
                         
                         // Build the list of job profiles
                         var jobProfiles =
                             //await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
-                            await jobProfileRepository.JobProfilesTitle(jobCategory.FilterAssessmentResult
+                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
                                 .SuggestedJobProfiles);
 
-
-                        //log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
-                        
                         foreach (var jobProfile in jobProfiles) //.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
                         {
                             suggestedJobProfiles.Add(new JobProfileResult()
@@ -120,7 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                                 Overview = jobProfile.Overview,
                                 SalaryExperienced = jobProfile.SalaryExperienced,
                                 SalaryStarter = jobProfile.SalaryStarter,
-                                JobCategory = jobCategory.JobCategoryName,
+                                JobCategory = category.JobCategoryName,
                                 SocCode = jobProfile.SocCode,
                                 Title = jobProfile.Title,
                                 UrlName = jobProfile.UrlName,
@@ -132,7 +119,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                             });
                         }
                         
-                        jobCategory.ResultsShown = true;
+                        category.ResultsShown = true;
                     }
                 }
 

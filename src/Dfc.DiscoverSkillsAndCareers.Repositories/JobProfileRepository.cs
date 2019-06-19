@@ -71,5 +71,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             return new JobProfile[]{};
         }
         
+        public async Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily)
+        {
+            var results = await RunAzureSearchQuery<JobProfile>($"({jobFamily})", "JobProfileCategories");
+            return results.Select(r => r.Document).ToArray();
+        }
+        
     }
 }

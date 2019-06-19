@@ -125,8 +125,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var _ = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
-                var resultsForJobCategoryResponse = await _apiServices.Results(sessionId, correlationId);
+                var resultsForJobCategoryResponse = await _apiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
                 return ReturnResultsView(resultsForJobCategoryResponse, jobCategory, sessionId);
 
             }

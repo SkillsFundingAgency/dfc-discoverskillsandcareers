@@ -47,18 +47,16 @@ namespace Dfc.UnitTests.FunctionTests
         private IQuestionSetRepository _questionSetRepository;
         private IQuestionRepository _questionRepository;
 
-        private async Task<HttpResponseMessage> RunFunction(string sessionId)
+        private async Task<HttpResponseMessage> RunFunction(string sessionId, string jobCategory = null)
         {
             return await ResultsHttpTrigger.Run(
                 _request,
                 sessionId,
+                jobCategory,
                 _log,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
                 _userSessionRepository,
-                _jobCategoryRepository,
-                _questionSetRepository,
-                _questionRepository,
                 _jobProfileRepository
             ).ConfigureAwait(false);
         }
