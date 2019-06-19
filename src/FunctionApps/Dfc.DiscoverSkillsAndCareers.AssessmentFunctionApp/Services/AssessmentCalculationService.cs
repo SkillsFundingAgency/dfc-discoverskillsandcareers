@@ -42,18 +42,20 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         {
             var jobFamilies = await _jobCategoryRepository.GetJobCategories();
             var answerOptions = AnswerOptions;
-            var traits = await _traitRepository.GetTraits();
-            var questionSet = await _questionSetRepository.GetCurrentQuestionSet("filtered");
-            var questions = await _questionRepository.GetQuestions(questionSet.QuestionSetVersion);
-
+            
             if (jobFamilies.Length == 0)
             {
                 throw new Exception("No job families found!");
             }
+            
+            var traits = await _traitRepository.GetTraits();
             if (traits.Length == 0)
             {
                 throw new Exception("No traits found!");
             }
+            
+            var questionSet = await _questionSetRepository.GetCurrentQuestionSet("filtered");
+            var questions = await _questionRepository.GetQuestions(questionSet.QuestionSetVersion);
             if (questions.Length == 0)
             {
                 throw new Exception("No filtering questions found!");
@@ -66,13 +68,20 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
             RunShortAssessment(userSession, jobFamilies, answerOptions, traits);
  
+            PrepareFilterAssessmentState(questionSet.QuestionSetVersion, userSession, jobFamilies, questions);
+            
+        }
+
+        public void PrepareFilterAssessmentState(string questionSetVersion, UserSession userSession, JobCategory[] jobFamilies,
+            Question[] questions)
+        {
             foreach (var jobCategory in userSession.ResultData.JobCategories)
             {
                 var jobFamily = jobFamilies.First(jf => jf.Code.EqualsIgnoreCase(jobCategory.JobCategoryCode));
                 userSession.FilteredAssessmentState = userSession.FilteredAssessmentState ?? new FilteredAssessmentState();
-                userSession.FilteredAssessmentState.CreateOrResetCategoryState(questionSet.QuestionSetVersion, questions, jobFamily);
+                userSession.FilteredAssessmentState.CreateOrResetCategoryState(questionSetVersion, questions,
+                    jobFamily);
             }
-            
         }
 
         public void RunShortAssessment(UserSession userSession, IEnumerable<JobCategory> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits)

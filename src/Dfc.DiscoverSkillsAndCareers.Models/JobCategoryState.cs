@@ -26,10 +26,13 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string JobFamilyNameUrlSafe => JobCategoryName?.ToLower()?.Replace(" ", "-");
 
         public int UnansweredQuestions(Answer[] answers) =>
-            Skills.Count(s => !answers.Any(a => a.TraitCode.EqualsIgnoreCase(s.Skill)));
+            answers == null 
+                ? Skills.Length 
+                : Skills.Count(s => !answers.Any(a => a.TraitCode.EqualsIgnoreCase(s.Skill)));
 
         public bool IsComplete(Answer[] answers) =>
-            Skills.All(s => answers.Any(a => s.Skill.EqualsIgnoreCase(a.TraitCode)));
+            answers != null 
+            && Skills.All(s => answers.Any(a => s.Skill.EqualsIgnoreCase(a.TraitCode)));
             
     }
 }

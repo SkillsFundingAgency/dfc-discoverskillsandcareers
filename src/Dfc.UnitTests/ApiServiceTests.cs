@@ -152,7 +152,11 @@ namespace Dfc.UnitTests
             var url = $"{ApiRoot}/result/Abc123/animal-care";
             var response = new ResultsJobCategoryResult()
             {
-                SessionId = "Abc123"
+                SessionId = "Abc123",
+                JobProfiles = new []
+                {
+                    new JobProfile(), 
+                }
             };
             
             _httpService.GetString(url, guid).Returns(Task.FromResult(JsonConvert.SerializeObject(response)));
@@ -160,6 +164,7 @@ namespace Dfc.UnitTests
             var result = await _api.ResultsForJobCategory("Abc123", "animal-care", guid);
             
             Assert.Equal(response.SessionId, result.SessionId);
+            Assert.Single(response.JobProfiles);
         }
         
         [Fact]

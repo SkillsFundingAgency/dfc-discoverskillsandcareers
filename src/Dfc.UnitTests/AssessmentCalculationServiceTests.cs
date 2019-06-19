@@ -11,30 +11,30 @@ using System.Threading.Tasks;
 
 namespace Dfc.UnitTests
 {
-    public class ShortAssessmentTests
+    public class AssessmentCalculationServiceTests
     {
         private static List<Trait> Traits;
         private static List<JobCategory> JobFamilies;
         private static List<QuestionSet> QuestionSets;
         private static Dictionary<AnswerOption, int> AnswerOptions;
 
-        private IJobCategoryRepository _jobFamilyRepository;
+        private IJobCategoryRepository _jobCategoryRepository;
         private IShortTraitRepository _shortTraitRepository;
         private IQuestionSetRepository _questionSetRepository;
         private ILogger _logger;
-        private AssessmentCalculationService _assessmentCalculationService;
+        private AssessmentCalculationService _sut;
         private IQuestionRepository _questionRepository;
 
-        public ShortAssessmentTests()
+        public AssessmentCalculationServiceTests()
         {
-            _jobFamilyRepository = Substitute.For<IJobCategoryRepository>();
+            _jobCategoryRepository = Substitute.For<IJobCategoryRepository>();
             _shortTraitRepository = Substitute.For<IShortTraitRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
             _questionSetRepository = Substitute.For<IQuestionSetRepository>();
             _logger = Substitute.For<ILogger>();
 
-            _assessmentCalculationService = new AssessmentCalculationService(
-                _jobFamilyRepository,
+            _sut = new AssessmentCalculationService(
+                _jobCategoryRepository,
                 _shortTraitRepository,
                 _questionRepository,
                 _questionSetRepository);
@@ -456,6 +456,112 @@ namespace Dfc.UnitTests
         }
 
         [Fact]
+        public async Task CalculateAssessment_ShouldThrow_ExceptionOnNoJobFamilies()
+        {
+            _jobCategoryRepository.GetJobCategories().Returns(Task.FromResult(new JobCategory[] {}));
+
+            await Assert.ThrowsAsync<Exception>(() => _sut.CalculateAssessment(new UserSession(), _logger));
+        }
+        
+        [Fact]
+        public async Task CalculateAssessment_ShouldThrow_ExceptionOnNoTraits()
+        {
+            _jobCategoryRepository.GetJobCategories().Returns(Task.FromResult(new []
+            {
+                new JobCategory(),
+            }));
+            
+            _shortTraitRepository.GetTraits().Returns(Task.FromResult(new Trait[] {}));
+            
+            await Assert.ThrowsAsync<Exception>(() => _sut.CalculateAssessment(new UserSession(), _logger));
+        }
+        
+        [Fact]
+        public async Task CalculateAssessment_ShouldThrow_ExceptionOnNoQuestions()
+        {
+            _jobCategoryRepository.GetJobCategories().Returns(Task.FromResult(new []
+            {
+                new JobCategory(),
+            }));
+
+            _shortTraitRepository.GetTraits().Returns(Task.FromResult(new[]
+            {
+                new Trait(),
+            }));
+            
+            _questionSetRepository.GetCurrentQuestionSet("filtered").Returns(Task.FromResult(new QuestionSet
+            {
+                QuestionSetVersion = "qs-1"
+            }));
+            
+            _questionRepository.GetQuestions("qs-1").Returns(Task.FromResult(new Question[] {}));
+            
+            await Assert.ThrowsAsync<Exception>(() => _sut.CalculateAssessment(new UserSession(), _logger));
+        }
+        
+        [Fact]
+        public async Task CalculateAssessment_ShouldThrow_ExceptionOnNoUserSessionAssessmentState()
+        {
+            _jobCategoryRepository.GetJobCategories().Returns(Task.FromResult(new []
+            {
+                new JobCategory(),
+            }));
+
+            _shortTraitRepository.GetTraits().Returns(Task.FromResult(new[]
+            {
+                new Trait(),
+            }));
+
+            _questionSetRepository.GetCurrentQuestionSet("filtered").Returns(Task.FromResult(new QuestionSet
+            {
+                QuestionSetVersion = "qs-1"
+            }));
+
+            _questionRepository.GetQuestions("qs-1").Returns(Task.FromResult(new[]
+            {
+                new Question(),
+            }));
+            
+            await Assert.ThrowsAsync<Exception>(() => _sut.CalculateAssessment(new UserSession(), _logger));
+        }
+
+        [Fact]
+        public void PrepareFilterAssessmentState_ShouldAdd_CorrectCategories()
+        {
+            var questions = new []
+            {
+                new Question {TraitCode = "A", Order = 1},
+                new Question {TraitCode = "B", Order = 1},
+            };
+
+            var categories = new[]
+            {
+                new JobCategory
+                {
+                    Name = "Animal Care", Skills = new List<JobProfileSkillMapping>
+                    {
+                        new JobProfileSkillMapping {ONetAttribute = "A"}
+                    }
+                },
+            };
+            
+            var session = new UserSession
+            {
+                ResultData = new ResultData
+                {
+                    JobCategories = new[]
+                    {
+                        new JobCategoryResult {JobCategoryName = "Animal Care"},
+                    }
+                }
+            };
+            
+            _sut.PrepareFilterAssessmentState("QS-1", session, categories, questions);
+
+            Assert.Contains(session.FilteredAssessmentState.JobCategoryStates, a => a.JobCategoryCode == "AC");
+        }
+        
+        [Fact]
         public void RunShortAssessment_WithAllNeutral_SHouldHaveNoTraits()
         {
             var userSession = new UserSession()
@@ -477,7 +583,7 @@ namespace Dfc.UnitTests
             };
 
             
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -504,7 +610,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Single(traits);
@@ -531,7 +637,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Equal(8, traits.Count);
@@ -558,7 +664,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -585,7 +691,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -616,7 +722,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(userSession, JobFamilies, AnswerOptions, Traits);
 
             var traits = userSession.ResultData.Traits.ToList();
             Assert.Empty(traits);
@@ -679,7 +785,7 @@ namespace Dfc.UnitTests
                     
             };
 
-            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits);
 
             int? getTraitScore(string trait)
             {
@@ -750,7 +856,7 @@ namespace Dfc.UnitTests
                     
             };
 
-            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits);
 
             int? getTraitScore(string trait)
             {
@@ -820,7 +926,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            _assessmentCalculationService.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits);
+            _sut.RunShortAssessment(session, JobFamilies, AnswerOptions, Traits);
 
             IDictionary<string, TraitResult> traitLookup = session.ResultData.Traits.ToDictionary(r => r.TraitCode, r => r);
             Assert.Contains("DOER", traitLookup);

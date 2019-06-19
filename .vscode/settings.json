@@ -1,4 +1,5 @@
 {
     "azureFunctions.projectLanguage": "C#",
-    "azureFunctions.projectRuntime": "~2"
+    "azureFunctions.projectRuntime": "~2",
+    "FSharp.fsacRuntime": "netcore"
 }

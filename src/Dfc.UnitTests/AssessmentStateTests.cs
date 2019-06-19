@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Xunit;
 

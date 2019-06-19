@@ -249,7 +249,7 @@ namespace Dfc.UnitTests.ControllerTests
                 { "selected_answer", new StringValues("3") }
             });
 
-            _apiServices.PostAnswer("Abc123", Arg.Any<PostAnswerRequest>(), Arg.Any<Guid>())
+            _apiServices.PostAnswer("Abc123", Arg.Is<PostAnswerRequest>(r => r.QuestionId == "1" && r.SelectedOption == "3"), Arg.Any<Guid>())
                 .Returns(Task.FromResult(new PostAnswerResponse
                 {
                     NextQuestionNumber = 2, 

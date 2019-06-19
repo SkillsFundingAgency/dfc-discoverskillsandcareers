@@ -83,7 +83,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
             userSession.UpdateJobCategoryQuestionCount();
         }
 
-        private static List<string> ComputeWhatYouToldUs(Answer[] categoryAnswers, Question[] questions)
+        public List<string> ComputeWhatYouToldUs(Answer[] categoryAnswers, Question[] questions)
         {
             var whatYouToldUs = new List<string>();
 
@@ -95,9 +95,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     text = questions
                         .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))?.NegativeResultDisplayText;
                 }
-
-                text = questions
-                    .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))?.PositiveResultDisplayText;
+                else
+                {
+                    text = questions
+                        .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))
+                        ?.PositiveResultDisplayText;
+                }
 
                 if (!String.IsNullOrWhiteSpace(text))
                 {

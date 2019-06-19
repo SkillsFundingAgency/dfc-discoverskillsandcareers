@@ -81,7 +81,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
 
         [HttpGet("EmailSent")]
-        public async Task<IActionResult> EmailSent()
+        public IActionResult EmailSent()
         {
             
             var email = (string)TempData["SentEmail"];
@@ -96,7 +96,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         }
         
         [HttpGet("SmsSent")]
-        public async Task<IActionResult> SmsSent()
+        public IActionResult SmsSent()
         {
             var sms = (string)TempData["SentSms"];
 

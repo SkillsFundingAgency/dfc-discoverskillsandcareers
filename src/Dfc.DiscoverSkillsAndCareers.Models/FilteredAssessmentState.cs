@@ -108,7 +108,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public override int MoveToNextQuestion()
         {
             var number =  
-                CurrentState?.Skills
+                CurrentState.Skills
                     .FirstOrDefault(q => !RecordedAnswers.Any(a => a.TraitCode.EqualsIgnoreCase(q.Skill)))
                     ?.QuestionNumber;
 

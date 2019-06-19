@@ -164,7 +164,7 @@ namespace Dfc.UnitTests.ControllerTests
         }
 
         [Fact]
-        public async Task EmailSent_ShouldReturn_ViewResultIfSentEmailNotEmpty()
+        public void EmailSent_ShouldReturn_ViewResultIfSentEmailNotEmpty()
         {
             _session.TryGetValue("session-id", out Arg.Any<byte[]>())
                 .Returns(x => { 
@@ -174,7 +174,7 @@ namespace Dfc.UnitTests.ControllerTests
 
             _tempData["SentEmail"].Returns("my@email.com");
             
-            var result = await _controller.EmailSent();
+            var result = _controller.EmailSent();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             
@@ -186,9 +186,9 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task EmailSent_ShouldReturn_RedirectIfSentEmailEmpty()
+        public void EmailSent_ShouldReturn_RedirectIfSentEmailEmpty()
         {
-            var result = await _controller.EmailSent();
+            var result = _controller.EmailSent();
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
@@ -196,11 +196,11 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task SmsSent_ShouldReturn_ViewResultIfSentEmailNotEmpty()
+        public void SmsSent_ShouldReturn_ViewResultIfSentEmailNotEmpty()
         {
             _tempData["SentSms"].Returns("07900003000");
             
-            var result = await _controller.SmsSent();
+            var result = _controller.SmsSent();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             
@@ -212,9 +212,9 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task SmsSent_ShouldReturn_RedirectIfSentEmailEmpty()
+        public void SmsSent_ShouldReturn_RedirectIfSentEmailEmpty()
         {
-            var result = await _controller.EmailSent();
+            var result = _controller.EmailSent();
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
