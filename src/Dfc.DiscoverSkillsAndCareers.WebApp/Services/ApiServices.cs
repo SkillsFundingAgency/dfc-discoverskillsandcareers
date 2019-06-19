@@ -49,7 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 
         public async Task<ResultsResponse> Results(string sessionId, Guid correlationId)
         {
-            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}";
+            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/short";
             var json = await HttpService.GetString(url, correlationId);
             return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }

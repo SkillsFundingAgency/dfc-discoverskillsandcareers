@@ -33,7 +33,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
         [Display(Name = "GetResults", Description = "Gets the results for the user session.")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}/{jobCategory?}")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}/{jobCategory}")]HttpRequest req,
             string sessionId,
             string jobCategory,
             ILogger log,
@@ -77,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobCategories;
 
-                jobCategory = String.IsNullOrWhiteSpace(jobCategory)
+                jobCategory = String.IsNullOrWhiteSpace(jobCategory) || jobCategory.ToLower() == "short"
                     ? userSession.FilteredAssessmentState.CurrentFilterAssessmentCode
                     : JobCategoryHelper.GetCode(jobCategory);
                 
