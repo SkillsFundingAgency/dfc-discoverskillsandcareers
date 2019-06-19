@@ -32,12 +32,18 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
             var logger = serviceProvider.GetService<ILogger>();
             var result = Parser.Default
-                .ParseArguments<LoadQuestions.Options, CreateValidityTestSessions.Options, Cms.Options, FilteringQuestionsMappingCreator.Options>(args)
+                .ParseArguments<
+                        LoadQuestions.Options, 
+                        CreateValidityTestSessions.Options, 
+                        Cms.Options, 
+                        FilteringQuestionsMappingCreator.Options,
+                        CleanCosmos.Options>(args)
                 .MapResult(
                     (LoadQuestions.Options opts) => LoadQuestions.Execute(serviceProvider, opts),
                     (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(serviceProvider, opts),
                     (Cms.Options opts) => Cms.Execute(serviceProvider, opts),
                     (FilteringQuestionsMappingCreator.Options opts) => FilteringQuestionsMappingCreator.Execute(serviceProvider, opts),
+                    (CleanCosmos.Options opts) => CleanCosmos.Execute(serviceProvider, opts),
                              errs => {
                                  logger.LogError(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
                                  return SuccessFailCode.Fail;
@@ -52,7 +58,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appSettings.json")
                 .Build();
-
             
             services.AddLogging(l => l.AddSerilog())
                 .AddSingleton<SiteFinityHttpService>()
