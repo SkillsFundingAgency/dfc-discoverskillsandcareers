@@ -6,7 +6,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
     {
         [JsonProperty("questionId")]
         public string QuestionId { get; set; }
-        [JsonProperty("selectedOption")]
+
+        [JsonProperty("selectedOption")] 
         public string SelectedOption { get; set; }
     }
 }

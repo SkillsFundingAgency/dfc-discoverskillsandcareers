@@ -1,6 +1,10 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
-using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
 using DFC.Swagger.Standard.Annotations;
@@ -10,13 +14,8 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
+namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.QuestionApi
 {
     public static class QuestionsHttpTrigger
     {
@@ -35,33 +34,36 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
             string title,
             int version,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
             [Inject]IQuestionRepository questionRepository)
         {
-            loggerHelper.LogMethodEnter(log);
-
-            var correlationId = httpRequestHelper.GetDssCorrelationId(req);
-            if (string.IsNullOrEmpty(correlationId))
-                log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
-
-            if (!Guid.TryParse(correlationId, out var correlationGuid))
+            try
             {
-                log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
-                correlationGuid = Guid.NewGuid();
-            }
+                var correlationId = httpRequestHelper.GetDssCorrelationId(req);
+                if (string.IsNullOrEmpty(correlationId))
+                    log.LogInformation("Unable to locate 'DssCorrelationId' in request header");
 
-            var questions = await questionRepository.GetQuestions(assessmentType, title, version);
-            if (questions == null)
+                if (!Guid.TryParse(correlationId, out var correlationGuid))
+                {
+                    log.LogInformation("Unable to parse 'DssCorrelationId' to a Guid");
+                    correlationGuid = Guid.NewGuid();
+                }
+
+                var questions = await questionRepository.GetQuestions(assessmentType, title, version);
+                if (questions == null)
+                {
+                    log.LogInformation($"Correlation Id: {correlationId} - QuestionSet does not exist {assessmentType} {version}");
+                    return httpResponseMessageHelper.NoContent();
+                }
+
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questions));
+            }
+            catch (Exception ex)
             {
-                loggerHelper.LogInformationMessage(log, correlationGuid, string.Format("QuestionSet does not exist {0} {1}", assessmentType, version));
-                return httpResponseMessageHelper.NoContent();
+                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
-
-            loggerHelper.LogMethodExit(log);
-
-            return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(questions));
         }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Dfc.DiscoverSkillsAndCareers.SupportApp": {
+      "commandName": "Project",
+      "commandLineArgs": "load-questions -f \"D:\\Appdev\\Work\\InfinityWorks\\dfc-discoverskillsandcareers\\data\\short_assessment_statements.csv\" -v short-201901"
+    }
+  }
+}

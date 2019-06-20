@@ -5,8 +5,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface IShortTraitRepository
     {
-        Task<Trait> GetShortTrait(string name, string partitionKey);
-        Task CreateTrait(Trait trait, string partitionKey);
-        Task<Trait[]> GetTraits(string partitionKey);
+        Task CreateTrait(Trait trait, string partitionKey = "traits");
+        Task<Trait[]> GetTraits(string partitionKey = "traits");
     }
 }

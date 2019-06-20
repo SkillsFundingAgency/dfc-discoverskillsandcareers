@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models
@@ -8,7 +8,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
     public class UserSession
     {
         [JsonIgnore]
-        public string PrimaryKey {  get { return $"{PartitionKey}-{UserSessionId}"; } }
+        public string PrimaryKey => $"{PartitionKey}-{UserSessionId}";
+
         [JsonProperty("partitionKey")]
         public string PartitionKey { get; set; }
         [JsonProperty("id")]
@@ -17,72 +18,85 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string LanguageCode { get; set; }
         [JsonProperty("salt")]
         public string Salt { get; set; }
-        [JsonProperty("questionSetVersion")]
-        public string QuestionSetVersion { get; set; }
-        [JsonProperty("maxQuestions")]
-        public int MaxQuestions { get; set; }
-        [JsonProperty("currentQuestion")]
-        public int CurrentQuestion { get; set; }
-        [JsonProperty("recordedAnswers")]
-        public Answer[] RecordedAnswers { get; set; } = {};
+        
+        [JsonProperty("assessmentState")]
+        public AssessmentState AssessmentState { get; set; }
+        
+        [JsonProperty("filteredAssessmentState")]
+        public FilteredAssessmentState FilteredAssessmentState { get; set; }
+        
         [JsonProperty("resultData")]
         public ResultData ResultData { get; set; } 
-        [JsonProperty("isComplete")]
-        public bool IsComplete { get; set; }
+
         [JsonProperty("startedDt")]
         public DateTime StartedDt { get; set; }
-        [JsonProperty("completeDt")]
-        public DateTime? CompleteDt { get; set; }
+        
         [JsonProperty("assessmentType")]
         public string AssessmentType { get; set; }
-        [JsonProperty("currentFilterAssessmentCode")]
-        public string CurrentFilterAssessmentCode { get; set; }
+        
         [JsonProperty("lastUpdatedDt")]
         public DateTime LastUpdatedDt { get; set; }
 
-        // Extention getters
+        [JsonProperty("completeDt")] 
+        public DateTime? CompleteDt => CurrentState.CompleteDt;
+
+        [JsonIgnore] 
+        public bool IsComplete => CurrentState.IsComplete;
+
         [JsonIgnore]
-        public bool IsFilterAssessment => !string.IsNullOrEmpty(CurrentFilterAssessmentCode);
+        public int MaxQuestions => CurrentState.MaxQuestions;
+
         [JsonIgnore]
-        public int CurrentMaxQuestions
+        public AssessmentStateBase CurrentState =>
+            FilteredAssessmentState == null || !AssessmentState.IsComplete
+                ? (AssessmentStateBase)AssessmentState
+                : (AssessmentStateBase)FilteredAssessmentState;
+
+        [JsonIgnore]
+        public int CurrentQuestion => CurrentState.CurrentQuestion;
+
+        [JsonIgnore]
+        public string CurrentQuestionSetVersion => CurrentState.QuestionSetVersion;
+        
+        [JsonIgnore]
+        public bool IsFilterAssessment => (CurrentState is FilteredAssessmentState);
+        
+        [JsonIgnore]
+        public Answer[] RecordedAnswers
         {
             get
             {
-                if (IsFilterAssessment)
+                switch (CurrentState)
                 {
-                    return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment.MaxQuestions;
+                    case AssessmentState a:
+                        return a.RecordedAnswers;
+
+                    case FilteredAssessmentState f:
+                        return f.RecordedAnswers;
+
+                    default:
+                        throw new ArgumentException($"Unable to get recorded answers for assessmentType {CurrentState?.GetType().Name}");
                 }
-                return MaxQuestions;
             }
         }
-        [JsonIgnore]
-        public string CurrentQuestionSetVersion
+        
+        public void UpdateJobCategoryQuestionCount()
         {
-            get
+            if (FilteredAssessmentState != null)
             {
-                if (!IsFilterAssessment)
+                foreach (var jobCategory in ResultData.JobCategories)
                 {
-                    return QuestionSetVersion;
+                    var state = FilteredAssessmentState
+                        .JobCategoryStates
+                        .FirstOrDefault(jc => jc.JobCategoryCode.EqualsIgnoreCase(jobCategory.JobCategoryCode));
+
+                    if (state != null)
+                    {
+                        jobCategory.TotalQuestions = state.UnansweredQuestions(FilteredAssessmentState.RecordedAnswers);
+                    }
                 }
-                return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment.QuestionSetVersion;
             }
         }
-        [JsonIgnore]
-        public IEnumerable<Answer> CurrentRecordedAnswers
-        {
-            get
-            {
-                return RecordedAnswers.Where(x => x.QuestionSetVersion == CurrentQuestionSetVersion);
-            }
-        }
-        [JsonIgnore]
-        public FilterAssessment CurrentFilterAssessment
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(CurrentFilterAssessmentCode)) return null;
-                return ResultData.JobFamilies.Where(x => x.JobFamilyCode == CurrentFilterAssessmentCode).First().FilterAssessment;
-            }
-        }
+
     }
 }

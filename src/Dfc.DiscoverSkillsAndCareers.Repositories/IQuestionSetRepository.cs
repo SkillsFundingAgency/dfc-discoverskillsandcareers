@@ -7,10 +7,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface IQuestionSetRepository
     {
-        Task<QuestionSet> GetCurrentQuestionSet(string assessmentType, string title);
+        Task<QuestionSet> GetCurrentQuestionSet(string assessmentType);
         Task<Document> CreateOrUpdateQuestionSet(QuestionSet questionSet);
         Task<QuestionSet> GetQuestionSetVersion(string assessmentType, string title, int version);
         Task<List<QuestionSet>> GetCurrentFilteredQuestionSets();
-        Task<int> ResetCurrentFilteredQuestionSets();
+        Task<QuestionSet> GetLatestQuestionSetByTypeAndKey(string assessmentType, string key);
+        
+        
     }
 }

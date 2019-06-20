@@ -30,8 +30,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, contentType);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(contentType) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (Content)(dynamic)document;
+                var document = await client.ReadDocumentAsync<Content>(uri, requestOptions);
+                return document;
             }
             catch (DocumentClientException ex)
             {
@@ -46,19 +46,19 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<Content> CreateContent(Content contentModel)
+        public async Task CreateContent(Content contentModel)
         {
             contentModel.Id = contentModel.ContentType.ToLower();
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
             {
-                Document document = await client.CreateDocumentAsync(uri, contentModel);
-                return (Content)(dynamic)document;
+                await client.CreateDocumentAsync(uri, contentModel);
+            
             }
             catch
             {
-                Document document = await client.UpsertDocumentAsync(uri, contentModel);
-                return (Content)(dynamic)document;
+                await client.UpsertDocumentAsync(uri, contentModel);
+                
             }
             
         }

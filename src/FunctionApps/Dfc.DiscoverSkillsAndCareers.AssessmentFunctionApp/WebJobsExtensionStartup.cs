@@ -13,6 +13,8 @@ using System;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Search;
+using Microsoft.Azure.Search.Models;
 using Microsoft.Extensions.Options;
 using Notify.Interfaces;
 using Notify.Client;
@@ -40,15 +42,24 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
 
+            services.AddSingleton<ISearchIndexClient>(srvs =>
+            {
+                var searchSettings = srvs.GetService<IOptions<AzureSearchSettings>>();
+                return new SearchIndexClient(searchSettings.Value.ServiceName, searchSettings.Value.IndexName, new SearchCredentials(searchSettings.Value.ApiKey));
+            });
+
+
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
-            services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            services.AddSingleton<IQuestionRepository, LocalQuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
-            services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddSingleton<IQuestionSetRepository, LocalQuestionSetRepository>();
             services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
+            services.AddSingleton<IJobCategoryRepository, LocalJobCategoryRepository>();
+            services.AddSingleton<IShortTraitRepository, LocalShortTraitRepository>();
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
@@ -72,23 +83,9 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             }
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
-            var appSettings = new AppSettings();
-            Configuration.Bind("AppSettings", appSettings);
-
-            var cosmosSettings = new CosmosSettings();
-            Configuration.Bind("CosmosSettings", cosmosSettings);
-
-            services.Configure<CosmosSettings>(env =>
-            {
-                env.DatabaseName = cosmosSettings.DatabaseName;
-                env.Endpoint = cosmosSettings.Endpoint;
-                env.Key = cosmosSettings.Key;
-            });
-            services.Configure<AppSettings>(env =>
-            {
-                env.SessionSalt = appSettings.SessionSalt;
-                env.NotifyApiKey = appSettings.NotifyApiKey;
-            });
+            services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }

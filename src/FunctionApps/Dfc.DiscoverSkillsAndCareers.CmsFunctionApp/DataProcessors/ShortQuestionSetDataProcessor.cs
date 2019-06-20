@@ -1,124 +1,140 @@
-﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
+﻿using System.Collections.Generic;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class ShortQuestionSetDataProcessor : IShortQuestionSetDataProcessor
+    public class ShortQuestionSetDataProcessor : IContentTypeProcessor<ShortQuestionSetDataProcessor>
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IQuestionRepository QuestionRepository;
-        readonly IQuestionSetRepository QuestionSetRepository;
-        readonly IGetShortQuestionSetData GetShortQuestionSetData;
-        readonly IGetShortQuestionData GetShortQuestionData;
-        readonly AppSettings AppSettings;
+        private readonly ISiteFinityHttpService _sitefinity;
+        readonly IQuestionRepository _questionRepository;
+        readonly IQuestionSetRepository _questionSetRepository;
 
         public ShortQuestionSetDataProcessor(
-            ISiteFinityHttpService httpService, 
+            ISiteFinityHttpService sitefinity,
             IQuestionRepository questionRepository,
-            IQuestionSetRepository questionSetRepository,
-            IGetShortQuestionSetData getShortQuestionSetData,
-            IGetShortQuestionData getShortQuestionData,
-            IOptions<AppSettings> appSettings)
+            IQuestionSetRepository questionSetRepository)
         {
-            HttpService = httpService;
-            QuestionRepository = questionRepository;
-            QuestionSetRepository = questionSetRepository;
-            GetShortQuestionSetData = getShortQuestionSetData;
-            GetShortQuestionData = getShortQuestionData;
-            AppSettings = appSettings.Value;
+            _sitefinity = sitefinity;
+            _questionRepository = questionRepository;
+            _questionSetRepository = questionSetRepository;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for ShortQuestionSet");
 
-            string siteFinityApiUrlbase = AppSettings.SiteFinityApiUrlbase;
-            string siteFinityService = AppSettings.SiteFinityApiWebService;
             string assessmentType = "short";
 
-            var questionSets = await GetShortQuestionSetData.GetData(siteFinityApiUrlbase, siteFinityService);
+            var questionSets = await _sitefinity.GetAll<SiteFinityShortQuestionSet>("shortquestionsets");
             logger.LogInformation($"Have {questionSets?.Count} question sets to review");
 
-            foreach (var data in questionSets)
+            if (questionSets != null)
             {
-                logger.LogInformation($"Getting cms data for questionset {data.Id} {data.Title}");
-
-                // Attempt to load the current version for this assessment type and title
-                var questionSet = await QuestionSetRepository.GetCurrentQuestionSet("short", data.Title);
-
-                // Determine if an update is required i.e. the last updated datetime stamp has changed
-                bool updateRequired = questionSet == null || (data.LastUpdated != questionSet.LastUpdated);
-
-                // Nothing to do so log and exit
-                if (!updateRequired)
+                foreach (var data in questionSets.OrderBy(x => x.LastUpdated))
                 {
-                    logger.LogInformation($"Questionset {data.Id} {data.Title} is upto date - no changes to be done");
-                    return;
-                }
+                    logger.LogInformation($"Getting cms data for question set {data.Id} {data.Title}");
+                    
+                    
+                    // Attempt to load the current version for this assessment type and title
+                    var questionSet = await _questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", data.Title);
+                    
+                    // Determine if an update is required i.e. the last updated datetime stamp has changed
+                    bool updateRequired = questionSet == null || (data.LastUpdated > questionSet.LastUpdated);
 
-                // Attempt to get the questions for this questionset
-                logger.LogInformation($"Getting cms questions for questionset {data.Id} {data.Title}");
-                data.Questions = await GetShortQuestionData.GetData(siteFinityApiUrlbase, siteFinityService, data.Id);
-                if (data.Questions.Count == 0)
-                {
-                    logger.LogInformation($"Questionset {data.Id} doesn't have any questions");
-                    return;
-                }
-                logger.LogInformation($"Received {data.Questions?.Count} questions for questionset {data.Id} {data.Title}");
-
-                if (questionSet != null)
-                {
-                    // Change the current question set to be not current
-                    questionSet.IsCurrent = false;
-                    await QuestionSetRepository.CreateOrUpdateQuestionSet(questionSet);
-                }
-
-                // Create the new current version
-                int newVersionNumber = questionSet == null ? 1 : questionSet.Version + 1;
-                var newQuestionSet = new QuestionSet()
-                {
-                    PartitionKey = "ncs",
-                    Title = data.Title,
-                    TitleLowercase = data.Title.ToLower(),
-                    Description = data.Description,
-                    Version = newVersionNumber,
-                    QuestionSetVersion = $"{assessmentType.ToLower()}-{data.Title.ToLower()}-{newVersionNumber}",
-                    AssessmentType = assessmentType,
-                    IsCurrent = true,
-                    LastUpdated = data.LastUpdated,                    
-                };
-
-                string questionPartitionKey = newQuestionSet.QuestionSetVersion;
-                int questionNumber = 1;
-                foreach (var dataQuestion in data.Questions.OrderBy(x => x.Order))
-                {
-                    var newQuestion = new Question
+                    // Nothing to do so log and exit
+                    if (!updateRequired)
                     {
-                        IsNegative = dataQuestion.IsNegative,
-                        Order = questionNumber,
-                        QuestionId = questionPartitionKey + "-" + questionNumber,
-                        TraitCode = dataQuestion.Trait.ToUpper(),
-                        PartitionKey = questionPartitionKey,
-                        Texts = new []
-                    {
-                        new QuestionText { LanguageCode = "EN", Text = dataQuestion.Title }
+                        logger.LogInformation($"Question set {data.Id} {data.Title} is upto date - no changes to be done");
+                        continue;
                     }
+
+                    // Attempt to get the questions for this question set
+                    logger.LogInformation($"Getting cms questions for question set {data.Id} {data.Title}");
+                    
+                    data.Questions = await _sitefinity.Get<List<SiteFinityShortQuestion>>($"shortquestionsets({data.Id})/Questions?$expand=Trait");
+                    
+                    if (data.Questions.Count == 0)
+                    {
+                        logger.LogInformation($"Question set {data.Id} doesn't have any questions");
+                        continue;
+                    }
+
+                    logger.LogInformation(
+                        $"Received {data.Questions?.Count} questions for question set {data.Id} {data.Title}");
+                    
+                    var latestQuestionSet = await _questionSetRepository.GetCurrentQuestionSet("short");
+
+                    if (latestQuestionSet != null)
+                    {
+                        // Change the current question set to be not current
+                        logger.LogInformation($"Demoting question set {latestQuestionSet.QuestionSetVersion} from current");
+                        latestQuestionSet.IsCurrent = false;
+                        await _questionSetRepository.CreateOrUpdateQuestionSet(latestQuestionSet);
+                    }
+                    
+                    if (questionSet != null && questionSet.IsCurrent)
+                    {
+                        // Change the current question set to be not current
+                        logger.LogInformation($"Demoting question set {questionSet.QuestionSetVersion} from current");
+                        questionSet.IsCurrent = false;
+                        await _questionSetRepository.CreateOrUpdateQuestionSet(questionSet);
+                    }
+
+
+                    // Create the new current version
+                    int newVersionNumber = questionSet == null ? 1 : questionSet.Version + 1;
+                    var newQuestionSet = new QuestionSet()
+                    {
+                        PartitionKey = "ncs",
+                        Title = data.Title,
+                        QuestionSetKey = data.Title.ToLower(),
+                        Description = data.Description,
+                        Version = newVersionNumber,
+                        QuestionSetVersion = $"{assessmentType.ToLower()}-{data.Title.ToLower()}-{newVersionNumber}",
+                        AssessmentType = assessmentType,
+                        IsCurrent = true,
+                        LastUpdated = data.LastUpdated,
                     };
-                    newQuestionSet.MaxQuestions = questionNumber;
-                    questionNumber++;
-                    await QuestionRepository.CreateQuestion(newQuestion);
-                    logger.LogInformation($"Created question {newQuestion.QuestionId}");
+
+                    string questionPartitionKey = newQuestionSet.QuestionSetVersion;
+                    int questionNumber = 1;
+                    foreach (var dataQuestion in data.Questions)
+                    {
+                        var newQuestion = new Question
+                        {
+                            IsNegative = dataQuestion.IsNegative,
+                            Order = questionNumber,
+                            QuestionId = questionPartitionKey + "-" + questionNumber,
+                            TraitCode = dataQuestion.Trait.Name.ToUpper(),
+                            PartitionKey = questionPartitionKey,
+                            LastUpdatedDt = dataQuestion.LastUpdatedDt,
+                            IsFilterQuestion = false,
+                            Texts = new[]
+                            {
+                                new QuestionText {LanguageCode = "EN", Text = dataQuestion.Title}
+                            }
+                        };
+                        newQuestionSet.MaxQuestions = questionNumber;
+                        questionNumber++;
+                        await _questionRepository.CreateQuestion(newQuestion);
+                        logger.LogInformation($"Created short question {newQuestion.QuestionId}");
+                    }
+
+                    await _questionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
+                    logger.LogInformation($"Created Short Question Set {newQuestionSet.Version}");
                 }
-                await QuestionSetRepository.CreateOrUpdateQuestionSet(newQuestionSet);
-                logger.LogInformation($"Created questionset {newQuestionSet.Version}");
             }
+            else
+            {
+                logger.LogError("No Short Question sets available");
+            }
+
             logger.LogInformation($"End poll for ShortQuestionSet");
         }
     }

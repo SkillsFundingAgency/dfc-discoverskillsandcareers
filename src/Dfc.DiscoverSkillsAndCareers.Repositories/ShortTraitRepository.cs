@@ -22,29 +22,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.client = client;
         }
 
-        public async Task<Trait> GetShortTrait(string name, string partitionKey)
-        {
-            try
-            {
-                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, name);
-                var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (Trait)(dynamic)document;
-            }
-            catch (DocumentClientException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-        }
-
-        public async Task CreateTrait(Trait trait, string partitionKey)
+        
+        public async Task CreateTrait(Trait trait, string partitionKey = "traits")
         {
             trait.PartitionKey = partitionKey;
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
@@ -58,7 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<Trait[]> GetTraits(string partitionKey)
+        public async Task<Trait[]> GetTraits(string partitionKey = "tratis")
         {
             try
             {
@@ -68,7 +47,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                        .Where(x => x.PartitionKey == partitionKey)
                                        .AsEnumerable()
                                        .ToArray();
-                return queryQuestions;
+                
+                return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
             {

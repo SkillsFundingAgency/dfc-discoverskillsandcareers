@@ -1,7 +1,5 @@
-﻿
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
-using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,18 +10,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("finish")]
     public class FinishController : BaseController
     {
-        readonly ILogger<FinishController> Log;
-        readonly ILoggerHelper LoggerHelper;
-        readonly IApiServices ApiServices;
+        readonly ILogger<FinishController> _log;
+        readonly IApiServices _apiServices;
 
         public FinishController(
             ILogger<FinishController> log,
-            ILoggerHelper loggerHelper,
             IApiServices apiServices)
         {
-            Log = log;
-            LoggerHelper = loggerHelper;
-            ApiServices = apiServices;
+            _log = log;
+            _apiServices = apiServices;
         }
 
         [Route("{jobCategory}")]
@@ -32,8 +27,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-
                 var sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
@@ -41,20 +34,18 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var viewName ="FinishFilteredAssessment";
-                var contentName = "finishjobcategorypage";
-                var model = await ApiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
-                model.JobCategorySafeUrl = jobCategory;
+                var model = new FinishViewModel
+                {
+                    IsFilterAssessment = true,
+                    JobCategorySafeUrl = jobCategory
+                };
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(FinishWithJobCategory)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
 
@@ -63,8 +54,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                LoggerHelper.LogMethodEnter(Log);
-                
                 var sessionId = await TryGetSessionId(Request);
                 if (string.IsNullOrEmpty(sessionId))
                 {
@@ -72,19 +61,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var viewName = "Finish";
-                var contentName = "finishpage";
-                var model = await ApiServices.GetContentModel<FinishViewModel>(contentName, correlationId);
+                var model = new FinishViewModel();
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }
             catch (Exception ex)
             {
-                LoggerHelper.LogException(Log, correlationId, ex);
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Index)}");
                 return StatusCode(500);
-            }
-            finally
-            {
-                LoggerHelper.LogMethodExit(Log);
             }
         }
     }

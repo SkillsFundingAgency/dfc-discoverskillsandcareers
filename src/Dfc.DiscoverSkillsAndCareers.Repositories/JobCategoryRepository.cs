@@ -1,4 +1,6 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
@@ -13,22 +15,24 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
+        private bool collectionExists = false;
 
         public JobCategoryRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "QuestionSets";
             this.client = client;
-        }
 
-        public async Task<JobFamily> GetJobCategory(string socCode, string partitionKey)
+        }
+        
+        public async Task<JobCategory> GetJobCategory(string jobCategoryCode, string partitionKey = "job-categories")
         {
             try
             {
-                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, socCode);
+                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, jobCategoryCode);
                 var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (JobFamily)(dynamic)document;
+                var document = await client.ReadDocumentAsync<JobCategory>(uri, requestOptions);
+                return document;
             }
             catch (DocumentClientException ex)
             {
@@ -43,28 +47,29 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task CreateJobCategory(JobFamily jobProfile)
+        public async Task CreateOrUpdateJobCategory(JobCategory jobCategory)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
             {
-                await client.CreateDocumentAsync(uri, jobProfile);
+                await client.CreateDocumentAsync(uri, jobCategory);
             }
             catch
             {
-                await client.UpsertDocumentAsync(uri, jobProfile);
+                await client.UpsertDocumentAsync(uri, jobCategory);
             }
         }
 
-        public async Task<JobFamily[]> GetJobCategories()
+        public async Task<JobCategory[]> GetJobCategories(string partitionKey = "job-categories")
         {
             try
             {
                 var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-                FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                var queryQuestions = client.CreateDocumentQuery<JobFamily>(uri, feedOptions)
+                FeedOptions feedOptions = new FeedOptions() { PartitionKey = new PartitionKey(partitionKey) };
+                var queryQuestions = client.CreateDocumentQuery<JobCategory>(uri, feedOptions)
                                        .AsEnumerable()
                                        .ToArray();
+                
                 return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
@@ -79,5 +84,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 }
             }
         }
+        
     }
 }

@@ -1,37 +1,28 @@
-﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 {
-    public class ShortTraitDataProcessor : IShortTraitDataProcessor
+    public class ShortTraitDataProcessor : IContentTypeProcessor<ShortTraitDataProcessor>
     {
-        readonly ISiteFinityHttpService HttpService;
-        readonly IGetShortTraitData GetShortTraitData;
-        readonly AppSettings AppSettings;
-        readonly IShortTraitRepository ShortTraitRepository;
+        private readonly ISiteFinityHttpService _sitefinity;
+        private readonly IShortTraitRepository _shortTraitRepository;
 
-        public ShortTraitDataProcessor(
-            ISiteFinityHttpService httpService,
-            IGetShortTraitData getShortTraitData,
-            IOptions<AppSettings> appSettings,
-            IShortTraitRepository shortTraitRepository)
+        public ShortTraitDataProcessor(ISiteFinityHttpService sitefinity, IShortTraitRepository shortTraitRepository)
         {
-            HttpService = httpService;
-            GetShortTraitData = getShortTraitData;
-            AppSettings = appSettings.Value;
-            ShortTraitRepository = shortTraitRepository;
+            _sitefinity = sitefinity;
+            _shortTraitRepository = shortTraitRepository;
         }
 
         public async Task RunOnce(ILogger logger)
         {
             logger.LogInformation("Begin poll for ShortTraits");
 
-            var data = await GetShortTraitData.GetData(AppSettings.SiteFinityApiUrlbase, AppSettings.SiteFinityApiWebService);
+            var data = await _sitefinity.GetAll<SiteFinityTrait>("traits");
 
             foreach(var traitData in data)
             {
@@ -51,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                         }
                     }
                 };
-                await ShortTraitRepository.CreateTrait(trait, "shorttrait-cms");
+                await _shortTraitRepository.CreateTrait(trait);
             }
 
             logger.LogInformation("End poll for ShortTraits");

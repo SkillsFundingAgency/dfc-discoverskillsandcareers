@@ -13,44 +13,31 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         private IHttpService HttpService;
         private IAppSettings AppSettings;
 
-        public ApiServices(HttpService httpService, IOptions<AppSettings> appSettings)
+        public ApiServices(IHttpService httpService, IOptions<AppSettings> appSettings)
         {
             HttpService = httpService;
             AppSettings = appSettings.Value;
         }
-
-        public async Task<T> GetContentModel<T>(string contentType, Guid correlationId) where T : class
+        
+        public async Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType)
         {
-            try
-            {
-                string url = $"{AppSettings.ContentApiRoot}/content/{contentType}";
-                var json = await HttpService.GetString(url, correlationId);
-                var content = JsonConvert.DeserializeObject<Content>(json);
-                T model = Activator.CreateInstance<T>();
-                if (content != null)
-                {
-                    model = JsonConvert.DeserializeObject<T>(content.ContentData);
-                }
-                return model;
-            }
-            catch (System.Net.Http.HttpRequestException)
-            {
-                return Activator.CreateInstance<T>();
-            }
-        }
-
-        public async Task<NewSessionResponse> NewSession(Guid correlationId, string assessmentType, string title)
-        {
-            string url = $"{AppSettings.SessionApiRoot}/assessment?assessmentType={assessmentType}&questionSetTitle={title}";
+            string url = $"{AppSettings.SessionApiRoot}/assessment?assessmentType={assessmentType}";
             var json = await HttpService.PostData(url, "", correlationId);
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
 
-        public async Task<NextQuestionResponse> NextQuestion(string sessionId, Guid correlationId)
+        public async Task<AssessmentQuestionResponse> Reload(string sessionId, Guid correlationId)
         {
-            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/next";
+            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/reload";
             var json = await HttpService.GetString(url, correlationId);
-            return JsonConvert.DeserializeObject<NextQuestionResponse>(json);
+            return JsonConvert.DeserializeObject<AssessmentQuestionResponse>(json);
+        }
+
+        public async Task<AssessmentQuestionResponse> Question(string sessionId, string assessment, int questionNumber, Guid correlationId)
+        {
+            string url = $"{AppSettings.SessionApiRoot}/assessment/{sessionId}/{assessment}/q/{questionNumber}";
+            var json = await HttpService.GetString(url, correlationId);
+            return JsonConvert.DeserializeObject<AssessmentQuestionResponse>(json);
         }
 
         public async Task<PostAnswerResponse> PostAnswer(string sessionId, PostAnswerRequest postAnswerRequest, Guid correlationId)
@@ -62,7 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 
         public async Task<ResultsResponse> Results(string sessionId, Guid correlationId)
         {
-            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}";
+            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/short";
             var json = await HttpService.GetString(url, correlationId);
             return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }
@@ -74,11 +61,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
 
-        public async Task<ResultsJobCategoryResult> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId)
+        public async Task<ResultsResponse> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId)
         {
             string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/{jobCategory}";
             var json = await HttpService.GetString(url, correlationId);
-            return JsonConvert.DeserializeObject<ResultsJobCategoryResult>(json);
+            return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }
 
         public async Task<NotifyResponse> SendEmail(string domain, string emailAddress, string templateId, string sessionId, Guid correlationId)

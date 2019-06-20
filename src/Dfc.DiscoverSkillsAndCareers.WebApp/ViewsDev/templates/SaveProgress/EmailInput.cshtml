@@ -1,12 +1,13 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
+{% set pageTitle = 'Email address' %}
 
 {% extends "_base.njk" %}
 
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = @Model.PageTitle;
+    ViewData["Title"] = "Save progress";
     Layout = null;
 }
 {% endblock %}
@@ -18,12 +19,7 @@
 
         {% include "_phasebanner.njk" %}
 
-        {% block beforeContent %}
-        {{ govukBackLink({
-            text: "Back to previous page",
-            href: "@Model.BackLink"
-        }) }}
-        {% endblock %}
+        {% include "_breadcrumbpanel.njk" %}
 
     </div>
 
@@ -33,9 +29,9 @@
 
                 <fieldset class="govuk-fieldset" aria-describedby="passport-issued-hint" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-                        <h1 class="govuk-fieldset__heading">@Model.EmailPrompt</h1>
+                        <h1 class="govuk-fieldset__heading">Email address</h1>
                     </legend>
-                    <span class="govuk-hint">@Model.EmailHint</span>
+                    <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
 
                     @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
                         <div>
@@ -59,7 +55,7 @@
                                 <div>
                                     {{ govukInput({
                                     label: {
-                                    text: "@Model.EmailInputLabel"
+                                    text: "Email"
                                     },
                                     type: "text",
                                     id: "email",
@@ -72,7 +68,7 @@
                                 <div>
                                     {{ govukInput({
                                     label: {
-                                        text: "@Model.EmailInputLabel"
+                                        text: "Email"
                                     },
                                     type: "text",
                                     id: "email",
@@ -86,7 +82,7 @@
                                 </div>
                                 }
                                 {{ govukButton({
-                                    text: "@Model.EmailInputButtonText"
+                                    text: "Send"
                                 }) }}
                             </div>
                         </form>

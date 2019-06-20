@@ -6,10 +6,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
     {
         [JsonProperty("traits")]
         public TraitResult[] Traits { get; set; }
+        
         [JsonProperty("jobFamilies")]
-        public JobFamilyResult[] JobFamilies { get; set; }
-        [JsonProperty("whatYouToldUs")]
-        public string[] WhatYouToldUs { get; set; }
+        public JobCategoryResult[] JobCategories { get; set; }
+        
         [JsonProperty("traitsscores")]
         public TraitResult[] TraitScores { get; set; }
     }

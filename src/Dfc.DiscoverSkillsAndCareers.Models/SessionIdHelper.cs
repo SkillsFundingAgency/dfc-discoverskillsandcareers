@@ -15,7 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             long digits = Convert.ToInt64($"{year}{date.ToString("MMddHHmmssfff")}{rand}");
             var code = hashids.EncodeLong(digits);
             var decode = Decode(salt, code);
-            if (digits.ToString() != decode.ToString())
+            if (digits.ToString() != decode)
             {
                 throw new Exception("Invalid decode");
             }

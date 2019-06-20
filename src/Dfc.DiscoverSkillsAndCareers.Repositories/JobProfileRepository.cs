@@ -1,85 +1,81 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
+using Microsoft.Azure.Search;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure.Search.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
+
     public class JobProfileRepository : IJobProfileRepository
     {
-        readonly ICosmosSettings cosmosSettings;
-        readonly string collectionName;
-        readonly DocumentClient client;
+        private readonly ISearchIndexClient _client;
 
-        public JobProfileRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
+
+        public JobProfileRepository(ISearchIndexClient client)
         {
-            this.cosmosSettings = cosmosSettings?.Value;
-            this.collectionName = "QuestionSets";
-            this.client = client;
+            _client = client;
         }
 
-        public async Task<JobProfile> GetJobProfile(string socCode, string partitionKey)
+        private async Task<IList<SearchResult<T>>> RunAzureSearchQuery<T>(string query, params string[] fields)
+            where T : class
         {
-            try
+            var searchParameters = new SearchParameters
             {
-                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, socCode);
-                var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                Document document = await client.ReadDocumentAsync(uri, requestOptions);
-                return (JobProfile)(dynamic)document;
-            }
-            catch (DocumentClientException ex)
+                ScoringProfile = "jp",
+                SearchMode = SearchMode.All,
+                SearchFields = fields,
+                QueryType = QueryType.Full
+            };
+        
+            var results = await _client.Documents.SearchAsync<T>(query, searchParameters);
+            var data = new List<SearchResult<T>>();
+
+            foreach (var result in results.Results)
             {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
-                else
-                {
-                    throw;
-                }
+                data.Add(result);
             }
+            
+            var contToken = results.ContinuationToken;
+            
+            while (contToken != null)
+            {
+                var nextResults = await _client.Documents.ContinueSearchAsync<T>(contToken);
+                foreach (var result in nextResults.Results)
+                {
+                    data.Add(result);
+                }
+                
+                contToken = nextResults.ContinuationToken;
+            }
+            
+            return data;
         }
 
-        public async Task<Document> CreateJobProfile(JobProfile jobProfile)
+        public async Task<JobProfile[]> JobProfilesTitle(IEnumerable<string> profiles)
         {
-            var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            try
+            var ps = profiles as string[] ?? profiles.ToArray();
+            if (ps.Any())
             {
-                return await client.CreateDocumentAsync(uri, jobProfile);
-            }
-            catch
-            {
-                return await client.UpsertDocumentAsync(uri, jobProfile);
-            }
-        }
+                var queryString = String.Join("||", ps.Select(s => $"({s})"));
 
-        public async Task<JobProfile[]> GetJobProfilesForJobFamily(string jobFamily)
-        {
-            try
-            {
-                var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-                FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                var queryQuestions = client.CreateDocumentQuery<JobProfile>(uri, feedOptions)
-                                       .Where(x => x.JobProfileCategories.Contains(jobFamily))
-                                       .AsEnumerable()
-                                       .ToArray();
-                return queryQuestions;
+                var results = await RunAzureSearchQuery<JobProfile>(queryString, "Title");
+                return results.Select(jp => jp.Document).ToArray();
             }
-            catch (DocumentClientException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+            return new JobProfile[]{};
         }
+        
+        public async Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily)
+        {
+            var results = await RunAzureSearchQuery<JobProfile>($"({jobFamily})", "JobProfileCategories");
+            return results.Select(r => r.Document).ToArray();
+        }
+        
     }
 }

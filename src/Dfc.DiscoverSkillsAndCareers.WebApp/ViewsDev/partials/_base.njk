@@ -15,6 +15,17 @@
 <html lang="en" class="govuk-template no-js">
   <head>
 
+    <title>@(!String.IsNullOrEmpty(Model.ErrorMessage) ? "Error - " : ""){{ pageTitle }} - National Careers Service - GOV.UK</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0c0c" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="preload" href="/assets/fonts/light-f38ad40456-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/bold-a2452cb66f-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+
     <script>
 
       var patterns = {
@@ -71,13 +82,6 @@
     })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
     <!-- End Google Tag Manager -->
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0b0c0c" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{{ pageTitle | default('National Careers Service') }}</title>
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/print.css" media="print">
-
   </head>
   <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
 
@@ -91,38 +95,26 @@
       href: "#content"
     }) }}
 
-    {{ govukHeader({
-      homepageUrl: "https://gov.uk/",
-      serviceName: "National Careers Service",
-      serviceUrl: "https://nationalcareers.service.gov.uk/",
-      navigation: [
-        {
-          href: "/",
-          text: "Explore careers",
-          active: true
-        },
-        {
-          href: "https://nationalcareersservice.direct.gov.uk/skills-health-check",
-          text: "Skills health check"
-        },
-        {
-          href: "https://nationalcareersservice.direct.gov.uk/course-directory",
-          text: "Find a course"
-        },
-        {
-          href: "https://nationalcareersservice.direct.gov.uk/contact-us",
-          text: "Contact us"
-        },
-        {
-          href: "https://nationalcareersservice.direct.gov.uk/about-us",
-          text: "About us"
-        },
-        {
-          href: "https://nationalcareersservice.direct.gov.uk/get-a-job",
-          text: "Help to get a job"
-        }
-    ]
-    }) }}
+    <header class="with-proposition" id="global-header" role="banner">
+      <div class="header-wrapper">
+        <div class="header-proposition">
+          <div class="content">
+            <a class="js-header-toggle menu" href="#proposition-links">Menu</a>
+            <nav id="proposition-menu">
+              <a href="https://nationalcareersservice.direct.gov.uk" id="proposition-name">National Careers Service</a>
+              <ul id="proposition-links">
+                <li><a href="https://nationalcareers.service.gov.uk/" id="nav-EC" target="_self">Explore careers</a></li>
+                <li><a href="https://nationalcareersservice.direct.gov.uk/skills-health-check" id="nav-SHC" target="_self">Skills health check</a></li>
+                <li><a href="https://nationalcareersservice.direct.gov.uk/course-directory" id="nav-FC" target="_self">Find a course</a></li>
+                <li><a href="/contact-us" id="nav-CA" target="_self">Contact us</a></li>
+                <li><a href="https://nationalcareersservice.direct.gov.uk/about-us" id="nav-AU" target="_self">About us</a></li>
+                <li><a href="/get-a-job" id="nav-HTG" target="_self">Help to get a job</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
 
     {% block main %}{% endblock %}
 
@@ -130,7 +122,7 @@
       meta: {
         items: [
           {
-            href: "mailto:Discover.SkillsCareers@education.gov.uk",
+            href: "https://nationalcareers.service.gov.uk/help",
             text: "Help"
           },
           {
@@ -142,7 +134,7 @@
             text: "Terms and conditions"
           },
           {
-            href: "/information-sources/",
+            href: "https://nationalcareers.service.gov.uk/help/information-sources",
             text: "Information sources"
           }
         ]

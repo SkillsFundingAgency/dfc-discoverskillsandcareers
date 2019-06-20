@@ -1,77 +1,114 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using System;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
+using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
     public class FilterAssessmentCalculationService : IFilterAssessmentCalculationService
     {
-        readonly IQuestionRepository QuestionRepository;
-        readonly IJobProfileRepository JobProfileRepository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IJobCategoryRepository _jobCategoryRepository;
 
-        public FilterAssessmentCalculationService(
-            IQuestionRepository questionRepository,
-            IJobProfileRepository jobProfileRepository)
+        public FilterAssessmentCalculationService(IQuestionRepository questionRepository, IJobCategoryRepository jobCategoryRepository)
         {
-            QuestionRepository = questionRepository;
-            JobProfileRepository = jobProfileRepository;
+            _questionRepository = questionRepository;
+            _jobCategoryRepository = jobCategoryRepository;
         }
 
         public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
-            // All questions for this set version
-            var questions = await QuestionRepository.GetQuestions(userSession.CurrentQuestionSetVersion);
+            foreach (var jobCategoryState in userSession.FilteredAssessmentState.JobCategoryStates.Where(j => j.IsComplete(userSession.FilteredAssessmentState.RecordedAnswers)))
+            {
+                var questions = await _questionRepository.GetQuestions(jobCategoryState.QuestionSetVersion);
+                var category = await _jobCategoryRepository.GetJobCategory(jobCategoryState.JobCategoryCode);
 
-            // All the job profiles for this job category
-            var jobFamilyName = userSession.CurrentFilterAssessment.JobFamilyName;
-            var allJobProfiles = await JobProfileRepository.GetJobProfilesForJobFamily(jobFamilyName);
-            var suggestedJobProfiles = allJobProfiles.ToList();
+                var jobProfiles =
+                    jobCategoryState.Skills.SelectMany((s, i) =>
+                        {
+                            var c = category.Skills.First(cs => cs.ONetAttribute.EqualsIgnoreCase(s.Skill));
+                            return c.JobProfiles.Select(p => new
+                            {
+                                QuestionNumber = s.QuestionNumber,
+                                Profile = p.JobProfile,
+                                Answer = p.Included ? AnswerOption.Yes : AnswerOption.No
+                            });
+                        })
+                        .GroupBy(p => p.Profile)
+                        .Select(g => new {Profile = g.Key, Answers = g.OrderBy(q => q.QuestionNumber).Select(q => q.Answer)});
+                
+                
+                var categoryAnswers =
+                    userSession.FilteredAssessmentState.GetAnswersForCategory(jobCategoryState.JobCategoryCode);
+                
+                var answers =
+                        categoryAnswers
+                            .OrderBy(a => a.QuestionNumber)
+                            .Select(a => a.SelectedOption)
+                            .ToArray();
 
-            // All answers in order 
-            var answers = userSession.CurrentRecordedAnswers
-                .OrderBy(x => x.QuestionNumber)
-                .ToList();
+                var suggestedProfiles = new List<string>();
+                
+                foreach (var jobProfile in jobProfiles)
+                {
+                    if (jobProfile.Answers.SequenceEqual(answers, EqualityComparer<AnswerOption>.Default))
+                    {
+                        suggestedProfiles.Add(jobProfile.Profile);
+                    }
+                }
+                
+                var jobCategoryResult =
+                    userSession.ResultData.JobCategories.Single(jf => jf.JobCategoryCode.EqualsIgnoreCase(jobCategoryState.JobCategoryCode));
+                
+                jobCategoryResult.FilterAssessmentResult = new FilterAssessmentResult
+                {
+                    JobFamilyName = jobCategoryState.JobCategoryName,
+                    CreatedDt = DateTime.UtcNow,
+                    QuestionSetVersion = userSession.CurrentQuestionSetVersion,
+                    MaxQuestions = userSession.MaxQuestions,
+                    SuggestedJobProfiles = suggestedProfiles,
+                    RecordedAnswerCount = userSession.RecordedAnswers.Length,
+                    RecordedAnswers = userSession.RecordedAnswers.ToArray(),
+                    WhatYouToldUs = ComputeWhatYouToldUs(categoryAnswers, questions).Distinct().ToArray()
+                }; 
+            }
+            
+            
+            userSession.UpdateJobCategoryQuestionCount();
+        }
 
+        public List<string> ComputeWhatYouToldUs(Answer[] categoryAnswers, Question[] questions)
+        {
             var whatYouToldUs = new List<string>();
 
-            // Iterate through removing all in a "guess-who" fashion
-            foreach (var answer in answers)
+            foreach (var answer in categoryAnswers)
             {
-                var question = questions.Where(x => x.QuestionId == answer.QuestionId).First();
-                if (question.FilterTrigger == "No" && answer.SelectedOption == AnswerOption.No)
-                {
-                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-                }
-                else if (question.FilterTrigger == "Yes" && answer.SelectedOption == AnswerOption.Yes)
-                {
-                    suggestedJobProfiles.RemoveAll(x => question.ExcludesJobProfiles.Contains(x.Title));
-                }
-
+                String text = null;
                 if (answer.SelectedOption == AnswerOption.No)
                 {
-                    whatYouToldUs.Add(question.NegativeResultDisplayText);
+                    text = questions
+                        .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))?.NegativeResultDisplayText;
                 }
-                else if (answer.SelectedOption == AnswerOption.Yes)
+                else
                 {
-                    whatYouToldUs.Add(question.PositiveResultDisplayText);
+                    text = questions
+                        .FirstOrDefault(q => q.QuestionId.EqualsIgnoreCase(answer.QuestionId))
+                        ?.PositiveResultDisplayText;
+                }
+
+                if (!String.IsNullOrWhiteSpace(text))
+                {
+                    whatYouToldUs.Add(text);
                 }
             }
 
-            // Update the filter assessment with the soc codes we are going to suggest
-            // TODO: the quantity and order here is likely to change or handled on the UI?
-            var filterAssessment = userSession.CurrentFilterAssessment;
-            var socCodes = suggestedJobProfiles.Select(x => x.SocCode).ToArray();
-            userSession.CurrentFilterAssessment.SuggestedJobProfiles = socCodes;
-
-            // Update the "what you told us"
-            if (userSession.ResultData.WhatYouToldUs != null)
-            {
-                whatYouToldUs.AddRange(userSession.ResultData.WhatYouToldUs);
-            }
-            userSession.ResultData.WhatYouToldUs = whatYouToldUs.Distinct().ToArray();
+            return whatYouToldUs;
         }
     }
 }

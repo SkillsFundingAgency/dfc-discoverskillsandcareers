@@ -6,9 +6,11 @@ using CommandLine;
 using CsvHelper;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 {
@@ -37,10 +39,11 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
         }
 
 
-        public static SuccessFailCode Execute(IConfiguration configuration, Options opts)
+        public static SuccessFailCode Execute(IServiceProvider services, Options opts)
         {
             try
             {
+                var configuration = services.GetService<IConfiguration>();
                 configuration.Bind(opts);
 
                 var client = new DocumentClient(new Uri(opts.Cosmos.Endpoint), opts.Cosmos.Key);
@@ -52,7 +55,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     AssessmentType = "short",
                     Version = 1,
                     Title = title,
-                    TitleLowercase = title.ToLower(),
+                    QuestionSetKey = title.ToLower(),
                     MaxQuestions = 40,
                     LastUpdated = DateTime.Now,
                     PartitionKey = "ncs",
@@ -74,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                         var questionId = $"{questionPartitionKey}-{questionNumber}";
                         Console.WriteLine($"Creating question id: {questionId}");    
 
-                        var doc = questionRepository.CreateQuestion(new Question { 
+                        questionRepository.CreateQuestion(new Question { 
                             IsNegative = question.IsFlipped == 1,  
                             Order = questionNumber,
                             QuestionId = questionId,

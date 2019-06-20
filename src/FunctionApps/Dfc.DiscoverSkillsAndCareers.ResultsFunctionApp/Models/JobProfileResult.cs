@@ -6,25 +6,42 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models
     {
         [JsonProperty("jobCategory")]
         public string JobCategory { get; set; }
+        
         [JsonProperty("socCode")]
         public string SocCode { get; set; }
+        
         [JsonProperty("title")]
         public string Title { get; set; }
+        
         [JsonProperty("overview")]
         public string Overview { get; set; }
+        
         [JsonProperty("salaryStarter")]
         public decimal SalaryStarter { get; set; }
+        
         [JsonProperty("salaryExperienced")]
         public decimal SalaryExperienced { get; set; }
+        
         [JsonProperty("urlName")]
         public string UrlName { get; set; }
+        
         [JsonProperty("wydDayToDayTasks")]
         public string WYDDayToDayTasks { get; set; }
+        
         [JsonProperty("careerPathAndProgression")]
         public string CareerPathAndProgression { get; set; }
+
         [JsonProperty("typicalHours")]
         public string TypicalHours { get; set; }
+
+        [JsonProperty("typicalHoursPeriod")]
+        public string TypicalHoursPeriod { get; set; }
+
         [JsonProperty("shiftPattern")]
         public string ShiftPattern { get; set; }
+
+        [JsonProperty("shiftPatternPeriod")]
+        public string ShiftPatternPeriod { get; set; }
+
     }
 }

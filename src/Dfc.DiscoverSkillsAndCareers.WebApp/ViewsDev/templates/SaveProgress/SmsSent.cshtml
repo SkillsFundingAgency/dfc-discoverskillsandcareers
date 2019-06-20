@@ -1,12 +1,13 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
+{% set pageTitle = 'Check your phone' %}
 
 {% extends "_base.njk" %}
 
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
-    ViewData["Title"] = @Model.PageTitle;
+    ViewData["Title"] = "Save progress";
     Layout = null;
 }
 {% endblock %}
@@ -19,6 +20,8 @@
 
         {% include "_phasebanner.njk" %}
 
+        {% include "_breadcrumbpanel.njk" %}
+
     </div>
 
     <div class="govuk-main-wrapper govuk-width-container">
@@ -27,13 +30,15 @@
 
                 <div class="govuk-body">
 
-                    <h1 class="govuk-heading-xl">@Model.SmsSentHeader</h1>
+                    <h1 class="govuk-heading-xl">Check your phone</h1>
 
-                    <p>@Model.SmsSentText @Model.SentTo</p>
+                    <p>A text message has been sent to @Model.SentTo</p>
 
-                    <p>@Model.ReturnText</p>
+                    <p>Use the reference in the text message to return to your assessment.</p>
 
-                    <a href="/results" class="govuk-button">@Model.ContinueButtonText</a>
+                    <a href="/" class="govuk-button">Return home</a>
+
+                    <p><a href="/results">Return to assessment</a></p>
 
                 </div>
 

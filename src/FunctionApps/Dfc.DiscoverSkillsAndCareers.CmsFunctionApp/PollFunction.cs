@@ -3,8 +3,10 @@ using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using DFC.Functions.DI.Standard.Attributes;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 {
@@ -15,51 +17,36 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
         [FunctionName("PollFunction")]
         public static  async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
             ILogger log,
-            [Inject]IShortTraitDataProcessor shortTraitDataProcessor,
-            [Inject]IShortQuestionSetDataProcessor shortQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentQuestionPage> questionPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentFinishPage> finishPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentResultsPage> resultPageContentDataProcessor,
-            [Inject]IContentDataProcessor<ContentSaveProgressPage> saveProgressPageContentDataProcessor,
-            [Inject]IFilteredQuestionSetDataProcessor filteredQuestionSetDataProcessor,
-            [Inject]IContentDataProcessor<ContentIndexPage> indexPageContentDataProcessor,
-            [Inject]IJobProfileDataProcessor jobProfileDataProcessor,
-            [Inject]IFunctionalCompetencyDataProcessor functionalCompetencyDataProcessor,
-            [Inject]IJobCategoryDataProcessor jobCategoryDataProcessor
+            [Inject]ISiteFinityHttpService siteFinityHttpService,
+            [Inject]IContentTypeProcessor<ShortTraitDataProcessor> shortTraitDataProcessor,
+            [Inject]IContentTypeProcessor<ShortQuestionSetDataProcessor> shortQuestionSetDataProcessor,
+            [Inject]IContentTypeProcessor<FilteredQuestionSetDataProcessor> filteredQuestionSetDataProcessor,
+            [Inject]IContentTypeProcessor<JobCategoryDataProcessor> jobCategoryDataProcessor,
+            [Inject]IContentTypeProcessor<JobProfileSkillsProcessor> jobProfileSkillDataProcessor
             )
         {
             var id = Guid.NewGuid();
             try
             {
-                log.LogInformation($"PollFunction executed at: {DateTime.UtcNow}");
+                siteFinityHttpService.Logger = log;
+                
+                log.LogInformation($"PollFunction executed at: {myTimer.ScheduleStatus.Last:O}");
 
                 await shortTraitDataProcessor.RunOnce(log);
 
                 await jobCategoryDataProcessor.RunOnce(log);
+                
+                await shortQuestionSetDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
 
-                await functionalCompetencyDataProcessor.RunOnce(log);
-
-                await indexPageContentDataProcessor.RunOnce(log, "indexpagecontents", "indexpage");
-
-                await questionPageContentDataProcessor.RunOnce(log, "questionpagecontents", "questionpage");
-
-                await finishPageContentDataProcessor.RunOnce(log, "finishpagecontents", "finishpage");
-
-                await resultPageContentDataProcessor.RunOnce(log, "resultspagecontents", "resultspagecontents");
-
-                await saveProgressPageContentDataProcessor.RunOnce(log, "saveprogresscontents", "saveprogresspage");
-
-                await shortQuestionSetDataProcessor.RunOnce(log);
-
-                await jobProfileDataProcessor.RunOnce(log);
+                await jobProfileSkillDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Running CMS extract function failed.");
+                log.LogError(ex, $"Running CMS extract function failed. {ex.Message}");
             }
         }
     }

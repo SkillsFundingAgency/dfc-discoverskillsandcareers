@@ -11,8 +11,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public IFormCollection FormData { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }
 
-
-
         protected void AppendCookie(string sessionId)
         {
             HttpContext.Session.SetString("session-id", sessionId);
@@ -57,16 +55,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             if (value.Count == 0) return null;
             return value[0];
         }
-
-        protected int? GetFormNumberValue(string key)
-        {
-            var value = GetFormValue(key);
-            int number;
-            if (int.TryParse(value, out number))
-            {
-                return number;
-            }
-            return null;
-        }
+        
     }
 }

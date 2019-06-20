@@ -1,5 +1,5 @@
 ﻿{% set pageName = 'home' %}
-{% set pageTitle = '@Model.Title' %}
+{% set pageTitle = 'Discover your skills and careers' %}
 {% set pageGroup = '' %}
 
 {% extends "_base.njk" %}
@@ -7,7 +7,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Discover your skills and careers";
     Layout = null;
 }
 {% endblock %}
@@ -16,16 +16,18 @@
 
 <main id="content" role="main">
 
+    <div class="govuk-width-container">
+      {% include "_phasebanner.njk" %}
+    </div>
+
     <div class="app-masthead">
         <div class="govuk-width-container">
-
-            {% include "_phasebanner.njk" %}
 
             {% include "_breadcrumbpanel.njk" %}
 
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                    <h1 class="govuk-heading-xl app-masthead__title">@Model.Headline</h1>
+                    <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
                 </div>
             </div>
 
@@ -34,10 +36,10 @@
 
     <div class="govuk-width-container">
         <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
-
-            <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
-            <p class="govuk-body">Try again later.</p>
-
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+                <p class="govuk-body">Try again later.</p>
+            </div>
         </div>
     </div>
 

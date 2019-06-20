@@ -322,7 +322,7 @@
         "Questions": [
             {
                 "Id": "Business and finance-1",
-                "QuestionText": "Would you like to with numbers for most of the day?",
+                "QuestionText": "Would you like to work with numbers for most of the day?",
                 "PositiveResultDisplayText": "You like working with numbers.",
                 "NegativeResultDisplayText": "You do not like working with numbers.",
                 "Description": "",

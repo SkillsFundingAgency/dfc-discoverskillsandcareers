@@ -1,20 +1,37 @@
 <div class="app-sidebar app-resume-panel">
   {% if pageName == 'home' %}
-    <h2 class="govuk-heading-m">@Model.ResumeTitle</h2>
+    <h2 class="govuk-heading-m">Return to an assessment</h2>
   {% else %}
-    <h3 class="govuk-heading-m">@Model.ResumeTitle</h3>
+    <h3 class="govuk-heading-m">Return to an assessment</h3>
   {% endif %}
     <form method="post" action="/reload">
-      <div class="app-resume-panel__input govuk-form-group @(Model.HasReloadError ? "govuk-form-group--error" : string.Empty)">
-        <label class="govuk-label" for="code">@Model.ResumeFieldTitle</label>
-          @if (Model.HasReloadError) {
-            <span id="code-error" class="govuk-error-message">@Model.ResumeErrorMessage</span>
+
+    @if (Model.HasError) {
+      <div>
+
+        {{ govukErrorSummary({
+          "titleText": "There is a problem",
+          "errorList": [
+              {
+              "text": "@Model.ErrorMessage",
+              "href": "#code"
+              }
+          ]
+          }) }}
+
+        </div>
+      }
+
+      <div class="app-resume-panel__input govuk-form-group @(Model.HasError ? "govuk-form-group--error" : string.Empty)">
+        <label class="govuk-label" for="code">Enter your reference</label>
+          @if (Model.HasError) {
+            <span id="code-error" class="govuk-error-message">@Model.ErrorMessage</span>
           }
-         <input class="govuk-input @(Model.HasReloadError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasReloadError ? "aria-describedby=code-error" : string.Empty) />
+         <input class="govuk-input @(Model.HasError ? "govuk-input--error" : string.Empty)" id="code" name="code" type="text" @(Model.HasError ? "aria-describedby=code-error" : string.Empty) />
       </div>
 
       {{ govukButton({
-        text: "@Model.ResumeButtonText",
+        text: "Continue",
         classes: "app-button",
         attributes: {
           "gov-analytics-data": pageName + " | click | button | Resume progress"

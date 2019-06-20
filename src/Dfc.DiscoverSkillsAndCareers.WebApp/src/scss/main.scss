@@ -6,13 +6,11 @@ $app-purple: #8c0052;
 $app-purple-hover: #A73C7B;
 $app-turquoise: #207E77;
 $app-turquoise-hover: #48948E;
-$app-dark-border: #7b0048;
 $app-text-light: #646C70;
 
 @import 'progress';
 @import 'masthead';
 @import 'sidebar';
-@import 'assessmentpicker';
 @import 'yourreference';
 @import 'resumepanel';
 @import 'savepanel';
@@ -22,6 +20,7 @@ $app-text-light: #646C70;
 @import 'payscale';
 @import 'results';
 @import 'footer';
+@import 'legacy';
 
 %clearfix {
   &:after {
@@ -45,12 +44,12 @@ $app-text-light: #646C70;
   @extend %visually-hidden;
 }
 
-.hidden-screen {
-  display: none;
-}
-
 .govuk-header__container {
   border-bottom-color: $app-turquoise;
+}
+
+.govuk-phase-banner {
+  border-top: 10px solid $app-turquoise;
 }
 
 .govuk-phase-bannertag {  // legacy version support
@@ -61,81 +60,6 @@ $app-text-light: #646C70;
 .govuk-phase-banner__content__tag {
   background-color: $govuk-brand-colour;
   color: govuk-colour('white');
-}
-
-.app-page--home,
-.app-page--results,
-.app-page--results-long {
-  .govuk-header__container {
-    border-bottom-color: transparent;
-  }
-}
-
-.app-button--alt {
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: $app-turquoise-hover;
-  }
-}
-
-.app-button--white {
-  background-color: govuk-colour('white');
-  background-image: govuk-image-url("../images/icon-pointer-black.png");
-  background-repeat: no-repeat;
-  background-position: right 15px top 50%;
-  box-shadow: none;
-  color: govuk-colour('black');
-
-  @include govuk-device-pixel-ratio {
-    background-image: govuk-image-url("../images/icon-pointer-black-2x.png");
-    background-size: 13px 16px;
-  }
-
-  &:link,
-  &:visited,
-  &:active {
-    color: govuk-colour('black');
-  }
-
-  &:focus,
-  &:hover {
-    color: govuk-colour('white');
-  }
-}
-
-.app-button--outline {
-  border: 2px solid $app-purple;
-  color: govuk-colour('black');
-  background-color: govuk-colour('white');
-  box-shadow: none;
-
-  &:active,
-  &:focus,
-  &:hover {
-    background-color: $app-purple-hover;
-    border-color: $app-purple-hover;
-    color: govuk-colour('white');
-  }
-
-  input[type=radio]:checked + &.govuk-radios__label {
-    outline: 3px solid  $govuk-focus-colour;
-    outline-offset: 0;
-  }
-}
-
-.app-button--block {
-  display: block;
-  text-align: left;
-}
-
-.app-text--light {
-  color: $govuk-secondary-text-colour;
-}
-
-.govuk-tag--coming-soon {
-  background-color: govuk-colour('white');
-  color: $app-turquoise;
 }
 
 .app-back-to-top__icon {
@@ -160,13 +84,6 @@ $app-text-light: #646C70;
 
 .text-light {
   color: $govuk-secondary-text-colour;
-}
-
-.app-print-panel {
-  display: none;
-  @include govuk-media-query($from: desktop) {
-    display: block;
-  }
 }
 
 .app-advisor-panel {

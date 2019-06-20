@@ -10,6 +10,8 @@
   margin-bottom: 20px;
 }
 
+.show-more,
+.app-noprint,
 .govuk-phase-banner,
 .govuk-breadcrumbs,
 .govuk-button,
@@ -85,12 +87,16 @@
 }
 
 .app-long-results {
+  // sass-lint:disable-all
   @extend .govuk-inset-text;
+  // sass-lint:enable-all
   display: block;
+
 
   li {
     border: 0;
     margin: 0 !important;
+    padding-bottom: 10px;
   }
 
   .app-long-results__item {
@@ -100,6 +106,12 @@
 
     .embedded-fa-icon {
       display: none;
+    }
+
+    .result-detail,
+    .result-description {
+      height: auto !important;
+      margin-bottom: 20px;
     }
 
     .result-meta,
@@ -119,6 +131,14 @@
       display: inline;
       margin: 0;
       float: none;
+      .visually-hidden {
+        display: inline !important;
+        position: relative !important;
+        height: auto;
+        width: auto;
+        clip: unset;
+        overflow: auto;
+      }
     }
 
     .result-meta {

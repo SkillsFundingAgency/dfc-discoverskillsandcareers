@@ -1,0 +1,1730 @@
+[
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-1",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I am comfortable telling people what they need to do"
+            }
+        ],
+        "traitCode": "LEADER",
+        "isNegative": false,
+        "order": 1,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:37+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-2",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I make decisions quickly"
+            }
+        ],
+        "traitCode": "LEADER",
+        "isNegative": false,
+        "order": 2,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:38+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-3",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to take control of situations"
+            }
+        ],
+        "traitCode": "LEADER",
+        "isNegative": false,
+        "order": 3,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:40+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-4",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I prefer to follow what other people are doing"
+            }
+        ],
+        "traitCode": "LEADER",
+        "isNegative": true,
+        "order": 4,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:41+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-5",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like taking responsibility for other people"
+            }
+        ],
+        "traitCode": "LEADER",
+        "isNegative": false,
+        "order": 5,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:42+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-6",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I set myself targets when I have things to do, and usually meet them"
+            }
+        ],
+        "traitCode": "DRIVER",
+        "isNegative": false,
+        "order": 6,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:43+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-7",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to see things through to the end"
+            }
+        ],
+        "traitCode": "DRIVER",
+        "isNegative": false,
+        "order": 7,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:44+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-8",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I think I am a competitive person"
+            }
+        ],
+        "traitCode": "DRIVER",
+        "isNegative": false,
+        "order": 8,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:45+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-9",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Doing well in a career motivates me"
+            }
+        ],
+        "traitCode": "DRIVER",
+        "isNegative": false,
+        "order": 9,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:47+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-10",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I set myself goals in life"
+            }
+        ],
+        "traitCode": "DRIVER",
+        "isNegative": false,
+        "order": 10,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:48+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-11",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I am comfortable talking people around to my way of thinking"
+            }
+        ],
+        "traitCode": "INFLUENCER",
+        "isNegative": false,
+        "order": 11,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:49+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-12",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I am good at coming to an agreement with other people"
+            }
+        ],
+        "traitCode": "INFLUENCER",
+        "isNegative": false,
+        "order": 12,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:50+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-13",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I am comfortable talking in front of a group of people"
+            }
+        ],
+        "traitCode": "INFLUENCER",
+        "isNegative": false,
+        "order": 13,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:51+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-14",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like meeting new people"
+            }
+        ],
+        "traitCode": "INFLUENCER",
+        "isNegative": false,
+        "order": 14,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:52+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-15",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I find it hard to understand other people's point of view"
+            }
+        ],
+        "traitCode": "INFLUENCER",
+        "isNegative": true,
+        "order": 15,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:53+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-16",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to help other people"
+            }
+        ],
+        "traitCode": "HELPER",
+        "isNegative": false,
+        "order": 16,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:54+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-17",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I enjoy working with other people around me"
+            }
+        ],
+        "traitCode": "HELPER",
+        "isNegative": false,
+        "order": 17,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:56+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-18",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I want to make things better for people"
+            }
+        ],
+        "traitCode": "HELPER",
+        "isNegative": false,
+        "order": 18,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:57+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-19",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I will get involved if I think I can help"
+            }
+        ],
+        "traitCode": "HELPER",
+        "isNegative": false,
+        "order": 19,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:58+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-20",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I am comfortable hearing other people's problems"
+            }
+        ],
+        "traitCode": "HELPER",
+        "isNegative": false,
+        "order": 20,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:02:59+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-21",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to work out complicated things"
+            }
+        ],
+        "traitCode": "ANALYST",
+        "isNegative": false,
+        "order": 21,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:00+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-22",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to get to the centre of the issue"
+            }
+        ],
+        "traitCode": "ANALYST",
+        "isNegative": false,
+        "order": 22,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:02+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-23",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like working with facts"
+            }
+        ],
+        "traitCode": "ANALYST",
+        "isNegative": false,
+        "order": 23,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:03+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-24",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like working with numbers"
+            }
+        ],
+        "traitCode": "ANALYST",
+        "isNegative": false,
+        "order": 24,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:04+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-25",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I enjoy learning new things"
+            }
+        ],
+        "traitCode": "ANALYST",
+        "isNegative": false,
+        "order": 25,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:05+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-26",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I enjoy coming up with new ways of doing things"
+            }
+        ],
+        "traitCode": "CREATOR",
+        "isNegative": false,
+        "order": 26,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:06+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-27",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I try to think differently to others"
+            }
+        ],
+        "traitCode": "CREATOR",
+        "isNegative": false,
+        "order": 27,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:07+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-28",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to use my imagination to create new things"
+            }
+        ],
+        "traitCode": "CREATOR",
+        "isNegative": false,
+        "order": 28,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:09+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-29",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to try new things"
+            }
+        ],
+        "traitCode": "CREATOR",
+        "isNegative": false,
+        "order": 29,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:10+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-30",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I enjoy creative activities"
+            }
+        ],
+        "traitCode": "CREATOR",
+        "isNegative": false,
+        "order": 30,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:11+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-31",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to focus on details"
+            }
+        ],
+        "traitCode": "ORGANISER",
+        "isNegative": false,
+        "order": 31,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:12+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-32",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I plan my day so I can use my time best"
+            }
+        ],
+        "traitCode": "ORGANISER",
+        "isNegative": false,
+        "order": 32,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:13+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-33",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like doing things in a careful order"
+            }
+        ],
+        "traitCode": "ORGANISER",
+        "isNegative": false,
+        "order": 33,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:14+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-34",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to follow rules and processes"
+            }
+        ],
+        "traitCode": "ORGANISER",
+        "isNegative": false,
+        "order": 34,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:15+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-35",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I feel restricted when I have to follow a routine"
+            }
+        ],
+        "traitCode": "ORGANISER",
+        "isNegative": true,
+        "order": 35,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:16+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-36",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to see the results of the work I do"
+            }
+        ],
+        "traitCode": "DOER",
+        "isNegative": false,
+        "order": 36,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:18+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-37",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like to get involved in making things"
+            }
+        ],
+        "traitCode": "DOER",
+        "isNegative": false,
+        "order": 37,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:19+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-38",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I enjoy getting involved in practical tasks"
+            }
+        ],
+        "traitCode": "DOER",
+        "isNegative": false,
+        "order": 38,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:20+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-39",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I like working with my hands or tools"
+            }
+        ],
+        "traitCode": "DOER",
+        "isNegative": false,
+        "order": 39,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:21+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "short-201901-11",
+        "id": "short-201901-11-40",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "I enjoy planning a task more than actually doing it"
+            }
+        ],
+        "traitCode": "DOER",
+        "isNegative": true,
+        "order": 40,
+        "sfid": "00000000-0000-0000-0000-000000000000",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:22+01:00",
+        "isFilterQuestion": false
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-1",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable analysing information to solve problems?"
+            }
+        ],
+        "traitCode": "analytical thinking",
+        "isNegative": false,
+        "order": 1,
+        "sfid": "7852f05e-fb45-4379-8789-74c7603088d9",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:50+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-2",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable with things changing?"
+            }
+        ],
+        "traitCode": "adaptability/flexibility",
+        "isNegative": false,
+        "order": 2,
+        "sfid": "d563fc39-2139-4ee3-bd0d-c9fda0f738cc",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:49+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-3",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job managing budgets?"
+            }
+        ],
+        "traitCode": "management of financial resources",
+        "isNegative": false,
+        "order": 3,
+        "sfid": "e523e8be-70fe-49e3-b3d1-e88ecf69201f",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:11+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-4",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable with working together as a team with other people?"
+            }
+        ],
+        "traitCode": "cooperation",
+        "isNegative": false,
+        "order": 4,
+        "sfid": "e284d0ff-2567-45f5-b3e8-56a24e629515",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:55+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-5",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you feel comfortable working in a job where you have to put a lot of effort in to achieve things?"
+            }
+        ],
+        "traitCode": "achievement/effort",
+        "isNegative": false,
+        "order": 5,
+        "sfid": "4812ae77-37e2-4142-9d35-a61a1f475e73",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:47+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-6",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you enjoy learning new things?"
+            }
+        ],
+        "traitCode": "active learning",
+        "isNegative": false,
+        "order": 6,
+        "sfid": "b97a9f87-eb81-4893-b733-89a640a55638",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:48+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-7",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you enjoy solving complicated problems?"
+            }
+        ],
+        "traitCode": "complex problem solving",
+        "isNegative": false,
+        "order": 7,
+        "sfid": "d6f30212-46f3-425e-9014-e8b03b320ec7",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:52+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-8",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you be comfortable in a job where you would need to be sensitive to other people's needs and feelings?"
+            }
+        ],
+        "traitCode": "concern for others",
+        "isNegative": false,
+        "order": 8,
+        "sfid": "a0b946ff-e99e-495f-9b7a-d0e193208ac6",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:53+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-9",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you able to control your body movements, for example moving both your arms or legs at the same time?"
+            }
+        ],
+        "traitCode": "control movement abilities",
+        "isNegative": false,
+        "order": 9,
+        "sfid": "487b7642-b1d3-447d-a59a-0110135cc2b6",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:54+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-10",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable coordinating things?"
+            }
+        ],
+        "traitCode": "coordination",
+        "isNegative": false,
+        "order": 10,
+        "sfid": "1c38d34e-30d0-42d3-8639-33e8e9912e87",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:56+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-11",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you feel fit enough to do physical exercise for most of the day?"
+            }
+        ],
+        "traitCode": "endurance",
+        "isNegative": false,
+        "order": 11,
+        "sfid": "f091de1d-79da-4846-87a0-ac70ff5b32a3",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:57+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-12",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job maintaining equipment?"
+            }
+        ],
+        "traitCode": "equipment maintenance",
+        "isNegative": false,
+        "order": 12,
+        "sfid": "3b7fc0b9-31d0-4808-88a9-d389d9d3fcde",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:58+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-13",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Can you work with your hands to do something fiddly like threading a needle?"
+            }
+        ],
+        "traitCode": "fine manipulative abilities",
+        "isNegative": false,
+        "order": 13,
+        "sfid": "620b8ab9-dc0f-473a-809b-717a88a1a83b",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:03:59+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-14",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Could you stay motivated if you were working by yourself with no other people?"
+            }
+        ],
+        "traitCode": "independence",
+        "isNegative": false,
+        "order": 14,
+        "sfid": "3cb15528-f469-4642-ab2e-1e0ccfd2ae7b",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:00+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-15",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you find it easy to stay motivated to get things done if you're working by yourself?"
+            }
+        ],
+        "traitCode": "independence, initiative",
+        "isNegative": false,
+        "order": 15,
+        "sfid": "bd9d7f6e-0c74-40e2-b9a8-cea83b69c899",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:01+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-16",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you be comfortable taking responsibility for things that you didn't expect to happen?"
+            }
+        ],
+        "traitCode": "initiative",
+        "isNegative": false,
+        "order": 16,
+        "sfid": "9ed584ee-5372-4e1c-bad5-98d49f295a67",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:02+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-17",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you are good at coming up with new ways of doing things?"
+            }
+        ],
+        "traitCode": "innovation",
+        "isNegative": false,
+        "order": 17,
+        "sfid": "206a60f3-ec11-46dc-a799-1d6987aad84c",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:04+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-18",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job where you would install equipment, machines, wiring or computer programmes?"
+            }
+        ],
+        "traitCode": "installation",
+        "isNegative": false,
+        "order": 18,
+        "sfid": "bec1d8db-4233-4e0c-9838-d8b4e0539248",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:05+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-19",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to teach other people how to do things?"
+            }
+        ],
+        "traitCode": "instructing",
+        "isNegative": false,
+        "order": 19,
+        "sfid": "4328daaa-5cb9-4a82-80be-3ce5233e6d34",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:06+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-20",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable weighing up options to make the best decision?"
+            }
+        ],
+        "traitCode": "judgment and decision making",
+        "isNegative": false,
+        "order": 20,
+        "sfid": "8b974e73-13e1-47b2-9d2a-a4e45b6523ed",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:07+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-21",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to work in a leadership role?"
+            }
+        ],
+        "traitCode": "leadership",
+        "isNegative": false,
+        "order": 21,
+        "sfid": "4a335aad-cb9a-44e5-9234-01493ed74685",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:08+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-22",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable taking charge of teams?"
+            }
+        ],
+        "traitCode": "leadership, coordination,",
+        "isNegative": false,
+        "order": 22,
+        "sfid": "fa177e1d-4dac-49b3-814b-eec01ba0ee87",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:09+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-23",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to put together training for people?"
+            }
+        ],
+        "traitCode": "learning strategies",
+        "isNegative": false,
+        "order": 23,
+        "sfid": "e5b5a66d-f4b6-425a-af7e-588c7063f919",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:10+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-24",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to manage people?"
+            }
+        ],
+        "traitCode": "management of personnel resources",
+        "isNegative": false,
+        "order": 24,
+        "sfid": "77df3f69-52cc-4770-b44f-48dff3352156",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:13+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-25",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you confident using maths to solve problems?"
+            }
+        ],
+        "traitCode": "mathematics",
+        "isNegative": false,
+        "order": 25,
+        "sfid": "f77bd995-29ff-4454-96ff-03dc376b3f71",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:14+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-26",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you have are good at remembering things?"
+            }
+        ],
+        "traitCode": "memory",
+        "isNegative": false,
+        "order": 26,
+        "sfid": "b8686de3-5e84-4952-b2a1-d78361705d2b",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:15+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-27",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you interested in assessing how well things are working in order to make improvements?"
+            }
+        ],
+        "traitCode": "monitoring",
+        "isNegative": false,
+        "order": 27,
+        "sfid": "d9fa4dc9-df17-458e-b869-1823a0298481",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:16+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-28",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable helping other people to overcome their differences?"
+            }
+        ],
+        "traitCode": "negotiation",
+        "isNegative": false,
+        "order": 28,
+        "sfid": "897882bd-5a9a-430f-af2d-e4032900b974",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:17+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-29",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you be comfortable operating equipment?"
+            }
+        ],
+        "traitCode": "operation and control",
+        "isNegative": false,
+        "order": 29,
+        "sfid": "5d24be59-6efe-415d-9f30-9be0b6de8e46",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:18+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-30",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job watching gauges and dials to make sure a machine is working properly?"
+            }
+        ],
+        "traitCode": "operation monitoring",
+        "isNegative": false,
+        "order": 30,
+        "sfid": "eb9cd98a-b89e-4594-9b71-26888d6d3650",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:19+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-31",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job where you would need to create a design based on what is needed?"
+            }
+        ],
+        "traitCode": "operations analysis",
+        "isNegative": false,
+        "order": 31,
+        "sfid": "d23dcff0-eb50-4cf1-b562-22312d8a4c97",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:20+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-32",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you able to carry on with a task even if it starts to get difficult?"
+            }
+        ],
+        "traitCode": "persistence",
+        "isNegative": false,
+        "order": 32,
+        "sfid": "b3d80476-012d-4e84-b8b3-9222aeb38b04",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:21+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-33",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable getting other people to do things?"
+            }
+        ],
+        "traitCode": "persuasion",
+        "isNegative": false,
+        "order": 33,
+        "sfid": "545321cd-6630-4b19-8b4d-59461cfc5e57",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:22+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-34",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable getting other people to reach an agreement with each other?"
+            }
+        ],
+        "traitCode": "persuasion, negotiation",
+        "isNegative": false,
+        "order": 34,
+        "sfid": "cccc4cdd-58d3-45fb-b866-2acb9fdb9a94",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:24+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-35",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to write computer programmes?"
+            }
+        ],
+        "traitCode": "programming",
+        "isNegative": false,
+        "order": 35,
+        "sfid": "c6fa480f-ac96-472e-ac01-82ef26aa6091",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:25+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-36",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you interested in doing tests and inspections to check how well things are working?"
+            }
+        ],
+        "traitCode": "quality control analysis",
+        "isNegative": false,
+        "order": 36,
+        "sfid": "af921dbf-83ec-47c8-81fe-053c53b8e135",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:26+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-37",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you able to solve maths problems such as multiplication and division quickly and correctly?"
+            }
+        ],
+        "traitCode": "quantitative abilities",
+        "isNegative": false,
+        "order": 37,
+        "sfid": "ff0bc371-ade5-4f40-9e20-690e4337bce5",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:27+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-38",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you confident solving maths problems with statistics, algebra and arithmatic?"
+            }
+        ],
+        "traitCode": "quantitative abilities, mathematics knowledge",
+        "isNegative": false,
+        "order": 38,
+        "sfid": "d9f9d415-8bda-4c68-b24d-0e3e2cce3dbb",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:28+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-39",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Could you choose the right mathematical model to solve a problem and be confident that it is correct?"
+            }
+        ],
+        "traitCode": "quantitative abilities, mathematics skills",
+        "isNegative": false,
+        "order": 39,
+        "sfid": "6c119e75-7116-4bd6-9bfc-eb4d5f50b824",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:29+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-40",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job repairing machines using tools?"
+            }
+        ],
+        "traitCode": "repairing",
+        "isNegative": false,
+        "order": 40,
+        "sfid": "da0d5529-1692-4d3f-8460-f4d376149222",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:31+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-41",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you be comfortable using science to solve problems?"
+            }
+        ],
+        "traitCode": "science",
+        "isNegative": false,
+        "order": 41,
+        "sfid": "376c7472-7b15-46ca-9578-10ae2b1c3b06",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:32+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-42",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "In work, do you think you can control your emotions under in front of others?"
+            }
+        ],
+        "traitCode": "self control",
+        "isNegative": false,
+        "order": 42,
+        "sfid": "5f810f20-28a8-4ee9-ba6d-2093409cddcd",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:33+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-43",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you go out of your way to help people?"
+            }
+        ],
+        "traitCode": "service orientation",
+        "isNegative": false,
+        "order": 43,
+        "sfid": "5025c135-5711-4e58-a99e-ee0d44290a46",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:34+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-44",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you prefer working closely with others in a group rather than working on your own?"
+            }
+        ],
+        "traitCode": "social orientation",
+        "isNegative": false,
+        "order": 44,
+        "sfid": "5bc222a0-ae2d-47e5-8c99-db34684386ce",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:35+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-45",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you are good at seeing why other people do things?"
+            }
+        ],
+        "traitCode": "social perceptiveness",
+        "isNegative": false,
+        "order": 45,
+        "sfid": "46a2eca1-501c-4fad-9cd1-6c35d0996a35",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:37+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-46",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Are you comfortable talking through things with other people so that they understand?"
+            }
+        ],
+        "traitCode": "speaking, verbal abilities",
+        "isNegative": false,
+        "order": 46,
+        "sfid": "2b01395f-1a72-4d76-a5b7-d1203b54b307",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:38+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-47",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you are good at staying calm under pressure?"
+            }
+        ],
+        "traitCode": "stress tolerance",
+        "isNegative": false,
+        "order": 47,
+        "sfid": "2c46668b-a3a7-4941-b80c-44126cf699e7",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:40+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-48",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job where you would need to evaluate how things work for people?"
+            }
+        ],
+        "traitCode": "systems analysis",
+        "isNegative": false,
+        "order": 48,
+        "sfid": "3a2cce27-e8eb-4927-ba53-5e02cbf3f8af",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:41+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-49",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job where you analyse how things work and then recommend how it could be improved ?"
+            }
+        ],
+        "traitCode": "systems analysis, systems evaluation",
+        "isNegative": false,
+        "order": 49,
+        "sfid": "c6cda901-2203-4886-be13-386a9580543f",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:42+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-50",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like a job that involved measuring how something was working and suggesting improvements?"
+            }
+        ],
+        "traitCode": "systems evaluation",
+        "isNegative": false,
+        "order": 50,
+        "sfid": "a6a47822-a8b6-4870-a8d9-682032233dce",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:44+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-51",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you are good at managing your time?"
+            }
+        ],
+        "traitCode": "time management",
+        "isNegative": false,
+        "order": 51,
+        "sfid": "aa5ace14-fc7b-40b7-b395-f52f55c164f9",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:45+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-52",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to find out what is wrong with machinery as part of your job?"
+            }
+        ],
+        "traitCode": "troubleshooting",
+        "isNegative": false,
+        "order": 52,
+        "sfid": "371bb1d4-caa7-495d-818a-530963c69c19",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:46+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-53",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you are good at using words to describe ideas?"
+            }
+        ],
+        "traitCode": "verbal abilities",
+        "isNegative": false,
+        "order": 53,
+        "sfid": "2c596800-43bf-44d3-b92f-456c05c93705",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:48+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-54",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think you are good at explaining things, either by talking or writing it down?"
+            }
+        ],
+        "traitCode": "verbal abilities, speaking",
+        "isNegative": false,
+        "order": 54,
+        "sfid": "3d0ec3d4-5530-4d56-a1bb-d9b32779558c",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:49+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-55",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Would you like to write as a main part of your job?"
+            }
+        ],
+        "traitCode": "writing",
+        "isNegative": false,
+        "order": 55,
+        "sfid": "4e1d3409-9542-4eb7-9e59-72a0cf3f836f",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:50+01:00",
+        "isFilterQuestion": true
+    },
+    {
+        "partitionKey": "filtered-default-71",
+        "id": "filtered-default-71-56",
+        "texts": [
+            {
+                "languageCode": "EN",
+                "text": "Do you think that you are good at understanding written text?"
+            }
+        ],
+        "traitCode": "reading comprehension",
+        "isNegative": false,
+        "order": 56,
+        "sfid": "3dc7e973-1a72-4fc3-885c-c125d264dac8",
+        "positiveResultDisplayText": null,
+        "negativeResultDisplayText": null,
+        "lastUpdatedDt": "2019-06-19T11:04:52+01:00",
+        "isFilterQuestion": true
+    }
+]
