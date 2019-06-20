@@ -262,7 +262,7 @@ namespace Dfc.UnitTests.ControllerTests
             
             _appSettings.Value.UseFilteringQuestions = true;
 
-            _apiServices.Results("201905-Abc123", Arg.Any<Guid>()).Throws(new HttpRequestException());
+            _apiServices.ResultsForJobCategory("201905-Abc123", "animal-care", Arg.Any<Guid>()).Throws(new HttpRequestException());
 
             var result = await _controller.ResultsFilteredForJobCategory("animal-care");
 
@@ -297,7 +297,7 @@ namespace Dfc.UnitTests.ControllerTests
                     return true;
                 });
             
-            _apiServices.Results("201905-Abc123", Arg.Any<Guid>()).Returns(new ResultsResponse
+            _apiServices.ResultsForJobCategory("201905-Abc123","animal-care", Arg.Any<Guid>()).Returns(new ResultsResponse
             {
                 SessionId = "201905-Abc123",
                 JobCategories = new JobCategoryResult[]{}

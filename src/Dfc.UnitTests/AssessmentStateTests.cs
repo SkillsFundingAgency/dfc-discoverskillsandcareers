@@ -29,6 +29,7 @@ namespace Dfc.UnitTests
                     }
                 };
 
+            assessmentState.SetCurrentQuestion(5);
 
             Assert.True(assessmentState.IsComplete);
             Assert.True(assessmentState.CompleteDt.HasValue);
@@ -74,7 +75,8 @@ namespace Dfc.UnitTests
                         new Answer() { QuestionNumber = 5 },
                     }
                 };
-
+            
+            assessmentState.SetCurrentQuestion(2);
             var question = assessmentState.MoveToNextQuestion();
 
             Assert.Equal(3, question);
@@ -93,6 +95,8 @@ namespace Dfc.UnitTests
                     }
                 };
 
+            assessmentState.SetCurrentQuestion(4);
+            
             var question = assessmentState.MoveToNextQuestion();
 
             Assert.Equal(5, question);

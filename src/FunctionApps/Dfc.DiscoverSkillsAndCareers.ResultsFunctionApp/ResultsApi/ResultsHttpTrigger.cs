@@ -78,8 +78,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 var jobFamilies = userSession.ResultData.JobCategories;
 
                 jobCategory = String.IsNullOrWhiteSpace(jobCategory) || jobCategory.ToLower() == "short"
-                    ? userSession.FilteredAssessmentState.CurrentFilterAssessmentCode
-                    : JobCategoryHelper.GetCode(jobCategory);
+                    ? JobCategoryHelper.GetCode(jobCategory)
+                    : userSession.FilteredAssessmentState.CurrentFilterAssessmentCode;
                 
                 var suggestedJobProfiles = new List<JobProfileResult>();
              //   var rnd = new Random();
@@ -141,7 +141,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

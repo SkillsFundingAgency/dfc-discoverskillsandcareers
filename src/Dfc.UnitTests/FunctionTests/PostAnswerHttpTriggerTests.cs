@@ -145,27 +145,41 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             var postAnswerRequest = new PostAnswerRequest()
             {
-                QuestionId = "filtered-social-care-1-1",
+                QuestionId = "short-1-1",
                 SelectedOption = "Agree"
             };
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(postAnswerRequest);
             _request.Body = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
             
-            _questionRepository.GetQuestion("filtered-social-care-1-1").Returns(Task.FromResult(new Question {QuestionId = "filtered-social-care-1-1"}));
-            
-            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(
-                new UserSession
+            _questionRepository.GetQuestion("short-1-1").Returns(Task.FromResult(new Question
+            {
+                QuestionId = "short-1-1",
+                IsFilterQuestion = false,
+                Order = 1,
+                Texts = new []
                 {
-                    AssessmentType = "filtered",
-                    AssessmentState = new AssessmentState("QS-1", 2)
+                    new QuestionText { LanguageCode = "en", Text = "q1" }, 
+                }
+            }));
+
+            var session = new UserSession
+            {
+                AssessmentType = "short",
+                AssessmentState = new AssessmentState("QS-1", 2)
+                {
+                    RecordedAnswers = new[]
                     {
-                        RecordedAnswers = new[]
+                        new Answer
                         {
-                            new Answer { QuestionId = "1", QuestionNumber = 1, QuestionSetVersion = "QS-1", SelectedOption = AnswerOption.Agree }, 
-                        }
+                            QuestionId = "1", QuestionNumber = 1, QuestionSetVersion = "QS-1",
+                            SelectedOption = AnswerOption.Agree
+                        },
                     }
                 }
-            ));
+            };
+            
+            
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(session));
             
             var result = await RunFunction("session1");
             var content = await result.Content.ReadAsAsync<PostAnswerResponse>();

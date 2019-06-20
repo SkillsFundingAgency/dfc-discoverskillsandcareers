@@ -79,7 +79,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 {
                     return httpResponseMessageHelper.BadRequest();
                 }
-
                 
                 userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = code;
 
@@ -100,7 +99,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

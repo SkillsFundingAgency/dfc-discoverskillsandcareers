@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         {
             get
             {
-                var complete = RecordedAnswers.Length == MaxQuestions;
+                var complete = RecordedAnswers.Length == MaxQuestions && CurrentQuestion == MaxQuestions;
                 if (complete && !CompleteDt.HasValue)
                 {
                     CompleteDt = DateTime.UtcNow;
@@ -41,7 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         public override int MoveToNextQuestion()
         {
-            if (RecordedAnswers.Count() == CurrentQuestion)
+            if (RecordedAnswers.Count() >= CurrentQuestion)
             {
                 CurrentQuestion = FindNextQuestion();
                 return CurrentQuestion;
@@ -49,6 +49,11 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
             CurrentQuestion = FindNextUnansweredQuestion();
             return CurrentQuestion;
+        }
+
+        public void SetCurrentQuestion(int questionNumber)
+        {
+            CurrentQuestion = Math.Min(questionNumber, MaxQuestions);
         }
 
         /// <summary>

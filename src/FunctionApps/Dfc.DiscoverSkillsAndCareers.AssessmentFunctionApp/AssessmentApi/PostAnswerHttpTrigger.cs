@@ -68,11 +68,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     var body = streamReader.ReadToEnd();
                     postAnswerRequest = JsonConvert.DeserializeObject<PostAnswerRequest>(body);
                 }
-                
+
                 AnswerOption answerValue;
                 if (Enum.TryParse(postAnswerRequest.SelectedOption, out answerValue) == false)
                 {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
+                    log.LogInformation(
+                        $"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
@@ -86,15 +87,22 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 var question = await questionRepository.GetQuestion(postAnswerRequest.QuestionId);
                 if (question == null)
                 {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
+                    log.LogInformation(
+                        $"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
                     return httpResponseMessageHelper.NoContent();
                 }
 
                 AddAnswer(answerValue, question, userSession, postAnswerRequest);
-                
+
                 await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
 
-                var displayFinish = question.IsFilterQuestion ? userSession.FilteredAssessmentState.IsComplete : userSession.AssessmentState.IsComplete;
+                var displayFinish = question.IsFilterQuestion
+                    ? userSession.FilteredAssessmentState.IsComplete
+                    : userSession.AssessmentState.IsComplete;
+
+                if (!question.IsFilterQuestion) {
+                    userSession.AssessmentState.SetCurrentQuestion(question.Order);
+                }
 
                 var result = new PostAnswerResponse()
                 {
