@@ -77,10 +77,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobCategories;
 
-                jobCategory = String.IsNullOrWhiteSpace(jobCategory) || jobCategory.ToLower() == "short"
-                    ? JobCategoryHelper.GetCode(jobCategory)
-                    : userSession.FilteredAssessmentState.CurrentFilterAssessmentCode;
-                
+                if (!jobCategory.EqualsIgnoreCase("short"))
+                {
+                    jobCategory = JobCategoryHelper.GetCode(jobCategory);
+                }
+
                 var suggestedJobProfiles = new List<JobProfileResult>();
              //   var rnd = new Random();
                 foreach (var category in jobFamilies)
