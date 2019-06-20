@@ -8,6 +8,7 @@
 
   <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.4.3" />
+      <PackageReference Include="Google.Apis.Sheets.v4" Version="1.40.0.1594" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0" />
@@ -15,18 +16,27 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
       <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-      <PackageReference Include="Microsoft.Azure.DocumentDB" Version="2.2.1" />
       <PackageReference Include="CsvHelper" Version="12.1.1" />
       <PackageReference Include="Serilog.AspNetCore" Version="2.1.2-dev-00028" />
       <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
       <PackageReference Include="Serilog.Sinks.File" Version="4.1.0-dev-00838" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0-preview5.19224.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="*.json">
+    <Content Include="*.json" Exclude="token.json\**">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+      <Content Include="stopwords.txt">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Include="corenlp\**">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="wordnet\**">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,8 +48,44 @@
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\AppSettings.cs">
       <Link>Services\AppSettings.cs</Link>
     </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobProfile.cs">
-      <Link>CmsModels\JobProfile.cs</Link>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkillMapper.cs">
+      <Link>CmsModels\JobCategorySkillMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkillMappingResult.cs">
+      <Link>CmsModels\JobCategorySkillMappingResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategorySkills.cs">
+      <Link>CmsModels\JobCategorySkills.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityFilteringQuestion.cs">
+      <Link>CmsModels\SiteFinityFilteringQuestion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityFilteringQuestionSet.cs">
+      <Link>CmsModels\SiteFinityFilteringQuestionSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityJobCategory.cs">
+      <Link>CmsModels\SiteFinityJobCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityJobProfile.cs">
+      <Link>CmsModels\SiteFinityJobProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityONetSkill.cs">
+      <Link>CmsModels\SiteFinityONetSkill.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityShortQuestion.cs">
+      <Link>CmsModels\SiteFinityShortQuestion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityShortQuestionSet.cs">
+      <Link>CmsModels\SiteFinityShortQuestionSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityTrait.cs">
+      <Link>CmsModels\SiteFinityTrait.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SkillAttribute.cs">
+      <Link>CmsModels\SkillAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\TaxonomyHierarchy.cs">
+      <Link>CmsModels\TaxonomyHierarchy.cs</Link>
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\ISiteFinityHttpService.cs">
         <Link>Services\ISiteFinityHttpService.cs</Link>
@@ -47,33 +93,14 @@
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\SiteFinityHttpService.cs">
         <Link>Services\SiteFinityHttpService.cs</Link>
     </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\DfcJobProfile.cs">
-      <Link>CmsModels\DfcJobProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\FilteringQuestion.cs">
-      <Link>CmsModels\FilteringQuestion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\FilteringQuestionSet.cs">
-      <Link>CmsModels\FilteringQuestionSet.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\JobCategory.cs">
-      <Link>CmsModels\JobCategory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ShortQuestion.cs">
-      <Link>CmsModels\ShortQuestion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ShortQuestionSet.cs">
-      <Link>CmsModels\ShortQuestionSet.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\ShortTrait.cs">
-      <Link>CmsModels\ShortTrait.cs</Link>
-    </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityDataFeed.cs">
       <Link>CmsModels\SiteFinityDataFeed.cs</Link>
     </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\TaxonomyHierarchy.cs">
-      <Link>CmsModels\TaxonomyHierarchy.cs</Link>
-    </Compile>
+     
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
   </ItemGroup>
 
 </Project>

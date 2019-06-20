@@ -49,7 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 
         public async Task<ResultsResponse> Results(string sessionId, Guid correlationId)
         {
-            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}";
+            string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/short";
             var json = await HttpService.GetString(url, correlationId);
             return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }
@@ -61,11 +61,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
             return JsonConvert.DeserializeObject<NewSessionResponse>(json);
         }
 
-        public async Task<ResultsJobCategoryResult> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId)
+        public async Task<ResultsResponse> ResultsForJobCategory(string sessionId, string jobCategory, Guid correlationId)
         {
             string url = $"{AppSettings.ResultsApiRoot}/result/{sessionId}/{jobCategory}";
             var json = await HttpService.GetString(url, correlationId);
-            return JsonConvert.DeserializeObject<ResultsJobCategoryResult>(json);
+            return JsonConvert.DeserializeObject<ResultsResponse>(json);
         }
 
         public async Task<NotifyResponse> SendEmail(string domain, string emailAddress, string templateId, string sessionId, Guid correlationId)

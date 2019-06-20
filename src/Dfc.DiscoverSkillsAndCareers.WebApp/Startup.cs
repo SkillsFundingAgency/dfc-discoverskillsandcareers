@@ -62,8 +62,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
                 .AddTransientHttpErrorPolicy(p => p.RetryAsync(3, (e, i) => TimeSpan.FromMilliseconds(600 * i)))
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IUserSessionRepository, UserSessionRepository>();
+
             services.AddSingleton<IApiServices, ApiServices>();
             services.AddTransient<IErrorController, ErrorController>();
         }

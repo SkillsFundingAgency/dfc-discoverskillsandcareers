@@ -72,7 +72,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 AnswerOption answerValue;
                 if (Enum.TryParse(postAnswerRequest.SelectedOption, out answerValue) == false)
                 {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
+                    log.LogInformation(
+                        $"CorrelationId: {correlationGuid} - Answer supplied is invalid {postAnswerRequest.SelectedOption}");
                     return httpResponseMessageHelper.BadRequest();
                 }
 
@@ -86,26 +87,30 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 var question = await questionRepository.GetQuestion(postAnswerRequest.QuestionId);
                 if (question == null)
                 {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
+                    log.LogInformation(
+                        $"CorrelationId: {correlationGuid} - Question Id does not exist {postAnswerRequest.QuestionId}");
                     return httpResponseMessageHelper.NoContent();
                 }
 
                 AddAnswer(answerValue, question, userSession, postAnswerRequest);
 
-                userSession.UpdateCompletionStatus();
+                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
 
-                var isLastQuestion = question.Order == userSession.CurrentMaxQuestions;
-                await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession, isLastQuestion);
+                var displayFinish = question.IsFilterQuestion
+                    ? userSession.FilteredAssessmentState.IsComplete
+                    : userSession.AssessmentState.IsComplete;
 
-                var displayFinish = isLastQuestion && userSession.IsComplete;
+                if (!question.IsFilterQuestion) {
+                    userSession.AssessmentState.SetCurrentQuestion(question.Order);
+                }
 
                 var result = new PostAnswerResponse()
                 {
                     IsSuccess = true,
                     IsComplete = displayFinish,
-                    IsFilterAssessment = userSession.IsFilterAssessment,
-                    JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe,
-                    NextQuestionNumber = userSession.CurrentQuestion
+                    IsFilterAssessment = question.IsFilterQuestion,
+                    JobCategorySafeUrl = question.IsFilterQuestion ? userSession.FilteredAssessmentState.JobFamilyNameUrlSafe : null,
+                    NextQuestionNumber = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion()
                 };
 
                 // Update the session
@@ -135,31 +140,32 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 QuestionSetVersion = userSession.CurrentQuestionSetVersion
             };
 
-            // Add the answer to the session answers
-            if (userSession.IsFilterAssessment)
+            if (question.IsFilterQuestion)
             {
-//                newAnswerSet = userSession.CurrentRecordedAnswers.Where(x => x.QuestionNumber < question.Order)
-//                    .ToList();
-                userSession.FilteredAssessmentState.CurrentQuestion = question.Order;
-
+                var newAnswerSet = userSession.FilteredAssessmentState.RecordedAnswers
+                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
+                    .ToList();
+                
+                newAnswerSet.Add(answer);
+                userSession.FilteredAssessmentState.RecordedAnswers = newAnswerSet.ToArray();
             }
-            
-            
-            var newAnswerSet = userSession.CurrentRecordedAnswers
-                .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                .ToList();
-
-            newAnswerSet.Add(answer);
-            
-            userSession.CurrentState.RecordedAnswers = newAnswerSet.ToArray();
+            else
+            {
+                var newAnswerSet = userSession.AssessmentState.RecordedAnswers
+                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
+                    .ToList();
+                
+                newAnswerSet.Add(answer);
+                userSession.AssessmentState.RecordedAnswers = newAnswerSet.ToArray();
+            }
         }
 
         private static async Task TryEvaluateSession(ILogger log, IAssessmentCalculationService resultsService,
-            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession, bool isLastQuestion)
+            IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession)
         {
             var state = userSession.CurrentState;
 
-            if (state.IsComplete && isLastQuestion)
+            if (state.IsComplete)
             {
                 if (userSession.IsFilterAssessment)
                 {
@@ -174,14 +180,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
             else
             {
-                if (userSession.IsFilterAssessment)
-                {
-                    userSession.CurrentState.CurrentQuestion = userSession.FindNextQuestion();
-                }
-                else
-                {
-                    userSession.CurrentState.CurrentQuestion = userSession.FindNextQuestionToAnswer();
-                }
+                userSession.CurrentState.MoveToNextQuestion();
             }
         }
 

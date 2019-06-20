@@ -60,7 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.QuestionApi
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

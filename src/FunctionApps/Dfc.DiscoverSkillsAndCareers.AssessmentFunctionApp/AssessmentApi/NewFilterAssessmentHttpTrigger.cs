@@ -13,18 +13,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 {
     public class NewFilterAssessmentHttpTrigger
     {
         [FunctionName("NewFilterAssessmentHttpTrigger")]
-        [ProducesResponseType(typeof(DscSession), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(FilterSessionResponse), (int)HttpStatusCode.OK)]
         [Response(HttpStatusCode = (int)HttpStatusCode.OK, Description = "Creates a new filter assessment with the session provided", ShowSchema = true)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Unauthorized, Description = "API key is unknown or invalid", ShowSchema = false)]
         [Response(HttpStatusCode = (int)HttpStatusCode.Forbidden, Description = "Insufficient access", ShowSchema = false)]
@@ -37,10 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
              ILogger log,
              [Inject]IHttpRequestHelper httpRequestHelper,
              [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
-             [Inject]IUserSessionRepository userSessionRepository,
-             [Inject]IQuestionRepository questionRepository,
-             [Inject]IQuestionSetRepository questionSetRepository,
-             [Inject]IOptions<AppSettings> appSettings)
+             [Inject]IUserSessionRepository userSessionRepository)
         {
             try
             {
@@ -69,44 +68,38 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 
                 if (userSession.ResultData == null)
                 {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
+                    log.LogInformation(
+                        $"CorrelationId: {correlationGuid} - Session Id {sessionId} has not completed the short assessment");
                     return httpResponseMessageHelper.BadRequest();
                 }
+                
+                var code = JobCategoryHelper.GetCode(jobCategory);
 
-                var questionSet = await questionSetRepository.GetLatestQuestionSetByTypeAndKey("filtered", jobCategory);
-                if (questionSet == null)
+                if (!userSession.FilteredAssessmentState.JobCategoryStates.Any(j => j.JobCategoryCode.EqualsIgnoreCase(code)))
                 {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Filtered question set does not exist {jobCategory}");
-                    return httpResponseMessageHelper.NoContent();
+                    return httpResponseMessageHelper.BadRequest();
+                }
+                
+                userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = code;
+
+                if (userSession.FilteredAssessmentState.IsComplete)
+                {
+                    userSession.FilteredAssessmentState.RemoveAnswersForCategory(code);
                 }
 
-                var jobFamily = userSession.ResultData.JobFamilies.FirstOrDefault(x => x.JobFamilyName.ToLower().Replace(" ", "-") == jobCategory);
-                if (jobFamily == null)
-                {
-                    log.LogInformation($"CorrelationId: {correlationGuid} - Job family {jobCategory} could not be found on session {sessionId}");
-                    return httpResponseMessageHelper.NoContent();
-                }
-
-                userSession.FilteredAssessmentState = new FilteredAssessmentState
-                {
-                    CurrentFilterAssessmentCode = jobFamily.JobFamilyCode,
-                    JobFamilyName = jobFamily.JobFamilyName,
-                    QuestionSetVersion = questionSet.QuestionSetVersion,
-                    CurrentQuestion = 1,
-                    MaxQuestions = questionSet.MaxQuestions,
-                };
-
+                var questionNumber = userSession.FilteredAssessmentState.MoveToNextQuestion();
+                
                 await userSessionRepository.UpdateUserSession(userSession);
 
-                var result = new DscSession()
+                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(new FilterSessionResponse()
                 {
-                    SessionId = userSession.PrimaryKey
-                };
-                return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
+                    SessionId = userSession.PrimaryKey,
+                    QuestionNumber = questionNumber
+                }));
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

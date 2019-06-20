@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Task = System.Threading.Tasks.Task;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
@@ -12,6 +14,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
     {
         private readonly IJobCategoryRepository _jobCategoryRepository;
         private readonly IShortTraitRepository _traitRepository;
+        private readonly IQuestionRepository _questionRepository;
         private readonly IQuestionSetRepository _questionSetRepository;
 
         private static readonly Dictionary<AnswerOption, int> AnswerOptions = new Dictionary<AnswerOption, int>()
@@ -26,29 +29,34 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         public AssessmentCalculationService(
             IJobCategoryRepository jobCategoryRepository, 
             IShortTraitRepository traitRepository,
+            IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository)
         {
             _jobCategoryRepository = jobCategoryRepository;
             _traitRepository = traitRepository;
+            _questionRepository = questionRepository;
             _questionSetRepository = questionSetRepository;
         }
 
         public async Task CalculateAssessment(UserSession userSession, ILogger log)
         {
-            var jobFamilies = await _jobCategoryRepository.GetJobCategories("jobfamily-cms");
+            var jobFamilies = await _jobCategoryRepository.GetJobCategories();
             var answerOptions = AnswerOptions;
-            var traits = await _traitRepository.GetTraits("shorttrait-cms");
-            var filteredQuestionSets = await _questionSetRepository.GetCurrentFilteredQuestionSets();
-
+            
             if (jobFamilies.Length == 0)
             {
                 throw new Exception("No job families found!");
             }
+            
+            var traits = await _traitRepository.GetTraits();
             if (traits.Length == 0)
             {
                 throw new Exception("No traits found!");
             }
-            if (filteredQuestionSets.Count == 0)
+            
+            var questionSet = await _questionSetRepository.GetCurrentQuestionSet("filtered");
+            var questions = await _questionRepository.GetQuestions(questionSet.QuestionSetVersion);
+            if (questions.Length == 0)
             {
                 throw new Exception("No filtering questions found!");
             }
@@ -58,10 +66,25 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 throw new Exception("AssessmentState is not set!");
             }
 
-            RunShortAssessment(userSession, jobFamilies, answerOptions, traits, filteredQuestionSets, log);
+            RunShortAssessment(userSession, jobFamilies, answerOptions, traits);
+ 
+            PrepareFilterAssessmentState(questionSet.QuestionSetVersion, userSession, jobFamilies, questions);
+            
         }
 
-        public void RunShortAssessment(UserSession userSession, IEnumerable<JobFamily> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits, IEnumerable<QuestionSet> filteredQuestionSet, ILogger log)
+        public void PrepareFilterAssessmentState(string questionSetVersion, UserSession userSession, JobCategory[] jobFamilies,
+            Question[] questions)
+        {
+            foreach (var jobCategory in userSession.ResultData.JobCategories)
+            {
+                var jobFamily = jobFamilies.First(jf => jf.Code.EqualsIgnoreCase(jobCategory.JobCategoryCode));
+                userSession.FilteredAssessmentState = userSession.FilteredAssessmentState ?? new FilteredAssessmentState();
+                userSession.FilteredAssessmentState.CreateOrResetCategoryState(questionSetVersion, questions,
+                    jobFamily);
+            }
+        }
+
+        public void RunShortAssessment(UserSession userSession, IEnumerable<JobCategory> jobFamilies, Dictionary<AnswerOption, int> answerOptions, IEnumerable<Trait> traits)
         {
             // User traits
             var userTraits = userSession.AssessmentState.RecordedAnswers
@@ -92,47 +115,32 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         .OrderByDescending(x => x.Total)
                         .Take(10)
                         .ToArray();
-            var filteredQuestionsLookup = filteredQuestionSet.ToDictionary(r => r.QuestionSetKey, StringComparer.InvariantCultureIgnoreCase);
-
-            foreach (var jobCat in jobCategories)
-            {
-                if (!filteredQuestionsLookup.TryGetValue(jobCat.JobFamilyName.Replace(" ", "-").ToLower(), out var qs))
-                {
-                    log.LogError(
-                        new KeyNotFoundException($"Unable to find a question set for {jobCat.JobFamilyName}"),
-                        $"Unable to find a question set for {jobCat.JobFamilyName} available sets include {Environment.NewLine}{String.Join(Environment.NewLine, filteredQuestionsLookup.Keys)}"
-                    );
-                    continue;
-                }
-                
-                jobCat.TotalQuestions = qs.MaxQuestions;
-            }
-
+            
+ 
             var resultData = new ResultData()
             {
                 Traits = userTraits.Where(x => x.TotalScore > 0).ToArray(),
-                JobFamilies = jobCategories,
+                JobCategories = jobCategories,
                 TraitScores = userTraits.ToArray()
             };
 
             userSession.ResultData = resultData;
         }
 
-        public IEnumerable<JobFamilyResult> CalculateJobFamilyRelevance(IEnumerable<JobFamily> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
+        public IEnumerable<JobCategoryResult> CalculateJobFamilyRelevance(IEnumerable<JobCategory> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)
         {
             var traitLookup = userTraits.Where(r => r.TotalScore > 0)
                                         .ToDictionary(r => r.TraitCode, StringComparer.InvariantCultureIgnoreCase);
 
-            var results = new List<JobFamilyResult>();
+            var results = new List<JobCategoryResult>();
             foreach (var jobFamily in jobFamilies)
             {
-                
-                if (jobFamily.TraitCodes.All(tc => traitLookup.ContainsKey(tc)))
+                if (jobFamily.Traits.All(tc => traitLookup.ContainsKey(tc)))
                 {
                     var jfText = jobFamily.Texts.FirstOrDefault(t => t.LanguageCode.ToLower() == languageCode?.ToLower());
 
                     var uTraits = 
-                        jobFamily.TraitCodes.Select(tc =>
+                        jobFamily.Traits.Select(tc =>
                         {
                             var trait = traitLookup[tc];
                             return new TraitValue()
@@ -143,18 +151,24 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                             };
 
                         }).ToArray();
+                    
                     var traitsTotal = uTraits.Sum(r => r.Total);
-                    results.Add(new JobFamilyResult()
+                    
+                   
+                    
+                    var jcResult = new JobCategoryResult()
                     {
-                        JobFamilyCode = jobFamily.JobFamilyCode,
-                        JobFamilyName = jobFamily.JobFamilyName,
-                        JobFamilyText = jfText?.Text,
+                        JobCategoryName = jobFamily.Name,
+                        JobCategoryText = jfText?.Text,
                         Url = jfText?.Url,
                         TraitsTotal = traitsTotal,
                         TraitValues = uTraits,
                         NormalizedTotal = uTraits.Sum(r => r.NormalizedTotal),
-                        Total = traitsTotal
-                    });
+                        Total = traitsTotal,
+                        TotalQuestions = jobFamily.Skills.Count,
+                    };
+                    
+                    results.Add(jcResult);
                 }
             }
 

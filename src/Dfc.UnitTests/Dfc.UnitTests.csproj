@@ -31,4 +31,12 @@
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="CmsTests\Data\filtering-questions.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\filtering-questions.json" />
+  </ItemGroup>
+
 </Project>

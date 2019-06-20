@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.HTTP.Standard;
-using Dfc.UnitTests.Fakes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
@@ -20,6 +20,12 @@ namespace Dfc.UnitTests.FunctionTests
 {
     public class NewFilterAssessmentHttpTriggerTests : IDisposable
     {
+        private HttpRequest _request;
+        private ILogger _log;
+        private IHttpRequestHelper _httpRequestHelper;
+        private IHttpResponseMessageHelper _httpResponseMessageHelper;
+        private IUserSessionRepository _userSessionRepository;
+
         public NewFilterAssessmentHttpTriggerTests()
         {
             _request = new DefaultHttpRequest(new DefaultHttpContext());
@@ -27,9 +33,6 @@ namespace Dfc.UnitTests.FunctionTests
             _httpRequestHelper = Substitute.For<IHttpRequestHelper>();
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
-            _questionRepository = Substitute.For<IQuestionRepository>();
-            _questionSetRepository = Substitute.For<IQuestionSetRepository>();
-            _optsAppSettings = Options.Create(new AppSettings { SessionSalt = "ncs" });
         }
 
         public void Dispose()
@@ -38,16 +41,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = null;
             _userSessionRepository = null;
         }
-
-        private HttpRequest _request;
-        private ILogger _log;
-        private IHttpRequestHelper _httpRequestHelper;
-        private IHttpResponseMessageHelper _httpResponseMessageHelper;
-        private IUserSessionRepository _userSessionRepository;
-        private IQuestionRepository _questionRepository;
-        private IQuestionSetRepository _questionSetRepository;
-        private IOptions<AppSettings> _optsAppSettings;
-
+        
         private async Task<HttpResponseMessage> RunFunction(string sessionId, string jobCategory)
         {
             return await NewFilterAssessmentHttpTrigger.Run(
@@ -57,21 +51,38 @@ namespace Dfc.UnitTests.FunctionTests
                 _log,
                 _httpRequestHelper,
                 _httpResponseMessageHelper,
-                _userSessionRepository,
-                _questionRepository,
-                _questionSetRepository,
-                _optsAppSettings
+                _userSessionRepository
             ).ConfigureAwait(false);
         }
 
         [Fact]
-        public async Task NewFilterSessionHttpTrigger_WithJobFamily_ShouldReturnBadRequest()
+        public async Task NewFilterSessionHttpTrigger_WithMissingJobCategory_ShouldReturnBadRequest()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
-            _userSessionRepository = new FakeUserSessionRepository();
-            _questionRepository = new FakeQuestionRepository();
-
-            var result = await RunFunction("session1", "social-care");
+            
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(new UserSession
+            {
+                PartitionKey = "201901",
+                FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = "SC",
+                    JobCategoryStates = new List<JobCategoryState> {new JobCategoryState { JobCategoryCode = "SC" }}
+                },
+                ResultData = new ResultData
+                {
+                    JobCategories = new []
+                    {
+                        new JobCategoryResult
+                        {
+                            
+                            JobCategoryName = "Social Care",
+                            
+                        }
+                    }
+                }
+            })); 
+            
+            var result = await RunFunction("session1", "animal-care");
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
@@ -82,20 +93,22 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             
-            _questionRepository = new FakeQuestionRepository();
-            _questionSetRepository = new FakeQuestionSetRepository();
             _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(new UserSession
             {
-                UserSessionId = "session1",
                 PartitionKey = "201901",
+                UserSessionId = "session1",
+                FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = "SC",
+                    JobCategoryStates = new List<JobCategoryState> {new JobCategoryState { JobCategoryCode = "SC" }}
+                },
                 ResultData = new ResultData
                 {
-                    JobFamilies = new []
+                    JobCategories = new []
                     {
-                        new JobFamilyResult
+                        new JobCategoryResult
                         {
-                            JobFamilyCode = "SOC",
-                            JobFamilyName = "Social Care",
+                            JobCategoryName = "Social Care",
                             
                         }
                     }
@@ -103,7 +116,7 @@ namespace Dfc.UnitTests.FunctionTests
             })); 
 
             var result = await RunFunction("session1", "social-care");
-            var content = await result.Content.ReadAsAsync<DscSession>();
+            var content = await result.Content.ReadAsAsync<FilterSessionResponse>();
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);

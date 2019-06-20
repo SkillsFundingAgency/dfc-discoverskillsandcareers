@@ -5,10 +5,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface IJobCategoryRepository
     {
-        Task<JobFamily> GetJobCategory(string socCode, string partitionKey);
-        Task CreateJobCategory(JobFamily jobProfile);
-        Task<JobFamily[]> GetJobCategories(string partitionKey);
-        Task DeleteJobCategory(string partitionKey, JobFamily jobFamily);
-        Task<JobFamily[]> GetJobCategoriesByName(string partitionKey, string jobFamilyName);
+        Task<JobCategory> GetJobCategory(string jobCategoryCode, string partitionKey = "job-categories");
+        Task CreateOrUpdateJobCategory(JobCategory jobCategory);
+        Task<JobCategory[]> GetJobCategories(string partitionKey = "job-categories");
+
     }
 }

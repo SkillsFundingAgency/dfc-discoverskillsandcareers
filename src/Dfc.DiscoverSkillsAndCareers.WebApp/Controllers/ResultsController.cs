@@ -42,10 +42,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var resultsResponse = await _apiServices.Results(sessionId, correlationId);
 
-                var lastFilterResult = resultsResponse.JobFamilies
-                                                      .Where(x => x.FilterAssessment != null)
-                                                      .OrderByDescending(x => x.FilterAssessment.CreatedDt)
-                                                      .Select(x => x.FilterAssessment)
+                var lastFilterResult = resultsResponse.JobCategories
+                                                      .Where(x => x.FilterAssessmentResult != null)
+                                                      .OrderByDescending(x => x.FilterAssessmentResult.CreatedDt)
+                                                      .Select(x => x.FilterAssessmentResult)
                                                       .FirstOrDefault();
                 if (lastFilterResult != null)
                 {
@@ -58,7 +58,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     SessionId = sessionId,
                     Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]),
                     AssessmentType = resultsResponse.AssessmentType,
-                    JobFamilies = resultsResponse.JobFamilies,
+                    JobCategories = resultsResponse.JobCategories,
                     JobFamilyCount = resultsResponse.JobFamilyCount,
                     JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount,
                     Traits = resultsResponse.Traits,
@@ -98,9 +98,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var _ = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
+                var response = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
                 AppendCookie(sessionId);
-                var redirectResponse = new RedirectResult($"/q/{jobCategory}/01");
+                var redirectResponse = new RedirectResult($"/q/{jobCategory}/{response.QuestionNumber.ToQuestionPageNumber()}");
                 return redirectResponse;
 
             }
@@ -110,7 +110,37 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return StatusCode(500);
             }
         }
+        
+        [Route("filtered/{jobCategory}/show")]
+        public async Task<IActionResult> ShowResults(string jobCategory)
+        {
+            if (!_appSettings.UseFilteringQuestions) return NotFound();
 
+            var correlationId = Guid.NewGuid();
+            try
+            {
+                var sessionId = await TryGetSessionId(Request);
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return Redirect("/");
+                }
+
+                var resultsForJobCategoryResponse = await _apiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
+                return ReturnResultsView(resultsForJobCategoryResponse, jobCategory, sessionId);
+
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return Redirect("/results");
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(StartFilteredForJobCategory)}");
+                return StatusCode(500);
+            }
+        }
+        
+        
         [Route("{jobCategory}")]
         public async Task<IActionResult> ResultsFilteredForJobCategory(string jobCategory)
         {
@@ -125,7 +155,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var resultsForJobCategoryResponse = await _apiServices.Results(sessionId, correlationId);
+                var resultsForJobCategoryResponse = await _apiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
                 return ReturnResultsView(resultsForJobCategoryResponse, jobCategory, sessionId);
             }
             catch (System.Net.Http.HttpRequestException)
@@ -147,7 +177,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 SessionId = sessionId,
                 Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]),
                 AssessmentType = resultsResponse.AssessmentType,
-                JobFamilies = ReOrderWithFirst(resultsResponse.JobFamilies, jobCategory),
+                JobCategories = ReOrderWithFirst(resultsResponse.JobCategories, jobCategory),
                 JobFamilyCount = resultsResponse.JobFamilyCount,
                 JobFamilyMoreCount = resultsResponse.JobFamilyMoreCount,
                 Traits = resultsResponse.Traits,
@@ -161,13 +191,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             return View("ResultsForJobCategory", model);
         }
 
-        private JobFamilyResult[] ReOrderWithFirst(JobFamilyResult[] jobFamilyResults, string jobCategory)
+        private JobCategoryResult[] ReOrderWithFirst(JobCategoryResult[] jobCategoryResults, string jobCategory)
         {
-            var highlightCategory = jobFamilyResults.FirstOrDefault(x => x.FilterAssessment?.JobFamilyNameUrlSafe == jobCategory);
-            var otherCategories = jobFamilyResults.Where(x => x.FilterAssessment?.JobFamilyNameUrlSafe != jobCategory).ToList();
-            var newList = otherCategories.ToList();
-            newList.Insert(0, highlightCategory);
-            return newList.ToArray();
+            var highlightCategory = jobCategoryResults.FirstOrDefault(x => x.FilterAssessmentResult?.JobFamilyNameUrlSafe == jobCategory);
+            var otherCategories = 
+                jobCategoryResults
+                    .Where(x => x.FilterAssessmentResult?.JobFamilyNameUrlSafe != jobCategory)
+                    .OrderByDescending(x => x.ResultsShown ? 100 : 0 + x.FilterAssessmentResult?.SuggestedJobProfiles.Count())
+                    .ToList();
+            otherCategories.Insert(0, highlightCategory);
+            return otherCategories.ToArray();
         }
     }
 }

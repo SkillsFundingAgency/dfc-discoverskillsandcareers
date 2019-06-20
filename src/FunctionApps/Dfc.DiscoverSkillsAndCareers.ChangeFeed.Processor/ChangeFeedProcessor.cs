@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common;
 
 namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
 {
@@ -20,7 +21,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
         [FunctionName("ChangeFeedProcessor")]
         public static async Task RunAsync([ServiceBusTrigger("data-updates", Connection = "AzureServiceBusConnection")]string myQueueItem,
             ILogger log,
-            [Inject]ILoggerHelper loggerHelper,
             [Inject]IBlobStorageService blobStorageService,
             [Inject]IUnderstandMyselfDbContext understandMyselfDbContext)
         {
@@ -52,7 +52,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                         }
                     case "Question":
                         {
-                            var question = JsonConvert.DeserializeObject<Dfc.DiscoverSkillsAndCareers.Models.Question>(blob);
+                            var question = JsonConvert.DeserializeObject<Question>(blob);
                             await UpdateQuestion(question);
                             await blobStorageService.DeleteBlob(changeFeedQueueItem.BlobName);
                             break;
@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             }
         }
 
-        private static async Task UpdateQuestion(Dfc.DiscoverSkillsAndCareers.Models.Question question)
+        private static async Task UpdateQuestion(Question question)
         {
             try
             {
@@ -93,21 +93,22 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                     DbContext.Questions.Update(entity);
                 }
 
-                var toremoveExcludeJobProfiles = DbContext.QuestionExcludeJobProfiles.Where(x => x.QuestionId == question.QuestionId).ToList();
-                DbContext.QuestionExcludeJobProfiles.RemoveRange(toremoveExcludeJobProfiles);
-                if (question.ExcludesJobProfiles != null)
+                var toremoveExcludeJobProfiles = DbContext.QuestionJobProfiles.Where(x => x.QuestionId == question.QuestionId).ToList();
+                DbContext.QuestionJobProfiles.RemoveRange(toremoveExcludeJobProfiles);
+                if (question.JobProfiles != null)
                 {
-                    foreach (var exclude in question.ExcludesJobProfiles)
+                    foreach (var jp in question.JobProfiles)
                     {
-                        DbContext.QuestionExcludeJobProfiles.Add(new Data.Entities.UmQuestionExcludeJobProfile()
+                        DbContext.QuestionJobProfiles.Add(new Data.Entities.UmQuestionJobProfile
                         {
                             Id = Guid.NewGuid().ToString(),
-                            JobProfile = exclude,
-                            QuestionId = question.QuestionId
+                            JobProfile = jp.JobProfile,
+                            QuestionId = question.QuestionId,
+                            Included = jp.Included
                         });
                     }
                 }
-
+   
                 int changes = await DbContext.SaveChanges();
                 Console.WriteLine($"Changes updated {changes}");
             }
@@ -118,9 +119,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             }
         }
 
-        private static void UpdateQuestionEntityFromDto(Data.Entities.UmQuestion entity, Dfc.DiscoverSkillsAndCareers.Models.Question dto)
+        private static void UpdateQuestionEntityFromDto(Data.Entities.UmQuestion entity, Question dto)
         {
-            entity.FilterTrigger = dto.FilterTrigger;
             entity.IsNegative = dto.IsNegative;
             entity.NegativeResultDisplayText = dto.NegativeResultDisplayText;
             entity.Order = dto.Order;
@@ -128,7 +128,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             entity.SfId = dto.SfId;
             entity.TraitCode = dto.TraitCode;
             entity.Text = dto.Texts.FirstOrDefault()?.Text;
-            entity.LastUpdatedDt = DateTime.Now; //TODO: dto.LastUpdatedDt;
+            entity.LastUpdatedDt = dto.LastUpdatedDt.UtcDateTime;
         }
 
         private static async Task UpdateUserSession(Dfc.DiscoverSkillsAndCareers.Models.UserSession userSession)
@@ -204,10 +204,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                 }
                 if (userSession?.ResultData != null)
                 {
-                    foreach (var jobFamily in userSession.ResultData.JobFamilies)
+                    foreach (var jobFamily in userSession.ResultData.JobCategories)
                     {
-                        if (jobFamily.FilterAssessment != null) {
-                            foreach (var whatYouToldUs in jobFamily.FilterAssessment.WhatYouToldUs)
+                        if (jobFamily.FilterAssessmentResult != null) {
+                            foreach (var whatYouToldUs in jobFamily.FilterAssessmentResult.WhatYouToldUs)
                             {
                                 DbContext.ResultStatements.Add(new Data.Entities.UmResultStatement()
                                 {
@@ -239,33 +239,33 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
 
                 var toremoveSuggestedJobCategories = DbContext.SuggestedJobCategories.Where(x => x.UserSessionId == userSession.UserSessionId).ToList();
                 DbContext.SuggestedJobCategories.RemoveRange(toremoveSuggestedJobCategories);
-                if (userSession.ResultData?.JobFamilies != null)
+                if (userSession.ResultData?.JobCategories != null)
                 {
-                    foreach (var jobCategory in userSession?.ResultData?.JobFamilies)
+                    foreach (var jobCategory in userSession?.ResultData?.JobCategories)
                     {
                         DbContext.SuggestedJobCategories.Add(new Data.Entities.UmSuggestedJobCategory()
                         {
-                            Id = userSession.UserSessionId + "-" + jobCategory.JobFamilyCode,
+                            Id = userSession.UserSessionId + "-" + jobCategory.JobCategoryCode,
                             UserSessionId = userSession.UserSessionId,
-                            JobCategoryCode = jobCategory.JobFamilyCode,
-                            JobCategory = jobCategory.JobFamilyName,
+                            JobCategoryCode = jobCategory.JobCategoryCode,
+                            JobCategory = jobCategory.JobCategoryName,
                             TraitTotal = jobCategory.TraitsTotal,
                             JobCategoryScore = jobCategory.NormalizedTotal,
-                            HasCompletedFilterAssessment = jobCategory.FilterAssessment != null
+                            HasCompletedFilterAssessment = jobCategory.FilterAssessmentResult != null
                         });
 
-                        if (jobCategory.FilterAssessment != null)
+                        if (jobCategory.FilterAssessmentResult != null)
                         {
-                            foreach (var soccode in jobCategory.FilterAssessment?.SuggestedJobProfiles)
+                            foreach (var jobProfile in jobCategory.FilterAssessmentResult?.SuggestedJobProfiles)
                             {
-                                var toremoveSuggestedJobProfiles = DbContext.SuggestedJobProfiles.Where(x => x.UserSessionId == userSession.UserSessionId && x.JobCategoryCode == jobCategory.JobFamilyCode).ToList();
+                                var toremoveSuggestedJobProfiles = DbContext.SuggestedJobProfiles.Where(x => x.UserSessionId == userSession.UserSessionId && x.JobCategoryCode == jobCategory.JobCategoryCode).ToList();
                                 DbContext.SuggestedJobProfiles.RemoveRange(toremoveSuggestedJobProfiles);
                                 DbContext.SuggestedJobProfiles.Add(new Data.Entities.UmSuggestedJobProfile()
                                 {
-                                    Id = userSession.UserSessionId + "-" + soccode.Key,
+                                    Id = userSession.UserSessionId + "-" + jobProfile,
                                     UserSessionId = userSession.UserSessionId,
-                                    JobCategoryCode = jobCategory.JobFamilyCode,
-                                    SocCode = soccode.Key
+                                    JobCategoryCode = jobCategory.JobCategoryCode,
+                                    JobProfile = jobProfile
                                 });
                             }
                         }

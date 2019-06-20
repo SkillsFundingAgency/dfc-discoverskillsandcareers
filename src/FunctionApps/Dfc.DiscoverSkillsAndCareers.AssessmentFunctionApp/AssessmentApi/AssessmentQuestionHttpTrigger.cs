@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Functions.DI.Standard.Attributes;
 using DFC.HTTP.Standard;
@@ -92,12 +93,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                if (!userSession.TrySetStateToExistingSession(assessment))
+                if (!assessment.EqualsIgnoreCase("short"))
                 {
-                    log.LogError($"CorrelationId: {correlationGuid} - Unable to set assessment - {assessment} on session {sessionId}");
-                    return httpResponseMessageHelper.NoContent();
+                    userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = JobCategoryHelper.GetCode(assessment);
                 }
-
+                
                 var questionSetVersion = userSession.CurrentQuestionSetVersion;
 
                 var question = await questionRepository.GetQuestion(questionNumber, questionSetVersion);
@@ -107,35 +107,41 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                userSession.CurrentState.CurrentQuestion = question.Order;
+                if (!question.IsFilterQuestion)
+                { 
+                    userSession.AssessmentState.SetCurrentQuestion(questionNumber);
+                }
+
+                var percentageComplete = userSession.AssessmentState.PercentageComplete;
+                
+                var nextQuestion = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion();
                 await userSessionRepository.UpdateUserSession(userSession);
 
-                int percentComplete = Convert.ToInt32((((decimal)questionNumber - 1M) / (decimal)userSession.MaxQuestions) * 100);
                 var response = new AssessmentQuestionResponse()
                 {
                     CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
-                    IsComplete = userSession.IsComplete,
-                    NextQuestionNumber = userSession.FindNextQuestionToAnswer(),
+                    IsComplete = question.IsFilterQuestion ? (userSession.FilteredAssessmentState?.IsComplete ?? false) : userSession.AssessmentState.IsComplete,
+                    NextQuestionNumber = nextQuestion,
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,
                     QuestionNumber = question.Order,
                     SessionId = userSession.PrimaryKey,
-                    PercentComplete = percentComplete,
+                    PercentComplete = percentageComplete,
                     ReloadCode = userSession.UserSessionId,
                     MaxQuestionsCount = userSession.MaxQuestions,
-                    RecordedAnswersCount = userSession.CurrentRecordedAnswers.Count(),
-                    RecordedAnswer = userSession.CurrentRecordedAnswers.DefaultIfEmpty().SingleOrDefault(r => r?.QuestionNumber == questionNumber)?.SelectedOption,
+                    RecordedAnswersCount = userSession.RecordedAnswers.Length,
+                    RecordedAnswer = userSession.RecordedAnswers.SingleOrDefault(r => r?.QuestionNumber == questionNumber)?.SelectedOption,
                     StartedDt = userSession.StartedDt,
-                    IsFilterAssessment = userSession.IsFilterAssessment,
-                    JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe
+                    IsFilterAssessment = !assessment.EqualsIgnoreCase("short"),
+                    JobCategorySafeUrl = userSession.FilteredAssessmentState?.JobFamilyNameUrlSafe
                 };
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(response));
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

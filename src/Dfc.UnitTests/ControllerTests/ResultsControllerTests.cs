@@ -124,7 +124,7 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.Results("201904-Abc123", Arg.Any<Guid>())
                 .Returns(Task.FromResult(new ResultsResponse
                 {
-                    JobFamilies = new JobFamilyResult[]{}
+                    JobCategories = new JobCategoryResult[]{}
                 }));
 
             
@@ -153,11 +153,11 @@ namespace Dfc.UnitTests.ControllerTests
                 .Returns(Task.FromResult(new ResultsResponse
                 {
                     
-                    JobFamilies = new []
+                    JobCategories = new []
                     {
-                        new JobFamilyResult
+                        new JobCategoryResult
                         {
-                            FilterAssessment = new FilterAssessment { JobFamilyName = "Animal Care" }
+                            FilterAssessmentResult = new FilterAssessmentResult { JobFamilyName = "Animal Care" }
                         }, 
                     }
                 }));
@@ -201,6 +201,12 @@ namespace Dfc.UnitTests.ControllerTests
             
             _appSettings.Value.UseFilteringQuestions = true;
 
+            _apiServices.StartFilteredForJobCategory(Arg.Any<Guid>(), "201905-Abc123", "animal-care")
+                .Returns(Task.FromResult(new NewSessionResponse
+                {
+                    SessionId = "201905-Abc123",
+                    QuestionNumber = 1
+                }));
             var result = await _controller.StartFilteredForJobCategory("animal-care");
 
             var viewResult = Assert.IsType<RedirectResult>(result);
@@ -256,7 +262,7 @@ namespace Dfc.UnitTests.ControllerTests
             
             _appSettings.Value.UseFilteringQuestions = true;
 
-            _apiServices.Results("201905-Abc123", Arg.Any<Guid>()).Throws(new HttpRequestException());
+            _apiServices.ResultsForJobCategory("201905-Abc123", "animal-care", Arg.Any<Guid>()).Throws(new HttpRequestException());
 
             var result = await _controller.ResultsFilteredForJobCategory("animal-care");
 
@@ -291,10 +297,10 @@ namespace Dfc.UnitTests.ControllerTests
                     return true;
                 });
             
-            _apiServices.Results("201905-Abc123", Arg.Any<Guid>()).Returns(new ResultsResponse
+            _apiServices.ResultsForJobCategory("201905-Abc123","animal-care", Arg.Any<Guid>()).Returns(new ResultsResponse
             {
                 SessionId = "201905-Abc123",
-                JobFamilies = new JobFamilyResult[]{}
+                JobCategories = new JobCategoryResult[]{}
             });
             
             var result = await _controller.ResultsFilteredForJobCategory("animal-care");

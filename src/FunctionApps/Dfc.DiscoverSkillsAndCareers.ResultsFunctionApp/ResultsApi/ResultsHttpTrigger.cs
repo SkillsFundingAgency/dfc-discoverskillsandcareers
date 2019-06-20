@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Models;
 using DFC.Functions.DI.Standard.Attributes;
@@ -32,8 +33,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
         [Display(Name = "GetResults", Description = "Gets the results for the user session.")]
 
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}")]HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "result/{sessionId}/{jobCategory}")]HttpRequest req,
             string sessionId,
+            string jobCategory,
             ILogger log,
             [Inject]IHttpRequestHelper httpRequestHelper,
             [Inject]IHttpResponseMessageHelper httpResponseMessageHelper,
@@ -70,44 +72,54 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     log.LogInformation($"Correlation Id: {correlationId} - Result data does not yet exist for session {userSession.PrimaryKey}");
                     return httpResponseMessageHelper.BadRequest();
                 }
-
+                
                 var traits = userSession.ResultData.Traits;
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
-                var jobFamilies = userSession.ResultData.JobFamilies;
+                var jobFamilies = userSession.ResultData.JobCategories;
+
+                jobCategory = String.IsNullOrWhiteSpace(jobCategory) || jobCategory.ToLower() == "short"
+                    ? JobCategoryHelper.GetCode(jobCategory)
+                    : userSession.FilteredAssessmentState.CurrentFilterAssessmentCode;
+                
                 var suggestedJobProfiles = new List<JobProfileResult>();
-                var rnd = new Random();
-                foreach (var jobCategory in jobFamilies)
+             //   var rnd = new Random();
+                foreach (var category in jobFamilies)
                 {
-                    if (jobCategory.FilterAssessment == null)
+                    if (category.FilterAssessmentResult == null)
                     {
                         continue;
                     }
-                    // Build the list of job profiles
-                    var jobProfiles =
-                        await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
-                        //await jobProfileRepository.JobProfilesTitle(jobCategory.FilterAssessment.SuggestedJobProfiles);
 
-                    
-                    //log.LogInformation($"Received the following job profiles for :{Environment.NewLine}{String.Join(Environment.NewLine, jobProfiles.Select(j => j.Title))}{Environment.NewLine} Filter Assessment:{Environment.NewLine} {JsonConvert.SerializeObject(jobCategory.FilterAssessment)}");
-                    
-                    foreach (var jobProfile in jobProfiles.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
+                    if (category.JobCategoryCode.EqualsIgnoreCase(jobCategory) || category.ResultsShown)
                     {
-                        suggestedJobProfiles.Add(new JobProfileResult()
+                        
+                        // Build the list of job profiles
+                        var jobProfiles =
+                            //await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
+                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
+                                .SuggestedJobProfiles);
+
+                        foreach (var jobProfile in jobProfiles) //.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
                         {
-                            CareerPathAndProgression = jobProfile.CareerPathAndProgression,
-                            Overview = jobProfile.Overview,
-                            SalaryExperienced = jobProfile.SalaryExperienced,
-                            SalaryStarter = jobProfile.SalaryStarter,
-                            JobCategory = jobCategory.JobFamilyName,
-                            SocCode = jobProfile.SocCode,
-                            Title = jobProfile.Title,
-                            UrlName = jobProfile.UrlName,
-                            TypicalHours = jobProfile.TypicalHours,
-                            TypicalHoursPeriod = String.Join("/", jobProfile.WorkingHoursDetails),
-                            ShiftPattern = String.Join("/", jobProfile.WorkingPattern),
-                            ShiftPatternPeriod = String.Join("/", jobProfile.WorkingPatternDetails),
-                            WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
-                        });
+                            suggestedJobProfiles.Add(new JobProfileResult()
+                            {
+                                CareerPathAndProgression = jobProfile.CareerPathAndProgression,
+                                Overview = jobProfile.Overview,
+                                SalaryExperienced = jobProfile.SalaryExperienced,
+                                SalaryStarter = jobProfile.SalaryStarter,
+                                JobCategory = category.JobCategoryName,
+                                SocCode = jobProfile.SocCode,
+                                Title = jobProfile.Title,
+                                UrlName = jobProfile.UrlName,
+                                TypicalHours = jobProfile.TypicalHours,
+                                TypicalHoursPeriod = String.Join("/", jobProfile.WorkingHoursDetails),
+                                ShiftPattern = String.Join("/", jobProfile.WorkingPattern),
+                                ShiftPatternPeriod = String.Join("/", jobProfile.WorkingPatternDetails),
+                                WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
+                            });
+                        }
+                        
+                        category.ResultsShown = true;
                     }
                 }
 
@@ -115,18 +127,21 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 {
                     AssessmentType = userSession.AssessmentType,
                     SessionId = userSession.UserSessionId,
-                    JobFamilyCount = userSession.ResultData.JobFamilies.Length,
-                    JobFamilyMoreCount = userSession.ResultData.JobFamilies.Length - 3,
+                    JobFamilyCount = userSession.ResultData.JobCategories.Length,
+                    JobFamilyMoreCount = userSession.ResultData.JobCategories.Length - 3,
                     Traits = traits.Take(traitsTake).Select(x => x.TraitText).ToArray(),
-                    JobFamilies = jobFamilies,
+                    JobCategories = jobFamilies,
                     JobProfiles = suggestedJobProfiles.ToArray(),
-                    WhatYouToldUs = userSession.ResultData?.JobFamilies.SelectMany(r => r.FilterAssessment?.WhatYouToldUs ?? new string[] { }).Distinct().ToArray() ?? new string[] { }
+                    WhatYouToldUs = userSession.ResultData?.JobCategories.SelectMany(r => r.FilterAssessmentResult?.WhatYouToldUs ?? new string[] { }).Distinct().ToArray() ?? new string[] { }
                 };
+
+                await userSessionRepository.UpdateUserSession(userSession);
+                
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(model));
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

@@ -98,7 +98,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 {
                     CurrentFilterAssessmentCode = userSession.FilteredAssessmentState?.CurrentFilterAssessmentCode,
                     IsComplete = userSession.IsComplete,
-                    NextQuestionNumber = userSession.FindNextQuestionToAnswer(),
+                    NextQuestionNumber = question.IsFilterQuestion ? userSession.FilteredAssessmentState?.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion(),
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,
@@ -107,7 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     PercentComplete = percentComplete,
                     ReloadCode = userSession.UserSessionId,
                     MaxQuestionsCount = userSession.MaxQuestions,
-                    RecordedAnswersCount = userSession.CurrentRecordedAnswers.Count(),
+                    RecordedAnswersCount = userSession.RecordedAnswers.Count(),
                     StartedDt = userSession.StartedDt,
                     IsFilterAssessment = userSession.IsFilterAssessment,
                     JobCategorySafeUrl = (userSession.CurrentState as FilteredAssessmentState)?.JobFamilyNameUrlSafe
@@ -117,7 +117,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

@@ -11,7 +11,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         Task<Document> CreateOrUpdateQuestionSet(QuestionSet questionSet);
         Task<QuestionSet> GetQuestionSetVersion(string assessmentType, string title, int version);
         Task<List<QuestionSet>> GetCurrentFilteredQuestionSets();
-        Task<int> ResetCurrentFilteredQuestionSets();
         Task<QuestionSet> GetLatestQuestionSetByTypeAndKey(string assessmentType, string key);
+        
+        
     }
 }

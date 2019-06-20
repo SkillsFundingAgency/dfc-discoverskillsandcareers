@@ -1,7 +1,5 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataRequesters;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
@@ -43,10 +41,10 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
            
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
+            
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
@@ -54,16 +52,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             services.AddSingleton<ISiteFinityHttpService, SiteFinityHttpService>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
-            services.AddTransient<IGetShortTraitData, GetShortTraitData>();
-            services.AddTransient<IShortTraitDataProcessor, ShortTraitDataProcessor>();
-            services.AddTransient<IGetShortQuestionSetData, GetShortQuestionSetData>();
-            services.AddTransient<IShortQuestionSetDataProcessor, ShortQuestionSetDataProcessor>();
-            services.AddTransient<IGetShortQuestionData, GetShortQuestionData>();
-            services.AddTransient<IGetFilteringQuestionData, GetFilteringQuestionData>();
-            services.AddTransient<IGetFilteringQuestionSetData, GetFilteringQuestionSetData>();
-            services.AddTransient<IFilteredQuestionSetDataProcessor, FilteredQuestionSetDataProcessor>();
-            services.AddTransient<IGetJobCategoriesData, GetJobCategoriesData>();
-            services.AddTransient<IJobCategoryDataProcessor, JobCategoryDataProcessor>();
+            
+            services.AddTransient<IContentTypeProcessor<ShortTraitDataProcessor>, ShortTraitDataProcessor>();
+            services.AddTransient<IContentTypeProcessor<ShortQuestionSetDataProcessor>, ShortQuestionSetDataProcessor>();
+            services.AddTransient<IContentTypeProcessor<JobProfileSkillsProcessor>, JobProfileSkillsProcessor>();
+            services.AddTransient<IContentTypeProcessor<FilteredQuestionSetDataProcessor>, FilteredQuestionSetDataProcessor>();
+            services.AddTransient<IContentTypeProcessor<JobCategoryDataProcessor>, JobCategoryDataProcessor>();
         }
         
         private void ConfigureOptions(IServiceCollection services)

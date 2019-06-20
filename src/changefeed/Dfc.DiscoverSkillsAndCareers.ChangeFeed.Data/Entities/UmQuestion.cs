@@ -13,7 +13,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.Entities
         public string TraitCode { get; set; }
         public bool IsNegative { get; set; }
         public int Order { get; set; }
-        public string FilterTrigger { get; set; }
         public string SfId { get; set; }
         public string PositiveResultDisplayText { get; set; }
         public string NegativeResultDisplayText { get; set; }
