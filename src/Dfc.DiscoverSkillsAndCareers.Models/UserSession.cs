@@ -48,7 +48,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         [JsonIgnore]
         public AssessmentStateBase CurrentState =>
-            FilteredAssessmentState == null || !AssessmentState.IsComplete
+            (FilteredAssessmentState == null || (String.IsNullOrWhiteSpace(FilteredAssessmentState.CurrentFilterAssessmentCode))) 
+            || !AssessmentState.IsComplete
                 ? (AssessmentStateBase)AssessmentState
                 : (AssessmentStateBase)FilteredAssessmentState;
 
