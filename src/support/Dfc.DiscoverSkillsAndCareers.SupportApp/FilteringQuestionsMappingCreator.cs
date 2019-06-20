@@ -70,9 +70,8 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     jobProfiles
                         .SelectMany(o => o.RelatedSkills.Select(s => new
                             {ONetAttribute = s.Skill, ONetAttributeType = s.ONetAttributeType}))
+                        .Where(s => !onetQuestionLookup.ContainsKey(s.ONetAttribute.ToLower()) && !s.ONetAttributeType.Equals("Knowledge"))
                         .Distinct();
-                       // .Where(s => !onetQuestionLookup.ContainsKey(s.ONetAttribute.ToLower()) && !s.ONetAttributeType.Equals("Knowledge"))
-                       // .Distinct();
 
                 File.WriteAllText(Path.Combine(opts.OutputDirectory, "extra_onet_attributes.json"), JsonConvert.SerializeObject(onetAttributes));
 
