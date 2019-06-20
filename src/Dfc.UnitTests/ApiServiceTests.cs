@@ -132,7 +132,7 @@ namespace Dfc.UnitTests
         {
             var guid = Guid.NewGuid();
             var sessionId = "Abc123";
-            var url = $"{ApiRoot}/result/{sessionId}";
+            var url = $"{ApiRoot}/result/{sessionId}/short";
             var response = new ResultsResponse
             {
                 SessionId = sessionId
