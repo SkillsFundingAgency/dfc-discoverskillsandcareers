@@ -101,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     : userSession.AssessmentState.IsComplete;
 
                 if (!question.IsFilterQuestion) {
-                    userSession.AssessmentState.SetCurrentQuestion(question.Order);
+                    userSession.AssessmentState.CurrentQuestion = question.Order;
                 }
 
                 var result = new PostAnswerResponse()

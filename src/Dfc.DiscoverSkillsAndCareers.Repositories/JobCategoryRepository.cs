@@ -15,7 +15,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
-        private bool collectionExists = false;
 
         public JobCategoryRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {

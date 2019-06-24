@@ -67,10 +67,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var url = $"/q/{assessment}/{postAnswerResponse.NextQuestionNumber.ToQuestionPageNumber()}";
                 return Redirect(url);
             }
-            catch (System.Net.Http.HttpRequestException)
-            {
-                return await NextQuestion(sessionId, assessment, questionNumberValue, true);
-            }
             catch (Exception ex)
             {
                 _log.LogError(ex,$"Correlation Id: {correlationId} - An error occurred in session {sessionId} answering question: {questionNumber} in assessment {assessment}.");
@@ -165,10 +161,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 AppendCookie(sessionId);
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);
-            }
-            catch (System.Net.Http.HttpRequestException)
-            {
-                return Redirect("/");
             }
             catch (Exception ex)
             {

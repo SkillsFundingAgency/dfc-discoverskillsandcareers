@@ -28,14 +28,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public override int CurrentQuestion
         {
             get => CurrentState?.CurrentQuestion ?? 0;
-            protected set
-            {
-                if (CurrentState != null)
-                {
-                    CurrentState.CurrentQuestion = value;
-                }
-            }
+            set => CurrentState?.SetCurrentQuestion(value);
         }
+
 
         [JsonIgnore]
         private JobCategoryState CurrentState =>
@@ -58,13 +53,16 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         [JsonIgnore]
         public string JobFamilyNameUrlSafe => CurrentState.JobFamilyNameUrlSafe;
-
+        
+        [JsonIgnore] 
+        public string CurrentQuestionId => CurrentState.CurrentQuestionId;
+        
         public void CreateOrResetCategoryState(string questionSetVersion, Question[] questions, JobCategory category)
         {
             if (!TryGetJobCategoryState(category.Code, out var cat))
             {
                 var skills = new List<JobCategorySkill>();
-                
+                int index = 1;
                 foreach (var skill in category.Skills)
                 {
                     var question = questions.FirstOrDefault(q => q.TraitCode.EqualsIgnoreCase(skill.ONetAttribute));
@@ -74,24 +72,19 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
                         skills.Add(new JobCategorySkill
                         {
                             Skill = skill.ONetAttribute,
-                            QuestionNumber = question.Order,
+                            QuestionId = question.QuestionId,
+                            QuestionNumber = index
                         });
+
+                        index++;
                     }
                 }
 
-                cat = new JobCategoryState
-                {
-                    JobCategoryCode = category.Code,
-                    JobCategoryName = category.Name,
-                    Skills = skills.ToArray()
-                };
-                
+                cat = new JobCategoryState(category.Code, category.Name, questionSetVersion, skills.ToArray());
                 JobCategoryStates.Add(cat);
             }
 
-            
             cat.QuestionSetVersion = questionSetVersion;
-            cat.CurrentQuestion = cat.Skills[0].QuestionNumber;
         }
 
         public void RemoveAnswersForCategory(string jobCategoryCode)
@@ -139,5 +132,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
                 .Where(a => state.Skills.Any(q => a.TraitCode.EqualsIgnoreCase(q.Skill)))
                 .ToArray();
         }
+        
     }
 }

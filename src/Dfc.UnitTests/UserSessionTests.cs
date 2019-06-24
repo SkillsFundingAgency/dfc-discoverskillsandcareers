@@ -26,7 +26,10 @@ namespace Dfc.UnitTests
                 {
                     JobCategoryStates = new List<JobCategoryState>
                     {
-                        new JobCategoryState{ JobCategoryCode = "CAT", Skills = new JobCategorySkill[]{}}
+                        new JobCategoryState("CAT", "Construction and Trades", "QS-1", new []
+                        {
+                            new JobCategorySkill(), 
+                        })
                     },
                     CurrentFilterAssessmentCode = "CAT"
                 }
@@ -60,16 +63,12 @@ namespace Dfc.UnitTests
                     },
                     JobCategoryStates = new List<JobCategoryState>
                     {
-                        new JobCategoryState
-                        {
-                            JobCategoryCode = "AC",
-                            Skills = new[]
+                        new JobCategoryState("AC", "Animal Care", "QS-1", new[]
                             {
-                                new JobCategorySkill {Skill = "A"},
-                                new JobCategorySkill {Skill = "B"},
-                                new JobCategorySkill {Skill = "C"}
-                            }
-                        }
+                                new JobCategorySkill {Skill = "A", QuestionNumber = 1, QuestionId = "11" },
+                                new JobCategorySkill {Skill = "B", QuestionNumber = 2, QuestionId = "12" },
+                                new JobCategorySkill {Skill = "C", QuestionNumber = 3, QuestionId = "23" }
+                            })
                     }
                 }
             };

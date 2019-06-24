@@ -66,7 +66,13 @@ namespace Dfc.UnitTests.FunctionTests
                 FilteredAssessmentState = new FilteredAssessmentState
                 {
                     CurrentFilterAssessmentCode = "SC",
-                    JobCategoryStates = new List<JobCategoryState> {new JobCategoryState { JobCategoryCode = "SC" }}
+                    JobCategoryStates = new List<JobCategoryState>
+                    {
+                        new JobCategoryState("SC", "Social Care",  "QS-1", new []
+                        {
+                          new JobCategorySkill(),   
+                        })
+                    }
                 },
                 ResultData = new ResultData
                 {
@@ -100,7 +106,12 @@ namespace Dfc.UnitTests.FunctionTests
                 FilteredAssessmentState = new FilteredAssessmentState
                 {
                     CurrentFilterAssessmentCode = "SC",
-                    JobCategoryStates = new List<JobCategoryState> {new JobCategoryState { JobCategoryCode = "SC" }}
+                    JobCategoryStates = new List<JobCategoryState> {
+                        new JobCategoryState( "SC", "Social Care", "QS-1",new []
+                        {
+                            new JobCategorySkill(), 
+                        })
+                    }
                 },
                 ResultData = new ResultData
                 {
