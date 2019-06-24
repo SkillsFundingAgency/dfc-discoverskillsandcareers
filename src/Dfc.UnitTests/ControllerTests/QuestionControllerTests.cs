@@ -122,7 +122,7 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task AnswerQuestion_ShouldReturn_NoAnswerErrorMessageIfHttpException()
+        public async Task AnswerQuestion_ShouldReturn_500IfHttpException()
         {
             _session.TryGetValue("session-id", out Arg.Any<byte[]>())
                 .Returns(x => { 
@@ -144,10 +144,9 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.AnswerQuestion("short", "1");
 
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var viewModel = Assert.IsType<QuestionViewModel>(viewResult.Model);
+            var viewResult = Assert.IsType<StatusCodeResult>(result);
 
-            Assert.Equal(viewModel.NoAnswerErrorMessage, viewModel.ErrorMessage);
+            Assert.Equal(500, viewResult.StatusCode);
 
         }
         

@@ -145,10 +145,10 @@ namespace Dfc.UnitTests
         {
             var questions = new[]
             {
-                new Question {Order = 1, TraitCode = "A"},
-                new Question {Order = 2, TraitCode = "B"},
-                new Question {Order = 3, TraitCode = "C"},
-                new Question {Order = 4, TraitCode = "D"}
+                new Question {Order = 1, TraitCode = "A", QuestionId = "1"},
+                new Question {Order = 2, TraitCode = "B", QuestionId = "2"},
+                new Question {Order = 3, TraitCode = "C", QuestionId = "3"},
+                new Question {Order = 4, TraitCode = "D", QuestionId = "4"}
             };
             
             var sut = new FilteredAssessmentState
@@ -168,7 +168,8 @@ namespace Dfc.UnitTests
 
             Assert.Contains(sut.JobCategoryStates, jc => jc.JobCategoryCode == "AC");
             Assert.Equal("QS-1", sut.QuestionSetVersion);
-            Assert.Equal(4, sut.CurrentQuestion);
+            Assert.Equal(1, sut.CurrentQuestion);
+            Assert.Equal("4", sut.CurrentQuestionId);
         }
         
         [Fact]
@@ -176,10 +177,10 @@ namespace Dfc.UnitTests
         {
             var questions = new[]
             {
-                new Question {Order = 1, TraitCode = "A"},
-                new Question {Order = 2, TraitCode = "B"},
-                new Question {Order = 3, TraitCode = "C"},
-                new Question {Order = 4, TraitCode = "D"}
+                new Question {Order = 1, TraitCode = "A", QuestionId = "4"},
+                new Question {Order = 2, TraitCode = "B", QuestionId = "3"},
+                new Question {Order = 3, TraitCode = "C", QuestionId = "2"},
+                new Question {Order = 4, TraitCode = "D", QuestionId = "1"}
             };
             
             var sut = new FilteredAssessmentState
@@ -207,7 +208,8 @@ namespace Dfc.UnitTests
 
             Assert.Contains(sut.JobCategoryStates, jc => jc.JobCategoryCode == "AC");
             Assert.Equal("QS-1", sut.QuestionSetVersion);
-            Assert.Equal(4, sut.CurrentQuestion);
+            Assert.Equal(1, sut.CurrentQuestion);
+            Assert.Equal("1", sut.CurrentQuestionId);
         }
 
         [Fact]

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -83,7 +84,7 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact]
         public async Task GetResultHttpTrigger_WithIncompleteSession_ShouldReturnStatusCodeBadRequest()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
@@ -99,7 +100,7 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact]
         public async Task GetResultHttpTrigger_WithCompletedSession_ShouldReturnStatusCodeOK()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
@@ -112,13 +113,25 @@ namespace Dfc.UnitTests.FunctionTests
                 {
                     JobCategories = new []
                     {
-                        new JobCategoryResult { JobCategoryName = "Managerial" }
+                        new JobCategoryResult
+                        {
+                            JobCategoryName = "Managerial",
+                            FilterAssessmentResult = new FilterAssessmentResult
+                            {
+                                SuggestedJobProfiles =  new List<string> { "Jp1" }
+                            }
+                        }
                     },
                     Traits = new [] { new TraitResult { TraitCode = "LEADER", TotalScore = 8 },  }
                 }
             }));
 
-            var result = await RunFunction("session1");
+            _jobProfileRepository.JobProfilesForJobFamily("Managerial").Returns(Task.FromResult(new[]
+            {
+                new JobProfile {Title = "Jp1 "},
+            }));
+
+            var result = await RunFunction("session1", "Managerial");
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);

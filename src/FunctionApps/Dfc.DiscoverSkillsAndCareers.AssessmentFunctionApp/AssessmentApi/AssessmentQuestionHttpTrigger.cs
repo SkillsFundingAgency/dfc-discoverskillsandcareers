@@ -93,7 +93,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-     Question question = null;
+                Question question = null;
                 
                 if (assessment.EqualsIgnoreCase("short"))
                 {
