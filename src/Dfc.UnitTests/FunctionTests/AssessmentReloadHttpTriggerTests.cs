@@ -65,7 +65,7 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
             {
-                AssessmentState = new AssessmentState("question-set",5)
+                AssessmentState = new AssessmentState("question-set",5) { CurrentQuestion = 1 }
             }));
             
             _questionRepository.GetQuestion(1, "question-set")
@@ -108,7 +108,7 @@ namespace Dfc.UnitTests.FunctionTests
             {
                 PartitionKey = "201904",
                 UserSessionId = "282gk265gzmzyz",
-                AssessmentState = new AssessmentState("question-set",5)
+                AssessmentState = new AssessmentState("question-set",5) { CurrentQuestion = 1 }
             }));
             
             _questionRepository.GetQuestion(1, "question-set")

@@ -13,6 +13,7 @@ namespace Dfc.UnitTests
             var userSession = new UserSession()
             {
                 AssessmentState = new AssessmentState("qs-1",5) {
+                    CurrentQuestion = 5,
                     RecordedAnswers = new []
                     {
                         new Answer() { QuestionNumber = 1 },
@@ -24,21 +25,20 @@ namespace Dfc.UnitTests
                 },
                 FilteredAssessmentState = new FilteredAssessmentState()
                 {
+                    RecordedAnswers = new []
+                    {
+                        new Answer { TraitCode = "A" }, 
+                    },
                     JobCategoryStates = new List<JobCategoryState>
                     {
                         new JobCategoryState("CAT", "Construction and Trades", "QS-1", new []
                         {
-                            new JobCategorySkill(), 
+                            new JobCategorySkill { Skill = "A", QuestionId = "1"}, 
                         })
                     },
                     CurrentFilterAssessmentCode = "CAT"
                 }
             };
-
-            for(var i = 0; i < 5; i++)
-            {
-                userSession.AssessmentState.MoveToNextQuestion();
-            }
             
             Assert.True(userSession.IsComplete);
             Assert.True(userSession.AssessmentState.CompleteDt.HasValue);

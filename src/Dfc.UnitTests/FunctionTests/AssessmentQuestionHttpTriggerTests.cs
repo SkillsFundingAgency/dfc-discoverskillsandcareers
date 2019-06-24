@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -156,9 +157,18 @@ namespace Dfc.UnitTests.FunctionTests
             {
                 AssessmentState = new AssessmentState("qs-1",5),
                 FilteredAssessmentState = new FilteredAssessmentState()
+                {
+                    JobCategoryStates = new List<JobCategoryState>
+                    {
+                        new JobCategoryState("AC", "Animal Care", "qs-1", new []
+                        {
+                            new JobCategorySkill(), 
+                        })
+                    }
+                }
             }));
 
-            var result = await RunFunction("201901-session1","job-category",1);
+            var result = await RunFunction("201901-session1","animal-care",1);
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
