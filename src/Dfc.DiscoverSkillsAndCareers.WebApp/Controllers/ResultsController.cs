@@ -158,10 +158,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var resultsForJobCategoryResponse = await _apiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
                 return ReturnResultsView(resultsForJobCategoryResponse, jobCategory, sessionId);
             }
-            catch (System.Net.Http.HttpRequestException)
-            {
-                return Redirect("/results");
-            }
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(ResultsFilteredForJobCategory)}");

@@ -6,6 +6,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 {
     public class AssessmentState : AssessmentStateBase
     {
+        private int _currentQuestion;
+        
         public AssessmentState(string questionSetVersion, int maxQuestions)
         {
             QuestionSetVersion = questionSetVersion;
@@ -15,8 +17,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         [JsonProperty("questionSetVersion")]
         public override string QuestionSetVersion { get; }
 
-        [JsonProperty("currentQuestion")] 
-        public override int CurrentQuestion { get; protected set; } = 1;
+        [JsonProperty("currentQuestion")]
+        public override int CurrentQuestion
+        {
+            get => _currentQuestion;
+            set => _currentQuestion = Math.Min(value, MaxQuestions);
+        }
         
         [JsonProperty("maxQuestions")]
         public override int MaxQuestions { get; }
@@ -51,10 +57,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
             return CurrentQuestion;
         }
 
-        public void SetCurrentQuestion(int questionNumber)
-        {
-            CurrentQuestion = Math.Min(questionNumber, MaxQuestions);
-        }
+        
 
         /// <summary>
         /// Gets the first answered question number.

@@ -12,27 +12,25 @@ namespace Dfc.UnitTests
         {
             var sut = new FilteredAssessmentState
             {
-                RecordedAnswers = new []
+                RecordedAnswers = new[]
                 {
-                    new Answer { TraitCode = "D" },
-                    new Answer { TraitCode = "B" },
-                    new Answer { TraitCode = "C" },
-                    new Answer { TraitCode = "E" },
-                    new Answer { TraitCode = "A" }
+                    new Answer {TraitCode = "D"},
+                    new Answer {TraitCode = "B"},
+                    new Answer {TraitCode = "C"},
+                    new Answer {TraitCode = "E"},
+                    new Answer {TraitCode = "A"}
                 },
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState {
-                        JobCategoryCode = "GS",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "A" },
-                            new JobCategorySkill { Skill = "B" },
-                            new JobCategorySkill { Skill = "C" }
-                        }
-                    }
+                    new JobCategoryState("GS", "Government Services", "QS-1", new[]
+                    {
+                        new JobCategorySkill {Skill = "A"},
+                        new JobCategorySkill {Skill = "B"},
+                        new JobCategorySkill {Skill = "C"}
+                    })
                 }
             };
+            
             
             sut.RemoveAnswersForCategory("GS");
             
@@ -65,25 +63,22 @@ namespace Dfc.UnitTests
         {
             var sut = new FilteredAssessmentState
             {
-                RecordedAnswers = new []
+                RecordedAnswers = new[]
                 {
-                    new Answer { TraitCode = "A", QuestionNumber = 1 },
-                    new Answer { TraitCode = "B", QuestionNumber = 2 },
+                    new Answer {TraitCode = "A", QuestionNumber = 1},
+                    new Answer {TraitCode = "B", QuestionNumber = 2},
                 },
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState {
-                        JobCategoryCode = "GS",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "A" },
-                            new JobCategorySkill { Skill = "B" },
-                            new JobCategorySkill { Skill = "C" }
-                        }
-                    }
+                    new JobCategoryState("GS", "Government Services", "QS-1", new[]
+                    {
+                        new JobCategorySkill {Skill = "A"},
+                        new JobCategorySkill {Skill = "B"},
+                        new JobCategorySkill {Skill = "C"}
+                    })
                 }
             };
-
+            
             Assert.Throws<InvalidOperationException>(() => sut.MoveToNextQuestion());
             
         }
@@ -94,24 +89,22 @@ namespace Dfc.UnitTests
             var sut = new FilteredAssessmentState
             {
                 CurrentFilterAssessmentCode = "GS",
-                RecordedAnswers = new []
+                RecordedAnswers = new[]
                 {
-                    new Answer { TraitCode = "A", QuestionNumber = 1 },
-                    new Answer { TraitCode = "B", QuestionNumber = 2 },
+                    new Answer {TraitCode = "A", QuestionNumber = 1},
+                    new Answer {TraitCode = "B", QuestionNumber = 2},
                 },
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState {
-                        JobCategoryCode = "GS",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "A", QuestionNumber = 1 },
-                            new JobCategorySkill { Skill = "B", QuestionNumber = 2 },
-                            new JobCategorySkill { Skill = "C", QuestionNumber = 3 }
-                        }
-                    }
+                    new JobCategoryState("GS", "Government Service", "QS-1", new[]
+                    {
+                        new JobCategorySkill {Skill = "A", QuestionNumber = 1},
+                        new JobCategorySkill {Skill = "B", QuestionNumber = 2},
+                        new JobCategorySkill {Skill = "C", QuestionNumber = 3}
+                    })
                 }
             };
+            
 
             var result = sut.MoveToNextQuestion();
             
@@ -124,25 +117,23 @@ namespace Dfc.UnitTests
             var sut = new FilteredAssessmentState
             {
                 CurrentFilterAssessmentCode = "GS",
-                RecordedAnswers = new []
+                RecordedAnswers = new[]
                 {
-                    new Answer { TraitCode = "A", QuestionNumber = 1 },
-                    new Answer { TraitCode = "B", QuestionNumber = 2 },
-                    new Answer { TraitCode = "C", QuestionNumber = 3 },
+                    new Answer {TraitCode = "A", QuestionNumber = 1},
+                    new Answer {TraitCode = "B", QuestionNumber = 2},
+                    new Answer {TraitCode = "C", QuestionNumber = 3},
                 },
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState {
-                        JobCategoryCode = "GS",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "A", QuestionNumber = 1 },
-                            new JobCategorySkill { Skill = "B", QuestionNumber = 2 },
-                            new JobCategorySkill { Skill = "C", QuestionNumber = 3 }
-                        }
-                    }
+                    new JobCategoryState("GS", "Government Services", "QS-1", new[]
+                    {
+                        new JobCategorySkill {Skill = "A", QuestionNumber = 1},
+                        new JobCategorySkill {Skill = "B", QuestionNumber = 2},
+                        new JobCategorySkill {Skill = "C", QuestionNumber = 3}
+                    })
                 }
             };
+            
 
             var result = sut.MoveToNextQuestion();
             
@@ -196,17 +187,11 @@ namespace Dfc.UnitTests
                 CurrentFilterAssessmentCode = "AC",
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState
+                    new JobCategoryState("AC", "Animal Care", "QS-1",  new []
                     {
-                        CurrentQuestion = 1,
-                        JobCategoryCode = "AC",
-                        QuestionSetVersion = "QS-1",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "D", QuestionNumber = 4 },
-                            new JobCategorySkill { Skill = "A", QuestionNumber = 1 }
-                        }
-                    }
+                        new JobCategorySkill { Skill = "D", QuestionNumber = 4, QuestionId = "4"},
+                        new JobCategorySkill { Skill = "A", QuestionNumber = 1, QuestionId = "1"}
+                    }, "1")
                 }
             };
             
@@ -242,17 +227,11 @@ namespace Dfc.UnitTests
                 CurrentFilterAssessmentCode = "AC",
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState
+                    new JobCategoryState("AC", "Animal Care", "QS-1", new []
                     {
-                        CurrentQuestion = 1,
-                        JobCategoryCode = "AC",
-                        QuestionSetVersion = "QS-1",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "D", QuestionNumber = 4 },
-                            new JobCategorySkill { Skill = "A", QuestionNumber = 1 }
-                        }
-                    }
+                        new JobCategorySkill { Skill = "D", QuestionNumber = 4, QuestionId = "4"},
+                        new JobCategorySkill { Skill = "A", QuestionNumber = 1, QuestionId = "1"}
+                    }, "1")
                 }
             };
             
@@ -283,17 +262,11 @@ namespace Dfc.UnitTests
                 },
                 JobCategoryStates = new List<JobCategoryState>
                 {
-                    new JobCategoryState
+                    new JobCategoryState("AC", "Animal Care", "QS-1", new []
                     {
-                        CurrentQuestion = 1,
-                        JobCategoryCode = "AC",
-                        QuestionSetVersion = "QS-1",
-                        Skills = new []
-                        {
-                            new JobCategorySkill { Skill = "D", QuestionNumber = 4 },
-                            new JobCategorySkill { Skill = "A", QuestionNumber = 1 }
-                        }
-                    }
+                        new JobCategorySkill { Skill = "D", QuestionNumber = 4, QuestionId = "4"},
+                        new JobCategorySkill { Skill = "A", QuestionNumber = 1, QuestionId = "1"}
+                    }, "1")
                 }
             };
 

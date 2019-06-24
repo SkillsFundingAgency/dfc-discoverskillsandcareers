@@ -93,23 +93,26 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                if (!assessment.EqualsIgnoreCase("short"))
+     Question question = null;
+                
+                if (assessment.EqualsIgnoreCase("short"))
+                {
+                    question = await questionRepository.GetQuestion(questionNumber, userSession.CurrentQuestionSetVersion);
+                    userSession.AssessmentState.CurrentQuestion = questionNumber;
+                } 
+                else 
                 {
                     userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = JobCategoryHelper.GetCode(assessment);
+                    userSession.FilteredAssessmentState.CurrentQuestion = questionNumber;
+                    
+                    question = await questionRepository.GetQuestion(userSession.FilteredAssessmentState.CurrentQuestionId);
+
                 }
                 
-                var questionSetVersion = userSession.CurrentQuestionSetVersion;
-
-                var question = await questionRepository.GetQuestion(questionNumber, questionSetVersion);
                 if (question == null)
                 {
                     log.LogInformation($"CorrelationId: {correlationGuid} - Question number {userSession.CurrentQuestion} could not be found on session {userSession.PrimaryKey}");
                     return httpResponseMessageHelper.NoContent();
-                }
-
-                if (!question.IsFilterQuestion)
-                { 
-                    userSession.AssessmentState.SetCurrentQuestion(questionNumber);
                 }
 
                 var percentageComplete = userSession.AssessmentState.PercentageComplete;
@@ -125,7 +128,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,
-                    QuestionNumber = question.Order,
+                    QuestionNumber = questionNumber,
                     SessionId = userSession.PrimaryKey,
                     PercentComplete = percentageComplete,
                     ReloadCode = userSession.UserSessionId,
