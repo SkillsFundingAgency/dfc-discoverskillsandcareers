@@ -13,10 +13,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.Ioc
 {
+    [ExcludeFromCodeCoverage]
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
         public IConfiguration Configuration { get; private set; }

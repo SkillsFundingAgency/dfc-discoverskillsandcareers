@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class JobCategoryRepository : IJobCategoryRepository
     {
         readonly ICosmosSettings cosmosSettings;

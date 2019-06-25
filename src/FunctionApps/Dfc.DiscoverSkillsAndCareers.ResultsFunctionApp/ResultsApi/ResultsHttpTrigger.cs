@@ -83,7 +83,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 }
 
                 var suggestedJobProfiles = new List<JobProfileResult>();
-             //   var rnd = new Random();
                 foreach (var category in jobFamilies)
                 {
                     if (category.FilterAssessmentResult == null)
@@ -96,11 +95,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         
                         // Build the list of job profiles
                         var jobProfiles =
-                            //await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
                             await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
                                 .SuggestedJobProfiles);
 
-                        foreach (var jobProfile in jobProfiles) //.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
+                        foreach (var jobProfile in jobProfiles)
                         {
                             suggestedJobProfiles.Add(new JobProfileResult()
                             {

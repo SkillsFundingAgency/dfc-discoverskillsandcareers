@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class TaxonomyHierarchy
     {
         public Guid Id { get; set; }

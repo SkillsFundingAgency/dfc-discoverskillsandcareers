@@ -14,6 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -90,6 +91,17 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.Equal(1, content.QuestionNumber);
             Assert.Equal("DOER", content.TraitCode);
+        }
+        
+        [Fact]
+        public async Task ShouldReturn_500OnException()
+        {
+            _userSessionRepository.GetUserSession(Arg.Any<string>()).Throws(new Exception());
+
+            var result = await RunFunction("201901-session1", "short", 41);
+            
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
         
         [Fact]

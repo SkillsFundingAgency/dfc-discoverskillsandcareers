@@ -1,5 +1,8 @@
-﻿namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 {
+    [ExcludeFromCodeCoverage]
     public class AzureSearchSettings
     {
         public string ServiceName { get; set; }

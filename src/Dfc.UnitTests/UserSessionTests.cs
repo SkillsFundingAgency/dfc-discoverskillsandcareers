@@ -8,6 +8,48 @@ namespace Dfc.UnitTests
     public class UserSessionTests
     {
         [Fact]
+        public void CanAddAnAnswer_ToAssessmentState()
+        {
+            var userSession = new UserSession
+            {
+                AssessmentState = new AssessmentState("qs-1", 5),
+                FilteredAssessmentState = new FilteredAssessmentState()
+            };
+            
+            userSession.AddAnswer(AnswerOption.Agree, new Question
+            {
+                QuestionId = "1", 
+                Order = 1, 
+                IsFilterQuestion = false, 
+                Texts = new [] { new QuestionText { LanguageCode = "en", Text = "Question 1"} }
+            });
+
+            Assert.Single(userSession.AssessmentState.RecordedAnswers, a => a.QuestionId == "1" && a.SelectedOption == AnswerOption.Agree);
+            Assert.Empty(userSession.FilteredAssessmentState.RecordedAnswers);
+        }
+        
+        [Fact]
+        public void CanAddAnAnswer_ToFilteredAssessmentState()
+        {
+            var userSession = new UserSession
+            {
+                AssessmentState = new AssessmentState("qs-1", 5),
+                FilteredAssessmentState = new FilteredAssessmentState()
+            };
+            
+            userSession.AddAnswer(AnswerOption.Yes, new Question
+            {
+                QuestionId = "1", 
+                Order = 1, 
+                IsFilterQuestion = true, 
+                Texts = new [] { new QuestionText { LanguageCode = "en", Text = "Question 1"} }
+            });
+
+            Assert.Single(userSession.FilteredAssessmentState.RecordedAnswers, a => a.QuestionId == "1" && a.SelectedOption == AnswerOption.Yes);
+            Assert.Empty(userSession.AssessmentState.RecordedAnswers);
+        }
+        
+        [Fact]
         public void ManageIfComplete_WithCompleteState_ShouldBeComplete()
         {
             var userSession = new UserSession()

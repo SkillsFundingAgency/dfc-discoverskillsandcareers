@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -87,6 +88,34 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.Equal(1, content.QuestionNumber);
             Assert.Equal(1, content.NextQuestionNumber);
+        }
+        
+        [Fact]
+        public async Task ShouldReturnNotContentIfInvalidQuestion()
+        {
+            _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(new UserSession()
+            {
+                AssessmentState = new AssessmentState("question-set",5) { CurrentQuestion = 1 }
+            }));
+            
+            _questionRepository.GetQuestion(1, "question-set")
+                .Returns(Task.FromResult<Question>(null));
+
+            var result = await RunFunction("201901-session1");
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+        }
+        
+        [Fact]
+        public async Task ShouldReturn500OnException()
+        {
+            _userSessionRepository.GetUserSession(Arg.Any<string>()).Throws(new Exception());
+            
+            var result = await RunFunction("201901-session1");
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
