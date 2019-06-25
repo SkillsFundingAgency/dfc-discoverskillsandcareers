@@ -11,6 +11,7 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Search;
 using Microsoft.Extensions.Options;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Options;
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
 {
+    [ExcludeFromCodeCoverage]
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
         public IConfiguration Configuration { get; private set; }

@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -72,6 +73,19 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
+        
+        [Fact]
+        public async Task ResultsHttpTriggerTest_OnException_ShouldReturn500()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+
+            _userSessionRepository.GetUserSession("session1").Throws(new Exception());
+            
+            var result = await RunFunction("session1");
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        }
 
         [Fact]
         public async Task ResultsHttpTriggerTest_WithInvalidSessionId_ShouldReturnStatusCodeNoContent()
@@ -126,7 +140,7 @@ namespace Dfc.UnitTests.FunctionTests
                 }
             }));
 
-            _jobProfileRepository.JobProfilesForJobFamily("Managerial").Returns(Task.FromResult(new[]
+            _jobProfileRepository.JobProfilesTitle(Arg.Is<List<string>>(v => v.Contains("Jp1"))).Returns(Task.FromResult(new[]
             {
                 new JobProfile {Title = "Jp1 "},
             }));

@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
     
-
+    [ExcludeFromCodeCoverage]
     public class SiteFinityFilteringQuestionSkill
     {
         [JsonProperty("Id")]
@@ -16,6 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public string Title { get; set; }
     }
     
+    [ExcludeFromCodeCoverage]
     public class SiteFinityFilteringQuestion
     {
         [JsonProperty("Id")]

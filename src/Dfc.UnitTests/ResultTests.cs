@@ -58,10 +58,10 @@ namespace Dfc.UnitTests
                 new Question { 
                     TraitCode = "Self Control",
                     IsFilterQuestion = true, 
-                    QuestionId = "1", Order = 1, Texts = new QuestionText[]
+                    QuestionId = "1", Order = 1, Texts = new []
                 {
                     new QuestionText { LanguageCode = "en", Text = "Question 1"}
-                } }, 
+                } } 
             }));
         }
 

@@ -41,6 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db", "changefeed\Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db\Dfc.DiscoverSkillsAndCareers.ChangedFeed.Db.sqlproj", "{39868781-DB54-4D73-85A1-DDA9DDD9BD0E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{3604EFC5-3E6A-47C4-945A-0A27E6962CD5}"
+ProjectSection(SolutionItems) = preProject
+	..\azure-pipelines.yml = ..\azure-pipelines.yml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

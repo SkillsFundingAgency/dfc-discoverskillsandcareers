@@ -5,11 +5,13 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 {
+    [ExcludeFromCodeCoverage]
     public static class PollFunction
     {
         public const string Schedule = "%PollingSchedule%";

@@ -92,7 +92,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                AddAnswer(answerValue, question, userSession, postAnswerRequest);
+                userSession.AddAnswer(answerValue, question);
 
                 await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
 
@@ -125,41 +125,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
         }
 
-        private static void AddAnswer(AnswerOption answerValue, Question question, UserSession userSession,
-            PostAnswerRequest postAnswerRequest)
-        {
-            var answer = new Answer()
-            {
-                AnsweredDt = DateTime.Now,
-                SelectedOption = answerValue,
-                QuestionId = question.QuestionId,
-                QuestionNumber = question.Order,
-                QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
-                TraitCode = question.TraitCode,
-                IsNegative = question.IsNegative,
-                QuestionSetVersion = userSession.CurrentQuestionSetVersion
-            };
-
-            if (question.IsFilterQuestion)
-            {
-                var newAnswerSet = userSession.FilteredAssessmentState.RecordedAnswers
-                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                    .ToList();
-                
-                newAnswerSet.Add(answer);
-                userSession.FilteredAssessmentState.RecordedAnswers = newAnswerSet.ToArray();
-            }
-            else
-            {
-                var newAnswerSet = userSession.AssessmentState.RecordedAnswers
-                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                    .ToList();
-                
-                newAnswerSet.Add(answer);
-                userSession.AssessmentState.RecordedAnswers = newAnswerSet.ToArray();
-            }
-        }
-
+        
         private static async Task TryEvaluateSession(ILogger log, IAssessmentCalculationService resultsService,
             IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession)
         {

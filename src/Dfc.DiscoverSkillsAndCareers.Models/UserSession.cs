@@ -99,6 +99,40 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
                 }
             }
         }
+        
+        public void AddAnswer(AnswerOption answerValue, Question question)
+        {
+            var answer = new Answer()
+            {
+                AnsweredDt = DateTime.UtcNow,
+                SelectedOption = answerValue,
+                QuestionId = question.QuestionId,
+                QuestionNumber = question.Order,
+                QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
+                TraitCode = question.TraitCode,
+                IsNegative = question.IsNegative,
+                QuestionSetVersion = CurrentQuestionSetVersion
+            };
+
+            if (question.IsFilterQuestion)
+            {
+                var newAnswerSet = FilteredAssessmentState.RecordedAnswers
+                    .Where(x => x.QuestionId != question.QuestionId)
+                    .ToList();
+                
+                newAnswerSet.Add(answer);
+                FilteredAssessmentState.RecordedAnswers = newAnswerSet.ToArray();
+            }
+            else
+            {
+                var newAnswerSet = AssessmentState.RecordedAnswers
+                    .Where(x => x.QuestionId != question.QuestionId)
+                    .ToList();
+                
+                newAnswerSet.Add(answer);
+                AssessmentState.RecordedAnswers = newAnswerSet.ToArray();
+            }
+        }
 
     }
 }

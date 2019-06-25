@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -70,6 +71,39 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
+        
+        [Fact]
+        public async Task NewSessionHttpTrigger_WithMissingQuestionSet_ShouldReturnNoContent()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+
+            _questionSetRepository.GetCurrentQuestionSet("short").Returns(Task.FromResult<QuestionSet>(null));
+            
+            _request.QueryString = new QueryString("?assessmentType=short");
+
+            var result = await RunFunction();
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+        }
+        
+        
+        
+        [Fact]
+        public async Task NewSessionHttpTrigger_OnException_ShouldReturn500()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+
+            _questionSetRepository.GetCurrentQuestionSet("short").Throws(new Exception());
+            
+            _request.QueryString = new QueryString("?assessmentType=short");
+
+            var result = await RunFunction();
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        }
+        
 
         [Fact]
         public async Task NewSessionHttpTrigger_With_ShouldReturnNewSessionId()

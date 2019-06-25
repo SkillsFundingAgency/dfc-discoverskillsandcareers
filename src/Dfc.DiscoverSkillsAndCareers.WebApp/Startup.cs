@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)

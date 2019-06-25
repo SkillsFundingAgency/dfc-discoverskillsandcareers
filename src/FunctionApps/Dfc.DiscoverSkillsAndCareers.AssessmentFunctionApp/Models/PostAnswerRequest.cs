@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class PostAnswerRequest
     {
         [JsonProperty("questionId")]
