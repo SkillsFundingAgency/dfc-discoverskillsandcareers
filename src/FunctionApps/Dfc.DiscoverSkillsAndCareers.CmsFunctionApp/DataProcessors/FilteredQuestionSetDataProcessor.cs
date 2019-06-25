@@ -15,24 +15,18 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IQuestionSetRepository _questionSetRepository;
-        private readonly IJobCategoryRepository _jobCategoryRepository;
         private readonly ISiteFinityHttpService _sitefinity;
-        private readonly IOptions<AppSettings> _appSettings;
         private ILogger _logger;
         private const string assessmentType = "filtered";
 
         public FilteredQuestionSetDataProcessor(
             IQuestionRepository questionRepository,
             IQuestionSetRepository questionSetRepository,
-            IJobCategoryRepository jobCategoryRepository,
-            ISiteFinityHttpService sitefinity,
-            IOptions<AppSettings> appSettings)
+            ISiteFinityHttpService sitefinity)
         {
             _questionRepository = questionRepository;
-            _jobCategoryRepository = jobCategoryRepository;
             _questionSetRepository = questionSetRepository;
             _sitefinity = sitefinity;
-            _appSettings = appSettings;
         }
         
         public async Task RunOnce(ILogger logger)
