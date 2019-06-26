@@ -97,7 +97,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occured creating a new assessment of type {assessment}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -123,7 +123,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occured getting question {questionNumber} for assessment type {assessment}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -166,7 +166,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occured while getting \"next\" question {questionNumber} for assessment type {assessment}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 

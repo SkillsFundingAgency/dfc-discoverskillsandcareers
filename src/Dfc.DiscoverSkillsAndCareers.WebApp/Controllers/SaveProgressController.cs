@@ -136,7 +136,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 else if (e == "3")
                 {
                     _log.LogError($"Correlation Id: {correlationId} - Unable to send email");
-                    return StatusCode(500);
+                    return RedirectToAction("Error500", "Error");
                 }
                 
                 return View("EmailInput", model);

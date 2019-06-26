@@ -122,7 +122,7 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task AnswerQuestion_ShouldReturn_500IfHttpException()
+        public async Task AnswerQuestion_ShouldReturn_ViewIfNoOptionSelected()
         {
             _session.TryGetValue("session-id", out Arg.Any<byte[]>())
                 .Returns(x => { 
@@ -144,10 +144,9 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.AnswerQuestion("short", "1");
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
-
-            Assert.Equal(500, viewResult.StatusCode);
-
+            var viewResult = Assert.IsType<ViewResult>(result);
+            
+            Assert.Equal("Question", viewResult.ViewName);
         }
         
         [Fact]
@@ -170,9 +169,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.AnswerQuestion("short", "1");
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
-
-            Assert.Equal(500, viewResult.StatusCode);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -272,9 +272,10 @@ namespace Dfc.UnitTests.ControllerTests
 
             var result = await _controller.NewAssessment("short");
 
-            var scResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, scResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
             
         }
         
@@ -337,9 +338,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.NextQuestion("Abc123","short", 1, false);
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
-  
-            Assert.Equal(500, viewResult.StatusCode);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
     }
 }
