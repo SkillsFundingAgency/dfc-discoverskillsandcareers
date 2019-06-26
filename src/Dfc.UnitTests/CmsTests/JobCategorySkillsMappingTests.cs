@@ -26,9 +26,9 @@ namespace Dfc.UnitTests.CmsTests
         public JobCategorySkillsMappingTests()
         {
             JobCategories =
-                JsonConvert.DeserializeObject<List<TaxonomyHierarchy>>(File.ReadAllText("Data/job-categories.json"));
+                JsonConvert.DeserializeObject<List<TaxonomyHierarchy>>(File.ReadAllText("Data/SiteFinityData/job-categories.json"));
             JobProfiles =
-                JsonConvert.DeserializeObject<List<SiteFinityJobProfile>>(File.ReadAllText("Data/job-profiles.json"));
+                JsonConvert.DeserializeObject<List<SiteFinityJobProfile>>(File.ReadAllText("Data/SiteFinityData/job-profiles.json"));
         }
         
         [Fact]

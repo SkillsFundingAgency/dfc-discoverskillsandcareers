@@ -5,9 +5,13 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
+using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Dfc.UnitTests
@@ -18,6 +22,10 @@ namespace Dfc.UnitTests
         private IJobCategoryRepository _jobCategoryRepository;
         private ILogger _logger;
         private FilterAssessmentCalculationService _sut;
+        
+        private List<SiteFinityJobProfile> JobProfiles { get; }
+
+        private List<JobCategory> JobCategories { get; }
 
         public FilteringAssessmentCalculationServiceTests()
         {
@@ -27,6 +35,8 @@ namespace Dfc.UnitTests
 
             _sut = new FilterAssessmentCalculationService(_questionRepository, _jobCategoryRepository);
         }
+
+        
 
 
         [Fact]
@@ -219,5 +229,66 @@ namespace Dfc.UnitTests
             }
             
         }
+        
+        [Fact]
+        public async Task UMB_518_Invalid_Job_Profiles_Selected()
+        {
+            var _jobCategories =
+                JsonConvert.DeserializeObject<JobCategory[]>(File.ReadAllText("Data/Cosmos/jobcategories.json"));
+            var _questions =
+                JsonConvert.DeserializeObject<Question[]>(File.ReadAllText("Data/Cosmos/questions.json"));
+
+
+            _jobCategoryRepository.GetJobCategory("RAS")
+                .Returns(Task.FromResult(_jobCategories.First(r => r.Code == "RAS")));
+
+            _questionRepository.GetQuestions("filtered-default-71")
+                .Returns(Task.FromResult(_questions.Where(q => q.PartitionKey == "filtered-default-71").ToArray()));
+            
+            var categoryResult = new JobCategoryResult {JobCategoryName = "Retail and sales"};
+            var session = new UserSession
+            {
+                ResultData = new ResultData
+                {
+                    JobCategories = new [] { categoryResult  }
+                },
+                AssessmentState = new AssessmentState("q-1", 1)
+                {
+                    RecordedAnswers = new []
+                    {
+                        new Answer { QuestionNumber = 1, SelectedOption = AnswerOption.Agree }, 
+                    },
+                    CurrentQuestion = 1
+                    
+                },
+                FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = "RAS",
+                    RecordedAnswers = new[]
+                    {
+                        new Answer {TraitCode = "Speaking, Verbal Abilities", SelectedOption = AnswerOption.Yes},
+                        new Answer {TraitCode = "Cooperation", SelectedOption = AnswerOption.No},
+                        new Answer {TraitCode = "Self Control", SelectedOption = AnswerOption.No},
+                        new Answer {TraitCode = "Stress Tolerance", SelectedOption = AnswerOption.Yes}
+                    },
+                    JobCategoryStates = new List<JobCategoryState>
+                    {
+                        new JobCategoryState("RAS", "Retail and Sales", "filtered-default-71", new[]
+                        {
+                            new JobCategorySkill {QuestionNumber = 1, Skill = "Speaking, Verbal Abilities", QuestionId = "filtered-default-71-46"},
+                            new JobCategorySkill {QuestionNumber = 2, Skill = "Cooperation", QuestionId = "filtered-default-71-4" },
+                            new JobCategorySkill {QuestionNumber = 3, Skill = "Self Control", QuestionId = "filtered-default-71-42" },
+                            new JobCategorySkill {QuestionNumber = 4, Skill = "Stress Tolerance", QuestionId = "filtered-default-71-47" },
+                        })
+                    }
+                }
+            };
+
+            await _sut.CalculateAssessment(session, _logger);
+            
+            Assert.Contains("E-commerce manager", categoryResult.FilterAssessmentResult.SuggestedJobProfiles);
+        }
+        
     }
+
 }
