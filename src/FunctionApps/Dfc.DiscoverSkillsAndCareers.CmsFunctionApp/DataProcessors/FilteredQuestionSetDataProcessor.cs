@@ -110,6 +110,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                     int questionNumber = 1;
                     foreach (var dataQuestion in data.Questions)
                     {
+                        if (dataQuestion.RelatedSkill == null)
+                        {
+                            _logger.LogWarning($"Skipping Question {dataQuestion.Title} - No related Skill");
+                            continue;
+                        }
+                        
                         var newQuestion = new Question
                         {
                             IsNegative = false,
