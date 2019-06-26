@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-      <Content Include="Data\*.json">
+      <Content Include="Data\**\*.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
   </ItemGroup>

@@ -26,9 +26,8 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _jobProfileRepository = Substitute.For<IJobProfileRepository>();
-            _jobCategoryRepository = Substitute.For<IJobCategoryRepository>();
             _questionSetRepository = Substitute.For<IQuestionSetRepository>();
-            _questionRepository = Substitute.For<IQuestionRepository>();
+    
         }
 
         public void Dispose()
@@ -45,9 +44,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
         private IJobProfileRepository _jobProfileRepository;
-        private IJobCategoryRepository _jobCategoryRepository;
         private IQuestionSetRepository _questionSetRepository;
-        private IQuestionRepository _questionRepository;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId, string jobCategory = null)
         {

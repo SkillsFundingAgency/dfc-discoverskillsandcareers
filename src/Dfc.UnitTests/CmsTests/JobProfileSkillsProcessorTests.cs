@@ -35,9 +35,9 @@ namespace Dfc.UnitTests.CmsTests
             _logger = Substitute.For<ILogger>();
 
             JobCategories =
-                JsonConvert.DeserializeObject<List<TaxonomyHierarchy>>(File.ReadAllText("Data/job-categories.json"));
+                JsonConvert.DeserializeObject<List<TaxonomyHierarchy>>(File.ReadAllText("Data/SiteFinityData/job-categories.json"));
             JobProfiles =
-                JsonConvert.DeserializeObject<List<SiteFinityJobProfile>>(File.ReadAllText("Data/job-profiles.json"));
+                JsonConvert.DeserializeObject<List<SiteFinityJobProfile>>(File.ReadAllText("Data/SiteFinityData/job-profiles.json"));
             
             _appSettings.Value.Returns(new AppSettings()
             {
