@@ -972,31 +972,6 @@
         }
       ]
     },
-
-    {
-      "Action": "Create",
-      "ContentType": "filteringquestions",
-      "Data": {
-        "Title": "achievement/effort",
-        "QuestionText": "Would you feel comfortable working in a job where you have to put a lot of effort in to achieve things?",
-        "Description": "",
-        "IncludeInSitemap": false
-      },
-      "Relates": [
-        {
-          "RelatedType": {
-            "Type": "RelatedSkill",
-            "ContentType": "skills",
-            "Property": "Title"
-          },
-          "Values": [
-            "achievement/effort"
-          ],
-          "Property": "Title",
-          "ContentType": "skills"
-        }
-      ]
-    },
     {
       "Action": "Create",
       "ContentType": "filteringquestions",
@@ -1026,7 +1001,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "adaptability/flexibility",
-        "QuestionText": "Are you comfortable with things changing? ",
+        "QuestionText": "Are you comfortable with things changing?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1050,7 +1025,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "analytical thinking",
-        "QuestionText": "Are you comfortable analysing information to solve problems? ",
+        "QuestionText": "Are you comfortable analysing information to solve problems?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1146,7 +1121,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "cooperation",
-        "QuestionText": "Are you comfortable with working together as a team with other people? ",
+        "QuestionText": "Are you comfortable with working together as a team with other people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1266,7 +1241,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "independence",
-        "QuestionText": "Could you stay motivated if you were working by yourself with no other people?",
+        "QuestionText": "Would you be comfortable working by yourself with no other people?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1290,7 +1265,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "independence, initiative",
-        "QuestionText": "Do you find it easy to stay motivated to get things done if you're working by yourself?",
+        "QuestionText": "Do you find it easy to stay motivated to get things done if you are working by yourself?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1314,7 +1289,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "initiative",
-        "QuestionText": "Would you be comfortable taking responsibility for things that you didn't expect to happen?",
+        "QuestionText": "Would you be comfortable taking responsibility for things that you did not expect to happen?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1506,7 +1481,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "management of financial resources",
-        "QuestionText": "Would you like a job managing budgets? ",
+        "QuestionText": "Would you like a job managing budgets?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1578,7 +1553,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "memory",
-        "QuestionText": "Do you think you have are good at remembering things?",
+        "QuestionText": "Are you good at remembering things?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -1890,7 +1865,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "quantitative abilities, mathematics skills",
-        "QuestionText": "Could you choose the right mathematical model to solve a problem and be confident that it is correct?",
+        "QuestionText": "Would you be comfortable choosing the right mathematical model to solve a problem and be confident that it is correct?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2010,7 +1985,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "social orientation",
-        "QuestionText": "Do you prefer working closely with others in a group rather than working on your own?",
+        "QuestionText": "Do you prefer working in a group rather than working on your own?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2130,7 +2105,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "systems analysis, systems evaluation",
-        "QuestionText": "Would you like a job where you analyse how things work and then recommend how it could be improved ?",
+        "QuestionText": "Would you like a job where you analyse how things work and then recommend how it could be improved?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2297,8 +2272,704 @@
       "Action": "Create",
       "ContentType": "filteringquestions",
       "Data": {
+        "Title": "attention to detail",
+        "QuestionText": "Do you enjoy being thorough and paying attention to details?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "attention to detail"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "critical thinking",
+        "QuestionText": "Do you enjoy logically weighing up different ways to solve problems?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "critical thinking"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "idea generation and reasoning abilities",
+        "QuestionText": "Do you think you are good at coming up with lots of different ways to solve problems?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "idea generation and reasoning abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "attentiveness",
+        "QuestionText": "Are you able to concentrate on on a task for a long time without becoming distracted?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "attentiveness"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "active listening",
+        "QuestionText": "Do you think you are good at paying attention to what other people are saying, taking the time to understand what they mean?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "active listening"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "equipment selection",
+        "QuestionText": "Would you like a job that involves deciding which tools or equipment need to be used?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "equipment selection"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "speaking",
+        "QuestionText": "Are you able to talk people through instructions?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "speaking"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "achievement orientation",
+        "QuestionText": "Do you enjoy taking on more responsibility for things at work?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "achievement orientation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "achievement orientation, achievement/effort",
+        "QuestionText": "Do you like to put in a lot of effort so that you get much better at doing things?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "achievement orientation, achievement/effort"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "adjustment",
+        "QuestionText": "Do you think you are good at coping with setbacks, stress and pressures at work?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "adjustment"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "adjustment, self control",
+        "QuestionText": "Are you good at staying calm and professional in difficult situations?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "adjustment, self control"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "cognitive abilities",
+        "QuestionText": "Are you able to pull together different pieces of information to understand patterns?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "cognitive abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "cognitive abilities, troubleshooting",
+        "QuestionText": "Would you like a job where you would assess why something is going wrong and working out what to do about it?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "cognitive abilities, troubleshooting"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "complex problem solving skills",
+        "QuestionText": "Do you think you are good at solving unusual problems that other people find difficult?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "complex problem solving skills"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "complex problem solving skills, complex problem solving",
+        "QuestionText": "Would you be able to identify and research complex problems, and find solutions to them?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "complex problem solving skills, complex problem solving"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "interpersonal orientation",
+        "QuestionText": "Do you think you are easy to get along with at work?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "interpersonal orientation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "interpersonal orientation, cooperation",
+        "QuestionText": "Do you find it easy to build good relationships with people you work with?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "interpersonal orientation, cooperation"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "management of material resources",
+        "QuestionText": "Would you like a job where you would deal with finding the right equipment and materials to get something done?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "management of material resources"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "physical abilities",
+        "QuestionText": "Do you consider yourself physically strong and flexible?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "physical abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "physical abilities,endurance",
+        "QuestionText": "Do you find it easy to do physical exercise for long periods of time without getting out of breath?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "physical abilities,endurance"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "practical intelligence",
+        "QuestionText": "Do you think you are good at coming up with practical ideas to solve problems?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "practical intelligence"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "psychomotor abilities",
+        "QuestionText": "Are you able to keep your arms and hands steady?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "psychomotor abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "psychomotor abilities,control movement abilities",
+        "QuestionText": "Could you quickly adjust the controls of a machine or a vehicle?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "psychomotor abilities,control movement abilities"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "resource management skills",
+        "QuestionText": "Would you like to work in a management role, which could be managing people, money and time?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "resource management skills"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "social influence",
+        "QuestionText": "Do people tend to follow your lead?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "social influence"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "social skills",
+        "QuestionText": "Do you think you have good social skills?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "social skills"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "systems skills",
+        "QuestionText": "Do you think you are able to weigh up whether things are worth spending money on dependant on how much benefit they will have?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "systems skills"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "technical skills",
+        "QuestionText": "Do you think you have basic technical skills so that you could operate simple tools or machinery?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "technical skills"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
+        "Title": "technology design",
+        "QuestionText": "Would you like a job designing technology?",
+        "Description": "",
+        "IncludeInSitemap": false
+      },
+      "Relates": [
+        {
+          "RelatedType": {
+            "Type": "RelatedSkill",
+            "ContentType": "skills",
+            "Property": "Title"
+          },
+          "Values": [
+            "technology design"
+          ],
+          "Property": "Title",
+          "ContentType": "skills"
+        }
+      ]
+    },
+    {
+      "Action": "Create",
+      "ContentType": "filteringquestions",
+      "Data": {
         "Title": "reading comprehension",
-        "QuestionText": "Do you think that you are good at understanding written text?",
+        "QuestionText": "Are you able to read well?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2335,19 +3006,19 @@
             "Question",
             "Would you feel comfortable working in a job where you have to put a lot of effort in to achieve things?",
             "Do you enjoy learning new things?",
-            "Are you comfortable with things changing? ",
-            "Are you comfortable analysing information to solve problems? ",
+            "Are you comfortable with things changing?",
+            "Are you comfortable analysing information to solve problems?",
             "Do you enjoy solving complicated problems?",
             "Would you be comfortable in a job where you would need to be sensitive to other people's needs and feelings?",
             "Are you able to control your body movements, for example moving both your arms or legs at the same time?",
-            "Are you comfortable with working together as a team with other people? ",
+            "Are you comfortable with working together as a team with other people?",
             "Are you comfortable coordinating things?",
             "Do you feel fit enough to do physical exercise for most of the day?",
             "Would you like a job maintaining equipment?",
             "Can you work with your hands to do something fiddly like threading a needle?",
-            "Could you stay motivated if you were working by yourself with no other people?",
-            "Do you find it easy to stay motivated to get things done if you're working by yourself?",
-            "Would you be comfortable taking responsibility for things that you didn't expect to happen?",
+            "Would you be comfortable working by yourself with no other people?",
+            "Do you find it easy to stay motivated to get things done if you are working by yourself?",
+            "Would you be comfortable taking responsibility for things that you did not expect to happen?",
             "Do you think you are good at coming up with new ways of doing things?",
             "Would you like a job where you would install equipment, machines, wiring or computer programmes?",
             "Would you like to teach other people how to do things?",
@@ -2355,10 +3026,10 @@
             "Would you like to work in a leadership role?",
             "Are you comfortable taking charge of teams?",
             "Would you like to put together training for people?",
-            "Would you like a job managing budgets? ",
+            "Would you like a job managing budgets?",
             "Would you like to manage people?",
             "Are you confident using maths to solve problems?",
-            "Do you think you have are good at remembering things?",
+            "Are you good at remembering things?",
             "Are you interested in assessing how well things are working in order to make improvements?",
             "Are you comfortable helping other people to overcome their differences?",
             "Would you be comfortable operating equipment?",
@@ -2371,30 +3042,58 @@
             "Are you interested in doing tests and inspections to check how well things are working?",
             "Are you able to solve maths problems such as multiplication and division quickly and correctly?",
             "Are you confident solving maths problems with statistics, algebra and arithmatic?",
-            "Could you choose the right mathematical model to solve a problem and be confident that it is correct?",
+            "Would you be comfortable choosing the right mathematical model to solve a problem and be confident that it is correct?",
             "Would you like a job repairing machines using tools?",
             "Would you be comfortable using science to solve problems?",
             "In work, do you think you can control your emotions under in front of others?",
             "Do you think you go out of your way to help people?",
-            "Do you prefer working closely with others in a group rather than working on your own?",
+            "Do you prefer working in a group rather than working on your own?",
             "Do you think you are good at seeing why other people do things?",
             "Are you comfortable talking through things with other people so that they understand?",
             "Do you think you are good at staying calm under pressure?",
             "Would you like a job where you would need to evaluate how things work for people?",
-            "Would you like a job where you analyse how things work and then recommend how it could be improved ?",
+            "Would you like a job where you analyse how things work and then recommend how it could be improved?",
             "Would you like a job that involved measuring how something was working and suggesting improvements?",
             "Do you think you are good at managing your time?",
             "Would you like to find out what is wrong with machinery as part of your job?",
             "Do you think you are good at using words to describe ideas?",
             "Do you think you are good at explaining things, either by talking or writing it down?",
             "Would you like to write as a main part of your job?",
-            "Do you think that you are good at understanding written text?"
+            "Do you enjoy being thorough and paying attention to details?",
+            "Do you enjoy logically weighing up different ways to solve problems?",
+            "Do you think you are good at coming up with lots of different ways to solve problems?",
+            "Are you able to concentrate on on a task for a long time without becoming distracted?",
+            "Do you think you are good at paying attention to what other people are saying, taking the time to understand what they mean?",
+            "Would you like a job that involves deciding which tools or equipment need to be used?",
+            "Are you able to talk people through instructions?",
+            "Do you enjoy taking on more responsibility for things at work?",
+            "Do you like to put in a lot of effort so that you get much better at doing things?",
+            "Do you think you are good at coping with setbacks, stress and pressures at work?",
+            "Are you good at staying calm and professional in difficult situations?",
+            "Are you able to pull together different pieces of information to understand patterns?",
+            "Would you like a job where you would assess why something is going wrong and working out what to do about it?",
+            "Do you think you are good at solving unusual problems that other people find difficult?",
+            "Would you be able to identify and research complex problems, and find solutions to them?",
+            "Do you think you are easy to get along with at work?",
+            "Do you find it easy to build good relationships with people you work with?",
+            "Would you like a job where you would deal with finding the right equipment and materials to get something done?",
+            "Do you consider yourself physically strong and flexible?",
+            "Do you find it easy to do physical exercise for long periods of time without getting out of breath?",
+            "Do you think you are good at coming up with practical ideas to solve problems?",
+            "Are you able to keep your arms and hands steady?",
+            "Could you quickly adjust the controls of a machine or a vehicle?",
+            "Would you like to work in a management role, which could be managing people, money and time?",
+            "Do people tend to follow your lead?",
+            "Do you think you have good social skills?",
+            "Do you think you are able to weigh up whether things are worth spending money on dependant on how much benefit they will have?",
+            "Do you think you have basic technical skills so that you could operate simple tools or machinery?",
+            "Would you like a job designing technology?",
+            "Are you able to read well?"
           ],
           "Property": "QuestionText",
           "ContentType": "filteringquestions"
         }
       ]
     }
-
   ]
 }
