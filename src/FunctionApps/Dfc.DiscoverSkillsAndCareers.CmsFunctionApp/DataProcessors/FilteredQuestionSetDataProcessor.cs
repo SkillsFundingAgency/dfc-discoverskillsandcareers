@@ -33,12 +33,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
         {
             _logger = logger;
             
-            var questionSet = await UpdateFilteredQuestionSets();
-
-            if (questionSet != null)
-            {
-                
-            }
+            await UpdateFilteredQuestionSets();
         }
 
         

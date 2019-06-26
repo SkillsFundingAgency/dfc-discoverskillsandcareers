@@ -116,5 +116,51 @@ namespace Dfc.UnitTests.CmsTests
             
             _logger.WasCalledOnce(LogLevel.Information, $"Question set {qsId} doesn't have any questions");
         }
+        
+        [Fact]
+        public async Task ShouldSetQuestionSetAsNotCurrentAndShouldLog()
+        {
+            var qsId = Guid.NewGuid().ToString();
+            var localLastUpdated = new DateTimeOffset(2019, 6, 1, 0, 0, 0, TimeSpan.Zero);
+            var sitefinityLastUpdated = localLastUpdated.AddDays(1);
+            
+            _siteFinityHttpService.GetAll<SiteFinityFilteringQuestionSet>("filteringquestionsets")
+                .Returns(Task.FromResult(new List<SiteFinityFilteringQuestionSet>
+                {
+                    new SiteFinityFilteringQuestionSet
+                    {
+                        Id = qsId,
+                        Title = "Default",
+                        LastUpdated = sitefinityLastUpdated
+                    }
+                }));
+
+            _siteFinityHttpService.Get<List<SiteFinityFilteringQuestion>>(
+                    $"filteringquestionsets({qsId})/Questions?$expand=RelatedSkill")
+                .Returns(Task.FromResult(new List<SiteFinityFilteringQuestion>
+                {
+                    new SiteFinityFilteringQuestion { RelatedSkill = new SiteFinityFilteringQuestionSkill
+                    {
+                        Title = "Cooperation"
+                    }}
+                }));
+
+            _questionSetRepository.GetCurrentQuestionSet("filtered").Returns(Task.FromResult(
+                new QuestionSet
+                {
+                    AssessmentType = "filtered",
+                    QuestionSetVersion = "default-1",
+                    Title = "default",
+                    MaxQuestions = 3,
+                    Version = 1,
+                    LastUpdated = localLastUpdated,
+                    IsCurrent = true
+                }));
+
+            await _sut.RunOnce(_logger);
+
+            _questionSetRepository.Received(1).CreateOrUpdateQuestionSet(Arg.Is<QuestionSet>(q => !q.IsCurrent));
+            _logger.WasCalledOnce(LogLevel.Information, $"Demoting question set default-1 from current");
+        }
     }
 }
