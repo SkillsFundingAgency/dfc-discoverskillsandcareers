@@ -272,7 +272,7 @@ namespace Dfc.UnitTests
                 }
             };
 
-            Assert.Single(sut.GetAnswersForCategory("AC"), a => a.TraitCode == "A");
+            Assert.Single(sut.GetAnswersForCategory("AC"), a => a.Answer.TraitCode == "A");
         }
     }
 }

@@ -80,5 +80,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         {
             return Math.Min(CurrentQuestion + 1, MaxQuestions);
         }
+
+        public void AddAnswer(Answer answer)
+        {
+            var newAnswerSet = RecordedAnswers
+                                .Where(x => x.QuestionId != answer.QuestionId)
+                                .ToList();
+                            
+            newAnswerSet.Add(answer);
+            RecordedAnswers = newAnswerSet.ToArray();
+        }
     }
 }

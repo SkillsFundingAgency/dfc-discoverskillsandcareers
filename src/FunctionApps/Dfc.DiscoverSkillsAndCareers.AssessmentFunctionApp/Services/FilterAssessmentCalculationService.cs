@@ -49,8 +49,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 
                 var answers =
                         categoryAnswers
-                            .OrderBy(a => a.QuestionNumber)
-                            .Select(a => a.SelectedOption)
+                            .OrderBy(a => a.Index)    
+                            .Select(a => a.Answer.SelectedOption)
                             .ToArray();
 
                 var suggestedProfiles = new List<string>();
@@ -65,6 +65,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                 
                 var jobCategoryResult =
                     userSession.ResultData.JobCategories.Single(jf => jf.JobCategoryCode.EqualsIgnoreCase(jobCategoryState.JobCategoryCode));
+
+                var recordedAnswers = categoryAnswers.Select(a => a.Answer).ToArray();
                 
                 jobCategoryResult.FilterAssessmentResult = new FilterAssessmentResult
                 {
@@ -73,9 +75,9 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                     QuestionSetVersion = userSession.CurrentQuestionSetVersion,
                     MaxQuestions = userSession.MaxQuestions,
                     SuggestedJobProfiles = suggestedProfiles,
-                    RecordedAnswerCount = userSession.RecordedAnswers.Length,
-                    RecordedAnswers = userSession.RecordedAnswers.ToArray(),
-                    WhatYouToldUs = ComputeWhatYouToldUs(categoryAnswers, questions).Distinct().ToArray()
+                    RecordedAnswerCount = recordedAnswers.Length,
+                    RecordedAnswers = recordedAnswers,
+                    WhatYouToldUs = ComputeWhatYouToldUs(recordedAnswers, questions).Distinct().ToArray()
                 }; 
             }
             
