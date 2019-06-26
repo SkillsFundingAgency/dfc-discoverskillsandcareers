@@ -82,7 +82,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     : JobCategoryHelper.GetCode(jobCategory);
                 
                 var suggestedJobProfiles = new List<JobProfileResult>();
-                var rnd = new Random();
                 foreach (var category in jobFamilies)
                 {
                     if (category.FilterAssessmentResult == null)
@@ -95,11 +94,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         
                         // Build the list of job profiles
                         var jobProfiles =
-                            await jobProfileRepository.JobProfilesForJobFamily(category.JobCategoryName);
-//                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
-//                                .SuggestedJobProfiles);
+                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult.SuggestedJobProfiles);
 
-                        foreach (var jobProfile in jobProfiles.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(rnd.Next(2,10)))
+                        foreach (var jobProfile in jobProfiles)
                         {
                             suggestedJobProfiles.Add(new JobProfileResult()
                             {
