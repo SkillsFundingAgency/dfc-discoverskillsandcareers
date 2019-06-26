@@ -69,9 +69,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.Index();
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -113,9 +114,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.FinishWithJobCategory("animal-care");
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
     }
