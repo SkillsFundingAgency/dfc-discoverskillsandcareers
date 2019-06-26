@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class SiteFinityShortQuestion
     {
         [JsonProperty("Id")]

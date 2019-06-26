@@ -77,10 +77,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobCategories;
 
-                jobCategory = String.IsNullOrWhiteSpace(jobCategory) || jobCategory.ToLower() == "short"
-                    ? userSession.FilteredAssessmentState.CurrentFilterAssessmentCode
-                    : JobCategoryHelper.GetCode(jobCategory);
-                
+                if (!jobCategory.EqualsIgnoreCase("short"))
+                {
+                    jobCategory = JobCategoryHelper.GetCode(jobCategory);
+                }
+
                 var suggestedJobProfiles = new List<JobProfileResult>();
                 foreach (var category in jobFamilies)
                 {
@@ -94,7 +95,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         
                         // Build the list of job profiles
                         var jobProfiles =
-                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult.SuggestedJobProfiles);
+                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
+                                .SuggestedJobProfiles);
 
                         foreach (var jobProfile in jobProfiles)
                         {
@@ -138,7 +140,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

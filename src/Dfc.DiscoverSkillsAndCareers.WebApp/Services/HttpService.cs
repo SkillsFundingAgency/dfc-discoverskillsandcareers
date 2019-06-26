@@ -3,11 +3,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 {
+    [ExcludeFromCodeCoverage]
     public class HttpService : IHttpService
     {
         HttpClient _httpClient;
@@ -38,9 +40,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
                 }
             }
         }
-
         
-
         private void AddCorrelationId(Guid? dssCorrelationId)
         {
             _httpClient.DefaultRequestHeaders.Remove("DssCorrelationId");

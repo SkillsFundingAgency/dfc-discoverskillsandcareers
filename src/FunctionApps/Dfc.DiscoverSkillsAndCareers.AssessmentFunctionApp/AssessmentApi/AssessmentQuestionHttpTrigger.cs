@@ -93,20 +93,30 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                if (!assessment.EqualsIgnoreCase("short"))
+                Question question = null;
+                
+                if (assessment.EqualsIgnoreCase("short"))
+                {
+                    question = await questionRepository.GetQuestion(questionNumber, userSession.CurrentQuestionSetVersion);
+                    userSession.AssessmentState.CurrentQuestion = questionNumber;
+                } 
+                else 
                 {
                     userSession.FilteredAssessmentState.CurrentFilterAssessmentCode = JobCategoryHelper.GetCode(assessment);
+                    userSession.FilteredAssessmentState.CurrentQuestion = questionNumber;
+                    
+                    question = await questionRepository.GetQuestion(userSession.FilteredAssessmentState.CurrentQuestionId);
+
                 }
                 
-                var questionSetVersion = userSession.CurrentQuestionSetVersion;
-
-                var question = await questionRepository.GetQuestion(questionNumber, questionSetVersion);
                 if (question == null)
                 {
                     log.LogInformation($"CorrelationId: {correlationGuid} - Question number {userSession.CurrentQuestion} could not be found on session {userSession.PrimaryKey}");
                     return httpResponseMessageHelper.NoContent();
                 }
 
+                var percentageComplete = userSession.AssessmentState.PercentageComplete;
+                
                 var nextQuestion = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion();
                 await userSessionRepository.UpdateUserSession(userSession);
 
@@ -118,13 +128,13 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     QuestionId = question.QuestionId,
                     QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
                     TraitCode = question.TraitCode,
-                    QuestionNumber = question.Order,
+                    QuestionNumber = questionNumber,
                     SessionId = userSession.PrimaryKey,
-                    PercentComplete = userSession.AssessmentState.PercentageComplete,
+                    PercentComplete = percentageComplete,
                     ReloadCode = userSession.UserSessionId,
                     MaxQuestionsCount = userSession.MaxQuestions,
                     RecordedAnswersCount = userSession.RecordedAnswers.Length,
-                    RecordedAnswer = userSession.RecordedAnswers.SingleOrDefault(r => r?.QuestionNumber == questionNumber)?.SelectedOption,
+                    RecordedAnswer = userSession.RecordedAnswers.SingleOrDefault(r => r?.QuestionId == question.QuestionId)?.SelectedOption,
                     StartedDt = userSession.StartedDt,
                     IsFilterAssessment = !assessment.EqualsIgnoreCase("short"),
                     JobCategorySafeUrl = userSession.FilteredAssessmentState?.JobFamilyNameUrlSafe
@@ -134,7 +144,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Fatal exception {message}", ex.Message);
+                log.LogError(ex, "Fatal exception {message}", ex.ToString());
                 return new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
             }
         }

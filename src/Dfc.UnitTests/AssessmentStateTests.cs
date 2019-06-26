@@ -19,7 +19,8 @@ namespace Dfc.UnitTests
         public void ManageIfComplete_WithCompleteState_ShouldBeComplete()
         {
             var assessmentState = new AssessmentState("QS-1", 5) {
-                    RecordedAnswers = new []
+                CurrentQuestion = 5,
+                RecordedAnswers = new []
                     {
                         new Answer() { QuestionNumber = 1 },
                         new Answer() { QuestionNumber = 2 },
@@ -28,7 +29,6 @@ namespace Dfc.UnitTests
                         new Answer() { QuestionNumber = 5 },
                     }
                 };
-
 
             Assert.True(assessmentState.IsComplete);
             Assert.True(assessmentState.CompleteDt.HasValue);
@@ -67,6 +67,7 @@ namespace Dfc.UnitTests
         public void GetNextQuestionToAnswerNumber_WithGapInAnswers_ShouldBeQuestion3()
         {
             var assessmentState = new AssessmentState("QS-1", 5) {
+                    CurrentQuestion = 2,
                     RecordedAnswers = new []
                     {
                         new Answer() { QuestionNumber = 1 },
@@ -84,6 +85,7 @@ namespace Dfc.UnitTests
         public void GetNextQuestionNumber_WithRecordedAnswerLess1_ShouldBeLastQuestion()
         {
             var assessmentState = new AssessmentState("QS-1", 5) {
+                CurrentQuestion = 4,
                 RecordedAnswers = new []
                     {
                         new Answer() { QuestionNumber = 1 },
@@ -93,6 +95,7 @@ namespace Dfc.UnitTests
                     }
                 };
 
+            
             var question = assessmentState.MoveToNextQuestion();
 
             Assert.Equal(5, question);

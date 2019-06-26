@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
@@ -14,6 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
 {
 
+    [ExcludeFromCodeCoverage]
     public class SiteFinityHttpService : ISiteFinityHttpService
     {
         public class AuthToken

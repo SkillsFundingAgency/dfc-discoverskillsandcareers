@@ -158,9 +158,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.Index();
 
-            var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
 
         [Fact]
@@ -253,9 +254,10 @@ namespace Dfc.UnitTests.ControllerTests
                 });
 
             var result = await _controller.EmailInput("3");
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -265,9 +267,10 @@ namespace Dfc.UnitTests.ControllerTests
                 .Throws(new Exception());
 
             var result = await _controller.EmailInput();
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Theory]
@@ -302,9 +305,10 @@ namespace Dfc.UnitTests.ControllerTests
                 });
 
             var result = await _controller.SmsInput("3");
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -314,9 +318,10 @@ namespace Dfc.UnitTests.ControllerTests
                 .Throws(new Exception());
 
             var result = await _controller.SmsInput();
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
 
         [Fact]
@@ -334,9 +339,10 @@ namespace Dfc.UnitTests.ControllerTests
             _session.TryGetValue("session-id", out Arg.Any<byte[]>()).Throws(new Exception());
             
             var result = await _controller.SendEmail(new SendEmailRequest {Email = "my@email.com"});
-            var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -428,9 +434,10 @@ namespace Dfc.UnitTests.ControllerTests
             _session.TryGetValue("session-id", out Arg.Any<byte[]>()).Throws(new Exception());
             
             var result = await _controller.SendSms(new SendSmsRequest() {MobileNumber = "0790009200"});
-            var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -550,9 +557,10 @@ namespace Dfc.UnitTests.ControllerTests
                 });
 
             var result = await _controller.SmsInput("3");
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -562,9 +570,10 @@ namespace Dfc.UnitTests.ControllerTests
                 .Throws(new Exception());
 
             var result = await _controller.SmsInput();
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class SiteFinityTrait
     {
         [JsonProperty("Id")]

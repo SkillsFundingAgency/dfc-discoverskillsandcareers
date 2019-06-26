@@ -28,10 +28,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         public string TypicalHours => MinimumHours == MaximumHours ? "Variable" : $"{MinimumHours} to {MaximumHours}";
 
-        public string[] WorkingHoursDetails { get; set; }
+        public string[] WorkingHoursDetails { get; set; } = { };
 
-        public string[] WorkingPattern { get; set; }
+        public string[] WorkingPattern { get; set; } = { };
 
-        public string[] WorkingPatternDetails { get; set; }
+        public string[] WorkingPatternDetails { get; set; } = { };
     }
 }

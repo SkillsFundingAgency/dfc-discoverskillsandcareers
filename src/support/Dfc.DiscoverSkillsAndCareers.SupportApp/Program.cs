@@ -37,13 +37,15 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                         CreateValidityTestSessions.Options, 
                         Cms.Options, 
                         FilteringQuestionsMappingCreator.Options,
-                        CleanCosmos.Options>(args)
+                        CleanCosmos.Options,
+                        DumpCosmos.Options>(args)
                 .MapResult(
                     (LoadQuestions.Options opts) => LoadQuestions.Execute(serviceProvider, opts),
                     (CreateValidityTestSessions.Options opts) => CreateValidityTestSessions.Execute(serviceProvider, opts),
                     (Cms.Options opts) => Cms.Execute(serviceProvider, opts),
                     (FilteringQuestionsMappingCreator.Options opts) => FilteringQuestionsMappingCreator.Execute(serviceProvider, opts),
                     (CleanCosmos.Options opts) => CleanCosmos.Execute(serviceProvider, opts),
+                    (DumpCosmos.Options opts) => DumpCosmos.Execute(serviceProvider, opts),
                              errs => {
                                  logger.LogError(errs.Aggregate("", (s,e) => s += e.ToString() + Environment.NewLine));
                                  return SuccessFailCode.Fail;
@@ -61,7 +63,9 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             
             services.AddLogging(l => l.AddSerilog())
                 .AddSingleton<SiteFinityHttpService>()
-                .AddSingleton<Cms>();
+                .AddSingleton<Cms>()
+                .AddSingleton<CleanCosmos>()
+                .AddSingleton<DumpCosmos>();
                 
 
             services.AddSingleton<IConfiguration>(config);

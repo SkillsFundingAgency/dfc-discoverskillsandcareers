@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Index)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -136,7 +136,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 else if (e == "3")
                 {
                     _log.LogError($"Correlation Id: {correlationId} - Unable to send email");
-                    return StatusCode(500);
+                    return RedirectToAction("Error500", "Error");
                 }
                 
                 return View("EmailInput", model);
@@ -144,7 +144,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(EmailInput)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -198,7 +198,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(SendEmail)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -227,7 +227,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 else if (e == "3")
                 {
                     _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
-                    return StatusCode(500);
+                    return RedirectToAction("Error500", "Error");
                 }
                 AppendCookie(sessionId);
                 return View("SmsInput", model);
@@ -235,7 +235,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(SmsInput)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -282,7 +282,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 else if (e == "3")
                 {
                     _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
-                    return StatusCode(500);
+                    return RedirectToAction("Error500", "Error");
                 }
                 
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
@@ -292,7 +292,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(ReferenceNumber)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -356,7 +356,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(SendSms)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
     }

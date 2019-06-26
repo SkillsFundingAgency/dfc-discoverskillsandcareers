@@ -5,19 +5,22 @@ namespace Dfc.UnitTests
 {
     public class JobCategoryStateTests
     {
+        private JobCategoryState sut;
+
+        public JobCategoryStateTests()
+        {
+            sut = new JobCategoryState("AC", "Animal Care", "QS-1", new[]
+                {
+                    new JobCategorySkill {Skill = "A", QuestionNumber = 1, QuestionId = "1" },
+                    new JobCategorySkill {Skill = "B", QuestionNumber = 2, QuestionId = "2" },
+                    new JobCategorySkill {Skill = "C", QuestionNumber = 3, QuestionId = "3" }
+                }
+            );
+        }
+        
         [Fact]
         public void IsComplete_ReturnsTrue_IfAllSkillsHaveMatchingAnswers()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
-            
             Assert.True(sut.IsComplete(new []
             {
                 new Answer { TraitCode =  "A"},
@@ -29,15 +32,6 @@ namespace Dfc.UnitTests
         [Fact]
         public void IsComplete_ReturnsFalse_IfNotAllSkillsHaveMatchingAnswers()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
             
             Assert.False(sut.IsComplete(new []
             {
@@ -48,64 +42,24 @@ namespace Dfc.UnitTests
         [Fact]
         public void IsComplete_ReturnsFalse_IfAnswersNull()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
-            
             Assert.False(sut.IsComplete(null));
         }
         
         [Fact]
         public void UnansweredQuestions_Returns3()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
-            
             Assert.Equal(3,sut.UnansweredQuestions(new Answer[] {}));
         }
         
         [Fact]
         public void UnansweredQuestions_Returns3_IfAnswersNull()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
-            
             Assert.Equal(3,sut.UnansweredQuestions(new Answer[] {}));
         }
         
         [Fact]
         public void UnansweredQuestions_Returns2()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
-            
             Assert.Equal(2,sut.UnansweredQuestions(new []
             {
                 new Answer { TraitCode =  "A"}
@@ -115,16 +69,6 @@ namespace Dfc.UnitTests
         [Fact]
         public void UnansweredQuestions_Returns0()
         {
-            var sut = new JobCategoryState
-            {
-                Skills = new[]
-                {
-                    new JobCategorySkill {Skill = "A"},
-                    new JobCategorySkill {Skill = "B"},
-                    new JobCategorySkill {Skill = "C"}
-                }
-            };
-            
             Assert.Equal(0,sut.UnansweredQuestions(new []
             {
                 new Answer { TraitCode = "A" },

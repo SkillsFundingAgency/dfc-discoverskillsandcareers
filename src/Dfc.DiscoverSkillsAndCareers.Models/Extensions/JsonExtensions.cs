@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -5,6 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public class JsonSettings
     {
         public static JsonSerializerSettings Instance = new JsonSerializerSettings
@@ -13,6 +15,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models.Extensions
         };
     }
     
+    [ExcludeFromCodeCoverage]
     public static class JsonExtensions
     {
         static Regex ReplaceRegex = new Regex(@"\{prop:(\w*)\}");

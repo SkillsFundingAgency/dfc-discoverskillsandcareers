@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -27,7 +28,7 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _questionRepository = Substitute.For<IQuestionRepository>();
-            _resultsService = Substitute.For<IAssessmentCalculationService>();
+            _assessmentCalculationService = Substitute.For<IAssessmentCalculationService>();
             _filterAssessmentCalculationService = Substitute.For<IFilterAssessmentCalculationService>();
         }
 
@@ -45,7 +46,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
         private IQuestionRepository _questionRepository;
-        private IAssessmentCalculationService _resultsService;
+        private IAssessmentCalculationService _assessmentCalculationService;
         private IFilterAssessmentCalculationService _filterAssessmentCalculationService;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId)
@@ -58,7 +59,7 @@ namespace Dfc.UnitTests.FunctionTests
                 _httpResponseMessageHelper,
                 _userSessionRepository,
                 _questionRepository,
-                _resultsService,
+                _assessmentCalculationService,
                 _filterAssessmentCalculationService
             ).ConfigureAwait(false);
         }
@@ -110,6 +111,47 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
+        
+        [Fact]
+        public async Task PostAnswerHttpTrigger_UnableToFindQuestion_ShouldReturnNoContent()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+            var postAnswerRequest = new PostAnswerRequest()
+            {
+                QuestionId = "1",
+                SelectedOption = "Agree"
+            };
+
+            _questionRepository.GetQuestion("1").Returns(Task.FromResult<Question>(null));
+            
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(new UserSession
+            {
+                AssessmentState = new AssessmentState("QS-1", 5)
+            }));
+            
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(postAnswerRequest);
+            _request.Body = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+
+            var result = await RunFunction("session1");
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+        }
+        
+        [Fact]
+        public async Task PostAnswerHttpTrigger_Returns_500OnException()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+            var postAnswerRequest = new PostAnswerRequest()
+            {
+                QuestionId = "1",
+                SelectedOption = "Agree"
+            };
+
+            _userSessionRepository.GetUserSession("session1").Throws(new Exception());
+            var result = await RunFunction("session1");
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        }
 
         [Fact]
         public async Task PostAnswerHttpTrigger_WithValidAnswerValue_ShouldHaveIsSuccessInModel()
@@ -145,27 +187,41 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
             var postAnswerRequest = new PostAnswerRequest()
             {
-                QuestionId = "filtered-social-care-1-1",
+                QuestionId = "short-1-1",
                 SelectedOption = "Agree"
             };
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(postAnswerRequest);
             _request.Body = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
             
-            _questionRepository.GetQuestion("filtered-social-care-1-1").Returns(Task.FromResult(new Question {QuestionId = "filtered-social-care-1-1"}));
-            
-            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(
-                new UserSession
+            _questionRepository.GetQuestion("short-1-1").Returns(Task.FromResult(new Question
+            {
+                QuestionId = "short-1-1",
+                IsFilterQuestion = false,
+                Order = 1,
+                Texts = new []
                 {
-                    AssessmentType = "filtered",
-                    AssessmentState = new AssessmentState("QS-1", 2)
+                    new QuestionText { LanguageCode = "en", Text = "q1" }, 
+                }
+            }));
+
+            var session = new UserSession
+            {
+                AssessmentType = "short",
+                AssessmentState = new AssessmentState("QS-1", 2)
+                {
+                    RecordedAnswers = new[]
                     {
-                        RecordedAnswers = new[]
+                        new Answer
                         {
-                            new Answer { QuestionId = "1", QuestionNumber = 1, QuestionSetVersion = "QS-1", SelectedOption = AnswerOption.Agree }, 
-                        }
+                            QuestionId = "1", QuestionNumber = 1, QuestionSetVersion = "QS-1",
+                            SelectedOption = AnswerOption.Agree
+                        },
                     }
                 }
-            ));
+            };
+            
+            
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(session));
             
             var result = await RunFunction("session1");
             var content = await result.Content.ReadAsAsync<PostAnswerResponse>();
@@ -174,6 +230,102 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.True(content.IsSuccess);
             Assert.Equal(2,content.NextQuestionNumber);
+        }
+
+        [Fact]
+        public async Task PostAnswerHttpTrigger_WhenAssessmentComplete_ShouldCallAssementCalculationService()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+            var postAnswerRequest = new PostAnswerRequest()
+            {
+                QuestionId = "short-1-1",
+                SelectedOption = "Agree"
+            };
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(postAnswerRequest);
+            _request.Body = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+            
+            _questionRepository.GetQuestion("short-1-1").Returns(Task.FromResult(new Question
+            {
+                QuestionId = "short-1-1",
+                IsFilterQuestion = false,
+                Order = 1,
+                Texts = new []
+                {
+                    new QuestionText { LanguageCode = "en", Text = "q1" }, 
+                }
+            }));
+
+            var session = new UserSession
+            {
+                AssessmentType = "short",
+                AssessmentState = new AssessmentState("QS-1", 1)
+                {
+                    CurrentQuestion = 1
+                }
+            };
+            
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(session));
+            
+            var result = await RunFunction("session1");
+
+            await _assessmentCalculationService.ReceivedWithAnyArgs(1)
+                    .CalculateAssessment(Arg.Any<UserSession>(), Arg.Any<ILogger>());
+        }
+        
+        [Fact]
+        public async Task PostAnswerHttpTrigger_WhenFilterAssessmentComplete_ShouldCallAssementCalculationService()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+            var postAnswerRequest = new PostAnswerRequest()
+            {
+                QuestionId = "AC-1",
+                SelectedOption = "Agree"
+            };
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(postAnswerRequest);
+            _request.Body = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+            
+            _questionRepository.GetQuestion("AC-1").Returns(Task.FromResult(new Question
+            {
+                QuestionId = "AC-1",
+                IsFilterQuestion = true,
+                Order = 1,
+                TraitCode = "A",
+                Texts = new []
+                {
+                    new QuestionText { LanguageCode = "en", Text = "q1" }, 
+                }
+            }));
+
+            var session = new UserSession
+            {
+                AssessmentType = "filtered",
+                AssessmentState = new AssessmentState("QS-1", 1)
+                {
+                    RecordedAnswers = new []
+                    {
+                        new Answer { QuestionNumber = 1, SelectedOption = AnswerOption.Agree, TraitCode = "A"}
+                    },
+                    CurrentQuestion = 1
+                },
+                FilteredAssessmentState = new FilteredAssessmentState
+                {
+                    CurrentFilterAssessmentCode = "AC",
+                    JobCategoryStates = new List<JobCategoryState>
+                    {
+                        new JobCategoryState("AC", "Animal Care", "QS-1", new []
+                        {
+                            new JobCategorySkill { QuestionId = "AC-1", QuestionNumber = 1, Skill = "A"}, 
+                        })
+                    }
+                }
+            };
+            
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(session));
+            
+            var result = await RunFunction("session1");
+
+            await _filterAssessmentCalculationService.ReceivedWithAnyArgs(1)
+                .CalculateAssessment(Arg.Any<UserSession>(), Arg.Any<ILogger>());
         }
     }
 }

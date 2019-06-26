@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -9,6 +10,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp
 {
+    [ExcludeFromCodeCoverage]
     public static class ApiDefinition
     {
         public const string APIName = "question";

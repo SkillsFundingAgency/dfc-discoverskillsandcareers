@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
 
             foreach(var traitData in data)
             {
-                if (string.IsNullOrEmpty(traitData.Name))
+                if (string.IsNullOrWhiteSpace(traitData.Name))
                 {
                     continue;
                 }

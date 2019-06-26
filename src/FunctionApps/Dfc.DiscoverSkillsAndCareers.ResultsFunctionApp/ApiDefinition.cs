@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -9,7 +10,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp
 {
-public static class ApiDefinition
+    [ExcludeFromCodeCoverage]
+    public static class ApiDefinition
     {
         public const string APIName = "results";
         public const string APITitle = "discover-skills-and-careers-" + APIName;
