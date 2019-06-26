@@ -45,7 +45,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Error404)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500");
             }
         }
 

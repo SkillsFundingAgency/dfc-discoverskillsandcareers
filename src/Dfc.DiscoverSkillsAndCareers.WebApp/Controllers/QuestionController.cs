@@ -52,12 +52,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     SelectedOption = GetFormValue("selected_answer")
                 };
                 
-                var postAnswerResponse = await _apiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
-                
-                if (postAnswerRequest.SelectedOption == null || postAnswerResponse == null)
+                if (postAnswerRequest.SelectedOption == null)
                 {
                     return await NextQuestion(sessionId, assessment, questionNumberValue, true);
                 }
+                
+                var postAnswerResponse = await _apiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
+                
                 if (postAnswerResponse.IsComplete)
                 {
                     var finishEndpoint = postAnswerResponse.IsFilterAssessment ? $"/finish/{postAnswerResponse.JobCategorySafeUrl}" : "/finish";
@@ -70,7 +71,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex,$"Correlation Id: {correlationId} - An error occurred in session {sessionId} answering question: {questionNumber} in assessment {assessment}.");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 

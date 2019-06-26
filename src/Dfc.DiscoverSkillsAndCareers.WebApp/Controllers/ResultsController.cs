@@ -80,7 +80,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(Index)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
@@ -107,7 +107,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(StartFilteredForJobCategory)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
         
@@ -136,7 +136,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(StartFilteredForJobCategory)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
         
@@ -161,7 +161,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             catch (Exception ex)
             {
                 _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred rendering action {nameof(ResultsFilteredForJobCategory)}");
-                return StatusCode(500);
+                return RedirectToAction("Error500", "Error");
             }
         }
 
