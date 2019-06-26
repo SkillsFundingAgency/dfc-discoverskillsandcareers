@@ -40,7 +40,7 @@
         @if (Model.QuestionNumber == 1)
         {
             <div class="app-breadcrumb-panel">
-                <a href="/results" class="govuk-back-link">Back to results</a>
+                <a href="@("/results/" + Model.AssessmentType)" class="govuk-back-link">Back to results</a>
                 </div>
         }
         else

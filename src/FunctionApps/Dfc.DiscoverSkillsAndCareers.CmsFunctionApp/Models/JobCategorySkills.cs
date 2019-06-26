@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class JobCategorySkills
     {
         public int JobCategoryProfileCount { get; set; }

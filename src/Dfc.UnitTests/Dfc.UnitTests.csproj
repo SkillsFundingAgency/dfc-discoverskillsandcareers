@@ -32,11 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="CmsTests\Data\filtering-questions.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Data\filtering-questions.json" />
+      <Content Include="Data\**\*.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
   </ItemGroup>
 
 </Project>

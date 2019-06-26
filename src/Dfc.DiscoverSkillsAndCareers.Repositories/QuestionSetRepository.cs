@@ -4,11 +4,13 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class QuestionSetRepository : IQuestionSetRepository
     {
         readonly ICosmosSettings cosmosSettings;

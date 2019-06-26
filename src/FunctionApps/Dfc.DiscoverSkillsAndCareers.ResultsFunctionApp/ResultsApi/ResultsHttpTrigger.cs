@@ -77,12 +77,12 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                 int traitsTake = (traits.Length > 3 && traits[2].TotalScore == traits[3].TotalScore) ? 4 : 3;
                 var jobFamilies = userSession.ResultData.JobCategories;
 
-                jobCategory = String.IsNullOrWhiteSpace(jobCategory) || jobCategory.ToLower() == "short"
-                    ? JobCategoryHelper.GetCode(jobCategory)
-                    : userSession.FilteredAssessmentState.CurrentFilterAssessmentCode;
-                
+                if (!jobCategory.EqualsIgnoreCase("short"))
+                {
+                    jobCategory = JobCategoryHelper.GetCode(jobCategory);
+                }
+
                 var suggestedJobProfiles = new List<JobProfileResult>();
-             //   var rnd = new Random();
                 foreach (var category in jobFamilies)
                 {
                     if (category.FilterAssessmentResult == null)
@@ -95,11 +95,10 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         
                         // Build the list of job profiles
                         var jobProfiles =
-                            //await jobProfileRepository.JobProfilesForJobFamily(jobCategory.JobFamilyName);
                             await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
                                 .SuggestedJobProfiles);
 
-                        foreach (var jobProfile in jobProfiles) //.OrderBy(_ => rnd.Next(0,jobProfiles.Length)).Take(20))
+                        foreach (var jobProfile in jobProfiles)
                         {
                             suggestedJobProfiles.Add(new JobProfileResult()
                             {

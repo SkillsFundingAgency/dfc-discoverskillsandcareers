@@ -48,7 +48,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         [JsonIgnore]
         public AssessmentStateBase CurrentState =>
-            FilteredAssessmentState == null || !AssessmentState.IsComplete
+            (FilteredAssessmentState == null 
+             || (String.IsNullOrWhiteSpace(FilteredAssessmentState.CurrentFilterAssessmentCode))) 
+             || !AssessmentState.IsComplete
                 ? (AssessmentStateBase)AssessmentState
                 : (AssessmentStateBase)FilteredAssessmentState;
 
@@ -95,6 +97,31 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
                         jobCategory.TotalQuestions = state.UnansweredQuestions(FilteredAssessmentState.RecordedAnswers);
                     }
                 }
+            }
+        }
+        
+        public void AddAnswer(AnswerOption answerValue, Question question)
+        {
+            var answer = new Answer()
+            {
+                AnsweredDt = DateTime.UtcNow,
+                SelectedOption = answerValue,
+                QuestionId = question.QuestionId,
+                QuestionNumber = question.Order,
+                QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
+                TraitCode = question.TraitCode,
+                IsNegative = question.IsNegative,
+                QuestionSetVersion = CurrentQuestionSetVersion
+            };
+
+            if (question.IsFilterQuestion)
+            {
+                FilteredAssessmentState.AddAnswer(answer);
+            }
+            else
+            {
+                AssessmentState.AddAnswer(answer);
+                
             }
         }
 

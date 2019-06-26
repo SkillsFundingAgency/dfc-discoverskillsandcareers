@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -24,9 +26,8 @@ namespace Dfc.UnitTests.FunctionTests
             _httpResponseMessageHelper = Substitute.For<IHttpResponseMessageHelper>();
             _userSessionRepository = Substitute.For<IUserSessionRepository>();
             _jobProfileRepository = Substitute.For<IJobProfileRepository>();
-            _jobCategoryRepository = Substitute.For<IJobCategoryRepository>();
             _questionSetRepository = Substitute.For<IQuestionSetRepository>();
-            _questionRepository = Substitute.For<IQuestionRepository>();
+    
         }
 
         public void Dispose()
@@ -43,9 +44,7 @@ namespace Dfc.UnitTests.FunctionTests
         private IHttpResponseMessageHelper _httpResponseMessageHelper;
         private IUserSessionRepository _userSessionRepository;
         private IJobProfileRepository _jobProfileRepository;
-        private IJobCategoryRepository _jobCategoryRepository;
         private IQuestionSetRepository _questionSetRepository;
-        private IQuestionRepository _questionRepository;
 
         private async Task<HttpResponseMessage> RunFunction(string sessionId, string jobCategory = null)
         {
@@ -71,6 +70,19 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
+        
+        [Fact]
+        public async Task ResultsHttpTriggerTest_OnException_ShouldReturn500()
+        {
+            _httpResponseMessageHelper = new HttpResponseMessageHelper();
+
+            _userSessionRepository.GetUserSession("session1").Throws(new Exception());
+            
+            var result = await RunFunction("session1");
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
+        }
 
         [Fact]
         public async Task ResultsHttpTriggerTest_WithInvalidSessionId_ShouldReturnStatusCodeNoContent()
@@ -83,7 +95,7 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact]
         public async Task GetResultHttpTrigger_WithIncompleteSession_ShouldReturnStatusCodeBadRequest()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
@@ -99,7 +111,7 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact]
         public async Task GetResultHttpTrigger_WithCompletedSession_ShouldReturnStatusCodeOK()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
@@ -112,13 +124,25 @@ namespace Dfc.UnitTests.FunctionTests
                 {
                     JobCategories = new []
                     {
-                        new JobCategoryResult { JobCategoryName = "Managerial" }
+                        new JobCategoryResult
+                        {
+                            JobCategoryName = "Managerial",
+                            FilterAssessmentResult = new FilterAssessmentResult
+                            {
+                                SuggestedJobProfiles =  new List<string> { "Jp1" }
+                            }
+                        }
                     },
                     Traits = new [] { new TraitResult { TraitCode = "LEADER", TotalScore = 8 },  }
                 }
             }));
 
-            var result = await RunFunction("session1");
+            _jobProfileRepository.JobProfilesTitle(Arg.Is<List<string>>(v => v.Contains("Jp1"))).Returns(Task.FromResult(new[]
+            {
+                new JobProfile {Title = "Jp1 "},
+            }));
+
+            var result = await RunFunction("session1", "Managerial");
 
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);

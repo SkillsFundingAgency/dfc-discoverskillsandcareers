@@ -8,11 +8,54 @@ namespace Dfc.UnitTests
     public class UserSessionTests
     {
         [Fact]
+        public void CanAddAnAnswer_ToAssessmentState()
+        {
+            var userSession = new UserSession
+            {
+                AssessmentState = new AssessmentState("qs-1", 5),
+                FilteredAssessmentState = new FilteredAssessmentState()
+            };
+            
+            userSession.AddAnswer(AnswerOption.Agree, new Question
+            {
+                QuestionId = "1", 
+                Order = 1, 
+                IsFilterQuestion = false, 
+                Texts = new [] { new QuestionText { LanguageCode = "en", Text = "Question 1"} }
+            });
+
+            Assert.Single(userSession.AssessmentState.RecordedAnswers, a => a.QuestionId == "1" && a.SelectedOption == AnswerOption.Agree);
+            Assert.Empty(userSession.FilteredAssessmentState.RecordedAnswers);
+        }
+        
+        [Fact]
+        public void CanAddAnAnswer_ToFilteredAssessmentState()
+        {
+            var userSession = new UserSession
+            {
+                AssessmentState = new AssessmentState("qs-1", 5),
+                FilteredAssessmentState = new FilteredAssessmentState()
+            };
+            
+            userSession.AddAnswer(AnswerOption.Yes, new Question
+            {
+                QuestionId = "1", 
+                Order = 1, 
+                IsFilterQuestion = true, 
+                Texts = new [] { new QuestionText { LanguageCode = "en", Text = "Question 1"} }
+            });
+
+            Assert.Single(userSession.FilteredAssessmentState.RecordedAnswers, a => a.QuestionId == "1" && a.SelectedOption == AnswerOption.Yes);
+            Assert.Empty(userSession.AssessmentState.RecordedAnswers);
+        }
+        
+        [Fact]
         public void ManageIfComplete_WithCompleteState_ShouldBeComplete()
         {
             var userSession = new UserSession()
             {
                 AssessmentState = new AssessmentState("qs-1",5) {
+                    CurrentQuestion = 5,
                     RecordedAnswers = new []
                     {
                         new Answer() { QuestionNumber = 1 },
@@ -24,18 +67,20 @@ namespace Dfc.UnitTests
                 },
                 FilteredAssessmentState = new FilteredAssessmentState()
                 {
+                    RecordedAnswers = new []
+                    {
+                        new Answer { TraitCode = "A" }, 
+                    },
                     JobCategoryStates = new List<JobCategoryState>
                     {
-                        new JobCategoryState{ JobCategoryCode = "CAT", Skills = new JobCategorySkill[]{}}
+                        new JobCategoryState("CAT", "Construction and Trades", "QS-1", new []
+                        {
+                            new JobCategorySkill { Skill = "A", QuestionId = "1"}, 
+                        })
                     },
                     CurrentFilterAssessmentCode = "CAT"
                 }
             };
-
-            for(var i = 0; i < 5; i++)
-            {
-                userSession.AssessmentState.MoveToNextQuestion();
-            }
             
             Assert.True(userSession.IsComplete);
             Assert.True(userSession.AssessmentState.CompleteDt.HasValue);
@@ -60,16 +105,12 @@ namespace Dfc.UnitTests
                     },
                     JobCategoryStates = new List<JobCategoryState>
                     {
-                        new JobCategoryState
-                        {
-                            JobCategoryCode = "AC",
-                            Skills = new[]
+                        new JobCategoryState("AC", "Animal Care", "QS-1", new[]
                             {
-                                new JobCategorySkill {Skill = "A"},
-                                new JobCategorySkill {Skill = "B"},
-                                new JobCategorySkill {Skill = "C"}
-                            }
-                        }
+                                new JobCategorySkill {Skill = "A", QuestionNumber = 1, QuestionId = "11" },
+                                new JobCategorySkill {Skill = "B", QuestionNumber = 2, QuestionId = "12" },
+                                new JobCategorySkill {Skill = "C", QuestionNumber = 3, QuestionId = "23" }
+                            })
                     }
                 }
             };

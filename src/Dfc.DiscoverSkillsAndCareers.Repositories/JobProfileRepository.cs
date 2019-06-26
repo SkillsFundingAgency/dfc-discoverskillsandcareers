@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Azure.Search;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -12,6 +13,7 @@ using Microsoft.Azure.Search.Models;
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
 
+    [ExcludeFromCodeCoverage]
     public class JobProfileRepository : IJobProfileRepository
     {
         private readonly ISearchIndexClient _client;

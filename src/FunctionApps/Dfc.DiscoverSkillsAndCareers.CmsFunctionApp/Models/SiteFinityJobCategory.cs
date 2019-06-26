@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class SiteFinityJobCategory
     {
         public Guid Id { get; set; }

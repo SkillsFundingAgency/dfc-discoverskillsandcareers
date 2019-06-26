@@ -40,22 +40,32 @@ namespace Dfc.UnitTests
                 Task.FromResult(ResultTestMockData.Traits.ToArray())
             );
 
-            _jobFamilyRepository.GetJobCategories("jobfamily-cms").Returns(
+            _jobFamilyRepository.GetJobCategories("job-categories").Returns(
                 Task.FromResult(ResultTestMockData.JobFamilies.ToArray())
             );
 
-            _questionSetRepository.GetCurrentFilteredQuestionSets().Returns(
-                Task.FromResult(
-                ResultTestMockData.JobFamilies.Select(jf => new QuestionSet
+            _questionSetRepository.GetCurrentQuestionSet("filtered").Returns(
+                Task.FromResult(new QuestionSet
                 {
-                    Title = jf.Name,
-                    QuestionSetKey = jf.Name.Replace(" ", "-").ToLower(),
-                    MaxQuestions = 3
-                }).ToList())
-            );
+                    Title = "qs-1",
+                    QuestionSetKey = "qs-1",
+                    QuestionSetVersion ="qs-1",
+                        MaxQuestions = 3
+                }));
+            
+            _questionRepository.GetQuestions("qs-1").Returns(Task.FromResult(new []
+            {
+                new Question { 
+                    TraitCode = "Self Control",
+                    IsFilterQuestion = true, 
+                    QuestionId = "1", Order = 1, Texts = new []
+                {
+                    new QuestionText { LanguageCode = "en", Text = "Question 1"}
+                } } 
+            }));
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact]
         public async Task CalcuateResult_WithSession_ShouldHaveResultsData()
         {
             var userSession = new UserSession();
@@ -67,7 +77,7 @@ namespace Dfc.UnitTests
             Assert.Equal("AssessmentState is not set!", exception.Message);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact()]
         public async Task CalcuateResult_WithAnswers_ShouldGetSomeTraits()
         {
             var userSession = new UserSession()
@@ -89,7 +99,7 @@ namespace Dfc.UnitTests
             Assert.True(userSession.ResultData.Traits.First().TotalScore == 2);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact()]
         public async Task CalcuateResult_WithOnlyPositiveLeader_ShouldTotalLeader3()
         {
             var userSession = new UserSession()
@@ -113,7 +123,7 @@ namespace Dfc.UnitTests
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "LEADER");
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact()]
         public async Task CalcuateResult_WithOnlyPositiveNegativeLeader_ShouldTotalLeader1()
         {
             var userSession = new UserSession()
@@ -138,17 +148,21 @@ namespace Dfc.UnitTests
             Assert.True(userSession.ResultData.Traits.First().TraitCode == "LEADER");
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact()]
         public async Task CalcuateResult_WithOnlyOrganiser_ShouldHaveJobFamilyGovServices()
         {
             var userSession = new UserSession()
             {
                 LanguageCode = "en",
-                AssessmentState = new AssessmentState("qs-1",1)
+                AssessmentState = new AssessmentState("qs-1", 1)
                 {
                     RecordedAnswers = new[]
                     {
-                        new Answer() { AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree, TraitCode = "ORGANISER" },
+                        new Answer()
+                        {
+                            AnsweredDt = DateTime.Now, SelectedOption = AnswerOption.StronglyAgree,
+                            TraitCode = "ORGANISER"
+                        },
                     }
                 }
             };
@@ -165,7 +179,7 @@ namespace Dfc.UnitTests
             Assert.True(govServices.Total == 2m);
         }
 
-        [Fact(Skip = "Fixup")]
+        [Fact()]
         public void CalculateJobFamilyRelevance_WithRobExample_ShouldBeAsResult()
         {
             var userTraits = new[]
@@ -621,6 +635,10 @@ namespace Dfc.UnitTests
             {
                
                 Name = "Government services",
+                Skills = new List<JobProfileSkillMapping>
+                {
+                  new JobProfileSkillMapping { ONetAttribute = "Self Control"}  
+                },
                 Traits = new [] { "ORGANISER" },
                 Texts = new []
                 {

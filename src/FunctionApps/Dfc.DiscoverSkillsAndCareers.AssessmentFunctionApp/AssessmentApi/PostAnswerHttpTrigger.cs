@@ -92,18 +92,18 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
-                AddAnswer(answerValue, question, userSession, postAnswerRequest);
+                userSession.AddAnswer(answerValue, question);
 
                 await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
-
+                
                 var displayFinish = question.IsFilterQuestion
                     ? userSession.FilteredAssessmentState.IsComplete
                     : userSession.AssessmentState.IsComplete;
 
                 if (!question.IsFilterQuestion) {
-                    userSession.AssessmentState.SetCurrentQuestion(question.Order);
+                    userSession.AssessmentState.CurrentQuestion = question.Order;
                 }
-
+                
                 var result = new PostAnswerResponse()
                 {
                     IsSuccess = true,
@@ -112,8 +112,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     JobCategorySafeUrl = question.IsFilterQuestion ? userSession.FilteredAssessmentState.JobFamilyNameUrlSafe : null,
                     NextQuestionNumber = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion()
                 };
-
-                // Update the session
+                
                 await userSessionRepository.UpdateUserSession(userSession);
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
@@ -125,41 +124,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
             }
         }
 
-        private static void AddAnswer(AnswerOption answerValue, Question question, UserSession userSession,
-            PostAnswerRequest postAnswerRequest)
-        {
-            var answer = new Answer()
-            {
-                AnsweredDt = DateTime.Now,
-                SelectedOption = answerValue,
-                QuestionId = question.QuestionId,
-                QuestionNumber = question.Order,
-                QuestionText = question.Texts.FirstOrDefault(x => x.LanguageCode.ToLower() == "en")?.Text,
-                TraitCode = question.TraitCode,
-                IsNegative = question.IsNegative,
-                QuestionSetVersion = userSession.CurrentQuestionSetVersion
-            };
-
-            if (question.IsFilterQuestion)
-            {
-                var newAnswerSet = userSession.FilteredAssessmentState.RecordedAnswers
-                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                    .ToList();
-                
-                newAnswerSet.Add(answer);
-                userSession.FilteredAssessmentState.RecordedAnswers = newAnswerSet.ToArray();
-            }
-            else
-            {
-                var newAnswerSet = userSession.AssessmentState.RecordedAnswers
-                    .Where(x => x.QuestionId != postAnswerRequest.QuestionId)
-                    .ToList();
-                
-                newAnswerSet.Add(answer);
-                userSession.AssessmentState.RecordedAnswers = newAnswerSet.ToArray();
-            }
-        }
-
+        
         private static async Task TryEvaluateSession(ILogger log, IAssessmentCalculationService resultsService,
             IFilterAssessmentCalculationService filterAssessmentCalculationService, UserSession userSession)
         {

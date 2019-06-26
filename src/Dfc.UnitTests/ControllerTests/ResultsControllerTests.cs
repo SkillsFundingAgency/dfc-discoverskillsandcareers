@@ -80,9 +80,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.Index();
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -224,9 +225,10 @@ namespace Dfc.UnitTests.ControllerTests
 
             var result = await _controller.StartFilteredForJobCategory("animal-care");
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -252,7 +254,7 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task ResultsFilteredForJobCategory_ShouldReturn_RedirectToResultsOnApiFailure()
+        public async Task ResultsFilteredForJobCategory_ShouldReturn_500ResultOnApiFailure()
         {
             _session.TryGetValue("session-id", out Arg.Any<byte[]>())
                 .Returns(x => { 
@@ -266,9 +268,10 @@ namespace Dfc.UnitTests.ControllerTests
 
             var result = await _controller.ResultsFilteredForJobCategory("animal-care");
 
-            var viewResult = Assert.IsType<RedirectResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal("/results", viewResult.Url);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]
@@ -281,9 +284,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.ResultsFilteredForJobCategory("animal-care");
 
-            var viewResult = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, viewResult.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
         [Fact]

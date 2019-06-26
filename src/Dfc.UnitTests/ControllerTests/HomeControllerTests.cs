@@ -91,8 +91,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.Index();
 
-            var scResult = Assert.IsType<StatusCodeResult>(result);
-            Assert.Equal(500, scResult.StatusCode);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
 
         [Fact]
@@ -220,9 +222,10 @@ namespace Dfc.UnitTests.ControllerTests
             
             var result = await _controller.Reload(new HomeController.ReloadRequest {Code = "abc123"});
             
-            var redirect = Assert.IsType<StatusCodeResult>(result);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
-            Assert.Equal(500, redirect.StatusCode);
+            Assert.Equal("Error500", viewResult.ActionName);
+            Assert.Equal("Error", viewResult.ControllerName);
         }
         
     }

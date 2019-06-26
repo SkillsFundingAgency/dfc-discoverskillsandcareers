@@ -1,0 +1,177 @@
+[
+  {
+    "Id": "0d235f15-cc4f-40e9-b4bd-0f52fd5cfb60",
+    "Title": "Government services",
+    "Description": "",
+    "UrlName": "government-services",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "101425ba-bb84-4aa2-8819-1663bf52a9c6",
+    "Title": "Animal care",
+    "Description": "",
+    "UrlName": "animal-care",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "1aa1f6ce-252a-47da-8501-1b6a8e125877",
+    "Title": "Delivery and storage",
+    "Description": "",
+    "UrlName": "delivery-and-storage",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "1820ed96-7397-4e8b-ad2e-1c08177a0a89",
+    "Title": "Business and finance",
+    "Description": "",
+    "UrlName": "business-and-finance",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "3bc659e1-3b35-4150-878a-255f45df6bb8",
+    "Title": "Manufacturing",
+    "Description": "",
+    "UrlName": "manufacturing",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "cf7e28f0-e869-4322-9ce0-2e4bdbf76c61",
+    "Title": "Healthcare",
+    "Description": "",
+    "UrlName": "healthcare",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "dcc3ef4b-10c3-430b-a559-3dc4bf076e64",
+    "Title": "Home services",
+    "Description": "",
+    "UrlName": "home-services",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "fa4eea9e-b03c-414f-98bb-43b64edf46eb",
+    "Title": "Emergency and uniform services",
+    "Description": "",
+    "UrlName": "emergency-and-uniform-services",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "451511c9-5bed-4527-9de4-47cf69728cc7",
+    "Title": "Managerial",
+    "Description": "",
+    "UrlName": "managerial",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "c517ab41-34b2-4e43-a86f-4c59e7897b42",
+    "Title": "Creative and media",
+    "Description": "",
+    "UrlName": "creative-and-media",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "2ef4a82e-4109-41b9-bfef-68bcdb1e4930",
+    "Title": "Hospitality and food",
+    "Description": "",
+    "UrlName": "hospitality-and-food",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "a6a4ec95-8452-408e-9bf8-6c0ba5208db4",
+    "Title": "Construction and trades",
+    "Description": "",
+    "UrlName": "construction-and-trades",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "174f6fd4-c106-4f97-a869-6eaa0a0a79b9",
+    "Title": "Engineering and maintenance",
+    "Description": "",
+    "UrlName": "engineering-and-maintenance",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "05b84012-e5c6-4533-9518-7248c6e65a59",
+    "Title": "Transport",
+    "Description": "",
+    "UrlName": "transport",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "f5f6f1e7-54e0-401c-9089-7e507735b259",
+    "Title": "Social care",
+    "Description": "",
+    "UrlName": "social-care",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "b3cb8294-b75f-4c02-82a7-942ed2abc96d",
+    "Title": "Computing, technology and digital",
+    "Description": "",
+    "UrlName": "computing-technology-and-digital",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "00fca0f1-2a35-4253-8e48-a3efc18f780d",
+    "Title": "Science and research",
+    "Description": "",
+    "UrlName": "science-and-research",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "70ebd41b-067b-4d6c-8863-a68ba1e1593f",
+    "Title": "Law and legal",
+    "Description": "",
+    "UrlName": "law-and-legal",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "5d390589-d912-4353-bfd1-b29f31b49b47",
+    "Title": "Retail and sales",
+    "Description": "",
+    "UrlName": "retail-and-sales",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "9562ecde-819d-4875-8e81-b97ac78f65d8",
+    "Title": "Teaching and education",
+    "Description": "",
+    "UrlName": "teaching-and-education",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "c42d4ff8-80f4-4b47-921e-c3303b79b0bd",
+    "Title": "Administration",
+    "Description": "",
+    "UrlName": "administration",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "27e1f1d8-fa0c-49a7-a00f-c4769874fe46",
+    "Title": "Sports and leisure",
+    "Description": "",
+    "UrlName": "sports-and-leisure",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "8387ccfd-a3f9-4d2f-af55-e072c8261355",
+    "Title": "Environment and land",
+    "Description": "",
+    "UrlName": "environment-and-land",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "81a0bc0e-33c3-4efa-9e15-e9ccbff16ccb",
+    "Title": "Beauty and wellbeing",
+    "Description": "",
+    "UrlName": "beauty-and-wellbeing",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  },
+  {
+    "Id": "f12864c2-739a-4997-871e-eb73417a11bd",
+    "Title": "Travel and tourism",
+    "Description": "",
+    "UrlName": "travel-and-tourism",
+    "TaxonomyId": "3b635a67-db48-43d2-b94b-332304775d37"
+  }
+]

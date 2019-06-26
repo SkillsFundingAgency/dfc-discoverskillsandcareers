@@ -1,5 +1,8 @@
-﻿namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
 {
+    [ExcludeFromCodeCoverage]
     public class AppSettings : IAppSettings
     {
         public string ContentApiRoot { get; set; }

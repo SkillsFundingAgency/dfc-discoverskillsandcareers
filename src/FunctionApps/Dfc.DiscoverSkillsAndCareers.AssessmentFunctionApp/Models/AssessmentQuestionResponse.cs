@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class AssessmentQuestionResponse
     {
         public string QuestionText { get; set; }

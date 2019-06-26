@@ -10,7 +10,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public abstract string QuestionSetVersion { get; }
         
         [JsonProperty("currentQuestion")]
-        public abstract int CurrentQuestion { get; protected set; }
+        public abstract int CurrentQuestion { get; set; }
         
         [JsonProperty("maxQuestions")]
         public abstract int MaxQuestions { get; }

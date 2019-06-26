@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace Dfc.UnitTests.FunctionTests
@@ -167,6 +168,49 @@ namespace Dfc.UnitTests.FunctionTests
             
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.True(content.IsSuccess);
+        }
+        
+        [Fact]
+        public async Task ShouldReturn_NoContentForMissingUserSession()
+        {
+            var body = new SendSessionSmsRequest
+            {
+                Domain = "discover-skills-and-careers.co.uk",
+                MobileNumber = "0123456789",
+                SessionId = "201904-282gk265gzmzyz",
+                TemplateId = "3B840739-F4C5-40AA-93E9-6827A6F29003"
+            };
+
+            _userSessionRepository.GetUserSession("201904-282gk265gzmzyz").Returns(Task.FromResult<UserSession>(null));
+
+            var result = await RunFunction(body);
+
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+        }
+        
+        [Fact]
+        public async Task ShouldReturn_OkOnExceptionWithErrorInBody()
+        {
+            var body = new SendSessionSmsRequest
+            {
+                Domain = "discover-skills-and-careers.co.uk",
+                MobileNumber = "0123456789",
+                SessionId = "201904-282gk265gzmzyz",
+                TemplateId = "3B840739-F4C5-40AA-93E9-6827A6F29003"
+            };
+
+            _userSessionRepository.GetUserSession("201904-282gk265gzmzyz").Throws(new Exception("Error"));
+
+            var result = await RunFunction(body);
+
+            var response = Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+
+            var responseContent = await response.Content.ReadAsAsync<SendSessionSmsResponse>();
+            
+            Assert.Equal("Error", responseContent.Message);
+            Assert.False(responseContent.IsSuccess);
         }
         
         

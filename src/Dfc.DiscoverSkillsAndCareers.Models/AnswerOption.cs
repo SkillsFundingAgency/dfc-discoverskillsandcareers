@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dfc.DiscoverSkillsAndCareers.Models
+﻿namespace Dfc.DiscoverSkillsAndCareers.Models
 {
     public enum AnswerOption
     {
