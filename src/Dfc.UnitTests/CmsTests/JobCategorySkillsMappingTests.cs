@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
 using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
+using Dfc.DiscoverSkillsAndCareers.Models.SiteFinity;
 using Newtonsoft.Json;
 using Xunit;
 

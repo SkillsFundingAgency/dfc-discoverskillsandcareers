@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Options;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
+using Dfc.DiscoverSkillsAndCareers.Models.SiteFinity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
+namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
 
     [ExcludeFromCodeCoverage]
@@ -42,15 +42,14 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
         private object _syncObject = new object();
         public ILogger Logger { get; set; }
 
-        IOptions<AppSettings> _appSettings;
+        IOptions<SiteFinitySettings> _appSettings;
         
-        public SiteFinityHttpService(ILoggerFactory logger, IOptions<AppSettings> appSettings)
+        public SiteFinityHttpService(ILoggerFactory logger, IOptions<SiteFinitySettings> appSettings)
         {
             _httpClient = new HttpClient();
             Logger = logger.CreateLogger(typeof(SiteFinityHttpService));
             _appSettings = appSettings;
         }
-        
         
         private async Task Authenticate()
         {
@@ -214,6 +213,12 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services
                     .ToList();
 
             return data;
+        }
+
+        public async Task<string> GetLatestIndex(string key)
+        {
+            var url = $"{_appSettings.Value.SiteFinityApiUrlBase}/dfcapi/ReadConfig?key={key}";
+            return await GetString(url);
         }
 
         private class JsonContent : StringContent
