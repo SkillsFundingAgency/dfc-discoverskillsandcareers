@@ -116,21 +116,12 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
             if (question.IsFilterQuestion)
             {
-                var newAnswerSet = FilteredAssessmentState.RecordedAnswers
-                    .Where(x => x.QuestionId != question.QuestionId)
-                    .ToList();
-                
-                newAnswerSet.Add(answer);
-                FilteredAssessmentState.RecordedAnswers = newAnswerSet.ToArray();
+                FilteredAssessmentState.AddAnswer(answer);
             }
             else
             {
-                var newAnswerSet = AssessmentState.RecordedAnswers
-                    .Where(x => x.QuestionId != question.QuestionId)
-                    .ToList();
+                AssessmentState.AddAnswer(answer);
                 
-                newAnswerSet.Add(answer);
-                AssessmentState.RecordedAnswers = newAnswerSet.ToArray();
             }
         }
 

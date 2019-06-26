@@ -95,7 +95,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 userSession.AddAnswer(answerValue, question);
 
                 await TryEvaluateSession(log, resultsService, filterAssessmentCalculationService, userSession);
-
+                
                 var displayFinish = question.IsFilterQuestion
                     ? userSession.FilteredAssessmentState.IsComplete
                     : userSession.AssessmentState.IsComplete;
@@ -103,7 +103,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 if (!question.IsFilterQuestion) {
                     userSession.AssessmentState.CurrentQuestion = question.Order;
                 }
-
+                
                 var result = new PostAnswerResponse()
                 {
                     IsSuccess = true,
@@ -112,8 +112,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     JobCategorySafeUrl = question.IsFilterQuestion ? userSession.FilteredAssessmentState.JobFamilyNameUrlSafe : null,
                     NextQuestionNumber = question.IsFilterQuestion ? userSession.FilteredAssessmentState.MoveToNextQuestion() : userSession.AssessmentState.MoveToNextQuestion()
                 };
-
-                // Update the session
+                
                 await userSessionRepository.UpdateUserSession(userSession);
 
                 return httpResponseMessageHelper.Ok(JsonConvert.SerializeObject(result));
