@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.BackLink = "/reload";
                 if (withError)
                 {
-                    model.ErrorMessage = "Choose how you would like to return to your assessment to continue";
+                    model.ErrorMessage = "Choose how you would like to return to your assessment";
                 }
                 AppendCookie(sessionId);
                 return View("SaveProgress", model);
