@@ -59,7 +59,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
-            services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
@@ -87,7 +86,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }
