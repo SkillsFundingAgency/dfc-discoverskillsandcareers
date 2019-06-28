@@ -23,7 +23,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data
         public DbSet<UmSuggestedJobCategory> SuggestedJobCategories { get; set; }
         public DbSet<UmSuggestedJobProfile> SuggestedJobProfiles { get; set; }
         public DbSet<UmQuestion> Questions { get; set; }
-        public DbSet<UmQuestionJobProfile> QuestionJobProfiles { get; set; }
         public DbSet<UmQuestionSet> QuestionSets { get; set; }
 
         public Task<int> SaveChanges()

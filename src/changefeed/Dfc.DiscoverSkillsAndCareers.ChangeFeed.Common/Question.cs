@@ -13,15 +13,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common
         [JsonProperty("text")]
         public string Text { get; set; }
     }
-
-    public class QuestionJobProfile
-    {
-        [JsonProperty("jobProfile")]
-        public string JobProfile { get; set; }
-        
-        [JsonProperty("included")]
-        public bool Included { get; set; }
-    }
     
     public class Question
     {
@@ -39,9 +30,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common
         
         [JsonProperty("lastUpdatedDt")]
         public DateTimeOffset LastUpdatedDt { get; set; }
-        
-        [JsonProperty("jobProfiles")] 
-        public QuestionJobProfile[] JobProfiles { get; set; } = { };
         
         [JsonProperty("traitCode")]
         public string TraitCode { get; set; }

@@ -92,23 +92,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                     UpdateQuestionEntityFromDto(entity, question);
                     DbContext.Questions.Update(entity);
                 }
-
-                var toremoveExcludeJobProfiles = DbContext.QuestionJobProfiles.Where(x => x.QuestionId == question.QuestionId).ToList();
-                DbContext.QuestionJobProfiles.RemoveRange(toremoveExcludeJobProfiles);
-                if (question.JobProfiles != null)
-                {
-                    foreach (var jp in question.JobProfiles)
-                    {
-                        DbContext.QuestionJobProfiles.Add(new Data.Entities.UmQuestionJobProfile
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            JobProfile = jp.JobProfile,
-                            QuestionId = question.QuestionId,
-                            Included = jp.Included
-                        });
-                    }
-                }
-   
+                
                 int changes = await DbContext.SaveChanges();
                 Console.WriteLine($"Changes updated {changes}");
             }
