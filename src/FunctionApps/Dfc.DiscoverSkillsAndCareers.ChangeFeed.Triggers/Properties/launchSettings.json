@@ -3,6 +3,16 @@
     "Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers": {
       "commandName": "Project",
       "commandLineArgs": "host start --port 7083"
+    },
+    "functions": {
+      "commandName": "Executable",
+      "executablePath": "dotnet",
+      "commandLineArgs": "%APPDATA%\\npm\\node_modules\\azure-functions-core-tools\\bin\\func.dll host start --port 7083",
+      "workingDirectory": "$(ProjectDir)/bin/Debug/netcoreapp2.1",
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true"
+      }
     }
   }
 }
