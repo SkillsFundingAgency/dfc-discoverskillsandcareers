@@ -32,7 +32,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         {
             get
             {
-                var complete = RecordedAnswers.Length >= MaxQuestions && CurrentQuestion == MaxQuestions;
+                var complete = (RecordedAnswers.Length >= MaxQuestions && CurrentQuestion == MaxQuestions);
+
                 if (complete && !CompleteDt.HasValue)
                 {
                     CompleteDt = DateTime.UtcNow;

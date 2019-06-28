@@ -118,8 +118,8 @@ var results = (function () {
         const hideButtonElement = document.createElement('a')
         const resultsItems = Array.prototype.slice.call(resultsList.children)
         const rowLength = 3
-        const showMoreText = 'Show _count more'
-        const showLessText = 'Show less'
+        const showMoreText = 'Show _count more profile'
+        const showLessText = 'Show fewer profiles'
         const cards = resultsItems.filter(result => {
           return resultsItems.indexOf(result) >= 3
         })
@@ -140,8 +140,12 @@ var results = (function () {
 
         var updateButtons = () => {
           if (getRemainingCards() > 0) {
+            var amount = Math.min(3, getRemainingCards())
             showButtonElement.style.display = 'initial'
-            showButtonElement.innerText = showMoreText.replace(/_count/g, getRemainingCards())
+            showButtonElement.innerText = showMoreText.replace(/_count/g, amount)
+            if (amount > 1) {
+              showButtonElement.innerText = showButtonElement.innerText + 's'
+            }
           } else {
             showButtonElement.style.display = 'none'
             showButtonElement.innerText = showMoreText

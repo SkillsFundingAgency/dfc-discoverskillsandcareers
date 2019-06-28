@@ -141,7 +141,7 @@ namespace Dfc.UnitTests.ControllerTests
             var viewModel = Assert.IsType<SaveProgressViewModel>(viewResult.Model);
             
             Assert.True(viewModel.HasError);
-            Assert.Equal("Choose how you would like to return to your assessment to continue", viewModel.ErrorMessage);
+            Assert.Equal("Choose how you would like to return to your assessment", viewModel.ErrorMessage);
         }
 
         [Fact]

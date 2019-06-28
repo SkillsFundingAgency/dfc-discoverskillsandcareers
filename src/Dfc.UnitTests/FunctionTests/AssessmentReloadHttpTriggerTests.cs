@@ -108,6 +108,52 @@ namespace Dfc.UnitTests.FunctionTests
         }
         
         [Fact]
+        public async Task ShouldClearAnswersOnSessionIfNoJobCategoriesInResultData()
+        {
+            var session = new UserSession()
+            {
+                ResultData = new ResultData
+                {
+                    JobCategories = new JobCategoryResult[] { }
+                },
+                AssessmentState = new AssessmentState("question-set", 5)
+                {
+                    RecordedAnswers = new[]
+                    {
+                        new Answer {TraitCode = "Leader", SelectedOption = AnswerOption.Agree},
+                        new Answer {TraitCode = "Leader", SelectedOption = AnswerOption.Agree},
+                        new Answer {TraitCode = "Leader", SelectedOption = AnswerOption.Agree},
+                        new Answer {TraitCode = "Leader", SelectedOption = AnswerOption.Agree},
+                        new Answer {TraitCode = "Leader", SelectedOption = AnswerOption.Agree}
+                    },
+                    CurrentQuestion = 5
+                }
+            };
+            
+            _userSessionRepository.GetUserSession(Arg.Any<string>()).Returns(Task.FromResult(session));
+            
+            _questionRepository.GetQuestion(1, "question-set")
+                .Returns(Task.FromResult<Question>(new Question
+                {
+                    QuestionId = "1",
+                    Texts = new []
+                    {
+                        new QuestionText() { LanguageCode = "en", Text = "Unit test question" }
+                    },
+                    Order = 1,
+                    TraitCode = "Leader"
+                }));
+
+            var result = await RunFunction("201901-session1");
+
+            Assert.Empty(session.AssessmentState.RecordedAnswers);
+            Assert.Null(session.ResultData);
+            Assert.Equal(1, session.AssessmentState.CurrentQuestion);
+            Assert.IsType<HttpResponseMessage>(result);
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        }
+        
+        [Fact]
         public async Task ShouldReturn500OnException()
         {
             _userSessionRepository.GetUserSession(Arg.Any<string>()).Throws(new Exception());

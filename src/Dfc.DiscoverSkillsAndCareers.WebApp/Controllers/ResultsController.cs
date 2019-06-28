@@ -195,7 +195,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     .Where(x => x.FilterAssessmentResult?.JobFamilyNameUrlSafe != jobCategory)
                     .OrderByDescending(x => x.ResultsShown ? 100 : 0 + x.FilterAssessmentResult?.SuggestedJobProfiles.Count())
                     .ToList();
-            otherCategories.Insert(0, highlightCategory);
+            
+            if (highlightCategory != null)
+            {
+                otherCategories.Insert(0, highlightCategory);
+            }
+
             return otherCategories.ToArray();
         }
     }
