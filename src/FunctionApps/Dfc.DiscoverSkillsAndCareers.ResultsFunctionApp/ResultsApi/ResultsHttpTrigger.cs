@@ -90,6 +90,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         continue;
                     }
 
+                    var categoryProfiles = new List<JobProfileResult>();
                     if (category.TotalQuestions == 0)
                     {
                         
@@ -100,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
 
                         foreach (var jobProfile in jobProfiles)
                         {
-                            suggestedJobProfiles.Add(new JobProfileResult()
+                            categoryProfiles.Add(new JobProfileResult()
                             {
                                 CareerPathAndProgression = jobProfile.CareerPathAndProgression,
                                 Overview = jobProfile.Overview,
@@ -122,7 +123,9 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     category.ResultsShown = 
                         category.ResultsShown 
                         || category.JobCategoryCode.EqualsIgnoreCase(jobCategory) 
-                        || (suggestedJobProfiles.Count == 0);
+                        || (category.TotalQuestions == 0 && (categoryProfiles.Count == 0));
+                    
+                    suggestedJobProfiles.AddRange(categoryProfiles);
                 }
 
                 var model = new ResultsResponse()
