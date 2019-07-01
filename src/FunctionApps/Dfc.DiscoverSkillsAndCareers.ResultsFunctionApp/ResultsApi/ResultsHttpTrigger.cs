@@ -90,7 +90,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         continue;
                     }
 
-                    if (category.JobCategoryCode.EqualsIgnoreCase(jobCategory) || category.ResultsShown)
+                    if (category.TotalQuestions == 0)
                     {
                         
                         // Build the list of job profiles
@@ -117,9 +117,12 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                                 WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
                             });
                         }
-                        
-                        category.ResultsShown = true;
                     }
+                    
+                    category.ResultsShown = 
+                        category.ResultsShown 
+                        || category.JobCategoryCode.EqualsIgnoreCase(jobCategory) 
+                        || (suggestedJobProfiles.Count == 0);
                 }
 
                 var model = new ResultsResponse()
