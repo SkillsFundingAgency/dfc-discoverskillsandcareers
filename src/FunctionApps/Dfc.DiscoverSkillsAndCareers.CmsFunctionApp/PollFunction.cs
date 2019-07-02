@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 {

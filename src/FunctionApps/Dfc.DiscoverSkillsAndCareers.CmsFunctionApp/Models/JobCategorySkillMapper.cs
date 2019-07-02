@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Models.SiteFinity;
 using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models

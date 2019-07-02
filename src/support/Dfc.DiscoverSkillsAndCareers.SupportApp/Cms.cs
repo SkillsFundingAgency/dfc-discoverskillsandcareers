@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Transactions;
 using CommandLine;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

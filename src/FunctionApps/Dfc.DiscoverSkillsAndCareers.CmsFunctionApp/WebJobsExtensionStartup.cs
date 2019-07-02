@@ -1,6 +1,5 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
@@ -76,6 +75,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<SiteFinitySettings>(Configuration.GetSection("AppSettings"));
         }
     }
 }
