@@ -86,7 +86,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }

@@ -39,41 +39,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 configuration.GetSection("AppSettings").Bind(opts);
                 var sitefinity = services.GetService<ISiteFinityHttpService>();
 
-//                var questionSets =
-//                    sitefinity.GetAll<SiteFinityFilteringQuestionSet>("filteringquestionsets").GetAwaiter().GetResult();
-//
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "questionsets.json"), JsonConvert.SerializeObject(questionSets, Formatting.Indented));
-//                
-//                var questionSets = JsonConvert.DeserializeObject<List<SiteFinityFilteringQuestionSet>>(File.ReadAllText(Path.Combine(opts.OutputDirectory, "questionsets.json")));
-
-//                var jobProfiles = 
-//                    sitefinity.GetAll<SiteFinityJobProfile>("jobprofiles?$select=Id,Title,JobProfileCategories&$expand=RelatedSkills&$orderby=Title").GetAwaiter().GetResult();
-//                
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_profiles.json"), JsonConvert.SerializeObject(jobProfiles, Formatting.Indented));
-
-//                var jobProfiles = JsonConvert.DeserializeObject<List<SiteFinityJobProfile>>(File.ReadAllText(Path.Combine(opts.OutputDirectory, "job_profiles.json")));
-
-//                var jobCategories = 
-//                    sitefinity.GetTaxonomyInstances("Job Profile Category").GetAwaiter().GetResult();
-//
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "job_categories.json"), JsonConvert.SerializeObject(jobCategories, Formatting.Indented));
-
-//                var onetAttributes =
-//                    jobProfiles
-//                        .SelectMany(o => o.RelatedSkills.Select(s => new
-//                            {ONetAttribute = s.Skill, ONetAttributeType = s.ONetAttributeType}))
-//                        .Where(s => !onetQuestionLookup.ContainsKey(s.ONetAttribute.ToLower()) && !s.ONetAttributeType.Equals("Knowledge"))
-//                        .Distinct();
-//
-//                File.WriteAllText(Path.Combine(opts.OutputDirectory, "extra_onet_attributes.json"), JsonConvert.SerializeObject(onetAttributes));
-
-//                var jobCategories = JsonConvert.DeserializeObject<List<TaxonomyHierarchy>>(File.ReadAllText(Path.Combine(opts.OutputDirectory, "job_categories.json")));
-//
-//
-//                var categoryQuestions = JobCategorySkillMapper.Map(jobProfiles, jobCategories,
-//                    0.75,
-//                    0.75);
-
                 var onetQuestionLookup = ReadQuestions(Path.Combine(opts.OutputDirectory, "onet_questions.csv"));
                 
                 var workflow = new Workflow();
@@ -145,8 +110,6 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                     Formatting = Formatting.Indented,
                     NullValueHandling = NullValueHandling.Ignore
                 }));
-                
-                //SiteFinityWorkflowRunner.RunWorkflow(sitefinity, logger, workflow, opts.OutputDirectory).GetAwaiter().GetResult();
                 
                 logger.LogInformation("Done");
                 

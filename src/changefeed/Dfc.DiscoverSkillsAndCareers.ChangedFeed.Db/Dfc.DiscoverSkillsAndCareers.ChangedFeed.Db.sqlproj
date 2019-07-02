@@ -71,7 +71,6 @@
     <Build Include="dbo\Tables\UserSession_SuggestedJobCategory.sql" />
     <Build Include="dbo\Tables\UserSession_SuggestedJobProfile.sql" />
     <Build Include="dbo\Tables\Question.sql" />
-    <Build Include="dbo\Tables\Question_ExcludeJobProfile.sql" />
     <Build Include="dbo\Tables\QuestionSet.sql" />
   </ItemGroup>
   <ItemGroup>
