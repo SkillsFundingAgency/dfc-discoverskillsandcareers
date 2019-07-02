@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Search;
 using Xunit;
@@ -41,16 +42,10 @@ namespace Dfc.IntegrationTests.RepositoryTests
         [Fact]
         public async Task GetJobProfilesBySocCodeAndTitle_WithValidKey_ShouldNotBeEmpty()
         {
-            var map = new List<string>()
-            {
-                {"Pest control technician"},
-                {"Credit controller"}
-            };
-
-            var profiles = await _repository.JobProfilesTitle(map);
+            var profiles = await _repository.JobProfilesForJobFamily("Law and Legal");
 
             Assert.NotEmpty(profiles);
-            Assert.Equal(2, profiles.Length);
+            Assert.All(profiles, p => Assert.Contains("Law and legal", p.JobProfileCategories, StringComparer.InvariantCultureIgnoreCase));
         }
     }
 }
