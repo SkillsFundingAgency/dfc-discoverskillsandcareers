@@ -55,8 +55,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, LocalQuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
+
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IJobProfileRepository, JobProfileRepository>();
             services.AddTransient<IJobCategoryRepository, LocalJobCategoryRepository>();
             services.AddTransient<IQuestionSetRepository, LocalQuestionSetRepository>();
