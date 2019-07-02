@@ -46,7 +46,6 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
             services.AddSingleton<IJsonHelper, JsonHelper>();
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
-            services.AddSingleton<IContentRepository, ContentRepository>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
 
