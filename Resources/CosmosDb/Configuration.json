@@ -15,12 +15,6 @@
       "DefaultTtl": 15552000
     },
     {
-      "CollectionName": "Contents",
-      "OfferThroughput": 400,
-      "StoredProcedures": [],
-      "PartitionKey": "contentType"
-    },
-    {
       "CollectionName": "QuestionSets",
       "OfferThroughput": 400,
       "StoredProcedures": [],
