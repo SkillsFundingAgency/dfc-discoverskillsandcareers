@@ -90,7 +90,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         continue;
                     }
 
-                    if (category.JobCategoryCode.EqualsIgnoreCase(jobCategory) || category.ResultsShown)
+                    var categoryProfiles = new List<JobProfileResult>();
+                    if (category.TotalQuestions == 0)
                     {
                         
                         // Build the list of job profiles
@@ -100,7 +101,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
 
                         foreach (var jobProfile in jobProfiles)
                         {
-                            suggestedJobProfiles.Add(new JobProfileResult()
+                            categoryProfiles.Add(new JobProfileResult()
                             {
                                 CareerPathAndProgression = jobProfile.CareerPathAndProgression,
                                 Overview = jobProfile.Overview,
@@ -117,9 +118,14 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                                 WYDDayToDayTasks = jobProfile.WYDDayToDayTasks
                             });
                         }
-                        
-                        category.ResultsShown = true;
                     }
+                    
+                    category.ResultsShown = 
+                        category.ResultsShown 
+                        || category.JobCategoryCode.EqualsIgnoreCase(jobCategory) 
+                        || (category.TotalQuestions == 0 && (categoryProfiles.Count == 0));
+                    
+                    suggestedJobProfiles.AddRange(categoryProfiles);
                 }
 
                 var model = new ResultsResponse()

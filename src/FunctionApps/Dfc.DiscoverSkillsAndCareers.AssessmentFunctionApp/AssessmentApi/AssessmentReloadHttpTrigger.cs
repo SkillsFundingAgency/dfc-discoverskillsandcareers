@@ -84,6 +84,14 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
+                if (userSession.ResultData?.JobCategories?.Length == 0)
+                {
+                    userSession.AssessmentState.CurrentQuestion = 1;
+                    userSession.AssessmentState.RecordedAnswers = new Answer[]{};
+                    userSession.ResultData = null;
+                    await userSessionRepository.UpdateUserSession(userSession);
+                }
+                
                 var questionSetVersion = userSession.CurrentQuestionSetVersion;
 
                 var question = await questionRepository.GetQuestion(userSession.CurrentQuestion, questionSetVersion);

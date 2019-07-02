@@ -75,12 +75,16 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
         public void PrepareFilterAssessmentState(string questionSetVersion, UserSession userSession, JobCategory[] jobFamilies,
             Question[] questions)
         {
-            foreach (var jobCategory in userSession.ResultData.JobCategories)
+            if (userSession.ResultData != null)
             {
-                var jobFamily = jobFamilies.First(jf => jf.Code.EqualsIgnoreCase(jobCategory.JobCategoryCode));
-                userSession.FilteredAssessmentState = userSession.FilteredAssessmentState ?? new FilteredAssessmentState();
-                userSession.FilteredAssessmentState.CreateOrResetCategoryState(questionSetVersion, questions,
-                    jobFamily);
+                foreach (var jobCategory in userSession.ResultData.JobCategories)
+                {
+                    var jobFamily = jobFamilies.First(jf => jf.Code.EqualsIgnoreCase(jobCategory.JobCategoryCode));
+                    userSession.FilteredAssessmentState =
+                        userSession.FilteredAssessmentState ?? new FilteredAssessmentState();
+                    userSession.FilteredAssessmentState.CreateOrResetCategoryState(questionSetVersion, questions,
+                        jobFamily);
+                }
             }
         }
 
@@ -115,16 +119,17 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
                         .OrderByDescending(x => x.Total)
                         .Take(10)
                         .ToArray();
-            
- 
+
+
             var resultData = new ResultData()
             {
                 Traits = userTraits.Where(x => x.TotalScore > 0).ToArray(),
                 JobCategories = jobCategories,
                 TraitScores = userTraits.ToArray()
             };
-
+            
             userSession.ResultData = resultData;
+          
         }
 
         public IEnumerable<JobCategoryResult> CalculateJobFamilyRelevance(IEnumerable<JobCategory> jobFamilies, IEnumerable<TraitResult> userTraits, string languageCode)

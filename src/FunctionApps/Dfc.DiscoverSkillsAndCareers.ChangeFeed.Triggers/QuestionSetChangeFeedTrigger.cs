@@ -16,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
     public static class QuestionSetChangeFeedTrigger
     {
         public const string DatabaseName = "%DatabaseName%";
-
+        
         [FunctionName("QuestionSetChangeFeedTrigger")]
         public static async Task RunAsync([CosmosDBTrigger(
             databaseName: DatabaseName,
@@ -31,29 +31,37 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
             var serviceBusSettings = serviceBusSettingsOptions.Value;
             foreach (var doc in input)
             {
-                var questionSet = (Dfc.DiscoverSkillsAndCareers.Models.QuestionSet)(dynamic)doc;
-                log.LogInformation($"Handling questionset update id={questionSet.QuestionSetVersion}");
+                var partitionKey = doc.GetPropertyValue<string>("partitionKey");
 
-                // Create a blob
-                var blobName = Guid.NewGuid().ToString();
-                var blobContent = JsonConvert.SerializeObject(questionSet);
-                var blockBlob = await blobStorageService.CreateBlob(blobName, blobContent);
-                log.LogInformation($"Added {questionSet.QuestionSetVersion} to blob {blobName}");
-
-
-                // Add message to queue
-                var messageContent = new ChangeFeedQueueItem()
+                if (partitionKey.Contains("filtered") || partitionKey.Contains("ncs"))
                 {
-                    Type = "QuestionSet",
-                    BlobName = blockBlob.Name
-                };
 
-                // Add to service bus queue
-                var queueClient = new QueueClient(serviceBusSettings.ServiceBusConnectionString, serviceBusSettings.QueueName);
-                var json = JsonConvert.SerializeObject(messageContent);
-                Message message = new Message(System.Text.Encoding.ASCII.GetBytes(json));
-                await queueClient.SendAsync(message);
-                log.LogInformation($"Added {questionSet.QuestionSetVersion} to queue {serviceBusSettings.QueueName}");
+                    var questionSet = (Dfc.DiscoverSkillsAndCareers.Models.QuestionSet) (dynamic) doc;
+                    log.LogInformation($"Handling questionset update id={questionSet.QuestionSetVersion}");
+
+                    // Create a blob
+                    var blobName = Guid.NewGuid().ToString();
+                    var blobContent = JsonConvert.SerializeObject(questionSet);
+                    var blockBlob = await blobStorageService.CreateBlob(blobName, blobContent);
+                    log.LogInformation($"Added {questionSet.QuestionSetVersion} to blob {blobName}");
+
+
+                    // Add message to queue
+                    var messageContent = new ChangeFeedQueueItem()
+                    {
+                        Type = "QuestionSet",
+                        BlobName = blockBlob.Name
+                    };
+
+                    // Add to service bus queue
+                    var queueClient = new QueueClient(serviceBusSettings.ServiceBusConnectionString,
+                        serviceBusSettings.QueueName);
+                    var json = JsonConvert.SerializeObject(messageContent);
+                    Message message = new Message(System.Text.Encoding.ASCII.GetBytes(json));
+                    await queueClient.SendAsync(message);
+                    log.LogInformation(
+                        $"Added {questionSet.QuestionSetVersion} to queue {serviceBusSettings.QueueName}");
+                }
             }
         }
     }

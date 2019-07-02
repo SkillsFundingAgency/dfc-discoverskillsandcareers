@@ -58,10 +58,11 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
             services.AddSingleton<IQuestionRepository, LocalQuestionRepository>();
             services.AddSingleton<IContentRepository, ContentRepository>();
-            services.AddSingleton<IQuestionSetRepository, LocalQuestionSetRepository>();
-            services.AddSingleton<IJobProfileRepository, JobProfileRepository>();
-            services.AddSingleton<IJobCategoryRepository, LocalJobCategoryRepository>();
-            services.AddSingleton<IShortTraitRepository, LocalShortTraitRepository>();
+
+            services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
+            services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
+
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
@@ -87,7 +88,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
 }
