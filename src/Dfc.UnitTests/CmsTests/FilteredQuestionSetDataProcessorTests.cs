@@ -159,7 +159,7 @@ namespace Dfc.UnitTests.CmsTests
 
             await _sut.RunOnce(_logger);
 
-            _questionSetRepository.Received(1).CreateOrUpdateQuestionSet(Arg.Is<QuestionSet>(q => !q.IsCurrent));
+            await _questionSetRepository.Received(1).CreateOrUpdateQuestionSet(Arg.Is<QuestionSet>(q => !q.IsCurrent));
             _logger.WasCalledOnce(LogLevel.Information, $"Demoting question set default-1 from current");
         }
     }

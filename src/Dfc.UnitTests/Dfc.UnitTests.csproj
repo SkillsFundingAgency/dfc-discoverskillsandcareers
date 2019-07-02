@@ -26,7 +26,6 @@
     <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.WebApp\Dfc.DiscoverSkillsAndCareers.WebApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.csproj" />
-    <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.csproj" />
     <ProjectReference Include="..\FunctionApps\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.csproj" />
   </ItemGroup>

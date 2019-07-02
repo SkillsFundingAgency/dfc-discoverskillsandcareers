@@ -56,7 +56,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
 
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
             services.AddTransient<IJobProfileRepository, JobProfileRepository>();
             services.AddTransient<IJobCategoryRepository, JobCategoryRepository>();
             services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
