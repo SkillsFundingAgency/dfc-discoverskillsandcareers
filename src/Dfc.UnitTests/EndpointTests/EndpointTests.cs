@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Dfc.IntegrationTests.ControllerTests
+namespace Dfc.UnitTests.EndpointTests
 {
     public class EndpointTests : IClassFixture<WebApplicationFactory<DiscoverSkillsAndCareers.WebApp.Startup>>
     {

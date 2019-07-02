@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;
@@ -159,7 +158,7 @@ namespace Dfc.UnitTests.CmsTests
 
             await _sut.RunOnce(_logger);
 
-            _questionSetRepository.Received(1).CreateOrUpdateQuestionSet(Arg.Is<QuestionSet>(q => !q.IsCurrent));
+            await _questionSetRepository.Received(1).CreateOrUpdateQuestionSet(Arg.Is<QuestionSet>(q => !q.IsCurrent));
             _logger.WasCalledOnce(LogLevel.Information, $"Demoting question set default-1 from current");
         }
     }
