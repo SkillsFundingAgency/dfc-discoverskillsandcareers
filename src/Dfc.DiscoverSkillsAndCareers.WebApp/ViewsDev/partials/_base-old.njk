@@ -1,0 +1,147 @@
+{% block pre %}{% endblock %}
+{% from "header/macro.njk" import govukHeader %}
+{% from "footer/macro.njk" import govukFooter %}
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "radios/macro.njk" import govukRadios %}
+{% from "button/macro.njk" import govukButton %}
+{% from "skip-link/macro.njk" import govukSkipLink %}
+{% from "input/macro.njk" import govukInput %}
+{% from "panel/macro.njk" import govukPanel %}
+{% from "back-link/macro.njk" import govukBackLink %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+
+<!DOCTYPE html>
+<html lang="en" class="govuk-template no-js">
+  <head>
+
+    <title>@(!String.IsNullOrEmpty(Model.ErrorMessage) ? "Error - " : ""){{ pageTitle }} - National Careers Service - GOV.UK</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0c0c" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="preload" href="/assets/fonts/light-f38ad40456-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/bold-a2452cb66f-v1.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+
+    <script>
+
+      var patterns = {
+        protocol: '^(http(s)?(:\/\/))?(www\.)?',
+        domain: '[a-zA-Z0-9-_\.]+'
+      }
+
+      function urlToString (url) {
+        if (!url) return '';
+        var pattern = new RegExp(patterns.protocol + patterns.domain, 'gi');
+        var res = pattern.exec(url)[0];
+        return url.replace(res, '').replace(/\//g, ':').substr(1);
+      }
+
+      var _environment = window.location.href.indexOf('nationalcareersservice.direct.gov.uk') === -1 ? 'live' : 'dev';
+      var _rqpath = window.location.pathname;
+      var _clrpath = _rqpath.split('?');
+      var _fldrelmnt = _clrpath[0].split('/');
+      var _pgurl = window.location.hostname + _clrpath[0];
+      var _referringURL = document.referrer;
+      var _previousPage = urlToString(document.referrer);
+      var _userAgent = navigator.userAgent;
+
+      dataLayer = [{
+        page: {
+          user: {
+            deviceAgent: _userAgent
+          },
+          pageInfo: {
+            pageID: "{{ pageName }}",
+            pageName: "{{ pageTitle }}",
+            pageGroup: "{{ pageGroup }}",
+            destinationURL: _pgurl,
+            pageInstanceID: _environment,
+            referringURL: _referringURL,
+            previousPage: _previousPage,
+            environment: _environment,
+            versionNumber: "{{ versionNumber }}",
+          },
+        }
+      }];
+
+      window.dataLayer = window.dataLayer || [];
+
+      {% block tagging %}{% endblock %}
+
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NVTFD4N');</script>
+    <!-- End Google Tag Manager -->
+
+  </head>
+  <body class="govuk-template__body  app-page--{{ pageName }}" id="top">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVTFD4N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    {{ govukSkipLink({
+      text: "Skip to main content",
+      href: "#content"
+    }) }}
+
+    <header class="with-proposition" id="global-header" role="banner">
+      <div class="header-wrapper">
+        <div class="header-proposition">
+          <div class="content">
+            <a class="js-header-toggle menu" href="#proposition-links">Menu</a>
+            <nav id="proposition-menu">
+              <a href="https://nationalcareersservice.direct.gov.uk" id="proposition-name">National Careers Service</a>
+              <ul id="proposition-links">
+                <li><a href="https://nationalcareers.service.gov.uk/" id="nav-EC" target="_self">Explore careers</a></li>
+                <li><a href="https://nationalcareersservice.direct.gov.uk/skills-health-check" id="nav-SHC" target="_self">Skills health check</a></li>
+                <li><a href="https://nationalcareersservice.direct.gov.uk/course-directory" id="nav-FC" target="_self">Find a course</a></li>
+                <li><a href="/contact-us" id="nav-CA" target="_self">Contact us</a></li>
+                <li><a href="https://nationalcareersservice.direct.gov.uk/about-us" id="nav-AU" target="_self">About us</a></li>
+                <li><a href="/get-a-job" id="nav-HTG" target="_self">Help to get a job</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {% block main %}{% endblock %}
+
+    {{ govukFooter({
+      meta: {
+        items: [
+          {
+            href: "https://nationalcareers.service.gov.uk/help",
+            text: "Help"
+          },
+          {
+            href: "https://nationalcareers.service.gov.uk/help/cookies",
+            text: "Privacy and Cookies"
+          },
+          {
+            href: "https://nationalcareers.service.gov.uk/help/terms-and-conditions",
+            text: "Terms and conditions"
+          },
+          {
+            href: "https://nationalcareers.service.gov.uk/help/information-sources",
+            text: "Information sources"
+          }
+        ]
+      }
+    }) }}
+
+    <script src="/assets/js/site.js" type="text/javascript"></script>
+
+  </body>
+</html>
