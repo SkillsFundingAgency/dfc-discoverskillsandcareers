@@ -51,12 +51,13 @@
 
 .app-results {
 
-  counter-reset: section;
+  counter-reset: h2Counter;
+  
 
   .app-results__item {
     margin-bottom: 0;
     display: block !important;
-    counter-increment: section;
+    counter-increment: h2Counter;
   }
 
   hr {
@@ -69,12 +70,8 @@
     margin: 0;
   }
 
-  .govuk-heading-m {
-    @extend %govuk-heading-s;
-
-    &::before {
-      content: counter(section) '. ';
-    }
+  h2::before {
+    content: counter(h2Counter) '. ';
   }
 
   .app-result__body,
