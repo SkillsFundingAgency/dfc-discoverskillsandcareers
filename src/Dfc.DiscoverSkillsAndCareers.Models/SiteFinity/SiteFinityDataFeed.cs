@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
+namespace Dfc.DiscoverSkillsAndCareers.Models.SiteFinity
 {
     [ExcludeFromCodeCoverage]
     public class SiteFinityDataFeed<T> where T : class

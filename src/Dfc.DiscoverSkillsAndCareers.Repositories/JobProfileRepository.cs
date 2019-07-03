@@ -1,14 +1,11 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
-using Microsoft.Extensions.Options;
 using Microsoft.Azure.Search;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Search.Models;
+using Microsoft.Rest.Azure;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
@@ -17,16 +14,41 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
     public class JobProfileRepository : IJobProfileRepository
     {
         private readonly ISearchIndexClient _client;
+        private readonly ISiteFinityHttpService _siteFinityHttpService;
 
-
-        public JobProfileRepository(ISearchIndexClient client)
+        public JobProfileRepository(ISearchIndexClient client, ISiteFinityHttpService siteFinityHttpService)
         {
             _client = client;
+            _siteFinityHttpService = siteFinityHttpService;
         }
 
+        private async Task EnsureClient()
+        {
+            try
+            {
+                var searchParameters = new SearchParameters
+                {
+                    ScoringProfile = "jp",
+                    SearchMode = SearchMode.All,
+                    QueryType = QueryType.Full,
+                    Top = 1
+                };
+
+                var _ = await _client.Documents.SearchAsync("*", searchParameters);
+            }
+            catch (CloudException)
+            {
+                var index = await _siteFinityHttpService.GetLatestIndex("DFC.Digital.JobProfileSearchIndex");
+                _client.IndexName = index.Trim('"');
+            }
+
+        }
+        
         private async Task<IList<SearchResult<T>>> RunAzureSearchQuery<T>(string query, params string[] fields)
             where T : class
         {
+            await EnsureClient();
+            
             var searchParameters = new SearchParameters
             {
                 ScoringProfile = "jp",
@@ -57,20 +79,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
             
             return data;
-        }
-
-        public async Task<JobProfile[]> JobProfilesTitle(IEnumerable<string> profiles)
-        {
-            var ps = profiles as string[] ?? profiles.ToArray();
-            if (ps.Any())
-            {
-                var queryString = String.Join("||", ps.Select(s => $"({s})"));
-
-                var results = await RunAzureSearchQuery<JobProfile>(queryString, "Title");
-                return results.Select(jp => jp.Document).ToArray();
-            }
-            
-            return new JobProfile[]{};
         }
         
         public async Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily)

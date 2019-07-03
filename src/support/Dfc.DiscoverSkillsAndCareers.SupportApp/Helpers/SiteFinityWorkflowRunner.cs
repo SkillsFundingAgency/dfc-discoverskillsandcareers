@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
+namespace Dfc.DiscoverSkillsAndCareers.Models.SiteFinity
 {
     [ExcludeFromCodeCoverage]
     public class TaxonomyHierarchy

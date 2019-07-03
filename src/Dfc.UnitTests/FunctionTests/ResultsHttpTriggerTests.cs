@@ -137,7 +137,7 @@ namespace Dfc.UnitTests.FunctionTests
                 }
             }));
 
-            _jobProfileRepository.JobProfilesTitle(Arg.Is<List<string>>(v => v.Contains("Jp1"))).Returns(Task.FromResult(new[]
+            _jobProfileRepository.JobProfilesForJobFamily("Managerial").Returns(Task.FromResult(new[]
             {
                 new JobProfile {Title = "Jp1 "},
             }));

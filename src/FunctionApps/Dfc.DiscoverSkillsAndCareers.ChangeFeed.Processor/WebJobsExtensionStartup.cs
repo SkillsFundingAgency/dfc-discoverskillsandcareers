@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Common.Blob;
 using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data;
 using Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor;
+using Microsoft.EntityFrameworkCore;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 
@@ -29,11 +30,21 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
         {
             ConfigureOptions(services);
 
-            services.AddScoped<IUnderstandMyselfDbContext>(srvs =>
+            services.AddDbContext<IUnderstandMyselfDbContext, UnderstandMyselfDbContext>(f =>
             {
+                
                 var connectionString = System.Environment.GetEnvironmentVariable("SqlConnectionString");
-                return new UnderstandMyselfDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<UnderstandMyselfDbContext>(), connectionString);
+                f.UseSqlServer(connectionString).EnableSensitiveDataLogging();
+   //             return new UnderstandMyselfDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<UnderstandMyselfDbContext>(), connectionString);
             });
+//            
+//            services.AddScoped<IUnderstandMyselfDbContext>(srvs =>
+//            {
+//                var f = new Microsoft.EntityFrameworkCore.DbContextOptions<UnderstandMyselfDbContext>();
+//                var connectionString = System.Environment.GetEnvironmentVariable("SqlConnectionString");
+//                f.UseSqlServer(connectionString).EnableSensitiveDataLogging();
+//                return new UnderstandMyselfDbContext(, connectionString);
+//            });
 
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IBlobStorageService>(srvs =>
