@@ -1,12 +1,8 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
-using Microsoft.Extensions.Options;
 using Microsoft.Azure.Search;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Search.Models;
 using Microsoft.Rest.Azure;
@@ -38,9 +34,9 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                     Top = 1
                 };
 
-                var result = await _client.Documents.SearchAsync("*", searchParameters);
+                var _ = await _client.Documents.SearchAsync("*", searchParameters);
             }
-            catch (CloudException ex)
+            catch (CloudException)
             {
                 var index = await _siteFinityHttpService.GetLatestIndex("DFC.Digital.JobProfileSearchIndex");
                 _client.IndexName = index.Trim('"');

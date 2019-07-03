@@ -167,7 +167,7 @@ gulp.task('staticAssets', function() {
 });
 
 gulp.task('rev', () => {
-    const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot', '!**/*.ico'], { restore: true });
+    const assetFilter = filter(['**/*', '!**/*.html', '!**/*.woff*', '!**/*.eot', '!**/*.ico', '!**/robots.txt'], { restore: true });
 
     return gulp.src(paths.dist + '**/*')
       .pipe(assetFilter)
