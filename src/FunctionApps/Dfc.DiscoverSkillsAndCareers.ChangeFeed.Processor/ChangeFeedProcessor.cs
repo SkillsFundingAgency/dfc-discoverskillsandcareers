@@ -46,21 +46,21 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                     case "UserSession":
                         {
                             var userSession = JsonConvert.DeserializeObject<Dfc.DiscoverSkillsAndCareers.Models.UserSession>(blob);
-                            await UpdateUserSession(userSession);
+                            await UpdateUserSession(userSession, log);
                             await blobStorageService.DeleteBlob(changeFeedQueueItem.BlobName);
                             break;
                         }
                     case "Question":
                         {
                             var question = JsonConvert.DeserializeObject<Question>(blob);
-                            await UpdateQuestion(question);
+                            await UpdateQuestion(question, log);
                             await blobStorageService.DeleteBlob(changeFeedQueueItem.BlobName);
                             break;
                         }
                     case "QuestionSet":
                         {
                             var questionSet = JsonConvert.DeserializeObject<Dfc.DiscoverSkillsAndCareers.Models.QuestionSet>(blob);
-                            await UpdateQuestionSet(questionSet);
+                            await UpdateQuestionSet(questionSet, log);
                             await blobStorageService.DeleteBlob(changeFeedQueueItem.BlobName);
                             break;
                         }
@@ -76,7 +76,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             }
         }
 
-        private static async Task UpdateQuestion(Question question)
+        private static async Task UpdateQuestion(Question question, ILogger log)
         {
             try
             {
@@ -94,11 +94,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                 }
                 
                 int changes = await DbContext.SaveChanges();
-                Console.WriteLine($"Changes updated {changes}");
+                log.LogTrace($"Changes updated {changes}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                log.LogError(ex, $"Unable to update question {question.QuestionId}");
                 throw;
             }
         }
@@ -115,7 +115,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             entity.LastUpdatedDt = dto.LastUpdatedDt.UtcDateTime;
         }
 
-        private static async Task UpdateUserSession(Dfc.DiscoverSkillsAndCareers.Models.UserSession userSession)
+        private static async Task UpdateUserSession(Dfc.DiscoverSkillsAndCareers.Models.UserSession userSession, ILogger log)
         {
             try
             {
@@ -240,32 +240,52 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
 
                         if (jobCategory.FilterAssessmentResult != null)
                         {
-                            foreach (var jobProfile in jobCategory.FilterAssessmentResult?.SuggestedJobProfiles)
+                            var existingProfiles = 
+                                DbContext.SuggestedJobProfiles.Where(x => x.UserSessionId == userSession.UserSessionId && x.JobCategoryCode == jobCategory.JobCategoryCode)
+                                    .ToDictionary(p => p.Id);
+                            
+                            DbContext.SuggestedJobProfiles.RemoveRange(existingProfiles.Values);
+                            
+                            foreach (var jobProfile in jobCategory.FilterAssessmentResult.SuggestedJobProfiles)
                             {
-                                var toremoveSuggestedJobProfiles = DbContext.SuggestedJobProfiles.Where(x => x.UserSessionId == userSession.UserSessionId && x.JobCategoryCode == jobCategory.JobCategoryCode).ToList();
-                                DbContext.SuggestedJobProfiles.RemoveRange(toremoveSuggestedJobProfiles);
-                                DbContext.SuggestedJobProfiles.Add(new Data.Entities.UmSuggestedJobProfile()
+                                var id = userSession.UserSessionId + "-" + jobCategory.JobCategoryCode + "-" + jobProfile;
+                                try
                                 {
-                                    Id = userSession.UserSessionId + "-" + jobProfile,
-                                    UserSessionId = userSession.UserSessionId,
-                                    JobCategoryCode = jobCategory.JobCategoryCode,
-                                    JobProfile = jobProfile
-                                });
+                                    if (!existingProfiles.TryGetValue(id, out var p) && !DbContext.SuggestedJobProfiles.Local.Any(q => q.Id == id))
+                                    {
+                                        var suggestedJobProfile = new Data.Entities.UmSuggestedJobProfile()
+                                        {
+                                            Id = id,
+                                            UserSessionId = userSession.UserSessionId,
+                                            JobCategoryCode = jobCategory.JobCategoryCode,
+                                            JobProfile = jobProfile
+                                        };
+                                        DbContext.SuggestedJobProfiles.Add(suggestedJobProfile);
+                                        existingProfiles.Add(suggestedJobProfile.Id, suggestedJobProfile);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    log.LogWarning(e, $"Failed to add suggested job profile - {id}, typically this warning can be ignored, " +
+                                                      $"as it is due to a partial session being captured on the change feed. " +
+                                                      $"Following updates will correct the data.");
+                                }
+                                
                             }
                         }
                     }
                 }
 
                 int changes = await DbContext.SaveChanges();
-                Console.WriteLine($"Changes updated {changes}");
+                log.LogTrace($"Applied {changes} changes");
             }
-            catch (System.InvalidOperationException)
+            catch (System.InvalidOperationException ex)
             {
-                throw;
+                log.LogWarning(ex, $"Error updating user session {userSession?.UserSessionId}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                log.LogError(ex, $"Error updating user session {userSession?.UserSessionId}");
                 throw;
             }
         }
@@ -289,7 +309,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             }
         }
 
-        private static async Task UpdateQuestionSet(Dfc.DiscoverSkillsAndCareers.Models.QuestionSet questionSet)
+        private static async Task UpdateQuestionSet(Dfc.DiscoverSkillsAndCareers.Models.QuestionSet questionSet, ILogger log)
         {
             try
             {
@@ -307,11 +327,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
                 }
 
                 int changes = await DbContext.SaveChanges();
-                Console.WriteLine($"Changes updated {changes}");
+                log.LogTrace($"Changes updated {changes}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                log.LogError(ex, $"Failed to update question set");
                 throw;
             }
         }
