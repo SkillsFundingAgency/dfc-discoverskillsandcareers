@@ -60,6 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
+
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
