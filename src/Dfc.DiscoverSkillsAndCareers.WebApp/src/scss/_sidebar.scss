@@ -2,8 +2,8 @@
   @include govuk-responsive-margin(6, "bottom");
   @include govuk-media-query($from: desktop) {
     .govuk-heading-m {
-      border-top: 8px solid $app-turquoise;
-      padding-top: 20px;
+      border-top: 10px solid $app-turquoise;
+      padding-top: govuk-spacing(2);
     }
   }
 
