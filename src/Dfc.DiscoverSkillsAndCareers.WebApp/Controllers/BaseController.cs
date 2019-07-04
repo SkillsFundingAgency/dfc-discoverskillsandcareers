@@ -6,7 +6,40 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
-    public abstract class BaseController : Controller
+    public class Constants
+    {
+        public const string CompositePathHeader = "x-composite-base-route";
+    }
+    
+    public static class UrlExtensions
+    {
+        public static string TryApplyCompositeRoute(this IUrlHelper source, string str)
+        {
+            if (source.ActionContext.HttpContext.Request.Headers.TryGetValue(Constants.CompositePathHeader,
+                out var path))
+            {
+                return $"/{path[0].TrimStart('/')}/{str.TrimStart('/')}";
+            }
+
+            return str;
+        }
+    }
+    
+    public class CompositeUIBaseController : Controller
+    {
+        public override RedirectResult Redirect(string url)
+        {
+            if(Request.Headers.TryGetValue(Constants.CompositePathHeader, out var path))
+            {
+                return new RedirectResult($"/{path[0].TrimStart('/')}/{url.TrimStart('/')}");
+            }
+            
+            return new RedirectResult(url);
+        }
+        
+    }
+    
+    public abstract class BaseController : CompositeUIBaseController
     {
         public IFormCollection FormData { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }

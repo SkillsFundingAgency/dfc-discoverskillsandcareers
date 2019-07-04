@@ -10,6 +10,7 @@ using System.Web;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
+    
     public class QuestionController : BaseController
     {
         readonly ILogger<QuestionController> _log;
@@ -89,9 +90,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
                 
-                var redirectResponse = new RedirectResult($"/q/{assessment}/01");
-                
-                return redirectResponse;
+                return Redirect($"/q/{assessment}/01");
 
             }
             catch (Exception ex)

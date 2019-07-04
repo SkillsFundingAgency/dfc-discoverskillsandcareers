@@ -5,7 +5,8 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
-  @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
   @{
       ViewData["Title"] = "Discover your skills and careers";
       Layout = null;
@@ -15,11 +16,7 @@
 {% block main %}
 
   <main id="content" role="main">
-
-    <div class="govuk-width-container">
-      {% include "_phasebanner.njk" %}
-    </div>
-
+      
     <div class="app-masthead">
       <div class="govuk-width-container">
 
@@ -47,14 +44,12 @@
 
               <p class="govuk-body">You can save your assessment if you want to complete it later, or look at your results again another time.</p>
 
-              {{ govukButton({
-            text: "Start assessment",
-            href: "/assessment/short/",
-            classes: "govuk-button--start",
-            attributes: {
-              "gov-analytics-data": pageName + " | click | button | Start assessment"
-            }
-          }) }}
+              <a role="button" draggable="false"
+                  href="@Url.TryApplyCompositeRoute("/assessment/short/")"
+                  class="govuk-button govuk-button--start" gov-analytics-data="home | click | button | Start assessment">
+                  Start assessment
+              </a>
+
 
           </div>
 
