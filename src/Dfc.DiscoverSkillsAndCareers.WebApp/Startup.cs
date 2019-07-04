@@ -33,6 +33,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             
             services.AddOptions();
             services.AddDistributedMemoryCache();
+            services.AddApplicationInsightsTelemetry();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
