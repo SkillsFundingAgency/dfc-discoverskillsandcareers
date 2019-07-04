@@ -1025,7 +1025,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "adaptability/flexibility",
-        "QuestionText": "Are you comfortable doing a variety of tasks in a job and open to things changing? ",
+        "QuestionText": "Are you comfortable doing a variety of tasks in a job and open to things changing?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2945,7 +2945,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "technical skills",
-        "QuestionText": "Do you think you could design, set up and operate machinery and equipment? ",
+        "QuestionText": "Do you think you could design, set up and operate machinery and equipment?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -3030,7 +3030,7 @@
             "Questions",
             "Would you feel comfortable in a job where you have to put a lot of effort in to get things done?",
             "Do you enjoy learning new things?",
-            "Are you comfortable doing a variety of tasks in a job and open to things changing? ",
+            "Are you comfortable doing a variety of tasks in a job and open to things changing?",
             "Are you comfortable analysing information to solve problems?",
             "Do you enjoy solving complicated problems?",
             "Would you be comfortable in a job where you would need to be sensitive to other people's needs and feelings?",
@@ -3110,7 +3110,7 @@
             "Do people tend to follow your lead?",
             "Do you think you are good at working with other people to get things done?",
             "Could you find the best ways for people and technology to work together in an organisation?",
-            "Do you think you could design, set up and operate machinery and equipment? ",
+            "Do you think you could design, set up and operate machinery and equipment?",
             "Would you like a job designing technology and equipment?",
             "Are you able to read well?"
           ],
