@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.CmsFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.csproj", "{A0F38794-AC97-4C9C-9186-32E76144D327}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.ContentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp\Dfc.DiscoverSkillsAndCareers.ContentFunctionApp.csproj", "{BA2931FB-BB94-4E40-A851-BBBB28D5E06C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp\Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.csproj", "{3FCBF5AD-4C87-4C5B-A11A-9D84CBDA4B65}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp\Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.csproj", "{18A184B4-27ED-41D7-B991-523597900095}"
@@ -26,8 +24,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{961E2D86-AB2D-42F2-917B-20B2CF53A8EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp", "FunctionApps\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp\Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.csproj", "{6BDB6339-B035-4A83-8B29-F0F93DA90CC8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfc.IntegrationTests", "Dfc.IntegrationTests\Dfc.IntegrationTests.csproj", "{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "changefeed", "changefeed", "{FE9FE7D3-93B2-4978-A2DA-B2984A1392DB}"
 EndProject
@@ -76,10 +72,6 @@ Global
 		{A0F38794-AC97-4C9C-9186-32E76144D327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0F38794-AC97-4C9C-9186-32E76144D327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0F38794-AC97-4C9C-9186-32E76144D327}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA2931FB-BB94-4E40-A851-BBBB28D5E06C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA2931FB-BB94-4E40-A851-BBBB28D5E06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA2931FB-BB94-4E40-A851-BBBB28D5E06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA2931FB-BB94-4E40-A851-BBBB28D5E06C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FCBF5AD-4C87-4C5B-A11A-9D84CBDA4B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3FCBF5AD-4C87-4C5B-A11A-9D84CBDA4B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FCBF5AD-4C87-4C5B-A11A-9D84CBDA4B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -92,10 +84,6 @@ Global
 		{6BDB6339-B035-4A83-8B29-F0F93DA90CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDB6339-B035-4A83-8B29-F0F93DA90CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDB6339-B035-4A83-8B29-F0F93DA90CC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A0DF0E6-BD0C-4D23-B9E3-8E0B0E8B219B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92A35131-699B-4672-9FB7-5491DE88DEA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{92A35131-699B-4672-9FB7-5491DE88DEA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A35131-699B-4672-9FB7-5491DE88DEA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -125,7 +113,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{37287922-EED7-4655-B204-4C0F3B834DB1} = {704B84F5-E692-4D6A-8E3C-F766BDC00751}
 		{A0F38794-AC97-4C9C-9186-32E76144D327} = {961E2D86-AB2D-42F2-917B-20B2CF53A8EC}
-		{BA2931FB-BB94-4E40-A851-BBBB28D5E06C} = {961E2D86-AB2D-42F2-917B-20B2CF53A8EC}
 		{3FCBF5AD-4C87-4C5B-A11A-9D84CBDA4B65} = {961E2D86-AB2D-42F2-917B-20B2CF53A8EC}
 		{18A184B4-27ED-41D7-B991-523597900095} = {961E2D86-AB2D-42F2-917B-20B2CF53A8EC}
 		{6BDB6339-B035-4A83-8B29-F0F93DA90CC8} = {961E2D86-AB2D-42F2-917B-20B2CF53A8EC}

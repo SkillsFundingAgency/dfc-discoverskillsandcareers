@@ -6,12 +6,11 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data
 {
     public class UnderstandMyselfDbContext : DbContext, IUnderstandMyselfDbContext
     {
-        private readonly string _connectionString;
-        public UnderstandMyselfDbContext(DbContextOptions<UnderstandMyselfDbContext> options, string connectionString)
+        public UnderstandMyselfDbContext(DbContextOptions<UnderstandMyselfDbContext> options)
             : base(options)
         {
             Id = System.Guid.NewGuid().ToString();
-            _connectionString = connectionString;
+            
         }
 
         public string Id { get; set; }
@@ -29,13 +28,12 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data
         {
             return base.SaveChangesAsync();
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(this._connectionString);
-            }
+            modelBuilder.Entity<UmSuggestedJobProfile>()
+                .HasKey(c => new { c.UserSessionId, c.JobCategoryCode });
         }
+
     }
 }

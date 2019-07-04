@@ -96,10 +96,14 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                         
                         // Build the list of job profiles
                         var jobProfiles =
-                            await jobProfileRepository.JobProfilesTitle(category.FilterAssessmentResult
-                                .SuggestedJobProfiles);
+                            await jobProfileRepository.JobProfilesForJobFamily(category.JobCategoryName);
 
-                        foreach (var jobProfile in jobProfiles)
+                        var profilesSet = category.FilterAssessmentResult.SuggestedJobProfiles.ToHashSet(StringComparer.InvariantCultureIgnoreCase);
+                        
+                        foreach (var jobProfile in jobProfiles.Where(p => 
+                            (p.JobProfileCategories == null || p.JobProfileCategories.Contains(category.JobCategoryName, StringComparer.InvariantCultureIgnoreCase))
+                            && profilesSet.Contains(p.Title))
+                        )
                         {
                             categoryProfiles.Add(new JobProfileResult()
                             {

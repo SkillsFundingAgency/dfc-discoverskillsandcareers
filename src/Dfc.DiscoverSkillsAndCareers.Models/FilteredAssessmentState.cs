@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public List<JobCategoryState> JobCategoryStates { get; set; } = new List<JobCategoryState>();
 
         [JsonIgnore] 
-        public override int MaxQuestions => CurrentState.Skills.Length;
+        public override int MaxQuestions => CurrentState?.Skills.Length ?? 0;
         
         [JsonProperty("recordedAnswers")]
         public Answer[] RecordedAnswers { get; set; } = {};
@@ -35,7 +35,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public string CurrentFilterAssessmentCode { get; set; }
 
         [JsonIgnore]
-        public override string QuestionSetVersion => CurrentState.QuestionSetVersion;
+        public override string QuestionSetVersion => CurrentState?.QuestionSetVersion;
 
         [JsonIgnore]
         public override int CurrentQuestion
@@ -47,28 +47,28 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
 
         [JsonIgnore]
         private JobCategoryState CurrentState =>
-            JobCategoryStates.Single(jc => jc.JobCategoryCode.EqualsIgnoreCase(CurrentFilterAssessmentCode));
+            JobCategoryStates.SingleOrDefault(jc => jc.JobCategoryCode.EqualsIgnoreCase(CurrentFilterAssessmentCode));
 
         [JsonIgnore]
         public override bool IsComplete
         {
             get
             {
-                var complete = CurrentState.IsComplete(RecordedAnswers);
-                if (complete && !CompleteDt.HasValue)
+                var complete = CurrentState?.IsComplete(RecordedAnswers);
+                if (complete.HasValue && complete.Value && !CompleteDt.HasValue)
                 {
                     CompleteDt = DateTime.UtcNow;
                 }
 
-                return complete;
+                return complete.GetValueOrDefault(false);
             }
         }
 
         [JsonIgnore]
-        public string JobFamilyNameUrlSafe => CurrentState.JobFamilyNameUrlSafe;
+        public string JobFamilyNameUrlSafe => CurrentState?.JobFamilyNameUrlSafe;
         
         [JsonIgnore] 
-        public string CurrentQuestionId => CurrentState.CurrentQuestionId;
+        public string CurrentQuestionId => CurrentState?.CurrentQuestionId;
         
         public void CreateOrResetCategoryState(string questionSetVersion, Question[] questions, JobCategory category)
         {
@@ -114,7 +114,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Models
         public override int MoveToNextQuestion()
         {
             var number =  
-                CurrentState.Skills
+                CurrentState?.Skills
                     .FirstOrDefault(q => !RecordedAnswers.Any(a => a.TraitCode.EqualsIgnoreCase(q.Skill)))
                     ?.QuestionNumber;
 

@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Microsoft.Extensions.Logging;

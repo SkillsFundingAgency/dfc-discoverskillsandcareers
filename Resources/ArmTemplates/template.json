@@ -130,16 +130,17 @@
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "AppSettings__SessionSalt": "ncs",
-        "CmsFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cms-fa'))]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
-        "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
-        "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
-        "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
-        "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-db'))]",
         "ChangeFeedProcessorFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-fa'))]",
         "ChangeFeedProcessorAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-ai'))]",
         "ChangeFeedTriggerFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-fa'))]",
         "ChangeFeedTriggerAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-ai'))]",
+        "CmsFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cms-fa'))]",
+        "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
+        "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-db'))]",
+        "ResultsFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-results-fa'))]",
+        "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
+        "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "copy": [
             {
                 "name": "AppInsightsNames",
@@ -149,9 +150,9 @@
             {
                 "name": "HttpFunctionAppNames",
                 "metadata": {
-                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'cms', this function app is created outside of the FunctionAppNames copy loop as it's timer trigger rather than a http api."
+                    "comments": "The last 2 elements are removed from parameters('FunctionAppNames') when creating this copy.  These should be 'results' & 'cms', these function apps are created outside of the FunctionAppNames copy loop because they have additional app settings."
                 },
-                "count": "[if(equals(last(parameters('FunctionAppNames')), 'cms'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
+                "count": "[if(and(contains(parameters('FunctionAppNames'), 'results'), contains(parameters('FunctionAppNames'), 'cms')), sub(length(parameters('FunctionAppNames')), 2), 0)]",
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('HttpFunctionAppNames')], '-fa'))]"
             }
         ]
@@ -641,6 +642,126 @@
                             ]
                         }
                     }
+            },
+            "dependsOn": [
+                "AppInsightsCopy",
+                "[variables('AppServicePlanName')]",
+                "[variables('CosmosDbName')]",
+                "[variables('StorageAccountName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('ResultsFunctionAppName'), '-deployment')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('ResultsFunctionAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-results-ai')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
+                            },
+                            {
+                                "name": "AppSettings__SessionSalt",
+                                "value": "[variables('AppSettings__SessionSalt')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityApiAuthenicationEndpoint",
+                                "value": "SiteFinity/Authenticate/openid/connect/token"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityApiUrlbase",
+                                "value": "[parameters('SiteFinityApiUrlbase')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityApiWebService",
+                                "value": "dsac"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityClientId",
+                                "value": "[parameters('SiteFinityClientId')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityClientSecret",
+                                "value": "[parameters('SiteFinityClientSecret')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityJobCategoriesTaxonomyId",
+                                "value": "Job Profile Category"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityPassword",
+                                "value": "[parameters('SiteFinityPassword')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityRequiresAuthentication",
+                                "value": "true"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityScope",
+                                "value": "[parameters('SiteFinityScope')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityUsername",
+                                "value": "[parameters('SiteFinityUsername')]"
+                            },
+                            {
+                                "name": "AzureSearchSettings__IndexName",
+                                "value": "[parameters('AzureSearchSettingsIndexName')]"
+                            },
+                            {
+                                "name": "AzureSearchSettings__ApiKey",
+                                "value": "[parameters('AzureSearchSettingsApiKey')]"
+                            },
+                            {
+                                "name": "AzureSearchSettings__ServiceName",
+                                "value": "[parameters('AzureSearchSettingsServiceName')]"
+                            }
+                        ]
+                    }
+                }
             },
             "dependsOn": [
                 "AppInsightsCopy",

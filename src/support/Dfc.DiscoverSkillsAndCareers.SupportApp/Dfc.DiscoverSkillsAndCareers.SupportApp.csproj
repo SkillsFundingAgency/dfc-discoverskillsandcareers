@@ -28,9 +28,6 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-      <Content Include="stopwords.txt">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Include="corenlp\**">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
@@ -83,18 +80,6 @@
     </Compile>
     <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SkillAttribute.cs">
       <Link>CmsModels\SkillAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\TaxonomyHierarchy.cs">
-      <Link>CmsModels\TaxonomyHierarchy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\ISiteFinityHttpService.cs">
-        <Link>Services\ISiteFinityHttpService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Services\SiteFinityHttpService.cs">
-        <Link>Services\SiteFinityHttpService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\FunctionApps\Dfc.DiscoverSkillsAndCareers.CmsFunctionApp\Models\SiteFinityDataFeed.cs">
-      <Link>CmsModels\SiteFinityDataFeed.cs</Link>
     </Compile>
      
   </ItemGroup>

@@ -56,9 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
             services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
-            services.AddSingleton<IQuestionRepository, LocalQuestionRepository>();
-            services.AddSingleton<IContentRepository, ContentRepository>();
-
+            services.AddSingleton<IQuestionRepository, QuestionRepository>();
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
             services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
             services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();

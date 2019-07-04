@@ -55,11 +55,13 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
 
             services.AddTransient<IUserSessionRepository, UserSessionRepository>();
-            services.AddTransient<IQuestionRepository, LocalQuestionRepository>();
-            services.AddTransient<IContentRepository, ContentRepository>();
+
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IJobProfileRepository, JobProfileRepository>();
-            services.AddTransient<IJobCategoryRepository, LocalJobCategoryRepository>();
-            services.AddTransient<IQuestionSetRepository, LocalQuestionSetRepository>();
+            
+            services.AddTransient<IJobCategoryRepository, JobCategoryRepository>();
+            services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddTransient<ISiteFinityHttpService, SiteFinityHttpService>();
         }
 
         private void ConfigureOptions(IServiceCollection services)
@@ -76,7 +78,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
             Configuration = configBuilder.AddEnvironmentVariables().Build();
 
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<SiteFinitySettings>(Configuration.GetSection("AppSettings"));
             services.Configure<AzureSearchSettings>(Configuration.GetSection("AzureSearchSettings"));
         }
     }
