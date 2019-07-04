@@ -8,7 +8,7 @@
 {% from "back-link/macro.njk" import govukBackLink %}
 {% from "error-summary/macro.njk" import govukErrorSummary %}
 
-
 {% block main %}{% endblock %}
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
-<script src="/assets/js/site.js" type="text/javascript"></script>
+<script src="@Url.TryApplyCompositeRoute("/assets/js/site.js")" type="text/javascript"></script>
