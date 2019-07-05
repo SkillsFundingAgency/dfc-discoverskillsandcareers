@@ -28,9 +28,6 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-      <Content Include="stopwords.txt">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Include="corenlp\**">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

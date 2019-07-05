@@ -59,7 +59,7 @@ namespace Dfc.UnitTests
         }
 
         [Fact]
-        public void MoveToNextQuestion_Throws_IfNoCurrentCode()
+        public void MoveToNextQuestion_ReturnsZero_IfNoCurrentCode()
         {
             var sut = new FilteredAssessmentState
             {
@@ -79,7 +79,9 @@ namespace Dfc.UnitTests
                 }
             };
             
-            Assert.Throws<InvalidOperationException>(() => sut.MoveToNextQuestion());
+            var result = sut.MoveToNextQuestion();
+            
+            Assert.Equal(0, result);
             
         }
         

@@ -45,11 +45,39 @@ $app-text-light: #646C70;
 }
 
 .govuk-header__container {
-  border-bottom-color: $app-turquoise;
+  border-bottom: transparent;
 }
 
-.govuk-phase-banner {
-  border-top: 10px solid $app-turquoise;
+nav {
+  .govuk-tag {
+    margin: 0 0 0 4px;
+    top: -6px;
+    font-size: 10px;
+    position: relative;
+    padding: 2px 5px;
+  }
+}
+
+// Change to header to change colour of blue border underneath header to green.
+.govuk-header__container {
+  border-bottom: 10px solid $app-turquoise;
+  @include govuk-media-query(desktop) {
+    padding-top: 7px;
+  }
+}
+
+// Change to desktop header to fix margin/padding
+.govuk-header__link--service-name {
+  @include govuk-media-query(desktop) {
+    margin-bottom: -1px;
+  }
+}
+
+.govuk-header__navigation {
+  
+  @include govuk-media-query(desktop) {
+    margin: 0 0 4px;
+  }
 }
 
 .govuk-phase-bannertag {  // legacy version support
@@ -88,4 +116,8 @@ $app-text-light: #646C70;
 
 .app-advisor-panel {
   margin-top: 5px;
+}
+
+.app-advisor-hours {
+  margin: 19px 0;
 }
