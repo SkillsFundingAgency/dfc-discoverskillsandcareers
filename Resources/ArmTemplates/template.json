@@ -1005,7 +1005,12 @@
                     }
                 }
             },
-            "dependsOn": []
+            "dependsOn": [
+                "[variables('AppServicePlanName')]",
+                "[variables('ChangeFeedTriggerAppInsightsName')]",
+                "[variables('CosmosDbName')]",
+                "[variables('StorageAccountName')]"
+            ]
         },
         {
             "apiVersion": "2017-05-10",
