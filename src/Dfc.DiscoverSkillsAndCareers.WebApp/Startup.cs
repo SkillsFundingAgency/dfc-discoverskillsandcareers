@@ -29,7 +29,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddOptions();
             services.AddDataProtection();
             services.AddApplicationInsightsTelemetry();
-
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
