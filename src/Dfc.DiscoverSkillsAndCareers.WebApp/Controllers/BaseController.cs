@@ -15,11 +15,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     {
         public static string TryApplyCompositeRoute(this IUrlHelper source, string str)
         {
-            if (source.ActionContext.HttpContext.Request.Headers.TryGetValue(Constants.CompositePathHeader,
-                out var path))
-            {
-                return $"/{path[0].TrimStart('/')}/{str.TrimStart('/')}";
-            }
+//            if (source.ActionContext.HttpContext.Request.Headers.TryGetValue(Constants.CompositePathHeader,
+//                out var path))
+//            {
+//                return $"/{path[0].TrimStart('/')}/{str.TrimStart('/')}";
+//            }
 
             return str;
         }
@@ -39,7 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         
     }
     
-    public abstract class BaseController : CompositeUIBaseController
+    public abstract class BaseController : Controller //CompositeUIBaseController
     {
         public IFormCollection FormData { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }

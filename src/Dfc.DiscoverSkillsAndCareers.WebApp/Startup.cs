@@ -12,6 +12,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 
@@ -34,13 +35,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             services.AddOptions();
             services.AddDistributedMemoryCache();
             services.AddApplicationInsightsTelemetry();
-
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
                 options.Secure = CookieSecurePolicy.Always;
             });
+
+            services.AddCors(opts => opts.AddDefaultPolicy(p => p.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
             
             services.Configure<HstsOptions>(options =>
             {
@@ -86,6 +89,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseCors();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
