@@ -69,6 +69,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
             services.AddSingleton<IConfiguration>(config);
             services.Configure<AppSettings>(config.GetSection("AppSettings"));
+            services.Configure<SiteFinitySettings>(config.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(config.GetSection("Cosmos"));
             
             services.AddTransient<ISiteFinityHttpService, SiteFinityHttpService>();
