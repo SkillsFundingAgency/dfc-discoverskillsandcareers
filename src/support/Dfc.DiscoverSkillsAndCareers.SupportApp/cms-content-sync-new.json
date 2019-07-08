@@ -11,7 +11,7 @@
       "data": {
         "Title": "Leader",
         "Description": "",
-        "ResultDisplayText": "You like to lead other people and are good at taking control of situations.",
+        "ResultDisplayText": "you like to lead other people and are good at taking control of situations",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -31,7 +31,7 @@
       "data": {
         "Title": "Driver",
         "Description": "",
-        "ResultDisplayText": "You are motivated, set yourself personal goals and are comfortable competing with other people.",
+        "ResultDisplayText": "you are motivated, set yourself personal goals and are comfortable competing with other people",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -55,7 +55,7 @@
       "data": {
         "Title": "Organiser",
         "Description": "",
-        "ResultDisplayText": "You like to plan things and are well organised.",
+        "ResultDisplayText": "you like to plan things and are well organised",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -83,7 +83,7 @@
       "data": {
         "Title": "Analyst",
         "Description": "",
-        "ResultDisplayText": "You like dealing with complicated problems or working with numbers.",
+        "ResultDisplayText": "you like dealing with complicated problems or working with numbers",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -106,7 +106,7 @@
       "data": {
         "Title": "Creator",
         "Description": "",
-        "ResultDisplayText": "You are a creative person and enjoy coming up with new ways of doing things.",
+        "ResultDisplayText": "you are a creative person and enjoy coming up with new ways of doing things",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -127,7 +127,7 @@
       "data": {
         "Title": "Influencer",
         "Description": "",
-        "ResultDisplayText": "You are sociable and find it easy to understand people.",
+        "ResultDisplayText": "you are sociable and find it easy to understand people",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -146,7 +146,7 @@
       "data": {
         "Title": "Doer",
         "Description": "",
-        "ResultDisplayText": "You are a practical person and enjoy gettings things done.",
+        "ResultDisplayText": "you are a practical person and enjoy getting things done",
         "IncludeInSitemap": false
       },
       "relates": [
@@ -177,7 +177,7 @@
       "data": {
         "Title": "Helper",
         "Description": "",
-        "ResultDisplayText": "You enjoy helping and listening to other people.",
+        "ResultDisplayText": "you enjoy helping and listening to other people",
         "IncludeInSitemap": false
       },
       "relates": [
