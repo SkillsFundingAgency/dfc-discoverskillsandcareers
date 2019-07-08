@@ -9,6 +9,7 @@
 
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.Models
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
 @{
     ViewData["Title"] = "Question";
@@ -38,20 +39,20 @@
         @if (Model.QuestionNumber == 1)
         {
             <div class="app-breadcrumb-panel">
-                <a href="@("/results/" + Model.AssessmentType)" class="govuk-back-link">Back to results</a>
+                <a href="@Url.TryApplyCompositeRoute("/results/" + Model.AssessmentType)" class="govuk-back-link">Back to results</a>
                 </div>
         }
         else
         {
             <div class="app-breadcrumb-panel">
-                <a href="@("/q/" + Model.AssessmentType + "/" + (Model.QuestionNumber - 1).ToString("D2"))" class="govuk-back-link">Back to previous question</a>
+                <a href="@Url.TryApplyCompositeRoute("/q/" + Model.AssessmentType + "/" + (Model.QuestionNumber - 1).ToString("D2"))" class="govuk-back-link">Back to previous question</a>
             </div>
         }
 
     </div>
 
     <div class="govuk-main-wrapper govuk-width-container">
-        <form action="@Model.FormRoute" method="post">
+        <form action="@Url.TryApplyCompositeRoute(Model.FormRoute)" method="post">
 
             <input type="hidden" name="sessionId" value="@Model.SessionId" />
             <input type="hidden" name="questionId" value="@Model.QuestionId" />

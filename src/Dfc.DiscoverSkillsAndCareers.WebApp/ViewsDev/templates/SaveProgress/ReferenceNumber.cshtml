@@ -5,6 +5,7 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Save progress";
@@ -63,7 +64,7 @@
 
                 <h2 class="govuk-heading-m">Send in a text message</h2>
 
-                <form action="/save-my-progress/reference" method="post" class="govuk-grid-row">
+                <form action="@Url.TryApplyCompositeRoute("/save-my-progress/reference")" method="post" class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
                         @if (!Model.HasError) {
 
@@ -101,7 +102,7 @@
                     </div>
                 </form>
 
-                <p><a href="/results" class="">Return to assessment</a></p>
+                <p><a href="@Url.TryApplyCompositeRoute("/results")" class="">Return to assessment</a></p>
 
             </div>
         </div>

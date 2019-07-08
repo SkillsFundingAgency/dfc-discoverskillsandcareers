@@ -4,7 +4,7 @@
   {% else %}
     <h3 class="govuk-heading-m">Return to an assessment</h3>
   {% endif %}
-    <form method="post" action="/reload">
+    <form method="post" action="@Url.TryApplyCompositeRoute("/reload")">
 
     @if (Model.HasError) {
       <div>

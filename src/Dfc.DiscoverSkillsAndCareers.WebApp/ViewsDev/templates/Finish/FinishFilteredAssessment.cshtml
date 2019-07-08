@@ -5,6 +5,7 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
     ViewData["Title"] = "Assessment complete";
@@ -28,15 +29,12 @@
           <h2 class="govuk-heading-m">What to do next</h2>
           <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
 
-          {{ govukButton({
-          text: "See results",
-          classes: "app-button",
-          href: "/results/@Model.JobCategorySafeUrl",
-          attributes: {
-          "gov-analytics-data": pageName + " | click | button | View results"
-          }
-          }) }}
-
+          <a role="button" draggable="false"
+               href="@Url.TryApplyCompositeRoute("/results/" + Model.JobCategorySafeUrl)"
+               class="govuk-button app-button" gov-analytics-data="results | click | button | View Results">
+               See results
+           </a>  
+          
         </div>
       </div>
     </div>
