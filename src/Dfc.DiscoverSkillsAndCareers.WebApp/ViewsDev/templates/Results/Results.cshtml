@@ -99,7 +99,7 @@
                                         <p>@jobCategory.JobCategoryText</p>
                                         @if (Model.UseFilteringQuestions)
                                         {
-                                            <p class="app-noprint">To find out job roles you might be suited to in @(jobCategory.JobCategoryName), answer more questions.</p>
+                                            <p class="app-noprint">Answer some more questions to find job roles you might be suited to in @(jobCategory.JobCategoryName).</p>
                                             if (jobCategory.FilterAssessmentResult != null && jobCategory.FilterAssessmentResult.SuggestedJobProfiles.Count > 0)
                                             {
                                                 <a href="/results/@jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
