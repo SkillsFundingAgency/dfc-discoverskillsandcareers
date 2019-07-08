@@ -97,6 +97,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                 
                 if (assessment.EqualsIgnoreCase("short"))
                 {
+                    if (userSession.AssessmentState.IsComplete && questionNumber == 1)
+                    {
+                        userSession.AssessmentState.RecordedAnswers = new Answer[] {};
+                        await userSessionRepository.UpdateUserSession(userSession);
+                    }
+                    
                     question = await questionRepository.GetQuestion(questionNumber, userSession.CurrentQuestionSetVersion);
                     userSession.AssessmentState.CurrentQuestion = questionNumber;
                 } 

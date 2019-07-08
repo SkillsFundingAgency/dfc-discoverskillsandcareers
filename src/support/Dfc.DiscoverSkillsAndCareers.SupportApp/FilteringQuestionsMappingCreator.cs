@@ -74,7 +74,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
 
                     });
 
-                    questions.Add(attribute.Value);
+                    questions.Add(attribute.Key);
                 }
                 
 
@@ -95,7 +95,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                             {
                                 ContentType = "filteringquestions",
                                 Type = "Questions",
-                                Property = "QuestionText"
+                                Property = "Title"
                             },
                             Values = questions.ToArray()
                         }
