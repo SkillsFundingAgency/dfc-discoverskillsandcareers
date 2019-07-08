@@ -51,7 +51,7 @@
                     }
                 </ul>
                 
-              @if (Model.Traits.Any())
+              @if (Model.JobCategories.Any())
               {
                   <p>Because of your answers, we have provided the following job categories. You can choose to view more results at the bottom of the page.</p>
               }
@@ -76,7 +76,7 @@
 
         <div class="govuk-body">
 
-            @if (Model.Traits.Any())
+            @if (Model.JobCategories.Any())
             {
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
