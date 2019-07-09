@@ -56,7 +56,7 @@ jobs:
     inputs:
       command: test
       arguments: '--configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Exclude="%2c[xunit.*]*%2c[Dfc.DiscoverSkillsAndCareers.SupportApp]*%2c[Dfc.DiscoverSkillsAndCareers.WebApp.Views]*%2c[microsoft.*]*%2c[system.*]*"'
-      projects: 'src\Dfc.UnitTests\Dfc.UnitTests.csproj'
+      projects: 'src\Dfc.Dfc.DiscoverSkillsAndCareers.UnitTests\Dfc.Dfc.DiscoverSkillsAndCareers.UnitTests.csproj'
 
   # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
   # First install the tool on the machine, then run it

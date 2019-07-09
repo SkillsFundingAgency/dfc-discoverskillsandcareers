@@ -5,6 +5,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>false</IsPackable>
     <LangVersion>7.3</LangVersion>
+    <RootNamespace>Dfc.UnitTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
