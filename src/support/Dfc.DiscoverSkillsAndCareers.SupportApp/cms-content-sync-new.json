@@ -1025,7 +1025,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "adaptability/flexibility",
-        "QuestionText": "Are you comfortable doing a variety of tasks in a job and open to things changing? ",
+        "QuestionText": "Are you comfortable doing a variety of tasks in a job and open to things changing?",
         "Description": "",
         "IncludeInSitemap": false
       },
@@ -2945,7 +2945,7 @@
       "ContentType": "filteringquestions",
       "Data": {
         "Title": "technical skills",
-        "QuestionText": "Do you think you could design, set up and operate machinery and equipment? ",
+        "QuestionText": "Do you think you could design, set up and operate machinery and equipment?",
         "Description": "",
         "IncludeInSitemap": false
       },
