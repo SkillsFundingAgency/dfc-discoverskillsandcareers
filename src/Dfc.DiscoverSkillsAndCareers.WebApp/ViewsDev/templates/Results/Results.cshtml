@@ -40,23 +40,24 @@
 
             <h2 class="govuk-heading-l">What you told us</h2>
 
-            <div class="govuk-text">
-                <ul class="govuk-list govuk-list--bullet">
-                    @foreach (var trait in Model.Traits)
-                    {
-                        <li>@trait</li>
-                    }
-                </ul>
-                
-              @if (Model.Traits.Any())
-              {
-                  <p>Because of your answers, we have provided the following job categories. You can choose to view more results at the bottom of the page.</p>
-              }
-              else
-              {
-                  <p>Because of your answers, we could not recommend any job categories. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were correct.</p> 
-              }
-            </div>
+              <div class="govuk-text">
+                  <p>Your answers show that:</p>
+                  <ul class="govuk-list govuk-list--bullet">
+                      @foreach (var trait in Model.Traits)
+                      {
+                          <li>@trait</li>
+                      }
+                  </ul>
+
+                  @if (Model.JobCategories.Any())
+                  {
+                      <p>The following job categories are based on the answers you have given. You can choose to view more results at the bottom of the page.</p>
+                  }
+                  else
+                  {
+                      <p>Because of your answers, we could not recommend any job categories. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were correct.</p>
+                  }
+              </div>
 
           </div>
 
@@ -73,7 +74,7 @@
 
         <div class="govuk-body">
 
-            @if (Model.Traits.Any())
+            @if (Model.JobCategories.Any())
             {
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
@@ -95,7 +96,7 @@
                                         <p>@jobCategory.JobCategoryText</p>
                                         @if (Model.UseFilteringQuestions)
                                         {
-                                            <p class="app-noprint">To find out job roles you might be suited to in @(jobCategory.JobCategoryName), answer more questions.</p>
+                                            <p class="app-noprint">Answer some more questions to find job roles you might be suited to in @(jobCategory.JobCategoryName).</p>
                                             if (jobCategory.FilterAssessmentResult != null && jobCategory.FilterAssessmentResult.SuggestedJobProfiles.Count > 0)
                                             {
                                                 <a href="@Url.TryApplyCompositeRoute("/results/" + jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe)" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>

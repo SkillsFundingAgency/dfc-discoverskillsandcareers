@@ -1,6 +1,6 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
-{% set pageTitle = 'Your reference' %}
+{% set pageTitle = 'Your reference code' %}
 
 {% extends "_base.njk" %}
 
@@ -41,7 +41,7 @@
                     </div>
                 }
 
-                <h1 class="govuk-heading-l">Your reference</h1>
+                <h1 class="govuk-heading-l">Your reference code</h1>
 
                 <div class="app-your-reference govuk-body">
                     <p>
@@ -62,10 +62,11 @@
                     </ul>
                 </div>
 
-                <h2 class="govuk-heading-m">Send in a text message</h2>
+                <h2 class="govuk-heading-m">Send reference code in a text message</h2>
 
                 <form action="@Url.TryApplyCompositeRoute("/save-my-progress/reference")" method="post" class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
+                        <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
                         @if (!Model.HasError) {
 
                         <div>

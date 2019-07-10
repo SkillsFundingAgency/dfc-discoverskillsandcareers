@@ -1,5 +1,5 @@
 ﻿{% set pageName = 'home' %}
-{% set pageTitle = 'Discover your skills and careers' %}
+{% set pageTitle = 'Error' %}
 {% set pageGroup = '' %}
 
 {% extends "_base.njk" %}
@@ -7,7 +7,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
 @{
-    ViewData["Title"] = "Discover your skills and careers";
+    ViewData["Title"] = "Error";
     Layout = null;
 }
 {% endblock %}
@@ -15,23 +15,19 @@
 {% block main %}
 
 <main id="content" role="main">
-
-        
-        {% include "_breadcrumbpanel.njk" %}
-    </div>
     
     <div class="govuk-width-container">
         <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 <h1 class="govuk-heading-xl">Page not found</h1>
                 <p class="govuk-body">
-                    If you typed the web address, check it is correct.
+                    If you typed the web address or used a bookmark, check it is correct.
                 </p>
                 <p class="govuk-body">
                     If you pasted the web address, check you copied the entire address.
                 </p>
                 <p>
-                    <a href="https://nationalcareers.service.gov.uk/contact-us">Contact us</a> if you want to speak to one of our careers advisers.
+                    <p>If the web address is correct you can <a href="https://nationalcareers.service.gov.uk/contact-us">contact us</a> to get help using this service or call 0800 100 900, 8am to 10pm, 7 days a week.</p>
                 </p>
             </div>
         </div>
