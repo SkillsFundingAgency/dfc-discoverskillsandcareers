@@ -1,5 +1,5 @@
 ﻿{% set pageName = 'home' %}
-{% set pageTitle = 'Discover your skills and careers' %}
+{% set pageTitle = 'Error' %}
 {% set pageGroup = '' %}
 
 {% extends "_base.njk" %}
@@ -7,7 +7,7 @@
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
 @{
-    ViewData["Title"] = "Discover your skills and careers";
+    ViewData["Title"] = "Error";
     Layout = null;
 }
 {% endblock %}
@@ -18,8 +18,6 @@
 
     <div class="govuk-width-container">
         {% include "_phasebanner.njk" %}
-        
-        {% include "_breadcrumbpanel.njk" %}
     </div>
 
     <div class="govuk-width-container">
