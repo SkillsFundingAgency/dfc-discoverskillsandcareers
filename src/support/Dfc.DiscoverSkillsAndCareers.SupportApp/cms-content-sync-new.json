@@ -10,7 +10,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Leader",
-        "Description": "",
+        "Description": "Takes control and exercises leadership. Initiates action by making decisions on what needs to be done, gives direction and takes responsibility.",
         "ResultDisplayText": "you like to lead other people and are good at taking control of situations",
         "IncludeInSitemap": false
       },
@@ -30,7 +30,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Driver",
-        "Description": "",
+        "Description": "Focuses on results and achieving personal objectives. Enjoys a lively, competitive environment, shows energy and enjoys the financial rewards and recognition that come from achieving goals.",
         "ResultDisplayText": "you are motivated, set yourself personal goals and are comfortable competing with other people",
         "IncludeInSitemap": false
       },
@@ -54,7 +54,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Organiser",
-        "Description": "",
+        "Description": "Plans ahead, works in a systematic and organised way. Follows directions, structure and procedures.",
         "ResultDisplayText": "you like to plan things and are well organised",
         "IncludeInSitemap": false
       },
@@ -82,7 +82,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Analyst",
-        "Description": "",
+        "Description": "Gets to the heart of complex problems and issues, applies own expertise effectively, learns new things. Can take a big picture view as well as working with numbers and factual information.",
         "ResultDisplayText": "you like dealing with complicated problems or working with numbers",
         "IncludeInSitemap": false
       },
@@ -105,7 +105,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Creator",
-        "Description": "",
+        "Description": "Open to new ideas and experiences, handles situations and problems with innovation and creativity.",
         "ResultDisplayText": "you are a creative person and enjoy coming up with new ways of doing things",
         "IncludeInSitemap": false
       },
@@ -126,7 +126,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Influencer",
-        "Description": "",
+        "Description": "Communicates and networks effectively with other people. Can influences others to come round to their way of thinking and enjoys relating to other people in a confident and relaxed manner.",
         "ResultDisplayText": "you are sociable and find it easy to understand people",
         "IncludeInSitemap": false
       },
@@ -145,7 +145,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Doer",
-        "Description": "",
+        "Description": "Enjoys concrete tasks, physically doing things and being practical and active.",
         "ResultDisplayText": "you are a practical person and enjoy getting things done",
         "IncludeInSitemap": false
       },
@@ -176,7 +176,7 @@
       "contentType": "traits",
       "data": {
         "Title": "Helper",
-        "Description": "",
+        "Description": "Supports others and shows respect and positive regard for them. Enjoys the company of others in social situations and comfortable to get involved with other people. Puts people first.",
         "ResultDisplayText": "you enjoy helping and listening to other people",
         "IncludeInSitemap": false
       },
