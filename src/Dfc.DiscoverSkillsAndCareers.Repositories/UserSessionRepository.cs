@@ -27,7 +27,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.cache = cache;
         }
 
-        public async Task<UserSession> GetUserSession(string primaryKey, bool bypassCache = true)
+        public async Task<UserSession> GetUserSession(string primaryKey, bool useCache = true)
         {
             primaryKey = primaryKey.ToLower().Replace(" ", "");
             int pos = primaryKey.IndexOf('-');
@@ -37,14 +37,14 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
             string partitionKey = primaryKey.Substring(0, pos);
             string userSessionId = primaryKey.Substring(pos + 1, primaryKey.Length - (pos + 1));
-            return await GetUserSession(userSessionId, partitionKey, bypassCache);
+            return await GetUserSession(userSessionId, partitionKey, useCache);
         }
 
-        private async Task<UserSession> GetUserSession(string userSessionId, string partitionKey, bool byPassCache = true)
+        private async Task<UserSession> GetUserSession(string userSessionId, string partitionKey, bool useCache = true)
         {
             try
             {
-                if (!byPassCache || !cache.TryGetValue<UserSession>(userSessionId, out var session))
+                if (!useCache || !cache.TryGetValue<UserSession>(userSessionId, out var session))
                 {
                     var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, userSessionId);
                     var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };

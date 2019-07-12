@@ -85,12 +85,14 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                     {
                         latestQuestionSetFiltered = questionSet;
                     }
+
+                    latestQuestionSet = questionSet;
                     
                     cache.Set(latestQuestionSet.QuestionSetKey, latestQuestionSet, cacheExpiration);
                 }
             }
 
-            return latestQuestionSet;
+            return await Task.FromResult(latestQuestionSet);
         }
         
         public async Task<QuestionSet> GetLatestQuestionSetByTypeAndKey(string assessmentType, string key)
@@ -118,7 +120,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                    .AsEnumerable()
                                    .FirstOrDefault();
             
-            return queryQuestionSet;
+            return await Task.FromResult(queryQuestionSet);
         }
     }
 }

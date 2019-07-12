@@ -98,7 +98,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                     cache.Set(partitionKey, jobCategories, cacheExpiration);
                 }
                 
-                return jobCategories;
+                return await Task.FromResult(jobCategories);
             }
             catch (DocumentClientException ex)
             {

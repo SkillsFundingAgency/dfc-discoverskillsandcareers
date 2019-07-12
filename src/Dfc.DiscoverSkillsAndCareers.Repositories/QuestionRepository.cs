@@ -113,7 +113,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                     cache.Set(questionSetVersion, queryQuestions, cacheExpiration);
                 }
                 
-                return queryQuestions?.OrderBy(q => q.Order).ToArray();
+                return await Task.FromResult(queryQuestions?.OrderBy(q => q.Order).ToArray());
             }
             catch (DocumentClientException ex)
             {
