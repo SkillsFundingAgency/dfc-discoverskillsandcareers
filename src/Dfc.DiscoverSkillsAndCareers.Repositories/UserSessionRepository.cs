@@ -13,7 +13,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
     [ExcludeFromCodeCoverage]
     public class UserSessionRepository : IUserSessionRepository
     {
-        readonly TimeSpan cacheExpiration = TimeSpan.FromMinutes(30);
+        private readonly MemoryCacheEntryOptions cacheExpiration;
+        
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
@@ -25,6 +26,14 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.collectionName = "UserSessions";
             this.client = client;
             this.cache = cache;
+            this.cacheExpiration = new MemoryCacheEntryOptions
+            {
+                PostEvictionCallbacks = { new PostEvictionCallbackRegistration
+                {
+                    EvictionCallback = OnCacheEviction
+                }},
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            };
         }
 
         public async Task<UserSession> GetUserSession(string primaryKey, bool useCache = true)
@@ -80,10 +89,42 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         public async Task UpdateUserSession(UserSession userSession)
         {
             userSession.LastUpdatedDt = DateTime.UtcNow;
-            var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, userSession.UserSessionId);
-            var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(userSession.PartitionKey) };
-            cache.Set(userSession.UserSessionId, userSession, cacheExpiration);
-            await client.ReplaceDocumentAsync(uri, userSession, requestOptions);
+
+            try
+            {
+                if (cache.TryGetValue<UserSession>(userSession.UserSessionId, out var cachedSession))
+                {
+                    if (userSession.IsComplete ||
+                        userSession.LastUpdatedDt.Subtract(cachedSession.LastUpdatedDt).TotalMinutes >= 2)
+                    {
+                        var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName,
+                            userSession.UserSessionId);
+                        var requestOptions = new RequestOptions
+                            {PartitionKey = new PartitionKey(userSession.PartitionKey)};
+                        await client.ReplaceDocumentAsync(uri, userSession, requestOptions);
+                    }
+                }
+            }
+            finally
+            {
+                cache.Set(userSession.UserSessionId, userSession, cacheExpiration);
+            }
+            
+            
+            
+        }
+
+        private void OnCacheEviction(object key, object value, EvictionReason reason, object state)
+        {
+            if (reason != EvictionReason.Replaced)
+            {
+                var userSession = (UserSession) value;
+                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName,
+                    userSession.UserSessionId);
+                var requestOptions = new RequestOptions
+                    {PartitionKey = new PartitionKey(userSession.PartitionKey)};
+                client.ReplaceDocumentAsync(uri, userSession, requestOptions).GetAwaiter().GetResult();
+            }
         }
     }
 }
