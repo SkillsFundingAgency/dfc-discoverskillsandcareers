@@ -34,6 +34,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
         private void ConfigureServices(IServiceCollection services)
         {
             ConfigureOptions(services);
+            
+            services.AddMemoryCache();
 
             services.AddSingleton<DocumentClient>(srvs => {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();

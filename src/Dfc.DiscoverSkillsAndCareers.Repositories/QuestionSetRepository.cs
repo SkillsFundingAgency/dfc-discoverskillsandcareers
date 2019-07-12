@@ -1,27 +1,34 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using System;
+using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     [ExcludeFromCodeCoverage]
     public class QuestionSetRepository : IQuestionSetRepository
     {
+        readonly TimeSpan cacheExpiration = TimeSpan.FromMinutes(30);
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
+        private readonly IMemoryCache cache;
+        private QuestionSet latestQuestionSetShort;
+        private QuestionSet latestQuestionSetFiltered;
 
-        public QuestionSetRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
+        public QuestionSetRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings, IMemoryCache cache)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "QuestionSets";
             this.client = client;
+            this.cache = cache;
         }
 
         public async Task<Document> CreateOrUpdateQuestionSet(QuestionSet questionSet)
@@ -29,6 +36,20 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             try
             {
+                cache.Set(questionSet.QuestionSetKey, questionSet, cacheExpiration);
+
+                if (questionSet.IsCurrent)
+                {
+                    if (questionSet.AssessmentType.EqualsIgnoreCase("short"))
+                    {
+                        latestQuestionSetShort = questionSet;
+                    }
+                    else
+                    {
+                        latestQuestionSetFiltered = questionSet;
+                    }
+                }
+
                 return await client.CreateDocumentAsync(uri, questionSet);
             }
             catch
@@ -41,12 +62,35 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-            QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-                                   .Where(x => x.AssessmentType == assessmentType && x.IsCurrent)
-                                   .OrderByDescending(x => x.Version)
-                                   .AsEnumerable()
-                                   .FirstOrDefault();
-            return await Task.FromResult(queryQuestionSet);
+
+            var latestQuestionSet = assessmentType.EqualsIgnoreCase("short")
+                ? latestQuestionSetShort
+                : latestQuestionSetFiltered;
+            
+            if (latestQuestionSet == null)
+            {
+                QuestionSet questionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
+                    .Where(x => x.AssessmentType == assessmentType && x.IsCurrent)
+                    .OrderByDescending(x => x.Version)
+                    .AsEnumerable()
+                    .FirstOrDefault();
+
+                if (questionSet != null)
+                {
+                    if (questionSet.AssessmentType.EqualsIgnoreCase("short"))
+                    {
+                        latestQuestionSetShort = questionSet;
+                    }
+                    else
+                    {
+                        latestQuestionSetFiltered = questionSet;
+                    }
+                    
+                    cache.Set(latestQuestionSet.QuestionSetKey, latestQuestionSet, cacheExpiration);
+                }
+            }
+
+            return latestQuestionSet;
         }
         
         public async Task<QuestionSet> GetLatestQuestionSetByTypeAndKey(string assessmentType, string key)
@@ -73,18 +117,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                    .Where(x => x.AssessmentType == assessmentType && x.QuestionSetKey == titleLowercase && x.Version == version)
                                    .AsEnumerable()
                                    .FirstOrDefault();
-            return await Task.FromResult(queryQuestionSet);
+            
+            return queryQuestionSet;
         }
-
-        public async Task<List<QuestionSet>> GetCurrentFilteredQuestionSets()
-        {
-            var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-            List<QuestionSet> queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-                .Where(x => x.AssessmentType == "filtered" && x.IsCurrent == true)
-                .ToList();
-            return await Task.FromResult(queryQuestionSet);
-        }
-        
     }
 }

@@ -277,3 +277,4 @@ __pycache__/
 TEST-*.xml
 coverage.json
 coverage.*.xml
+.ionide/
