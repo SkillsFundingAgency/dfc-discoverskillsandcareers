@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 {
                     EvictionCallback = OnCacheEviction
                 }},
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
             };
         }
 
