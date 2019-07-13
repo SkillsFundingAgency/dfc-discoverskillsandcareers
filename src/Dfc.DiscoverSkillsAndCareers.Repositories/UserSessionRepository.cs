@@ -5,15 +5,17 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     [ExcludeFromCodeCoverage]
     public class UserSessionRepository : IUserSessionRepository
     {
-        private readonly MemoryCacheEntryOptions cacheExpiration;
+        private readonly Func<MemoryCacheEntryOptions> getCacheExpiration;
         
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
@@ -26,13 +28,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.collectionName = "UserSessions";
             this.client = client;
             this.cache = cache;
-            this.cacheExpiration = new MemoryCacheEntryOptions
+            this.getCacheExpiration = () =>
             {
-                PostEvictionCallbacks = { new PostEvictionCallbackRegistration
-                {
-                    EvictionCallback = OnCacheEviction
-                }},
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+                var cts = new CancellationTokenSource();
+                cts.CancelAfter(TimeSpan.FromMinutes(5));
+
+                return new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2))
+                    .AddExpirationToken(new CancellationChangeToken(cts.Token))
+                    .RegisterPostEvictionCallback(OnCacheEviction);
             };
         }
 
@@ -60,7 +64,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                     session = await client.ReadDocumentAsync<UserSession>(uri, requestOptions);
                     if (session != null)
                     {
-                        cache.Set(session.UserSessionId, session, cacheExpiration);
+                        cache.Set(session.UserSessionId, session, getCacheExpiration());
                     }
                 }
 
@@ -82,7 +86,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         public async Task CreateUserSession(UserSession userSession)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            cache.Set(userSession.UserSessionId, userSession, cacheExpiration);
+            cache.Set(userSession.UserSessionId, userSession, getCacheExpiration());
             await client.CreateDocumentAsync(uri, userSession);
         }
 
@@ -107,7 +111,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
             finally
             {
-                cache.Set(userSession.UserSessionId, userSession, cacheExpiration);
+                cache.Set(userSession.UserSessionId, userSession, getCacheExpiration());
             }
             
             
