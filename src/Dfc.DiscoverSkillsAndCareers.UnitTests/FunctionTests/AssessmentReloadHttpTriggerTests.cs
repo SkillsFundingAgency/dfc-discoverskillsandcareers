@@ -163,26 +163,15 @@ namespace Dfc.UnitTests.FunctionTests
             Assert.IsType<HttpResponseMessage>(result);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
-
-        [Fact]
-        public async Task ShouldReturnBadRequestIfCouldNotDecodeSessionId()
-        {
-            _httpResponseMessageHelper = new HttpResponseMessageHelper();
-
-            var result = await RunFunction("234");
-
-            Assert.IsType<HttpResponseMessage>(result);
-            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-        }
         
         [Fact]
         public async Task ShouldReturnOkWithCorrectSessionIdAndPartitionKey()
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
-            _userSessionRepository.GetUserSession("201904-282gk265gzmzyz").Returns(Task.FromResult(new UserSession()
+            _userSessionRepository.GetUserSession("session4-28675zg6zy3wgw").Returns(Task.FromResult(new UserSession()
             {
-                PartitionKey = "201904",
-                UserSessionId = "282gk265gzmzyz",
+                PartitionKey = "session4",
+                UserSessionId = "28675zg6zy3wgw",
                 AssessmentState = new AssessmentState("question-set",5) { CurrentQuestion = 1 }
             }));
             
@@ -198,12 +187,12 @@ namespace Dfc.UnitTests.FunctionTests
                     TraitCode = "DOER"
                 }));
 
-            var result = await RunFunction("282gk265gzmzyz");
+            var result = await RunFunction("28675zg6zy3wgw");
 
             Assert.IsType<HttpResponseMessage>(result);
             var content = await result.Content.ReadAsAsync<AssessmentQuestionResponse>();
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            Assert.Equal("201904-282gk265gzmzyz", content.SessionId);
+            Assert.Equal("session4-28675zg6zy3wgw", content.SessionId);
         }
         
 

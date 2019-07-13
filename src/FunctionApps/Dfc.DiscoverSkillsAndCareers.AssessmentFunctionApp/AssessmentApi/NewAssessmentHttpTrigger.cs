@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Functions.DI.Standard.Attributes;
@@ -65,12 +66,15 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
                     return httpResponseMessageHelper.NoContent();
                 }
 
+                
                 // Create a new user session
-                string partitionKey = DateTime.Now.ToString("yyyyMM");
                 string salt = appSettings.Value.SessionSalt;
+                string sessionId =  SessionIdHelper.GenerateSessionId(salt);
+                string partitionKey = PartitionKeyGenerator.UserSession(sessionId);
+               
                 var userSession = new UserSession()
                 {
-                    UserSessionId = SessionIdHelper.GenerateSessionId(salt),
+                    UserSessionId = sessionId,
                     Salt = salt,
                     StartedDt = DateTime.Now,
                     LanguageCode = "en",
