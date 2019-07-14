@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
 using Dfc.DiscoverSkillsAndCareers.Models;
 using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Functions.DI.Standard.Attributes;
@@ -67,13 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.AssessmentApi
 
                 if (!sessionId.Contains("-"))
                 {
-                    var datetimeStamp = SessionIdHelper.Decode(appSettings?.Value.SessionSalt, sessionId);
-                    if (datetimeStamp == null)
-                    {
-                        log.LogError($"CorrelationId: {correlationGuid} - Session Id does not exist {sessionId}");
-                        return httpResponseMessageHelper.BadRequest();
-                    }
-                    string partitionKey = SessionIdHelper.GetYearMonth(datetimeStamp);
+                    string partitionKey = PartitionKeyGenerator.UserSession(sessionId);
                     sessionId = $"{partitionKey}-{sessionId}";
                 }
 
