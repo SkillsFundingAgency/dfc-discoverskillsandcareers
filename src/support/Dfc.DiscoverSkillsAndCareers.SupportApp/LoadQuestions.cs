@@ -10,6 +10,7 @@ using Dfc.DiscoverSkillsAndCareers.SupportApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.SupportApp
@@ -64,7 +65,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
                 };
                 questionSetRepository.CreateOrUpdateQuestionSet(questionSet).GetAwaiter().GetResult();
 
-                var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                var questionRepository = new QuestionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos), new MemoryCache(new MemoryCacheOptions()));
                 using(var fileStream = File.OpenRead(opts.CsvFile))
                 using(var streamReader = new StreamReader(fileStream))
                 using(var reader = new CsvReader(streamReader))

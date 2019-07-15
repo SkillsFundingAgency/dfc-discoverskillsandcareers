@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
@@ -111,7 +112,7 @@ namespace Dfc.DiscoverSkillsAndCareers.SupportApp
             var questionSetRepository =
                 new QuestionSetRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
             var sessionRepository =
-                new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos));
+                new UserSessionRepository(client, new OptionsWrapper<CosmosSettings>(opts.Cosmos), new MemoryCache(new MemoryCacheOptions()));
 
             var questionSet = questionSetRepository.GetLatestQuestionSetByTypeAndKey("short", title)
                 .GetAwaiter().GetResult();
