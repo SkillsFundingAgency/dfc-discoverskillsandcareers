@@ -134,6 +134,29 @@
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
+        "AppServiceMetricsToAlertUpon": [
+            {
+                "MetricName": "Http5xx",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "10",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Total"
+            },
+            {
+                "MetricName": "AverageResponseTime",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "1",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Average"
+            },
+            {
+                "MetricName": "Requests",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "500",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Average"
+            }
+        ],
         "AppSettings__SessionSalt": "ncs",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "BuildingBlocksTestingDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/NCSD-758-AddAlertingTemplates/ArmTemplates/",
@@ -1057,6 +1080,61 @@
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksTestingDfcBaseUrl'), 'metric-alerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "environment": {
+                        "value": "[parameters('Environment')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]"
+                    },
+                    "alertSeverity": {
+                        "value": "3"
+                    },
+                    "metricName": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName]"
+                    },
+                    "operator": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Operator]"
+                    },
+                    "threshold": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Threshold]"
+                    },
+                    "aggregation": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Aggregation]"
+                    },
+                    "windowSize": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].TimeWindow]"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Web/sites', variables('AppServiceName'))]"
+                    }
+                }
+            },
+            "copy": {
+                "name": "AppServiceMetricCopy",
+                "count": "[length(variables('AppServiceMetricsToAlertUpon'))]"
+            },
+            "dependsOn": [
+                "[variables('ActionGroupName')]",
+                "[variables('AppServiceName')]"
+            ]
         }
     ],
     "outputs": {}
