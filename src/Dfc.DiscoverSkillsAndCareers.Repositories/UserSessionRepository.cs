@@ -84,9 +84,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         public async Task CreateUserSession(UserSession userSession)
         {
-            var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
             cache.Set(userSession.UserSessionId, userSession, getCacheExpiration());
-            await client.CreateDocumentAsync(uri, userSession);
+           
         }
 
         public async Task UpdateUserSession(UserSession userSession)
