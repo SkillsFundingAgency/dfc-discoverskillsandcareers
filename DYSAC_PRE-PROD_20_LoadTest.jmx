@@ -65,8 +65,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">140</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">70</stringProp>
+        <stringProp name="ThreadGroup.num_threads">20</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">20</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration">0</stringProp>
         <stringProp name="ThreadGroup.delay">0</stringProp>
@@ -78,17 +78,17 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="url" elementType="Argument">
               <stringProp name="Argument.name">url</stringProp>
-              <stringProp name="Argument.value">discover-skills-careers-sit.nationalcareersservice.org.uk</stringProp>
+              <stringProp name="Argument.value">beta-staging.nationalcareers.service.gov.uk</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="shortQuestionSet" elementType="Argument">
               <stringProp name="Argument.name">shortQuestionSet</stringProp>
-              <stringProp name="Argument.value">short-201901-5</stringProp>
+              <stringProp name="Argument.value">short-201901-3</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="filteredQuestionSet" elementType="Argument">
               <stringProp name="Argument.name">filteredQuestionSet</stringProp>
-              <stringProp name="Argument.value">filtered-default-64</stringProp>
+              <stringProp name="Argument.value">filtered-default-4</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>
