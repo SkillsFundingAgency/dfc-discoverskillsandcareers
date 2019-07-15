@@ -79,27 +79,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         public async Task<Question[]> GetQuestions(string assessmentType, string title, int version)
         {
-            try
-            {
-                var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-                FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                var queryQuestions = client.CreateDocumentQuery<Question>(uri, feedOptions)
-                                       .Where(x => x.PartitionKey == $"{assessmentType.ToLower()}-{title.ToLower()}-{version}")
-                                       .AsEnumerable()
-                                       .ToArray();
-                return await Task.FromResult(queryQuestions);
-            }
-            catch (DocumentClientException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            return await GetQuestions($"{assessmentType.ToLower()}-{title.ToLower()}-{version}");
         }
 
         public async Task<Question[]> GetQuestions(string questionSetVersion)
@@ -108,11 +88,18 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
                 FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-                var queryQuestions = client.CreateDocumentQuery<Question>(uri, feedOptions)
-                                       .Where(x => x.PartitionKey == questionSetVersion)
-                                       .AsEnumerable()
-                                       .ToArray();
-                return await Task.FromResult(queryQuestions);
+                
+                if (!cache.TryGetValue<Question[]>(questionSetVersion, out var queryQuestions))
+                {
+                    queryQuestions = client.CreateDocumentQuery<Question>(uri, feedOptions)
+                        .Where(x => x.PartitionKey == questionSetVersion)
+                        .AsEnumerable()
+                        .ToArray();
+
+                    cache.Set(questionSetVersion, queryQuestions, getCacheExpiration());
+                }
+                
+                return await Task.FromResult(queryQuestions?.OrderBy(q => q.Order).ToArray());
             }
             catch (DocumentClientException ex)
             {
@@ -120,10 +107,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 {
                     return null;
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
         }
     }
