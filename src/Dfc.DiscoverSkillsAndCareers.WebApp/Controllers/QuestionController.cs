@@ -40,10 +40,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 if (sessionId == null || sessionId != HttpUtility.UrlEncode(sessionId))
                 {
+                    _log.LogWarning($"q/{assessment}/{questionNumber} called with no session id.");
                     return BadRequest();
                 }
                 if (!isRealQuestionNumber)
                 {
+                    _log.LogWarning($"q/{assessment}/{questionNumber} called with invalid questionNumber.");
                     return BadRequest();
                 }
                 

@@ -1,6 +1,6 @@
 ﻿{% set pageName = 'questions' %}
 {% set pageGroup = 'questions' %}
-{% set pageTitle = 'Assessment Statement @Model.QuestionNumber' %}
+{% set pageTitle =  '@Model.PageTitle' %}
 {% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set traitCode= '@Model.TraitCode' %}
@@ -9,9 +9,7 @@
 
 {% block pre %}
 
-@using Dfc.DiscoverSkillsAndCareers.Models
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
-@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
 @{
     ViewData["Title"] = "Question";
     Layout = null;
@@ -31,7 +29,8 @@
 {% endblock %}
 
 {% block main %}
-
+@using Dfc.DiscoverSkillsAndCareers.Models
+@model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
 <main id="content" role="main">
 
     <div class="govuk-width-container app-site-width-container">

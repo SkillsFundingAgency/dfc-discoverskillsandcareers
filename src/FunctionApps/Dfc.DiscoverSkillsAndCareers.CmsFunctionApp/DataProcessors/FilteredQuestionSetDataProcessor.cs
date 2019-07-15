@@ -130,6 +130,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
                                 new QuestionText {LanguageCode = "EN", Text = dataQuestion.QuestionText}
                             }
                         };
+                        
                         newQuestionSet.MaxQuestions = questionNumber;
                         questionNumber++;
                         await _questionRepository.CreateQuestion(newQuestion);
