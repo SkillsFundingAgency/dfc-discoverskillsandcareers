@@ -6,7 +6,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     public interface IUserSessionRepository
     {
-        Task<UserSession> GetUserSession(string primaryKey);
+        Task<UserSession> GetUserSession(string primaryKey, bool useCache = true);
         Task CreateUserSession(UserSession userSession);
         Task UpdateUserSession(UserSession userSession);
     }
