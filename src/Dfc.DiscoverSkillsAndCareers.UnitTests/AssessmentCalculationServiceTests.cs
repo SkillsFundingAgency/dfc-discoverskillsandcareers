@@ -445,14 +445,6 @@ namespace Dfc.UnitTests
                            QuestionSetKey = jf.Name.Replace(" ", "-").ToLower(),
                        })
                         .ToList();
-
-            _questionSetRepository.GetCurrentFilteredQuestionSets().Returns(Task.FromResult(
-                JobFamilies.Select(jf => new QuestionSet
-                {
-                    Title = jf.Name,
-                    QuestionSetKey = jf.Name.Replace(" ", "-").ToLower(),
-                    MaxQuestions = 3
-                }).ToList()));
         }
 
         [Fact]
