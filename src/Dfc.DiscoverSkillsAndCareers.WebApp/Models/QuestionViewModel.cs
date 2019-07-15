@@ -18,5 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public AnswerOption? RecordedAnswer { get; set; }
         public string NoAnswerErrorMessage { get; set; } = "Choose an answer to the statement";
         public string AssessmentType { get; set; }
+
+        public string PageTitle => $"Q{QuestionNumber}";
     }
 }
