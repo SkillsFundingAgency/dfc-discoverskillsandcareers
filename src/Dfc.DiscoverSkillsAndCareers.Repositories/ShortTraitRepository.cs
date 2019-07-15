@@ -39,7 +39,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
         }
 
-        public async Task<Trait[]> GetTraits(string partitionKey = "tratis")
+        public async Task<Trait[]> GetTraits(string partitionKey = "traits")
         {
             try
             {
