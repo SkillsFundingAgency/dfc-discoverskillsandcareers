@@ -8,21 +8,29 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
     [ExcludeFromCodeCoverage]
     public class QuestionRepository : IQuestionRepository
     {
+        private readonly Func<MemoryCacheEntryOptions> getCacheExpiration;
         readonly ICosmosSettings cosmosSettings;
         readonly string collectionName;
         readonly DocumentClient client;
+        readonly IMemoryCache cache;
 
-        public QuestionRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
+        public QuestionRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings, IMemoryCache cache)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "Questions";
             this.client = client;
+            this.cache = cache;
+            
+            this.getCacheExpiration = () => new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+            
         }
 
         public async Task<Question> GetQuestion(int questionNumber, string questionSetVersion)
@@ -35,12 +43,19 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         {
             try
             {
-                var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, questionId);
-                int pos = questionId.LastIndexOf('-');
-                string partitionKey = questionId.Substring(0, pos);
-                var requestOptions = new RequestOptions { PartitionKey = new PartitionKey(partitionKey) };
-                var document = await client.ReadDocumentAsync<Question>(uri, requestOptions);
-                return document;
+                if (!cache.TryGetValue<Question>(questionId, out var question))
+                {
+
+                    var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, questionId);
+                    int pos = questionId.LastIndexOf('-');
+                    string partitionKey = questionId.Substring(0, pos);
+                    var requestOptions = new RequestOptions {PartitionKey = new PartitionKey(partitionKey)};
+                    var document = await client.ReadDocumentAsync<Question>(uri, requestOptions);
+                    cache.Set(questionId, document, getCacheExpiration());
+                    return document;
+                }
+
+                return question;
             }
             catch (DocumentClientException ex)
             {
@@ -58,14 +73,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         public async Task<Document> CreateQuestion(Question question)
         {
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            try
-            {
-                return await client.CreateDocumentAsync(uri, question);
-            }
-            catch
-            {
-                return await client.UpsertDocumentAsync(uri, question);
-            }
+            cache.Set(question.QuestionId, question, getCacheExpiration());
+            return await client.UpsertDocumentAsync(uri, question);
         }
 
         public async Task<Question[]> GetQuestions(string assessmentType, string title, int version)

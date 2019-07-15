@@ -85,7 +85,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         public async Task CreateUserSession(UserSession userSession)
         {
             cache.Set(userSession.UserSessionId, userSession, getCacheExpiration());
-           
         }
 
         public async Task UpdateUserSession(UserSession userSession)
