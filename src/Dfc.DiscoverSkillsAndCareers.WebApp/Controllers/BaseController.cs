@@ -32,14 +32,19 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     
     public class CompositeUIBaseController : Controller
     {
+        public string ApplyCompositeBasePath(string url)
+        {
+            
+                if (Request.Headers.TryGetValue(Constants.CompositePathHeader, out var path))
+                    return $"/{path[0].TrimStart('/')}/{url.TrimStart('/')}";
+
+                return url;
+               
+        }
+        
         public override RedirectResult Redirect(string url)
         {
-            if(Request.Headers.TryGetValue(Constants.CompositePathHeader, out var path))
-            {
-                return new RedirectResult($"/{path[0].TrimStart('/')}/{url.TrimStart('/')}");
-            }
-            
-            return new RedirectResult(url);
+            return new RedirectResult(ApplyCompositeBasePath(url));
         }
         
     }
