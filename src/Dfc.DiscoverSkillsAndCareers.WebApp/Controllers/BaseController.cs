@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -49,11 +54,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             HttpContext.Session.SetString("session-id", sessionId);
         }
 
-        protected async Task<string> TryGetSessionId(HttpRequest request)
+        protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
             string sessionId = string.Empty;
             string cookieSessionId = HttpContext.Session.GetString("session-id");
-
+            var request = Request;
             sessionId = cookieSessionId;
 
             QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
@@ -77,6 +82,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch { };
             }
+
+            if (String.IsNullOrWhiteSpace(sessionId) && Request.Path.ToString() != "/")
+            {
+                var logger = Request.HttpContext.RequestServices.GetService<ILogger<BaseController>>();
+                logger.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
+            }
+            
             return sessionId;
         }
 

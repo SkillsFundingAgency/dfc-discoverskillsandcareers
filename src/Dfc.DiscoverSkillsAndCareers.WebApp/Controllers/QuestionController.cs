@@ -36,7 +36,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             string sessionId = null;
             try
             {
-                sessionId = await TryGetSessionId(Request);
+                sessionId = await TryGetSessionId();
 
                 if (sessionId == null || sessionId != HttpUtility.UrlEncode(sessionId))
                 {
@@ -114,9 +114,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return BadRequest();
                 }
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
+                    _log.LogError($"Session expired {Request.Path.ToString()}, redirecting to start");
                     return Redirect("/");
                 }
                 return await NextQuestion(sessionId, assessment, questionNumberValue, false);

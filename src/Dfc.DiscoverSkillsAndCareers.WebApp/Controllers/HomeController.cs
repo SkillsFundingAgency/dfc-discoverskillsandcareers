@@ -26,7 +26,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 var model = new IndexViewModel { SessionId = sessionId };
                 
                 if (e == "1")
@@ -60,7 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [Route("reload")]
         public async Task<IActionResult> ReloadGet()
         {
-            var sessionId = await TryGetSessionId(Request);
+            var sessionId = await TryGetSessionId();
             if (!string.IsNullOrEmpty(sessionId))
             {
                 return await Reload(new ReloadRequest { Code = sessionId });

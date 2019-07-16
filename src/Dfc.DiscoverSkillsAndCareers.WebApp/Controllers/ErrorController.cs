@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
@@ -55,7 +55,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
