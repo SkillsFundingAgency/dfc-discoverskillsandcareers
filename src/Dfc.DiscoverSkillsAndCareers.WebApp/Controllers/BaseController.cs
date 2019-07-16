@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Specialized;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Primitives;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -65,14 +58,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
-            var request = Request;
-            String sessionId = null;
+            string sessionId = string.Empty;
+            string cookieSessionId = HttpContext.Session.GetString("session-id");
 
-            if (request.Cookies.TryGetValue(".dysac-session", out var cookieSessionId))
-            {
-                sessionId = _dataProtector.Unprotect(cookieSessionId);
-            }
-            
+            sessionId = cookieSessionId;
+
             QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
             var code = QueryDictionary.Get("sessionId");
             
@@ -95,15 +85,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch { };
             }
-
-            if (string.IsNullOrWhiteSpace(sessionId) && Request.Path.ToString() != "/")
-            {
-                var logger = request.HttpContext?.RequestServices?.GetService<ILogger<BaseController>>();
-                logger?.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
-            }
-            
-            return String.IsNullOrWhiteSpace(sessionId) ? null : sessionId;
-
+            return sessionId;
         }
 
         protected string GetFormValue(string key)
