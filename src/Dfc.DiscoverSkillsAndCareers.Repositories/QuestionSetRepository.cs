@@ -43,7 +43,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
         private async Task CreateUpdateLatestQuestionSet(QuestionSet questionSet)
         {
-            if (questionSet.IsCurrent)
+            if (questionSet?.IsCurrent == true)
             {
                 questionSet.PartitionKey = "latest-questionset";
                 questionSet.QuestionSetVersion = $"latest-{questionSet.AssessmentType}";
@@ -84,18 +84,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                     qs = latestQs;
                 }
             }
-            
-            qs.QuestionSetVersion = $"{assessmentType.ToLower()}-{qs.Title.ToLower()}-{qs.Version.ToString()}";
-            qs.PartitionKey = "ncs";
-            return qs;
 
-//            FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-//            QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
-//                                   .Where(x => x.AssessmentType == assessmentType && x.IsCurrent)
-//                                   .OrderByDescending(x => x.Version)
-//                                   .AsEnumerable()
-//                                   .FirstOrDefault();
-//            return await Task.FromResult(queryQuestionSet);
+            if (qs != null)
+            {
+                qs.QuestionSetVersion = $"{assessmentType.ToLower()}-{qs.Title.ToLower()}-{qs.Version.ToString()}";
+                qs.PartitionKey = "ncs";
+            }
+
+            return qs;
+            
         }
         
         public async Task<QuestionSet> GetLatestQuestionSetByTypeAndKey(string assessmentType, string key)
