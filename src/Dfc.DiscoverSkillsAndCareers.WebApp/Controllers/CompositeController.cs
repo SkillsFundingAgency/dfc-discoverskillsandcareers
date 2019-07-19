@@ -1,17 +1,13 @@
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("composite")]
     public class CompositeController : BaseController
     {
-        [Route("styles")]
-        public IActionResult Styles()
+        [Route("styles/{**article}")]
+        public IActionResult Styles(string article)
         {
             var data = new[]
             {
@@ -20,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 $"<link rel=\"stylesheet\" href=\"https://localhost:5003/assets/css/main.css\" />",
                 $"<link rel=\"stylesheet\" href=\"https://localhost:5003/assets/css/print.css\" media=\"print\" />"
             };
-            
+
             return new OkObjectResult(String.Join(Environment.NewLine, data));
         }
     }
