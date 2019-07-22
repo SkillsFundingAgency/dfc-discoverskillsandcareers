@@ -36,6 +36,10 @@
         "AspSize": {
             "type": "string"
         },
+        "AspInstances": {
+            "type": "int",
+            "defaultValue": 1
+        },
         "AspTier": {
             "type": "string"
         },
@@ -382,7 +386,7 @@
                         "value": "[parameters('AspSize')]"
                     },
                     "aspInstances": {
-                        "value": 1
+                        "value": "[parameters('AspInstances')]"
                     },
                     "nonASETier": {
                         "value": "[parameters('AspTier')]"

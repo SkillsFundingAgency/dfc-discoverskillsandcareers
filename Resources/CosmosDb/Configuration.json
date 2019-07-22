@@ -3,20 +3,20 @@
   "Collections": [
     {
       "CollectionName": "Questions",
-      "OfferThroughput": 400,
+      "OfferThroughput": __QuestionThroughput__,
       "StoredProcedures": [],
       "PartitionKey":  "partitionKey"
     },
     {
       "CollectionName": "UserSessions",
-      "OfferThroughput": 400,
+      "OfferThroughput": __UserThroughput__,
       "StoredProcedures": [],
       "PartitionKey": "partitionKey",
       "DefaultTtl": 15552000
     },
     {
       "CollectionName": "QuestionSets",
-      "OfferThroughput": 400,
+      "OfferThroughput": __QuestionThroughput__,
       "StoredProcedures": [],
       "PartitionKey": "partitionKey"
     }
