@@ -127,6 +127,18 @@
         "ElasticPoolName": {
             "type": "string",
             "defaultValue": ""
+        },
+        "HttpServerErrorAlertThreshhold": {
+            "type": "string",
+            "defaultValue": "50"
+        },
+        "AverageResponseTimeAlertThreshhold": {
+            "type": "string", 
+            "defaultValue": "2"
+        },
+        "RequestCountAlertThreshhold": {
+            "type": "string", 
+            "defaultValue": "1000"
         }
     },
     "variables": {
@@ -139,21 +151,21 @@
             {
                 "MetricName": "Http5xx",
                 "Operator": "GreaterThanOrEqual",
-                "Threshold": "50",
+                "Threshold": "[parameters('HttpServerErrorAlertThreshhold')]",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Total"
             },
             {
                 "MetricName": "AverageResponseTime",
                 "Operator": "GreaterThanOrEqual",
-                "Threshold": "5",
+                "Threshold": "[parameters('AverageResponseTimeAlertThreshhold')]",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Average"
             },
             {
                 "MetricName": "Requests",
                 "Operator": "GreaterThanOrEqual",
-                "Threshold": "2500",
+                "Threshold": "[parameters('RequestCountAlertThreshhold')]",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Average"
             }
