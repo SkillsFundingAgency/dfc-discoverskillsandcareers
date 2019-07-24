@@ -130,6 +130,7 @@
         }
     },
     "variables": {
+        "EnableAlertsAndMetrics": "[equals(toUpper(parameters('Environment')), 'PRD')]",
         "ActionGroupName": "[concat('dfc-', toLower(parameters('Environment')), '-skillcareers-actgrp')]",
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
@@ -138,28 +139,27 @@
             {
                 "MetricName": "Http5xx",
                 "Operator": "GreaterThanOrEqual",
-                "Threshold": "10",
+                "Threshold": "50",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Total"
             },
             {
                 "MetricName": "AverageResponseTime",
                 "Operator": "GreaterThanOrEqual",
-                "Threshold": "1",
+                "Threshold": "5",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Average"
             },
             {
                 "MetricName": "Requests",
                 "Operator": "GreaterThanOrEqual",
-                "Threshold": "500",
+                "Threshold": "2500",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Average"
             }
         ],
         "AppSettings__SessionSalt": "ncs",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
-        "BuildingBlocksTestingDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/NCSD-758-AddAlertingTemplates/ArmTemplates/",
         "ChangeFeedProcessorFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-fa'))]",
         "ChangeFeedProcessorAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-ai'))]",
         "ChangeFeedTriggerFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-fa'))]",
@@ -194,15 +194,15 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksTestingDfcBaseUrl'), 'Application-Insights/action-groups.json')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/action-groups.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "actionGroupName": {
                         "value": "[variables('ActionGroupName')]"
                     },
-                    "environment": {
-                        "value": "[parameters('Environment')]"
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
                     }
                 }
             }
@@ -1088,12 +1088,12 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksTestingDfcBaseUrl'), 'metric-alerts.json')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'metric-alerts.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "environment": {
-                        "value": "[parameters('Environment')]"
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
                     },
                     "alertName": {
                         "value": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]"
