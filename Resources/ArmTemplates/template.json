@@ -1111,7 +1111,7 @@
                         "value": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]"
                     },
                     "alertSeverity": {
-                        "value": "3"
+                        "value": 3
                     },
                     "metricName": {
                         "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName]"
