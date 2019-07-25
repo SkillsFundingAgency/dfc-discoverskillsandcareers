@@ -38,7 +38,7 @@
         },
         "AspInstances": {
             "type": "int",
-            "defaultValue": 1
+            "defaultValue": 2
         },
         "AspTier": {
             "type": "string"
@@ -1099,10 +1099,10 @@
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'metric-alerts.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
+              "templateLink": {
+                "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                "contentVersion": "1.0.0.0"
+              },
                 "parameters": {
                     "enabled": {
                         "value": "[variables('EnableAlertsAndMetrics')]"
