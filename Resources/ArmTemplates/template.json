@@ -1147,6 +1147,56 @@
                 "[variables('ActionGroupName')]",
                 "[variables('AppServiceName')]"
             ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('AppServiceName'), '-metric-exceptions-occured')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServiceName'), ' Exception Occurred')]"
+                    },
+                    "alertSeverity": {
+                        "value": 4
+                    },
+                    "metricName": {
+                        "value": "exceptions/count"
+                    },
+                    "operator": {
+                        "value": "GreaterThan"
+                    },
+                    "threshold": {
+                        "value": "0"
+                    },
+                    "aggregation": {
+                        "value": "Count"
+                    },
+                    "windowSize": {
+                        "value": "PT5M"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('AppServiceAppInsightsName')]"
+            ]
         }
     ],
     "outputs": {}
