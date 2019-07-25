@@ -1100,7 +1100,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'metric-alerts.json')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
