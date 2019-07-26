@@ -39,8 +39,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
         {
             ConfigureOptions(services);
 
-            services.AddMemoryCache();
-            
             services.AddSingleton<DocumentClient>(srvs => {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
