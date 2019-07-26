@@ -1218,7 +1218,7 @@
                     "resourceId": {
                         "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
                     },
-                    "alertGroupId": {
+                    "actionGroupId": {
                         "value": "[resourceId('microsoft.insights/actionGroups', variables('ActionGroupName'))]"
                     }
                 }
