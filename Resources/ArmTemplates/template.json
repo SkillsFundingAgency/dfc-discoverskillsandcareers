@@ -36,6 +36,10 @@
         "AspSize": {
             "type": "string"
         },
+        "AspInstances": {
+            "type": "int",
+            "defaultValue": 1
+        },
         "AspTier": {
             "type": "string"
         },
@@ -123,12 +127,49 @@
         "ElasticPoolName": {
             "type": "string",
             "defaultValue": ""
+        },
+        "HttpServerErrorAlertThreshhold": {
+            "type": "string",
+            "defaultValue": "50"
+        },
+        "AverageResponseTimeAlertThreshhold": {
+            "type": "string", 
+            "defaultValue": "2"
+        },
+        "RequestCountAlertThreshhold": {
+            "type": "string", 
+            "defaultValue": "1000"
         }
     },
     "variables": {
+        "EnableAlertsAndMetrics": "[equals(toUpper(parameters('Environment')), 'PRD')]",
+        "ActionGroupName": "[concat('dfc-', toLower(parameters('Environment')), '-skillcareers-actgrp')]",
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
+        "AppServiceMetricsToAlertUpon": [
+            {
+                "MetricName": "Http5xx",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "[parameters('HttpServerErrorAlertThreshhold')]",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Total"
+            },
+            {
+                "MetricName": "AverageResponseTime",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "[parameters('AverageResponseTimeAlertThreshhold')]",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Average"
+            },
+            {
+                "MetricName": "Requests",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "[parameters('RequestCountAlertThreshhold')]",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Average"
+            }
+        ],
         "AppSettings__SessionSalt": "ncs",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "ChangeFeedProcessorFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-fa'))]",
@@ -158,6 +199,26 @@
         ]
     },
     "resources": [
+        {
+            "name": "[variables('ActionGroupName')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/action-groups.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
+                    }
+                }
+            }
+        },
         {
             "name": "[concat(parameters('ApimServiceName'), '-', parameters('FunctionAppNames')[copyIndex()], '-api')]",
             "type": "Microsoft.Resources/deployments",
@@ -382,7 +443,7 @@
                         "value": "[parameters('AspSize')]"
                     },
                     "aspInstances": {
-                        "value": 1
+                        "value": "[parameters('AspInstances')]"
                     },
                     "nonASETier": {
                         "value": "[parameters('AspTier')]"
@@ -458,7 +519,7 @@
                 },
                 "parameters": {
                     "appServiceName": {
-                            "value": "[variables('HttpFunctionAppNames')[copyIndex()]]"
+                        "value": "[variables('HttpFunctionAppNames')[copyIndex()]]"
                     },
                     "appServicePlanName": {
                         "value": "[variables('AppServicePlanName')]"
@@ -501,23 +562,23 @@
                             },
                             {
                                 "name": "AppSettings__SessionSalt",
-                                    "value": "[variables('AppSettings__SessionSalt')]"
+                                "value": "[variables('AppSettings__SessionSalt')]"
                             },
                             {
                                 "name": "AppSettings__NotifyApiKey",
-                                    "value": "[if(equals(split(variables('HttpFunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
+                                "value": "[if(equals(split(variables('HttpFunctionAppNames')[copyIndex()], '-')[3], 'assessments'), parameters('NotifyApiKey'), 'notrequired')]"
                             },
                             {
-                                    "name": "AzureSearchSettings__IndexName",
-                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
+                                "name": "AzureSearchSettings__IndexName",
+                                "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsIndexName'), 'notrequired')]"
                             },
                             {
-                                    "name": "AzureSearchSettings__ApiKey",
-                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
+                                "name": "AzureSearchSettings__ApiKey",
+                                "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsApiKey'), 'notrequired')]"
                             },
                             {
-                                    "name": "AzureSearchSettings__ServiceName",
-                                    "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
+                                "name": "AzureSearchSettings__ServiceName",
+                                "value": "[if(greater(length(intersection(split(variables('HttpFunctionAppNames')[copyIndex()], '-'), createArray('assessments', 'results'))), 0), parameters('AzureSearchSettingsServiceName'), 'notrequired')]"
                             }
                         ]
                     }
@@ -525,123 +586,123 @@
             },
             "copy": {
                 "name": "FunctionAppCopy",
-                    "count": "[length(variables('HttpFunctionAppNames'))]"
-                },
-                "dependsOn": [
-                    "AppInsightsCopy",
-                    "[variables('AppServicePlanName')]",
-                    "[variables('CosmosDbName')]",
-                    "[variables('StorageAccountName')]"
-                ]
+                "count": "[length(variables('HttpFunctionAppNames'))]"
             },
-            {
-                "apiVersion": "2017-05-10",
-                "name": "[concat(variables('CmsFunctionAppName'), '-deployment')]",
-                "type": "Microsoft.Resources/deployments",
-                "properties": {
-                    "mode": "Incremental",
-                    "templateLink": {
-                        "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
-                        "contentVersion": "1.0.0.0"
+            "dependsOn": [
+                "AppInsightsCopy",
+                "[variables('AppServicePlanName')]",
+                "[variables('CosmosDbName')]",
+                "[variables('StorageAccountName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('CmsFunctionAppName'), '-deployment')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('CmsFunctionAppName')]"
                     },
-                    "parameters": {
-                        "appServiceName": {
-                            "value": "[variables('CmsFunctionAppName')]"
-                        },
-                        "appServicePlanName": {
-                            "value": "[variables('AppServicePlanName')]"
-                        },
-                        "appServicePlanResourceGroup": {
-                            "value": "[resourceGroup().name]"
-                        },
-                        "appServiceType": {
-                            "value": "functionapp"
-                        },
-                        "appServiceAppSettings": {
-                            "value": [
-                                {
-                                    "name": "FUNCTIONS_EXTENSION_VERSION",
-                                    "value": "~2"
-                                },
-                                {
-                                    "name": "MSDEPLOY_RENAME_LOCKED_FILES",
-                                    "value": "1"
-                                },
-                                {
-                                    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                    "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-cms-ai')).outputs.InstrumentationKey.value]"
-                                },
-                                {
-                                    "name": "AzureWebJobsStorage",
-                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                                },
-                                {
-                                    "name": "CosmosSettings__Endpoint",
-                                    "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
-                                },
-                                {
-                                    "name": "CosmosSettings__Key",
-                                    "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
-                                },
-                                {
-                                    "name": "CosmosSettings__DatabaseName",
-                                    "value": "DiscoverMySkillsAndCareers"
-                                },
-                                {
-                                    "name": "AppSettings__SessionSalt",
-                                    "value": "[variables('AppSettings__SessionSalt')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityApiAuthenicationEndpoint",
-                                    "value": "SiteFinity/Authenticate/openid/connect/token"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityApiUrlbase",
-                                    "value": "[parameters('SiteFinityApiUrlbase')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityApiWebService",
-                                    "value": "dsac"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityClientId",
-                                    "value": "[parameters('SiteFinityClientId')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityClientSecret",
-                                    "value": "[parameters('SiteFinityClientSecret')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityJobCategoriesTaxonomyId",
-                                    "value": "Job Profile Category"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityPassword",
-                                    "value": "[parameters('SiteFinityPassword')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityRequiresAuthentication",
-                                    "value": "true"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityScope",
-                                    "value": "[parameters('SiteFinityScope')]"
-                                },
-                                {
-                                    "name": "AppSettings__SiteFinityUsername",
-                                    "value": "[parameters('SiteFinityUsername')]"
-                                },
-                                {
-                                    "name": "Values_AzureWebJobsStorage",
-                                    "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                                },
-                                {
-                                    "name": "PollingSchedule",
-                                    "value": "[parameters('CmsPollingSchedule')]"
-                                }
-                            ]
-                        }
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[resourceGroup().name]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-cms-ai')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__Endpoint",
+                                "value": "[concat('https://', variables('CosmosDbName'), '.documents.azure.com:443/')]"
+                            },
+                            {
+                                "name": "CosmosSettings__Key",
+                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                            },
+                            {
+                                "name": "CosmosSettings__DatabaseName",
+                                "value": "DiscoverMySkillsAndCareers"
+                            },
+                            {
+                                "name": "AppSettings__SessionSalt",
+                                "value": "[variables('AppSettings__SessionSalt')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityApiAuthenicationEndpoint",
+                                "value": "SiteFinity/Authenticate/openid/connect/token"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityApiUrlbase",
+                                "value": "[parameters('SiteFinityApiUrlbase')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityApiWebService",
+                                "value": "dsac"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityClientId",
+                                "value": "[parameters('SiteFinityClientId')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityClientSecret",
+                                "value": "[parameters('SiteFinityClientSecret')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityJobCategoriesTaxonomyId",
+                                "value": "Job Profile Category"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityPassword",
+                                "value": "[parameters('SiteFinityPassword')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityRequiresAuthentication",
+                                "value": "true"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityScope",
+                                "value": "[parameters('SiteFinityScope')]"
+                            },
+                            {
+                                "name": "AppSettings__SiteFinityUsername",
+                                "value": "[parameters('SiteFinityUsername')]"
+                            },
+                            {
+                                "name": "Values_AzureWebJobsStorage",
+                                "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
+                            },
+                            {
+                                "name": "PollingSchedule",
+                                "value": "[parameters('CmsPollingSchedule')]"
+                            }
+                        ]
                     }
+                }
             },
             "dependsOn": [
                 "AppInsightsCopy",
@@ -1031,6 +1092,140 @@
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]"
+                    },
+                    "alertSeverity": {
+                        "value": 3
+                    },
+                    "metricName": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName]"
+                    },
+                    "operator": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Operator]"
+                    },
+                    "threshold": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Threshold]"
+                    },
+                    "aggregation": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Aggregation]"
+                    },
+                    "windowSize": {
+                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].TimeWindow]"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Web/sites', variables('AppServiceName'))]"
+                    }
+                }
+            },
+            "copy": {
+                "name": "AppServiceMetricCopy",
+                "count": "[length(variables('AppServiceMetricsToAlertUpon'))]"
+            },
+            "dependsOn": [
+                "[variables('ActionGroupName')]",
+                "[variables('AppServiceName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('AppServiceName'), '-metric-exceptions-occured')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServiceName'), ' Exception Occurred')]"
+                    },
+                    "alertSeverity": {
+                        "value": 4
+                    },
+                    "metricName": {
+                        "value": "exceptions/count"
+                    },
+                    "operator": {
+                        "value": "GreaterThan"
+                    },
+                    "threshold": {
+                        "value": "0"
+                    },
+                    "aggregation": {
+                        "value": "Count"
+                    },
+                    "windowSize": {
+                        "value": "PT5M"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('AppServiceAppInsightsName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('AppServiceAppInsightsName'), '-failure-anomaly-v2')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/failure-anomaly-rule.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "alertName": {
+                        "value": "[variables('AppServiceAppInsightsName')]"
+                    },
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
+                    },
+                    "actionGroupId": {
+                        "value": "[resourceId('microsoft.insights/actionGroups', variables('ActionGroupName'))]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('AppServiceAppInsightsName')]"
+            ]
         }
     ],
     "outputs": {}

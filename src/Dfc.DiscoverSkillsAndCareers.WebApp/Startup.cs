@@ -69,7 +69,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
 
-            services.AddSingleton<IApiServices, ApiServices>();
+            services.AddScoped<IApiServices, ApiServices>();
             services.AddTransient<IErrorController, ErrorController>();
         }
 
