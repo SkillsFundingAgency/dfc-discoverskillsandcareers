@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Search" Version="7.0.0-preview" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0" />   
   </ItemGroup>
     

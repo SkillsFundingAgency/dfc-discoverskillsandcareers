@@ -76,7 +76,7 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
 
-            _userSessionRepository.GetUserSession("session1", false).Throws(new Exception());
+            _userSessionRepository.GetUserSession("session1").Throws(new Exception());
             
             var result = await RunFunction("session1");
 
@@ -100,7 +100,7 @@ namespace Dfc.UnitTests.FunctionTests
         {
             _httpResponseMessageHelper = new HttpResponseMessageHelper();
 
-            _userSessionRepository.GetUserSession("session1", false).Returns(Task.FromResult(new UserSession
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(new UserSession
             {
                 ResultData = null
             }));
@@ -118,7 +118,7 @@ namespace Dfc.UnitTests.FunctionTests
 
             _questionSetRepository.GetCurrentQuestionSet("filtered").Returns(Task.FromResult(new QuestionSet()));
             
-            _userSessionRepository.GetUserSession("session1", false).Returns(Task.FromResult(new UserSession
+            _userSessionRepository.GetUserSession("session1").Returns(Task.FromResult(new UserSession
             {
                 ResultData = new ResultData
                 {
