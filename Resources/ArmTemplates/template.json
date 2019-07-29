@@ -1093,8 +1093,12 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "instanceBaseName": "[variables('slackIntegrationBaseName')]",
-                    "slackChannel": "[parameters('SlackAlertingChannel')]"
+                    "instanceBaseName":  {
+                        "value": "[variables('slackIntegrationBaseName')]" 
+                    },
+                    "slackChannel": {
+                        "value": "[parameters('SlackAlertingChannel')]"
+                    }
                 }
             }
         },
