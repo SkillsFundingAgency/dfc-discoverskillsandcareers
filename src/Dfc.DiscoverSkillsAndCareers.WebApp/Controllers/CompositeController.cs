@@ -9,14 +9,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     [Route("composite")]
     public class CompositeController : BaseController
     {
-        private readonly IOptions<AppSettings> settings;
-
-        public CompositeController(IOptions<AppSettings> settings, IDataProtectionProvider dataProtectionProvider)
-            : base(dataProtectionProvider)
-        {
-            this.settings = settings;
-        }
-
         [Route("styles/{**article}")]
         public IActionResult Styles(string article)
         {
