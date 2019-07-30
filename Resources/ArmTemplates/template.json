@@ -143,6 +143,14 @@
         "SlackAlertingChannel": {
             "type": "string",
             "defaultValue": ""
+        },
+        "CPUPercentageAlertThreshhold": {
+            "type": "string",
+            "defaultValue": "75"
+        },
+        "MemoryPercentageAlertThreshhold": {
+            "type": "string",
+            "defaultValue": "75"
         }
     },
     "variables": {
@@ -172,6 +180,22 @@
                 "MetricName": "Requests",
                 "Operator": "GreaterThanOrEqual",
                 "Threshold": "[parameters('RequestCountAlertThreshhold')]",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Average"
+            }
+        ],
+        "AppServicePlanMetricsToAlertUpon": [
+            {
+                "MetricName": "CpuPercentage",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "[parameters('CPUPercentageAlertThreshhold')]",
+                "TimeWindow": "PT5M",
+                "Aggregation": "Average"
+            },
+            {
+                "MetricName": "MemoryPercentage",
+                "Operator": "GreaterThanOrEqual",
+                "Threshold": "[parameters('MemoryPercentageAlertThreshhold')]",
                 "TimeWindow": "PT5M",
                 "Aggregation": "Average"
             }
@@ -1179,6 +1203,61 @@
             "dependsOn": [
                 "[variables('ActionGroupName')]",
                 "[variables('AppServiceName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat(variables('AppServicePlanName'), '-metric-', tolower(variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+              "templateLink": {
+                "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                "contentVersion": "1.0.0.0"
+              },
+                "parameters": {
+                    "enabled": {
+                        "value": "[variables('EnableAlertsAndMetrics')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServicePlanName'), '-metric-', tolower(variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName))]"
+                    },
+                    "alertSeverity": {
+                        "value": 3
+                    },
+                    "metricName": {
+                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName]"
+                    },
+                    "operator": {
+                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Operator]"
+                    },
+                    "threshold": {
+                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Threshold]"
+                    },
+                    "aggregation": {
+                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Aggregation]"
+                    },
+                    "windowSize": {
+                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].TimeWindow]"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]"
+                    }
+                }
+            },
+            "copy": {
+                "name": "AppServicePlanMetricCopy",
+                "count": "[length(variables('AppServicePlanMetricsToAlertUpon'))]"
+            },
+            "dependsOn": [
+                "[variables('ActionGroupName')]",
+                "[variables('AppServicePlanName')]"
             ]
         },
         {
