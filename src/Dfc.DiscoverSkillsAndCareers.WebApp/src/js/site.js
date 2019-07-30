@@ -5,7 +5,7 @@ const breadcrumbs = require('./modules/breadcrumbs.js')
 const GOVUKFrontend = require('govuk-frontend')
 
 GOVUKFrontend.initAll()
-analytics.init()
+//analytics.init()
 breadcrumbs.init()
 
 if (helpers.isPage('app-page--results')) {
