@@ -61,35 +61,35 @@
       <hashTree/>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Full Assessment Run" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-320284414">
+          <collectionProp name="2025473100">
             <stringProp name="1691">50</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="1629">30</stringProp>
             <stringProp name="1510368">1320</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="882259794">
+          <collectionProp name="-1066949988">
             <stringProp name="1691">50</stringProp>
             <stringProp name="48873">180</stringProp>
             <stringProp name="1629">30</stringProp>
             <stringProp name="1508508">1140</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="428220433">
+          <collectionProp name="-1520989349">
             <stringProp name="1691">50</stringProp>
             <stringProp name="50733">360</stringProp>
             <stringProp name="1629">30</stringProp>
             <stringProp name="56499">960</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="2044195734">
+          <collectionProp name="2100209627">
             <stringProp name="1691">50</stringProp>
             <stringProp name="52593">540</stringProp>
             <stringProp name="1629">30</stringProp>
             <stringProp name="54639">780</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="2117987640">
+          <collectionProp name="-2120965763">
             <stringProp name="1691">50</stringProp>
             <stringProp name="54453">720</stringProp>
             <stringProp reference="../../collectionProp[4]/stringProp[3]"/>
@@ -301,8 +301,8 @@
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">results/</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.path">results/filtered/sports-and-leisure</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -323,7 +323,7 @@
               <elementProp name="questionId" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">questionId</stringProp>
-                <stringProp name="Argument.value">filtered-default-66-46</stringProp>
+                <stringProp name="Argument.value">${filteredQuestionSet}-46</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -363,7 +363,7 @@
               <elementProp name="questionId" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">questionId</stringProp>
-                <stringProp name="Argument.value">filtered-default-66-42</stringProp>
+                <stringProp name="Argument.value">${filteredQuestionSet}-42</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -403,7 +403,7 @@
               <elementProp name="questionId" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">questionId</stringProp>
-                <stringProp name="Argument.value">filtered-default-66-8</stringProp>
+                <stringProp name="Argument.value">${filteredQuestionSet}-8</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
