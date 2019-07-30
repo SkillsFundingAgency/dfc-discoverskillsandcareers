@@ -7,6 +7,7 @@ using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,17 +25,18 @@ namespace Dfc.UnitTests.ControllerTests
         private ISession _session;
         private ResultsController _controller;
         private IOptions<AppSettings> _appSettings;
-        
+        private IDataProtectionProvider _dataProtectionProvider;
+
         public ResultsControllerTests()
         {
             _logger = Substitute.For<ILogger<ResultsController>>();
             _apiServices = Substitute.For<IApiServices>();
             _session = Substitute.For<ISession>();
             _appSettings = Substitute.For<IOptions<AppSettings>>();
-            
+            _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
             _appSettings.Value.Returns(new AppSettings());
             
-            _controller = new ResultsController(_logger, _apiServices, _appSettings)
+            _controller = new ResultsController(_logger, _apiServices, _appSettings, _dataProtectionProvider)
             {
                 ControllerContext = new ControllerContext
                 {

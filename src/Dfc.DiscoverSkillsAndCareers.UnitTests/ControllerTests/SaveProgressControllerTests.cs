@@ -6,6 +6,7 @@ using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.ApplicationInsights.WindowsServer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -25,6 +26,7 @@ namespace Dfc.UnitTests.ControllerTests
         private SaveProgressController _controller;
         private IOptions<AppSettings> _appSettings;
         private ITempDataDictionary _tempData;
+        private IDataProtectionProvider _dataProtectionProvider;
 
         public SaveProgressControllerTests()
         {
@@ -32,11 +34,13 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices = Substitute.For<IApiServices>();
             _session = Substitute.For<ISession>();
             _appSettings = Substitute.For<IOptions<AppSettings>>();
+            
+            _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
             _tempData = Substitute.For<ITempDataDictionary>();
             
             _appSettings.Value.Returns(new AppSettings());
             
-            _controller = new SaveProgressController(_logger, _apiServices, _appSettings)
+            _controller = new SaveProgressController(_logger, _apiServices, _appSettings, _dataProtectionProvider)
             {
                 TempData = _tempData,
                 ControllerContext = new ControllerContext

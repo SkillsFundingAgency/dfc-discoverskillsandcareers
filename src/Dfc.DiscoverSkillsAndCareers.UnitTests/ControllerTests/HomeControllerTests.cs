@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,14 +20,16 @@ namespace Dfc.UnitTests.ControllerTests
         private IApiServices _apiServices;
         private ISession _session;
         private HomeController _controller;
+        private IDataProtectionProvider _dataProtectionProvider;
 
         public HomeControllerTests()
         {
             _logger = Substitute.For<ILogger<HomeController>>();
             _apiServices = Substitute.For<IApiServices>();
             _session = Substitute.For<ISession>();
+            _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
             
-            _controller = new HomeController(_logger, _apiServices)
+            _controller = new HomeController(_logger, _apiServices, _dataProtectionProvider)
             {
                 ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext { Session = _session } }
             };

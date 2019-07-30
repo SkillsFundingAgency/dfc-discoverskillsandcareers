@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -20,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         public ErrorController(
             ILogger<ErrorController> log,
-            IApiServices apiServices)
+            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;

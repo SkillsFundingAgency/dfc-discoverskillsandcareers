@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -15,7 +16,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         public HomeController(
             ILogger<HomeController> log,
-            IApiServices apiServices)
+            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;

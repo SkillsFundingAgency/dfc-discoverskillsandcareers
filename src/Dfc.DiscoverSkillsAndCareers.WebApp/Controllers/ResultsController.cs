@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -21,7 +22,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public ResultsController(
             ILogger<ResultsController> log,
             IApiServices apiServices,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
