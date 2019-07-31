@@ -1,12 +1,12 @@
-using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Dfc.UnitTests.ControllerTests
@@ -36,20 +36,18 @@ namespace Dfc.UnitTests.ControllerTests
             var result = await _controller.Error404();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            
-            Assert.Equal("404", viewResult.ViewName);
 
+            Assert.Equal("404", viewResult.ViewName);
         }
-        
+
         [Fact]
         public async Task Error500_ShouldReturn_500View()
         {
             var result = await _controller.Error500();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            
-            Assert.Equal("500", viewResult.ViewName);
 
+            Assert.Equal("500", viewResult.ViewName);
         }
     }
 }

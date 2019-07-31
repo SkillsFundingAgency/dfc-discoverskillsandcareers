@@ -56,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             });
         }
 
-        protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
+        public async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
             string sessionId = string.Empty;
             string cookieSessionId = HttpContext.Session.GetString("session-id");
@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             
             if (string.IsNullOrEmpty(code) == false)
             {
-                sessionId = code;
+                sessionId = queryStringSessionId;
             }
             
             if (request.HasFormContentType)

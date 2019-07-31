@@ -11,7 +11,6 @@ using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
-    
     public class QuestionController : BaseController
     {
         private readonly ILogger<QuestionController> _log;
