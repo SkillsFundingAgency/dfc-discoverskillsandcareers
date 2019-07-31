@@ -10,12 +10,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     public class HomeController : BaseController
     {
-        readonly ILogger<HomeController> _log;
-        readonly IApiServices _apiServices;
+        private readonly ILogger<HomeController> _log;
+        private readonly IApiServices _apiServices;
 
-        public HomeController(
-            ILogger<HomeController> log,
-            IApiServices apiServices)
+        public HomeController(ILogger<HomeController> log, IApiServices apiServices)
         {
             _log = log;
             _apiServices = apiServices;
@@ -28,20 +26,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             {
                 var sessionId = await TryGetSessionId();
                 var model = new IndexViewModel { SessionId = sessionId };
-                
+
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter your reference";
-                } else if (e == "2")
+                }
+                else if (e == "2")
                 {
                     model.ErrorMessage = "The reference could not be found";
                 }
-                
+
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
                 }
-                
+
                 return View("Index", model);
             }
             catch (Exception ex)

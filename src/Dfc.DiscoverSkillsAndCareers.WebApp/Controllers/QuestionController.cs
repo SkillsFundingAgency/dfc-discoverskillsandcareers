@@ -1,30 +1,24 @@
-﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
-    
     public class QuestionController : BaseController
     {
-        readonly ILogger<QuestionController> _log;
-        readonly IApiServices _apiServices;
-        readonly AppSettings _appSettings;
+        private readonly ILogger<QuestionController> _log;
+        private readonly IApiServices _apiServices;
 
         public QuestionController(
             ILogger<QuestionController> log,
-            IApiServices apiServices,
-            IOptions<AppSettings> appSettings)
+            IApiServices apiServices)
         {
             _log = log;
             _apiServices = apiServices;
-            _appSettings = appSettings.Value;
         }
 
         [HttpPost]
@@ -48,20 +42,20 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     _log.LogWarning($"q/{assessment}/{questionNumber} called with invalid questionNumber.");
                     return BadRequest();
                 }
-                
+
                 var postAnswerRequest = new PostAnswerRequest()
                 {
                     QuestionId = GetFormValue("questionId"),
                     SelectedOption = GetFormValue("selected_answer")
                 };
-                
+
                 if (postAnswerRequest.SelectedOption == null)
                 {
                     return await NextQuestion(sessionId, assessment, questionNumberValue, true);
                 }
-                
+
                 var postAnswerResponse = await _apiServices.PostAnswer(sessionId, postAnswerRequest, correlationId);
-                
+
                 if (postAnswerResponse.IsComplete)
                 {
                     var finishEndpoint = postAnswerResponse.IsFilterAssessment ? $"/finish/{postAnswerResponse.JobCategorySafeUrl}" : "/finish";
@@ -73,7 +67,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError(ex,$"Correlation Id: {correlationId} - An error occurred in session {sessionId} answering question: {questionNumber} in assessment {assessment}.");
+                _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred in session {sessionId} answering question: {questionNumber} in assessment {assessment}.");
                 return RedirectToAction("Error500", "Error");
             }
         }
@@ -83,7 +77,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             var correlationId = Guid.NewGuid();
             try
-            {                
+            {
                 var newSessionResponse = await _apiServices.NewSession(correlationId, assessment);
                 if (newSessionResponse == null)
                 {
@@ -91,9 +85,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
-                
-                return Redirect($"/q/{assessment}/01");
 
+                return Redirect($"/q/{assessment}/01");
             }
             catch (Exception ex)
             {
@@ -142,7 +135,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Question not found for session {sessionId}");
                 }
 
-                
                 var formRoute = GetAnswerFormPostRoute(nextQuestionResponse, assessment);
                 int displayPercentComplete = nextQuestionResponse.PercentComplete;
 
@@ -160,7 +152,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 model.QuestionText = nextQuestionResponse.QuestionText;
                 model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
                 model.AssessmentType = assessment;
-                
+
                 AppendCookie(sessionId);
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";
                 return View(viewName, model);
@@ -178,7 +170,5 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var nextRoute = $"/q/{assessment}/{questionNumber}";
             return nextRoute;
         }
-
-        
     }
 }

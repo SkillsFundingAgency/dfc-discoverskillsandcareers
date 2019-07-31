@@ -25,17 +25,14 @@ namespace Dfc.UnitTests.ControllerTests
         private IApiServices _apiServices;
         private ISession _session;
         private QuestionController _controller;
-        private IOptions<AppSettings> _appSettings;
-        
+
         public QuestionControllerTests()
         {
             _logger = Substitute.For<ILogger<QuestionController>>();
             _apiServices = Substitute.For<IApiServices>();
             _session = Substitute.For<ISession>();
-            _appSettings = Substitute.For<IOptions<AppSettings>>();
             
-            
-            _controller = new QuestionController(_logger, _apiServices, _appSettings)
+            _controller = new QuestionController(_logger, _apiServices)
             {
                 ControllerContext = new ControllerContext
                 {
