@@ -39,8 +39,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
         {
             ConfigureOptions(services);
 
-            services.AddMemoryCache();
-            
             services.AddSingleton<DocumentClient>(srvs => {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
@@ -57,11 +55,12 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
             services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
             services.AddSingleton<IJsonHelper, JsonHelper>();
-            services.AddSingleton<IUserSessionRepository, UserSessionRepository>();
-            services.AddSingleton<IQuestionRepository, QuestionRepository>();
-            services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
-            services.AddSingleton<IJobCategoryRepository, JobCategoryRepository>();
-            services.AddSingleton<IShortTraitRepository, ShortTraitRepository>();
+
+            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IQuestionSetRepository, QuestionSetRepository>();
+            services.AddScoped<IJobCategoryRepository, JobCategoryRepository>();
+            services.AddScoped<IShortTraitRepository, ShortTraitRepository>();
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();

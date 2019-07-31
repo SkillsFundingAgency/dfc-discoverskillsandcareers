@@ -60,7 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.ResultsApi
                     return httpResponseMessageHelper.BadRequest();
                 }
 
-                var userSession = await userSessionRepository.GetUserSession(sessionId, false);
+                var userSession = await userSessionRepository.GetUserSession(sessionId);
                 if (userSession == null)
                 {
                     log.LogInformation($"Correlation Id: {correlationId} - Session Id does not exist {sessionId}");
