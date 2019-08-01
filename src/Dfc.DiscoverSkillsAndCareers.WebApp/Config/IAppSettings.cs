@@ -9,7 +9,7 @@
         string NotifyEmailTemplateId { get; set; }
         string NotifySmsTemplateId { get; set; }
         string APIAuthorisationCode { get; set; }
-        
         string ExploreCareersBaseUrl { get; set; }
+        string APIRootSegment { get; set; }
     }
 }

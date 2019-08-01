@@ -14,5 +14,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
         public string APIAuthorisationCode { get; set; }
         public string ExploreCareersBaseUrl { get; set; }
         public string AssetsCDNUrl { get; set; }
+        public string APIRootSegment { get; set; }
     }
 }

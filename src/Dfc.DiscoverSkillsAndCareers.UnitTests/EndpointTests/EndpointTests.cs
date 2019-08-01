@@ -16,27 +16,27 @@ namespace Dfc.UnitTests.EndpointTests
         }
 
         [Theory]
-        [InlineData("/")]
-        [InlineData("/assessment/short")]
-        [InlineData("/reload")]
-        [InlineData("/results")]
-        [InlineData("/save-my-progress")]
-        [InlineData("/q/short/01")]
-        [InlineData("/finish")]
-        [InlineData("/finish/animal-care")]
+        [InlineData("/dysac")]
+        [InlineData("/dysac/assessment/short")]
+        [InlineData("/dysac/reload")]
+        [InlineData("/dysac/results")]
+        [InlineData("/dysac/save-my-progress")]
+        [InlineData("/dysac/q/short/01")]
+        [InlineData("/dysac/finish")]
+        [InlineData("/dysac/finish/animal-care")]
         public async Task Get_WithEndpoint_ReturnFound(string url)
         {
             var client = _factory.CreateClient();
 
             var response = await client.GetAsync(url);
 
-            bool isOkOrError = response.StatusCode == System.Net.HttpStatusCode.OK || response.StatusCode == System.Net.HttpStatusCode.InternalServerError;
+            var isOkOrError = response.StatusCode == System.Net.HttpStatusCode.OK || response.StatusCode == System.Net.HttpStatusCode.InternalServerError;
             Assert.True(isOkOrError);
         }
 
         [Theory]
-        [InlineData("/q/short/01")]
-        [InlineData("/q/animal-care/01")]
+        [InlineData("/dysac/q/short/01")]
+        [InlineData("/dysac/q/animal-care/01")]
         public async Task Post_WithEndpoint_ReturnBadRequest(string url)
         {
             var client = _factory.CreateClient();
@@ -48,7 +48,7 @@ namespace Dfc.UnitTests.EndpointTests
         }
 
         [Theory]
-        [InlineData("/q/animal-care/01")]
+        [InlineData("/dysac/q/animal-care/01")]
         public async Task Post_WithAnswerData_ReturnSuccess(string url)
         {
             var client = _factory.CreateClient();

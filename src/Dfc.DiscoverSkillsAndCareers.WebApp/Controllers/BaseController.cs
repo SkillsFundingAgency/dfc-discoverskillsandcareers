@@ -1,76 +1,56 @@
-﻿using System;
+﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
-    public class Constants
-    {
-        public const string CompositePathHeader = "x-composite-base-route";
-    }
-    
     public static class UrlExtensions
     {
         public static string TryApplyCompositeRoute(this IUrlHelper source, string str)
         {
-            if (source.ActionContext.HttpContext.Request.Headers.TryGetValue(Constants.CompositePathHeader,
-                out var path))
-            {
-                return $"/{path[0].TrimStart('/')}/{str.TrimStart('/')}";
-            }
+            var settings = source.ActionContext.HttpContext.RequestServices.GetService<IOptions<AppSettings>>();
 
-            return str;
+            return $"/{settings.Value.APIRootSegment.TrimStart('/')}/{str.TrimStart('/')}";
         }
     }
-    
+
     public class CompositeUIBaseController : Controller
     {
-        public string ApplyCompositeBasePath(string url)
-        {
-            
-                if (Request.Headers.TryGetValue(Constants.CompositePathHeader, out var path))
-                    return $"/{path[0].TrimStart('/')}/{url.TrimStart('/')}";
-
-                return url;
-               
-        }
-        
         public override RedirectResult Redirect(string url)
         {
-            return new RedirectResult(ApplyCompositeBasePath(url));
+            var settings = Request.HttpContext?.RequestServices?.GetService<IOptions<AppSettings>>();
+            var applicationUrl = !string.IsNullOrEmpty(settings?.Value.APIRootSegment.TrimStart('/'))
+                ? $"/{settings?.Value.APIRootSegment.TrimStart('/')}/{url.TrimStart('/')}"
+                : $"/{url.TrimStart('/')}";
+
+            return new RedirectResult(applicationUrl);
         }
-        
     }
-    
-    public abstract class BaseController : CompositeUIBaseController //Controller
+
+    public abstract class BaseController : CompositeUIBaseController
     {
         public IFormCollection FormData { get; private set; }
-        public NameValueCollection QueryDictionary { get; private set; }
 
         protected void AppendCookie(string sessionId)
         {
             HttpContext.Session.SetString("session-id", sessionId);
         }
 
-        protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
+        public async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
-            string sessionId = string.Empty;
-            string cookieSessionId = HttpContext.Session.GetString("session-id");
             var request = Request;
-            sessionId = cookieSessionId;
+            var sessionId = HttpContext.Session.GetString("session-id");
 
-            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
-            var code = QueryDictionary.Get("sessionId");
-            if (string.IsNullOrEmpty(code) == false)
+            var queryStringSessionId = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString())?.Get("sessionId");
+            if (!string.IsNullOrEmpty(queryStringSessionId))
             {
-                sessionId = code;
+                sessionId = queryStringSessionId;
             }
 
             if (request.HasFormContentType)
@@ -78,9 +58,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 try
                 {
                     FormData = await request.ReadFormAsync();
-                    string formSessionId = GetFormValue("sessionId");
+                    var formSessionId = GetFormValue("sessionId");
 
-                    if (string.IsNullOrEmpty(formSessionId) == false)
+                    if (!string.IsNullOrEmpty(formSessionId))
                     {
                         sessionId = formSessionId;
                     }
@@ -88,23 +68,21 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch { };
             }
 
-            if (String.IsNullOrWhiteSpace(sessionId) && Request.Path.ToString() != "/")
+            if (string.IsNullOrWhiteSpace(sessionId) && Request.Path.ToString() != "/")
             {
-                var logger = Request.HttpContext.RequestServices.GetService<ILogger<BaseController>>();
-                logger.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
+                var logger = request.HttpContext?.RequestServices?.GetService<ILogger<BaseController>>();
+                logger?.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
             }
-            
+
             return sessionId;
         }
 
         protected string GetFormValue(string key)
         {
             if (FormData == null) return null;
-            StringValues value;
-            FormData.TryGetValue(key, out value);
-            if (value.Count == 0) return null;
-            return value[0];
+            FormData.TryGetValue(key, out var stringValues);
+
+            return stringValues.Count == 0 ? null : stringValues[0];
         }
-        
     }
 }

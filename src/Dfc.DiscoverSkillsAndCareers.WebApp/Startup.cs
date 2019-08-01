@@ -1,20 +1,17 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
-using DFC.Common.Standard.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
@@ -31,11 +28,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddOptions();
             services.AddDistributedMemoryCache();
             services.AddApplicationInsightsTelemetry();
-            
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -44,14 +40,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             });
 
             services.AddCors(opts => opts.AddDefaultPolicy(p => p.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
-            
+
             services.Configure<HstsOptions>(options =>
             {
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(365);
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            var basePath = Configuration.GetValue<string>("AppSettings:APIRootSegment");
+            services.AddMvc(o => { o.UseGeneralRoutePrefix(basePath); }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSession(options =>
             {
@@ -68,7 +65,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
                 .AddTransientHttpErrorPolicy(p => p.RetryAsync(3, (e, i) => TimeSpan.FromMilliseconds(600 * i)))
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-
             services.AddScoped<IApiServices, ApiServices>();
             services.AddTransient<IErrorController, ErrorController>();
         }
@@ -78,24 +74,19 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();   
+                app.UseDeveloperExceptionPage();
             }
             else
-            {    
+            {
                 app.UseHsts();
             }
-            
+
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
             app.UseCors();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
