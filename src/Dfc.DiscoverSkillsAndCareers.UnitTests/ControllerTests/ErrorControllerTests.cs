@@ -15,7 +15,6 @@ namespace Dfc.UnitTests.ControllerTests
     {
         private ILogger<ErrorController> _logger;
         private IApiServices _apiServices;
-        private ISession _session;
         private ErrorController _controller;
         private IDataProtectionProvider _dataProtectionProvider;
 
@@ -24,11 +23,10 @@ namespace Dfc.UnitTests.ControllerTests
             _logger = Substitute.For<ILogger<ErrorController>>();
             _apiServices = Substitute.For<IApiServices>();
             _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
-            _session = Substitute.For<ISession>();
             
             _controller = new ErrorController(_logger, _apiServices, _dataProtectionProvider)
             {
-                ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext { Session = _session } }
+                ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() }
             };
         }
 

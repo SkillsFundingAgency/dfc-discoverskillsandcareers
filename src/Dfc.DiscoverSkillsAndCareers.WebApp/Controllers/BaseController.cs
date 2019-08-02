@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 catch { };
             }
             
-            return sessionId;
+            return String.IsNullOrWhiteSpace(sessionId) ? null : sessionId;
         }
 
         protected string GetFormValue(string key)

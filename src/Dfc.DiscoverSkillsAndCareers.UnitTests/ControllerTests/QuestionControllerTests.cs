@@ -9,6 +9,7 @@ using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,7 +25,6 @@ namespace Dfc.UnitTests.ControllerTests
     {
         private ILogger<QuestionController> _logger;
         private IApiServices _apiServices;
-        private ISession _session;
         private QuestionController _controller;
         private IOptions<AppSettings> _appSettings;
         private IDataProtectionProvider _dataProtectionProvider;
@@ -33,9 +33,8 @@ namespace Dfc.UnitTests.ControllerTests
         {
             _logger = Substitute.For<ILogger<QuestionController>>();
             _apiServices = Substitute.For<IApiServices>();
-            _session = Substitute.For<ISession>();
             _appSettings = Substitute.For<IOptions<AppSettings>>();
-            _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
+            _dataProtectionProvider = new EphemeralDataProtectionProvider();
             
             
             _controller = new QuestionController(_logger, _apiServices, _appSettings, _dataProtectionProvider)
@@ -43,14 +42,21 @@ namespace Dfc.UnitTests.ControllerTests
                 ControllerContext = new ControllerContext
                 {
                     
-                    HttpContext = new DefaultHttpContext { Session = _session }
+                    HttpContext = new DefaultHttpContext { }
                 }
             };
+            
+            _controller.Request.Cookies = new RequestCookieCollection(new Dictionary<string, string>
+            {
+                {".dysac-session", _dataProtectionProvider.CreateProtector("BaseController").Protect("Abc123")}
+            });
         }
 
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_BadRequestIfNoSessionId()
         {
+            _controller.Request.Cookies = new RequestCookieCollection();
+            
             var result = await _controller.AnswerQuestion("short", "1");
 
             Assert.IsType<BadRequestResult>(result);
@@ -67,12 +73,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_NoAnswerErrorMessageIfSelectedOptionNull()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },
@@ -97,11 +97,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_NoAnswerErrorMessageIfResponseNull()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
             
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
@@ -127,11 +122,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_ViewIfNoOptionSelected()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
             
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
@@ -155,12 +145,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_500IfExceptionThrown()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },
@@ -181,12 +165,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_RedirectToFinishIfComplete()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },
@@ -207,12 +185,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_RedirectToFilterAssessmentFinishIfComplete()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },
@@ -239,12 +211,6 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_RedirectToNextQuestionIfNotComplete()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                .Returns(x => { 
-                    x[1] = Encoding.UTF8.GetBytes("Abc123");
-                    return true;
-                });
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },

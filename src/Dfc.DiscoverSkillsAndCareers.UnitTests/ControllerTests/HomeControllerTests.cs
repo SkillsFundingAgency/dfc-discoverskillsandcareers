@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
@@ -6,6 +7,7 @@ using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -27,12 +29,14 @@ namespace Dfc.UnitTests.ControllerTests
             _logger = Substitute.For<ILogger<HomeController>>();
             _apiServices = Substitute.For<IApiServices>();
             _session = Substitute.For<ISession>();
-            _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
+            _dataProtectionProvider = new EphemeralDataProtectionProvider();
             
             _controller = new HomeController(_logger, _apiServices, _dataProtectionProvider)
             {
                 ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext { Session = _session } }
             };
+            
+         
         }
 
         [Fact]
@@ -49,18 +53,20 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task IndexMethod_ShouldReturn_SessionIdInViewModel()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>())
-                    .Returns(x => { 
-                        x[1] = Encoding.UTF8.GetBytes("Abc123");
-                        return true;
-                    });
+            var _dataProtectionProvider = new EphemeralDataProtectionProvider();
+            var controller = Substitute.ForPartsOf<HomeController>(new object[] { _logger, _apiServices, _dataProtectionProvider});
+            controller.ControllerContext = new ControllerContext {HttpContext = new DefaultHttpContext()};
+            controller.Request.Cookies = new RequestCookieCollection(new Dictionary<string, string>
+            {
+                {".dysac-session", _dataProtectionProvider.CreateProtector("BaseController").Protect("abc123")}
+            });
             
-            var result = await _controller.Index();
+            var result = await controller.Index();
             
             var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<IndexViewModel>(viewResult.Model);
             
-            Assert.Equal("Abc123", viewModel.SessionId);
+            Assert.Equal("abc123", viewModel.SessionId);
         }
 
         [Fact]
@@ -90,9 +96,17 @@ namespace Dfc.UnitTests.ControllerTests
         [Fact]
         public async Task IndexMethod_ShouldReturn_500WhenErrorThrown()
         {
-            _session.TryGetValue("session-id", out Arg.Any<byte[]>()).Throws(new Exception());
+            var _dataProtectionProvider = new EphemeralDataProtectionProvider();
+            var controller = Substitute.ForPartsOf<HomeController>(new object[] { _logger, _apiServices, _dataProtectionProvider});
+            controller.ControllerContext = new ControllerContext {HttpContext = new DefaultHttpContext()};
+            controller.Request.Cookies = new RequestCookieCollection(new Dictionary<string, string>
+            {
+                {".dysac-session", _dataProtectionProvider.CreateProtector("BaseController").Protect("abc123")}
+            });
+
+            controller.View("Index", Arg.Any<IndexViewModel>()).Throws(new Exception());
             
-            var result = await _controller.Index();
+            var result = await controller.Index();
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             
