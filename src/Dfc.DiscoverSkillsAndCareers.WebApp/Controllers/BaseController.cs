@@ -42,7 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             HttpContext.Session.SetString("session-id", sessionId);
         }
 
-        public async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
+        protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
             var request = Request;
             var sessionId = HttpContext.Session.GetString("session-id");
