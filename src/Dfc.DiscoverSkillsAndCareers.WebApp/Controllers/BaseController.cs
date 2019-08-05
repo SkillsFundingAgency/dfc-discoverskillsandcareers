@@ -56,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             });
         }
 
-        public async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
+        protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
             string sessionId = string.Empty;
             string cookieSessionId = HttpContext.Session.GetString("session-id");
