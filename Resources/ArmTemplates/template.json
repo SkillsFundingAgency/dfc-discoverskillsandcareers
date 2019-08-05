@@ -1142,6 +1142,9 @@
                     },
                     "enabled": {
                         "value": "[variables('EnableAlertsAndMetrics')]"
+                    },
+                    "webHookUrl":  {
+                        "value": "[reference(variables('SlackLogicAppName')).outputs.webHookURI.value]"
                     }
                 }
             },
