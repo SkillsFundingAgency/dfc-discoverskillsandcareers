@@ -383,7 +383,7 @@
                         "value": "[if(greater(length(parameters('CustomHostName')),0), reference('skillscareers-certificate').outputs.certificateThumbprint.value, '')]"
                     },
                     "clientAffinity": {
-                        "value": true
+                        "value": false
                     },
                     "appServiceAppSettings": {
                         "value": [
