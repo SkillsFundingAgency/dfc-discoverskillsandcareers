@@ -1143,7 +1143,7 @@
                     "enabled": {
                         "value": "[variables('EnableAlertsAndMetrics')]"
                     },
-                    "webHookUrl":  {
+                    "webHookUrl": {
                         "value": "[reference(variables('SlackLogicAppName')).outputs.webHookURI.value]"
                     }
                 }
