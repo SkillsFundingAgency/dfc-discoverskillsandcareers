@@ -249,18 +249,27 @@ namespace Dfc.UnitTests.ControllerTests
         }
         
         [Fact]
-        public async Task NewAssessment_ShouldReturn_RedirectResultToQuestionUrl()
+        public async Task NewAssessment_ShouldReturn_FirstQuestionView()
         {
             _apiServices.NewSession(Arg.Any<Guid>(), "short").Returns(Task.FromResult(new NewSessionResponse
             {
                 SessionId = "Abc123"
             }));
 
+            _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>()).Returns(Task.FromResult(
+                new AssessmentQuestionResponse
+                {
+                    SessionId = "Abc123",
+                    QuestionNumber = 1
+                }));
+
             var result = await _controller.NewAssessment("short");
 
-            var scResult = Assert.IsType<RedirectResult>(result);
+            var scResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsType<QuestionViewModel>(scResult.Model);
             
-            Assert.Equal("/q/short/01", scResult.Url);
+            Assert.Equal("Question", scResult.ViewName);
+            Assert.Equal(1, model.QuestionNumber);
         }
 
         [Fact]

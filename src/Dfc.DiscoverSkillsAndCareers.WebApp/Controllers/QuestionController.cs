@@ -91,10 +91,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
-                
-                var redirectResponse = new RedirectResult($"/q/{assessment}/01");
-                
-                return redirectResponse;
+
+                return await NextQuestion(newSessionResponse.SessionId, assessment, 1, false);
 
             }
             catch (Exception ex)

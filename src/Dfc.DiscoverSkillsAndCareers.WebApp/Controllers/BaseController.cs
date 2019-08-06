@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 Secure = true,
                 IsEssential = true,
                 HttpOnly = true,
-                MaxAge = TimeSpan.FromHours(24)
+                SameSite = SameSiteMode.Strict
             });
         }
 
@@ -43,14 +43,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             if (request.Cookies.TryGetValue(".dysac-session", out var cookieSessionId))
             {
                 sessionId = _dataProtector.Unprotect(cookieSessionId);
-            }
-
-            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
-            var code = QueryDictionary.Get("sessionId");
-            
-            if (string.IsNullOrEmpty(code) == false)
-            {
-                sessionId = code;
             }
 
             if (request.HasFormContentType)
@@ -79,6 +71,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             if (value.Count == 0) return null;
             return value[0];
         }
-        
+
     }
 }
