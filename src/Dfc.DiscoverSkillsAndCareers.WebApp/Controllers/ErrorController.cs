@@ -38,10 +38,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     AppendCookie(sessionId);
                 }
-                return View("404", new IndexViewModel
+                var result = View("404", new IndexViewModel
                 {
                     SessionId = sessionId
                 });
+
+                result.StatusCode = 404;
+                return result;
             }
             catch (Exception ex)
             {
@@ -61,10 +64,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     AppendCookie(sessionId);
                 }
-                return View("500", new IndexViewModel
+                var result = View("500", new IndexViewModel
                 {
                     SessionId = sessionId
                 });
+
+                result.StatusCode = 500;
+                return result;
             }
             catch (Exception ex)
             {
