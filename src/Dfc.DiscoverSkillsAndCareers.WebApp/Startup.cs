@@ -76,7 +76,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            
+            var cachePeriod = env.IsDevelopment() ? TimeSpan.FromMinutes(10) : TimeSpan.FromDays(1);
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod.TotalSeconds.ToString()}");
+                }
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
