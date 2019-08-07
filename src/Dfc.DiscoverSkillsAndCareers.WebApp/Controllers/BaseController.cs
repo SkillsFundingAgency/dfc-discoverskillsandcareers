@@ -68,7 +68,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             
             if (string.IsNullOrEmpty(code) == false)
             {
-                sessionId = queryStringSessionId;
+                sessionId = code;
             }
             
             if (request.HasFormContentType)
