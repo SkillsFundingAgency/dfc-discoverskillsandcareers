@@ -106,7 +106,8 @@
                                            name="selected_answer" 
                                            type="radio" 
                                            @(Model.RecordedAnswer == AnswerOption.Yes ? "checked" : "")
-                                           value="Yes">
+                                           value="Yes"
+                                           gov-analytics-data="SelectedAnswer | Yes">
                                     <label class="govuk-label govuk-radios__label" for="selected_answer-1">
                                         Yes
                                     </label>
@@ -118,7 +119,8 @@
                                            name="selected_answer"
                                            type="radio" 
                                            @(Model.RecordedAnswer == AnswerOption.No ? "checked" : "")
-                                           value="No">
+                                           value="No"
+                                           gov-analytics-data="SelectedAnswer | No">
                                     <label class="govuk-label govuk-radios__label" for="selected_answer-2">
                                         No
                                     </label>
@@ -134,10 +136,7 @@
                         {{ govukButton({
                         text: "Next",
                         classes: "app-button btn-next-question",
-                        type: "submit",
-                        attributes: {
-                        "gov-analytics-data": pageName + " | click | button | Submit"
-                        }
+                        type: "submit"
                         }) }}
 
                     </div>

@@ -22,7 +22,7 @@
             pageInfo: {
                 questionID: '@Model.QuestionId',
                 questionNumber: '@Model.QuestionNumber',
-                questionText: '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))'
+                questionText: '@Model.QuestionText'
             }
         }
 })
@@ -115,7 +115,8 @@
                                     name="selected_answer"
                                     type="radio"
                                     @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
-                                    value="StronglyAgree">
+                                    value="StronglyAgree"
+                                    gov-analytics-data="SelectedAnswer | StronglyAgree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-1">
                                 Strongly agree
                             </label>
@@ -127,7 +128,8 @@
                                     name="selected_answer"
                                     type="radio"
                                     @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
-                                    value="Agree">
+                                    value="Agree"
+                                    gov-analytics-data="SelectedAnswer | Agree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-2">
                                 Agree
                             </label>
@@ -139,7 +141,8 @@
                                     name="selected_answer"
                                     type="radio"
                                     @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
-                                    value="Neutral">
+                                    value="Neutral"
+                                    gov-analytics-data="SelectedAnswer | Neutral">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-5">
                                 It depends
                             </label>
@@ -152,7 +155,8 @@
                                     name="selected_answer"
                                     type="radio"
                                     @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
-                                    value="Disagree">
+                                    value="Disagree"
+                                    gov-analytics-data="SelectedAnswer | Disagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-3">
                                 Disagree
                             </label>
@@ -163,7 +167,8 @@
                                     id="selected_answer-4"
                                     name="selected_answer"
                                     type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
-                                    value="StronglyDisagree">
+                                    value="StronglyDisagree"
+                                    gov-analytics-data="SelectedAnswer | StronglyDisagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-4">
                                 Strongly disagree
                             </label>
@@ -178,10 +183,7 @@
                 {{ govukButton({
                     text: "Next",
                     classes: "app-button btn-next-question",
-                    type: "submit",
-                    attributes: {
-                    "gov-analytics-data": pageName + " | click | button | Submit"
-                    }
+                    type: "submit"
                 }) }}
 
             </div>

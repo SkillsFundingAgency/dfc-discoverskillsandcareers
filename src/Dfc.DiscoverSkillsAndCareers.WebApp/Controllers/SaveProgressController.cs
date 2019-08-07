@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
@@ -20,7 +21,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public SaveProgressController(
             ILogger<SaveProgressController> log,
             IApiServices apiServices,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;

@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -35,24 +37,42 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
     public abstract class BaseController : CompositeUIBaseController
     {
+        private readonly IDataProtectionProvider _dataProtectionProvider;
+        private readonly IDataProtector _dataProtector;
         public IFormCollection FormData { get; private set; }
-
+        
+        
+        protected BaseController(IDataProtectionProvider dataProtectionProvider)
+        {
+            _dataProtectionProvider = dataProtectionProvider;
+            _dataProtector = _dataProtectionProvider.CreateProtector(nameof(BaseController));
+        }
+        
         protected void AppendCookie(string sessionId)
         {
-            HttpContext.Session.SetString("session-id", sessionId);
+            var value = _dataProtector.Protect(sessionId);
+            Response.Cookies.Append(".dysac-session", value, new CookieOptions
+            {
+                Secure = true,
+                IsEssential = true,
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
+            });
         }
 
         protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
             var request = Request;
-            var sessionId = HttpContext.Session.GetString("session-id");
 
-            var queryStringSessionId = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString())?.Get("sessionId");
-            if (!string.IsNullOrEmpty(queryStringSessionId))
+            if (request.Cookies.TryGetValue(".dysac-session", out var cookieSessionId))
+            {
+                sessionId = _dataProtector.Unprotect(cookieSessionId);
+            }
+            
             {
                 sessionId = queryStringSessionId;
             }
-
+            
             if (request.HasFormContentType)
             {
                 try
@@ -74,7 +94,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 logger?.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
             }
 
-            return sessionId;
         }
 
         protected string GetFormValue(string key)

@@ -1,6 +1,6 @@
 const helpers = require('./modules/helpers.js')
-const analytics = require('./modules/analytics.js')
 const results = require('./modules/results.js')
+const analytics = require('./modules/analytics.js')
 const breadcrumbs = require('./modules/breadcrumbs.js')
 const GOVUKFrontend = require('govuk-frontend')
 

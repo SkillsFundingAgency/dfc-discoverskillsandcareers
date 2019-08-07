@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -15,7 +16,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         public QuestionController(
             ILogger<QuestionController> log,
-            IApiServices apiServices)
+            IApiServices apiService,
+            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
@@ -86,7 +88,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
 
-                return Redirect($"/q/{assessment}/01");
+                return await NextQuestion(newSessionResponse.SessionId, assessment, 1, false);
             }
             catch (Exception ex)
             {
