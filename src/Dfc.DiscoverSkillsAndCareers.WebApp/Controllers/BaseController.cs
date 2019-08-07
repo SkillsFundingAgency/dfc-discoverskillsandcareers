@@ -1,4 +1,6 @@
-﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+﻿using System;
+using System.Collections.Specialized;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +42,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         private readonly IDataProtectionProvider _dataProtectionProvider;
         private readonly IDataProtector _dataProtector;
         public IFormCollection FormData { get; private set; }
+        public NameValueCollection QueryDictionary { get; private set; }
         
         
         protected BaseController(IDataProtectionProvider dataProtectionProvider)
@@ -63,14 +66,19 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
             var request = Request;
+            String sessionId = null;
 
             if (request.Cookies.TryGetValue(".dysac-session", out var cookieSessionId))
             {
                 sessionId = _dataProtector.Unprotect(cookieSessionId);
             }
             
+            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
+            var code = QueryDictionary.Get("sessionId");
+            
+            if (string.IsNullOrEmpty(code) == false)
             {
-                sessionId = queryStringSessionId;
+                sessionId = code;
             }
             
             if (request.HasFormContentType)
@@ -93,6 +101,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var logger = request.HttpContext?.RequestServices?.GetService<ILogger<BaseController>>();
                 logger?.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
             }
+            
+            return String.IsNullOrWhiteSpace(sessionId) ? null : sessionId;
 
         }
 

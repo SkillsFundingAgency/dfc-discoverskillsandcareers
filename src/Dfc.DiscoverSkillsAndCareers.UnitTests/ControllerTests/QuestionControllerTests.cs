@@ -34,7 +34,7 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices = Substitute.For<IApiServices>();
             _dataProtectionProvider = new EphemeralDataProtectionProvider();
             
-            _controller = new QuestionController(_logger, _apiServices, _appSettings, _dataProtectionProvider)
+            _controller = new QuestionController(_logger, _apiServices, _dataProtectionProvider)
             {
                 ControllerContext = new ControllerContext
                 {

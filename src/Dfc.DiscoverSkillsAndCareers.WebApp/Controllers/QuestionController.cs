@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Web;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -16,8 +18,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         public QuestionController(
             ILogger<QuestionController> log,
-            IApiServices apiService,
-            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;

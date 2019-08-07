@@ -1,6 +1,7 @@
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
@@ -10,7 +11,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     {
         private readonly IOptions<AppSettings> settings;
 
-        public CompositeController(IOptions<AppSettings> settings)
+        public CompositeController(IOptions<AppSettings> settings, IDataProtectionProvider dataProtectionProvider)
+            : base(dataProtectionProvider)
         {
             this.settings = settings;
         }
