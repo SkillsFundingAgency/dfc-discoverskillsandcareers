@@ -45,6 +45,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 sessionId = _dataProtector.Unprotect(cookieSessionId);
             }
 
+            QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
+            var code = QueryDictionary.Get("sessionId");
+            
+            if (string.IsNullOrEmpty(code) == false)
+            {
+                sessionId = code;
+            }
+            
             if (request.HasFormContentType)
             {
                 try
