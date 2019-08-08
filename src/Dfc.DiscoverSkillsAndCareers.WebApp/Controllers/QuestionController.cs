@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -19,7 +20,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         public QuestionController(
             ILogger<QuestionController> log,
             IApiServices apiServices,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
@@ -90,10 +91,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 var sessionId = newSessionResponse.SessionId;
                 AppendCookie(sessionId);
-                
-                var redirectResponse = new RedirectResult($"/q/{assessment}/01");
-                
-                return redirectResponse;
+
+                return await NextQuestion(newSessionResponse.SessionId, assessment, 1, false);
 
             }
             catch (Exception ex)
@@ -174,7 +173,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         private string GetAnswerFormPostRoute(AssessmentQuestionResponse assessmentQuestionResponse, string assessment)
         {
-            var questionNumber = assessmentQuestionResponse.GetQuestionPageNumber();
+            var questionNumber = assessmentQuestionResponse.QuestionNumber.ToQuestionPageNumber();
             var nextRoute = $"/q/{assessment}/{questionNumber}";
             return nextRoute;
         }

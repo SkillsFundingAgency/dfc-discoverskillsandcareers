@@ -23,7 +23,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public bool IsFilterAssessment { get; set; }
         public string JobCategorySafeUrl { get; set; }
         
-        public string GetQuestionPageNumber()
+        public string GetNextQuestionPageNumber()
         {
             return (NextQuestionNumber ?? MaxQuestionsCount).ToQuestionPageNumber();
 

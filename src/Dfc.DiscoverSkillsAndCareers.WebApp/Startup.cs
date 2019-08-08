@@ -32,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
         {
             
             services.AddOptions();
-            services.AddDistributedMemoryCache();
+            services.AddDataProtection();
             services.AddApplicationInsightsTelemetry();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -49,15 +49,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddSession(options =>
-            {
-                options.Cookie.Name = ".dysac-session";
-                options.IdleTimeout = TimeSpan.FromHours(24);
-                options.Cookie.IsEssential = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            });
-
+            
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
 
@@ -84,8 +76,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
             
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSession();
+            
+            var cachePeriod = env.IsDevelopment() ? TimeSpan.FromMinutes(10) : TimeSpan.FromDays(1);
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod.TotalSeconds.ToString()}");
+                }
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -1,35 +1,58 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Collections.Specialized;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     public abstract class BaseController : Controller
     {
+        private readonly IDataProtectionProvider _dataProtectionProvider;
+        private readonly IDataProtector _dataProtector;
         public IFormCollection FormData { get; private set; }
         public NameValueCollection QueryDictionary { get; private set; }
-
+        
+        
+        protected BaseController(IDataProtectionProvider dataProtectionProvider)
+        {
+            _dataProtectionProvider = dataProtectionProvider;
+            _dataProtector = _dataProtectionProvider.CreateProtector(nameof(BaseController));
+        }
+        
         protected void AppendCookie(string sessionId)
         {
-            HttpContext.Session.SetString("session-id", sessionId);
+            var value = _dataProtector.Protect(sessionId);
+            Response.Cookies.Append(".dysac-session", value, new CookieOptions
+            {
+                Secure = true,
+                IsEssential = true,
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
+            });
         }
 
         protected async Task<string> TryGetSessionId(HttpRequest request)
         {
             string sessionId = string.Empty;
-            string cookieSessionId = HttpContext.Session.GetString("session-id");
 
-            sessionId = cookieSessionId;
+            if (request.Cookies.TryGetValue(".dysac-session", out var cookieSessionId))
+            {
+                sessionId = _dataProtector.Unprotect(cookieSessionId);
+            }
 
             QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
             var code = QueryDictionary.Get("sessionId");
+            
             if (string.IsNullOrEmpty(code) == false)
             {
                 sessionId = code;
             }
-
+            
             if (request.HasFormContentType)
             {
                 try
@@ -44,7 +67,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 catch { };
             }
-            return sessionId;
+            
+            return String.IsNullOrWhiteSpace(sessionId) ? null : sessionId;
         }
 
         protected string GetFormValue(string key)
@@ -55,6 +79,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             if (value.Count == 0) return null;
             return value[0];
         }
-        
+
     }
 }
