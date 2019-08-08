@@ -169,7 +169,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
         private string GetAnswerFormPostRoute(AssessmentQuestionResponse assessmentQuestionResponse, string assessment)
         {
-            var questionNumber = assessmentQuestionResponse.GetQuestionPageNumber();
+            var questionNumber = assessmentQuestionResponse.QuestionNumber.ToQuestionPageNumber();
             var nextRoute = $"/q/{assessment}/{questionNumber}";
             return nextRoute;
         }

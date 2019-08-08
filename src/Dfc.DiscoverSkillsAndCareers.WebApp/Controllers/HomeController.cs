@@ -104,7 +104,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return new RedirectResult($"/results");
                 }
 
-                var questionUrl = nextQuestionResponse.GetQuestionPageNumber();
+                var questionUrl = nextQuestionResponse.GetNextQuestionPageNumber();
                 if (nextQuestionResponse.IsFilterAssessment)
                 {
                     return new RedirectResult($"/q/{nextQuestionResponse.JobCategorySafeUrl}/{questionUrl}");
