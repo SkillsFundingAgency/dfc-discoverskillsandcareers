@@ -13,6 +13,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Data.Entities
         public string AssessmentType { get; set; }
         public int MaxQuestions { get; set; }
         public string Title { get; set; }
-        public DateTimeOffset LastUpdatedDt { get; set; }
+        public DateTime LastUpdatedDt { get; set; }
     }
 }
