@@ -22,8 +22,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             var data = new[]
             {
-                $"<link rel=\"preload\" href=\"{settings?.Value.AssetsCDNUrl}/fonts/light-f38ad40456-v1.woff2\" as=\"font\" type=\"font/woff2\" crossorigin />",
-                $"<link rel=\"preload\" href=\"{settings?.Value.AssetsCDNUrl}/fonts/bold-a2452cb66f-v1.woff2\" as=\"font\" type=\"font/woff2\" crossorigin />",
                 $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/main.css\" />",
                 $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/print.css\" media=\"print\" />",
                 $"<script src=\"{settings?.Value.AssetsCDNUrl}/js/site.js\" type=\"text/javascript\"></script>"
