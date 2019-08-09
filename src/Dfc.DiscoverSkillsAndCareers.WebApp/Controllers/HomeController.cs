@@ -110,7 +110,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return new RedirectResult($"/q/{nextQuestionResponse.JobCategorySafeUrl}/{questionUrl}");
                 }
 
-                return new RedirectResult($"/q/short/{questionUrl}");
+                return Redirect($"/q/short/{questionUrl}");
             }
             catch (System.Net.Http.HttpRequestException)
             {
