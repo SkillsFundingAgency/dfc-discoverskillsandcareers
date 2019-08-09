@@ -343,7 +343,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Processor
             entity.MaxQuestions = dto.MaxQuestions;
             entity.Title = dto.Title;
             entity.Version = dto.Version;
-            entity.LastUpdatedDt = dto.LastUpdated;
+            entity.LastUpdatedDt = dto.LastUpdated.UtcDateTime;
         }
     }
 }
