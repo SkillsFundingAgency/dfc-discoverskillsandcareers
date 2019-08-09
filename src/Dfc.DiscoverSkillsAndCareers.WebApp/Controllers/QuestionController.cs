@@ -87,7 +87,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Failed to create session for assessment type {assessment}");
                 }
                 var sessionId = newSessionResponse.SessionId;
-                AppendCookie(sessionId);
+              //  AppendCookie(sessionId);
 
                 return await NextQuestion(newSessionResponse.SessionId, assessment, 1, false);
             }
