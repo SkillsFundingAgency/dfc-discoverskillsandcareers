@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 {
@@ -16,7 +17,7 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services
 
         public static Dictionary<String, dynamic> GetPersonalisation(string domain, string sessionId) => new Dictionary<String, dynamic>
             {
-                { "session_id", sessionId },
+                { "session_id", sessionId.FormatReferenceCode() },
                 { "assessment_date",DateTime.Now.ToString("dd MM yyyy") },
                 { "reload_url",  $"{domain}/reload?sessionId={sessionId}" }
             };
