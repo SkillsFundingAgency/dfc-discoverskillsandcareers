@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
 {
@@ -31,7 +32,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
             var serviceBusSettings = serviceBusSettingsOptions.Value;
             foreach (var doc in input)
             {
-                var question = (dynamic)doc;
+                var question = (Question)(dynamic)doc;
                 log.LogInformation($"Handling question update id={question.QuestionId}");
 
                 // Create a blob
