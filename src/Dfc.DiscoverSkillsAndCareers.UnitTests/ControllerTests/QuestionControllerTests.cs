@@ -260,7 +260,8 @@ namespace Dfc.UnitTests.ControllerTests
                 new AssessmentQuestionResponse
                 {
                     SessionId = "Abc123",
-                    QuestionNumber = 1
+                    QuestionNumber = 1,
+                    NextQuestionNumber = 1
                 }));
 
             var result = await _controller.NewAssessment("short");
@@ -278,7 +279,8 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>())
                 .Returns(Task.FromResult(new AssessmentQuestionResponse
                 {
-                    IsFilterAssessment = true
+                    IsFilterAssessment = true,
+                    NextQuestionNumber = 1
                 }));
             
             var result = await _controller.NextQuestion("Abc123","short", 1, false);
@@ -296,7 +298,8 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>())
                 .Returns(Task.FromResult(new AssessmentQuestionResponse
                 {
-                    IsFilterAssessment = false
+                    IsFilterAssessment = false,
+                    NextQuestionNumber = 1
                 }));
             
             var result = await _controller.NextQuestion("Abc123","short", 1, false);
