@@ -151,7 +151,7 @@ var results = (function () {
             showButtonElement.innerText = showMoreText
           }
           if (groupIndex > 0) {
-            hideButtonElement.style.display = 'initial'
+            hideButtonElement.style.display = 'inline'
           } else {
             hideButtonElement.style.display = 'none'
           }
