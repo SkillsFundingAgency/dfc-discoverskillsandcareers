@@ -22,9 +22,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             var data = new[]
             {
-                $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/main.css\" />",
-                $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/print.css\" media=\"print\" />",
-                $"<script src=\"{settings?.Value.AssetsCDNUrl}/js/site.js\" type=\"text/javascript\"></script>"
+                $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/dysac.min.css\" />",
+                $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/dysacprint.min.css\" media=\"print\" />",
+                $"<script src=\"{settings?.Value.AssetsCDNUrl}/js/dysac.min.js\" type=\"text/javascript\"></script>"
             };
 
             return new OkObjectResult(String.Join(Environment.NewLine, data));
