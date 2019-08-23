@@ -2,20 +2,17 @@
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
-using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    [ExcludeFromCodeCoverage]
     public class ShortTraitRepository : IShortTraitRepository
     {
-        readonly ICosmosSettings cosmosSettings;
-        readonly string collectionName;
-        readonly DocumentClient client;
+        private readonly ICosmosSettings cosmosSettings;
+        private readonly string collectionName;
+        private readonly DocumentClient client;
 
         public ShortTraitRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
@@ -24,7 +21,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             this.client = client;
         }
 
-        
         public async Task CreateTrait(Trait trait, string partitionKey = "traits")
         {
             trait.PartitionKey = partitionKey;
@@ -49,7 +45,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                                        .Where(x => x.PartitionKey == partitionKey)
                                        .AsEnumerable()
                                        .ToArray();
-                
+
                 return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)

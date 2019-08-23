@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
@@ -11,21 +8,19 @@ using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    [ExcludeFromCodeCoverage]
     public class JobCategoryRepository : IJobCategoryRepository
     {
-        readonly ICosmosSettings cosmosSettings;
-        readonly string collectionName;
-        readonly DocumentClient client;
+        private readonly ICosmosSettings cosmosSettings;
+        private readonly string collectionName;
+        private readonly DocumentClient client;
 
         public JobCategoryRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
             this.collectionName = "QuestionSets";
             this.client = client;
-
         }
-        
+
         public async Task<JobCategory> GetJobCategory(string jobCategoryCode, string partitionKey = "job-categories")
         {
             try
@@ -70,7 +65,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 var queryQuestions = client.CreateDocumentQuery<JobCategory>(uri, feedOptions)
                                        .AsEnumerable()
                                        .ToArray();
-                
+
                 return await Task.FromResult(queryQuestions);
             }
             catch (DocumentClientException ex)
@@ -85,6 +80,5 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 }
             }
         }
-        
     }
 }

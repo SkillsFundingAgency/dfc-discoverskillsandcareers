@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models.SiteFinity
 {
-    [ExcludeFromCodeCoverage]
     public class TaxonomyHierarchy
     {
         public Guid Id { get; set; }

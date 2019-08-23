@@ -1,32 +1,27 @@
-﻿using System;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.Rest.Azure;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    [ExcludeFromCodeCoverage]
     public class QuestionSetRepository : IQuestionSetRepository
     {
-        readonly ICosmosSettings cosmosSettings;
-        readonly string collectionName;
-        readonly DocumentClient client;
+        private readonly ICosmosSettings cosmosSettings;
+        private readonly string collectionName;
+        private readonly DocumentClient client;
 
         public QuestionSetRepository(DocumentClient client, IOptions<CosmosSettings> cosmosSettings)
         {
             this.cosmosSettings = cosmosSettings?.Value;
-            
-            if(this.cosmosSettings == null)
+
+            if (this.cosmosSettings == null)
                 throw new ArgumentNullException(nameof(cosmosSettings));
-            
+
             this.collectionName = "QuestionSets";
             this.client = client;
         }
@@ -35,7 +30,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         {
             var uri = UriFactory.CreateDocumentCollectionUri(this.cosmosSettings.DatabaseName, collectionName);
             var doc = await client.UpsertDocumentAsync(uri, questionSet);
-            
+
             await CreateUpdateLatestQuestionSet(questionSet);
 
             return doc;
@@ -59,10 +54,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             {
                 PartitionKey = new PartitionKey("latest-questionset")
             };
-            
+
             var uri = UriFactory.CreateDocumentUri(cosmosSettings.DatabaseName, collectionName, $"latest-{assessmentType}");
             QuestionSet qs = null;
-            
+
             try
             {
                 var result = await client.ReadDocumentAsync<QuestionSet>(uri, feedOptions);
@@ -92,9 +87,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             }
 
             return qs;
-            
         }
-        
+
         public async Task<QuestionSet> GetLatestQuestionSetByTypeAndKey(string assessmentType, string key)
         {
             var keyLowerCase = key.Replace(" ", "-").ToLower();
@@ -112,17 +106,15 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         {
             var titleLowercase = title.ToLower().Replace(" ", "-");
             var uri = UriFactory.CreateDocumentCollectionUri(cosmosSettings.DatabaseName, collectionName);
-            
+
             FeedOptions feedOptions = new FeedOptions() { EnableCrossPartitionQuery = true };
-            
+
             QuestionSet queryQuestionSet = client.CreateDocumentQuery<QuestionSet>(uri, feedOptions)
                                    .Where(x => x.AssessmentType == assessmentType && x.QuestionSetKey == titleLowercase && x.Version == version)
                                    .AsEnumerable()
                                    .FirstOrDefault();
-            
+
             return await Task.FromResult(queryQuestionSet);
         }
-        
-        
     }
 }

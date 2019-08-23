@@ -3,28 +3,25 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
 {
-    [ExcludeFromCodeCoverage]
     public class HttpService : IHttpService
     {
-        HttpClient _httpClient;
-        ILogger<HttpService> _logger;
+        private HttpClient _httpClient;
+        private ILogger<HttpService> _logger;
 
         public HttpService(HttpClient httpClient, ILogger<HttpService> logger, IOptions<AppSettings> settings)
         {
-            _httpClient =  httpClient;
+            _httpClient = httpClient;
             _logger = logger;
-            
-            if(!String.IsNullOrWhiteSpace(settings.Value.APIAuthorisationCode))
+
+            if (!String.IsNullOrWhiteSpace(settings.Value.APIAuthorisationCode))
             {
                 _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", settings.Value.APIAuthorisationCode);
             }
-
         }
 
         public async Task<string> GetString(string url, Guid? dssCorrelationId)
@@ -40,7 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
                 }
             }
         }
-        
+
         private void AddCorrelationId(Guid? dssCorrelationId)
         {
             _httpClient.DefaultRequestHeaders.Remove("DssCorrelationId");
@@ -72,4 +69,3 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Services
         }
     }
 }
-
