@@ -1,25 +1,23 @@
-﻿using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
+﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
+using Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Search;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Search;
 using Microsoft.Extensions.Options;
+using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
+
 namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
 {
-    [ExcludeFromCodeCoverage]
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
         public IConfiguration Configuration { get; private set; }
@@ -35,7 +33,8 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
         {
             ConfigureOptions(services);
 
-            services.AddSingleton<DocumentClient>(srvs => {
+            services.AddSingleton<DocumentClient>(srvs =>
+            {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
@@ -45,7 +44,6 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
                 var searchSettings = srvs.GetService<IOptions<AzureSearchSettings>>();
                 return new SearchIndexClient(searchSettings.Value.ServiceName, searchSettings.Value.IndexName, new SearchCredentials(searchSettings.Value.ApiKey));
             });
-
 
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
@@ -58,7 +56,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ResultsFunctionApp.Ioc
 
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IJobProfileRepository, JobProfileRepository>();
-            
+
             services.AddTransient<IJobCategoryRepository, JobCategoryRepository>();
             services.AddTransient<IQuestionSetRepository, QuestionSetRepository>();
             services.AddTransient<ISiteFinityHttpService, SiteFinityHttpService>();

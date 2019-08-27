@@ -11,11 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp
 {
-    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -49,7 +47,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             var basePath = Configuration.GetValue<string>("AppSettings:APIRootSegment");
             services.AddMvc(o => { o.UseGeneralRoutePrefix(basePath); }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CosmosSettings>(Configuration.GetSection("CosmosSettings"));
 
@@ -75,7 +73,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
-            
+
             var cachePeriod = env.IsDevelopment() ? TimeSpan.FromMinutes(10) : TimeSpan.FromDays(1);
             app.UseStaticFiles(new StaticFileOptions
             {
