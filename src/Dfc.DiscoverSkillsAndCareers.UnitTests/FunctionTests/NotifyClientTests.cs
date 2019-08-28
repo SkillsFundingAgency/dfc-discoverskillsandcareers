@@ -26,7 +26,7 @@ namespace Dfc.UnitTests.FunctionTests
         {
             var result = NotifyClient.GetPersonalisation("my.com", "abc123");
             
-            Assert.Equal("abc123", result["session_id"]);
+            Assert.Equal("ABC1 23", result["session_id"]);
             Assert.Equal(DateTime.Now.ToString("dd MM yyyy"), result["assessment_date"]);
             Assert.Equal($"my.com/reload?sessionId=abc123", result["reload_url"]);
         }

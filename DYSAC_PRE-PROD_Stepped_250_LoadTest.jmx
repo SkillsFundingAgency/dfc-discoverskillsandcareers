@@ -61,39 +61,39 @@
       <hashTree/>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="Full Assessment Run" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="2025473100">
+          <collectionProp name="-134078327">
             <stringProp name="1691">50</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="1629">30</stringProp>
-            <stringProp name="1510368">1320</stringProp>
+            <stringProp name="1572771">3600</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="-1066949988">
+          <collectionProp name="1786041698">
             <stringProp name="1691">50</stringProp>
             <stringProp name="48873">180</stringProp>
             <stringProp name="1629">30</stringProp>
-            <stringProp name="1508508">1140</stringProp>
+            <stringProp name="1570911">3420</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="-1520989349">
+          <collectionProp name="-764700231">
             <stringProp name="1691">50</stringProp>
             <stringProp name="50733">360</stringProp>
             <stringProp name="1629">30</stringProp>
-            <stringProp name="56499">960</stringProp>
+            <stringProp name="1569051">3240</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="2100209627">
+          <collectionProp name="-1439215248">
             <stringProp name="1691">50</stringProp>
             <stringProp name="52593">540</stringProp>
             <stringProp name="1629">30</stringProp>
-            <stringProp name="54639">780</stringProp>
+            <stringProp name="1567191">3060</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
-          <collectionProp name="-2120965763">
+          <collectionProp name="778242193">
             <stringProp name="1691">50</stringProp>
             <stringProp name="54453">720</stringProp>
             <stringProp reference="../../collectionProp[4]/stringProp[3]"/>
-            <stringProp name="53430">600</stringProp>
+            <stringProp name="1545150">2880</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
         </collectionProp>
@@ -108,7 +108,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="url" elementType="Argument">
               <stringProp name="Argument.name">url</stringProp>
-              <stringProp name="Argument.value">beta-staging.nationalcareers.service.gov.uk</stringProp>
+              <stringProp name="Argument.value">beta.staging.nationalcareers.service.gov.uk</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="shortQuestionSet" elementType="Argument">
@@ -180,13 +180,53 @@
           </UniformRandomTimer>
           <hashTree/>
         </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="https://${url}/q/short/01" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="questionId" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">questionId</stringProp>
+                <stringProp name="Argument.value">${shortQuestionSet}-1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="selected_answer" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">selected_answer</stringProp>
+                <stringProp name="Argument.value">Agree</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${url}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">q/short/01</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="RandomTimer.range">5000.0</stringProp>
+          </GaussianRandomTimer>
+          <hashTree/>
+        </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">40</stringProp>
+          <stringProp name="LoopController.loops">39</stringProp>
         </LoopController>
         <hashTree>
           <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
-            <stringProp name="CounterConfig.start">1</stringProp>
+            <stringProp name="CounterConfig.start">2</stringProp>
             <stringProp name="CounterConfig.end">40</stringProp>
             <stringProp name="CounterConfig.incr">1</stringProp>
             <stringProp name="CounterConfig.name">questionNumber</stringProp>

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
 {
@@ -36,7 +37,7 @@ namespace Dfc.DiscoverSkillsAndCareers.ChangeFeed.Triggers
                 if (partitionKey.Contains("filtered") || partitionKey.Contains("ncs"))
                 {
 
-                    var questionSet = (Dfc.DiscoverSkillsAndCareers.Models.QuestionSet) (dynamic) doc;
+                    var questionSet = (QuestionSet)(dynamic) doc;
                     log.LogInformation($"Handling questionset update id={questionSet.QuestionSetVersion}");
 
                     // Create a blob

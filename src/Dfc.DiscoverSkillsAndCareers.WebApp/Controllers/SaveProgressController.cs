@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -239,23 +240,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return RedirectToAction("Error500", "Error");
             }
         }
-
-        [NonAction]
-        public static string GetDisplayCode(string code)
-        {
-            string result = "";
-            int i = 0;
-            foreach(var c in code.ToUpper().ToCharArray())
-            {
-                i++;
-                if (i % 4 == 1 && i > 1)
-                {
-                    result += " ";
-                }
-                result += c.ToString();
-            }
-            return result;
-        }
+        
 
         [HttpGet("reference", Name = "SaveProgressReference")]
         public async Task<IActionResult> ReferenceNumber(string e = "")
@@ -302,7 +287,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             var nextQuestionResponse = await _apiServices.Reload(sessionId, correlationId);
             model.SessionId = sessionId;
-            model.Code = GetDisplayCode(nextQuestionResponse.ReloadCode);
+            model.Code = nextQuestionResponse.ReloadCode.FormatReferenceCode();
             model.SessionDate = nextQuestionResponse.StartedDt.ToString("dd MMMM yyyy");
             model.Status = $"{nextQuestionResponse.RecordedAnswersCount} out of {nextQuestionResponse.MaxQuestionsCount} statements complete";
         }
