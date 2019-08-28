@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
@@ -57,7 +58,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var model = new ResultsViewModel
                 {
                     SessionId = sessionId,
-                    Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]),
+                    Code = sessionId.Split("-")[1].FormatReferenceCode(),
                     AssessmentType = resultsResponse.AssessmentType,
                     JobCategories = resultsResponse.JobCategories,
                     JobFamilyCount = resultsResponse.JobFamilyCount,
@@ -172,7 +173,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var model = new ResultsViewModel
             {
                 SessionId = sessionId,
-                Code = SaveProgressController.GetDisplayCode(sessionId.Split("-")[1]),
+                Code = sessionId.Split("-")[1].FormatReferenceCode(),
                 AssessmentType = resultsResponse.AssessmentType,
                 JobCategories = ReOrderWithFirst(resultsResponse.JobCategories, jobCategory),
                 JobFamilyCount = resultsResponse.JobFamilyCount,

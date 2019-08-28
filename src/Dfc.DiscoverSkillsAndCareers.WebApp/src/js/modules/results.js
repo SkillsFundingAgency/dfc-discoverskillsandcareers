@@ -151,7 +151,7 @@ var results = (function () {
             showButtonElement.innerText = showMoreText
           }
           if (groupIndex > 0) {
-            hideButtonElement.style.display = 'initial'
+            hideButtonElement.style.display = 'inline'
           } else {
             hideButtonElement.style.display = 'none'
           }
@@ -181,7 +181,7 @@ var results = (function () {
           const wrapperElement = resultsList.nextElementSibling.children[0].children[0]
 
           // More button
-          showButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
+          showButtonElement.classList.add('govuk-link', 'govuk-link--no-visited-state')
           showButtonElement.href = '#'
           showButtonElement.innerText = showMoreText
           wrapperElement.appendChild(showButtonElement)
@@ -199,7 +199,7 @@ var results = (function () {
           })
 
           // Less button
-          hideButtonElement.classList = 'govuk-link govuk-link--no-visited-state'
+          hideButtonElement.classList.add('govuk-link', 'govuk-link--no-visited-state')
           hideButtonElement.href = '#'
           hideButtonElement.innerText = showLessText
           wrapperElement.appendChild(hideButtonElement)
