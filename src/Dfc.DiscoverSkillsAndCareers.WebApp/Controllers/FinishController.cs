@@ -28,7 +28,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
@@ -55,7 +55,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");

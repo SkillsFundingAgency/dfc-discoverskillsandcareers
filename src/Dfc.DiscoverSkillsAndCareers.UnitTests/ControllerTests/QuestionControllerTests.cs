@@ -26,18 +26,15 @@ namespace Dfc.UnitTests.ControllerTests
         private ILogger<QuestionController> _logger;
         private IApiServices _apiServices;
         private QuestionController _controller;
-        private IOptions<AppSettings> _appSettings;
         private IDataProtectionProvider _dataProtectionProvider;
 
         public QuestionControllerTests()
         {
             _logger = Substitute.For<ILogger<QuestionController>>();
             _apiServices = Substitute.For<IApiServices>();
-            _appSettings = Substitute.For<IOptions<AppSettings>>();
             _dataProtectionProvider = new EphemeralDataProtectionProvider();
             
-            
-            _controller = new QuestionController(_logger, _apiServices, _appSettings, _dataProtectionProvider)
+            _controller = new QuestionController(_logger, _apiServices, _dataProtectionProvider)
             {
                 ControllerContext = new ControllerContext
                 {

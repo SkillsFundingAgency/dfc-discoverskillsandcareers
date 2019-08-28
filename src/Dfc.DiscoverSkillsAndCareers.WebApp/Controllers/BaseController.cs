@@ -1,16 +1,43 @@
 ﻿using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using System.Collections.Specialized;
-using System.Text;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
-    public abstract class BaseController : Controller
+    public static class UrlExtensions
+    {
+        public static string TryApplyCompositeRoute(this IUrlHelper source, string str)
+        {
+            var settings = source.ActionContext.HttpContext.RequestServices.GetService<IOptions<AppSettings>>();
+
+            return $"/{settings.Value.APIRootSegment.TrimStart('/')}/{str.TrimStart('/')}";
+        }
+    }
+
+    public class CompositeUIBaseController : Controller
+    {
+        public override RedirectResult Redirect(string url)
+        {
+            var settings = Request.HttpContext?.RequestServices?.GetService<IOptions<AppSettings>>();
+            var applicationUrl = !string.IsNullOrEmpty(settings?.Value.APIRootSegment.TrimStart('/'))
+                ? $"/{settings?.Value.APIRootSegment.TrimStart('/')}/{url.TrimStart('/')}"
+                : $"/{url.TrimStart('/')}";
+
+            return new RedirectResult(applicationUrl);
+        }
+    }
+
+    public abstract class BaseController : CompositeUIBaseController
     {
         private readonly IDataProtectionProvider _dataProtectionProvider;
         private readonly IDataProtector _dataProtector;
@@ -36,15 +63,16 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             });
         }
 
-        protected async Task<string> TryGetSessionId(HttpRequest request)
+        protected async Task<string> TryGetSessionId([CallerMemberName]string memberName = null)
         {
-            string sessionId = string.Empty;
+            var request = Request;
+            String sessionId = null;
 
             if (request.Cookies.TryGetValue(".dysac-session", out var cookieSessionId))
             {
                 sessionId = _dataProtector.Unprotect(cookieSessionId);
             }
-
+            
             QueryDictionary = System.Web.HttpUtility.ParseQueryString(request.QueryString.ToString());
             var code = QueryDictionary.Get("sessionId");
             
@@ -58,27 +86,32 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 try
                 {
                     FormData = await request.ReadFormAsync();
-                    string formSessionId = GetFormValue("sessionId");
+                    var formSessionId = GetFormValue("sessionId");
 
-                    if (string.IsNullOrEmpty(formSessionId) == false)
+                    if (!string.IsNullOrEmpty(formSessionId))
                     {
                         sessionId = formSessionId;
                     }
                 }
                 catch { };
             }
+
+            if (string.IsNullOrWhiteSpace(sessionId) && Request.Path.ToString() != "/")
+            {
+                var logger = request.HttpContext?.RequestServices?.GetService<ILogger<BaseController>>();
+                logger?.LogWarning($"Unable to get session Id in  call {memberName} - {request.GetDisplayUrl()}");
+            }
             
             return String.IsNullOrWhiteSpace(sessionId) ? null : sessionId;
+
         }
 
         protected string GetFormValue(string key)
         {
             if (FormData == null) return null;
-            StringValues value;
-            FormData.TryGetValue(key, out value);
-            if (value.Count == 0) return null;
-            return value[0];
-        }
+            FormData.TryGetValue(key, out var stringValues);
 
+            return stringValues.Count == 0 ? null : stringValues[0];
+        }
     }
 }

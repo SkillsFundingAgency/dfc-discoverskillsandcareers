@@ -11,12 +11,10 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     public class HomeController : BaseController
     {
-        readonly ILogger<HomeController> _log;
-        readonly IApiServices _apiServices;
+        private readonly ILogger<HomeController> _log;
+        private readonly IApiServices _apiServices;
 
-        public HomeController(
-            ILogger<HomeController> log,
-            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+        public HomeController(ILogger<HomeController> log, IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
@@ -27,22 +25,23 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 var model = new IndexViewModel { SessionId = sessionId };
-                
+
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter your reference";
-                } else if (e == "2")
+                }
+                else if (e == "2")
                 {
                     model.ErrorMessage = "The reference could not be found";
                 }
-                
+
                 if (string.IsNullOrEmpty(sessionId) == false)
                 {
                     AppendCookie(sessionId);
                 }
-                
+
                 return View("Index", model);
             }
             catch (Exception ex)
@@ -61,7 +60,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [Route("reload")]
         public async Task<IActionResult> ReloadGet()
         {
-            var sessionId = await TryGetSessionId(Request);
+            var sessionId = await TryGetSessionId();
             if (!string.IsNullOrEmpty(sessionId))
             {
                 return await Reload(new ReloadRequest { Code = sessionId });
@@ -111,7 +110,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return new RedirectResult($"/q/{nextQuestionResponse.JobCategorySafeUrl}/{questionUrl}");
                 }
 
-                return new RedirectResult($"/q/short/{questionUrl}");
+                return Redirect($"/q/short/{questionUrl}");
             }
             catch (System.Net.Http.HttpRequestException)
             {

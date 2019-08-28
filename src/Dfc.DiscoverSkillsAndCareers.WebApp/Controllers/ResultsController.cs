@@ -36,7 +36,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             string sessionId = null;
             try
             {
-                sessionId = await TryGetSessionId(Request);
+                sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
@@ -94,7 +94,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
@@ -102,8 +102,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var response = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
                 AppendCookie(sessionId);
-                var redirectResponse = new RedirectResult($"/q/{jobCategory}/{response.QuestionNumber.ToQuestionPageNumber()}");
-                return redirectResponse;
+
+                return  Redirect($"/q/{jobCategory}/{response.QuestionNumber.ToQuestionPageNumber()}");
+                
 
             }
             catch (Exception ex)
@@ -121,7 +122,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");
@@ -151,7 +152,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             var correlationId = Guid.NewGuid();
             try
             {
-                var sessionId = await TryGetSessionId(Request);
+                var sessionId = await TryGetSessionId();
                 if (string.IsNullOrEmpty(sessionId))
                 {
                     return Redirect("/");

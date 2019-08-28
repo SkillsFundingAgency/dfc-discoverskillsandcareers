@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
+﻿using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Dfc.DiscoverSkillsAndCareers.Models.SiteFinity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-
-    [ExcludeFromCodeCoverage]
     public class SiteFinityHttpService : ISiteFinityHttpService
     {
         public class AuthToken
@@ -42,25 +39,24 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         private object _syncObject = new object();
         public ILogger Logger { get; set; }
 
-        IOptions<SiteFinitySettings> _appSettings;
-        
+        private IOptions<SiteFinitySettings> _appSettings;
+
         public SiteFinityHttpService(ILoggerFactory logger, IOptions<SiteFinitySettings> appSettings)
         {
             _httpClient = new HttpClient();
             Logger = logger.CreateLogger(typeof(SiteFinityHttpService));
             _appSettings = appSettings;
         }
-        
+
         private async Task Authenticate()
         {
-            
             var url = $"{_appSettings.Value.SiteFinityApiUrlBase}/{_appSettings.Value.SiteFinityApiAuthenicationEndpoint}";
-            var formData = new FormUrlEncodedContent(new [] {
+            var formData = new FormUrlEncodedContent(new[] {
                 new KeyValuePair<string, string>("client_id", _appSettings.Value.SiteFinityClientId),
-                new KeyValuePair<string, string>("client_secret", _appSettings.Value.SiteFinityClientSecret), 
-                new KeyValuePair<string, string>("username", _appSettings.Value.SiteFinityUsername), 
-                new KeyValuePair<string, string>("password", _appSettings.Value.SiteFinityPassword), 
-                new KeyValuePair<string, string>("grant_type", "password"), 
+                new KeyValuePair<string, string>("client_secret", _appSettings.Value.SiteFinityClientSecret),
+                new KeyValuePair<string, string>("username", _appSettings.Value.SiteFinityUsername),
+                new KeyValuePair<string, string>("password", _appSettings.Value.SiteFinityPassword),
+                new KeyValuePair<string, string>("grant_type", "password"),
                 new KeyValuePair<string, string>("scope", _appSettings.Value.SiteFinityScope)
             });
 
@@ -71,24 +67,23 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
 
             var body = await tokenResponse.Content.ReadAsStringAsync();
 
-            lock(_syncObject) {
+            lock (_syncObject)
+            {
                 _currentAuthToken = JsonConvert.DeserializeObject<AuthToken>(body);
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(_currentAuthToken.TokenType, _currentAuthToken.AccessToken);
                 _currentAuthToken.Expiry = DateTime.UtcNow.AddSeconds(_currentAuthToken.ExpiresIn);
-                
             }
 
             Logger.LogInformation($"Auth token acquired: expires @ {_currentAuthToken.Expiry.ToString("dd/MM/yyyy HH:mm:ss")}");
-            
         }
 
-        private async Task TryAuthenticate() 
+        private async Task TryAuthenticate()
         {
-            if(_appSettings.Value.SiteFinityRequiresAuthentication && (_currentAuthToken == null || _currentAuthToken.HasExpired)) {
+            if (_appSettings.Value.SiteFinityRequiresAuthentication && (_currentAuthToken == null || _currentAuthToken.HasExpired))
+            {
                 await Authenticate();
             }
         }
-        
 
         private async Task<string> GetString(string url)
         {
@@ -104,7 +99,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             var url = MakeAbsoluteUri(contentType);
             Logger.LogInformation($"POST: {url}");
             await TryAuthenticate();
-            
+
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new JsonContent(data)))
             {
                 using (HttpContent content = res.Content)
@@ -119,7 +114,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             var url = MakeAbsoluteUri(contentType);
             Logger.LogInformation($"POST: {url}");
             await TryAuthenticate();
-            
+
             using (HttpResponseMessage res = await _httpClient.PostAsync(url, new StringContent(data, Encoding.UTF8, "application/json")))
             {
                 using (HttpContent content = res.Content)
@@ -134,7 +129,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             var url = MakeAbsoluteUri(contentType);
             Logger.LogInformation(url);
             await TryAuthenticate();
-            
+
             using (HttpResponseMessage res = await _httpClient.DeleteAsync(url))
             {
                 if (!res.IsSuccessStatusCode)
@@ -158,7 +153,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             var data = await GetString(url).FromJson<SiteFinityDataFeed<T>>();
             return data.Value;
         }
-        
+
         public async Task<List<T>> GetAll<T>(string contentType) where T : class
         {
             var contentTypeUrl = new Uri($"{_appSettings.Value.SiteFinityApiUrlBase}/api/{_appSettings.Value.SiteFinityApiWebService}/{contentType}");
@@ -185,26 +180,23 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 }
                 else
                 {
-
                     data.AddRange(results.Value);
                     page++;
                 }
-
             } while (!isExhusted);
 
             return data.ToList();
         }
-        
-        
+
         public async Task<List<TaxonomyHierarchy>> GetTaxonomyInstances(string taxonomyInstance)
         {
             var taxonomies = await GetAll<JObject>("taxonomies");
-            
+
             var taxaId =
                 taxonomies
                     .Single(r => String.Equals(r.Value<string>("TaxonName"), taxonomyInstance, StringComparison.InvariantCultureIgnoreCase))
                     .Value<string>("Id");
-            
+
             var taxonHierarcy = await GetAll<TaxonomyHierarchy>("hierarchy-taxa");
 
             var data =

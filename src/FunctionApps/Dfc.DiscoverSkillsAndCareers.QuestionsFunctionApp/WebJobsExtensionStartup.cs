@@ -1,24 +1,22 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
+﻿using Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc;
-using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
+using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
+
 namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
 {
-    [ExcludeFromCodeCoverage]
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
         public IConfiguration Configuration { get; private set; }
@@ -34,11 +32,11 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
         {
             ConfigureOptions(services);
 
-            services.AddSingleton<DocumentClient>(srvs => {
+            services.AddSingleton<DocumentClient>(srvs =>
+            {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
-
 
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
@@ -49,7 +47,6 @@ namespace Dfc.DiscoverSkillsAndCareers.QuestionsFunctionApp.Ioc
             services.AddSingleton<IQuestionSetRepository, QuestionSetRepository>();
 
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
-
         }
 
         private void ConfigureOptions(IServiceCollection services)
