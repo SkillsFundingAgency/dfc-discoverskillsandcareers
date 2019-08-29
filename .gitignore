@@ -15,6 +15,10 @@ config.js
 # Azure Functions localsettings file
 local.settings.json
 
+# Appsettings file
+appsettings.json
+appsettings.*.json
+
 # User-specific files
 *.suo
 *.user

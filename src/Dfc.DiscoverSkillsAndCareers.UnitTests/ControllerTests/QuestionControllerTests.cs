@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
@@ -12,40 +6,40 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Dfc.UnitTests.ControllerTests
 {
-    
     public class QuestionControllerTests
     {
-        private ILogger<QuestionController> _logger;
-        private IApiServices _apiServices;
-        private QuestionController _controller;
-        private IDataProtectionProvider _dataProtectionProvider;
+        private readonly IApiServices _apiServices;
+        private readonly QuestionController _controller;
 
         public QuestionControllerTests()
         {
-            _logger = Substitute.For<ILogger<QuestionController>>();
             _apiServices = Substitute.For<IApiServices>();
-            _dataProtectionProvider = new EphemeralDataProtectionProvider();
-            
-            _controller = new QuestionController(_logger, _apiServices, _dataProtectionProvider)
+            var logger = Substitute.For<ILogger<QuestionController>>();
+            var dataProtectionProvider = new EphemeralDataProtectionProvider();
+            var layoutService = Substitute.For<ILayoutService>();
+
+            _controller = new QuestionController(logger, _apiServices, dataProtectionProvider, layoutService)
             {
                 ControllerContext = new ControllerContext
                 {
-                    
                     HttpContext = new DefaultHttpContext { }
                 }
             };
-            
+
             _controller.Request.Cookies = new RequestCookieCollection(new Dictionary<string, string>
             {
-                {".dysac-session", _dataProtectionProvider.CreateProtector("BaseController").Protect("Abc123")}
+                {".dysac-session", dataProtectionProvider.CreateProtector("BaseController").Protect("Abc123")}
             });
         }
 
@@ -53,12 +47,12 @@ namespace Dfc.UnitTests.ControllerTests
         public async Task AnswerQuestion_ShouldReturn_BadRequestIfNoSessionId()
         {
             _controller.Request.Cookies = new RequestCookieCollection();
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             Assert.IsType<BadRequestResult>(result);
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_BadRequestIfQuestionNotAnInteger()
         {
@@ -81,20 +75,18 @@ namespace Dfc.UnitTests.ControllerTests
 
             _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>())
                 .Returns(Task.FromResult(new AssessmentQuestionResponse()));
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<QuestionViewModel>(viewResult.Model);
 
             Assert.Equal(viewModel.NoAnswerErrorMessage, viewModel.ErrorMessage);
-
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_NoAnswerErrorMessageIfResponseNull()
         {
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },
@@ -106,20 +98,18 @@ namespace Dfc.UnitTests.ControllerTests
 
             _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>())
                 .Returns(Task.FromResult(new AssessmentQuestionResponse()));
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<QuestionViewModel>(viewResult.Model);
 
             Assert.Equal(viewModel.NoAnswerErrorMessage, viewModel.ErrorMessage);
-
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_ViewIfNoOptionSelected()
         {
-            
             _controller.Request.Form = new FormCollection(new Dictionary<string, StringValues>
             {
                 { "questionId", "1" },
@@ -128,17 +118,17 @@ namespace Dfc.UnitTests.ControllerTests
 
             _apiServices.PostAnswer("Abc123", Arg.Any<PostAnswerRequest>(), Arg.Any<Guid>())
                 .Throws(new HttpRequestException());
-            
+
             _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>())
                 .Returns(Task.FromResult(new AssessmentQuestionResponse()));
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            
+
             Assert.Equal("Question", viewResult.ViewName);
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_500IfExceptionThrown()
         {
@@ -150,15 +140,15 @@ namespace Dfc.UnitTests.ControllerTests
 
             _apiServices.PostAnswer("Abc123", Arg.Any<PostAnswerRequest>(), Arg.Any<Guid>())
                 .Throws(new HttpRequestException());
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            
+
             Assert.Equal("Error500", viewResult.ActionName);
             Assert.Equal("Error", viewResult.ControllerName);
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_RedirectToFinishIfComplete()
         {
@@ -170,15 +160,14 @@ namespace Dfc.UnitTests.ControllerTests
 
             _apiServices.PostAnswer("Abc123", Arg.Any<PostAnswerRequest>(), Arg.Any<Guid>())
                 .Returns(Task.FromResult(new PostAnswerResponse { NextQuestionNumber = 2, IsSuccess = true, IsComplete = true }));
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<RedirectResult>(result);
 
             Assert.Equal("/finish", viewResult.Url);
-
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_RedirectToFilterAssessmentFinishIfComplete()
         {
@@ -191,20 +180,20 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.PostAnswer("Abc123", Arg.Any<PostAnswerRequest>(), Arg.Any<Guid>())
                 .Returns(Task.FromResult(new PostAnswerResponse
                 {
-                    NextQuestionNumber = 2, 
-                    IsSuccess = true, 
-                    IsComplete = true, 
+                    NextQuestionNumber = 2,
+                    IsSuccess = true,
+                    IsComplete = true,
                     IsFilterAssessment = true,
                     JobCategorySafeUrl = "animal-care"
                 }));
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<RedirectResult>(result);
 
             Assert.Equal("/finish/animal-care", viewResult.Url);
         }
-        
+
         [Fact]
         public async Task AnswerQuestion_ShouldReturn_RedirectToNextQuestionIfNotComplete()
         {
@@ -217,19 +206,18 @@ namespace Dfc.UnitTests.ControllerTests
             _apiServices.PostAnswer("Abc123", Arg.Is<PostAnswerRequest>(r => r.QuestionId == "1" && r.SelectedOption == "3"), Arg.Any<Guid>())
                 .Returns(Task.FromResult(new PostAnswerResponse
                 {
-                    NextQuestionNumber = 2, 
-                    IsSuccess = true, 
-                    IsComplete = false, 
+                    NextQuestionNumber = 2,
+                    IsSuccess = true,
+                    IsComplete = false,
                     IsFilterAssessment = false
                 }));
-            
+
             var result = await _controller.AnswerQuestion("short", "1");
 
             var viewResult = Assert.IsType<RedirectResult>(result);
 
             Assert.Equal("/q/short/02", viewResult.Url);
         }
-
 
         [Fact]
         public async Task NewAssessment_ShouldReturn_500IfApiCallNewAssessmentFails()
@@ -239,12 +227,11 @@ namespace Dfc.UnitTests.ControllerTests
             var result = await _controller.NewAssessment("short");
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            
+
             Assert.Equal("Error500", viewResult.ActionName);
             Assert.Equal("Error", viewResult.ControllerName);
-            
         }
-        
+
         [Fact]
         public async Task NewAssessment_ShouldReturn_FirstQuestionView()
         {
@@ -265,7 +252,7 @@ namespace Dfc.UnitTests.ControllerTests
 
             var scResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsType<QuestionViewModel>(scResult.Model);
-            
+
             Assert.Equal("Question", scResult.ViewName);
             Assert.Equal(1, model.QuestionNumber);
         }
@@ -279,16 +266,16 @@ namespace Dfc.UnitTests.ControllerTests
                     IsFilterAssessment = true,
                     NextQuestionNumber = 1
                 }));
-            
-            var result = await _controller.NextQuestion("Abc123","short", 1, false);
+
+            var result = await _controller.NextQuestion("Abc123", "short", 1, false);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<QuestionViewModel>(viewResult.Model);
-            
+
             Assert.True(viewModel.IsFilterAssessment);
             Assert.Equal("FilteringQuestion", viewResult.ViewName);
         }
-        
+
         [Fact]
         public async Task NextQuestion_ShouldReturn_QuestionViewResult()
         {
@@ -298,26 +285,26 @@ namespace Dfc.UnitTests.ControllerTests
                     IsFilterAssessment = false,
                     NextQuestionNumber = 1
                 }));
-            
-            var result = await _controller.NextQuestion("Abc123","short", 1, false);
+
+            var result = await _controller.NextQuestion("Abc123", "short", 1, false);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<QuestionViewModel>(viewResult.Model);
-            
+
             Assert.False(viewModel.IsFilterAssessment);
             Assert.Equal("Question", viewResult.ViewName);
         }
-        
+
         [Fact]
         public async Task NextQuestion_ShouldReturn_500IfApiResponseIsNull()
         {
             _apiServices.Question("Abc123", "short", 1, Arg.Any<Guid>())
                 .Returns(Task.FromResult<AssessmentQuestionResponse>(null));
-            
-            var result = await _controller.NextQuestion("Abc123","short", 1, false);
+
+            var result = await _controller.NextQuestion("Abc123", "short", 1, false);
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            
+
             Assert.Equal("Error500", viewResult.ActionName);
             Assert.Equal("Error", viewResult.ControllerName);
         }

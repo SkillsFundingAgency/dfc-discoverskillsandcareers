@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Dfc.DiscoverSkillsAndCareers.Models;
+﻿using Dfc.DiscoverSkillsAndCareers.Models;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
 {
@@ -15,6 +14,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public bool UseFilteringQuestions { get; set; }
         public JobProfileResult[] JobProfiles { get; set; }
         public string[] WhatYouToldUs { get; set; }
+
         public string GetJobCategoryForNumberText(int number)
         {
             if (number == 1) return $"{number} job category";

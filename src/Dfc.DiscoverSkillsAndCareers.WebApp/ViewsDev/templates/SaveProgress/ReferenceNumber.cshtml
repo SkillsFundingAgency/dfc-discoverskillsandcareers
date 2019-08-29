@@ -1,15 +1,16 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
 {% set pageTitle = 'Your reference code' %}
-
-{% extends "_base.njk" %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+{% from "input/macro.njk" import govukInput %}
+{% from "button/macro.njk" import govukButton %}
 
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Save progress";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
@@ -27,15 +28,16 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
-                @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                @if (!String.IsNullOrEmpty(@Model.ErrorMessage))
+                {
                     <div>
                         {{ govukErrorSummary({
                         "titleText": "There is a problem",
                         "errorList": [
-                            {
-                            "text": "@Model.ErrorMessage",
-                            "href": "#mobileNumber"
-                            }
+                        {
+                        "text": "@Model.ErrorMessage",
+                        "href": "#mobileNumber"
+                        }
                         ]
                         }) }}
                     </div>
@@ -67,10 +69,11 @@
                 <form action="@Url.TryApplyCompositeRoute("/save-my-progress/reference")" method="post" class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds-from-desktop">
                         <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
-                        @if (!Model.HasError) {
+                        @if (!Model.HasError)
+                        {
 
-                        <div>
-                            {{ govukInput({
+                            <div>
+                                {{ govukInput({
                             label: {
                             text: "Phone number"
                             },
@@ -79,23 +82,24 @@
                             name: "mobileNumber",
                             required: "true"
                             }) }}
-                        </div>
+                            </div>
                         }
-                        else {
-                        <div>
-                            {{ govukInput({
-                            label: {
-                            text: "Phone number"
-                            },
-                            classes: "",
-                            id: "mobileNumber",
-                            name: "mobileNumber",
-                            required: "true",
-                            errorMessage: {
-                            text: "@Model.ErrorMessage"
-                            }
-                            }) }}
-                        </div>
+                        else
+                        {
+                            <div>
+                                {{ govukInput({
+                                label: {
+                                text: "Phone number"
+                                },
+                                classes: "",
+                                id: "mobileNumber",
+                                name: "mobileNumber",
+                                required: "true",
+                                errorMessage: {
+                                text: "@Model.ErrorMessage"
+                                }
+                                }) }}
+                            </div>
                         }
                         {{ govukButton({
                                 text: "Send"

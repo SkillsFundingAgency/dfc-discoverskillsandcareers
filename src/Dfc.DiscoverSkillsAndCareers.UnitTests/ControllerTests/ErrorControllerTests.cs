@@ -13,18 +13,15 @@ namespace Dfc.UnitTests.ControllerTests
 {
     public class ErrorControllerTests
     {
-        private ILogger<ErrorController> _logger;
-        private IApiServices _apiServices;
-        private ErrorController _controller;
-        private IDataProtectionProvider _dataProtectionProvider;
+        private readonly ErrorController _controller;
 
         public ErrorControllerTests()
         {
-            _logger = Substitute.For<ILogger<ErrorController>>();
-            _apiServices = Substitute.For<IApiServices>();
-            _dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
-            
-            _controller = new ErrorController(_logger, _apiServices, _dataProtectionProvider)
+            var logger = Substitute.For<ILogger<ErrorController>>();
+            var dataProtectionProvider = Substitute.For<IDataProtectionProvider>();
+            var layoutService = Substitute.For<ILayoutService>();
+
+            _controller = new ErrorController(logger, dataProtectionProvider, layoutService)
             {
                 ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() }
             };

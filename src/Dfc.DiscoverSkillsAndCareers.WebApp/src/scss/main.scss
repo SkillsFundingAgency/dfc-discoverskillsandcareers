@@ -121,3 +121,21 @@ nav {
 .app-advisor-hours {
   margin: 19px 0;
 }
+
+.govuk-button--start {
+  background-image: url('/gds_service_toolkit/images/icon-pointer.png');
+}
+
+.govuk-footer__copyright-logo {
+  background-image: url("/gds_service_toolkit/images/govuk-crest.png");
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .govuk-button--start {
+    background-image: url("/gds_service_toolkit/images/icon-pointer-2x.png");
+  }
+
+  .govuk-footer__copyright-logo {
+    background-image: url("/gds_service_toolkit/images/govuk-crest-2x.png");
+  }
+}

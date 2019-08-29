@@ -1,11 +1,11 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Web;
-using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -13,11 +13,13 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _log;
         private readonly IApiServices _apiServices;
+        private readonly ILayoutService _layoutService;
 
-        public HomeController(ILogger<HomeController> log, IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+        public HomeController(ILogger<HomeController> log, IApiServices apiServices, IDataProtectionProvider dataProtectionProvider, ILayoutService layoutService) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
+            _layoutService = layoutService;
         }
 
         public async Task<IActionResult> Index(string e = "")
@@ -26,7 +28,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             try
             {
                 var sessionId = await TryGetSessionId();
-                var model = new IndexViewModel { SessionId = sessionId };
+                var model = new IndexViewModel { SessionId = sessionId, Layout = _layoutService.GetLayout(Request) };
 
                 if (e == "1")
                 {

@@ -2,69 +2,67 @@
 {% set pageGroup = '' %}
 {% set pageTitle = 'Results' %}
 
-{% extends "_base.njk" %}
-
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.ResultsViewModel;
 @{
     ViewData["Title"] = "Results";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
 {% block main %}
 
-  <main id="content" role="main">
+<main id="content" role="main">
 
     <div class="app-masthead">
-      <div class="govuk-width-container">
-          <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-            <h1 class="govuk-heading-xl app-masthead__title">Your results</h1>
-          </div>
-        </div>
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    <h1 class="govuk-heading-xl app-masthead__title">Your results</h1>
+                </div>
+            </div>
 
-      </div>
+        </div>
     </div>
 
     <div class="app-grey">
-      <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
+        <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
 
-        <div class="govuk-grid-row">
+            <div class="govuk-grid-row">
 
-          <div class="govuk-grid-column-two-thirds app-intro">
+                <div class="govuk-grid-column-two-thirds app-intro">
 
-            <h2 class="govuk-heading-l">What you told us</h2>
+                    <h2 class="govuk-heading-l">What you told us</h2>
 
-              <div class="govuk-text">
-                  <p>Your answers show that:</p>
-                  <ul class="govuk-list govuk-list--bullet">
-                      @foreach (var trait in Model.Traits)
-                      {
-                          <li>@trait</li>
-                      }
-                  </ul>
+                    <div class="govuk-text">
+                        <p>Your answers show that:</p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            @foreach (var trait in Model.Traits)
+                            {
+                                <li>@trait</li>
+                            }
+                        </ul>
 
-                  @if (Model.JobCategories.Any())
-                  {
-                      <p>The following job categories are based on the answers you have given. You can choose to view more results at the bottom of the page.</p>
-                  }
-                  else
-                  {
-                      <p>Because of your answers, we could not recommend any job categories. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were correct.</p>
-                  }
-              </div>
+                        @if (Model.JobCategories.Any())
+                        {
+                            <p>The following job categories are based on the answers you have given. You can choose to view more results at the bottom of the page.</p>
+                        }
+                        else
+                        {
+                            <p>Because of your answers, we could not recommend any job categories. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were correct.</p>
+                        }
+                    </div>
 
-          </div>
+                </div>
 
-          <div class="govuk-grid-column-one-third">
-            {% include "_printpanel.njk" %}
-            {% include "_advisorpanel.njk" %}
-          </div>
+                <div class="govuk-grid-column-one-third">
+                    {% include "_printpanel.njk" %}
+                    {% include "_advisorpanel.njk" %}
+                </div>
 
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="govuk-main-wrapper govuk-width-container @(Model.AssessmentType == "short" ? string.Empty : "govuk-!-padding-top-7")">
@@ -131,9 +129,9 @@
                 </div>
             }
         </div>
-            
+
     </div>
 
-  </main>
+</main>
 
 {% endblock %}

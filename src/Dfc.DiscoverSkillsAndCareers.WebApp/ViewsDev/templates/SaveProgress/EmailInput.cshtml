@@ -1,14 +1,15 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
 {% set pageTitle = 'Email address' %}
-
-{% extends "_base.njk" %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+{% from "input/macro.njk" import govukInput %}
+{% from "button/macro.njk" import govukButton %}
 
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Save progress";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
@@ -31,15 +32,16 @@
                     </legend>
                     <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
 
-                    @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                    @if (!String.IsNullOrEmpty(@Model.ErrorMessage))
+                    {
                         <div>
                             {{ govukErrorSummary({
                             "titleText": "There is a problem",
                             "errorList": [
-                                {
-                                "text": "@Model.ErrorMessage",
-                                "href": "#email"
-                                }
+                            {
+                            "text": "@Model.ErrorMessage",
+                            "href": "#email"
+                            }
                             ]
                             }) }}
                         </div>
@@ -47,11 +49,12 @@
 
                     <div class="govuk-body">
 
-                        <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
+                        <form action="@Url.TryApplyCompositeRoute("/save-my-progress/email")" method="post" class="govuk-grid-row">
                             <div class="govuk-grid-column-two-thirds-from-desktop">
-                                @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                                <div>
-                                    {{ govukInput({
+                                @if (String.IsNullOrEmpty(@Model.ErrorMessage))
+                                {
+                                    <div>
+                                        {{ govukInput({
                                     label: {
                                     text: "Email"
                                     },
@@ -60,24 +63,26 @@
                                     name: "email",
                                     required: "true"
                                     })
-                                    }}
-                                </div>
-                                } else {
-                                <div>
-                                    {{ govukInput({
-                                    label: {
+                                        }}
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        {{ govukInput({
+                                        label: {
                                         text: "Email"
-                                    },
-                                    type: "text",
-                                    id: "email",
-                                    name: "email",
-                                    required: "true",
-                                    errorMessage: {
+                                        },
+                                        type: "text",
+                                        id: "email",
+                                        name: "email",
+                                        required: "true",
+                                        errorMessage: {
                                         text: "@Model.ErrorMessage"
-                                    }
-                                    })
-                                    }}
-                                </div>
+                                        }
+                                        })
+                                        }}
+                                    </div>
                                 }
                                 {{ govukButton({
                                     text: "Send"

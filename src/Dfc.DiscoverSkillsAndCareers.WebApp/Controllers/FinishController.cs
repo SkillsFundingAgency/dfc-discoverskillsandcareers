@@ -1,25 +1,23 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("finish")]
     public class FinishController : BaseController
     {
-        readonly ILogger<FinishController> _log;
-        readonly IApiServices _apiServices;
+        private readonly ILogger<FinishController> _log;
+        private readonly ILayoutService _layoutService;
 
-        public FinishController(
-            ILogger<FinishController> log,
-            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+        public FinishController(ILogger<FinishController> log, IDataProtectionProvider dataProtectionProvider, ILayoutService layoutService) : base(dataProtectionProvider)
         {
             _log = log;
-            _apiServices = apiServices;
+            _layoutService = layoutService;
         }
 
         [Route("{jobCategory}")]
@@ -34,12 +32,14 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var viewName ="FinishFilteredAssessment";
+                var viewName = "FinishFilteredAssessment";
                 var model = new FinishViewModel
                 {
                     IsFilterAssessment = true,
-                    JobCategorySafeUrl = jobCategory
+                    JobCategorySafeUrl = jobCategory,
+                    Layout = _layoutService.GetLayout(Request)
                 };
+
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }
@@ -62,7 +62,11 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
 
                 var viewName = "Finish";
-                var model = new FinishViewModel();
+                var model = new FinishViewModel
+                {
+                    Layout = _layoutService.GetLayout(Request)
+                };
+
                 AppendCookie(sessionId);
                 return View(viewName, model);
             }

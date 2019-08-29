@@ -2,14 +2,12 @@
 {% set pageGroup = '' %}
 {% set pageTitle = 'Assessment complete' %}
 
-{% extends "_base.njk" %}
-
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
     ViewData["Title"] = "Assessment complete";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 

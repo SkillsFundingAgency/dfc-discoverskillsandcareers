@@ -2,13 +2,11 @@
 {% set pageGroup = '' %}
 {% set pageTitle = 'Check your email' %}
 
-{% extends "_base.njk" %}
-
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Save progress";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 

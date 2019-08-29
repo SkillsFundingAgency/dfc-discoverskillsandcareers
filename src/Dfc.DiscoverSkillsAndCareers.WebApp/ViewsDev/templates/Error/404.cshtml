@@ -2,13 +2,11 @@
 {% set pageTitle = 'Error' %}
 {% set pageGroup = '' %}
 
-{% extends "_base.njk" %}
-
 {% block pre %}
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
 @{
     ViewData["Title"] = "Error";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 

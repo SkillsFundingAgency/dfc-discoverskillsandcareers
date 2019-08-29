@@ -45,7 +45,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
                 options.MaxAge = TimeSpan.FromDays(365);
             });
 
-            var basePath = Configuration.GetValue<string>("AppSettings:APIRootSegment");
+            var basePath = Configuration.GetValue<string>("AppSettings:APIRootSegment") ?? "dysac";
             services.AddMvc(o => { o.UseGeneralRoutePrefix(basePath); }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -57,6 +57,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp
 
             services.AddScoped<IApiServices, ApiServices>();
             services.AddTransient<IErrorController, ErrorController>();
+            services.AddSingleton<ILayoutService, LayoutService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

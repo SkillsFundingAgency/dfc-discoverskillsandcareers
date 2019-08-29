@@ -1,53 +1,56 @@
 ﻿{% set pageName = 'resume-code' %}
 {% set pageGroup = '' %}
 {% set pageTitle = 'Save your progress' %}
-
-{% extends "_base.njk" %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+{% from "radios/macro.njk" import govukRadios %}
+{% from "button/macro.njk" import govukButton %}
 
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Save progress";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
 {% block main %}
 
-  <main id="content" role="main">
+<main id="content" role="main">
 
-  <div class="govuk-width-container app-site-width-container">
+    <div class="govuk-width-container app-site-width-container">
 
-      {% include "_breadcrumbpanel.njk" %}
+        {% include "_breadcrumbpanel.njk" %}
 
-  </div>
+    </div>
 
     <div class="govuk-main-wrapper govuk-width-container">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
 
-          <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
+                <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
 
-          <form action="@Url.TryApplyCompositeRoute("/save-my-progress")" method="post">
+                <form action="@Url.TryApplyCompositeRoute("/save-my-progress")" method="post">
 
-            @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                  <div>
-                      {{ govukErrorSummary({
-                      "titleText": "There is a problem",
-                      "errorList": [
-                          {
-                          "text": "@Model.ErrorMessage",
-                          "href": "#SelectedOption-error"
-                          }
-                      ]
-                      }) }}
-                  </div>
-              }
+                    @if (!String.IsNullOrEmpty(@Model.ErrorMessage))
+                    {
+                        <div>
+                            {{ govukErrorSummary({
+                            "titleText": "There is a problem",
+                            "errorList": [
+                            {
+                            "text": "@Model.ErrorMessage",
+                            "href": "#SelectedOption-error"
+                            }
+                            ]
+                            }) }}
+                        </div>
+                    }
 
-              @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                <div>
-                  {{ govukRadios({
+                    @if (String.IsNullOrEmpty(@Model.ErrorMessage))
+                    {
+                        <div>
+                            {{ govukRadios({
                   idPrefix: "SelectedOption",
                   name: "SelectedOption",
                   fieldset: {
@@ -68,51 +71,53 @@
                     }
                   ]
                 }) }}
-                </div>
-              } else {
-                <div>
-                  {{ govukRadios({
-                  idPrefix: "SelectedOption",
-                  name: "SelectedOption",
-                  errorMessage: {
-                      text: "@Model.ErrorMessage"
-                  },
-                  fieldset: {
-                    legend: {
-                      text: "How would you like to return to your assessment?",
-                      isPageHeading: true,
-                      classes: "govuk-fieldset__legend--xl"
+                        </div>
                     }
-                  },
-                  items: [
+                    else
                     {
-                      value: "email",
-                      text: "Send me an email with a link"
-                    },
-                    {
-                      value: "reference",
-                      text: "Get a reference code"
+                        <div>
+                            {{ govukRadios({
+                            idPrefix: "SelectedOption",
+                            name: "SelectedOption",
+                            errorMessage: {
+                            text: "@Model.ErrorMessage"
+                            },
+                            fieldset: {
+                            legend: {
+                            text: "How would you like to return to your assessment?",
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--xl"
+                            }
+                            },
+                            items: [
+                            {
+                            value: "email",
+                            text: "Send me an email with a link"
+                            },
+                            {
+                            value: "reference",
+                            text: "Get a reference code"
+                            }
+                            ]
+                            }) }}
+                        </div>
                     }
-                  ]
-                }) }}
-                </div>
-              }
 
-              {{ govukButton({
+                    {{ govukButton({
               text: "Continue"
             }) }}
 
-          </form>
+                </form>
 
-          <div class="govuk-body">
+                <div class="govuk-body">
 
-            <p><a href="@Url.TryApplyCompositeRoute(Model.BackLink)">Return to assessment</a></p>
+                    <p><a href="@Url.TryApplyCompositeRoute(Model.BackLink)">Return to assessment</a></p>
 
-          </div>
+                </div>
 
+            </div>
         </div>
-      </div>
     </div>
-  </main>
+</main>
 
 {% endblock %}
