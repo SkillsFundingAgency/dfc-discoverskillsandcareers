@@ -1,29 +1,26 @@
-﻿using Dfc.DiscoverSkillsAndCareers.Repositories;
+﻿using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
+using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Common.Standard.Logging;
 using DFC.Functions.DI.Standard;
 using DFC.HTTP.Standard;
 using DFC.JSON.Standard;
 using DFC.Swagger.Standard;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Search;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc;
-using Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Services;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Search;
-using Microsoft.Azure.Search.Models;
 using Microsoft.Extensions.Options;
-using Notify.Interfaces;
 using Notify.Client;
+using Notify.Interfaces;
+using System;
 
 [assembly: WebJobsStartup(typeof(WebJobsExtensionStartup), "Web Jobs Extension Startup")]
+
 namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
 {
-    [ExcludeFromCodeCoverage]
     internal class WebJobsExtensionStartup : IWebJobsStartup
     {
         public IConfiguration Configuration { get; private set; }
@@ -39,7 +36,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
         {
             ConfigureOptions(services);
 
-            services.AddSingleton<DocumentClient>(srvs => {
+            services.AddSingleton<DocumentClient>(srvs =>
+            {
                 var cosmosSettings = srvs.GetService<IOptions<CosmosSettings>>();
                 return new DocumentClient(new Uri(cosmosSettings?.Value.Endpoint), cosmosSettings?.Value.Key);
             });
@@ -49,7 +47,6 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
                 var searchSettings = srvs.GetService<IOptions<AzureSearchSettings>>();
                 return new SearchIndexClient(searchSettings.Value.ServiceName, searchSettings.Value.IndexName, new SearchCredentials(searchSettings.Value.ApiKey));
             });
-
 
             services.AddSingleton<ILoggerHelper, LoggerHelper>();
             services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
@@ -65,7 +62,8 @@ namespace Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp.Ioc
             services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
             services.AddTransient<IAssessmentCalculationService, AssessmentCalculationService>();
             services.AddTransient<IFilterAssessmentCalculationService, FilterAssessmentCalculationService>();
-            services.AddSingleton<INotificationClient>(srvs => {
+            services.AddSingleton<INotificationClient>(srvs =>
+            {
                 var appSettings = srvs.GetService<IOptions<AppSettings>>().Value;
                 return new NotificationClient(appSettings.NotifyApiKey);
             });

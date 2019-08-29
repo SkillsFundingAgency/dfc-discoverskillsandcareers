@@ -5,6 +5,7 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
     ViewData["Title"] = "Assessment complete";
@@ -17,12 +18,10 @@
   <main id="content" role="main">
 
     <div class="govuk-width-container app-site-width-container">
-
-      {% include "_phasebanner.njk" %}
-
-      <div class="app-breadcrumb-panel">
-          <a href="/" class="govuk-back-link">Back to start</a>
-      </div>
+        
+        <div class="app-breadcrumb-panel">
+            <a href="/" class="govuk-back-link">Back to start</a>
+        </div>
 
     </div>
 
@@ -50,11 +49,11 @@
           <h2 class="govuk-heading-m">What to do next</h2>
           <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
 
-          {{ govukButton({
-          text: "See results",
-          href: "/results",
-          classes: "app-button"
-          }) }}
+          <a role="button" draggable="false"
+               href="@Url.TryApplyCompositeRoute("/results")"
+               class="govuk-button app-button">
+               See results
+           </a>  
 
         </div>
       </div>

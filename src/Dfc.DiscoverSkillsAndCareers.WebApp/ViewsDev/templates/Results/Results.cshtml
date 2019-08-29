@@ -5,6 +5,7 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.ResultsViewModel;
 @{
     ViewData["Title"] = "Results";
@@ -15,10 +16,6 @@
 {% block main %}
 
   <main id="content" role="main">
-
-    <div class="govuk-width-container">
-      {% include "_phasebanner.njk" %}
-    </div>
 
     <div class="app-masthead">
       <div class="govuk-width-container">
@@ -99,11 +96,11 @@
                                             <p class="app-noprint">Answer some more questions to find job roles you might be suited to in @(jobCategory.JobCategoryName).</p>
                                             if (jobCategory.FilterAssessmentResult != null && jobCategory.FilterAssessmentResult.SuggestedJobProfiles.Count > 0)
                                             {
-                                                <a href="/results/@jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
+                                                <a href="@Url.TryApplyCompositeRoute("/results/" + jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe)" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
                                             }
                                             else
                                             {
-                                                <a href="/results/filtered/@jobCategory.JobCategoryNameUrl" role="button" draggable="false" class="govuk-button app-button">
+                                                <a href="@Url.TryApplyCompositeRoute("/results/filtered/" + jobCategory.JobCategoryNameUrl)" role="button" draggable="false" class="govuk-button app-button">
                                                     @if (jobCategory.TotalQuestions == 1)
                                                     {
                                                         @("Answer 1 more question")

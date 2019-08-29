@@ -1,12 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Dfc.DiscoverSkillsAndCareers.Models.Extensions
 {
-    [ExcludeFromCodeCoverage]
     public class JsonSettings
     {
         public static JsonSerializerSettings Instance = new JsonSerializerSettings
@@ -14,18 +12,17 @@ namespace Dfc.DiscoverSkillsAndCareers.Models.Extensions
             DateParseHandling = DateParseHandling.DateTimeOffset
         };
     }
-    
-    [ExcludeFromCodeCoverage]
+
     public static class JsonExtensions
     {
-        static Regex ReplaceRegex = new Regex(@"\{prop:(\w*)\}");
+        private static Regex ReplaceRegex = new Regex(@"\{prop:(\w*)\}");
 
         public static async Task<T> FromJson<T>(this Task<string> source)
         {
             var data = await source;
             return JsonConvert.DeserializeObject<T>(data, JsonSettings.Instance);
         }
-        
+
         public static T FromJson<T>(this string source)
         {
             var data = source;
@@ -36,7 +33,6 @@ namespace Dfc.DiscoverSkillsAndCareers.Models.Extensions
         {
             foreach (var property in source.Properties())
             {
-                
                 if (property.Value.Type == JTokenType.String)
                 {
                     var propValue = property.Value.Value<string>();
@@ -52,7 +48,8 @@ namespace Dfc.DiscoverSkillsAndCareers.Models.Extensions
                         }
                     }
 
-                    if(hasReplacements) {
+                    if (hasReplacements)
+                    {
                         source.SelectToken(property.Name).Replace(propValue);
                     }
                 }

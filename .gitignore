@@ -277,3 +277,5 @@ __pycache__/
 TEST-*.xml
 coverage.json
 coverage.*.xml
+.ionide
+/src/FunctionApps/Dfc.DiscoverSkillsAndCareers.AssessmentFunctionApp/appsettings.Development.json

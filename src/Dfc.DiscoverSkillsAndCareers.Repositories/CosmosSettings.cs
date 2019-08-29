@@ -1,8 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Dfc.DiscoverSkillsAndCareers.Repositories
+﻿namespace Dfc.DiscoverSkillsAndCareers.Repositories
 {
-    [ExcludeFromCodeCoverage]
     public class CosmosSettings : ICosmosSettings
     {
         public string Endpoint { get; set; }

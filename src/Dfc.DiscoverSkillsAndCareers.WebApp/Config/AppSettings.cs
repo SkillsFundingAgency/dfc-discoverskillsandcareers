@@ -1,8 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
+﻿namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
 {
-    [ExcludeFromCodeCoverage]
     public class AppSettings : IAppSettings
     {
         public string ContentApiRoot { get; set; }
@@ -12,7 +9,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Config
         public string NotifyEmailTemplateId { get; set; }
         public string NotifySmsTemplateId { get; set; }
         public string APIAuthorisationCode { get; set; }
-        
         public string ExploreCareersBaseUrl { get; set; }
+        public string AssetsCDNUrl { get; set; }
+        public string APIRootSegment { get; set; }
     }
 }

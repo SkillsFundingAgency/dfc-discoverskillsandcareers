@@ -1,23 +1,19 @@
 using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors;
-using Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models;
+using Dfc.DiscoverSkillsAndCareers.Repositories;
 using DFC.Functions.DI.Standard.Attributes;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Repositories;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
 {
-    [ExcludeFromCodeCoverage]
     public static class PollFunction
     {
         public const string Schedule = "%PollingSchedule%";
 
         [FunctionName("PollFunction")]
-        public static  async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
+        public static async Task Run([TimerTrigger(Schedule)]TimerInfo myTimer,
             ILogger log,
             [Inject]ISiteFinityHttpService siteFinityHttpService,
             [Inject]IContentTypeProcessor<ShortTraitDataProcessor> shortTraitDataProcessor,
@@ -31,13 +27,13 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
             try
             {
                 siteFinityHttpService.Logger = log;
-                
+
                 log.LogInformation($"PollFunction executed at: {myTimer.ScheduleStatus.Last:O}");
 
                 await shortTraitDataProcessor.RunOnce(log);
 
                 await jobCategoryDataProcessor.RunOnce(log);
-                
+
                 await shortQuestionSetDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);

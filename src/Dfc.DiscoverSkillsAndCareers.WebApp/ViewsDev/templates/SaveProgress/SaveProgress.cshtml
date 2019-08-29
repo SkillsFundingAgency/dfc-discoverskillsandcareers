@@ -5,6 +5,7 @@
 {% extends "_base.njk" %}
 
 {% block pre %}
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.SaveProgressViewModel;
 @{
     ViewData["Title"] = "Save progress";
@@ -18,8 +19,6 @@
 
   <div class="govuk-width-container app-site-width-container">
 
-      {% include "_phasebanner.njk" %}
-
       {% include "_breadcrumbpanel.njk" %}
 
   </div>
@@ -30,7 +29,7 @@
 
           <h1 class="govuk-heading-xl visually-hidden">Save your progress</h1>
 
-          <form action="/save-my-progress" method="post">
+          <form action="@Url.TryApplyCompositeRoute("/save-my-progress")" method="post">
 
             @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
                   <div>
@@ -107,7 +106,7 @@
 
           <div class="govuk-body">
 
-            <p><a href="@Model.BackLink">Return to assessment</a></p>
+            <p><a href="@Url.TryApplyCompositeRoute(Model.BackLink)">Return to assessment</a></p>
 
           </div>
 

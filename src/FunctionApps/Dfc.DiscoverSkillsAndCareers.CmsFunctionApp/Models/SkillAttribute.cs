@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
 {
-    [ExcludeFromCodeCoverage]
     public class SkillAttribute
     {
         public string ONetAttribute { get; set; }
@@ -14,8 +11,6 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.Models
         public double NcsRank { get; set; }
         public int TotalProfilesWithSkill { get; set; }
         public double PercentageProfileWithSkill { get; set; }
-
-        public HashSet<string> ProfilesWithSkill { get; set;  } 
-
+        public HashSet<string> ProfilesWithSkill { get; set; }
     }
 }

@@ -9,6 +9,7 @@
 
 {% block pre %}
 
+@using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @{
     ViewData["Title"] = "Question";
     Layout = null;
@@ -34,25 +35,23 @@
 
     <div class="govuk-width-container app-site-width-container">
 
-        {% include "_phasebanner.njk" %}
-
         @if (Model.QuestionNumber == 1)
         {
             <div class="app-breadcrumb-panel">
-                <a href="/" class="govuk-back-link">Back to start</a>
+                <a href="@Url.TryApplyCompositeRoute("/")" class="govuk-back-link">Back to start</a>
                 </div>
         }
         else
         {
             <div class="app-breadcrumb-panel">
-                <a href="@("/q/" + Model.AssessmentType + "/" + (Model.QuestionNumber - 1).ToString("D2"))" class="govuk-back-link">Back to previous statement</a>
+                <a href="@Url.TryApplyCompositeRoute("/q/" + Model.AssessmentType + "/" + (Model.QuestionNumber - 1).ToString("D2"))" class="govuk-back-link">Back to previous statement</a>
             </div>
         }
 
     </div>
 
     <div class="govuk-main-wrapper govuk-width-container">
-        <form action="@Model.FormRoute" method="post">
+        <form action="@Url.TryApplyCompositeRoute(Model.FormRoute)" method="post">
 
             <input type="hidden" name="sessionId" value="@Model.SessionId" />
             <input type="hidden" name="questionId" value="@Model.QuestionId" />
