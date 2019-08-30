@@ -144,9 +144,6 @@
             "type": "string",
             "defaultValue": ""
         },
-        "SlackAlertingToken": {
-            "type": "securestring"
-        },
         "CPUPercentageAlertThreshhold": {
             "type": "string",
             "defaultValue": "75"
@@ -159,7 +156,8 @@
     "variables": {
         "EnableAlertsAndMetrics": "[equals(toUpper(parameters('Environment')), 'PRD')]",
         "ActionGroupName": "[concat('dfc-', toLower(parameters('Environment')), '-skillcareers-actgrp')]",
-        "slackIntegrationBaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-slack'))]",
+        "slackIntegrationBaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers'))]",
+        "SlackLogicAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-logic-app'))]",
         "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
@@ -1109,27 +1107,21 @@
             }
         },
         {
-            "name": "dysacAzureMonitorSlackFunction",
+            "name": "[variables('SlackLogicAppName')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/slack-alerts-function-app.json')]",
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/slack-alerts-logic-app.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "instanceBaseName":  {
                         "value": "[variables('slackIntegrationBaseName')]" 
                     },
-                    "storageConnectionString": {
-                        "value": "[reference(variables('StorageAccountName')).outputs.storageConnectionString.value]"
-                    },
                     "slackChannel": {
                         "value": "[parameters('SlackAlertingChannel')]"
-                    },
-                    "slackWebHookToken": {
-                        "value": "[parameters('SlackAlertingToken')]"
                     }
                 }
             }
@@ -1152,12 +1144,12 @@
                         "value": "[variables('EnableAlertsAndMetrics')]"
                     },
                     "webHookUrl": {
-                        "value": "[reference('dysacAzureMonitorSlackFunction').outputs.webHookUrl.value]"
+                        "value": "[reference(variables('SlackLogicAppName')).outputs.webHookURI.value]"
                     }
                 }
             },
             "dependsOn": [
-                "dysacAzureMonitorSlackFunction"
+                "[variables('SlackLogicAppName')]"
             ]
         },
         {
