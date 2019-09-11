@@ -1,31 +1,32 @@
-﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
+﻿using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
+using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("save-my-progress")]
     public class SaveProgressController : BaseController
     {
-        readonly ILogger<SaveProgressController> _log;
-        readonly IApiServices _apiServices;
-        readonly AppSettings _appSettings;
+        private readonly ILogger<SaveProgressController> _log;
+        private readonly IApiServices _apiServices;
+        private readonly AppSettings _appSettings;
+        private readonly ILayoutService _layoutService;
 
         public SaveProgressController(
             ILogger<SaveProgressController> log,
             IApiServices apiServices,
-            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider, ILayoutService layoutService) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
+            _layoutService = layoutService;
             _appSettings = appSettings.Value;
         }
 
@@ -66,7 +67,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = new SaveProgressViewModel();
+                var model = new SaveProgressViewModel { Layout = _layoutService.GetLayout(Request) };
                 model.BackLink = "/reload";
                 if (withError)
                 {
@@ -85,18 +86,17 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         [HttpGet("EmailSent")]
         public IActionResult EmailSent()
         {
-            
             var email = (string)TempData["SentEmail"];
 
             if (!String.IsNullOrWhiteSpace(email))
             {
                 TempData["SentEmail"] = null;
-                return View("EmailSent", new SaveProgressViewModel() {SentTo = email});
+                return View("EmailSent", new SaveProgressViewModel { SentTo = email, Layout = _layoutService.GetLayout(Request) });
             }
-            
+
             return RedirectToAction("Index");
         }
-        
+
         [HttpGet("SmsSent")]
         public IActionResult SmsSent()
         {
@@ -105,7 +105,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
             if (!String.IsNullOrWhiteSpace(sms))
             {
                 TempData["SentSms"] = null;
-                return View("SmsSent", new SaveProgressViewModel() {SentTo = sms});
+                return View("SmsSent", new SaveProgressViewModel { SentTo = sms, Layout = _layoutService.GetLayout(Request) });
             }
 
             return RedirectToAction("Index");
@@ -124,7 +124,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = new SaveProgressViewModel();
+                var model = new SaveProgressViewModel { Layout = _layoutService.GetLayout(Request) };
                 model.BackLink = "/save-my-progress";
                 AppendCookie(sessionId);
                 if (e == "1")
@@ -140,7 +140,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     _log.LogError($"Correlation Id: {correlationId} - Unable to send email");
                     return RedirectToAction("Error500", "Error");
                 }
-                
+
                 return View("EmailInput", model);
             }
             catch (Exception ex)
@@ -162,7 +162,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
+                var model = new SaveProgressViewModel { BackLink = "/save-my-progress", Layout = _layoutService.GetLayout(Request) };
 
                 if (!sendEmailRequest.ValidEmail)
                 {
@@ -174,15 +174,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/save-my-progress/email?e=2");
                 }
 
-
-
-                NotifyResponse notifyResponse = null;
                 try
                 {
-                    notifyResponse = await _apiServices.SendEmail($"https://{Request.Host.Value}", sendEmailRequest.Email?.ToLower(), _appSettings.NotifyEmailTemplateId, sessionId, correlationId);
+                    var notifyResponse = await _apiServices.SendEmail($"https://{Request.Host.Value}/{_appSettings.APIRootSegment}", sendEmailRequest.Email?.ToLower(), _appSettings.NotifyEmailTemplateId, sessionId, correlationId);
                     if (!notifyResponse.IsSuccess)
                     {
-                        throw new Exception(notifyResponse?.Message);
+                        throw new Exception(notifyResponse.Message);
                     }
                     model.SentTo = sendEmailRequest.Email?.ToLower();
                     AppendCookie(sessionId);
@@ -195,7 +192,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     _log.LogError(ex, $"Correlation Id: {correlationId} - Sending email in action {nameof(SendEmail)}");
                     return Redirect("/save-my-progress/email?e=3");
                 }
-
             }
             catch (Exception ex)
             {
@@ -217,7 +213,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
+                var model = new SaveProgressViewModel { BackLink = "/save-my-progress", Layout = _layoutService.GetLayout(Request) };
                 if (e == "1")
                 {
                     model.ErrorMessage = "Enter a phone number";
@@ -240,7 +236,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return RedirectToAction("Error500", "Error");
             }
         }
-        
 
         [HttpGet("reference", Name = "SaveProgressReference")]
         public async Task<IActionResult> ReferenceNumber(string e = "")
@@ -255,7 +250,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     return Redirect("/");
                 }
 
-                var model = new SaveProgressViewModel();
+                var model = new SaveProgressViewModel { Layout = _layoutService.GetLayout(Request) };
                 model.BackLink = "/save-my-progress";
                 if (e == "1")
                 {
@@ -270,7 +265,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     _log.LogError($"Correlation Id: {correlationId} - Unable to send SMS");
                     return RedirectToAction("Error500", "Error");
                 }
-                
+
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
                 AppendCookie(sessionId);
                 return View("ReferenceNumber", model);
@@ -303,41 +298,38 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 {
                     return Redirect("/");
                 }
-                    
+
                 if (!sendSmsRequest.ValidMobileNumber)
                 {
                     if (String.IsNullOrWhiteSpace(sendSmsRequest.MobileNumber))
                     {
                         return Redirect("/save-my-progress/reference?e=1");
                     }
-                    
+
                     return Redirect("/save-my-progress/reference?e=2");
                 }
-                
-                var model = new SaveProgressViewModel {BackLink = "/save-my-progress"};
+
+                var model = new SaveProgressViewModel { BackLink = "/save-my-progress", Layout = _layoutService.GetLayout(Request) };
                 await UpdateSessionVarsOnViewModel(model, sessionId, correlationId);
-                
-                NotifyResponse notifyResponse = null;
+
                 try
                 {
-                    notifyResponse = await _apiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, _appSettings.NotifySmsTemplateId, sessionId, correlationId);
+                    var notifyResponse = await _apiServices.SendSms($"https://{Request.Host.Value}", sendSmsRequest.MobileNumber, _appSettings.NotifySmsTemplateId, sessionId, correlationId);
                     if (!notifyResponse.IsSuccess)
                     {
-                        throw new Exception(notifyResponse?.Message);
+                        throw new Exception(notifyResponse.Message);
                     }
                     model.SentTo = sendSmsRequest.MobileNumber;
                     AppendCookie(sessionId);
 
                     TempData["SentSms"] = model.SentTo;
                     return RedirectToAction("SmsSent");
-
                 }
                 catch (Exception ex)
                 {
                     _log.LogError(ex, $"Correlation Id: {correlationId} - An error occurred sending an SMS in action {nameof(SendSms)}");
                     return Redirect("/save-my-progress/reference?e=3");
                 }
-
             }
             catch (Exception ex)
             {

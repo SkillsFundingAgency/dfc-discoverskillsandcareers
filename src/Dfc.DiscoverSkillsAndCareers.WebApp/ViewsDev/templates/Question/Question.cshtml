@@ -4,31 +4,18 @@
 {% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set traitCode= '@Model.TraitCode' %}
-
-{% extends "_base.njk" %}
+{% from "button/macro.njk" import govukButton %}
 
 {% block pre %}
-
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @{
     ViewData["Title"] = "Question";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
-{% block tagging %}
-    window.dataLayer.push({
-        page: {
-            pageInfo: {
-                questionID: '@Model.QuestionId',
-                questionNumber: '@Model.QuestionNumber',
-                questionText: '@Model.QuestionText'
-            }
-        }
-})
-{% endblock %}
 
-{% block main %}
+                {% block main %}
 @using Dfc.DiscoverSkillsAndCareers.Models
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
 <main id="content" role="main">
@@ -39,7 +26,7 @@
         {
             <div class="app-breadcrumb-panel">
                 <a href="@Url.TryApplyCompositeRoute("/")" class="govuk-back-link">Back to start</a>
-                </div>
+            </div>
         }
         else
         {
@@ -92,7 +79,7 @@
                 </div>
             }
 
-            <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
+            <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? " govuk-form-group--error" : string.Empty)">
                 <div class="govuk-fieldset app-question app-question--short" id="question" role="group" aria-labelledby="question-heading">
 
                     <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
@@ -111,12 +98,12 @@
 
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
-                                    id="selected_answer-1"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
-                                    value="StronglyAgree"
-                                    gov-analytics-data="SelectedAnswer | StronglyAgree">
+                                   id="selected_answer-1"
+                                   name="selected_answer"
+                                   type="radio"
+                                   @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
+                                   value="StronglyAgree"
+                                   gov-analytics-data="SelectedAnswer | StronglyAgree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-1">
                                 Strongly agree
                             </label>
@@ -124,12 +111,12 @@
 
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
-                                    id="selected_answer-2"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
-                                    value="Agree"
-                                    gov-analytics-data="SelectedAnswer | Agree">
+                                   id="selected_answer-2"
+                                   name="selected_answer"
+                                   type="radio"
+                                   @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
+                                   value="Agree"
+                                   gov-analytics-data="SelectedAnswer | Agree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-2">
                                 Agree
                             </label>
@@ -137,12 +124,12 @@
 
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
-                                    id="selected_answer-5"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
-                                    value="Neutral"
-                                    gov-analytics-data="SelectedAnswer | Neutral">
+                                   id="selected_answer-5"
+                                   name="selected_answer"
+                                   type="radio"
+                                   @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
+                                   value="Neutral"
+                                   gov-analytics-data="SelectedAnswer | Neutral">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-5">
                                 It depends
                             </label>
@@ -151,12 +138,12 @@
 
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
-                                    id="selected_answer-3"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
-                                    value="Disagree"
-                                    gov-analytics-data="SelectedAnswer | Disagree">
+                                   id="selected_answer-3"
+                                   name="selected_answer"
+                                   type="radio"
+                                   @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
+                                   value="Disagree"
+                                   gov-analytics-data="SelectedAnswer | Disagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-3">
                                 Disagree
                             </label>
@@ -164,11 +151,11 @@
 
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
-                                    id="selected_answer-4"
-                                    name="selected_answer"
-                                    type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
-                                    value="StronglyDisagree"
-                                    gov-analytics-data="SelectedAnswer | StronglyDisagree">
+                                   id="selected_answer-4"
+                                   name="selected_answer"
+                                   type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
+                                   value="StronglyDisagree"
+                                   gov-analytics-data="SelectedAnswer | StronglyDisagree">
                             <label class="govuk-label govuk-radios__label" for="selected_answer-4">
                                 Strongly disagree
                             </label>
@@ -195,4 +182,16 @@
     </div>
 </main>
 
-{% endblock %}
+                {% endblock %}
+
+<script>
+    window.dataLayer.push({
+        page: {
+            pageInfo: {
+                questionID: '@Model.QuestionId',
+                questionNumber: '@Model.QuestionNumber',
+                questionText: '@Model.QuestionText'
+            }
+        }
+    })
+</script>

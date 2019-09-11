@@ -1,8 +1,8 @@
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -22,6 +22,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         {
             var data = new[]
             {
+                $"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />",
+                $"<meta name=\"theme-color\" content=\"#0b0c0c\" />",
+                $"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />",
                 $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/dysac.min.css\" />",
                 $"<link rel=\"stylesheet\" href=\"{settings?.Value.AssetsCDNUrl}/css/dysacprint.min.css\" media=\"print\" />",
                 $"<script src=\"{settings?.Value.AssetsCDNUrl}/js/dysac.min.js\" type=\"text/javascript\"></script>"

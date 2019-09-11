@@ -1,64 +1,66 @@
 ﻿{% set pageName = 'home' %}
 {% set pageTitle = 'Home' %}
 {% set pageGroup = '' %}
+{% from "error-summary/macro.njk" import govukErrorSummary %}
+    {% from "button/macro.njk" import govukButton %}
 
-{% extends "_base.njk" %}
+
 
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.IndexViewModel;
-  @{
-      ViewData["Title"] = "Home";
-      Layout = null;
-  }
+@{
+    ViewData["Title"] = "Home";
+    Layout = Model.Layout;
+}
 {% endblock %}
 
 {% block main %}
 
-  <main id="content" role="main">
-      
+<main id="content" role="main">
+
     <div class="app-masthead">
-      <div class="govuk-width-container">
+        <div class="govuk-width-container">
 
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-            <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
-          </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
+                </div>
+            </div>
+
         </div>
-
-      </div>
     </div>
 
     <div class="govuk-width-container">
-      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
+        <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
-          <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-column-two-thirds">
 
-              <p class="govuk-body">This assessment asks you to think about the type of work you want to do. It takes 5 to 10 minutes, or slightly longer if you’re using a screen reader or magnifier.</p>
+                <p class="govuk-body">This assessment asks you to think about the type of work you want to do. It takes 5 to 10 minutes, or slightly longer if you’re using a screen reader or magnifier.</p>
 
-              <p class="govuk-body">At the end, you’ll get a summary of job groups that might interest you based on your answers, for example creative careers or working in healthcare.</p>
+                <p class="govuk-body">At the end, you’ll get a summary of job groups that might interest you based on your answers, for example creative careers or working in healthcare.</p>
 
-              <p class="govuk-body">You can answer a few more questions to see particular jobs that may suit you, like an animator or a paramedic. From here, you can get more detailed information about each role.</p>
+                <p class="govuk-body">You can answer a few more questions to see particular jobs that may suit you, like an animator or a paramedic. From here, you can get more detailed information about each role.</p>
 
-              <p class="govuk-body">You can save your results and come back to them at any time.</p>
+                <p class="govuk-body">You can save your results and come back to them at any time.</p>
 
-              <a role="button" draggable="false"
-                  href="@Url.TryApplyCompositeRoute("assessment/short/")"
-                  class="govuk-button govuk-button--start">
-                  Start assessment
-              </a>
+                <a role="button" draggable="false"
+                   href="@Url.TryApplyCompositeRoute("assessment/short/")"
+                   class="govuk-button govuk-button--start">
+                    Start assessment
+                </a>
 
 
-          </div>
+            </div>
 
-        <div class="govuk-grid-column-one-third">
-          {% include "_resumepanel.njk" %}
-          {% include "_advisorpanel.njk" %}
+            <div class="govuk-grid-column-one-third">
+                {% include "_resumepanel.njk" %}
+                {% include "_advisorpanel.njk" %}
+            </div>
+
         </div>
-
-      </div>
     </div>
 
-  </main>
+</main>
 
 {% endblock %}

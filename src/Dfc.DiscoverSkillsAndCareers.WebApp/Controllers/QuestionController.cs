@@ -1,13 +1,11 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Web;
-using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Extensions.Options;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
@@ -15,13 +13,15 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
     {
         private readonly ILogger<QuestionController> _log;
         private readonly IApiServices _apiServices;
+        private readonly ILayoutService _layoutService;
 
         public QuestionController(
             ILogger<QuestionController> log,
-            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+            IApiServices apiServices, IDataProtectionProvider dataProtectionProvider, ILayoutService layoutService) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
+            _layoutService = layoutService;
         }
 
         [HttpPost]
@@ -87,7 +87,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Failed to create session for assessment type {assessment}");
                 }
                 var sessionId = newSessionResponse.SessionId;
-              //  AppendCookie(sessionId);
+                //  AppendCookie(sessionId);
 
                 return await NextQuestion(newSessionResponse.SessionId, assessment, 1, false);
             }
@@ -151,22 +151,26 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 }
                 
                 var formRoute = GetAnswerFormPostRoute(nextQuestionResponse, assessment);
-                int displayPercentComplete = nextQuestionResponse.PercentComplete;
+                var displayPercentComplete = nextQuestionResponse.PercentComplete;
 
-                var model = new QuestionViewModel();
-                model.Code = sessionId;
+                var model = new QuestionViewModel
+                {
+                    Code = sessionId,
+                    FormRoute = formRoute,
+                    Percentage = displayPercentComplete.ToString(),
+                    PercentrageLeft = nextQuestionResponse.PercentComplete == 0 ? "" : nextQuestionResponse.PercentComplete.ToString(),
+                    QuestionId = nextQuestionResponse.QuestionId,
+                    QuestionNumber = nextQuestionResponse.QuestionNumber,
+                    RecordedAnswer = nextQuestionResponse.RecordedAnswer,
+                    SessionId = sessionId,
+                    TraitCode = nextQuestionResponse.TraitCode,
+                    QuestionText = nextQuestionResponse.QuestionText,
+                    IsFilterAssessment = nextQuestionResponse.IsFilterAssessment,
+                    AssessmentType = assessment,
+                    Layout = _layoutService.GetLayout(Request)
+                };
+
                 model.ErrorMessage = !invalidAnswer ? string.Empty : model.NoAnswerErrorMessage;
-                model.FormRoute = formRoute;
-                model.Percentage = displayPercentComplete.ToString();
-                model.PercentrageLeft = nextQuestionResponse.PercentComplete == 0 ? "" : nextQuestionResponse.PercentComplete.ToString();
-                model.QuestionId = nextQuestionResponse.QuestionId;
-                model.QuestionNumber = nextQuestionResponse.QuestionNumber;
-                model.RecordedAnswer = nextQuestionResponse.RecordedAnswer;
-                model.SessionId = sessionId;
-                model.TraitCode = nextQuestionResponse.TraitCode;
-                model.QuestionText = nextQuestionResponse.QuestionText;
-                model.IsFilterAssessment = nextQuestionResponse.IsFilterAssessment;
-                model.AssessmentType = assessment;
 
                 AppendCookie(sessionId);
                 var viewName = model.IsFilterAssessment ? "FilteringQuestion" : "Question";

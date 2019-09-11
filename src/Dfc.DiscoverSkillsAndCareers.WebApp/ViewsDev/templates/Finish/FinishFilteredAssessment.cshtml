@@ -2,43 +2,43 @@
 {% set pageGroup = '' %}
 {% set pageTitle = 'Assessment complete' %}
 
-{% extends "_base.njk" %}
+{% from "panel/macro.njk" import govukPanel %}
 
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.FinishViewModel;
 @{
     ViewData["Title"] = "Assessment complete";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
 {% block main %}
 
-  <main id="content" role="main">
+<main id="content" role="main">
 
     <div class="govuk-width-container">
-      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
-        <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
+            <div class="govuk-grid-column-two-thirds">
 
-          {{ govukPanel({
+                {{ govukPanel({
             titleText: "Assessment complete",
             classes: "govuk-!-margin-bottom-6"
           }) }}
 
-          <h2 class="govuk-heading-m">What to do next</h2>
-          <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
+                <h2 class="govuk-heading-m">What to do next</h2>
+                <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
 
-          <a role="button" draggable="false"
-               href="@Url.TryApplyCompositeRoute("/results/" + Model.JobCategorySafeUrl)"
-               class="govuk-button app-button">
-               See results
-           </a>  
-          
+                <a role="button" draggable="false"
+                   href="@Url.TryApplyCompositeRoute("/results/" + Model.JobCategorySafeUrl)"
+                   class="govuk-button app-button">
+                    See results
+                </a>
+
+            </div>
         </div>
-      </div>
     </div>
 
-  </main>
+</main>
 
 {% endblock %}

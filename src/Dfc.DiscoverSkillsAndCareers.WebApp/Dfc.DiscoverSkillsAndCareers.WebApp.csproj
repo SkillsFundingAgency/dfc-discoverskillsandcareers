@@ -17,28 +17,4 @@
         <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />
         <ProjectReference Include="..\Dfc.DiscoverSkillsAndCareers.Repositories\Dfc.DiscoverSkillsAndCareers.Repositories.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\Error\404.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Error\500.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Finish\Finish.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Finish\FinishFilteredAssessment.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Question\FilteringQuestion.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Question\Question.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Results\Results.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Results\ResultsForJobCategory.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\SaveProgress\EmailInput.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\SaveProgress\EmailSent.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\SaveProgress\ReferenceNumber.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\SaveProgress\SaveProgress.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\SaveProgress\SmsInput.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\SaveProgress\SmsSent.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
-    </ItemGroup>
-
 </Project>

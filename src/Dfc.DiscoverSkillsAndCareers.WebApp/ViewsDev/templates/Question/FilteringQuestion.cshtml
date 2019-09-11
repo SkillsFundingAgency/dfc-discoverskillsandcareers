@@ -4,8 +4,7 @@
 {% set versionNumber = '' %}
 {% set sessionId= '@Model.SessionId' %}
 {% set traitCode= '@Model.TraitCode' %}
-
-{% extends "_base.njk" %}
+{% from "button/macro.njk" import govukButton %}
 
 {% block pre %}
 @using Dfc.DiscoverSkillsAndCareers.Models
@@ -13,23 +12,12 @@
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
 @{
     ViewData["Title"] = "Question";
-    Layout = null;
+    Layout = Model.Layout;
 }
 {% endblock %}
 
-{% block tagging %}
-    window.dataLayer.push({
-        page: {
-            pageInfo: {
-                questionID: '@Model.QuestionId',
-                questionNumber: '@Model.QuestionNumber',
-                questionText: '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))'
-            }
-        }
-    })
-{% endblock %}
 
-{% block main %}
+                {% block main %}
 
 <main id="content" role="main">
 
@@ -40,7 +28,7 @@
         {
             <div class="app-breadcrumb-panel">
                 <a href="@Url.TryApplyCompositeRoute("/results/" + Model.AssessmentType)" class="govuk-back-link">Back to results</a>
-                </div>
+            </div>
         }
         else
         {
@@ -60,7 +48,8 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds-from-desktop">
 
-                    @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
 
                         <div class="govuk-grid-row app-error">
                             <div class="govuk-grid-column-two-thirds-from-desktop">
@@ -92,7 +81,8 @@
                                 </h1>
                             </div>
 
-                            @if (!string.IsNullOrEmpty(Model.ErrorMessage)) {
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
                                 <span id="changed-name-error" class="govuk-error-message">
                                     <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
                                 </span>
@@ -101,10 +91,10 @@
                             <div class="app-question__answer govuk-radios govuk-radios--inline" id="question">
 
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" 
-                                           id="selected_answer-1" 
-                                           name="selected_answer" 
-                                           type="radio" 
+                                    <input class="govuk-radios__input"
+                                           id="selected_answer-1"
+                                           name="selected_answer"
+                                           type="radio"
                                            @(Model.RecordedAnswer == AnswerOption.Yes ? "checked" : "")
                                            value="Yes"
                                            gov-analytics-data="SelectedAnswer | Yes">
@@ -114,10 +104,10 @@
                                 </div>
 
                                 <div class="govuk-radios__item">
-                                    <input class="govuk-radios__input" 
-                                           id="selected_answer-2" 
+                                    <input class="govuk-radios__input"
+                                           id="selected_answer-2"
                                            name="selected_answer"
-                                           type="radio" 
+                                           type="radio"
                                            @(Model.RecordedAnswer == AnswerOption.No ? "checked" : "")
                                            value="No"
                                            gov-analytics-data="SelectedAnswer | No">
@@ -157,4 +147,15 @@
     </div>
 </main>
 
-{% endblock %}
+                {% endblock %}
+<script>
+    window.dataLayer.push({
+        page: {
+            pageInfo: {
+                questionID: '@Model.QuestionId',
+                questionNumber: '@Model.QuestionNumber',
+                questionText: '@Model.QuestionText.Substring(Math.Max(0, Model.QuestionText.Length - 40))'
+            }
+        }
+    })
+</script>

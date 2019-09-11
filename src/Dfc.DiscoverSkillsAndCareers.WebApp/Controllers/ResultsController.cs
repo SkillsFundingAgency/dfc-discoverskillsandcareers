@@ -1,32 +1,34 @@
 ﻿using Dfc.DiscoverSkillsAndCareers.Models;
+using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Config;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Models;
 using Dfc.DiscoverSkillsAndCareers.WebApp.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Dfc.DiscoverSkillsAndCareers.Models.Extensions;
-using Microsoft.AspNetCore.DataProtection;
 
 namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 {
     [Route("results")]
     public class ResultsController : BaseController
     {
-        readonly ILogger<ResultsController> _log;
-        readonly IApiServices _apiServices;
-        readonly AppSettings _appSettings;
+        private readonly ILogger<ResultsController> _log;
+        private readonly IApiServices _apiServices;
+        private readonly AppSettings _appSettings;
+        private readonly ILayoutService _layoutService;
 
         public ResultsController(
             ILogger<ResultsController> log,
             IApiServices apiServices,
-            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider) : base(dataProtectionProvider)
+            IOptions<AppSettings> appSettings, IDataProtectionProvider dataProtectionProvider, ILayoutService layoutService) : base(dataProtectionProvider)
         {
             _log = log;
             _apiServices = apiServices;
+            _layoutService = layoutService;
             _appSettings = appSettings.Value;
         }
 
@@ -66,7 +68,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     Traits = resultsResponse.Traits,
                     UseFilteringQuestions = _appSettings.UseFilteringQuestions,
                     JobProfiles = resultsResponse.JobProfiles,
-                    ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl
+                    ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl,
+                    Layout = _layoutService.GetLayout(Request)
                 };
                 return View("Results", model);
             }
@@ -103,9 +106,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 var response = await _apiServices.StartFilteredForJobCategory(correlationId, sessionId, jobCategory);
                 AppendCookie(sessionId);
 
-                return  Redirect($"/q/{jobCategory}/{response.QuestionNumber.ToQuestionPageNumber()}");
-                
-
+                return Redirect($"/q/{jobCategory}/{response.QuestionNumber.ToQuestionPageNumber()}");
             }
             catch (Exception ex)
             {
@@ -113,7 +114,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return RedirectToAction("Error500", "Error");
             }
         }
-        
+
         [Route("filtered/{jobCategory}/show")]
         public async Task<IActionResult> ShowResults(string jobCategory)
         {
@@ -130,7 +131,6 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
 
                 var resultsForJobCategoryResponse = await _apiServices.ResultsForJobCategory(sessionId, jobCategory, correlationId);
                 return ReturnResultsView(resultsForJobCategoryResponse, jobCategory, sessionId);
-
             }
             catch (System.Net.Http.HttpRequestException)
             {
@@ -142,8 +142,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 return RedirectToAction("Error500", "Error");
             }
         }
-        
-        
+
         [Route("{jobCategory}")]
         public async Task<IActionResult> ResultsFilteredForJobCategory(string jobCategory)
         {
@@ -183,9 +182,9 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                 UseFilteringQuestions = _appSettings.UseFilteringQuestions,
                 JobProfiles = resultsResponse.JobProfiles,
                 WhatYouToldUs = resultsResponse.WhatYouToldUs,
-                ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl
+                ExploreCareersBaseUrl = _appSettings.ExploreCareersBaseUrl,
+                Layout = _layoutService.GetLayout(Request)
             };
-
 
             return View("ResultsForJobCategory", model);
         }
@@ -193,12 +192,12 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
         private JobCategoryResult[] ReOrderWithFirst(JobCategoryResult[] jobCategoryResults, string jobCategory)
         {
             var highlightCategory = jobCategoryResults.FirstOrDefault(x => x.FilterAssessmentResult?.JobFamilyNameUrlSafe == jobCategory);
-            var otherCategories = 
+            var otherCategories =
                 jobCategoryResults
                     .Where(x => x.FilterAssessmentResult?.JobFamilyNameUrlSafe != jobCategory)
                     .OrderByDescending(x => x.FilterAssessmentResult?.SuggestedJobProfiles.Count())
                     .ToList();
-            
+
             if (highlightCategory != null)
             {
                 otherCategories.Insert(0, highlightCategory);
