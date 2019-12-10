@@ -4,15 +4,9 @@
 
 ![](screenshot.png)
 
-## Live examples
+## Live
 
-### DEV
-
-- Web: https://discover-skills-careers-dev.nationalcareersservice.org.uk/
-
-### SIT
-
-- Web: https://discover-skills-careers-sit.nationalcareersservice.org.uk/
+- Web: https://nationalcareers.service.gov.uk/skills-assessment
 
 ## Technical documentation
 
