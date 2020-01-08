@@ -225,6 +225,14 @@
                 },
                 "count": "[if(and(contains(parameters('FunctionAppNames'), 'results'), contains(parameters('FunctionAppNames'), 'cms')), sub(length(parameters('FunctionAppNames')), 2), 0)]",
                 "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('HttpFunctionAppNames')], '-fa'))]"
+            },
+            {
+                "name": "HttpFunctionAppApiNames",
+                "metadata": {
+                    "comments": "The last element is removed from parameters('FunctionAppNames') when creating this copy.  This should be 'cms', this function app runs on a timer so doesn't require an API."
+                },
+                "count": "[if(contains(parameters('FunctionAppNames'), 'cms'), sub(length(parameters('FunctionAppNames')), 1), 0)]",
+                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('HttpFunctionAppNames')], '-fa'))]"
             }
         ]
     },
@@ -257,7 +265,7 @@
             },
             "copy": {
                 "name": "ApiCopy",
-                "count": "[length(variables('HttpFunctionAppNames'))]"
+                "count": "[length(variables('HttpFunctionAppApiNames'))]"
             },
             "dependsOn": [
                 "skillandcareers-apim-logger",
