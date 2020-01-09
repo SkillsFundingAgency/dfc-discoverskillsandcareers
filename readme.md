@@ -1,5 +1,7 @@
 # Discover Skills and Careers
 
+**Note:** there are multiple README.md files throughout this project. Review them all during troubleshooting.
+
 ## Screenshots
 
 ![](screenshot.png)
