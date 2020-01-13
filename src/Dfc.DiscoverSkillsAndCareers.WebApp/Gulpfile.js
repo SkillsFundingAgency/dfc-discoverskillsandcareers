@@ -120,6 +120,12 @@ gulp.task("sass", function () {
         .pipe(connect.reload());
 });
 
+gulp.task('standard', function () {
+    return gulp.src(paths.siteJs)
+        .pipe(standard())
+        .pipe(standard.reporter('default'))
+});
+
 gulp.task("js", function () {
     return browserify(paths.siteJs)
         .bundle()
@@ -244,6 +250,7 @@ gulp.task("dev",
         "clean",
         "assets",
         "sass",
+        "standard",
         "js",
         "html",
         "min:css",
@@ -262,6 +269,7 @@ gulp.task("prod",
         "clean",
         "assets",
         "sass",
+        "standard",
         "js",
         "html",
         "min",
