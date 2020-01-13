@@ -20,7 +20,7 @@ function browserStackErrorHandler() {
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
+    cssmin = require("gulp-clean-css"),
     uglify = require("gulp-uglify"),
     sass = require("gulp-sass"),
     eslint = require("gulp-eslint"),
@@ -36,7 +36,9 @@ var gulp = require("gulp"),
     babel = require("gulp-babel"),
     autoprefixer = require('gulp-autoprefixer'),
     standard = require('gulp-standard'),
-    browserify = require('gulp-browserify');
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    browserify = require('browserify');
 
 // paths
 
@@ -57,6 +59,7 @@ paths.nunjucks = paths.templatesSrc + "partials/**/*.njk";
 paths.scss = paths.src + "scss/**/*.scss";
 paths.images = paths.src + "images/**/*";
 paths.js = paths.src + "js/**/*.js";
+paths.siteJs = paths.src + 'js/site.js';
 paths.favicon = paths.src + "favicon.ico";
 paths.robots = paths.src + "robots.txt";
 
@@ -118,10 +121,10 @@ gulp.task("sass", function () {
 });
 
 gulp.task("js", function () {
-    return gulp.src(paths.js)
-        .pipe(standard())
-        .pipe(standard.reporter('default'))
-        .pipe(browserify())
+    return browserify(paths.siteJs)
+        .bundle()
+        .pipe(source('site.js'))
+        .pipe(buffer())
         .pipe(babel())
         .pipe(filter(['**/*', '!**/modules/*']))
         .pipe(gulp.dest(paths.jsDest))
