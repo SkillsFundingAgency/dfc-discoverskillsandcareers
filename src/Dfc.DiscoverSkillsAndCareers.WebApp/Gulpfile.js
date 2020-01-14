@@ -124,6 +124,7 @@ gulp.task('standard', function () {
     return gulp.src(paths.siteJs)
         .pipe(standard())
         .pipe(standard.reporter('default'))
+    
 });
 
 gulp.task("js", function () {
