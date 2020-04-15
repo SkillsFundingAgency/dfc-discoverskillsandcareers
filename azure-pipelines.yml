@@ -6,7 +6,7 @@ jobs:
 - job: BuildArtefacts
   displayName: 'Build Artefacts'
   pool: 
-   name: Continuous Integration 02 - SSD - 160ACU
+   name: NCS - CI and CD
    demands: 
    - npm
    - node.js
