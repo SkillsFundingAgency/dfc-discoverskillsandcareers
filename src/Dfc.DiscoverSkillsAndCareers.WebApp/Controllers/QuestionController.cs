@@ -141,8 +141,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Controllers
                     throw new Exception($"Question not found for session {sessionId}");
                 }
 
-                if (!invalidAnswer
-                    && !nextQuestionResponse.IsComplete && questionNumber != nextQuestionResponse.NextQuestionNumber)
+                if (!invalidAnswer && !nextQuestionResponse.IsComplete && questionNumber > nextQuestionResponse.NextQuestionNumber)
                 {
                     return Redirect($"/q/{assessment}/{nextQuestionResponse.NextQuestionNumber?.ToQuestionPageNumber()}");
                 }
