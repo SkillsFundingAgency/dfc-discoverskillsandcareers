@@ -5,7 +5,6 @@ const breadcrumbs = require('./modules/breadcrumbs.js')
 const cookieprefrences = require('./modules/cookieprefrences.js')
 const GOVUKFrontend = require('govuk-frontend')
 
-
 GOVUKFrontend.initAll()
 analytics.init()
 breadcrumbs.init()
@@ -21,35 +20,26 @@ if (helpers.isPage('app-page--results-long')) {
   results.long()
 }
 
+if (typeof cookieprefrences.setGATracking === 'undefined') document.body.className = document.body.className.replace('js-enabled', '')
 
-$(document).ready(function () {
+if (cookieprefrences.isCookiePrefrenceSet()) {
+  document.getElementById('global-cookie-banner').style.display = 'none'
+} else {
+  cookieprefrences.setDefault()
 
-    if (typeof cookieprefrences.window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');
+  document.getElementById('accept-all-cookies').addEventListener('click', function () {
+    cookieprefrences.approveAll()
+    document.getElementById('cookie-message').style.display = 'none'
+    document.getElementById('confirmatiom-message').style.display = 'block'
+  })
 
-    //only run this is on non setting pages
-    if ($("#form-cookie-settings").length === 0) {
-        if (cookieprefrences.window.GOVUK.cookie("cookies_preferences_set")) {
-            $("#global-cookie-banner").hide();
-        }
-        else {
-            //set defaults
-            cookieprefrences.window.GOVUK.setConsentCookie();
-            //give the browser time to set the cookies before acting on them
-            setTimeout(function () { cookieprefrences.window.GOVUK.deleteUnconsentedCookies(); }, 500);
-            setTimeout(function () { cookieprefrences.window.GOVUK.setGATracking(); }, 1000);
-        }
+  document.getElementById('hide-cookies-message').addEventListener('click', function () {
+    document.getElementById('global-cookie-banner').style.display = 'none'
+  })
 
-        $("#accept-all-cookies").click(function () {
+  var cookiePreference = document.getElementById('set-cookie-preference')
+  cookiePreference.setAttribute('href', helpers.getExplorePagesLink(cookiePreference.getAttribute('href')))
 
-            cookieprefrences.window.GOVUK.approveAllCookieTypes();
-            $("#cookie-message").hide();
-            $("#confirmatiom-message").show();
-            cookieprefrences.window.GOVUK.cookie('cookies_preferences_set', 'true', { days: 365 })
-            setTimeout(function () { cookieprefrences.window.GOVUK.setGATracking(); }, 1000);
-        });
-
-        $("#hide-cookies-message").click(function () {
-            $("#global-cookie-banner").hide();
-        });
-    }
-});
+  var cookieSettings = document.getElementById('cookie-settings-help')
+  cookieSettings.setAttribute('href', helpers.getExplorePagesLink(cookieSettings.getAttribute('href')))
+}

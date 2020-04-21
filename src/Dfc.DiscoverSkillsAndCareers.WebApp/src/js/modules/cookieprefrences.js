@@ -210,22 +210,44 @@
 
         window.GOVUK.setGATracking = function () {
             if (!window.GOVUK.checkConsentCookie("_gid", true)) {
-                window['ga-disable-UA-75241446-1'] = true;
-                window['ga-disable-UA-75241446-2'] = true;
-                window['ga-disable-UA-75241446-3'] = true;
-                window['ga-disable-UA-75241446-4'] = true;
-                window['ga-disable-UA-75241446-5'] = true;
-                window['ga-disable-UA-75241446-6'] = true;
-                window['ga-disable-UA-75241446-8'] = true;
-                window['ga-disable-UA-75241446-9'] = true;
-                window['ga-disable-UA-75241446-10'] = true;
-                window['ga-disable-UA-75241446-13'] = true;
-                window['ga-disable-UA-75241446-19'] = true;
+                window['ga-disable-UA-75241446-1'] = true
+                window['ga-disable-UA-75241446-2'] = true
+                window['ga-disable-UA-75241446-3'] = true
+                window['ga-disable-UA-75241446-4'] = true
+                window['ga-disable-UA-75241446-5'] = true
+                window['ga-disable-UA-75241446-6'] = true
+                window['ga-disable-UA-75241446-8'] = true
+                window['ga-disable-UA-75241446-9'] = true
+                window['ga-disable-UA-75241446-10'] = true
+                window['ga-disable-UA-75241446-13'] = true
+                window['ga-disable-UA-75241446-19'] = true
             }
         }
         //set at load time
-        window.GOVUK.setGATracking();
+    window.GOVUK.setGATracking();
 
+    return {
+        setGATracking: function () {
+            window.GOVUK.setGATracking()
+        },
+
+       isCookiePrefrenceSet: function () {
+           return window.GOVUK.cookie('cookies_preferences_set')
+       },
+
+       setDefault: function () {
+           window.GOVUK.setConsentCookie();
+           //give the browser time to set the cookies before acting on them
+           setTimeout(function () { window.GOVUK.deleteUnconsentedCookies() }, 500)
+           setTimeout(function () { window.GOVUK.setGATracking(); }, 1000)
+       },
+
+       approveAll: function () {
+            window.GOVUK.approveAllCookieTypes()
+            window.GOVUK.cookie('cookies_preferences_set', 'true', { days: 365 })
+            setTimeout(function () {window.GOVUK.setGATracking(); }, 1000)
+       }
+    }
 })()
 
 module.exports = cookiePrefrences
