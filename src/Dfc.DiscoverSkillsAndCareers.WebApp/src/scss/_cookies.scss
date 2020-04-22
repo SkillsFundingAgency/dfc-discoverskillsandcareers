@@ -11,7 +11,7 @@
 }
 
 @media print {
-    .gem-c-cookie-banner {
+  .gem-c-cookie-banner {
     font-family: sans-serif;
   }
 }
@@ -75,13 +75,17 @@
 }
 
 @media (min-width: 48.0625em) {
-  .gem-c-cookie-banner__button .govuk-button, .gem-c-cookie-banner__button .gem-c-govspeak .gem-c-button, .gem-c-govspeak .gem-c-cookie-banner__button .gem-c-button {
+  .gem-c-cookie-banner__button .govuk-button, 
+  .gem-c-cookie-banner__button .gem-c-govspeak .gem-c-button, 
+  .gem-c-govspeak .gem-c-cookie-banner__button .gem-c-button {
     width: 90% !important;
   }
 }
 
 @media (max-width: 48.0525em) {
-  .gem-c-cookie-banner__button .govuk-button, .gem-c-cookie-banner__button .gem-c-govspeak .gem-c-button, .gem-c-govspeak .gem-c-cookie-banner__button .gem-c-button {
+  .gem-c-cookie-banner__button .govuk-button, 
+  .gem-c-cookie-banner__button .gem-c-govspeak .gem-c-button, 
+  .gem-c-govspeak .gem-c-cookie-banner__button .gem-c-button {
     margin-bottom: 20px;
   }
 }
@@ -189,7 +193,6 @@
     right: 5px;
   }
 }
-/* Hide old cookie banner */
 
 #global-cookie-message.app-cookie-banner {
   display: none !important;
@@ -280,13 +283,15 @@
   }
 }
 
-.global-bar .global-bar-message-container, .govuk-width-container {
+.global-bar .global-bar-message-container, 
+.govuk-width-container {
   max-width: 960px;
-  margin: 0 15px
+  margin: 0 15px;
 }
 
 @media (min-width: 1020px) {
-  .global-bar .global-bar-message-container, .govuk-width-container {
+  .global-bar .global-bar-message-container, 
+  .govuk-width-container {
     margin: 0 auto;
   }
 }
@@ -305,7 +310,7 @@
 .gem-c-cookie-banner .govuk-grid-column-two-thirds {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 15px
+  padding: 0 15px;
 }
 
 @media (min-width: 40.0625em) {
@@ -317,7 +322,7 @@
 
 .gem-c-cookie-banner .govuk-heading-m {
   color: #0b0c0c;
-  font-family: nta,Arial,sans-serif;
+  font-family: nta, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 700;
@@ -345,9 +350,10 @@
   }
 }
 
-.gem-c-cookie-banner .govuk-body, .gem-c-cookie-banner .govuk-body-m {
+.gem-c-cookie-banner .govuk-body, 
+.gem-c-cookie-banner .govuk-body-m {
   color: #0b0c0c;
-  font-family: nta,Arial,sans-serif;
+  font-family: nta, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
@@ -358,7 +364,7 @@
 }
 
 .gem-c-cookie-banner .govuk-button {
-  font-family: nta,Arial,sans-serif;
+  font-family: nta, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
@@ -390,14 +396,15 @@
   .gem-c-cookie-banner .govuk-button {
     font-family: sans-serif;
     font-size: 14pt;
-    line-height: 19px
+    line-height: 19px;
   }
 }
 
-.gem-c-cookie-banner .govuk-button:focus, .gem-c-cookie-banner .gem-c-govspeak .gem-c-button:focus {
+.gem-c-cookie-banner .govuk-button:focus, 
+.gem-c-cookie-banner .gem-c-govspeak .gem-c-button:focus {
   border-color: #ffdd00;
   outline: 3px solid transparent;
-  box-shadow: inset 0 0 0 1px #ffdd00
+  box-shadow: inset 0 0 0 1px #ffdd00;
 }
 
 .gem-c-cookie-banner .govuk-button:focus {
@@ -405,13 +412,16 @@
   outline-offset: 0;
 }
 
-.gem-c-cookie-banner .govuk-button:active, .gem-c-cookie-banner .govuk-button:hover, .gem-c-cookie-banner .govuk-button:link, .gem-c-cookie-banner .govuk-button:visited {
+.gem-c-cookie-banner .govuk-button:active, 
+.gem-c-cookie-banner .govuk-button:hover, 
+.gem-c-cookie-banner .govuk-button:link, 
+.gem-c-cookie-banner .govuk-button:visited {
   color: #fff;
   text-decoration: none;
 }
 
 .gem-c-cookie-banner .govuk-button:link:focus {
-  color: #fff
+  color: #fff;
 }
 
 .gem-c-cookie-banner .govuk-button::-moz-focus-inner {
@@ -419,23 +429,25 @@
   border: 0;
 }
 
-.gem-c-cookie-banner .govuk-button:focus, .govuk-button:hover {
+.gem-c-cookie-banner .govuk-button:focus, 
+.govuk-button:hover {
   background-color: #00692f;
 }
 
-
-
-.gem-c-cookie-banner .govuk-button:focus, .gem-c-cookie-banner .gem-c-govspeak .gem-c-button:focus {
+.gem-c-cookie-banner .govuk-button:focus, 
+.gem-c-cookie-banner .gem-c-govspeak .gem-c-button:focus {
   border-color: #ffdd00;
   outline: 3px solid transparent;
-  box-shadow: inset 0 0 0 1px #ffdd00
+  box-shadow: inset 0 0 0 1px #ffdd00;
 }
 
-.gem-c-cookie-banner .govuk-button:link:focus, .gem-c-cookie-banner .gem-c-govspeak .gem-c-button:link:focus {
+.gem-c-cookie-banner .govuk-button:link:focus, 
+.gem-c-cookie-banner .gem-c-govspeak .gem-c-button:link:focus {
   color: #ffffff;
 }
 
-.gem-c-cookie-banner .govuk-button:focus:not(:active):not(:hover), .gem-c-cookie-banner .gem-c-govspeak .gem-c-button:focus:not(:active):not(:hover) {
+.gem-c-cookie-banner .govuk-button:focus:not(:active):not(:hover), 
+.gem-c-cookie-banner .gem-c-govspeak .gem-c-button:focus:not(:active):not(:hover) {
   border-color: #ffdd00;
   color: #0b0c0c;
   background-color: #ffdd00;
@@ -443,12 +455,17 @@
 }
 
 
-.gem-c-cookie-banner .govuk-button:active::before, .gem-c-cookie-banner .gem-c-govspeak .gem-c-button:active::before {
+.gem-c-cookie-banner .govuk-button:active::before, 
+.gem-c-cookie-banner .gem-c-govspeak .gem-c-button:active::before {
   top: -4px;
 }
 
-.gem-c-cookie-banner .govuk-button--disabled, .gem-c-cookie-banner .govuk-button[disabled="disabled"], .gem-c-cookie-banner .gem-c-govspeak [disabled="disabled"].gem-c-button, .gem-c-cookie-banner .govuk-button[disabled], .gem-c-cookie-banner .gem-c-govspeak [disabled].gem-c-button {
-  opacity: 0.5
+.gem-c-cookie-banner .govuk-button--disabled, 
+.gem-c-cookie-banner .govuk-button[disabled="disabled"], 
+.gem-c-cookie-banner .gem-c-govspeak [disabled="disabled"].gem-c-button, 
+.gem-c-cookie-banner .govuk-button[disabled], 
+.gem-c-cookie-banner .gem-c-govspeak [disabled].gem-c-button {
+  opacity: 0.5;
 }
 
 .gem-c-cookie-banner .govuk-button--disabled:hover,
@@ -482,8 +499,10 @@
   box-shadow: 0 2px 0 #929191;
 }
 
-.gem-c-cookie-banner .govuk-button--secondary, .govuk-button--secondary:link,
-.gem-c-cookie-banner .govuk-button--secondary:visited, .govuk-button--secondary:active,
+.gem-c-cookie-banner .govuk-button--secondary, 
+.govuk-button--secondary:link,
+.gem-c-cookie-banner .govuk-button--secondary:visited, 
+.govuk-button--secondary:active,
 .gem-c-cookie-banner .govuk-button--secondary:hover {
   color: #0b0c0c;
 }
@@ -505,7 +524,11 @@
   box-shadow: 0 2px 0 #55150b;
 }
 
-.gem-c-cookie-banner .govuk-button--warning, .gem-c-cookie-banner .govuk-button--warning:link, .gem-c-cookie-banner .govuk-button--warning:visited, .gem-c-cookie-banner .govuk-button--warning:active, .gem-c-cookie-banner .govuk-button--warning:hover {
+.gem-c-cookie-banner .govuk-button--warning, 
+.gem-c-cookie-banner .govuk-button--warning:link, 
+.gem-c-cookie-banner .govuk-button--warning:visited, 
+.gem-c-cookie-banner .govuk-button--warning:active, 
+.gem-c-cookie-banner .govuk-button--warning:hover {
   color: #ffffff;
 }
 
@@ -538,24 +561,32 @@
 }
 
 .gem-c-cookie-banner .govuk-button:active::before {
-  top: -4px
+  top: -4px;
 }
 
-.gem-c-cookie-banner .govuk-button--disabled, .gem-c-cookie-banner .govuk-button[disabled=disabled], .gem-c-cookie-banner .govuk-button[disabled] {
+.gem-c-cookie-banner .govuk-button--disabled, 
+.gem-c-cookie-banner .govuk-button[disabled=disabled], 
+.gem-c-cookie-banner .govuk-button[disabled] {
   opacity: .5;
   background: #00823b;
 }
 
-.gem-c-cookie-banner .govuk-button--disabled:hover, .gem-c-cookie-banner .govuk-button[disabled=disabled]:hover, .gem-c-cookie-banner .govuk-button[disabled]:hover {
+.gem-c-cookie-banner .govuk-button--disabled:hover, 
+.gem-c-cookie-banner .govuk-button[disabled=disabled]:hover, 
+.gem-c-cookie-banner .govuk-button[disabled]:hover {
   background-color: #00823b;
   cursor: default;
 }
 
-.gem-c-cookie-banner .govuk-button--disabled:focus, .gem-c-cookie-banner .govuk-button[disabled=disabled]:focus, .gem-c-cookie-banner .govuk-button[disabled]:focus {
-  outline: 0
+.gem-c-cookie-banner .govuk-button--disabled:focus, 
+.gem-c-cookie-banner .govuk-button[disabled=disabled]:focus, 
+.gem-c-cookie-banner .govuk-button[disabled]:focus {
+  outline: 0;
 }
 
-.gem-c-cookie-banner .govuk-button--disabled:active, .gem-c-cookie-banner .govuk-button[disabled=disabled]:active, .gem-c-cookie-banner .govuk-button[disabled]:active {
+.gem-c-cookie-banner .govuk-button--disabled:active, 
+.gem-c-cookie-banner .govuk-button[disabled=disabled]:active, 
+.gem-c-cookie-banner .govuk-button[disabled]:active {
   top: 0;
   box-shadow: 0 2px 0 #003618;
 }
@@ -591,20 +622,22 @@
   }
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio:2),only screen and (min-device-pixel-ratio:2),only screen and (min-resolution:192dpi),only screen and (min-resolution:2dppx) {
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
   .gem-c-cookie-banner .govuk-button--start {
     background-image: url(/gds_service_toolkit/images/icon-pointer-2x.png);
     background-size: 30px 19px;
   }
 }
 
-.gem-c-cookie-banner .govuk-button, .govuk-button--start {
+.gem-c-cookie-banner .govuk-button, 
+.govuk-button--start {
   padding-top: 9px;
   padding-bottom: 6px;
 }
 
 @media (min-width: 40.0625em) {
-  .gem-c-cookie-banner .govuk-body, .govuk-body-m {
+  .gem-c-cookie-banner .govuk-body, 
+  .govuk-body-m {
     font-size: 19px;
     line-height: 1.3157894737;
     margin-bottom: 20px;
@@ -612,7 +645,8 @@
 }
 
 @media print {
-  .gem-c-cookie-banner .govuk-body, .govuk-body-m {
+  .gem-c-cookie-banner .govuk-body, 
+  .govuk-body-m {
     color: #000;
     font-family: sans-serif;
     font-size: 14pt;
