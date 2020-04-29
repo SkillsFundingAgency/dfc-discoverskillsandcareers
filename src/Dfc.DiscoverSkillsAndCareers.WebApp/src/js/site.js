@@ -43,5 +43,8 @@ if (helpers.isPage('gem-c-cookie-banner')) {
 
     var cookieSettings = document.getElementById('cookie-settings-help')
     cookieSettings.setAttribute('href', helpers.getExplorePagesLink(cookieSettings.getAttribute('href')))
+
+    var cookieSettingsChange = document.getElementById('cookie-settings-change')
+    cookieSettingsChange.setAttribute('href', helpers.getExplorePagesLink(cookieSettingsChange.getAttribute('href')))
   }
 }
