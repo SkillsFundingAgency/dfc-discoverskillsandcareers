@@ -221,6 +221,12 @@
                 window['ga-disable-UA-75241446-10'] = true
                 window['ga-disable-UA-75241446-13'] = true
                 window['ga-disable-UA-75241446-19'] = true
+
+                //Dysac
+                window['ga-disable-UA-75241446-14'] = true
+                window['ga-disable-UA-75241446-15'] = true
+                window['ga-disable-UA-75241446-16'] = true
+                window['ga-disable-UA-75241446-17'] = true
             }
         }
         //set at load time
