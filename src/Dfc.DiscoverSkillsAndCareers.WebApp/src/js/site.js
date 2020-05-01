@@ -37,14 +37,5 @@ if (helpers.isPage('gem-c-cookie-banner')) {
     document.getElementById('hide-cookies-message').addEventListener('click', function () {
       document.getElementById('global-cookie-banner').style.display = 'none'
     })
-
-    var cookiePreference = document.getElementById('set-cookie-preference')
-    cookiePreference.setAttribute('href', helpers.getExplorePagesLink(cookiePreference.getAttribute('href')))
-
-    var cookieSettings = document.getElementById('cookie-settings-help')
-    cookieSettings.setAttribute('href', helpers.getExplorePagesLink(cookieSettings.getAttribute('href')))
-
-    var cookieSettingsChange = document.getElementById('cookie-settings-change')
-    cookieSettingsChange.setAttribute('href', helpers.getExplorePagesLink(cookieSettingsChange.getAttribute('href')))
   }
 }
