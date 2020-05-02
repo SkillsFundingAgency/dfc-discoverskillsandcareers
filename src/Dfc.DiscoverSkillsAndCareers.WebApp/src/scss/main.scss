@@ -62,8 +62,10 @@ nav {
 // Change to header to change colour of blue border underneath header to green.
 .govuk-header__container {
   border-bottom: 10px solid $app-turquoise;
+  margin-bottom: -10px;
   @include govuk-media-query(desktop) {
-    padding-top: 7px;
+    padding-top: 10px;
+    padding-bottom: 1px;
   }
 }
 
@@ -75,7 +77,6 @@ nav {
 }
 
 .govuk-header__navigation {
-  
   @include govuk-media-query(desktop) {
     margin: 0 0 4px;
   }
