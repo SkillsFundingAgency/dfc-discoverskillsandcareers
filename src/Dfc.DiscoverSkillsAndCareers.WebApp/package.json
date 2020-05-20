@@ -30,7 +30,7 @@
     "gulp-sass-lint": "^1.4.0",
     "gulp-standard": "^12.0.0",
     "gulp-uglify": "^3.0.2",
-    "lighthouse": "^4.3.0",
+    "lighthouse": "^6.0.0",
     "merge-stream": "^1.0.1",
     "mocha": "^7.1.2",
     "mocha-junit-reporter": "^1.22.0",
