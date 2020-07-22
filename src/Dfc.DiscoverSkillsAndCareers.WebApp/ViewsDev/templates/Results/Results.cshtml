@@ -76,11 +76,7 @@
 
             @if (Model.JobCategories.Any())
             {
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        {% include "_sendresults.njk" %}
-                    </div>
-                </div>
+
 
                 <div class="app-results">
 
@@ -123,6 +119,12 @@
                         }
                     </ol>
 
+                </div>
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        {% include "_sendresults.njk" %}
+                    </div>
                 </div>
 
                 <div class="app-back-to-top" data-module="app-back-to-top">
