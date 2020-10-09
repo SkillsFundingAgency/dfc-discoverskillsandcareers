@@ -54,7 +54,7 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
                 ScoringProfile = "jp",
                 SearchMode = SearchMode.All,
                 SearchFields = fields,
-                Filter = $"JobProfileSpecialism/any(s: s ne '_exclude_from_dysac_')",
+                Filter = $"JobProfileSpecialism/all(s: s ne '_exclude_from_dysac_')",
                 QueryType = QueryType.Full
             };
         
