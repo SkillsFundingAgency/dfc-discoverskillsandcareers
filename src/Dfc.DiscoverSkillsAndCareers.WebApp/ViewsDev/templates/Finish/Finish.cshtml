@@ -28,35 +28,36 @@
 
     <div class="govuk-width-container">
       <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-8">
-        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-grid-column-two-thirds">
 
-          <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
-            <div class="govuk-panel__body">
-             <div class="ncs-progress ncs-progress--complete status-100">
-                <div class="ncs-progress__count govuk-body">
-                  <span class="govuk-!-font-size-36">100%</span>
-                  <span class="visually-hidden">Complete</span>
-                </div>
-                <div class="ncs-progress__bar">
-                  <span style="width: 100%"></span>
-                </div>
+              <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
+                  <div class="govuk-panel__body">
+                      <div class="ncs-progress ncs-progress--complete status-100">
+                          <div class="ncs-progress__count govuk-body">
+                              <span class="govuk-!-font-size-36">100%</span>
+                              <span class="visually-hidden">Complete</span>
+                          </div>
+                          <div class="ncs-progress__bar">
+                              <span style="width: 100%"></span>
+                          </div>
+                      </div>
+                  </div>
+                  <h1 class="govuk-panel__title">
+                      Assessment complete
+                  </h1>
               </div>
-            </div>
-            <h1 class="govuk-panel__title">
-                Assessment complete
-            </h1>
-          </div>
 
-          <h2 class="govuk-heading-m">What to do next</h2>
-          <p class="govuk-body govuk-!-margin-bottom-5">See the types of jobs that might suit you. Your results are based on your responses.</p>
+              <h2 class="govuk-heading-m">What to do next</h2>
+              <p class=”govuk-body”>Next, you will see some careers you may be interested in . You can answer more questions to refine your results.</p>
+              <p class="govuk-body govuk-!-margin-bottom-5">Your results are based on your responses and do not reflect the opportunities available in the job market.</p>
 
-          {{ govukButton({
+              {{ govukButton({
           text: "See results",
           href: "/results",
           classes: "app-button"
           }) }}
 
-        </div>
+          </div>
       </div>
     </div>
 
