@@ -17,8 +17,8 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
         public string[] WhatYouToldUs { get; set; }
         public string GetJobCategoryForNumberText(int number)
         {
-            if (number == 1) return $"{number} job category";
-            return $"{number} job categories";
+            if (number == 1) return $"{number} career area";
+            return $"{number} career areas";
         }
 
         public string ExploreCareersBaseUrl { get; set; } = "https://nationalcareers.service.gov.uk";

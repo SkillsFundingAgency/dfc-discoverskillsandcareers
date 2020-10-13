@@ -83,7 +83,7 @@ var results = (function () {
 
         // "See x other job…" title
         const titleElement = document.createElement('h2')
-        const titleText = other.length === 1 ? 'See ' + other.length + ' other job category you are suited to' : 'See ' + other.length + ' other job categories you are suited to'
+        const titleText = other.length === 1 ? 'See ' + other.length + ' other career area that might interest you' : 'See ' + other.length + ' other career areas that might interest you'
         titleElement.innerHTML = titleText
 
         wrapperElement.appendChild(titleElement)
