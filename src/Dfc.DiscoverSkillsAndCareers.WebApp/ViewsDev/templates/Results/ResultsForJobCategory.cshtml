@@ -48,10 +48,10 @@
                     }
                 </ul>
 
-                <p class="govuk-body"> The following careers are based on the answers you have given. They reflect your interests, preferences and motivations. </p>
-                <p class="govuk-body"> You may want to:</p>
+                <p class="govuk-body">The following careers are based on the answers you have given. They reflect your interests, preferences and motivations.</p>
+                <p class="govuk-body">You may want to:</p>
                 <ul class="govuk-list govuk-list--bullet">
-                    <li>email or print your results to think about later</li>
+                    <li><a href="/save-my-progress/" class="govuk-link govuk-link--no-visited-state">email</a> or <a href="#" onclick="window.print(); return false;" class="govuk-link govuk-link--no-visited-state">print</a> your results to think about later</li>
                     <li><a href="https://nationalcareers.service.gov.uk/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
                     <li>compare different careers to see what you like</li>
                     <li><a href="https://nationalcareers.service.gov.uk/contact-us" class="govuk-link">talk to a careers adviser</a> about your results and next steps</li>
@@ -129,7 +129,7 @@
                                 }
                                 else
                                 {
-                                    <p class="app-noprint">Answer more questions to find careers that might interest you in @(jobCategory.JobCategoryName), answer more questions.</p>
+                                    <p class="app-noprint">Answer more questions to find careers that might interest you in @(jobCategory.JobCategoryName).</p>
 
                                     <a href="/results/filtered/@jobCategory.JobCategoryName.ToLower().Replace(" ", "-")" role="button" draggable="false" class="govuk-button app-button">
                                         @if (jobCategory.TotalQuestions == 1)
