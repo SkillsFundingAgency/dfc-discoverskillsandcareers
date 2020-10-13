@@ -52,13 +52,13 @@
                 @if (Model.JobCategories.Any())
                 {
                     <!--NEXT STEPS-->
-                    <p class="govuk-body"> The following careers are based on the answers you have given. You can get more specific recommendations by answering more questions. </p>
-                    <p class="govuk-body"> You may want to:</p>
+                    <p class="govuk-body">The following careers are based on the answers you have given. You can get more specific recommendations by answering more questions. </p>
+                    <p class="govuk-body">You may want to:</p>
                     <ul class="govuk-list govuk-list--bullet">
                         <li>email or print your results to think about later</li>
-                        <li><a href="https://nationalcareers.service.gov.uk/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
+                        <li><a href="{@Model.ExploreCareersBaseUrl}/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
                         <li>compare different careers to see what you like</li>
-                        <li><a href="https://nationalcareers.service.gov.uk/contact-us" class="govuk-link">talk to a careers adviser about your results and next steps</a></li>
+                        <li><a href="{@Model.ExploreCareersBaseUrl}/contact-us" class="govuk-link">talk to a careers adviser</a> about your results and next steps</li>
                     </ul>
                 }
                 else
@@ -88,7 +88,7 @@
 
                 <div class="app-results">
 
-                    <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobCategories.Length) career areas that might interest you</h2>
+                    <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobCategories.Length) that might interest you</h2>
 
                     <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
                         @foreach (var jobCategory in Model.JobCategories)
@@ -100,7 +100,7 @@
                                         <p>@jobCategory.JobCategoryText</p>
                                         @if (Model.UseFilteringQuestions)
                                         {
-                                            <p class="app-noprint">Answer some more questions to find roles you might be suited to in @(jobCategory.JobCategoryName).</p>
+                                            <p class="app-noprint">Answer some more questions to find roles that might interest you in @(jobCategory.JobCategoryName).</p>
                                             if (jobCategory.FilterAssessmentResult != null && jobCategory.FilterAssessmentResult.SuggestedJobProfiles.Count > 0)
                                             {
                                                 <a href="/results/@jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
