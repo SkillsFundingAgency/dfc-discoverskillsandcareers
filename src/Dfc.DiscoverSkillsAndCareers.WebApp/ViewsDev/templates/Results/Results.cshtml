@@ -52,18 +52,18 @@
                 @if (Model.JobCategories.Any())
                 {
                     <!--NEXT STEPS-->
-            <p class="govuk-body">The following careers are based on the answers you have given. You can refine your results by answering more questions.</p>
+                    <p class="govuk-body">The following careers are based on the answers you have given. You can refine your results by answering more questions.</p>
                     <p class="govuk-body">You may want to:</p>
                     <ul class="govuk-list govuk-list--bullet">
                         <li><a href="/save-my-progress/" class="govuk-link govuk-link--no-visited-state">email</a> or <a href="#" onclick="window.print(); return false;" class="govuk-link govuk-link--no-visited-state">print</a> your results to think about later</li>
-                        <li><a href="{@Model.ExploreCareersBaseUrl}/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
+                        <li><a href="@Model.ExploreCareersBaseUrl/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
                         <li>compare different careers to see what you like</li>
-                        <li><a href="{@Model.ExploreCareersBaseUrl}/contact-us" class="govuk-link">talk to a careers adviser</a> about your results and next steps</li>
+                        <li><a href="@Model.ExploreCareersBaseUrl/contact-us" class="govuk-link">talk to a careers adviser</a> about your results and next steps</li>
                     </ul>
                 }
                 else
                 {
-                <p>We could not recommend any careers based on your responses. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were accurate.</p>
+                    <p>We could not recommend any careers based on your responses. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were accurate.</p>
                 }
             </div>
 
