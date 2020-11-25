@@ -21,33 +21,10 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
             _client = client;
             _siteFinityHttpService = siteFinityHttpService;
         }
-
-        private async Task EnsureClient()
-        {
-            try
-            {
-                var searchParameters = new SearchParameters
-                {
-                    ScoringProfile = "jp",
-                    SearchMode = SearchMode.All,
-                    QueryType = QueryType.Full,
-                    Top = 1
-                };
-
-                var _ = await _client.Documents.SearchAsync("*", searchParameters);
-            }
-            catch (CloudException)
-            {
-                var index = await _siteFinityHttpService.GetLatestIndex("DFC.Digital.JobProfileSearchIndex");
-                _client.IndexName = index.Trim('"');
-            }
-
-        }
         
         private async Task<IList<SearchResult<T>>> RunAzureSearchQuery<T>(string query, params string[] fields)
             where T : class
         {
-            await EnsureClient();
             
             var searchParameters = new SearchParameters
             {
@@ -83,7 +60,30 @@ namespace Dfc.DiscoverSkillsAndCareers.Repositories
         
         public async Task<JobProfile[]> JobProfilesForJobFamily(string jobFamily)
         {
-            var results = await RunAzureSearchQuery<JobProfile>($"({jobFamily})", "JobProfileCategories");
+            IList<SearchResult<JobProfile>> results = null;
+
+            try
+            {
+                results = await RunAzureSearchQuery<JobProfile>($"({jobFamily})", "JobProfileCategories");
+            }
+            catch (CloudException cloudException)
+            {
+                //Only make calls to Sitefinity if the index returns 404 not found
+                if (cloudException.Response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    //Get the new index name and set it in the client
+                    var index = await _siteFinityHttpService.GetLatestIndex("DFC.Digital.JobProfileSearchIndex");
+                    _client.IndexName = index.Trim('"');
+
+                    //Try the call again with the new index name
+                    results = await RunAzureSearchQuery<JobProfile>($"({jobFamily})", "JobProfileCategories");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return results.Select(r => r.Document).ToArray();
         }
         
