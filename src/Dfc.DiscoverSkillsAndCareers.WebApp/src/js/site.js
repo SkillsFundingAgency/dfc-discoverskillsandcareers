@@ -39,15 +39,16 @@ if (helpers.isPage('gem-c-cookie-banner')) {
     })
   }
 }
+
 document.addEventListener('click', function (event) {
     event = event || window.event;
     var target = event.target || event.srcElement;
     if (target instanceof HTMLAnchorElement) {
-        if (target.getAttribute('href').indexOf("/webchat/chat") > -1) {
-
+        if (target.getAttribute('href').indexOf("/webchat/chat")  > -1) {
+           
             window.botmanChatWidget.open();
             event.preventDefault();
-
+            
         }
     }
 })

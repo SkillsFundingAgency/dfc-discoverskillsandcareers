@@ -1,0 +1,9 @@
+﻿@{
+    @inject Microsoft.Extensions.Configuration.IConfiguration config
+    var webChatUrl = config.GetSection("AppSettings:WebChatEndPoint").Value;
+    if (!string.IsNullOrEmpty(webChatUrl))
+    {
+       <script src="@webChatUrl/js/chatRed.js" type="text/javascript"></script>
+    }
+
+}
