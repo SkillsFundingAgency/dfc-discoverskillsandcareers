@@ -151,6 +151,9 @@
         "MemoryPercentageAlertThreshhold": {
             "type": "string",
             "defaultValue": "75"
+        },
+        "WebChatEndPoint": {
+            "type": "string"
         }
     },
     "variables": {
@@ -430,6 +433,10 @@
                             {
                                 "name": "AppSettings__NotifySmsTemplateId",
                                 "value": "[parameters('NotifySmsTemplateId')]"
+                            },
+                            {
+                                "name": "AppSettings__WebChatEndPoint",
+                                "value": "[parameters('WebChatEndPoint')]"
                             }
                         ]
                     }
