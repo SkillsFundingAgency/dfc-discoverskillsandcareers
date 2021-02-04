@@ -1,0 +1,15 @@
+﻿@{
+    @inject Microsoft.Extensions.Configuration.IConfiguration config
+    var actionplansUrl = config.GetSection("AppSettings:ActionPlansUrl").Value;
+    if (!string.IsNullOrEmpty(actionplansUrl))
+    {
+        <a href="@actionplansUrl" id="nav-AU" class="govuk-header__link"
+           target="_self">Action plans</a>
+    }
+    else
+    {
+        <a href="https://nationalcareers.service.gov.uk/about-us" id="nav-AU" class="govuk-header__link"
+           target="_self">About us</a>
+    }
+
+}
