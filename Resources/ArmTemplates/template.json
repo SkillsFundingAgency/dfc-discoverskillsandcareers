@@ -154,6 +154,9 @@
         },
         "WebChatEndPoint": {
             "type": "string"
+        },
+        "ActionPlansUrl": {
+            "type": "string"
         }
     },
     "variables": {
@@ -437,6 +440,10 @@
                             {
                                 "name": "AppSettings__WebChatEndPoint",
                                 "value": "[parameters('WebChatEndPoint')]"
+                            },
+                            {
+                                "name": "AppSettings__ActionPlansUrl",
+                                "value": "[parameters('ActionPlansUrl')]"
                             }
                         ]
                     }
