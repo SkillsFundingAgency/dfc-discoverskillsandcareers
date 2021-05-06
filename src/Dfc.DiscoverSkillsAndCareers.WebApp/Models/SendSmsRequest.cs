@@ -5,7 +5,7 @@ namespace Dfc.DiscoverSkillsAndCareers.WebApp.Models
 {
     public class SendSmsRequest
     {
-        private const string pattern = @"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$";
+        private const string pattern = @"^(07\d{8,12}|447\d{7,11})$";
         private const RegexOptions options = RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
         private static readonly Regex phoneNumberRegex = new Regex(pattern, options);
         
