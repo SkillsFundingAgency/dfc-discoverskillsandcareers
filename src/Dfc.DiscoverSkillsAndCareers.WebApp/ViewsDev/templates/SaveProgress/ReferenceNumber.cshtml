@@ -70,33 +70,33 @@
                         <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
                         @if (!Model.HasError) {
 
-                        <div>
-                            {{ govukInput({
+                    <div>
+                        {{ govukInput({
                             label: {
-                            text: "Phone number"
+                            text: "UK telephone number"
                             },
                             classes: "",
                             id: "mobileNumber",
                             name: "mobileNumber",
                             required: "true"
                             }) }}
-                        </div>
+                    </div>
                         }
                         else {
-                        <div>
-                            {{ govukInput({
-                            label: {
-                            text: "Phone number"
-                            },
-                            classes: "",
-                            id: "mobileNumber",
-                            name: "mobileNumber",
-                            required: "true",
-                            errorMessage: {
-                            text: "@Model.ErrorMessage"
-                            }
-                            }) }}
-                        </div>
+                    <div>
+                        {{ govukInput({
+                        label: {
+                        text: "UK telephone number"
+                        },
+                        classes: "",
+                        id: "mobileNumber",
+                        name: "mobileNumber",
+                        required: "true",
+                        errorMessage: {
+                        text: "@Model.ErrorMessage"
+                        }
+                        }) }}
+                    </div>
                         }
                         {{ govukButton({
                                 text: "Send"
