@@ -13,61 +13,61 @@
 {% endblock %}
 
 {% block main %}
-    <main id="content" role="main">
-        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
-            <div class="global-bar-message-container">
-                <div class="global-bar-message">
-                    <span class="govuk-warning-text__icon">!</span>
-                    <strong class="govuk-warning-text__text">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        Exam Results 2021
-                    </strong>
-                    <span class="ncs-banner__separator">|</span>
-                    <span class="ncs-banner__text">
-                        <a class="govuk-link brand__color" href="/exam-results">Get help making choices after your results</a>
-                    </span>
-                </div>
+<main id="content" role="main">
+    <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+        <div class="global-bar-message-container">
+            <div class="global-bar-message">
+                <span class="govuk-warning-text__icon">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    Exam Results 2021
+                </strong>
+                <span class="ncs-banner__separator">|</span>
+                <span class="ncs-banner__text">
+                    <a class="govuk-link brand__color" href="https://nationalcareers.service.gov.uk/exam-results">Get help making choices after your results</a>
+                </span>
             </div>
         </div>
-        <div class="govuk-width-container app-site-width-container">
+    </div>
+    <div class="govuk-width-container app-site-width-container">
 
-            {% include "_phasebanner.njk" %}
+        {% include "_phasebanner.njk" %}
 
-            {% include "_breadcrumbpanel.njk" %}
+        {% include "_breadcrumbpanel.njk" %}
 
-        </div>
+    </div>
 
-        <div class="govuk-main-wrapper govuk-width-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-main-wrapper govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
 
-                    <fieldset class="govuk-fieldset" aria-describedby="passport-issued-hint" role="group">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-                            <h1 class="govuk-fieldset__heading">Email address</h1>
-                        </legend>
-                        <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
+                <fieldset class="govuk-fieldset" aria-describedby="passport-issued-hint" role="group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                        <h1 class="govuk-fieldset__heading">Email address</h1>
+                    </legend>
+                    <span class="govuk-hint">We will only use this to send you a link to return to your assessment</span>
 
-                        @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                        <div>
-                            {{ govukErrorSummary({
-                            "titleText": "There is a problem",
-                            "errorList": [
-                            {
-                            "text": "@Model.ErrorMessage",
-                            "href": "#email"
-                            }
-                            ]
-                            }) }}
-                        </div>
+                    @if (!String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                    <div>
+                        {{ govukErrorSummary({
+                        "titleText": "There is a problem",
+                        "errorList": [
+                        {
+                        "text": "@Model.ErrorMessage",
+                        "href": "#email"
+                        }
+                        ]
+                        }) }}
+                    </div>
                     }
 
-                        <div class="govuk-body">
+                    <div class="govuk-body">
 
-                            <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
-                                <div class="govuk-grid-column-two-thirds-from-desktop">
-                                    @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
-                                    <div>
-                                        {{ govukInput({
+                        <form action="/save-my-progress/email" method="post" class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds-from-desktop">
+                                @if (String.IsNullOrEmpty(@Model.ErrorMessage)) {
+                                <div>
+                                    {{ govukInput({
                                     label: {
                                     text: "Email"
                                     },
@@ -76,37 +76,37 @@
                                     name: "email",
                                     required: "true"
                                     })
-                                        }}
-                                    </div>
+                                    }}
+                                </div>
                                 } else {
-                                    <div>
-                                        {{ govukInput({
-                                        label: {
-                                        text: "Email"
-                                        },
-                                        type: "text",
-                                        id: "email",
-                                        name: "email",
-                                        required: "true",
-                                        errorMessage: {
-                                        text: "@Model.ErrorMessage"
-                                        }
-                                        })
-                                        }}
-                                    </div>
+                                <div>
+                                    {{ govukInput({
+                                    label: {
+                                    text: "Email"
+                                    },
+                                    type: "text",
+                                    id: "email",
+                                    name: "email",
+                                    required: "true",
+                                    errorMessage: {
+                                    text: "@Model.ErrorMessage"
+                                    }
+                                    })
+                                    }}
+                                </div>
                                 }
-                                    {{ govukButton({
+                                {{ govukButton({
                                     text: "Send"
                                 }) }}
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+                    </div>
 
-                    </fieldset>
+                </fieldset>
 
-                </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 {% endblock %}

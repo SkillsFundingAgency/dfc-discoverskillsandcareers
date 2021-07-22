@@ -14,153 +14,153 @@
 
 {% block main %}
 
-    <main id="content" role="main">
-        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
-            <div class="global-bar-message-container">
-                <div class="global-bar-message">
-                    <span class="govuk-warning-text__icon">!</span>
-                    <strong class="govuk-warning-text__text">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        Exam Results 2021
-                    </strong>
-                    <span class="ncs-banner__separator">|</span>
-                    <span class="ncs-banner__text">
-                        <a class="govuk-link brand__color" href="/exam-results">Get help making choices after your results</a>
-                    </span>
-                </div>
+<main id="content" role="main">
+    <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+        <div class="global-bar-message-container">
+            <div class="global-bar-message">
+                <span class="govuk-warning-text__icon">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    Exam Results 2021
+                </strong>
+                <span class="ncs-banner__separator">|</span>
+                <span class="ncs-banner__text">
+                    <a class="govuk-link brand__color" href="https://nationalcareers.service.gov.uk/exam-results">Get help making choices after your results</a>
+                </span>
             </div>
         </div>
+    </div>
+    <div class="govuk-width-container">
+        {% include "_phasebanner.njk" %}
+    </div>
+
+    <div class="app-masthead">
         <div class="govuk-width-container">
-            {% include "_phasebanner.njk" %}
-        </div>
-
-        <div class="app-masthead">
-            <div class="govuk-width-container">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                        <h1 class="govuk-heading-xl app-masthead__title">Your results</h1>
-                    </div>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    <h1 class="govuk-heading-xl app-masthead__title">Your results</h1>
                 </div>
-
             </div>
+
         </div>
+    </div>
 
-        <div class="app-grey">
-            <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
+    <div class="app-grey">
+        <div class="govuk-main-wrapper govuk-width-container govuk-!-padding-top-7">
 
-                <div class="govuk-grid-row">
+            <div class="govuk-grid-row">
 
-                    <div class="govuk-grid-column-two-thirds app-intro">
+                <div class="govuk-grid-column-two-thirds app-intro">
 
-                        <h2 class="govuk-heading-l">What you told us</h2>
+                    <h2 class="govuk-heading-l">What you told us</h2>
 
-                        <div class="govuk-text">
-                            <p>Your answers show that:</p>
-                            <ul class="govuk-list govuk-list--bullet">
-                                @foreach (var trait in Model.Traits)
+                    <div class="govuk-text">
+                        <p>Your answers show that:</p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            @foreach (var trait in Model.Traits)
                     {
-                                <li>@trait</li>
+                            <li>@trait</li>
                     }
-                            </ul>
+                        </ul>
 
-                            @if (Model.JobCategories.Any())
+                        @if (Model.JobCategories.Any())
                 {
                     <!--NEXT STEPS-->
-                            <p class="govuk-body">The following careers are based on the answers you have given. You can refine your results by answering more questions.</p>
-                            <p class="govuk-body">You may want to:</p>
-                            <ul class="govuk-list govuk-list--bullet">
-                                <li><a href="/save-my-progress/" class="govuk-link govuk-link--no-visited-state">email</a> or <a href="#" onclick="window.print(); return false;" class="govuk-link govuk-link--no-visited-state">print</a> your results to think about later</li>
-                                <li><a href="@Model.ExploreCareersBaseUrl/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
-                                <li>compare different careers to see what you like</li>
-                                <li><a href="@Model.ExploreCareersBaseUrl/contact-us" class="govuk-link">talk to a careers adviser</a> about your results and next steps</li>
-                            </ul>
+                        <p class="govuk-body">The following careers are based on the answers you have given. You can refine your results by answering more questions.</p>
+                        <p class="govuk-body">You may want to:</p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li><a href="/save-my-progress/" class="govuk-link govuk-link--no-visited-state">email</a> or <a href="#" onclick="window.print(); return false;" class="govuk-link govuk-link--no-visited-state">print</a> your results to think about later</li>
+                            <li><a href="@Model.ExploreCareersBaseUrl/explore-careers" class="govuk-link">explore careers</a> suggested for you</li>
+                            <li>compare different careers to see what you like</li>
+                            <li><a href="@Model.ExploreCareersBaseUrl/contact-us" class="govuk-link">talk to a careers adviser</a> about your results and next steps</li>
+                        </ul>
                 }
                 else
                 {
-                            <p>We could not recommend any careers based on your responses. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were accurate.</p>
+                        <p>We could not recommend any careers based on your responses. You might want to <a href="/q/short/01">go through the assessment again</a> to check that your responses were accurate.</p>
                 }
-                        </div>
-
-                    </div>
-
-                    <div class="govuk-grid-column-one-third">
-                        {% include "_printpanel.njk" %}
-                        {% include "_advisorpanel.njk" %}
                     </div>
 
                 </div>
+
+                <div class="govuk-grid-column-one-third">
+                    {% include "_printpanel.njk" %}
+                    {% include "_advisorpanel.njk" %}
+                </div>
+
             </div>
         </div>
+    </div>
 
-        <div class="govuk-main-wrapper govuk-width-container @(Model.AssessmentType == "short" ? string.Empty : "govuk-!-padding-top-7")">
+    <div class="govuk-main-wrapper govuk-width-container @(Model.AssessmentType == "short" ? string.Empty : "govuk-!-padding-top-7")">
 
-            <div class="govuk-body">
+        <div class="govuk-body">
 
-                @if (Model.JobCategories.Any())
+            @if (Model.JobCategories.Any())
             {
 
 
-                <div class="app-results">
+            <div class="app-results">
 
-                    <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobCategories.Length) that might interest you</h2>
+                <h2 class="govuk-heading-l">@Model.GetJobCategoryForNumberText(Model.JobCategories.Length) that might interest you</h2>
 
-                    <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
-                        @foreach (var jobCategory in Model.JobCategories)
+                <ol class="govuk-list govuk-!-margin-bottom-2" id="app-results-list">
+                    @foreach (var jobCategory in Model.JobCategories)
                         {
-                        <li class="app-results__item" data-job-family-code="@jobCategory.JobCategoryCode">
-                            <div class="govuk-grid-row">
-                                <div class="govuk-grid-column-two-thirds">
-                                    <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobCategoryName</a></h3>
-                                    <p>@jobCategory.JobCategoryText</p>
-                                    @if (Model.UseFilteringQuestions)
+                    <li class="app-results__item" data-job-family-code="@jobCategory.JobCategoryCode">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds">
+                                <h3 class="govuk-heading-m"><a href='@(Model.ExploreCareersBaseUrl + "/job-categories/" + jobCategory.Url)'>@jobCategory.JobCategoryName</a></h3>
+                                <p>@jobCategory.JobCategoryText</p>
+                                @if (Model.UseFilteringQuestions)
                                         {
-                                    <p class="app-noprint">Answer more questions to find roles that might interest you in @(jobCategory.JobCategoryName).</p>
+                                <p class="app-noprint">Answer more questions to find roles that might interest you in @(jobCategory.JobCategoryName).</p>
                                             if (jobCategory.FilterAssessmentResult != null && jobCategory.FilterAssessmentResult.SuggestedJobProfiles.Count > 0)
                                             {
-                                    <a href="/results/@jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
+                                <a href="/results/@jobCategory.FilterAssessmentResult.JobFamilyNameUrlSafe" role="button" draggable="false" class="govuk-button govuk-button app-button">View results</a>
                                             }
                                             else
                                             {
-                                    <a href="/results/filtered/@jobCategory.JobCategoryNameUrl" role="button" draggable="false" class="govuk-button app-button">
-                                        @if (jobCategory.TotalQuestions == 1)
+                                <a href="/results/filtered/@jobCategory.JobCategoryNameUrl" role="button" draggable="false" class="govuk-button app-button">
+                                    @if (jobCategory.TotalQuestions == 1)
                                                     {
-                                        @("Answer 1 more question")
+                                    @("Answer 1 more question")
                                                     }
                                                     else
                                                     {
-                                        @("Answer " + jobCategory.TotalQuestions.ToString() + " more questions")
+                                    @("Answer " + jobCategory.TotalQuestions.ToString() + " more questions")
                                                     }
-                                        <span class="visually-hidden"> for @jobCategory.JobCategoryName</span>
-                                    </a>
+                                    <span class="visually-hidden"> for @jobCategory.JobCategoryName</span>
+                                </a>
                                             }
                                         }
-                                    <hr>
-                                </div>
+                                <hr>
                             </div>
-                        </li>
+                        </div>
+                    </li>
                         }
-                    </ol>
+                </ol>
 
-                </div>
-
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        {% include "_sendresults.njk" %}
-                    </div>
-                </div>
-
-                <div class="app-back-to-top" data-module="app-back-to-top">
-                    <a class="govuk-link govuk-link--no-visited-state" href="#top">
-                        <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">
-                            <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
-                        </svg>Back to top
-                    </a>
-                </div>
-            }
             </div>
 
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    {% include "_sendresults.njk" %}
+                </div>
+            </div>
+
+            <div class="app-back-to-top" data-module="app-back-to-top">
+                <a class="govuk-link govuk-link--no-visited-state" href="#top">
+                    <svg class="app-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17">
+                        <path fill="currentColor" d="M6.5 0L0 6.5 1.4 8l4-4v12.7h2V4l4.3 4L13 6.4z"></path>
+                    </svg>Back to top
+                </a>
+            </div>
+            }
         </div>
 
-    </main>
+    </div>
+
+</main>
 
 {% endblock %}

@@ -14,51 +14,51 @@
 
 {% block main %}
 
-    <main id="content" role="main">
-        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
-            <div class="global-bar-message-container">
-                <div class="global-bar-message">
-                    <span class="govuk-warning-text__icon">!</span>
-                    <strong class="govuk-warning-text__text">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        Exam Results 2021
-                    </strong>
-                    <span class="ncs-banner__separator">|</span>
-                    <span class="ncs-banner__text">
-                        <a class="govuk-link brand__color" href="/exam-results">Get help making choices after your results</a>
-                    </span>
-                </div>
+<main id="content" role="main">
+    <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+        <div class="global-bar-message-container">
+            <div class="global-bar-message">
+                <span class="govuk-warning-text__icon">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    Exam Results 2021
+                </strong>
+                <span class="ncs-banner__separator">|</span>
+                <span class="ncs-banner__text">
+                    <a class="govuk-link brand__color" href="https://nationalcareers.service.gov.uk/exam-results">Get help making choices after your results</a>
+                </span>
             </div>
         </div>
-        <div class="govuk-width-container app-site-width-container">
+    </div>
+    <div class="govuk-width-container app-site-width-container">
 
-            {% include "_phasebanner.njk" %}
+        {% include "_phasebanner.njk" %}
 
-            {% include "_breadcrumbpanel.njk" %}
+        {% include "_breadcrumbpanel.njk" %}
 
-        </div>
+    </div>
 
-        <div class="govuk-main-wrapper govuk-width-container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-main-wrapper govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
 
-                    <div class="govuk-body">
+                <div class="govuk-body">
 
-                        <h1 class="govuk-heading-xl">Check your phone</h1>
+                    <h1 class="govuk-heading-xl">Check your phone</h1>
 
-                        <p>A text message has been sent to @Model.SentTo</p>
+                    <p>A text message has been sent to @Model.SentTo</p>
 
-                        <p>Click on the link in the text message to return to your assessment.</p>
+                    <p>Click on the link in the text message to return to your assessment.</p>
 
-                        <a href="/results" class="govuk-button">Return to assessment</a>
+                    <a href="/results" class="govuk-button">Return to assessment</a>
 
-                        <p><a href="/">Back to start</a></p>
-
-                    </div>
+                    <p><a href="/">Back to start</a></p>
 
                 </div>
+
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 {% endblock %}
