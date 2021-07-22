@@ -14,24 +14,38 @@
 
 {% block main %}
 
-<main id="content" role="main">
-
-    <div class="govuk-width-container">
-        {% include "_phasebanner.njk" %}
-    </div>
-
-    <div class="govuk-width-container">
-        <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
-            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
-                <p class="govuk-body">Try again later.</p>
-                <p>
-                    <a href="https://nationalcareers.service.gov.uk/contact-us">Contact us</a> if you want to speak to one of our careers advisers.
-                </p>
+    <main id="content" role="main">
+        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+            <div class="global-bar-message-container">
+                <div class="global-bar-message">
+                    <span class="govuk-warning-text__icon">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        Exam Results 2021
+                    </strong>
+                    <span class="ncs-banner__separator">|</span>
+                    <span class="ncs-banner__text">
+                        <a class="govuk-link brand__color" href="/exam-results">Get help making choices after your results</a>
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="govuk-width-container">
+            {% include "_phasebanner.njk" %}
+        </div>
 
-</main>
+        <div class="govuk-width-container">
+            <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+                    <p class="govuk-body">Try again later.</p>
+                    <p>
+                        <a href="https://nationalcareers.service.gov.uk/contact-us">Contact us</a> if you want to speak to one of our careers advisers.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
 {% endblock %}

@@ -30,17 +30,31 @@
 {% block main %}
 @using Dfc.DiscoverSkillsAndCareers.Models
 @model Dfc.DiscoverSkillsAndCareers.WebApp.Models.QuestionViewModel;
-<main id="content" role="main">
+    <main id="content" role="main">
+        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+            <div class="global-bar-message-container">
+                <div class="global-bar-message">
+                    <span class="govuk-warning-text__icon">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        Exam Results 2021
+                    </strong>
+                    <span class="ncs-banner__separator">|</span>
+                    <span class="ncs-banner__text">
+                        <a class="govuk-link brand__color" href="/exam-results">Get help making choices after your results</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-width-container app-site-width-container">
 
-    <div class="govuk-width-container app-site-width-container">
+            {% include "_phasebanner.njk" %}
 
-        {% include "_phasebanner.njk" %}
-
-        @if (Model.QuestionNumber == 1)
+            @if (Model.QuestionNumber == 1)
         {
             <div class="app-breadcrumb-panel">
                 <a href="/" class="govuk-back-link">Back to start</a>
-                </div>
+            </div>
         }
         else
         {
@@ -49,30 +63,30 @@
             </div>
         }
 
-    </div>
+        </div>
 
-    <div class="govuk-main-wrapper govuk-width-container">
-        <form action="@Model.FormRoute" method="post">
+        <div class="govuk-main-wrapper govuk-width-container">
+            <form action="@Model.FormRoute" method="post">
 
-            <input type="hidden" name="sessionId" value="@Model.SessionId" />
-            <input type="hidden" name="questionId" value="@Model.QuestionId" />
+                <input type="hidden" name="sessionId" value="@Model.SessionId" />
+                <input type="hidden" name="questionId" value="@Model.QuestionId" />
 
-            <div class="govuk-grid-row app-question-progress">
-                <div class="govuk-grid-column-two-thirds-from-desktop">
+                <div class="govuk-grid-row app-question-progress">
+                    <div class="govuk-grid-column-two-thirds-from-desktop">
 
-                    <div class="ncs-progress">
-                        <span class="ncs-progress__count govuk-body"><b class="govuk-!-font-size-36">@Model.Percentage%</b> <b class="visually-hidden">Complete</b></span>
-                        <div class="ncs-progress__bar"><span style="width: @Model.Percentage%"></span></div>
+                        <div class="ncs-progress">
+                            <span class="ncs-progress__count govuk-body"><b class="govuk-!-font-size-36">@Model.Percentage%</b> <b class="visually-hidden">Complete</b></span>
+                            <div class="ncs-progress__bar"><span style="width: @Model.Percentage%"></span></div>
+                        </div>
+
                     </div>
-
+                    <div class="govuk-grid-column-one-third-from-desktop">
+                        {% set savepanelClass = 'alt' %}
+                        {% include "_savepanel.njk" %}
+                    </div>
                 </div>
-                <div class="govuk-grid-column-one-third-from-desktop">
-                    {% set savepanelClass = 'alt' %}
-                    {% include "_savepanel.njk" %}
-                </div>
-            </div>
 
-            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
             {
 
                 <div class="govuk-grid-row app-error">
@@ -93,107 +107,107 @@
                 </div>
             }
 
-            <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
-                <div class="govuk-fieldset app-question app-question--short" id="question" role="group" aria-labelledby="question-heading">
+                <div class="govuk-form-group @(!string.IsNullOrEmpty(Model.ErrorMessage) ? "govuk-form-group--error" : string.Empty)">
+                    <div class="govuk-fieldset app-question app-question--short" id="question" role="group" aria-labelledby="question-heading">
 
-                    <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        <div class="govuk-fieldset__legend govuk-fieldset__legend--l app-question__question">
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
                             <div id="national-insurance-number-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
                             </div>
                         }
-                        <h1 class="govuk-fieldset__heading" id="question-heading">
-                            @Model.QuestionText
-                        </h1>
-                    </div>
-
-                    <div class="app-question__answer govuk-radios govuk-radios--inline">
-
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                    id="selected_answer-1"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
-                                    value="StronglyAgree"
-                                    gov-analytics-data="SelectedAnswer | StronglyAgree">
-                            <label class="govuk-label govuk-radios__label" for="selected_answer-1">
-                                Strongly agree
-                            </label>
+                            <h1 class="govuk-fieldset__heading" id="question-heading">
+                                @Model.QuestionText
+                            </h1>
                         </div>
 
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                    id="selected_answer-2"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
-                                    value="Agree"
-                                    gov-analytics-data="SelectedAnswer | Agree">
-                            <label class="govuk-label govuk-radios__label" for="selected_answer-2">
-                                Agree
-                            </label>
+                        <div class="app-question__answer govuk-radios govuk-radios--inline">
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="selected_answer-1"
+                                       name="selected_answer"
+                                       type="radio"
+                                       @(Model.RecordedAnswer == AnswerOption.StronglyAgree ? "checked" : "")
+                                       value="StronglyAgree"
+                                       gov-analytics-data="SelectedAnswer | StronglyAgree">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-1">
+                                    Strongly agree
+                                </label>
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="selected_answer-2"
+                                       name="selected_answer"
+                                       type="radio"
+                                       @(Model.RecordedAnswer == AnswerOption.Agree ? "checked" : "")
+                                       value="Agree"
+                                       gov-analytics-data="SelectedAnswer | Agree">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-2">
+                                    Agree
+                                </label>
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="selected_answer-5"
+                                       name="selected_answer"
+                                       type="radio"
+                                       @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
+                                       value="Neutral"
+                                       gov-analytics-data="SelectedAnswer | Neutral">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-5">
+                                    It depends
+                                </label>
+                            </div>
+
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="selected_answer-3"
+                                       name="selected_answer"
+                                       type="radio"
+                                       @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
+                                       value="Disagree"
+                                       gov-analytics-data="SelectedAnswer | Disagree">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-3">
+                                    Disagree
+                                </label>
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="selected_answer-4"
+                                       name="selected_answer"
+                                       type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
+                                       value="StronglyDisagree"
+                                       gov-analytics-data="SelectedAnswer | StronglyDisagree">
+                                <label class="govuk-label govuk-radios__label" for="selected_answer-4">
+                                    Strongly disagree
+                                </label>
+                            </div>
+
                         </div>
-
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                    id="selected_answer-5"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.Neutral ? "checked" : "")
-                                    value="Neutral"
-                                    gov-analytics-data="SelectedAnswer | Neutral">
-                            <label class="govuk-label govuk-radios__label" for="selected_answer-5">
-                                It depends
-                            </label>
-                        </div>
-
-
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                    id="selected_answer-3"
-                                    name="selected_answer"
-                                    type="radio"
-                                    @(Model.RecordedAnswer == AnswerOption.Disagree ? "checked" : "")
-                                    value="Disagree"
-                                    gov-analytics-data="SelectedAnswer | Disagree">
-                            <label class="govuk-label govuk-radios__label" for="selected_answer-3">
-                                Disagree
-                            </label>
-                        </div>
-
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input"
-                                    id="selected_answer-4"
-                                    name="selected_answer"
-                                    type="radio" @(Model.RecordedAnswer == AnswerOption.StronglyDisagree ? "checked" : "")
-                                    value="StronglyDisagree"
-                                    gov-analytics-data="SelectedAnswer | StronglyDisagree">
-                            <label class="govuk-label govuk-radios__label" for="selected_answer-4">
-                                Strongly disagree
-                            </label>
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
-            <div class="app-controls">
+                <div class="app-controls">
 
-                {{ govukButton({
+                    {{ govukButton({
                     text: "Next",
                     classes: "app-button btn-next-question",
                     type: "submit"
                 }) }}
 
-            </div>
+                </div>
 
-            {% set savepanelClass = 'alt-mobile' %}
-            {% include "_savepanel.njk" %}
+                {% set savepanelClass = 'alt-mobile' %}
+                {% include "_savepanel.njk" %}
 
-        </form>
-    </div>
-</main>
+            </form>
+        </div>
+    </main>
 
 {% endblock %}

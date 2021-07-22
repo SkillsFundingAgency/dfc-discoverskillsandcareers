@@ -14,27 +14,41 @@
 
 {% block main %}
 
-<main id="content" role="main">
+    <main id="content" role="main">
+        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+            <div class="global-bar-message-container">
+                <div class="global-bar-message">
+                    <span class="govuk-warning-text__icon">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        Exam Results 2021
+                    </strong>
+                    <span class="ncs-banner__separator">|</span>
+                    <span class="ncs-banner__text">
+                        <a class="govuk-link brand__color" href="/exam-results">Get help making choices after your results</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-width-container app-site-width-container">
 
-    <div class="govuk-width-container app-site-width-container">
+            {% include "_phasebanner.njk" %}
 
-        {% include "_phasebanner.njk" %}
+            {% include "_breadcrumbpanel.njk" %}
 
-        {% include "_breadcrumbpanel.njk" %}
+        </div>
 
-    </div>
+        <div class="govuk-main-wrapper govuk-width-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
 
-    <div class="govuk-main-wrapper govuk-width-container">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-xl">What is your phone number?</h1>
 
-                <h1 class="govuk-heading-xl">What is your phone number?</h1>
+                    <div class="govuk-body">
 
-                <div class="govuk-body">
-
-                    <form action="/save-my-progress/sms" method="post" class="govuk-grid-row">
-                        <div class="govuk-grid-column-two-thirds-from-desktop">
-                            {{ govukInput({
+                        <form action="/save-my-progress/sms" method="post" class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds-from-desktop">
+                                {{ govukInput({
                                 label: {
                                     text: "UK mobile number"
                                 },
@@ -42,17 +56,17 @@
                                 id: "mobileNumber",
                                 name: "mobileNumber"
                             }) }}
-                            {{ govukButton({
+                                {{ govukButton({
                                 text: "Send"
                             }) }}
-                        </div>
-                    </form>
+                            </div>
+                        </form>
 
-                    @Model.ErrorMessage
+                        @Model.ErrorMessage
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
 {% endblock %}
