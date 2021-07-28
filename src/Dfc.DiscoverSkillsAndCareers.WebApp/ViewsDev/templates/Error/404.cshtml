@@ -15,11 +15,25 @@
 {% block main %}
 
 <main id="content" role="main">
-
+    <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
+        <div class="global-bar-message-container">
+            <div class="global-bar-message">
+                <span class="govuk-warning-text__icon">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-warning-text__assistive">Warning</span>
+                    Exam Results 2021
+                </strong>
+                <span class="ncs-banner__separator">|</span>
+                <span class="ncs-banner__text">
+                    <a class="govuk-link brand__color" href="https://nationalcareers.service.gov.uk/exam-results">Get help making choices after your results</a>
+                </span>
+            </div>
+        </div>
+    </div>
     <div class="govuk-width-container">
         {% include "_phasebanner.njk" %}
     </div>
-    
+
     <div class="govuk-width-container">
         <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
@@ -31,7 +45,7 @@
                     If you pasted the web address, check you copied the entire address.
                 </p>
                 <p>
-                    <p>If the web address is correct you can <a href="https://nationalcareers.service.gov.uk/contact-us">contact us</a> to get help using this service or call 0800 100 900, 8am to 10pm, 7 days a week.</p>
+                <p>If the web address is correct you can <a href="https://nationalcareers.service.gov.uk/contact-us">contact us</a> to get help using this service or call 0800 100 900, 8am to 10pm, 7 days a week.</p>
                 </p>
             </div>
         </div>
