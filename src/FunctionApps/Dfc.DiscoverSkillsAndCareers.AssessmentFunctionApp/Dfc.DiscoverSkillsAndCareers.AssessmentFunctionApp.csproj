@@ -16,7 +16,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
         <PackageReference Include="DFC.Swagger.Standard" Version="0.1.3" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-        <PackageReference Include="DFC.Notify240" Version="0.1.9" />
+        <PackageReference Include="Notify" Version="2.4.0" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\Dfc.DiscoverSkillsAndCareers.Models\Dfc.DiscoverSkillsAndCareers.Models.csproj" />

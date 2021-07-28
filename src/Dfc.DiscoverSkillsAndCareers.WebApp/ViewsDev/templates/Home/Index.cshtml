@@ -14,69 +14,55 @@
 
 {% block main %}
 
-    <main id="content" role="main">
-        <div id="global-bar" class="global-bar global-bar--warning single-row-banner">
-            <div class="global-bar-message-container">
-                <div class="global-bar-message">
-                    <span class="govuk-warning-text__icon">!</span>
-                    <strong class="govuk-warning-text__text">
-                        <span class="govuk-warning-text__assistive">Warning</span>
-                        Exam Results 2021
-                    </strong>
-                    <span class="ncs-banner__separator">|</span>
-                    <span class="ncs-banner__text">
-                        <a class="govuk-link brand__color" href="https://nationalcareers.service.gov.uk/exam-results">Get help making choices after your results</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="govuk-width-container">
-            {% include "_phasebanner.njk" %}
+  <main id="content" role="main">
+
+    <div class="govuk-width-container">
+      {% include "_phasebanner.njk" %}
+    </div>
+
+    <div class="app-masthead">
+      <div class="govuk-width-container">
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
+          </div>
         </div>
 
-        <div class="app-masthead">
-            <div class="govuk-width-container">
+      </div>
+    </div>
 
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                        <h1 class="govuk-heading-xl app-masthead__title">Discover your skills and careers</h1>
-                    </div>
-                </div>
+    <div class="govuk-width-container">
+      <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
 
-            </div>
-        </div>
+          <div class="govuk-grid-column-two-thirds">
+              <p class="govuk-body"> Discover your skills and careers (DYSAC) is a tool to help you identify your:</p>
+              <ul class="govuk-list govuk-list--bullet">
+                  <li>interests</li>
+                  <li>motivations</li>
+                  <li>preferences</li>
+              </ul>
+              <p class="govuk-body">Understanding yourself can help you work out what careers you may enjoy working in. You can use this information to explore careers that interest you in more detail.</p>
+              <p class="govuk-body">After you answer the questions, you’ll see a list of categories that may interest you based on your answers. You can answer more questions to see more specific roles that may suit you.</p>
+              <p class="govuk-body">These suggestions are based on your preferences, and may not reflect opportunities in the job market. You may want to <a href="https://nationalcareers.service.gov.uk/contact-us" class="govuk-link">speak to a careers adviser</a> about your results. They know about local opportunities in your area and can help you work out your next steps.</p>
+              <p class="govuk-body">It takes 5 to 10 minutes. It may take longer with a screen reader. You can save your progress at any time and come back to it later.</p>
 
-        <div class="govuk-width-container">
-            <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-margin-top-7">
-
-                <div class="govuk-grid-column-two-thirds">
-                    <p class="govuk-body"> Discover your skills and careers (DYSAC) is a tool to help you identify your:</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>interests</li>
-                        <li>motivations</li>
-                        <li>preferences</li>
-                    </ul>
-                    <p class="govuk-body">Understanding yourself can help you work out what careers you may enjoy working in. You can use this information to explore careers that interest you in more detail.</p>
-                    <p class="govuk-body">After you answer the questions, you’ll see a list of categories that may interest you based on your answers. You can answer more questions to see more specific roles that may suit you.</p>
-                    <p class="govuk-body">These suggestions are based on your preferences, and may not reflect opportunities in the job market. You may want to <a href="https://nationalcareers.service.gov.uk/contact-us" class="govuk-link">speak to a careers adviser</a> about your results. They know about local opportunities in your area and can help you work out your next steps.</p>
-                    <p class="govuk-body">It takes 5 to 10 minutes. It may take longer with a screen reader. You can save your progress at any time and come back to it later.</p>
-
-                    {{ govukButton({
+              {{ govukButton({
             text: "Start assessment",
             href: "/assessment/short/",
             classes: "govuk-button--start"
           }) }}
 
-                </div>
+          </div>
 
-                <div class="govuk-grid-column-one-third">
-                    {% include "_resumepanel.njk" %}
-                    {% include "_advisorpanel.njk" %}
-                </div>
-
-            </div>
+        <div class="govuk-grid-column-one-third">
+          {% include "_resumepanel.njk" %}
+          {% include "_advisorpanel.njk" %}
         </div>
 
-    </main>
+      </div>
+    </div>
+
+  </main>
 
 {% endblock %}
