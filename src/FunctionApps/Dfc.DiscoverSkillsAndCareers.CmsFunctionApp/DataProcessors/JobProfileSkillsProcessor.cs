@@ -43,7 +43,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp.DataProcessors
             foreach (var categorySkill in categorySkillMappings)
             {
                 _logger.LogInformation($"Updating job category skill mapping {categorySkill.JobCategory}");
-                await CreateJobCategoryQuestionSet(categorySkill);
+//                await CreateJobCategoryQuestionSet(categorySkill);
             }
         }
         

@@ -33,7 +33,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 siteFinityHttpService.Logger = log;
                 
                 log.LogInformation($"PollFunction executed at: {myTimer.ScheduleStatus.Last:O}");
-
+/*
                 await shortTraitDataProcessor.RunOnce(log);
 
                 await jobCategoryDataProcessor.RunOnce(log);
@@ -41,7 +41,7 @@ namespace Dfc.DiscoverSkillsAndCareers.CmsFunctionApp
                 await shortQuestionSetDataProcessor.RunOnce(log);
 
                 await filteredQuestionSetDataProcessor.RunOnce(log);
-
+*/
                 await jobProfileSkillDataProcessor.RunOnce(log);
 
                 log.LogInformation($"PollFunction completed at: {DateTime.UtcNow}");

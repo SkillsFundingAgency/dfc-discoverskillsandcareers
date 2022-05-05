@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
-        <AzureFunctionsVersion>v2</AzureFunctionsVersion>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="DFC.Common.Standard" Version="0.1.0" />
