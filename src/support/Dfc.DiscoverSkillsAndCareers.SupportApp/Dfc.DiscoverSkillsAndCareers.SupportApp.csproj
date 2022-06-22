@@ -15,7 +15,7 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="CsvHelper" Version="12.1.1" />
       <PackageReference Include="Serilog.AspNetCore" Version="2.1.2-dev-00028" />
       <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
