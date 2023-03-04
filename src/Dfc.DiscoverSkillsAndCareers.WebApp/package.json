@@ -22,7 +22,7 @@
     "gulp-eslint": "^5.0.0",
     "gulp-filter": "^5.1.0",
     "gulp-header": "^2.0.7",
-    "gulp-mocha": "^6.0.0",
+    "gulp-mocha": "^8.0.0",
     "gulp-nunjucks-render": "^2.2.3",
     "gulp-rev": "^9.0.0",
     "gulp-rev-rewrite": "^1.1.4",
