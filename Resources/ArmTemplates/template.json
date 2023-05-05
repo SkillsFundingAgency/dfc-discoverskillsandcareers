@@ -2,6 +2,9 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appInsightsInstrumentationKey":{
+            "type": "string"
+        },
         "ApimRoot": {
             "type": "string",
             "metadata": {
@@ -164,7 +167,8 @@
         "ActionGroupName": "[concat('dfc-', toLower(parameters('Environment')), '-skillcareers-actgrp')]",
         "slackIntegrationBaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers'))]",
         "SlackLogicAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-logic-app'))]",
-        "AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
+        //"AppServiceAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ai'))]",
+        "WebAppInsightInstrumentationKey":"[parameters('appInsightsInstrumentationKey')]",
         "AppServiceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-as'))]",
         "AppServicePlanName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-asp'))]",
         "AppServiceMetricsToAlertUpon": [
@@ -209,9 +213,9 @@
         "AppSettings__SessionSalt": "ncs",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "ChangeFeedProcessorFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-fa'))]",
-        "ChangeFeedProcessorAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-ai'))]",
+        //"ChangeFeedProcessorAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-processor-ai'))]",
         "ChangeFeedTriggerFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-fa'))]",
-        "ChangeFeedTriggerAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-ai'))]",
+        //"ChangeFeedTriggerAppInsightsName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-trigger-ai'))]",
         "CmsFunctionAppName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cms-fa'))]",
         "CosmosDbName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-cdb'))]",
         "DatabaseName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-chgfeed-db'))]",
@@ -219,11 +223,11 @@
         "ServiceBusNamespaceName": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-ns'))]",
         "StorageAccountName": "[tolower(concat('dfc', parameters('Environment'), 'skillscareersstr'))]",
         "copy": [
-            {
-                "name": "AppInsightsNames",
-                "count": "[length(parameters('FunctionAppNames'))]",
-                "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
-            },
+            // {
+            //     "name": "AppInsightsNames",
+            //     "count": "[length(parameters('FunctionAppNames'))]",
+            //     "input": "[tolower(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex('AppInsightsNames')], '-ai'))]"
+            // },
             {
                 "name": "HttpFunctionAppApiNames",
                 "metadata": {
@@ -323,50 +327,50 @@
                 }
             }
         },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('AppServiceAppInsightsName')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appInsightsName": {
-                        "value": "[variables('AppServiceAppInsightsName')]"
-                    },
-                    "attachedService": {
-                        "value": ""
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('AppInsightsNames')[copyIndex()]]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appInsightsName": {
-                        "value": "[variables('AppInsightsNames')[copyIndex()]]"
-                    },
-                    "attachedService": {
-                        "value": ""
-                    }
-                }
-            },
-            "copy": {
-                "name": "AppInsightsCopy",
-                "count": "[length(variables('AppInsightsNames'))]"
-            }
-        },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[variables('AppServiceAppInsightsName')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "appInsightsName": {
+        //                 "value": "[variables('AppServiceAppInsightsName')]"
+        //             },
+        //             "attachedService": {
+        //                 "value": ""
+        //             }
+        //         }
+        //     }
+        // },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[variables('AppInsightsNames')[copyIndex()]]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "appInsightsName": {
+        //                 "value": "[variables('AppInsightsNames')[copyIndex()]]"
+        //             },
+        //             "attachedService": {
+        //                 "value": ""
+        //             }
+        //         }
+        //     },
+        //     "copy": {
+        //         "name": "AppInsightsCopy",
+        //         "count": "[length(variables('AppInsightsNames'))]"
+        //     }
+        // },
         {
             "apiVersion": "2017-05-10",
             "name": "[variables('AppServiceName')]",
@@ -403,7 +407,7 @@
                         "value": [
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(variables('AppServiceAppInsightsName')).outputs.InstrumentationKey.value]"
+                                "value": "[variables('WebAppInsightInstrumentationKey')]"
                             },
                             {
                                 "name": "ASPNETCORE_ENVIRONMENT",
@@ -577,7 +581,8 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
+                                //"value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-', parameters('FunctionAppNames')[copyIndex()], '-ai')).outputs.InstrumentationKey.value]"
+                                "value": "[variables('WebAppInsightInstrumentationKey')]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
@@ -665,7 +670,8 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-cms-ai')).outputs.InstrumentationKey.value]"
+                                //"value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-cms-ai')).outputs.InstrumentationKey.value]"
+                                "value": "[variables('WebAppInsightInstrumentationKey')]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
@@ -781,7 +787,8 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-results-ai')).outputs.InstrumentationKey.value]"
+                                //"value": "[reference(concat('dfc-', parameters('Environment'), '-skillscareers-results-ai')).outputs.InstrumentationKey.value]"
+                                "value": "[variables('WebAppInsightInstrumentationKey')]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
@@ -972,7 +979,8 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(variables('ChangeFeedProcessorAppInsightsName')).outputs.InstrumentationKey.value]"
+                                //"value": "[reference(variables('ChangeFeedProcessorAppInsightsName')).outputs.InstrumentationKey.value]"
+                                "value": "[variables('WebAppInsightInstrumentationKey')]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
@@ -1004,26 +1012,26 @@
             },
             "dependsOn": []
         },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('ChangeFeedProcessorAppInsightsName')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appInsightsName": {
-                        "value": "[variables('ChangeFeedProcessorAppInsightsName')]"
-                    },
-                    "attachedService": {
-                        "value": "[variables('ChangeFeedProcessorAppInsightsName')]"
-                    }
-                }
-            }
-        },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[variables('ChangeFeedProcessorAppInsightsName')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "appInsightsName": {
+        //                 "value": "[variables('ChangeFeedProcessorAppInsightsName')]"
+        //             },
+        //             "attachedService": {
+        //                 "value": "[variables('ChangeFeedProcessorAppInsightsName')]"
+        //             }
+        //         }
+        //     }
+        // },
         {
             "apiVersion": "2017-05-10",
             "name": "[variables('ChangeFeedTriggerFunctionAppName')]",
@@ -1063,7 +1071,8 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(variables('ChangeFeedTriggerAppInsightsName')).outputs.InstrumentationKey.value]"
+                                //"value": "[reference(variables('ChangeFeedTriggerAppInsightsName')).outputs.InstrumentationKey.value]"
+                                "value": "[variables('WebAppInsightInstrumentationKey')]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
@@ -1103,266 +1112,266 @@
             },
             "dependsOn": [
                 "[variables('AppServicePlanName')]",
-                "[variables('ChangeFeedTriggerAppInsightsName')]",
+                //"[variables('ChangeFeedTriggerAppInsightsName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('ChangeFeedTriggerAppInsightsName')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appInsightsName": {
-                        "value": "[variables('ChangeFeedTriggerAppInsightsName')]"
-                    },
-                    "attachedService": {
-                        "value": "[variables('ChangeFeedTriggerAppInsightsName')]"
-                    }
-                }
-            }
-        },
-        {
-            "name": "[variables('SlackLogicAppName')]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/slack-alerts-logic-app.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "instanceBaseName":  {
-                        "value": "[variables('slackIntegrationBaseName')]" 
-                    },
-                    "slackChannel": {
-                        "value": "[parameters('SlackAlertingChannel')]"
-                    }
-                }
-            }
-        },
-        {
-            "name": "[variables('ActionGroupName')]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/action-groups.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "actionGroupName": {
-                        "value": "[variables('ActionGroupName')]"
-                    },
-                    "enabled": {
-                        "value": "[variables('EnableAlertsAndMetrics')]"
-                    },
-                    "webHookUrl": {
-                        "value": "[reference(variables('SlackLogicAppName')).outputs.webHookURI.value]"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[variables('SlackLogicAppName')]"
-            ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-              "templateLink": {
-                "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
-                "contentVersion": "1.0.0.0"
-              },
-                "parameters": {
-                    "enabled": {
-                        "value": "[variables('EnableAlertsAndMetrics')]"
-                    },
-                    "alertName": {
-                        "value": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]"
-                    },
-                    "alertSeverity": {
-                        "value": 3
-                    },
-                    "metricName": {
-                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName]"
-                    },
-                    "operator": {
-                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Operator]"
-                    },
-                    "threshold": {
-                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Threshold]"
-                    },
-                    "aggregation": {
-                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Aggregation]"
-                    },
-                    "windowSize": {
-                        "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].TimeWindow]"
-                    },
-                    "evaluationFrequency": {
-                        "value": "PT1M"
-                    },
-                    "actionGroupName": {
-                        "value": "[variables('ActionGroupName')]"
-                    },
-                    "resourceId": {
-                        "value": "[resourceId('Microsoft.Web/sites', variables('AppServiceName'))]"
-                    }
-                }
-            },
-            "copy": {
-                "name": "AppServiceMetricCopy",
-                "count": "[length(variables('AppServiceMetricsToAlertUpon'))]"
-            },
-            "dependsOn": [
-                "[variables('ActionGroupName')]",
-                "[variables('AppServiceName')]"
-            ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[concat(variables('AppServicePlanName'), '-metric-', tolower(variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName))]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-              "templateLink": {
-                "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
-                "contentVersion": "1.0.0.0"
-              },
-                "parameters": {
-                    "enabled": {
-                        "value": "[variables('EnableAlertsAndMetrics')]"
-                    },
-                    "alertName": {
-                        "value": "[concat(variables('AppServicePlanName'), '-metric-', tolower(variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName))]"
-                    },
-                    "alertSeverity": {
-                        "value": 3
-                    },
-                    "metricName": {
-                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName]"
-                    },
-                    "operator": {
-                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Operator]"
-                    },
-                    "threshold": {
-                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Threshold]"
-                    },
-                    "aggregation": {
-                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Aggregation]"
-                    },
-                    "windowSize": {
-                        "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].TimeWindow]"
-                    },
-                    "evaluationFrequency": {
-                        "value": "PT1M"
-                    },
-                    "actionGroupName": {
-                        "value": "[variables('ActionGroupName')]"
-                    },
-                    "resourceId": {
-                        "value": "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]"
-                    }
-                }
-            },
-            "copy": {
-                "name": "AppServicePlanMetricCopy",
-                "count": "[length(variables('AppServicePlanMetricsToAlertUpon'))]"
-            },
-            "dependsOn": [
-                "[variables('ActionGroupName')]",
-                "[variables('AppServicePlanName')]"
-            ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[concat(variables('AppServiceName'), '-metric-exceptions-occured')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "enabled": {
-                        "value": "[variables('EnableAlertsAndMetrics')]"
-                    },
-                    "alertName": {
-                        "value": "[concat(variables('AppServiceName'), ' Exception Occurred')]"
-                    },
-                    "alertSeverity": {
-                        "value": 4
-                    },
-                    "metricName": {
-                        "value": "exceptions/count"
-                    },
-                    "operator": {
-                        "value": "GreaterThan"
-                    },
-                    "threshold": {
-                        "value": "0"
-                    },
-                    "aggregation": {
-                        "value": "Count"
-                    },
-                    "windowSize": {
-                        "value": "PT5M"
-                    },
-                    "evaluationFrequency": {
-                        "value": "PT1M"
-                    },
-                    "actionGroupName": {
-                        "value": "[variables('ActionGroupName')]"
-                    },
-                    "resourceId": {
-                        "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[variables('AppServiceAppInsightsName')]"
-            ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[concat(variables('AppServiceAppInsightsName'), '-failure-anomaly-v2')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/failure-anomaly-rule.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "alertName": {
-                        "value": "[variables('AppServiceAppInsightsName')]"
-                    },
-                    "enabled": {
-                        "value": "[variables('EnableAlertsAndMetrics')]"
-                    },
-                    "resourceId": {
-                        "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
-                    },
-                    "actionGroupId": {
-                        "value": "[resourceId('microsoft.insights/actionGroups', variables('ActionGroupName'))]"
-                    }
-                }
-            },
-            "dependsOn": [
-                "[variables('AppServiceAppInsightsName')]"
-            ]
         }
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[variables('ChangeFeedTriggerAppInsightsName')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "appInsightsName": {
+        //                 "value": "[variables('ChangeFeedTriggerAppInsightsName')]"
+        //             },
+        //             "attachedService": {
+        //                 "value": "[variables('ChangeFeedTriggerAppInsightsName')]"
+        //             }
+        //         }
+        //     }
+        // },
+        // {
+        //     "name": "[variables('SlackLogicAppName')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "apiVersion": "2017-05-10",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/slack-alerts-logic-app.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "instanceBaseName":  {
+        //                 "value": "[variables('slackIntegrationBaseName')]" 
+        //             },
+        //             "slackChannel": {
+        //                 "value": "[parameters('SlackAlertingChannel')]"
+        //             }
+        //         }
+        //     }
+        // },
+        // {
+        //     "name": "[variables('ActionGroupName')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "apiVersion": "2017-05-10",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/action-groups.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "actionGroupName": {
+        //                 "value": "[variables('ActionGroupName')]"
+        //             },
+        //             "enabled": {
+        //                 "value": "[variables('EnableAlertsAndMetrics')]"
+        //             },
+        //             "webHookUrl": {
+        //                 "value": "[reference(variables('SlackLogicAppName')).outputs.webHookURI.value]"
+        //             }
+        //         }
+        //     },
+        //     "dependsOn": [
+        //         "[variables('SlackLogicAppName')]"
+        //     ]
+        // },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //       "templateLink": {
+        //         "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+        //         "contentVersion": "1.0.0.0"
+        //       },
+        //         "parameters": {
+        //             "enabled": {
+        //                 "value": "[variables('EnableAlertsAndMetrics')]"
+        //             },
+        //             "alertName": {
+        //                 "value": "[concat(variables('AppServiceName'), '-metric-', tolower(variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName))]"
+        //             },
+        //             "alertSeverity": {
+        //                 "value": 3
+        //             },
+        //             "metricName": {
+        //                 "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].MetricName]"
+        //             },
+        //             "operator": {
+        //                 "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Operator]"
+        //             },
+        //             "threshold": {
+        //                 "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Threshold]"
+        //             },
+        //             "aggregation": {
+        //                 "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].Aggregation]"
+        //             },
+        //             "windowSize": {
+        //                 "value": "[variables('AppServiceMetricsToAlertUpon')[copyIndex()].TimeWindow]"
+        //             },
+        //             "evaluationFrequency": {
+        //                 "value": "PT1M"
+        //             },
+        //             "actionGroupName": {
+        //                 "value": "[variables('ActionGroupName')]"
+        //             },
+        //             "resourceId": {
+        //                 "value": "[resourceId('Microsoft.Web/sites', variables('AppServiceName'))]"
+        //             }
+        //         }
+        //     },
+        //     "copy": {
+        //         "name": "AppServiceMetricCopy",
+        //         "count": "[length(variables('AppServiceMetricsToAlertUpon'))]"
+        //     },
+        //     "dependsOn": [
+        //         "[variables('ActionGroupName')]",
+        //         "[variables('AppServiceName')]"
+        //     ]
+        // },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[concat(variables('AppServicePlanName'), '-metric-', tolower(variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName))]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //       "templateLink": {
+        //         "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+        //         "contentVersion": "1.0.0.0"
+        //       },
+        //         "parameters": {
+        //             "enabled": {
+        //                 "value": "[variables('EnableAlertsAndMetrics')]"
+        //             },
+        //             "alertName": {
+        //                 "value": "[concat(variables('AppServicePlanName'), '-metric-', tolower(variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName))]"
+        //             },
+        //             "alertSeverity": {
+        //                 "value": 3
+        //             },
+        //             "metricName": {
+        //                 "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].MetricName]"
+        //             },
+        //             "operator": {
+        //                 "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Operator]"
+        //             },
+        //             "threshold": {
+        //                 "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Threshold]"
+        //             },
+        //             "aggregation": {
+        //                 "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].Aggregation]"
+        //             },
+        //             "windowSize": {
+        //                 "value": "[variables('AppServicePlanMetricsToAlertUpon')[copyIndex()].TimeWindow]"
+        //             },
+        //             "evaluationFrequency": {
+        //                 "value": "PT1M"
+        //             },
+        //             "actionGroupName": {
+        //                 "value": "[variables('ActionGroupName')]"
+        //             },
+        //             "resourceId": {
+        //                 "value": "[resourceId('Microsoft.Web/serverfarms', variables('AppServicePlanName'))]"
+        //             }
+        //         }
+        //     },
+        //     "copy": {
+        //         "name": "AppServicePlanMetricCopy",
+        //         "count": "[length(variables('AppServicePlanMetricsToAlertUpon'))]"
+        //     },
+        //     "dependsOn": [
+        //         "[variables('ActionGroupName')]",
+        //         "[variables('AppServicePlanName')]"
+        //     ]
+        // },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[concat(variables('AppServiceName'), '-metric-exceptions-occured')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "enabled": {
+        //                 "value": "[variables('EnableAlertsAndMetrics')]"
+        //             },
+        //             "alertName": {
+        //                 "value": "[concat(variables('AppServiceName'), ' Exception Occurred')]"
+        //             },
+        //             "alertSeverity": {
+        //                 "value": 4
+        //             },
+        //             "metricName": {
+        //                 "value": "exceptions/count"
+        //             },
+        //             "operator": {
+        //                 "value": "GreaterThan"
+        //             },
+        //             "threshold": {
+        //                 "value": "0"
+        //             },
+        //             "aggregation": {
+        //                 "value": "Count"
+        //             },
+        //             "windowSize": {
+        //                 "value": "PT5M"
+        //             },
+        //             "evaluationFrequency": {
+        //                 "value": "PT1M"
+        //             },
+        //             "actionGroupName": {
+        //                 "value": "[variables('ActionGroupName')]"
+        //             },
+        //             "resourceId": {
+        //                 "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
+        //             }
+        //         }
+        //     },
+        //     "dependsOn": [
+        //         "[variables('AppServiceAppInsightsName')]"
+        //     ]
+        // },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[concat(variables('AppServiceAppInsightsName'), '-failure-anomaly-v2')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/failure-anomaly-rule.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "alertName": {
+        //                 "value": "[variables('AppServiceAppInsightsName')]"
+        //             },
+        //             "enabled": {
+        //                 "value": "[variables('EnableAlertsAndMetrics')]"
+        //             },
+        //             "resourceId": {
+        //                 "value": "[resourceId('Microsoft.Insights/Components', variables('AppServiceAppInsightsName'))]"
+        //             },
+        //             "actionGroupId": {
+        //                 "value": "[resourceId('microsoft.insights/actionGroups', variables('ActionGroupName'))]"
+        //             }
+        //         }
+        //     },
+        //     "dependsOn": [
+        //         "[variables('AppServiceAppInsightsName')]"
+        //     ]
+        // }
     ],
     "outputs": {}
 }
