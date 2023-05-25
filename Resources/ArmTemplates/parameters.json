@@ -1,0 +1,32 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "serviceBusConnectionString": {
+            "value": ""
+        },
+        "sharedAppServicePlanName": {
+            "value": ""
+        },
+        "sharedAppServicePlanResourceGroup": {
+            "value": ""
+        },
+        "appInsightsInstrumentationKey": {
+          "value": "__appInsightsInstrumentationKey__" 
+        },
+        "changeFeedProcessorPrefix": {
+            "value": ""
+        },
+        "sqlConnectionString": {
+            "value": ""
+        },
+        "storageAccountName" : {
+        "value": ""
+        },
+        "storageAccountKey" : {
+        "value": ""
+        }
+
+    }
+}
