@@ -4,7 +4,7 @@
     "parameters": {
         "appInsightsInstrumentationKey":{
             "type": "string"
-            "defaultValue": "__appInsightsInstrumentationKey__" 
+            "Value": "__appInsightsInstrumentationKey__" 
         },
         "ApimRoot": {
             "type": "string",
