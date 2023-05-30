@@ -43,7 +43,7 @@ jobs:
     displayName: 'npm install'
     inputs:
      workingDir: src/Dfc.DiscoverSkillsAndCareers.WebApp/
-     verbose: false
+     verbose: true
 
   - task: Gulp@0
     displayName: 'gulp prod'
