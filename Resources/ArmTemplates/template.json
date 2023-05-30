@@ -630,7 +630,7 @@
                 "count": "[length(variables('HttpFunctionAppNames'))]"
             },
             "dependsOn": [
-                "AppInsightsCopy",
+              //"AppInsightsCopy",
                 "[variables('AppServicePlanName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
