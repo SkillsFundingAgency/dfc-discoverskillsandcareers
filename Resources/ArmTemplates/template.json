@@ -455,7 +455,7 @@
                 }
             },
             "dependsOn": [
-                "AppInsightsCopy",
+                //"AppInsightsCopy",
                 "[variables('AppServicePlanName')]"
             ]
         },
@@ -747,7 +747,7 @@
                 }
             },
             "dependsOn": [
-                "AppInsightsCopy",
+              //"AppInsightsCopy",
                 "[variables('AppServicePlanName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
@@ -868,7 +868,7 @@
                 }
             },
             "dependsOn": [
-                "AppInsightsCopy",
+              //"AppInsightsCopy",
                 "[variables('AppServicePlanName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
