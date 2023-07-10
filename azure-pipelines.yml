@@ -44,6 +44,8 @@ jobs:
     inputs:
      workingDir: src/Dfc.DiscoverSkillsAndCareers.WebApp/
      verbose: false
+    env:
+      NODE_ENV: production
 
   - task: Gulp@0
     displayName: 'gulp prod'
