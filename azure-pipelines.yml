@@ -45,7 +45,7 @@ jobs:
      workingDir: src/Dfc.DiscoverSkillsAndCareers.WebApp/
      verbose: false
     env:
-      PUPPETEER_SKIP_DOWNLOAD: 'true'
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
   - task: Gulp@0
     displayName: 'gulp prod'
