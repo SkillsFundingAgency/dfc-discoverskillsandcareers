@@ -450,50 +450,14 @@
                 }
             },
             "dependsOn": [
-                "AppInsightsCopy",
-                "[variables('AppServicePlanName')]"
+                "AppInsightsCopy"
             ]
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[variables('AppServicePlanName')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service-plan.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appServicePlanName": {
-                        "value": "[variables('AppServicePlanName')]"
-                    },
-                    "aseHostingEnvironmentName": {
-                        "value": "[parameters('aseHostingEnvironmentName')]"
-                    },
-                    "aseResourceGroup": {
-                        "value": "[parameters('aseResourceGroup')]"
-                    },
-                    "aspSize": {
-                        "value": "[parameters('AspSize')]"
-                    },
-                    "aspInstances": {
-                        "value": "[parameters('AspInstances')]"
-                    },
-                    "nonASETier": {
-                        "value": "[parameters('AspTier')]"
-                    }
-                }
-            }
         },
         {
             "name": "skillscareers-certificate",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "condition": "[greater(length(parameters('CustomHostName')),0)]",
-            "dependsOn": [
-                "[variables('AppServicePlanName')]"
-            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -625,7 +589,6 @@
             },
             "dependsOn": [
                 "AppInsightsCopy",
-                "[variables('AppServicePlanName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
@@ -861,7 +824,6 @@
             },
             "dependsOn": [
                 "AppInsightsCopy",
-                "[variables('AppServicePlanName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
@@ -1102,7 +1064,6 @@
                 }
             },
             "dependsOn": [
-                "[variables('AppServicePlanName')]",
                 "[variables('ChangeFeedTriggerAppInsightsName')]",
                 "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
@@ -1280,8 +1241,7 @@
                 "count": "[length(variables('AppServicePlanMetricsToAlertUpon'))]"
             },
             "dependsOn": [
-                "[variables('ActionGroupName')]",
-                "[variables('AppServicePlanName')]"
+                "[variables('ActionGroupName')]"
             ]
         },
         {
