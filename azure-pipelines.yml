@@ -2,6 +2,10 @@ resources:
  repositories:
  - repository: self
 
+
+variables:
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+  
 jobs:
 - job: BuildArtefacts
   displayName: 'Build Artefacts'
