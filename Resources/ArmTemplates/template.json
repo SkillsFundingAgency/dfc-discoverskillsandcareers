@@ -133,11 +133,11 @@
             "defaultValue": "50"
         },
         "AverageResponseTimeAlertThreshhold": {
-            "type": "string", 
+            "type": "string",
             "defaultValue": "2"
         },
         "RequestCountAlertThreshhold": {
-            "type": "string", 
+            "type": "string",
             "defaultValue": "1000"
         },
         "SlackAlertingChannel": {
@@ -482,32 +482,6 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('CosmosDbName')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'cosmos-db.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "cosmosDbName": {
-                        "value": "[variables('CosmosDbName')]"
-                    },
-                    "cosmosApiType": {
-                        "value": "SQL"
-                    },
-                    "defaultConsistencyLevel": {
-                        "value": "Strong"
-                    },
-                    "additionalIpAddresses": {
-                        "value": "[parameters('AseOutboundIpAddress')]"
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
             "name": "[variables('HttpFunctionAppNames')[copyIndex()]]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -553,7 +527,7 @@
                             },
                             {
                                 "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                                "value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('CosmosDbName')), '2023-11-15').primaryMasterKey]"
                             },
                             {
                                 "name": "CosmosSettings__DatabaseName",
@@ -589,7 +563,6 @@
             },
             "dependsOn": [
                 "AppInsightsCopy",
-                "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
         },
@@ -640,7 +613,7 @@
                             },
                             {
                                 "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                                "value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('CosmosDbName')), '2023-11-15').primaryMasterKey]"
                             },
                             {
                                 "name": "CosmosSettings__DatabaseName",
@@ -704,8 +677,6 @@
             },
             "dependsOn": [
                 "AppInsightsCopy",
-                "[variables('AppServicePlanName')]",
-                "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
         },
@@ -756,7 +727,7 @@
                             },
                             {
                                 "name": "CosmosSettings__Key",
-                                "value": "[reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value]"
+                                "value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('CosmosDbName')), '2023-11-15').primaryMasterKey]"
                             },
                             {
                                 "name": "CosmosSettings__DatabaseName",
@@ -824,7 +795,6 @@
             },
             "dependsOn": [
                 "AppInsightsCopy",
-                "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
         },
@@ -1053,7 +1023,7 @@
                             },
                             {
                                 "name": "AzureCosmosDBConnection",
-                                "value": "[concat('AccountEndpoint=https://',  variables('CosmosDbName') ,'.documents.azure.com:443/;AccountKey=', reference(variables('CosmosDbName')).outputs.PrimaryMasterKey.value,';')]"
+                                "value": "[concat('AccountEndpoint=https://',  variables('CosmosDbName') ,'.documents.azure.com:443/;AccountKey=', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('CosmosDbName')), '2023-11-15').primaryMasterKey,';')]"
                             },
                             {
                                 "name": "DatabaseName",
@@ -1065,7 +1035,6 @@
             },
             "dependsOn": [
                 "[variables('ChangeFeedTriggerAppInsightsName')]",
-                "[variables('CosmosDbName')]",
                 "[variables('StorageAccountName')]"
             ]
         },
@@ -1101,7 +1070,7 @@
                 },
                 "parameters": {
                     "instanceBaseName":  {
-                        "value": "[variables('slackIntegrationBaseName')]" 
+                        "value": "[variables('slackIntegrationBaseName')]"
                     },
                     "slackChannel": {
                         "value": "[parameters('SlackAlertingChannel')]"
